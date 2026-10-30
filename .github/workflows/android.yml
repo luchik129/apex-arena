@@ -21,7 +21,9 @@ jobs:
         with:
           node-version: 22
       - name: Install Capacitor (android/ ссылается на node_modules/@capacitor/android)
-        run: npm ci
+        run: |
+          npm ci
+          npx cap sync android
       - name: Accept Android SDK licenses (SDK is preinstalled on the runner)
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null 2>&1 || true
       - uses: gradle/actions/setup-gradle@v4
