@@ -52,6 +52,7 @@ select.input{appearance:none;-webkit-appearance:none}
 html.light #header,html.light #nav{background:rgba(255,255,255,.85)}
 #header{top:0;border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
 #nav{bottom:0;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.hchip{padding:.3rem .55rem;font-size:.72rem;gap:.25rem}
 .chip{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:999px;font-size:.75rem;font-weight:600;background:var(--sub);border:1px solid var(--line)}
 .bar{height:.6rem;border-radius:999px;background:var(--sub);border:1px solid var(--line);overflow:hidden}
 .bar>div{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
@@ -179,18 +180,18 @@ html.light .m{stroke:#fff}
   <header id="header">
     <div class="flex items-center justify-between px-4 h-14">
       <div class="flex items-center gap-2">
-        <div id="hdr-avatar" class="w-9 h-9 rounded-full overflow-hidden border line" data-action="go-tab" data-tab="profile"></div>
+        <div id="hdr-avatar" class="w-9 h-9 flex-none rounded-full overflow-hidden border line" data-action="go-tab" data-tab="profile"></div>
         <div class="leading-tight">
-          <div id="hdr-nick" class="text-sm font-bold truncate max-w-[7rem]">APEX</div>
-          <div id="hdr-arena" class="text-[11px] muted truncate max-w-[7rem]">Арена</div>
+          <div id="hdr-nick" class="text-sm font-bold truncate max-w-[6rem]">APEX</div>
+          <div id="hdr-arena" class="text-[11px] muted truncate max-w-[6rem]">Арена</div>
         </div>
       </div>
-      <div class="flex items-center gap-1.5">
-        <div class="chip num" title="Кубки"><svg class="ic text-amber-400"><use href="#fa-trophy"/></svg><span id="hdr-trophies">0</span></div>
-        <div class="chip num" title="Монеты"><svg class="ic text-yellow-300"><use href="#fa-coins"/></svg><span id="hdr-coins">0</span></div>
-        <div class="chip num" title="Уровень"><svg class="ic text-pu"><use href="#fa-star"/></svg><span id="hdr-level">1</span></div>
-        <div id="hdr-boost" class="chip text-or hidden" title="Активные бусты" data-action="open-shop"><svg class="ic"><use href="#fa-bolt"/></svg><span id="hdr-boost-n">1</span></div>
-        <button class="w-9 h-9 rounded-full flex items-center justify-center muted" data-action="open-settings" aria-label="Настройки"><svg class="ic "><use href="#fa-gear"/></svg></button>
+      <div class="flex items-center gap-2 flex-none">
+        <div class="chip hchip num" title="Кубки"><svg class="ic text-amber-400"><use href="#fa-trophy"/></svg><span id="hdr-trophies">0</span></div>
+        <div class="chip hchip num" title="Монеты"><svg class="ic text-yellow-300"><use href="#fa-coins"/></svg><span id="hdr-coins">0</span></div>
+        <span id="hdr-level" class="hidden">1</span>
+        <div id="hdr-boost" class="chip hchip text-or hidden" title="Активные бусты" data-action="open-shop"><svg class="ic"><use href="#fa-bolt"/></svg><span id="hdr-boost-n">1</span></div>
+        <button class="w-8 h-8 ml-1 rounded-full flex items-center justify-center muted" data-action="open-settings" aria-label="Настройки"><svg class="ic "><use href="#fa-gear"/></svg></button>
       </div>
     </div>
   </header>
@@ -207,7 +208,7 @@ html.light .m{stroke:#fff}
     <div class="grid grid-cols-5 h-16">
       <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="clans"><svg class="ic text-lg"><use href="#fa-shield-halved"/></svg><span data-i18n="clans">Кланы</span></button>
       <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="lifts"><svg class="ic text-lg"><use href="#fa-dumbbell"/></svg><span data-i18n="lifts">Lifts</span></button>
-      <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="arena"><svg class="ic text-lg"><use href="#fa-trophy"/></svg><span data-i18n="arena">Арена</span></button>
+      <button class="nav-btn active flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="arena"><svg class="ic text-lg"><use href="#fa-trophy"/></svg><span data-i18n="arena">Арена</span></button>
       <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="nutrition"><svg class="ic text-lg"><use href="#fa-heart"/></svg><span data-i18n="health">Здоровье</span></button>
       <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="profile"><svg class="ic text-lg"><use href="#fa-user-astronaut"/></svg><span data-i18n="profile">Профиль</span></button>
     </div>
@@ -1397,11 +1398,11 @@ const UI = {
     if (!this.liftEx || !names.includes(this.liftEx)) this.liftEx = logged[0] || names[0];
     const flagged = S.lifts.filter(l => l.flagged);
     const html = `
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <button class="btn btn-pu py-4" data-action="open-ai-workout"><svg class="ic "><use href="#fa-wand-magic-sparkles"/></svg> Gemini AI Logger</button>
-        <button class="btn btn-primary py-4" data-action="open-log-set"><svg class="ic "><use href="#fa-plus"/></svg> ${T('log_set')}</button>
-      </div>
       ${this.scheduleCard()}
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <button class="btn btn-primary py-4" data-action="open-log-set"><svg class="ic "><use href="#fa-plus"/></svg> ${T('log_set')}</button>
+        <button class="btn btn-pu py-4" data-action="open-ai-workout"><svg class="ic "><use href="#fa-wand-magic-sparkles"/></svg> Gemini AI Logger</button>
+      </div>
       ${flagged.length ? `<div class="card p-3 mb-4" style="border-color:#F9731666"><div class="text-sm font-bold text-or"><svg class="ic "><use href="#fa-triangle-exclamation"/></svg> На проверке (${flagged.length})</div><div class="text-[11px] muted mb-2">Скачок больше 15% за раз. Кубки начислим после видео-проверки (скоро). Пока эти подходы не учитываются в рекордах и боссах.</div>
         ${flagged.map(l => `<div class="flex items-center justify-between text-xs py-1 border-t line"><span>${U.exRu(l.exerciseName)} · ${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span><button class="text-red-400" data-action="delete-lift" data-id="${l.id}"><svg class="ic "><use href="#fa-trash"/></svg></button></div>`).join('')}</div>` : ''}
       <div class="card p-4 mb-4">
@@ -1563,7 +1564,7 @@ const UI = {
           <div class="flex justify-between text-[11px] muted mt-1"><span>${b.myActive} активных</span><span>${b.oppActive} активных</span></div>
           <div class="text-[11px] muted mt-2">Счёт = тренировки ×15 + PR ×25 + серия ×2 по всем участникам. Победа даёт +150 монет всем активным.</div>
           ${clan.role !== 'member' ? `<div class="text-[11px] muted mt-1"><svg class="ic "><use href="#fa-share-nodes"/></svg> Приглашай по коду <b class="text-bl">${clan.code}</b></div>` : ''}
-        </div>` : `<div class="card p-4 mb-4" style="border-color:#F9731655"><div class="font-bold mb-1"><svg class="ic text-or"><use href="#fa-khanda"/></svg> ${T('clan_battle')}</div><div class="text-xs muted">Соперник на эту неделю не выбран. ${clan.role !== 'member' ? 'Брось вызов в карточке «Вызовы» выше.' : 'Лидер или заместитель может бросить вызов.'}</div></div>`}
+        </div>` : `<div class="card p-4 mb-4" style="border-color:#F9731655"><div class="font-bold mb-1"><svg class="ic text-or"><use href="#fa-khanda"/></svg> ${T('clan_battle')}</div><div class="text-xs muted">Соперник на эту неделю не выбран. ${clan.role !== 'member' ? 'Брось вызов в карточке «Вызовы» внизу.' : 'Лидер или заместитель может бросить вызов.'}</div></div>`}
         <div class="card p-4 mb-4">
           <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> ${T('members')}</div><button class="btn btn-ghost btn-sm text-red-400" data-action="clan-leave"><svg class="ic "><use href="#fa-right-from-bracket"/></svg> Выйти</button></div>
           ${[...members].sort((a, b) => b.trophies - a.trophies).map(m => { const ar = Calc.arena(m.arenaIdx); return `
@@ -1587,7 +1588,7 @@ const UI = {
         </div>`).join('')}
       <div class="text-[11px] muted mt-2"><svg class="ic "><use href="#fa-circle-info"/></svg> ${ClanService.online() ? 'В рейтингах только никнеймы: вес и фото не показываются.' : 'Данные кланов демо. В рейтингах только никнеймы: вес и фото не показываются.'}</div>
     </div>`;
-    this.$('#tab-clans').innerHTML = this.challengesCard() + this.friendsCard() + top + lb;
+    this.$('#tab-clans').innerHTML = top + this.friendsCard() + lb + this.challengesCard();
   },
   /* ======================= NUTRITION ======================= */
   sleepCard() {
@@ -2011,8 +2012,6 @@ const UI = {
         <div><label class="text-[10px] muted">Жиры</label><input class="input num" id="g-fat" type="number" value="${goals.fat}"></div>
       </div>
       <div class="text-[11px] muted mb-4">Рекомендация по твоим данным: ${dg.cals} ккал · Б ${dg.protein} / У ${dg.carbs} / Ж ${dg.fat}.${(p.age || 18) < 18 ? ' До 18 лет дефицит не предлагаем.' : ''} Цели применяются на вкладке «Здоровье» и в профиле.</div>
-      <div class="text-xs font-bold muted mb-1">${T('model')}</div>
-      <input class="input mb-4" id="st-model" list="models" value="${U.esc(p.geminiModel)}" placeholder="Модель"><datalist id="models">${CONFIG.GEMINI_MODELS.map(m => `<option value="${m}">`).join('')}</datalist>
       <button class="btn btn-primary w-full mb-3" data-action="settings-save">${T('save')}</button>
       <div class="grid grid-cols-2 gap-2"><button class="btn btn-ghost btn-sm" data-action="export-data"><svg class="ic "><use href="#fa-download"/></svg> ${T('export')}</button><button class="btn btn-ghost btn-sm text-red-400" data-action="reset-data"><svg class="ic "><use href="#fa-trash"/></svg> ${T('reset')}</button></div>
       <div class="text-[10px] muted mt-3 text-center">APEX Arena · данные хранятся локально (${STORAGE_KEY}) · сезоны: ${S.game.season.enabled ? 'вкл' : 'выкл (структура готова)'}</div>`);
@@ -2243,7 +2242,6 @@ const App = {
     'settings-save'() {
       const g = id => document.getElementById(id).value; const p = S.profile;
       p.nickname = g('st-nick').trim().slice(0, 16) || p.nickname; p.sex = g('st-sex'); const bw = U.toKg(g('st-bw')); if (bw > 20 && bw < 400) p.bodyweight = +bw.toFixed(1); const h = +g('st-h'); if (h > 100 && h < 250) p.height = h;
-      p.geminiModel = g('st-model').trim() || CONFIG.GEMINI_MODEL_DEFAULT;
       App.saveGoalsFromInputs();
       UI.closeModal(); UI.toast('Сохранено'); Game.checkArenaUp(); App.afterChange();
     },
@@ -2296,7 +2294,7 @@ const App = {
   async init() {
     this.applyTheme(); this.bind(); UI.applyLang(); MT.load(); MT.observe();
     if (S.profile.blocked) { UI.openBlocked(); return; }
-    Game.boot(); UI.renderAll();
+    UI.tab = 'arena'; Game.boot(); UI.goTab('arena'); UI.renderHeader();
     const online = await Net.init();
     if (online) {
       if (Net.uid) {
