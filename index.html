@@ -43,7 +43,7 @@ select.input{appearance:none;-webkit-appearance:none}
 .tab{display:none}.tab.active{display:block;animation:fade .2s ease}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .nav-btn{color:var(--muted);transition:color .2s}
-.nav-btn .ic{width:1.35rem;height:1.35rem}
+.nav-btn .ic{width:1.5rem;height:1.5rem}
 .set-dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--line);display:inline-block}
 .set-dot.on{background:#10B981;box-shadow:0 0 6px #10B981}
 .nav-btn.active{color:var(--em)}
@@ -52,7 +52,26 @@ select.input{appearance:none;-webkit-appearance:none}
 html.light #header,html.light #nav{background:rgba(255,255,255,.85)}
 #header{top:0;border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
 #nav{bottom:0;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-.hchip{padding:.3rem .55rem;font-size:.72rem;gap:.25rem}
+.hchip{padding:.35rem .7rem;font-size:.8rem;gap:.3rem}
+.streak-chip{color:var(--muted)}.streak-chip.on{color:#F97316;border-color:#F9731666;background:#F9731618}
+.streak-ring{border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;background:var(--sub);border:3px solid var(--line);color:var(--muted);line-height:1}
+.streak-ring .ic{width:1.5rem;height:1.5rem}.streak-ring .num{font-weight:900;font-size:1.25rem;margin-top:.1rem}
+.streak-ring.on{color:#fff;background:radial-gradient(circle at 50% 30%,#F97316,#C2410C);border-color:#FDBA74;box-shadow:0 0 22px #F9731699}
+.emb{display:inline-flex;align-items:center;justify-content:center;border-radius:.8rem;background:var(--sub);border:1px solid var(--line);flex:none}
+.emb.ring,.ring{box-shadow:0 0 0 2px #10B981}
+.chip-on{border-color:#10B981;color:#10B981;background:#10B98114}
+.no-scrollbar{scrollbar-width:none}.no-scrollbar::-webkit-scrollbar{display:none}
+.daytile{border-width:1px}
+input.zoom{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:999px;background:var(--sub);border:1px solid var(--line);outline:none}
+input.zoom::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);border:3px solid var(--card);box-shadow:0 2px 10px rgba(0,0,0,.4)}
+input.zoom::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);border:3px solid var(--card)}
+.moon-wrap{position:relative;width:96px;height:96px}.moon-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.moon-fill{animation:moonfill 1.2s cubic-bezier(.2,.8,.2,1) both;filter:drop-shadow(0 0 8px var(--c))}
+@keyframes moonfill{from{transform:translateY(100px)}to{transform:translateY(0)}}
+.donut-fill{animation:donut 1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes donut{from{stroke-dasharray:0 1000}}
+select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center;background-size:1rem;padding-right:2.4rem}
+
 .chip{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:999px;font-size:.75rem;font-weight:600;background:var(--sub);border:1px solid var(--line)}
 .bar{height:.6rem;border-radius:999px;background:var(--sub);border:1px solid var(--line);overflow:hidden}
 .bar>div{height:100%;border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
@@ -161,6 +180,7 @@ html.light .m{stroke:#fff}
 <symbol id="fa-khanda" viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M14.5 6.5 18 3h3v3l-3.5 3.5M5 14l-2 2 2 2 2-2"/></symbol>
 <symbol id="fa-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
 <symbol id="fa-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+<symbol id="fa-magnifying-glass" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
 <symbol id="fa-hourglass" viewBox="0 0 24 24"><path d="M6 2h12M6 22h12M7 2v4l5 6-5 6v4M17 2v4l-5 6 5 6v4"/></symbol>
 <symbol id="fa-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
 <symbol id="fa-hat-cowboy" viewBox="0 0 24 24"><path d="M3 15c0 2 4 4 9 4s9-2 9-4M3 15c2-1 4-1 5-1l1-8h6l1 8c1 0 3 0 5 1"/></symbol>
@@ -178,25 +198,17 @@ html.light .m{stroke:#fff}
 </svg>
 <div id="app" class="max-w-md mx-auto min-h-screen relative">
   <header id="header">
-    <div class="flex items-center justify-between px-4 h-14">
-      <div class="flex items-center gap-2">
-        <div id="hdr-avatar" class="w-9 h-9 flex-none rounded-full overflow-hidden border line" data-action="go-tab" data-tab="profile"></div>
-        <div class="leading-tight">
-          <div id="hdr-nick" class="text-sm font-bold truncate max-w-[6rem]">APEX</div>
-          <div id="hdr-arena" class="text-[11px] muted truncate max-w-[6rem]">Арена</div>
-        </div>
-      </div>
-      <div class="flex items-center gap-2 flex-none">
+    <div class="flex items-center justify-between px-5 h-16">
+      <div id="hdr-avatar" class="w-10 h-10 flex-none rounded-full overflow-hidden border line" data-action="go-tab" data-tab="profile"></div>
+      <div class="flex items-center gap-2.5 flex-none">
         <div class="chip hchip num" title="Кубки"><svg class="ic text-amber-400"><use href="#fa-trophy"/></svg><span id="hdr-trophies">0</span></div>
-        <div class="chip hchip num" title="Монеты"><svg class="ic text-yellow-300"><use href="#fa-coins"/></svg><span id="hdr-coins">0</span></div>
-        <span id="hdr-level" class="hidden">1</span>
-        <div id="hdr-boost" class="chip hchip text-or hidden" title="Активные бусты" data-action="open-shop"><svg class="ic"><use href="#fa-bolt"/></svg><span id="hdr-boost-n">1</span></div>
-        <button class="w-8 h-8 ml-1 rounded-full flex items-center justify-center muted" data-action="open-settings" aria-label="Настройки"><svg class="ic "><use href="#fa-gear"/></svg></button>
+        <div id="hdr-streak" class="chip hchip num streak-chip" title="Серия"><svg class="ic"><use href="#fa-fire"/></svg><span>0</span></div>
+        <button class="w-9 h-9 ml-1 rounded-full flex items-center justify-center muted" data-action="open-settings" aria-label="Настройки"><svg class="ic text-lg"><use href="#fa-gear"/></svg></button>
       </div>
     </div>
   </header>
 
-  <main id="main" class="px-4 pt-[4.5rem] pb-28" style="padding-top:calc(4.5rem + env(safe-area-inset-top))">
+  <main id="main" class="px-4 pb-32" style="padding-top:calc(5rem + env(safe-area-inset-top))">
     <section id="tab-arena" class="tab active"></section>
     <section id="tab-lifts" class="tab"></section>
     <section id="tab-clans" class="tab"></section>
@@ -205,12 +217,12 @@ html.light .m{stroke:#fff}
   </main>
 
   <nav id="nav">
-    <div class="grid grid-cols-5 h-16">
-      <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="clans"><svg class="ic text-lg"><use href="#fa-shield-halved"/></svg><span data-i18n="clans">Кланы</span></button>
-      <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="lifts"><svg class="ic text-lg"><use href="#fa-dumbbell"/></svg><span data-i18n="lifts">Lifts</span></button>
-      <button class="nav-btn active flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="arena"><svg class="ic text-lg"><use href="#fa-trophy"/></svg><span data-i18n="arena">Арена</span></button>
-      <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="nutrition"><svg class="ic text-lg"><use href="#fa-heart"/></svg><span data-i18n="health">Здоровье</span></button>
-      <button class="nav-btn flex flex-col items-center justify-center gap-1 text-[10px] font-semibold" data-action="go-tab" data-tab="profile"><svg class="ic text-lg"><use href="#fa-user-astronaut"/></svg><span data-i18n="profile">Профиль</span></button>
+    <div class="grid grid-cols-5 h-[4.75rem] px-2">
+      <button class="nav-btn flex flex-col items-center justify-center gap-1.5 text-[11px] font-semibold" data-action="go-tab" data-tab="clans"><svg class="ic text-lg"><use href="#fa-shield-halved"/></svg><span data-i18n="clans">Кланы</span></button>
+      <button class="nav-btn flex flex-col items-center justify-center gap-1.5 text-[11px] font-semibold" data-action="go-tab" data-tab="lifts"><svg class="ic text-lg"><use href="#fa-dumbbell"/></svg><span data-i18n="lifts">Lifts</span></button>
+      <button class="nav-btn active flex flex-col items-center justify-center gap-1.5 text-[11px] font-semibold" data-action="go-tab" data-tab="arena"><svg class="ic text-lg"><use href="#fa-trophy"/></svg><span data-i18n="arena">Арена</span></button>
+      <button class="nav-btn flex flex-col items-center justify-center gap-1.5 text-[11px] font-semibold" data-action="go-tab" data-tab="nutrition"><svg class="ic text-lg"><use href="#fa-heart"/></svg><span data-i18n="health">Здоровье</span></button>
+      <button class="nav-btn flex flex-col items-center justify-center gap-1.5 text-[11px] font-semibold" data-action="go-tab" data-tab="profile"><svg class="ic text-lg"><use href="#fa-user-astronaut"/></svg><span data-i18n="profile">Профиль</span></button>
     </div>
   </nav>
 </div>
@@ -255,8 +267,8 @@ const CONFIG = {
   WEEKLY_BONUS_WORKOUTS: 3,
   CHEAT_JUMP: 0.15,
   RM_REPS: { '1RM': 1, '2RM': 2, '4RM': 4 },
-  RM_CATS: ['1RM', '2RM', '4RM', 'CUSTOM'],
-  RM_LABEL: { '1RM': '1RM', '2RM': '2RM', '4RM': '4RM', 'CUSTOM': 'Своё' },
+  RM_CATS: ['1RM', '2RM', '4RM'],
+  RM_LABEL: { '1RM': '1RM', '2RM': '2RM', '4RM': '4RM', 'CUSTOM': 'повт.' },
   WEEKDAYS: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
   // Упражнения: множитель сложности для Power Score, мышечные группы, босс-ключ.
   EXERCISES: {
@@ -309,8 +321,8 @@ const CONFIG = {
 // Переводы основных элементов интерфейса. T('key') → строка на текущем языке (fallback: ru).
 const I18N = {
   langs: { ru: 'Русский', en: 'English', uk: 'Українська', kk: 'Қазақша', de: 'Deutsch', es: 'Español', fr: 'Français', tr: 'Türkçe' },
-  ru: { arena: 'Арена', lifts: 'Lifts', clans: 'Кланы', health: 'Здоровье', profile: 'Профиль', start_workout: 'Начать тренировку', quick_set: 'Быстрый подход', today: 'Сегодня', schedule: 'Расписание', my_schedule: 'Моё расписание', weekly_quests: 'Недельные квесты', trophy_road: 'Trophy Road', boss: 'Босс арены', you_here: 'ты здесь', arena_of: 'Арена {a} из {b}', to_next: 'до {name}:', max_arena: 'максимальная арена', log_set: 'Log Set', top_records: 'Top Records', records_board: 'Лидерборд рекордов', no_clan: 'Ты пока без клана', create: 'Создать', by_code: 'По коду', clan_board: 'Лидерборд кланов', clan_battle: 'Кланбитва недели', members: 'Участники', friends: 'Друзья', add_friend: 'Добавить друга', friend_board: 'Лидерборд друзей', who_stronger: 'Кто в чём сильнее', sleep: 'Сон', kcal_left: 'ккал осталось', kcal_over: 'ккал сверх цели', protein: 'Белки', carbs: 'Углеводы', fat: 'Жиры', ai_food: 'AI Food Logger', manual: 'Вручную', eaten_today: 'Съедено сегодня', goals: 'Цели', skills: 'Навыки', load30: 'Нагрузка за 30 дней', shop: 'Магазин', history: 'History', calories_today: 'Калории сегодня', settings: 'Настройки', theme: 'Тема', weight: 'Вес', language: 'Язык', save: 'Сохранить', export: 'Экспорт JSON', reset: 'Сбросить всё', close: 'Закрыть', finish_workout: 'Завершить тренировку', done_btn: 'Выполнил', record_sleep: 'Записать сон', update: 'Обновить', hours_sleep: 'Часов сна', sleep_norm: 'норма', avg: 'ср.', exercise: 'Упражнение', sl_great: 'Отлично', sl_good: 'Хорошо', sl_low: 'Мало', sl_bad: 'Недосып', sl_over: 'Пересып', nutrition_goals: 'Цели по питанию (на день)', model: 'Модель Gemini', body_weight: 'Вес тела', height: 'Рост', nickname: 'Никнейм', exercises: 'упражнений', sets: 'подходов', trophies_day: 'кубков за день', workout_counted: 'Тренировка засчитана!', workout_done: 'Тренировка завершена', share: 'Поделиться', new_record: 'Новый рекорд', new_arena: 'Новая арена', level_up: 'Новый уровень' },
-  en: { arena: 'Arena', lifts: 'Lifts', clans: 'Clans', health: 'Health', profile: 'Profile', start_workout: 'Start workout', quick_set: 'Quick set', today: 'Today', schedule: 'Schedule', my_schedule: 'My schedule', weekly_quests: 'Weekly quests', trophy_road: 'Trophy Road', boss: 'Arena boss', you_here: 'you are here', arena_of: 'Arena {a} of {b}', to_next: 'to {name}:', max_arena: 'max arena', log_set: 'Log Set', top_records: 'Top Records', records_board: 'Records leaderboard', no_clan: 'No clan yet', create: 'Create', by_code: 'By code', clan_board: 'Clan leaderboard', clan_battle: 'Clan battle of the week', members: 'Members', friends: 'Friends', add_friend: 'Add friend', friend_board: 'Friends leaderboard', who_stronger: 'Who is stronger at what', sleep: 'Sleep', kcal_left: 'kcal left', kcal_over: 'kcal over goal', protein: 'Protein', carbs: 'Carbs', fat: 'Fat', ai_food: 'AI Food Logger', manual: 'Manual', eaten_today: 'Eaten today', goals: 'Goals', skills: 'Skills', load30: 'Load, last 30 days', shop: 'Shop', history: 'History', calories_today: 'Calories today', settings: 'Settings', theme: 'Theme', weight: 'Units', language: 'Language', save: 'Save', export: 'Export JSON', reset: 'Reset all', close: 'Close', finish_workout: 'Finish workout', done_btn: 'Done', record_sleep: 'Log sleep', update: 'Update', hours_sleep: 'Hours of sleep', sleep_norm: 'norm', avg: 'avg', exercise: 'Exercise', sl_great: 'Great', sl_good: 'Good', sl_low: 'Short', sl_bad: 'Sleep debt', sl_over: 'Oversleep', nutrition_goals: 'Nutrition goals (per day)', model: 'Gemini model', body_weight: 'Body weight', height: 'Height', nickname: 'Nickname', exercises: 'exercises', sets: 'sets', trophies_day: 'trophies today', workout_counted: 'Workout counted!', workout_done: 'Workout finished', share: 'Share', new_record: 'New record', new_arena: 'New arena', level_up: 'Level up' },
+  ru: { streak: 'Серия', no_plan_today: 'На сегодня ничего не запланировано', own: 'Своё', no_data: 'Пока нет данных', calendar: 'Календарь', challenges: 'Вызовы', no_duel: 'Начать дуэль', clan_pitch: 'Тренируйтесь вместе и побеждайте в недельных битвах', score: 'счёт', active: 'активны', leave: 'Выйти', wk_short: 'трен./нед', create_clan: 'Создать клан', clan_name: 'Название клана', create_leader: 'Создать (ты лидер)', nutrition: 'Питание', empty_food: 'Пока пусто', arena: 'Арена', lifts: 'Lifts', clans: 'Кланы', health: 'Здоровье', profile: 'Профиль', start_workout: 'Начать тренировку', quick_set: 'Быстрый подход', today: 'Сегодня', schedule: 'Расписание', my_schedule: 'Моё расписание', weekly_quests: 'Недельные квесты', trophy_road: 'Trophy Road', boss: 'Босс арены', you_here: 'ты здесь', arena_of: 'Арена {a} из {b}', to_next: 'до {name}:', max_arena: 'максимальная арена', log_set: 'Log Set', top_records: 'Top Records', records_board: 'Лидерборд рекордов', no_clan: 'Ты пока без клана', create: 'Создать', by_code: 'По коду', clan_board: 'Лидерборд кланов', clan_battle: 'Кланбитва недели', members: 'Участники', friends: 'Друзья', add_friend: 'Добавить друга', friend_board: 'Лидерборд друзей', who_stronger: 'Кто в чём сильнее', sleep: 'Сон', kcal_left: 'ккал осталось', kcal_over: 'ккал сверх цели', protein: 'Белки', carbs: 'Углеводы', fat: 'Жиры', ai_food: 'AI Food Logger', manual: 'Вручную', eaten_today: 'Съедено сегодня', goals: 'Цели', skills: 'Навыки', load30: 'Нагрузка за 30 дней', shop: 'Магазин', history: 'History', calories_today: 'Калории сегодня', settings: 'Настройки', theme: 'Тема', weight: 'Вес', language: 'Язык', save: 'Сохранить', export: 'Экспорт JSON', reset: 'Сбросить всё', close: 'Закрыть', finish_workout: 'Завершить тренировку', done_btn: 'Выполнил', record_sleep: 'Записать сон', update: 'Обновить', hours_sleep: 'Часов сна', sleep_norm: 'норма', avg: 'ср.', exercise: 'Упражнение', sl_great: 'Отлично', sl_good: 'Хорошо', sl_low: 'Мало', sl_bad: 'Недосып', sl_over: 'Пересып', nutrition_goals: 'Цели по питанию (на день)', model: 'Модель Gemini', body_weight: 'Вес тела', height: 'Рост', nickname: 'Никнейм', exercises: 'упражнений', sets: 'подходов', trophies_day: 'кубков за день', workout_counted: 'Тренировка засчитана!', workout_done: 'Тренировка завершена', share: 'Поделиться', new_record: 'Новый рекорд', new_arena: 'Новая арена', level_up: 'Новый уровень' },
+  en: { streak: 'Streak', no_plan_today: 'Nothing planned for today', own: 'Custom', no_data: 'No data yet', calendar: 'Calendar', challenges: 'Challenges', no_duel: 'Start a duel', clan_pitch: 'Train together and win weekly battles', score: 'score', active: 'active', leave: 'Leave', wk_short: 'wk/week', create_clan: 'Create clan', clan_name: 'Clan name', create_leader: 'Create (you lead)', nutrition: 'Nutrition', empty_food: 'Nothing yet', arena: 'Arena', lifts: 'Lifts', clans: 'Clans', health: 'Health', profile: 'Profile', start_workout: 'Start workout', quick_set: 'Quick set', today: 'Today', schedule: 'Schedule', my_schedule: 'My schedule', weekly_quests: 'Weekly quests', trophy_road: 'Trophy Road', boss: 'Arena boss', you_here: 'you are here', arena_of: 'Arena {a} of {b}', to_next: 'to {name}:', max_arena: 'max arena', log_set: 'Log Set', top_records: 'Top Records', records_board: 'Records leaderboard', no_clan: 'No clan yet', create: 'Create', by_code: 'By code', clan_board: 'Clan leaderboard', clan_battle: 'Clan battle of the week', members: 'Members', friends: 'Friends', add_friend: 'Add friend', friend_board: 'Friends leaderboard', who_stronger: 'Who is stronger at what', sleep: 'Sleep', kcal_left: 'kcal left', kcal_over: 'kcal over goal', protein: 'Protein', carbs: 'Carbs', fat: 'Fat', ai_food: 'AI Food Logger', manual: 'Manual', eaten_today: 'Eaten today', goals: 'Goals', skills: 'Skills', load30: 'Load, last 30 days', shop: 'Shop', history: 'History', calories_today: 'Calories today', settings: 'Settings', theme: 'Theme', weight: 'Units', language: 'Language', save: 'Save', export: 'Export JSON', reset: 'Reset all', close: 'Close', finish_workout: 'Finish workout', done_btn: 'Done', record_sleep: 'Log sleep', update: 'Update', hours_sleep: 'Hours of sleep', sleep_norm: 'norm', avg: 'avg', exercise: 'Exercise', sl_great: 'Great', sl_good: 'Good', sl_low: 'Short', sl_bad: 'Sleep debt', sl_over: 'Oversleep', nutrition_goals: 'Nutrition goals (per day)', model: 'Gemini model', body_weight: 'Body weight', height: 'Height', nickname: 'Nickname', exercises: 'exercises', sets: 'sets', trophies_day: 'trophies today', workout_counted: 'Workout counted!', workout_done: 'Workout finished', share: 'Share', new_record: 'New record', new_arena: 'New arena', level_up: 'Level up' },
   uk: { arena: 'Арена', lifts: 'Lifts', clans: 'Клани', health: "Здоров'я", profile: 'Профіль', start_workout: 'Почати тренування', quick_set: 'Швидкий підхід', today: 'Сьогодні', schedule: 'Розклад', my_schedule: 'Мій розклад', weekly_quests: 'Тижневі квести', trophy_road: 'Trophy Road', boss: 'Бос арени', you_here: 'ти тут', arena_of: 'Арена {a} з {b}', to_next: 'до {name}:', max_arena: 'максимальна арена', log_set: 'Log Set', top_records: 'Top Records', records_board: 'Лідерборд рекордів', no_clan: 'Ти поки без клану', create: 'Створити', by_code: 'За кодом', clan_board: 'Лідерборд кланів', clan_battle: 'Кланбитва тижня', members: 'Учасники', friends: 'Друзі', add_friend: 'Додати друга', friend_board: 'Лідерборд друзів', who_stronger: 'Хто в чому сильніший', sleep: 'Сон', kcal_left: 'ккал залишилось', kcal_over: 'ккал понад ціль', protein: 'Білки', carbs: 'Вуглеводи', fat: 'Жири', ai_food: 'AI Food Logger', manual: 'Вручну', eaten_today: "З'їдено сьогодні", goals: 'Цілі', skills: 'Навички', load30: 'Навантаження за 30 днів', shop: 'Магазин', history: 'Історія', calories_today: 'Калорії сьогодні', settings: 'Налаштування', theme: 'Тема', weight: 'Вага', language: 'Мова', save: 'Зберегти', export: 'Експорт JSON', reset: 'Скинути все', close: 'Закрити', finish_workout: 'Завершити тренування', done_btn: 'Виконав', record_sleep: 'Записати сон', update: 'Оновити', hours_sleep: 'Годин сну', sleep_norm: 'норма', avg: 'сер.', exercise: 'Вправа', sl_great: 'Відмінно', sl_good: 'Добре', sl_low: 'Мало', sl_bad: 'Недосип', sl_over: 'Пересип', nutrition_goals: 'Цілі харчування (на день)', model: 'Модель Gemini', body_weight: 'Вага тіла', height: 'Зріст', nickname: 'Нікнейм', exercises: 'вправ', sets: 'підходів', trophies_day: 'кубків за день', workout_counted: 'Тренування зараховано!', workout_done: 'Тренування завершено', share: 'Поділитися', new_record: 'Новий рекорд', new_arena: 'Нова арена', level_up: 'Новий рівень' },
   kk: { arena: 'Арена', lifts: 'Lifts', clans: 'Кландар', health: 'Денсаулық', profile: 'Профиль', start_workout: 'Жаттығуды бастау', quick_set: 'Жылдам тәсіл', today: 'Бүгін', schedule: 'Кесте', my_schedule: 'Менің кестем', weekly_quests: 'Апталық квесттер', trophy_road: 'Trophy Road', boss: 'Арена боссы', you_here: 'сен осындасың', arena_of: 'Арена {a} / {b}', to_next: '{name} дейін:', max_arena: 'ең жоғарғы арена', log_set: 'Log Set', top_records: 'Top Records', records_board: 'Рекордтар кестесі', no_clan: 'Әзірге кланың жоқ', create: 'Құру', by_code: 'Код бойынша', clan_board: 'Клан рейтингі', clan_battle: 'Апта клан шайқасы', members: 'Қатысушылар', friends: 'Достар', add_friend: 'Дос қосу', friend_board: 'Достар рейтингі', who_stronger: 'Кім неде күшті', sleep: 'Ұйқы', kcal_left: 'ккал қалды', kcal_over: 'ккал мақсаттан артық', protein: 'Ақуыз', carbs: 'Көмірсу', fat: 'Май', ai_food: 'AI Food Logger', manual: 'Қолмен', eaten_today: 'Бүгін желінгені', goals: 'Мақсаттар', skills: 'Дағдылар', load30: '30 күндік жүктеме', shop: 'Дүкен', history: 'Тарих', calories_today: 'Бүгінгі калория', settings: 'Баптаулар', theme: 'Тақырып', weight: 'Салмақ', language: 'Тіл', save: 'Сақтау', export: 'JSON экспорт', reset: 'Бәрін тазалау', close: 'Жабу', finish_workout: 'Жаттығуды аяқтау', done_btn: 'Орындадым', record_sleep: 'Ұйқыны жазу', update: 'Жаңарту', hours_sleep: 'Ұйқы сағаты', sleep_norm: 'норма', avg: 'орт.', exercise: 'Жаттығу', sl_great: 'Тамаша', sl_good: 'Жақсы', sl_low: 'Аз', sl_bad: 'Ұйқы жетіспеді', sl_over: 'Артық ұйқы', nutrition_goals: 'Тамақтану мақсаттары (күніне)', model: 'Gemini моделі', body_weight: 'Дене салмағы', height: 'Бой', nickname: 'Никнейм', exercises: 'жаттығу', sets: 'тәсіл', trophies_day: 'бүгінгі кубок', workout_counted: 'Жаттығу есептелді!', workout_done: 'Жаттығу аяқталды', share: 'Бөлісу', new_record: 'Жаңа рекорд', new_arena: 'Жаңа арена', level_up: 'Жаңа деңгей' },
   de: { arena: 'Arena', lifts: 'Lifts', clans: 'Clans', health: 'Gesundheit', profile: 'Profil', start_workout: 'Training starten', quick_set: 'Schneller Satz', today: 'Heute', schedule: 'Plan', my_schedule: 'Mein Plan', weekly_quests: 'Wochenquests', trophy_road: 'Trophy Road', boss: 'Arena-Boss', you_here: 'du bist hier', arena_of: 'Arena {a} von {b}', to_next: 'bis {name}:', max_arena: 'höchste Arena', log_set: 'Satz loggen', top_records: 'Top-Rekorde', records_board: 'Rekord-Rangliste', no_clan: 'Noch kein Clan', create: 'Erstellen', by_code: 'Per Code', clan_board: 'Clan-Rangliste', clan_battle: 'Clan-Kampf der Woche', members: 'Mitglieder', friends: 'Freunde', add_friend: 'Freund hinzufügen', friend_board: 'Freunde-Rangliste', who_stronger: 'Wer ist worin stärker', sleep: 'Schlaf', kcal_left: 'kcal übrig', kcal_over: 'kcal über Ziel', protein: 'Eiweiß', carbs: 'Kohlenhydrate', fat: 'Fett', ai_food: 'AI Food Logger', manual: 'Manuell', eaten_today: 'Heute gegessen', goals: 'Ziele', skills: 'Fähigkeiten', load30: 'Belastung, 30 Tage', shop: 'Shop', history: 'Verlauf', calories_today: 'Kalorien heute', settings: 'Einstellungen', theme: 'Design', weight: 'Einheit', language: 'Sprache', save: 'Speichern', export: 'JSON exportieren', reset: 'Alles zurücksetzen', close: 'Schließen', finish_workout: 'Training beenden', done_btn: 'Erledigt', record_sleep: 'Schlaf eintragen', update: 'Aktualisieren', hours_sleep: 'Stunden Schlaf', sleep_norm: 'Norm', avg: 'Ø', exercise: 'Übung', sl_great: 'Super', sl_good: 'Gut', sl_low: 'Wenig', sl_bad: 'Schlafmangel', sl_over: 'Zu viel', nutrition_goals: 'Ernährungsziele (pro Tag)', model: 'Gemini-Modell', body_weight: 'Körpergewicht', height: 'Größe', nickname: 'Nickname', exercises: 'Übungen', sets: 'Sätze', trophies_day: 'Trophäen heute', workout_counted: 'Training gezählt!', workout_done: 'Training beendet', share: 'Teilen', new_record: 'Neuer Rekord', new_arena: 'Neue Arena', level_up: 'Level-Up' },
@@ -481,7 +493,7 @@ const Calc = {
   weekday(day = U.today()) { return (U.parseDay(day).getDay() + 6) % 7; },
   planFor(day = U.today()) { return S.program.days[Calc.weekday(day)] || null; },
   plannedExercisesDone(day = U.today()) { const p = Calc.planFor(day); if (!p) return []; const target = p.sets || 3, lifts = Calc.liftsOn(day); return p.exercises.map(e => { const sets = lifts.filter(l => l.exerciseName === e).length; return { name: e, sets, target, done: sets >= target }; }); },
-  rmByReps(reps) { reps = parseInt(reps) || 1; return reps <= 1 ? '1RM' : reps <= 3 ? '2RM' : reps <= 5 ? '4RM' : 'CUSTOM'; },
+  rmByReps(reps) { reps = parseInt(reps) || 1; return reps <= 1 ? '1RM' : reps <= 3 ? '2RM' : '4RM'; },
   lastLift(exName) { return S.lifts.filter(l => l.exerciseName === exName).sort((a, b) => b.ts - a.ts)[0] || null; },
   bossReq(arenaIdx = S.game.arenaIdx) {
     const a = Calc.arena(arenaIdx); if (!a.boss) return null;
@@ -904,7 +916,7 @@ const ClanService = {
   mock() {
     if (this.MOCK) return this.MOCK;
     const names = ['Iron Wolves', 'Night Lifters', 'Barbell Bros', 'Titan Squad', 'Apex Hunters', 'Deadlift Cult', 'Steel Phoenix'];
-    const emblems = ['🐺', '🌙', '🦍', '⚡', '🦅', '💀', '🔥'];
+    const emblems = ['fa-dragon|#8B5CF6', 'fa-moon|#3B82F6', 'fa-mountain|#10B981', 'fa-bolt|#F59E0B', 'fa-crown|#F97316', 'fa-khanda|#EF4444', 'fa-fire|#F97316'];
     const nicks = ['Max_Power', 'Lena_Lift', 'Deadly_Dan', 'SquatQueen', 'IronMike', 'Nastya_PR', 'BenchKing', 'Kira_Fit', 'Tim_Titan', 'Olya_Oly', 'Rocky_RU', 'Vlad_Volume', 'Zoya_Z', 'Artem_Arms', 'Dasha_DL'];
     this.MOCK = names.map((name, i) => {
       const r = this._seed(i + 7), size = 8 + Math.floor(r() * 18);
@@ -972,8 +984,8 @@ const ClanService = {
   },
   list() { const all = this.clans().map(c => ({ ...c })); if (S.clan && !all.some(c => c.id === S.clan.id)) all.push(S.clan); return all.map(c => { const ms = this.membersWithSelf(c); return { ...c, members: ms, score: Calc.clanScore(ms), trophies: ms.reduce((a, m) => a + m.trophies, 0) }; }).sort((a, b) => b.score - a.score); },
   async create(name, emblem) {
-    if (this.online()) { try { await Net.rpc('clan_create', { p_name: name, p_emblem: emblem || '🛡️' }); await Net.refresh(true); return S.clan; } catch (e) { return { error: e.message }; } }
-    const clan = { id: `clan_${U.uid()}`, name: name.slice(0, 24), emblem: emblem || '🛡️', code: 'APEX' + U.rnd(1000, 9999), members: [], role: 'leader', createdAt: Date.now(), battle: null };
+    if (this.online()) { try { await Net.rpc('clan_create', { p_name: name, p_emblem: emblem || 'fa-shield-halved|#8B5CF6' }); await Net.refresh(true); return S.clan; } catch (e) { return { error: e.message }; } }
+    const clan = { id: `clan_${U.uid()}`, name: name.slice(0, 24), emblem: emblem || 'fa-shield-halved|#8B5CF6', code: 'APEX' + U.rnd(1000, 9999), members: [], role: 'leader', createdAt: Date.now(), battle: null };
     S.clan = clan; this.newBattle(); save(); return clan;
   },
   async join(code) {
@@ -1077,6 +1089,7 @@ const Net = {
       const { data } = await this.client.auth.getSession();
       this.uid = data && data.session ? data.session.user.id : null; this.ready = true;
       this.client.auth.onAuthStateChange((ev, s) => { this.uid = s ? s.user.id : null; });
+      try { const k = localStorage.getItem('APEX_CFG_GK'); if (k) CONFIG.GEMINI_KEY = k; } catch (_) {}
       return true;
     } catch (e) { console.warn('Net.init', e); this.ready = false; return false; }
   },
@@ -1094,6 +1107,11 @@ const Net = {
     const { data, error } = await this.client.auth.signInWithPassword({ email, password: pass });
     if (error) return { error: /Invalid login/i.test(error.message) ? 'Неверный email или пароль' : /Email not confirmed/i.test(error.message) ? 'Сначала подтверди email по ссылке из письма' : this.err(error) };
     this.uid = data.user.id; return { ok: true };
+  },
+  _cfg: false,
+  async loadConfig() { // общие настройки приложения (например, ключ Gemini) хранятся в таблице app_config
+    if (this._cfg || !this.online()) return; this._cfg = true;
+    try { const { data } = await this.client.from('app_config').select('key,value'); (data || []).forEach(r => { if (r.key === 'gemini_key' && r.value) { CONFIG.GEMINI_KEY = r.value; try { localStorage.setItem('APEX_CFG_GK', r.value); } catch (_) {} } }); } catch (_) { this._cfg = false; }
   },
   async signOut() { try { await this.client.auth.signOut(); } catch (_) {} this.uid = null; this.d = { players: [], clans: [], friends: [], duels: [], at: 0 }; },
   async email() { try { const { data } = await this.client.auth.getUser(); return data && data.user ? data.user.email : ''; } catch (_) { return ''; } },
@@ -1148,6 +1166,7 @@ const Net = {
     if (!force && Date.now() - this.d.at < 15000) return Promise.resolve(true);
     this._refreshing = (async () => {
       try {
+        this.loadConfig();
         const wk = U.weekKey(), prev = U.weekKey(U.parseDay(U.addDays(U.today(), -7)));
         const [pr, cl, fr, du] = await Promise.all([
           this.client.from('profiles').select('*').order('trophies', { ascending: false }).limit(1000),
@@ -1208,6 +1227,7 @@ const UI = {
     this.modal(`<div class="text-sm mb-4">${text}</div><div class="grid grid-cols-2 gap-2"><button class="btn btn-ghost" data-action="close-modal">${no}</button><button class="btn ${danger ? 'btn-or' : 'btn-primary'}" data-action="confirm-yes">${yes}</button></div>`, { center: true });
   },
   closeModal() {
+    this._clanModal = null; this._nutModal = null;
     const m = this.$('#modal'); if (m) m.remove();
     // вернуть модалку тренировки после анимаций PR/арены
     if (this._reopen && !this._suppressReopen && !(this._bigQueue && this._bigQueue.length)) { const fn = this._reopen; this._reopen = null; setTimeout(fn, 150); }
@@ -1303,11 +1323,10 @@ const UI = {
   renderAll() { this.renderHeader(); this.renderTab(this.tab); },
   applyLang() { document.documentElement.lang = S.profile.lang || 'ru'; this.$$('[data-i18n]').forEach(el => el.textContent = T(el.dataset.i18n)); },
   renderHeader() {
-    this.$('#hdr-avatar').innerHTML = this.avatarSVG(S.profile.avatar, 36);
-    this.$('#hdr-nick').textContent = S.profile.nickname || 'APEX';
-    const a = Calc.arena(); this.$('#hdr-arena').innerHTML = `<span style="color:${a.color}">●</span> ${TN(a.name)}`;
-    this.$('#hdr-trophies').textContent = S.game.trophies; this.$('#hdr-coins').textContent = S.game.coins; this.$('#hdr-level').textContent = Calc.level(S.game.xp);
-    const ab = Game.activeBoosts(); this.$('#hdr-boost').classList.toggle('hidden', !ab.length); this.$('#hdr-boost-n').textContent = ab.length;
+    this.$('#hdr-avatar').innerHTML = this.avatarSVG(S.profile.avatar, 40);
+    this.$('#hdr-trophies').textContent = S.game.trophies;
+    const st = Calc.streak(), today = Calc.liftsOn(U.today()).length > 0;
+    const sc = this.$('#hdr-streak'); sc.classList.toggle('on', today); sc.querySelector('span').textContent = st.count;
     document.querySelector('meta[name=theme-color]').setAttribute('content', S.profile.theme === 'light' ? '#F1F5F9' : '#0B0E14');
   },
   goTab(name) {
@@ -1318,26 +1337,29 @@ const UI = {
   },
   renderTab(name) { ({ arena: this.renderArena, lifts: this.renderLifts, clans: this.renderClans, nutrition: this.renderNutrition, profile: this.renderProfile })[name].call(this); },
   /* ========================= ARENA ========================= */
+  streakCircle(size = 76) {
+    const st = Calc.streak(), today = Calc.liftsOn(U.today()).length > 0;
+    return `<div class="streak-ring ${today ? 'on' : ''}" style="width:${size}px;height:${size}px" title="${T('streak')}"><svg class="ic"><use href="#fa-fire"/></svg><div class="num">${st.count}</div></div>`;
+  },
   renderArena() {
-    const g = S.game, a = Calc.arena(), next = Calc.nextArena(), boss = Calc.bossReq(), st = Calc.streak();
+    const g = S.game, a = Calc.arena(), next = Calc.nextArena(), boss = Calc.bossReq();
     const pct = next ? ((g.trophies - a.min) / (next.min - a.min)) * 100 : 100;
     const capped = next && g.trophies >= next.min && boss && !boss.met;
     const hero = `
-      <div class="arena-hero p-5 mb-4" style="background:radial-gradient(120% 90% at 50% 0%,${a.color}33,transparent 60%),var(--card)">
+      <div class="arena-hero p-5 mb-4 cursor-pointer" data-action="open-road" style="background:radial-gradient(120% 90% at 50% 0%,${a.color}33,transparent 60%),var(--card)">
         <div class="grid-bg"></div>
         <div class="relative">
-          <div class="flex items-center justify-between">
-            <div class="text-[11px] uppercase tracking-widest muted">${T('arena_of', { a: a.id, b: CONFIG.ARENAS.length })}</div>
-            <div class="chip" style="color:${a.color}"><svg class="ic "><use href="#${a.icon}"/></svg> ${st.count > 0 ? `<svg class="ic text-or ml-1"><use href="#fa-fire"/></svg> серия ${st.count}` : 'без серии'}</div>
-          </div>
-          <div class="text-3xl font-black mt-1" style="color:${a.color};text-shadow:0 0 24px ${a.color}66">${TN(a.name)}</div>
-          <div class="flex items-end gap-2 mt-3">
-            <div class="text-5xl font-black num">${g.trophies}</div><div class="text-amber-400 text-2xl mb-1"><svg class="ic "><use href="#fa-trophy"/></svg></div>
-            ${next ? `<div class="muted text-sm mb-2 ml-auto num">${T('to_next', { name: TN(next.name) })} <b class="strong">${Math.max(0, next.min - g.trophies)}</b></div>` : `<div class="muted text-sm mb-2 ml-auto">${T('max_arena')}</div>`}
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <div class="text-[11px] uppercase tracking-widest muted">${T('arena_of', { a: a.id, b: CONFIG.ARENAS.length })} <svg class="ic"><use href="#fa-chevron-right"/></svg></div>
+              <div class="text-3xl font-black mt-1 truncate" style="color:${a.color};text-shadow:0 0 24px ${a.color}66">${TN(a.name)}</div>
+              <div class="flex items-end gap-2 mt-2"><div class="text-5xl font-black num">${g.trophies}</div><div class="text-amber-400 text-2xl mb-1"><svg class="ic "><use href="#fa-trophy"/></svg></div></div>
+            </div>
+            ${this.streakCircle(84)}
           </div>
           <div class="mt-3">${this.bar(pct, `linear-gradient(90deg,${a.color},${next ? next.color : a.color})`)}</div>
-          <div class="flex justify-between text-[11px] muted mt-1 num"><span>${a.min}</span><span>${next ? next.min : '∞'}</span></div>
-          ${capped ? `<div class="mt-3 text-xs rounded-lg px-3 py-2" style="background:#F9731622;border:1px solid #F9731655"><svg class="ic text-or"><use href="#fa-lock"/></svg> Кубки на пороге арены: победи Босса, чтобы пройти дальше</div>` : ''}
+          <div class="flex justify-between text-[11px] muted mt-1 num"><span>${a.min}</span>${next ? `<span>${T('to_next', { name: TN(next.name) })} <b class="strong">${Math.max(0, next.min - g.trophies)}</b></span>` : `<span>${T('max_arena')}</span>`}<span>${next ? next.min : '∞'}</span></div>
+          ${capped ? `<div class="mt-3 text-xs rounded-lg px-3 py-2" style="background:#F9731622;border:1px solid #F9731655"><svg class="ic text-or"><use href="#fa-lock"/></svg> Победи Босса, чтобы пройти дальше</div>` : ''}
         </div>
       </div>`;
     const actions = `
@@ -1348,13 +1370,12 @@ const UI = {
     const bossCard = boss ? `
       <div class="card p-4 mb-4 ${boss.met ? 'glow-em' : ''}" style="border-color:${boss.met ? '#10B981' : '#F9731666'}">
         <div class="flex items-center justify-between mb-2">
-          <div class="font-bold"><svg class="ic ${boss.met ? 'text-em' : 'text-or'}"><use href="#fa-dragon"/></svg> Босс арены «${a.name}»</div>
-          <span class="chip ${boss.met ? 'text-em' : 'text-or'}">${boss.met ? 'побеждён' : 'условие'}</span>
+          <div class="font-bold"><svg class="ic ${boss.met ? 'text-em' : 'text-or'}"><use href="#fa-dragon"/></svg> Босс арены</div>
+          <span class="chip ${boss.met ? 'text-em' : 'text-or'}">${boss.met ? 'побеждён' : `вес ${U.w(S.profile.bodyweight, 0)} ${U.wUnit()}`}</span>
         </div>
-        <div class="text-xs muted mb-3">Чтобы перейти в «${next ? next.name : ''}», нужно выполнить силовой тест относительно веса тела (${U.w(S.profile.bodyweight, 0)} ${U.wUnit()}${S.profile.sex === 'f' ? ', женская шкала' : ''}).</div>
         ${boss.items.map(i => `
           <div class="mb-2">
-            <div class="flex justify-between text-xs mb-1"><span>${i.name} <span class="muted">×${i.ratio}</span></span><span class="num ${i.ok ? 'text-em' : ''}">${U.w(i.have, 0)} / ${U.w(i.need, 0)} ${U.wUnit()} ${i.ok ? '<svg class="ic "><use href="#fa-check"/></svg>' : `<span class="text-or">(−${U.w(i.need - i.have, 0)})</span>`}</span></div>
+            <div class="flex justify-between text-xs mb-1"><span>${i.name} <span class="muted">×${i.ratio}</span></span><span class="num ${i.ok ? 'text-em' : ''}">${U.w(i.have, 0)} / ${U.w(i.need, 0)} ${i.ok ? '<svg class="ic "><use href="#fa-check"/></svg>' : ''}</span></div>
             ${this.bar(i.pct * 100, i.ok ? '#10B981' : 'linear-gradient(90deg,#F97316,#EF4444)')}
           </div>`).join('')}
       </div>` : '';
@@ -1363,7 +1384,7 @@ const UI = {
       <div class="card p-4 mb-4">
         <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-calendar-day"/></svg> ${T('today')} · ${CONFIG.WEEKDAYS[Calc.weekday()]}</div><button class="btn btn-ghost btn-sm" data-action="go-tab" data-tab="lifts">${T('schedule')} <svg class="ic "><use href="#fa-chevron-right"/></svg></button></div>
         ${plan ? `<div class="text-sm font-semibold mb-1">${U.esc(plan.name)}</div><div class="flex flex-wrap gap-1.5">${planItems.map(e => `<span class="chip ${e.done ? 'text-em' : ''}">${e.done ? '<svg class="ic"><use href="#fa-check"/></svg>' : `<span class="num muted">${e.sets}/${e.target}</span>`} ${U.esc(U.exRu(e.name))}</span>`).join('')}</div>`
-             : `<div class="text-xs muted">На сегодня в расписании ничего нет. Добавь программу во вкладке Lifts или начни свободную тренировку.</div>`}
+             : `<div class="text-xs muted">${T('no_plan_today')}</div>`}
       </div>`;
     const qCard = (kind, title, icon) => { const list = Game.questList(kind); return `
       <div class="card p-4 mb-4">
@@ -1375,44 +1396,54 @@ const UI = {
             <div class="chip num">+${q.reward} ${this.trophyIcon}</div>
           </div>`).join('')}
       </div>`; };
-    const road = `
-      <div class="card p-4 mb-4">
-        <div class="font-bold mb-3"><svg class="ic text-bl"><use href="#fa-road"/></svg> ${T('trophy_road')}</div>
-        <div class="relative pl-6">
-          <div class="absolute left-[6px] top-2 bottom-2 w-[2px]" style="background:linear-gradient(${CONFIG.ARENAS.map(x => x.color).join(',')})"></div>
-          ${[...CONFIG.ARENAS].reverse().map(ar => { const i = ar.id - 1, locked = i > g.arenaIdx, cur = i === g.arenaIdx, r = ar.reward || {}; return `
-            <div class="relative flex items-center gap-3 py-2 ${locked ? 'locked' : ''}">
-              <div class="road-dot absolute -left-6 top-1/2 -translate-y-1/2" style="${!locked ? `background:${ar.color};border-color:${ar.color};box-shadow:0 0 10px ${ar.color}` : ''}"></div>
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-none" style="background:${ar.color}22;color:${ar.color}"><svg class="ic "><use href="#${ar.icon}"/></svg></div>
-              <div class="flex-1 min-w-0"><div class="text-sm font-bold flex items-center gap-2">${TN(ar.name)} ${cur ? `<span class="chip text-em">${T('you_here')}</span>` : ''}</div><div class="text-[11px] muted num">${ar.min} ${this.trophyIcon}${ar.boss ? ' · <svg class="ic text-or"><use href="#fa-dragon"/></svg> босс' : ''}</div></div>
-              <div class="text-[11px] text-right muted">${r.coins ? `+${r.coins} ${this.coinIcon}` : ''}${r.item ? `<br><svg class="ic text-pu"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}` : ''}</div>
-            </div>`; }).join('')}
-        </div>
-      </div>`;
-    this.$('#tab-arena').innerHTML = hero + actions + (capped || boss ? bossCard : '') + planCard + qCard('weekly', T('weekly_quests'), 'fa-calendar-week') + road;
+    this.$('#tab-arena').innerHTML = hero + actions + (capped || boss ? bossCard : '') + planCard + qCard('weekly', T('weekly_quests'), 'fa-calendar-week');
+  },
+  openRoad() {
+    const g = S.game;
+    this.modal(`
+      <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg"><svg class="ic text-bl"><use href="#fa-road"/></svg> ${T('trophy_road')}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <div class="relative pl-6">
+        <div class="absolute left-[6px] top-2 bottom-2 w-[2px]" style="background:linear-gradient(${[...CONFIG.ARENAS].reverse().map(x => x.color).join(',')})"></div>
+        ${[...CONFIG.ARENAS].reverse().map(ar => { const i = ar.id - 1, locked = i > g.arenaIdx, cur = i === g.arenaIdx, r = ar.reward || {}; return `
+          ${cur ? `<div class="relative flex items-center gap-3 py-2 pl-1"><div class="w-12 h-12 rounded-full overflow-hidden border-2 flex-none" style="border-color:${ar.color};box-shadow:0 0 14px ${ar.color}88">${this.avatarSVG(S.profile.avatar, 48)}</div><div><div class="text-sm font-bold">${U.esc(S.profile.nickname)}</div><div class="num text-amber-400 font-black">${g.trophies} ${this.trophyIcon}</div></div></div>` : ''}
+          <div class="relative flex items-center gap-3 py-2 ${locked ? 'locked' : ''}">
+            <div class="road-dot absolute -left-6 top-1/2 -translate-y-1/2" style="${!locked ? `background:${ar.color};border-color:${ar.color};box-shadow:0 0 10px ${ar.color}` : ''}"></div>
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-none" style="background:${ar.color}22;color:${ar.color}"><svg class="ic "><use href="#${ar.icon}"/></svg></div>
+            <div class="flex-1 min-w-0"><div class="text-sm font-bold flex items-center gap-2">${TN(ar.name)} ${cur ? `<span class="chip text-em">${T('you_here')}</span>` : ''}</div><div class="text-[11px] muted num">${ar.min} ${this.trophyIcon}${ar.boss ? ' · <svg class="ic text-or"><use href="#fa-dragon"/></svg> босс' : ''}</div></div>
+            <div class="text-[11px] text-right muted">${r.coins ? `+${r.coins} ${this.coinIcon}` : ''}${r.item ? `<br><svg class="ic text-pu"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}` : ''}</div>
+          </div>`; }).join('')}
+      </div>`);
   },
   /* ========================= LIFTS ========================= */
+  liftExercises() {
+    const base = ['Bench Press', 'Squat', 'Deadlift'];
+    const extra = Calc.exerciseNames().filter(n => !base.includes(n) && (S.lifts.some(l => l.exerciseName === n) || (S.customExercises || []).some(c => c.name === n)));
+    return [...base, ...extra];
+  },
   renderLifts() {
     if (Net.online() && Date.now() - Net.d.at > 15000) Net.refresh().then(ok => { if (ok && this.tab === 'lifts') this.renderLifts(); });
-    const names = Calc.exerciseNames(), logged = names.filter(n => S.lifts.some(l => l.exerciseName === n));
-    if (!this.liftEx || !names.includes(this.liftEx)) this.liftEx = logged[0] || names[0];
+    const names = this.liftExercises();
+    if (!this.liftEx || !names.includes(this.liftEx)) this.liftEx = names.find(n => S.lifts.some(l => l.exerciseName === n)) || names[0];
+    if (!this.liftRMs) this.liftRMs = new Set(['1RM']);
     const flagged = S.lifts.filter(l => l.flagged);
+    const rmColor = { '1RM': '#3B82F6', '2RM': '#8B5CF6', '4RM': '#10B981' };
     const html = `
       ${this.scheduleCard()}
       <div class="grid grid-cols-2 gap-3 mb-4">
         <button class="btn btn-primary py-4" data-action="open-log-set"><svg class="ic "><use href="#fa-plus"/></svg> ${T('log_set')}</button>
         <button class="btn btn-pu py-4" data-action="open-ai-workout"><svg class="ic "><use href="#fa-wand-magic-sparkles"/></svg> Gemini AI Logger</button>
       </div>
-      ${flagged.length ? `<div class="card p-3 mb-4" style="border-color:#F9731666"><div class="text-sm font-bold text-or"><svg class="ic "><use href="#fa-triangle-exclamation"/></svg> На проверке (${flagged.length})</div><div class="text-[11px] muted mb-2">Скачок больше 15% за раз. Кубки начислим после видео-проверки (скоро). Пока эти подходы не учитываются в рекордах и боссах.</div>
+      ${flagged.length ? `<div class="card p-3 mb-4" style="border-color:#F9731666"><div class="text-sm font-bold text-or"><svg class="ic "><use href="#fa-triangle-exclamation"/></svg> На проверке (${flagged.length})</div><div class="text-[11px] muted mb-2">Скачок больше 15% за раз: пока не учитывается в рекордах.</div>
         ${flagged.map(l => `<div class="flex items-center justify-between text-xs py-1 border-t line"><span>${U.exRu(l.exerciseName)} · ${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span><button class="text-red-400" data-action="delete-lift" data-id="${l.id}"><svg class="ic "><use href="#fa-trash"/></svg></button></div>`).join('')}</div>` : ''}
       <div class="card p-4 mb-4">
-        <div class="flex items-center gap-2 mb-3">
-          <select class="input flex-1 text-sm" id="lift-ex" data-action="lift-ex">${names.map(n => `<option value="${U.esc(n)}" ${n === this.liftEx ? 'selected' : ''}>${U.esc(U.exRu(n))}</option>`).join('')}</select>
+        <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 mb-3">
+          ${names.map(n => `<button class="chip flex-none ${n === this.liftEx ? 'chip-on' : ''}" data-action="lift-ex-pick" data-val="${U.esc(n)}">${U.esc(U.exRu(n))}</button>`).join('')}
+          <button class="chip flex-none text-pu" data-action="lift-ex-add"><svg class="ic"><use href="#fa-plus"/></svg> ${T('own')}</button>
         </div>
-        <div class="seg mb-2" id="rm-seg">${CONFIG.RM_CATS.map(c => `<button class="${this.liftRM === c ? 'on' : ''}" data-action="lift-rm" data-rm="${c}">${CONFIG.RM_LABEL[c]}</button>`).join('')}</div>
-        <div class="seg mb-3">${['1W', '1M', '1Y', 'ALL'].map(z => `<button class="${this.liftZoom === z ? 'on' : ''}" data-action="lift-zoom" data-zoom="${z}">${z}</button>`).join('')}</div>
-        <div class="h-52 relative"><canvas id="lift-chart"></canvas></div>
-        <div id="lift-chart-empty" class="text-center muted text-xs py-6 hidden">Нет данных за выбранный период</div>
+        <div class="flex gap-1.5 mb-3">${CONFIG.RM_CATS.map(c => `<button class="chip ${this.liftRMs.has(c) ? 'chip-on' : ''}" style="${this.liftRMs.has(c) ? `border-color:${rmColor[c]};color:${rmColor[c]}` : ''}" data-action="lift-rm-toggle" data-rm="${c}"><span class="w-2 h-2 rounded-full inline-block" style="background:${rmColor[c]}"></span> ${CONFIG.RM_LABEL[c]}</button>`).join('')}</div>
+        <div class="h-56 relative"><canvas id="lift-chart"></canvas></div>
+        <div id="lift-chart-empty" class="text-center muted text-xs py-6 hidden">${T('no_data')}</div>
+        <div class="flex items-center gap-3 mt-3" id="lift-zoom-wrap"><svg class="ic muted"><use href="#fa-magnifying-glass"/></svg><input type="range" class="zoom" id="lift-zoom" min="7" max="365" step="1" value="${this.liftZoomDays || 60}" data-action="lift-zoom-range"><span class="text-[11px] muted num w-12 text-right" id="lift-zoom-lbl">${this.liftZoomDays || 60} д</span></div>
       </div>
       <div class="card p-4 mb-4">
         <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-amber-400"><use href="#fa-crown"/></svg> ${T('top_records')}</div><button class="btn btn-ghost btn-sm" data-action="open-records">Power Score <svg class="ic "><use href="#fa-chevron-right"/></svg></button></div>
@@ -1421,6 +1452,40 @@ const UI = {
       ${this.recordsBoardCard()}`;
     this.$('#tab-lifts').innerHTML = html;
     this.drawLiftChart();
+  },
+  drawLiftChart() {
+    const canvas = this.$('#lift-chart'); if (!canvas) return;
+    if (this.charts.lift) { this.charts.lift.destroy(); this.charts.lift = null; }
+    const rmColor = { '1RM': '#3B82F6', '2RM': '#8B5CF6', '4RM': '#10B981' };
+    const all = S.lifts.filter(l => l.exerciseName === this.liftEx && this.liftRMs.has(l.rmCategory)).sort((a, b) => a.date.localeCompare(b.date));
+    const has = all.length > 0;
+    this.$('#lift-chart-empty').classList.toggle('hidden', has); canvas.parentElement.style.display = has ? '' : 'none'; this.$('#lift-zoom-wrap').style.display = has ? '' : 'none';
+    if (!has) return;
+    const last = Math.max(U.parseDay(all[all.length - 1].date).getTime(), Date.now()), first = U.parseDay(all[0].date).getTime();
+    const spanDays = Math.max(7, Math.ceil((last - first) / 864e5) + 2);
+    const zoomEl = this.$('#lift-zoom'); if (zoomEl) { zoomEl.max = Math.max(14, spanDays); if (!this.liftZoomDays || this.liftZoomDays > spanDays) this.liftZoomDays = Math.min(60, spanDays); zoomEl.value = this.liftZoomDays; this.$('#lift-zoom-lbl').textContent = this.liftZoomDays + ' д'; }
+    const days = this.liftZoomDays || 60, xMin = last - days * 864e5, xMax = last + 864e5;
+    const datasets = [...this.liftRMs].filter(c => all.some(l => l.rmCategory === c)).map(c => ({ label: CONFIG.RM_LABEL[c], borderColor: rmColor[c], backgroundColor: rmColor[c], fill: false, tension: .25, borderWidth: 2.5, pointRadius: ctx => ctx.raw?.pr ? 6 : 4.5, pointHoverRadius: 8, pointHitRadius: 24, pointBackgroundColor: ctx => ctx.raw?.flagged ? '#F97316' : ctx.raw?.pr ? '#F59E0B' : rmColor[c], pointBorderColor: '#0B0E14',
+      data: all.filter(l => l.rmCategory === c).map(l => ({ x: U.parseDay(l.date).getTime(), y: +U.w(l.weight), pr: l.isPR, flagged: l.flagged })) }));
+    const vis = datasets.flatMap(d => d.data.filter(p => p.x >= xMin - 864e5)); const ys = (vis.length ? vis : datasets.flatMap(d => d.data)).map(p => p.y);
+    let lo = Math.min(...ys), hi = Math.max(...ys); if (hi - lo < 5) { hi = lo + 5; }
+    const step = hi - lo <= 20 ? 5 : hi - lo <= 60 ? 10 : hi - lo <= 150 ? 20 : 50;
+    const yMin = Math.max(0, Math.floor(lo / step) * step - step), yMax = Math.ceil(hi / step) * step + 2 * step;
+    const light = S.profile.theme === 'light', grid = light ? '#E2E8F0' : '#1E293B', tick = light ? '#64748B' : '#94A3B8';
+    this.charts.lift = new Chart(canvas, {
+      type: 'line', data: { datasets },
+      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 300 }, interaction: { mode: 'nearest', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { callbacks: { title: c => U.fmtDate(U.dayKey(new Date(c[0].raw.x))), label: c => `${c.dataset.label}: ${c.raw.y} ${U.wUnit()}${c.raw.pr ? ' · PR' : ''}${c.raw.flagged ? ' · на проверке' : ''}` } } },
+        scales: { x: { type: 'time', min: xMin, max: xMax, time: { unit: days <= 14 ? 'day' : days <= 90 ? 'day' : 'month', displayFormats: { day: 'd MMM', month: 'MMM yy' } }, grid: { color: grid }, ticks: { color: tick, maxTicksLimit: days <= 14 ? 7 : 6, autoSkip: true, maxRotation: 0, font: { size: 10 } } },
+          y: { min: yMin, max: yMax, grid: { color: grid }, ticks: { color: tick, stepSize: step, font: { size: 10 } } } } }
+    });
+  },
+  liftZoom(days) {
+    this.liftZoomDays = +days; const l = this.$('#lift-zoom-lbl'); if (l) l.textContent = days + ' д';
+    const ch = this.charts.lift; if (!ch) return;
+    const all = S.lifts.filter(l => l.exerciseName === this.liftEx && this.liftRMs.has(l.rmCategory)); if (!all.length) return;
+    const last = Math.max(...all.map(l => U.parseDay(l.date).getTime()), Date.now());
+    ch.options.scales.x.min = last - days * 864e5; ch.options.scales.x.time.unit = days <= 90 ? 'day' : 'month'; ch.options.scales.x.ticks.maxTicksLimit = days <= 14 ? 7 : 6; ch.update('none');
   },
   recordsBoardCard() {
     const key = this.boardKey || 'total', rows = ClanService.recordsBoard().sort((a, b) => b[key] - a[key]);
@@ -1433,10 +1498,10 @@ const UI = {
         <div class="grid text-[10px] muted px-1 mb-1" style="grid-template-columns:1.5rem 1fr 3rem 3rem 3rem 3.2rem"><span>#</span><span>игрок</span><span class="text-right ${key === 'bench' ? 'text-em' : ''}">жим</span><span class="text-right ${key === 'squat' ? 'text-em' : ''}">присед</span><span class="text-right ${key === 'deadlift' ? 'text-em' : ''}">тяга</span><span class="text-right ${key === 'total' ? 'text-em' : ''}">сумма</span></div>
         ${top.map(r => { const rank = rows.indexOf(r) + 1, ar = Calc.arena(r.arenaIdx); return `<div class="grid items-center py-1.5 border-t line text-xs num ${r.self ? 'text-em font-bold' : ''}" style="grid-template-columns:1.5rem 1fr 3rem 3rem 3rem 3.2rem">
             <span class="${rank <= 3 ? 'text-amber-400 font-black' : 'muted'}">${rank}</span>
-            <span class="truncate pr-1" style="font-variant-numeric:normal">${r.clan ? r.clan + ' ' : ''}${U.esc(r.nick)}${r.self ? ' (ты)' : ''} <span class="text-[9px]" style="color:${ar.color}">●</span></span>
+            <span class="truncate pr-1" style="font-variant-numeric:normal">${r.clan ? this.emblem(r.clan, 'w-5 h-5 text-[10px] mr-1 align-middle') : ''}${U.esc(r.nick)}${r.self ? ' (ты)' : ''} <span class="text-[9px]" style="color:${ar.color}">●</span></span>
             <span class="text-right">${r.bench ? U.w(r.bench, 0) : '–'}</span><span class="text-right">${r.squat ? U.w(r.squat, 0) : '–'}</span><span class="text-right">${r.deadlift ? U.w(r.deadlift, 0) : '–'}</span><span class="text-right font-bold">${r.total ? U.w(r.total, 0) : '–'}</span>
           </div>`; }).join('')}
-        <div class="text-[10px] muted mt-2">Лучший e1RM по жиму лёжа, приседу и становой (включая свои упражнения, отмеченные как движение босса). Данные других игроков демо.</div>
+        <div class="text-[10px] muted mt-2">Лучший e1RM: жим, присед, становая.</div>
       </div>`;
   },
   topRecordsRows(limit) {
@@ -1448,26 +1513,6 @@ const UI = {
         <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${U.esc(U.exRu(r.name))}</div><div class="text-[11px] muted num">e1RM ${U.w(r.b.e1rm, 0)} ${U.wUnit()} · ×${r.mult} · ${U.fmtDate(r.b.date)}</div></div>
         <div class="text-right"><div class="font-black num text-pu">${Math.round(r.ps)}</div><div class="text-[10px] muted">Power</div></div>
       </div>`).join('');
-  },
-  drawLiftChart() {
-    const canvas = this.$('#lift-chart'); if (!canvas) return;
-    if (this.charts.lift) { this.charts.lift.destroy(); this.charts.lift = null; }
-    const now = Date.now(), span = { '1W': 7, '1M': 30, '1Y': 365, 'ALL': null }[this.liftZoom];
-    const min = span ? now - span * 864e5 : undefined;
-    const pts = S.lifts.filter(l => l.exerciseName === this.liftEx && l.rmCategory === this.liftRM && (!min || U.parseDay(l.date).getTime() >= min - 864e5)).sort((a, b) => a.date.localeCompare(b.date));
-    const data = pts.map(l => ({ x: U.parseDay(l.date).getTime(), y: +U.w(l.weight), pr: l.isPR, flagged: l.flagged, reps: l.rmCategory === 'CUSTOM' ? l.reps : 0 }));
-    this.$('#lift-chart-empty').classList.toggle('hidden', data.length > 0);
-    canvas.parentElement.style.display = data.length ? '' : 'none';
-    if (!data.length) return;
-    const unit = span === 7 ? 'day' : span === 30 ? 'day' : span === 365 ? 'month' : 'month';
-    const allMin = Math.min(...data.map(d => d.x));
-    const light = S.profile.theme === 'light', grid = light ? '#E2E8F0' : '#1E293B', tick = light ? '#64748B' : '#94A3B8';
-    this.charts.lift = new Chart(canvas, {
-      type: 'line',
-      data: { datasets: [{ data, borderColor: '#3B82F6', backgroundColor: 'rgba(59,130,246,.15)', fill: true, tension: .3, pointRadius: ctx => ctx.raw?.pr ? 6 : 3, pointBackgroundColor: ctx => ctx.raw?.flagged ? '#F97316' : ctx.raw?.pr ? '#F59E0B' : '#3B82F6', pointBorderColor: '#0B0E14' }] },
-      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 400 }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.raw.y} ${U.wUnit()}${c.raw.reps ? ' × ' + c.raw.reps : ''} ${c.raw.pr ? '· PR' : ''}${c.raw.flagged ? '· на проверке' : ''}` } } },
-        scales: { x: { type: 'time', min: span ? min : allMin - 864e5, max: now + 864e5, time: { unit, tooltipFormat: 'd MMM yyyy', displayFormats: { day: 'd MMM', month: 'MMM yy' } }, grid: { color: grid }, ticks: { color: tick, maxTicksLimit: 6, font: { size: 10 } } }, y: { grid: { color: grid }, ticks: { color: tick, font: { size: 10 } }, title: { display: true, text: U.wUnit(), color: tick } } } }
-    });
   },
   /* ========================= CLANS ========================= */
   /* ---- друзья: лидерборд по каждому упражнению ---- */
@@ -1517,7 +1562,7 @@ const UI = {
         <div class="flex justify-between text-[11px] muted mt-1"><span>${d.myScore >= d.oppScore ? 'ты ведёшь' : 'соперник впереди'}</span><span data-countdown="${d.endsAt}">${U.fmtTime(d.endsAt - Date.now())}</span></div>
         <div class="flex gap-2 mt-3"><button class="btn btn-ghost btn-sm flex-1" data-action="duel-cancel">Сдаться</button></div>`;
     } else {
-      duelHtml = `<div class="text-xs muted mb-3">Недельная дуэль 1 на 1: кто наберёт больше очков активности (тренировки ×15, PR ×25, серия ×2). Победа: +${CONFIG.TROPHY.DUEL_WIN_COINS} монет и +${CONFIG.TROPHY.DUEL_WIN} кубков.</div>
+      duelHtml = `<div class="text-xs muted mb-3">Дуэль 1 на 1 до конца недели: кто активнее. Победа: +${CONFIG.TROPHY.DUEL_WIN_COINS} монет, +${CONFIG.TROPHY.DUEL_WIN} кубков.</div>
         <div class="grid grid-cols-2 gap-2"><button class="btn btn-or" data-action="duel-random"><svg class="ic"><use href="#fa-khanda"/></svg> Случайный соперник</button><button class="btn btn-ghost" data-action="duel-friend" ${(S.friends || []).length ? '' : 'disabled'}><svg class="ic"><use href="#fa-users"/></svg> Вызвать друга</button></div>`;
     }
     const cb = clan && clan.battle ? ClanService.battle() : null;
@@ -1530,13 +1575,36 @@ const UI = {
         ${duelHtml}${clanHtml}
       </div>`;
   },
+  emblem(e, cls = 'w-10 h-10 text-lg') {
+    if (e && e.startsWith('fa-')) { const [icon, color] = e.split('|'); return `<span class="emb ${cls}" style="background:${color || '#8B5CF6'}22;color:${color || '#8B5CF6'}"><svg class="ic"><use href="#${icon}"/></svg></span>`; }
+    return `<span class="emb ${cls}">${e || '🛡️'}</span>`;
+  },
+  openClanModal(kind) {
+    const body = kind === 'friends' ? this.friendsCard() : this.challengesCard();
+    const html = `<div class="flex items-center justify-end mb-1"><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>${body.replace(/class="card p-4 mb-4"/g, 'class="p-0"').replace(/<div class="card p-4 mb-4" style="[^"]*">/, '<div>')}`;
+    const m = this.$('#modal .modal'); if (m) m.innerHTML = html; else this.modal(html);
+    this._clanModal = kind;
+  },
   renderClans() {
     if (Net.online() && Date.now() - Net.d.at > 15000) Net.refresh().then(ok => { if (ok && this.tab === 'clans') this.renderClans(); });
-    const list = ClanService.list(), clan = S.clan;
+    const list = ClanService.list(), clan = S.clan, d = ClanService.duel(), friends = S.friends || [];
+    const tiles = `
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <button class="card p-4 text-left" style="border-color:#F9731655;background:radial-gradient(100% 80% at 50% 0%,#F9731622,transparent 60%),var(--card)" data-action="clan-modal" data-kind="challenges">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2" style="background:#F9731622;color:#F97316"><svg class="ic text-lg"><use href="#fa-khanda"/></svg></div>
+          <div class="font-bold">${T('challenges')}</div>
+          <div class="text-[11px] muted mt-0.5 truncate">${d ? `${d.myScore} : ${d.oppScore} · ${U.esc(d.opponent.nick)}` : T('no_duel')}</div>
+        </button>
+        <button class="card p-4 text-left" style="border-color:#3B82F655;background:radial-gradient(100% 80% at 50% 0%,#3B82F622,transparent 60%),var(--card)" data-action="clan-modal" data-kind="friends">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2" style="background:#3B82F622;color:#3B82F6"><svg class="ic text-lg"><use href="#fa-users"/></svg></div>
+          <div class="font-bold">${T('friends')}</div>
+          <div class="text-[11px] muted mt-0.5">${friends.length ? friends.length + ' · ' + U.esc(friends.map(f => f.nick).slice(0, 2).join(', ')) : T('add_friend')}</div>
+        </button>
+      </div>`;
     let top;
     if (!clan) {
       top = `<div class="card p-5 mb-4 text-center">
-        <div class="text-4xl mb-2">🛡️</div><div class="font-bold text-lg">${T('no_clan')}</div><div class="text-sm muted mt-1 mb-4">Кланы тренируются вместе, бьются в недельных битвах и получают монеты за победу. До 30 человек.</div>
+        <div class="mx-auto mb-2 w-14 h-14 rounded-2xl flex items-center justify-center" style="background:#8B5CF622;color:#8B5CF6"><svg class="ic text-2xl"><use href="#fa-shield-halved"/></svg></div><div class="font-bold text-lg">${T('no_clan')}</div><div class="text-sm muted mt-1 mb-4">${T('clan_pitch')}</div>
         <div class="grid grid-cols-2 gap-3"><button class="btn btn-primary" data-action="open-clan-create"><svg class="ic "><use href="#fa-plus"/></svg> ${T('create')}</button><button class="btn btn-ghost" data-action="open-clan-join"><svg class="ic "><use href="#fa-key"/></svg> ${T('by_code')}</button></div>
       </div>`;
     } else {
@@ -1546,93 +1614,109 @@ const UI = {
       top = `
         <div class="card p-4 mb-4" style="background:radial-gradient(100% 80% at 50% 0%,#8B5CF622,transparent 60%),var(--card)">
           <div class="flex items-center gap-3">
-            <div class="w-14 h-14 rounded-2xl sub flex items-center justify-center text-3xl">${clan.emblem}</div>
-            <div class="flex-1 min-w-0"><div class="font-black text-lg truncate">${U.esc(clan.name)}</div><div class="text-xs muted">#${rank} в лидерборде · ${members.length}/${CONFIG.CLAN_MAX} · код <b class="text-bl" data-action="copy" data-text="${clan.code}">${clan.code}</b></div></div>
-            <div class="text-right"><div class="font-black num text-amber-400">${total} <svg class="ic text-sm"><use href="#fa-trophy"/></svg></div><div class="text-[10px] muted">кланкубки</div></div>
+            ${this.emblem(clan.emblem, 'w-14 h-14 text-2xl')}
+            <div class="flex-1 min-w-0"><div class="font-black text-lg truncate">${U.esc(clan.name)}</div><div class="text-xs muted">#${rank} · ${members.length}/${CONFIG.CLAN_MAX} · <b class="text-bl" data-action="copy" data-text="${clan.code}">${clan.code}</b></div></div>
+            <div class="text-right"><div class="font-black num text-amber-400">${total} <svg class="ic text-sm"><use href="#fa-trophy"/></svg></div><div class="text-[10px] muted">${roleRu[clan.role]}</div></div>
           </div>
-          <div class="grid grid-cols-3 gap-2 mt-3 text-center">
-            <div class="sub p-2"><div class="font-bold num text-pu">${score}</div><div class="text-[10px] muted">счёт</div></div>
-            <div class="sub p-2"><div class="font-bold num">${members.filter(m => m.week.workouts > 0).length}/${members.length}</div><div class="text-[10px] muted">активны</div></div>
-            <div class="sub p-2"><div class="font-bold">${roleRu[clan.role]}</div><div class="text-[10px] muted">твоя роль</div></div>
+          <div class="grid grid-cols-2 gap-2 mt-3 text-center">
+            <div class="sub p-2"><div class="font-bold num text-pu">${score}</div><div class="text-[10px] muted">${T('score')}</div></div>
+            <div class="sub p-2"><div class="font-bold num">${members.filter(m => m.week.workouts > 0).length}/${members.length}</div><div class="text-[10px] muted">${T('active')}</div></div>
           </div>
         </div>
-        ${b ? `        <div class="card p-4 mb-4" style="border-color:#F9731655">
+        ${b ? `<div class="card p-4 mb-4" style="border-color:#F9731655">
           <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-or"><use href="#fa-khanda"/></svg> ${T('clan_battle')}</div><div class="text-[11px] muted num" data-countdown="${b.endsAt}">${U.fmtTime(b.endsAt - Date.now())}</div></div>
-          <div class="flex items-center justify-between text-sm font-bold"><span>${clan.emblem} ${U.esc(clan.name)}</span><span class="muted text-xs">vs</span><span>${U.esc(b.opponent.name)} ${b.opponent.emblem}</span></div>
+          <div class="flex items-center justify-between text-sm font-bold"><span class="flex items-center gap-1.5">${this.emblem(clan.emblem, 'w-6 h-6 text-xs')} ${U.esc(clan.name)}</span><span class="muted text-xs">vs</span><span class="flex items-center gap-1.5">${U.esc(b.opponent.name)} ${this.emblem(b.opponent.emblem, 'w-6 h-6 text-xs')}</span></div>
           <div class="flex items-center justify-between num text-2xl font-black mt-1"><span class="text-em">${b.myScore}</span><span class="text-or">${b.oppScore}</span></div>
           <div class="bar mt-2" style="background:#F9731644"><div style="width:${myPct}%;background:linear-gradient(90deg,#10B981,#3B82F6)"></div></div>
-          <div class="flex justify-between text-[11px] muted mt-1"><span>${b.myActive} активных</span><span>${b.oppActive} активных</span></div>
-          <div class="text-[11px] muted mt-2">Счёт = тренировки ×15 + PR ×25 + серия ×2 по всем участникам. Победа даёт +150 монет всем активным.</div>
-          ${clan.role !== 'member' ? `<div class="text-[11px] muted mt-1"><svg class="ic "><use href="#fa-share-nodes"/></svg> Приглашай по коду <b class="text-bl">${clan.code}</b></div>` : ''}
-        </div>` : `<div class="card p-4 mb-4" style="border-color:#F9731655"><div class="font-bold mb-1"><svg class="ic text-or"><use href="#fa-khanda"/></svg> ${T('clan_battle')}</div><div class="text-xs muted">Соперник на эту неделю не выбран. ${clan.role !== 'member' ? 'Брось вызов в карточке «Вызовы» внизу.' : 'Лидер или заместитель может бросить вызов.'}</div></div>`}
+          <div class="flex justify-between text-[11px] muted mt-1"><span>${b.myActive} ${T('active')}</span><span>${b.oppActive} ${T('active')}</span></div>
+        </div>` : ''}
         <div class="card p-4 mb-4">
-          <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> ${T('members')}</div><button class="btn btn-ghost btn-sm text-red-400" data-action="clan-leave"><svg class="ic "><use href="#fa-right-from-bracket"/></svg> Выйти</button></div>
+          <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> ${T('members')}</div><button class="btn btn-ghost btn-sm text-red-400" data-action="clan-leave"><svg class="ic "><use href="#fa-right-from-bracket"/></svg> ${T('leave')}</button></div>
           ${[...members].sort((a, b) => b.trophies - a.trophies).map(m => { const ar = Calc.arena(m.arenaIdx); return `
             <div class="flex items-center gap-3 py-2 border-t line">
               <div class="w-9 h-9 rounded-xl flex items-center justify-center text-sm" style="background:${ar.color}22;color:${ar.color}"><svg class="ic "><use href="#${ar.icon}"/></svg></div>
-              <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${U.esc(m.nick)} ${m.self ? '<span class="chip text-em">ты</span>' : ''} ${m.role === 'leader' ? '<svg class="ic text-amber-400 text-xs"><use href="#fa-crown"/></svg>' : m.role === 'deputy' ? '<svg class="ic text-bl text-xs"><use href="#fa-star"/></svg>' : ''}</div><div class="text-[11px] muted">${ar.name} · ${m.week.workouts} трен. на этой неделе</div></div>
+              <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${U.esc(m.nick)} ${m.self ? '<span class="chip text-em">ты</span>' : ''} ${m.role === 'leader' ? '<svg class="ic text-amber-400 text-xs"><use href="#fa-crown"/></svg>' : m.role === 'deputy' ? '<svg class="ic text-bl text-xs"><use href="#fa-star"/></svg>' : ''}</div><div class="text-[11px] muted">${TN(ar.name)} · ${m.week.workouts} ${T('wk_short')}</div></div>
               <div class="num text-sm font-bold">${m.trophies} <svg class="ic text-amber-400 text-xs"><use href="#fa-trophy"/></svg></div>
               ${clan.role === 'leader' && !m.self ? `<button class="muted text-xs px-1" data-action="clan-member-menu" data-id="${m.id}" data-role="${m.role}"><svg class="ic "><use href="#fa-ellipsis-vertical"/></svg></button>` : ''}
             </div>`; }).join('')}
         </div>`;
     }
     const lb = `<div class="card p-4 mb-4">
-      <div class="font-bold mb-1"><svg class="ic text-amber-400"><use href="#fa-ranking-star"/></svg> ${T('clan_board')}</div>
-      <div class="text-[11px] muted mb-2">Счёт = среднее на активного участника × (0.5 + 0.5 × доля активных). Размер клана сам по себе не даёт преимущества.</div>
+      <div class="font-bold mb-2"><svg class="ic text-amber-400"><use href="#fa-ranking-star"/></svg> ${T('clan_board')}</div>
       ${list.slice(0, 10).map((c, i) => `<div class="flex items-center gap-3 py-2 border-t line ${c.id === clan?.id ? 'text-em' : ''}">
           <div class="w-6 text-center font-black num ${i < 3 ? 'text-amber-400' : 'muted'}">${i + 1}</div>
-          <div class="text-xl">${c.emblem}</div>
-          <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${U.esc(c.name)}</div><div class="text-[11px] muted">${c.members.length} уч. · ${c.members.filter(m => m.week.workouts > 0).length} активных</div></div>
+          ${this.emblem(c.emblem, 'w-9 h-9 text-base')}
+          <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${U.esc(c.name)}</div><div class="text-[11px] muted">${c.members.length} · ${c.members.filter(m => m.week.workouts > 0).length} ${T('active')}</div></div>
           <div class="text-right"><div class="font-bold num">${c.score}</div><div class="text-[10px] muted num">${c.trophies} <svg class="ic "><use href="#fa-trophy"/></svg></div></div>
           ${clan && clan.role !== 'member' && c.id !== clan.id ? `<button class="btn btn-ghost btn-sm ${clan.battle && clan.battle.opponentId === c.id ? 'text-or' : ''}" data-action="clan-challenge" data-id="${c.id}">${clan.battle && clan.battle.opponentId === c.id ? 'в бою' : 'Вызов'}</button>` : ''}
         </div>`).join('')}
-      <div class="text-[11px] muted mt-2"><svg class="ic "><use href="#fa-circle-info"/></svg> ${ClanService.online() ? 'В рейтингах только никнеймы: вес и фото не показываются.' : 'Данные кланов демо. В рейтингах только никнеймы: вес и фото не показываются.'}</div>
     </div>`;
-    this.$('#tab-clans').innerHTML = top + this.friendsCard() + lb + this.challengesCard();
+    this.$('#tab-clans').innerHTML = tiles + top + lb;
+    if (this._clanModal && this.$('#modal .modal')) this.openClanModal(this._clanModal);
   },
   /* ======================= NUTRITION ======================= */
   sleepCard() {
-    const today = Calc.sleepFor(), week = Calc.sleepWeek(), [lo, hi] = Calc.sleepNorm(), avg = Calc.sleepAvg();
+    const today = Calc.sleepFor(), [lo, hi] = Calc.sleepNorm();
     const score = today ? Calc.sleepScore(today.hours) : null, g = score != null ? Calc.sleepGrade(score, today.hours) : null;
+    const pct = today ? U.clamp(today.hours / hi, 0, 1) : 0, color = g ? g.color : '#8B5CF6';
     return `
-      <div class="card p-5 mb-4" style="background:radial-gradient(100% 80% at 50% 0%,#8B5CF622,transparent 60%),var(--card)">
-        <div class="flex items-center justify-between"><div class="font-bold"><svg class="ic text-pu"><use href="#fa-moon"/></svg> ${T('sleep')}</div><div class="text-[11px] muted">${T('sleep_norm')} ${lo}–${hi} ч${avg ? ` · ${T('avg')} ${avg.toFixed(1)} ч` : ''}</div></div>
-        ${today ? `<div class="flex items-end gap-3 mt-2"><div class="text-5xl font-black num">${today.hours}<span class="text-lg muted"> ч</span></div><div class="mb-1"><div class="text-lg font-black" style="color:${g.color}">${g.label} · ${score}</div><div class="text-[11px] muted">${g.tip}</div></div></div>
-           <div class="mt-2">${this.bar(score, g.color)}</div>` : '<div class="text-sm muted mt-2">Сколько ты спал этой ночью? Запиши, и получишь оценку восстановления.</div>'}
-        <div class="flex items-end gap-1.5 mt-4 h-16">${week.map(d => { const h = d.hours == null ? 0 : U.clamp(d.hours / 12 * 100, 6, 100); const c = d.score == null ? 'var(--line)' : Calc.sleepGrade(d.score, d.hours).color; return `<div class="flex-1 flex flex-col items-center justify-end h-full"><div class="w-full rounded-t" style="height:${h}%;background:${c};opacity:${d.hours == null ? .4 : 1}"></div><div class="text-[9px] muted mt-1">${CONFIG.WEEKDAYS[Calc.weekday(d.date)]}</div></div>`; }).join('')}</div>
-        <div class="flex gap-2 mt-3 items-center">
-          <input class="input num" id="sleep-h" type="number" inputmode="decimal" step="0.5" min="0" max="16" placeholder="${T('hours_sleep')}" value="${today ? today.hours : ''}">
-          <button class="btn btn-pu flex-none" data-action="sleep-save"><svg class="ic"><use href="#fa-moon"/></svg> ${today ? T('update') : T('record_sleep')}</button>
+      <div class="card p-4 flex flex-col items-center text-center">
+        <div class="text-xs font-bold muted self-start"><svg class="ic text-pu"><use href="#fa-moon"/></svg> ${T('sleep')}</div>
+        <div class="moon-wrap my-2" style="--c:${color}">
+          <svg viewBox="0 0 100 100" width="96" height="96"><defs><clipPath id="moonclip"><path d="M62 4a46 46 0 1 0 0 92A36 36 0 0 1 62 4z"/></clipPath></defs>
+            <path d="M62 4a46 46 0 1 0 0 92A36 36 0 0 1 62 4z" fill="var(--sub)" stroke="var(--line)"/>
+            <rect class="moon-fill" x="0" y="${100 - 100 * pct}" width="100" height="100" fill="${color}" clip-path="url(#moonclip)" style="--p:${pct}"/>
+          </svg>
+          <div class="moon-label"><div class="text-2xl font-black num">${today ? today.hours : '–'}</div><div class="text-[10px] muted">ч</div></div>
         </div>
-        <div class="text-[10px] muted mt-2">Оценка только по часам: ${lo}–${hi} ч = 100. Меньше — недосып, больше ${hi} ч — пересып.</div>
+        <div class="text-sm font-bold" style="color:${color}">${g ? g.label : `${lo}–${hi} ч`}</div>
+        <div class="flex gap-1.5 mt-3 w-full"><input class="input num py-1.5 text-sm text-center" id="sleep-h" type="number" inputmode="decimal" step="0.5" min="0" max="16" placeholder="ч" value="${today ? today.hours : ''}"><button class="btn btn-pu btn-sm flex-none" data-action="sleep-save"><svg class="ic"><use href="#fa-check"/></svg></button></div>
       </div>`;
   },
+  macroDonut(size = 150) {
+    const g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday();
+    const parts = [['protein', '#3B82F6', 4], ['carbs', '#F97316', 4], ['fat', '#8B5CF6', 9]];
+    const goalCals = parts.reduce((a, [k, , kc]) => a + g[k] * kc, 0) || 1;
+    const r = 40, c = 2 * Math.PI * r, gap = 0.03 * c; let off = 0;
+    const arcs = parts.map(([k, col, kc]) => { const share = g[k] * kc / goalCals, len = share * c - gap, fill = U.clamp(total[k] / g[k], 0, 1); const start = off; off += share * c;
+      return `<circle r="${r}" cx="50" cy="50" fill="none" stroke="${col}33" stroke-width="10" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-start}" transform="rotate(-90 50 50)"/><circle class="donut-fill" r="${r}" cx="50" cy="50" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${Math.max(0, len * fill)} ${c}" stroke-dashoffset="${-start}" transform="rotate(-90 50 50)"/>`; }).join('');
+    const pct = Math.round(total.cals / g.cals * 100);
+    return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">${arcs}<text x="50" y="47" text-anchor="middle" font-size="15" font-weight="800" fill="currentColor" class="num">${Math.round(total.cals)}</text><text x="50" y="59" text-anchor="middle" font-size="7" fill="var(--muted)">/ ${g.cals} ккал</text><text x="50" y="70" text-anchor="middle" font-size="8" font-weight="700" fill="${pct > 110 ? '#F97316' : '#10B981'}">${pct}%</text></svg>`;
+  },
   renderNutrition() {
-    const g = S.nutrition.goals || Calc.defaultGoals(), { items, total } = Calc.nutritionToday(), left = g.cals - total.cals, streak = Calc.nutritionStreak(), teen = (S.profile.age || 18) < 18;
-    const macro = (name, v, goal, color) => `<div><div class="text-xs">${name}</div><div class="num muted text-[11px] mb-1">${Math.round(v)} / ${goal} г</div>${this.bar(v / goal * 100, color)}</div>`;
+    const g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday();
+    const leg = [['protein', T('protein'), '#3B82F6'], ['carbs', T('carbs'), '#F97316'], ['fat', T('fat'), '#8B5CF6']];
     const html = `
-      ${this.sleepCard()}
-      <div class="card p-5 mb-4">
-        <div class="flex items-center justify-between"><div class="text-[11px] uppercase tracking-widest muted">Сегодня · ${U.fmtDate(U.today())}</div><div class="chip"><svg class="ic text-or"><use href="#fa-fire"/></svg> streak ${streak}</div></div>
-        <div class="flex items-end gap-2 mt-2"><div class="text-5xl font-black num ${left < 0 ? 'text-or' : ''}">${Math.abs(Math.round(left))}</div><div class="muted text-sm mb-2">${left < 0 ? T('kcal_over') : T('kcal_left')}</div><div class="ml-auto text-right text-xs muted num">${Math.round(total.cals)} / ${g.cals}</div></div>
-        <div class="mt-2">${this.bar(total.cals / g.cals * 100, total.cals > g.cals * 1.1 ? '#F97316' : 'linear-gradient(90deg,#10B981,#3B82F6)')}</div>
-        <div class="grid grid-cols-3 gap-3 mt-4">${macro(T('protein'), total.protein, g.protein, '#3B82F6')}${macro(T('carbs'), total.carbs, g.carbs, '#F97316')}${macro(T('fat'), total.fat, g.fat, '#8B5CF6')}</div>
-        <div class="flex items-center justify-between mt-4"><div class="text-[11px] muted">${Calc.nutritionGoalMet() ? '<span class="text-em"><svg class="ic "><use href="#fa-check"/></svg> цели дня выполнены (+3 кубка)</span>' : 'Цели дня: 85–110% калорий и ≥80% белка → +3 кубка'}</div><button class="btn btn-ghost btn-sm" data-action="open-goals"><svg class="ic "><use href="#fa-bullseye"/></svg> ${T('goals')}</button></div>
-      </div>
-      ${teen ? `<div class="card p-3 mb-4 text-xs" style="border-color:#3B82F655"><svg class="ic text-bl"><use href="#fa-heart"/></svg> Тебе меньше 18: цели рассчитаны на поддержание, без дефицита. Главное: регулярные приёмы пищи, белок в каждом, вода и сон 8–10 часов. Рост важнее цифр на весах.</div>` : ''}
-      <div class="grid grid-cols-2 gap-3 mb-4">
-        <button class="btn btn-primary py-4" data-action="open-food-text"><svg class="ic "><use href="#fa-wand-magic-sparkles"/></svg> ${T('ai_food')}</button>
-        <button class="btn btn-ghost py-4" data-action="open-food-manual"><svg class="ic "><use href="#fa-plus"/></svg> ${T('manual')}</button>
-      </div>
-      <div class="card p-4 mb-4">
-        <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-em"><use href="#fa-bowl-food"/></svg> ${T('eaten_today')}</div><button class="btn btn-ghost btn-sm" data-action="open-food-manual"><svg class="ic "><use href="#fa-plus"/></svg> Вручную</button></div>
-        ${items.length ? items.map(f => `<div class="flex items-center gap-3 py-2 border-t line">
-            <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${U.esc(f.name)}</div><div class="text-[11px] muted num">Б ${f.protein} · У ${f.carbs} · Ж ${f.fat}</div></div>
-            <div class="num font-bold text-sm">${f.cals} <span class="muted text-[10px]">ккал</span></div>
-            <button class="muted hover:text-red-400 px-1" data-action="delete-food" data-id="${f.id}"><svg class="ic "><use href="#fa-xmark"/></svg></button>
-          </div>`).join('') : '<div class="muted text-sm py-4 text-center">Пока пусто. Опиши еду текстом или добавь вручную.</div>'}
+      <div class="grid gap-3 mb-4" style="grid-template-columns:2fr 3fr">
+        ${this.sleepCard()}
+        <button class="card p-3 text-left flex flex-col items-center" data-action="open-nutrition">
+          <div class="text-xs font-bold muted self-start"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')}</div>
+          ${this.macroDonut(150)}
+          <div class="grid grid-cols-3 gap-1 w-full text-center">${leg.map(([k, n, c]) => `<div><div class="text-[10px] font-bold" style="color:${c}">${n}</div><div class="text-[10px] num muted">${Math.round(total[k])}/${g[k]}</div></div>`).join('')}</div>
+        </button>
       </div>`;
     this.$('#tab-nutrition').innerHTML = html;
+    if (this._nutModal && this.$('#modal .modal')) this.openNutrition();
+  },
+  openNutrition() {
+    const g = S.nutrition.goals || Calc.defaultGoals(), { items, total } = Calc.nutritionToday(), left = g.cals - total.cals;
+    const macro = (name, v, goal, color) => `<div><div class="flex justify-between text-xs"><span>${name}</span><span class="num muted">${Math.round(v)} / ${goal} г</span></div>${this.bar(v / goal * 100, color)}</div>`;
+    const html = `
+      <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')} · ${U.fmtDate(U.today())}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <div class="flex items-center gap-4 mb-3">${this.macroDonut(120)}<div class="flex-1 grid gap-2">${macro(T('protein'), total.protein, g.protein, '#3B82F6')}${macro(T('carbs'), total.carbs, g.carbs, '#F97316')}${macro(T('fat'), total.fat, g.fat, '#8B5CF6')}</div></div>
+      <div class="flex items-center justify-between mb-3"><div class="text-xs ${left < 0 ? 'text-or' : 'muted'}">${Math.abs(Math.round(left))} ${left < 0 ? T('kcal_over') : T('kcal_left')}${Calc.nutritionGoalMet() ? ' · <span class="text-em">+3 кубка</span>' : ''}</div><button class="btn btn-ghost btn-sm" data-action="open-goals"><svg class="ic "><use href="#fa-bullseye"/></svg> ${T('goals')}</button></div>
+      <div class="grid grid-cols-2 gap-2 mb-3">
+        <button class="btn btn-primary" data-action="open-food-text"><svg class="ic "><use href="#fa-wand-magic-sparkles"/></svg> ${T('ai_food')}</button>
+        <button class="btn btn-ghost" data-action="open-food-manual"><svg class="ic "><use href="#fa-plus"/></svg> ${T('manual')}</button>
+      </div>
+      <div class="text-xs font-bold muted mb-1">${T('eaten_today')}</div>
+      ${items.length ? items.map(f => `<div class="flex items-center gap-3 py-2 border-t line">
+          <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${U.esc(f.name)}</div><div class="text-[11px] muted num">Б ${f.protein} · У ${f.carbs} · Ж ${f.fat}</div></div>
+          <div class="num font-bold text-sm">${f.cals} <span class="muted text-[10px]">ккал</span></div>
+          <button class="muted px-1" data-action="delete-food" data-id="${f.id}"><svg class="ic "><use href="#fa-xmark"/></svg></button>
+        </div>`).join('') : `<div class="muted text-sm py-3 text-center">${T('empty_food')}</div>`}`;
+    const m = this.$('#modal .modal'); if (m) m.innerHTML = html; else this.modal(html);
+    this._nutModal = true;
   },
   /* ========================= PROFILE ======================= */
   renderProfile() {
@@ -1717,7 +1801,7 @@ const UI = {
       <label class="text-xs muted">Категория повторений</label>
       <div class="seg mb-2" id="ls-rm">${CONFIG.RM_CATS.map((c, i) => `<button class="${i === 0 ? 'on' : ''}" data-action="seg" data-val="${c}">${CONFIG.RM_LABEL[c]}</button>`).join('')}</div>
       <input class="input num mb-2 hidden" id="ls-reps" type="number" inputmode="numeric" min="1" max="50" placeholder="Сколько повторов?">
-      <div class="text-[11px] muted mb-3">1RM = 1 повтор, 2RM = 2–3, 4RM = 4–5, «Своё» = любое число повторов. e1RM считается по формуле Эпли.</div>
+      <div class="text-[11px] muted mb-3">1RM = 1 повтор, 2RM = 2–3, 4RM = 4–5.</div>
       <button class="btn btn-primary w-full py-3.5" data-action="submit-log-set">Записать</button>`);
   },
   openWorkout(stage) {
@@ -1770,32 +1854,49 @@ const UI = {
       <button class="btn btn-primary w-full mt-4" data-action="close-modal">Готово</button>`, { center: true });
   },
   /* ---- расписание: неделя + календарь месяца ---- */
+  /* ---- расписание: свёрнутая неделя + календарь по кнопке ---- */
+  dayStatus(k) { // k = YYYY-MM-DD → done | missed | planned | partial | rest
+    const planned = !!S.program.days[Calc.weekday(k)], done = S.game.countedWorkoutDays.includes(k), part = !done && Calc.liftsOn(k).length > 0;
+    if (done) return 'done'; if (part) return 'partial'; if (planned) return k < U.today() ? 'missed' : 'planned'; return 'rest';
+  },
+  dayStyle(st) { return { done: 'background:linear-gradient(135deg,#10B981,#059669);color:#fff;border-color:transparent', partial: 'color:#10B981;border-color:#10B981', missed: 'background:#EF444422;color:#EF4444;border-color:#EF444466', planned: 'background:linear-gradient(135deg,#F97316,#EF4444);color:#fff;border-color:transparent', rest: '' }[st]; },
   scheduleCard() {
-    const days = S.program.days, wd = Calc.weekday();
+    const wd = Calc.weekday(), monday = U.weekKey();
+    const week = CONFIG.WEEKDAYS.map((n, i) => { const k = U.addDays(monday, i); return { n, i, k, st: this.dayStatus(k), today: i === wd }; });
     const month = this.calMonth || U.monthKey(); const [y, m] = month.split('-').map(Number);
     const first = new Date(y, m - 1, 1), daysIn = new Date(y, m, 0).getDate(), offset = (first.getDay() + 6) % 7;
-    const cells = []; for (let i = 0; i < offset; i++) cells.push('');
-    for (let d = 1; d <= daysIn; d++) cells.push(U.dayKey(new Date(y, m - 1, d)));
+    const cells = []; for (let i = 0; i < offset; i++) cells.push(''); for (let d = 1; d <= daysIn; d++) cells.push(U.dayKey(new Date(y, m - 1, d)));
     const title = first.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
     return `
       <div class="card p-4 mb-4">
-        <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-pu"><use href="#fa-calendar-week"/></svg> ${T('my_schedule')}</div><div class="text-[11px] muted">${Object.keys(days).length} дн/нед · нажми на день</div></div>
-        <div class="grid grid-cols-7 gap-1 mb-3">
-          ${CONFIG.WEEKDAYS.map((n, i) => { const p = days[i]; return `<button class="sub p-1.5 text-center min-w-0 ${p ? 'glow-pu' : ''}" style="${p ? 'border-color:#8B5CF6' : ''}${i === wd ? ';outline:2px solid #10B98166' : ''}" data-action="edit-plan" data-day="${i}">
-            <div class="text-[11px] font-bold ${i === wd ? 'text-em' : ''}">${n}</div>
-            <div class="text-[9px] ${p ? 'text-pu' : 'muted'} leading-tight mt-0.5 truncate">${p ? U.esc(p.name) : '—'}</div>
-            <div class="text-[9px] muted">${p ? p.exercises.length + ' упр' : ''}</div>
-          </button>`; }).join('')}
+        <div class="flex items-center justify-between mb-3"><div class="font-bold"><svg class="ic text-or"><use href="#fa-calendar-week"/></svg> ${T('my_schedule')}</div><button class="btn btn-ghost btn-sm" data-action="cal-toggle">${T('calendar')} <svg class="ic"><use href="#${this.calOpen ? 'fa-chevron-up' : 'fa-chevron-down'}"/></svg></button></div>
+        <div class="grid grid-cols-7 gap-1.5">
+          ${week.map(d => `<button class="sub py-2 text-center min-w-0 daytile" style="${this.dayStyle(d.st)}${d.today ? ';box-shadow:0 0 0 2px #10B981' : ''}" data-action="day-menu" data-date="${d.k}">
+            <div class="text-[11px] font-bold">${d.n}</div><div class="text-[10px] num opacity-80">${+d.k.slice(-2)}</div>
+          </button>`).join('')}
         </div>
-        <div class="flex items-center justify-between mb-1"><button class="btn btn-ghost btn-sm" data-action="cal-nav" data-dir="-1"><svg class="ic "><use href="#fa-chevron-left"/></svg></button><div class="text-sm font-semibold capitalize">${title}</div><button class="btn btn-ghost btn-sm" data-action="cal-nav" data-dir="1"><svg class="ic "><use href="#fa-chevron-right"/></svg></button></div>
+        ${this.calOpen ? `
+        <div class="flex items-center justify-between mt-4 mb-1"><button class="btn btn-ghost btn-sm" data-action="cal-nav" data-dir="-1"><svg class="ic "><use href="#fa-chevron-left"/></svg></button><div class="text-sm font-semibold capitalize">${title}</div><button class="btn btn-ghost btn-sm" data-action="cal-nav" data-dir="1"><svg class="ic "><use href="#fa-chevron-right"/></svg></button></div>
         <div class="grid grid-cols-7 gap-1 text-center text-[10px] muted mb-1">${CONFIG.WEEKDAYS.map(n => `<div>${n}</div>`).join('')}</div>
         <div class="grid grid-cols-7 gap-1">
-          ${cells.map(k => { if (!k) return '<div></div>'; const planned = !!days[Calc.weekday(k)], done = S.game.countedWorkoutDays.includes(k), part = !done && Calc.liftsOn(k).length > 0, isToday = k === U.today(), future = k > U.today();
-            const cls = done ? 'bg-em text-white font-bold' : part ? 'text-em' : planned ? (future || isToday ? 'text-pu' : 'text-or') : 'muted';
-            return `<div class="h-9 rounded-lg flex flex-col items-center justify-center text-xs relative ${cls}" style="${planned && !done ? 'border:1px solid #8B5CF6' : 'border:1px solid transparent'}${isToday ? ';box-shadow:inset 0 0 0 2px #10B981' : ''}">${+k.slice(-2)}${planned && !done ? '<span class="absolute bottom-0.5 w-1 h-1 rounded-full bg-pu"></span>' : ''}</div>`; }).join('')}
-        </div>
-        <div class="flex gap-3 text-[10px] muted mt-2 flex-wrap"><span><span class="inline-block w-2.5 h-2.5 rounded bg-em align-middle"></span> сделано</span><span><span class="inline-block w-2.5 h-2.5 rounded align-middle" style="border:1px solid #8B5CF6"></span> по плану</span><span><span class="text-or">●</span> пропущено</span></div>
+          ${cells.map(k => { if (!k) return '<div></div>'; const st = this.dayStatus(k), isToday = k === U.today();
+            return `<button class="h-9 rounded-lg flex items-center justify-center text-xs border line ${st === 'rest' ? 'muted' : ''}" style="${this.dayStyle(st)}${isToday ? ';box-shadow:inset 0 0 0 2px #10B981' : ''}" data-action="day-menu" data-date="${k}">${+k.slice(-2)}</button>`; }).join('')}
+        </div>` : ''}
       </div>`;
+  },
+  openDayMenu(k) {
+    const st = this.dayStatus(k), wd = Calc.weekday(k), plan = S.program.days[wd], lifts = Calc.liftsOn(k), isToday = k === U.today();
+    const label = { done: ['Сделано', '#10B981'], partial: ['Есть подходы, не засчитано', '#10B981'], missed: ['Пропущено', '#EF4444'], planned: ['Запланировано', '#F97316'], rest: ['Отдых', 'var(--muted)'] }[st];
+    this.modal(`
+      <div class="flex items-center justify-between mb-2"><div class="font-bold text-lg">${CONFIG.WEEKDAYS[wd]}, ${U.fmtDate(k)}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <div class="chip mb-3" style="color:${label[1]};border-color:${label[1]}">${label[0]}</div>
+      ${plan ? `<div class="sub p-3 mb-3"><div class="text-sm font-semibold mb-1">${U.esc(plan.name || 'Тренировка')}</div><div class="flex flex-wrap gap-1.5">${plan.exercises.map(e => `<span class="chip">${U.esc(U.exRu(e))}</span>`).join('')}</div></div>` : ''}
+      ${lifts.length ? `<div class="text-xs muted mb-1">Подходы</div><div class="max-h-36 overflow-y-auto mb-3">${lifts.map(l => `<div class="flex justify-between text-xs py-1 border-t line"><span>${U.esc(U.exRu(l.exerciseName))}</span><span class="num">${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span></div>`).join('')}</div>` : ''}
+      <div class="grid gap-2">
+        ${isToday ? `<button class="btn btn-primary" data-action="start-workout"><svg class="ic"><use href="#fa-play"/></svg> ${T('start_workout')}</button>` : ''}
+        ${plan ? `<button class="btn btn-ghost" data-action="edit-plan" data-day="${wd}"><svg class="ic"><use href="#fa-pen"/></svg> Изменить программу (${CONFIG.WEEKDAYS[wd]})</button><button class="btn btn-ghost text-red-400" data-action="plan-remove-day" data-day="${wd}"><svg class="ic"><use href="#fa-xmark"/></svg> Убрать из расписания</button>`
+               : `<button class="btn btn-or" data-action="edit-plan" data-day="${wd}"><svg class="ic"><use href="#fa-plus"/></svg> Добавить тренировку (${CONFIG.WEEKDAYS[wd]})</button>`}
+      </div>`);
   },
   openPlanEditor(weekday) {
     const p = S.program.days[weekday] || { name: '', exercises: [] };
@@ -1965,12 +2066,17 @@ const UI = {
       <button class="btn btn-primary w-full" data-action="food-manual-save">Записать</button>`);
   },
   openClanCreate() {
-    const em = ['🛡️', '🐺', '🦁', '🐉', '⚡', '🔥', '💎', '🦾', '🏋️', '🌊'];
-    this.modal(`
-      <div class="font-bold text-lg mb-3"><svg class="ic text-em"><use href="#fa-plus"/></svg> Создать клан</div>
-      <input class="input mb-3" id="clan-name" maxlength="24" placeholder="Название клана">
-      <div class="text-xs muted mb-1">Эмблема</div><div class="flex flex-wrap gap-2 mb-4" id="clan-emblems">${em.map((e, i) => `<button class="sub w-11 h-11 text-2xl ${i === 0 ? 'glow-em' : ''}" data-action="pick-emblem" data-val="${e}" style="${i === 0 ? 'border-color:#10B981' : ''}">${e}</button>`).join('')}</div>
-      <button class="btn btn-primary w-full" data-action="clan-create">Создать (ты лидер)</button>`);
+    const icons = ['fa-shield-halved', 'fa-bolt', 'fa-fire', 'fa-dragon', 'fa-mountain', 'fa-crown', 'fa-dumbbell', 'fa-khanda'], colors = ['#8B5CF6', '#3B82F6', '#10B981', '#F97316', '#EF4444', '#F59E0B'];
+    this._emb = { icon: icons[0], color: colors[0] };
+    const render = () => `
+      <div class="font-bold text-lg mb-3"><svg class="ic text-em"><use href="#fa-plus"/></svg> ${T('create_clan')}</div>
+      <input class="input mb-3" id="clan-name" maxlength="24" placeholder="${T('clan_name')}" value="${U.esc(this._clanNameDraft || '')}" data-action="clan-name-input">
+      <div class="flex items-center gap-3 mb-3">${this.emblem(`${this._emb.icon}|${this._emb.color}`, 'w-14 h-14 text-2xl')}<div class="flex-1">
+        <div class="flex flex-wrap gap-1.5 mb-2">${icons.map(i => `<button class="emb w-9 h-9 text-sm ${i === this._emb.icon ? 'ring' : ''}" style="color:${this._emb.color}" data-action="emb-icon" data-val="${i}"><svg class="ic"><use href="#${i}"/></svg></button>`).join('')}</div>
+        <div class="flex gap-1.5">${colors.map(c => `<button class="w-6 h-6 rounded-full ${c === this._emb.color ? 'ring' : ''}" style="background:${c}" data-action="emb-color" data-val="${c}"></button>`).join('')}</div></div></div>
+      <button class="btn btn-primary w-full" data-action="clan-create">${T('create_leader')}</button>`;
+    this._renderClanCreate = () => { const m = this.$('#modal .modal'); if (m) m.innerHTML = render(); };
+    this.modal(render());
   },
   openClanJoin() {
     this.modal(`
@@ -2140,7 +2246,7 @@ const App = {
       UI.openExerciseEditor(name);
     },
     'ex-edit'(el) { UI._planDraft.name = document.getElementById('plan-name').value; UI._planDraft.sets = document.getElementById('plan-sets').value; UI.openExerciseEditor('', U.customEx(el.dataset.val)); },
-    'plan-editor-back'() { UI.renderPlanEditor(); },
+    'plan-editor-back'() { if (UI._planDraft) UI.renderPlanEditor(); else UI.closeModal(); },
     'ex-name-input'(el) { UI._exDraft.name = el.value; },
     'ex-muscle'(el) { const d = UI._exDraft, m = el.dataset.val; d.name = document.getElementById('ex-name').value; d.muscles = d.muscles.includes(m) ? d.muscles.filter(x => x !== m) : [...d.muscles, m]; UI.renderExerciseEditor(); },
     'ex-type'(el) { UI._exDraft.name = document.getElementById('ex-name').value; UI._exDraft.bodyweight = el.dataset.val === '1'; UI.renderExerciseEditor(); },
@@ -2157,6 +2263,7 @@ const App = {
       if (!d.name) { UI.toast('Введи название', 'red'); return; }
       if (!d.muscles.length) { UI.toast('Выбери хотя бы одну мышцу', 'red'); return; }
       const n = Game.saveCustomExercise(d, d.origName);
+      if (!UI._planDraft) { UI.closeModal(); UI.liftEx = n; UI.toast('Упражнение сохранено'); App.afterChange(); return; }
       const ex = UI._planDraft.exercises; if (d.origName && d.origName !== n) { const i = ex.indexOf(d.origName); if (i >= 0) ex[i] = n; }
       if (!ex.includes(n)) ex.push(n);
       UI.renderPlanEditor(); UI.toast('Упражнение сохранено');
@@ -2166,6 +2273,21 @@ const App = {
     'plan-clear'() { Game.savePlan(UI._planDraft.weekday, '', []); UI.closeModal(); App.afterChange(); },
     'plan-save'() { const d = UI._planDraft; Game.savePlan(d.weekday, document.getElementById('plan-name').value, d.exercises, document.getElementById('plan-sets').value); UI.closeModal(); UI.toast('Расписание сохранено'); App.afterChange(); },
     /* lifts */
+    /* v12 */
+    'open-road'() { UI.openRoad(); },
+    'lift-ex-pick'(el) { UI.liftEx = el.dataset.val; UI.renderLifts(); },
+    'lift-ex-add'() { UI._planDraft = null; UI.openExerciseEditor(''); },
+    'lift-rm-toggle'(el) { const c = el.dataset.rm; if (UI.liftRMs.has(c)) { if (UI.liftRMs.size > 1) UI.liftRMs.delete(c); } else UI.liftRMs.add(c); UI.renderLifts(); },
+    'lift-zoom-range'(el) { UI.liftZoom(+el.value); },
+    'cal-toggle'() { UI.calOpen = !UI.calOpen; UI.renderLifts(); },
+    'day-menu'(el) { UI.openDayMenu(el.dataset.date); },
+    'plan-remove-day'(el) { const wd = +el.dataset.day; UI.confirm(`Убрать тренировку из расписания (${CONFIG.WEEKDAYS[wd]})?`, () => { Game.savePlan(wd, '', []); App.afterChange(); }, { danger: true, yes: 'Убрать' }); },
+    'clan-modal'(el) { UI.openClanModal(el.dataset.kind); },
+    'clan-name-input'(el) { UI._clanNameDraft = el.value; },
+    'emb-icon'(el) { UI._clanNameDraft = document.getElementById('clan-name').value; UI._emb.icon = el.dataset.val; UI._renderClanCreate(); },
+    'emb-color'(el) { UI._clanNameDraft = document.getElementById('clan-name').value; UI._emb.color = el.dataset.val; UI._renderClanCreate(); },
+    'open-nutrition'() { UI.openNutrition(); },
+
     'lift-ex'(el) { UI.liftEx = el.value; UI.drawLiftChart(); },
     'lift-rm'(el) { UI.liftRM = el.dataset.rm; UI.renderLifts(); },
     'lift-zoom'(el) { UI.liftZoom = el.dataset.zoom; UI.renderLifts(); },
@@ -2192,7 +2314,7 @@ const App = {
     'open-clan-join'() { UI.openClanJoin(); },
     'pick-emblem'(el) { el.parentElement.querySelectorAll('button').forEach(b => { b.classList.remove('glow-em'); b.style.borderColor = ''; }); el.classList.add('glow-em'); el.style.borderColor = '#10B981'; },
     'fill-code'(el) { document.getElementById('clan-code').value = el.dataset.val; },
-    async 'clan-create'() { const name = document.getElementById('clan-name').value.trim(); if (name.length < 3) { UI.toast('Название от 3 символов', 'red'); return; } const em = document.querySelector('#clan-emblems .glow-em')?.dataset.val; const r = await ClanService.create(name, em); if (r && r.error) { UI.toast(r.error, 'red'); return; } UI.closeModal(); UI.toast('Клан создан! Код приглашения: ' + S.clan.code, 'pu'); App.afterChange(); },
+    async 'clan-create'() { const name = document.getElementById('clan-name').value.trim(); if (name.length < 3) { UI.toast('Название от 3 символов', 'red'); return; } const em = UI._emb ? `${UI._emb.icon}|${UI._emb.color}` : 'fa-shield-halved|#8B5CF6'; const r = await ClanService.create(name, em); if (r && r.error) { UI.toast(/function|schema|relation|404/i.test(r.error) ? 'База не настроена: запусти schema.sql в Supabase' : r.error, 'red'); return; } UI.closeModal(); UI.toast('Клан создан! Код приглашения: ' + S.clan.code, 'pu'); App.afterChange(); },
     async 'clan-join'() { const r = await ClanService.join(document.getElementById('clan-code').value); if (r.error) { UI.toast(r.error, 'red'); return; } UI.closeModal(); UI.toast('Ты в клане ' + r.clan.name, 'pu'); App.afterChange(); },
     'clan-leave'() { UI.confirm('Выйти из клана? Кланбитва этой недели для тебя закончится.', async () => { const r = await ClanService.leave(); if (r && r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Ты вышел из клана'); App.afterChange(); }, { danger: true, yes: 'Выйти' }); },
     'confirm-yes'() { const fn = UI._onConfirm; UI._onConfirm = null; UI.closeModal(); if (fn) fn(); },
@@ -2227,8 +2349,8 @@ const App = {
       catch (e) { UI.toast('Ошибка Gemini: ' + U.esc(e.message), 'red'); }
       finally { el.disabled = false; el.innerHTML = '<svg class="ic "><use href="#fa-bolt"/></svg> Оценить'; }
     },
-    'food-confirm'() { const rows = UI.$$('[data-food-row]'); const items = rows.filter(r => r.querySelector('input').checked).map(r => UI._foodItems[+r.dataset.foodRow]); if (items.length) Game.logFood(items); UI.closeModal(); UI.toast(`Записано: ${items.length}`); App.afterChange(); },
-    'food-manual-save'() { const g = id => document.getElementById(id).value; const name = g('fm-name').trim(); if (!name) { UI.toast('Введи название', 'red'); return; } Game.logFood([{ name, cals: g('fm-cals'), protein: g('fm-p'), carbs: g('fm-c'), fat: g('fm-f') }]); UI.closeModal(); App.afterChange(); },
+    'food-confirm'() { const rows = UI.$$('[data-food-row]'); const items = rows.filter(r => r.querySelector('input').checked).map(r => UI._foodItems[+r.dataset.foodRow]); if (items.length) Game.logFood(items); UI.closeModal(); UI.toast(`Записано: ${items.length}`); App.afterChange(); UI.openNutrition(); },
+    'food-manual-save'() { const g = id => document.getElementById(id).value; const name = g('fm-name').trim(); if (!name) { UI.toast('Введи название', 'red'); return; } Game.logFood([{ name, cals: g('fm-cals'), protein: g('fm-p'), carbs: g('fm-c'), fat: g('fm-f') }]); UI.closeModal(); App.afterChange(); UI.openNutrition(); },
     'delete-food'(el) { Game.deleteFood(el.dataset.id); App.afterChange(); },
     /* profile & shop */
     'open-shop'() { UI.openShop(); },
@@ -2287,7 +2409,7 @@ const App = {
       const fn = this.actions[el.dataset.action]; if (fn) { e.preventDefault(); fn.call(this.actions, el, e); }
     });
     document.addEventListener('change', e => { const el = e.target.closest('[data-action]'); if (!el || (el.tagName !== 'SELECT' && el.tagName !== 'INPUT')) return; const fn = this.actions[el.dataset.action]; if (fn) fn.call(this.actions, el, e); });
-    document.addEventListener('input', e => { const el = e.target; if (el.matches('[data-action="avatar-color"]')) this.actions['avatar-color'](el); });
+    document.addEventListener('input', e => { const el = e.target; if (el.matches('[data-action="avatar-color"]')) this.actions['avatar-color'](el); else if (el.matches('[data-action="lift-zoom-range"]')) UI.liftZoom(+el.value); else if (el.matches('[data-action="clan-name-input"]')) UI._clanNameDraft = el.value; });
     document.addEventListener('visibilitychange', () => { if (!document.hidden) { Game.boot(); UI.renderHeader(); UI.renderTab(UI.tab); UI.flushEvents(); if (Net.online()) Net.refresh(true).then(ok => { if (ok) { Game.boot(); UI.renderTab(UI.tab); UI.flushEvents(); } }); } });
     setInterval(() => UI.tick(), 1000);
   },

@@ -189,3 +189,12 @@ drop trigger if exists profiles_touch on public.profiles;
 create trigger profiles_touch before update on public.profiles for each row execute function public.touch_updated_at();
 drop trigger if exists state_touch on public.app_state;
 create trigger state_touch before update on public.app_state for each row execute function public.touch_updated_at();
+
+-- общие настройки приложения (ключ Gemini и т.п.): читают все вошедшие, менять можно только в SQL Editor / Table Editor
+create table if not exists public.app_config (
+  key text primary key,
+  value text not null
+);
+alter table public.app_config enable row level security;
+drop policy if exists "config read" on public.app_config;
+create policy "config read" on public.app_config for select to authenticated using (true);
