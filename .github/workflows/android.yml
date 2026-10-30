@@ -1,0 +1,42 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Inject Gemini key (secret GEMINI_KEY)
+        run: |
+          if [ -n "${{ secrets.GEMINI_KEY }}" ]; then sed -i "s|__GEMINI_KEY__|${{ secrets.GEMINI_KEY }}|" www/index.html; else echo '::warning::Секрет GEMINI_KEY не задан: функции Gemini в APK будут выключены'; fi
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk ../apex-arena.apk
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apex-arena-apk
+          path: apex-arena.apk
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: APEX Arena build ${{ github.run_number }}
+          body: "Скачай apex-arena.apk и установи на телефон (разреши установку из неизвестных источников)."
+          files: apex-arena.apk

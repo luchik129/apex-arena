@@ -1,0 +1,7 @@
+{
+  "appId": "com.apexarena.app",
+  "appName": "APEX Arena",
+  "webDir": "www",
+  "android": { "allowMixedContent": false, "backgroundColor": "#0B0E14" },
+  "server": { "androidScheme": "https" }
+}
