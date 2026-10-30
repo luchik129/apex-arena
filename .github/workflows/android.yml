@@ -17,6 +17,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Capacitor (android/ ссылается на node_modules/@capacitor/android)
+        run: npm ci
       - name: Accept Android SDK licenses (SDK is preinstalled on the runner)
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null 2>&1 || true
       - uses: gradle/actions/setup-gradle@v4
@@ -27,7 +32,8 @@ jobs:
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          set -o pipefail
+          ./gradlew assembleDebug --no-daemon 2>&1 | tee ../build.log || { echo "::error::$(grep -n -i -B2 -A8 'what went wrong\|error:' ../build.log | tail -c 3000 | sed ':a;N;$!ba;s/\n/%0A/g')"; exit 1; }
           cp app/build/outputs/apk/debug/app-debug.apk ../apex-arena.apk
       - name: Upload artifact
         uses: actions/upload-artifact@v4
