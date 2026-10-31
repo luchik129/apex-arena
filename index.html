@@ -1277,6 +1277,378 @@ const GUIDE = {
     tip: 'Скручивание — это короткое движение: рёбра к тазу, а не грудь к коленям.' },
 };
 
+/* ---- FIG: детальный персонаж для гайдов ----
+   Скелет с постоянной длиной костей; колени и локти считаются через IK и гнутся только в свою сторону.
+   Мир: y вверх, пол y=0, фигура смотрит вправо (+x), лёжа — головой влево. В SVG y = −y.
+   Поза u=0 — «Старт», u=1 — «Финиш». Анимация на JS (requestAnimationFrame), без SMIL. */
+const FIG = (() => {
+  const R = Math.PI / 180, cl = (v, a, b) => Math.max(a, Math.min(b, v)), lerp = (a, b, t) => a + (b - a) * t;
+  const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * cl(t, 0, 1)), sm = (t, a, b) => ease((t - a) / (b - a));
+  const dir = d => [Math.sin(d * R), Math.cos(d * R)], ant = d => [Math.cos(d * R), -Math.sin(d * R)]; // угол от вертикали, + вперёд; ant — «перед» сегмента
+  const add = (a, b, k = 1) => [a[0] + b[0] * k, a[1] + b[1] * k], sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
+  const bez = (a, c, b, t) => [0, 1].map(i => (1 - t) * (1 - t) * a[i] + 2 * (1 - t) * t * c[i] + t * t * b[i]);
+  const angOf = (a, b) => Math.atan2(b[0] - a[0], b[1] - a[1]) / R;
+  // ключевые кадры [[t, v], …]: кубический Эрмит с касательными Катмулла–Рома
+  const kf = (t, k) => {
+    const n = k.length; if (t <= k[0][0]) return k[0][1]; if (t >= k[n - 1][0]) return k[n - 1][1];
+    let i = 0; while (t > k[i + 1][0]) i++;
+    const m = j => j <= 0 ? (k[1][1] - k[0][1]) / (k[1][0] - k[0][0]) : j >= n - 1 ? (k[n - 1][1] - k[n - 2][1]) / (k[n - 1][0] - k[n - 2][0]) : (k[j + 1][1] - k[j - 1][1]) / (k[j + 1][0] - k[j - 1][0]);
+    const h = k[i + 1][0] - k[i][0], s = (t - k[i][0]) / h, s2 = s * s, s3 = s2 * s;
+    return (2 * s3 - 3 * s2 + 1) * k[i][1] + (s3 - 2 * s2 + s) * h * m(i) + (3 * s2 - 2 * s3) * k[i + 1][1] + (s3 - s2) * h * m(i + 1);
+  };
+  // IK двух костей: от root к tgt (длины a, b); hint — в какую сторону выходит сустав
+  const ik = (root, tgt, a, b, hint) => {
+    const v = sub(tgt, root), d0 = Math.hypot(v[0], v[1]) || 1e-6, d = cl(d0, Math.abs(a - b) + 1e-3, a + b - 1e-3), ux = v[0] / d0, uy = v[1] / d0;
+    const c = cl((a * a + d * d - b * b) / (2 * a * d), -1, 1), s = Math.sqrt(1 - c * c);
+    const m1 = [root[0] + a * (ux * c - uy * s), root[1] + a * (ux * s + uy * c)], m2 = [root[0] + a * (ux * c + uy * s), root[1] + a * (uy * c - ux * s)];
+    const dt = m => (m[0] - root[0]) * hint[0] + (m[1] - root[1]) * hint[1];
+    return dt(m1) >= dt(m2) ? m1 : m2;
+  };
+  // IK в 3D (z — вбок от середины тела): для рук, которые работают не в плоскости рисунка (широкий хват); на рисунке — проекция
+  const ik3 = (r, t, a, b, pole) => {
+    const v = [0, 1, 2].map(i => t[i] - r[i]), d0 = Math.hypot(v[0], v[1], v[2]) || 1e-6, d = cl(d0, Math.abs(a - b) + 1e-3, a + b - 1e-3), un = v.map(x => x / d0);
+    const pd = pole[0] * un[0] + pole[1] * un[1] + pole[2] * un[2], p = pole.map((x, i) => x - pd * un[i]), pl = Math.hypot(p[0], p[1], p[2]) || 1e-6;
+    const c = cl((a * a + d * d - b * b) / (2 * a * d), -1, 1), s = Math.sqrt(1 - c * c);
+    return [0, 1, 2].map(i => r[i] + a * (c * un[i] + s * p[i] / pl));
+  };
+  const L = { sh: 25, th: 24.5, lo: 11, up: 17, ua: 19, fa: 17.6, nk: 9.4 }, ARM = L.ua + L.fa, NK = Math.hypot(9.4, 0.9), A0 = [-3.5, 4.2];
+  const head = (S, gU, tilt = 0) => { const N = add(S, dir(gU), 1.4), a = gU + tilt; return { N, hA: a, Hd: add(add(N, dir(a), L.nk), ant(a), 0.9) }; };
+  const hang = (S, x) => { const dx = x - S[0]; return [x, S[1] - Math.sqrt(Math.max(0, ARM * ARM - dx * dx))]; };
+  const trunk = (P, gL, gU = gL) => { const W = add(P, dir(gL), L.lo); return { W, S: add(W, dir(gU), L.up) }; };
+  const ball = (A, fA) => add(add(A, dir(fA), 9.6), ant(fA), 4.1);       // подушечка стопы
+  const onBall = (B, fA) => add(add(B, dir(fA), -9.6), ant(fA), -4.1);    // голеностоп, если стопа опирается на подушечку B
+
+  /* ---- упражнения: pose(u) → суставы. A лодыжка, K колено, P таз, W талия, S плечо, E локоть, G кисть (центр кулака) ---- */
+  const X = {
+    'Squat': { mus: ['quads', 'glutes'], a3: { z: 22, pole: [-0.4, -1, 0.3] }, track: 'bar', eq: ['bar'], pose(u) {
+      const A = A0, P = [-2.4 - 10.8 * Math.sin(u * Math.PI / 2), lerp(53.3, 17.6, u)], K = ik(A, P, L.sh, L.th, [1, 0]);
+      const g = Math.atan2(3, 29.5) / R + Math.asin(cl((0.6 - P[0]) / Math.hypot(29.5, 3), -1, 1)) / R, { W, S } = trunk(P, g);
+      const bar = add(add(P, dir(g), 29.5), ant(g), -3), G = add(bar, [0.9, -0.8]);
+      return { A, K, P, W, S, gU: g, tilt: -0.45 * g, bar, G };
+    } },
+    'Deadlift': { mus: ['glutes', 'hams', 'lowback'], track: 'bar', eq: ['bar'], pose(u) {
+      const a = kf(u, [[0, 10], [.3, 0], [.65, .5], [1, 1.5]]), th = kf(u, [[0, -74], [.3, -50], [.65, -20], [1, -2]]), g = kf(u, [[0, 60], [.3, 47], [.65, 22], [1, -3]]);
+      const A = A0, K = add(A, dir(a), L.sh), P = add(K, dir(th), L.th), { W, S } = trunk(P, g), G = hang(S, lerp(1.3, 2.6, sm(u, .5, 1)));
+      return { A, K, P, W, S, gU: g, tilt: -0.25 * g, G, bar: G };
+    } },
+    'Romanian Deadlift': { mus: ['hams', 'glutes', 'lowback'], track: 'bar', eq: ['bar'], pose(u) {
+      const A = A0, K = add(A, dir(lerp(3.5, 5, u)), L.sh), P = add(K, dir(lerp(-6, -30, u)), L.th), g = lerp(3, 68, u), { W, S } = trunk(P, g), G = hang(S, lerp(2.8, 2.2, u));
+      return { A, K, P, W, S, gU: g, tilt: -0.3 * g, G, bar: G };
+    } },
+    'Bench Press': { mus: ['pecs', 'triceps', 'delts'], arm: [16.5, 17.6], a3: { z: 21, pole: [0.4, -1, 0.45] }, track: 'bar', eq: ['bar', 'bench'], pose(u) {
+      const P = [8, 30], W = add(P, dir(-84), L.lo), S = add(W, dir(-94), L.up), top = [S[0] + 1.6, S[1] + 35.1], bot = add(add(W, dir(-94), 7.5), ant(-94), 8.1);
+      const G = bez(top, [top[0] + 1, lerp(top[1], bot[1], .55)], bot, u), A = [30, 4.2];
+      return { A, K: ik(A, P, L.sh, L.th, [0.2, 1]), P, W, S, gU: -94, tilt: 2, G, bar: G };
+    } },
+    'Incline Bench': { mus: ['pecs', 'delts', 'triceps'], arm: [16.5, 17.6], a3: { z: 21, pole: [0.35, -1, 0.45] }, track: 'bar', eq: ['bar', 'incline'], pose(u) {
+      const P = [6, 27], W = add(P, dir(-55), L.lo), S = add(W, dir(-57), L.up), top = [S[0] + 1.2, S[1] + 35.1], bot = add(add(W, dir(-57), 12), ant(-57), 8.3);
+      const G = bez(top, [lerp(top[0], bot[0], .75), lerp(top[1], bot[1], .5)], bot, u), A = [27, 4.2];
+      return { A, K: ik(A, P, L.sh, L.th, [0.2, 1]), P, W, S, gU: -57, tilt: 6, G, bar: G };
+    } },
+    'Overhead Press': { mus: ['delts', 'triceps', 'traps'], a3: { z: 14.5, pole: [0.55, -1, 0.35] }, track: 'bar', eq: ['bar'], pose(u) {
+      const A = A0, K = add(A, dir(1), L.sh), P = add(K, dir(kf(u, [[0, 2], [.35, 4], [1, 0]])), L.th), g = kf(u, [[0, -5], [.35, -8], [.7, -4], [1, 0]]), { W, S } = trunk(P, g);
+      const G = [lerp(1, -0.6, u), lerp(83.5, 117.4, u)];
+      return { A, K, P, W, S, gU: g, tilt: kf(u, [[0, 0], [.3, -13], [.55, -9], [.8, 3], [1, 6]]), G, bar: G };
+    } },
+    'Barbell Row': { mus: ['lats', 'traps', 'biceps'], track: 'bar', eq: ['bar'], pose(u) {
+      const A = A0, K = add(A, dir(9), L.sh), P = add(K, dir(-42), L.th), { W, S } = trunk(P, 62, 60);
+      const g0 = add(S, dir(183), ARM - 0.3), g1 = add(add(W, dir(60), 5), ant(60), 8), G = bez(g0, [lerp(g0[0], g1[0], .15), lerp(g0[1], g1[1], .6)], g1, u);
+      return { A, K, P, W, S, gU: 60, tilt: -22, G, bar: G, E: ik(S, G, L.ua, L.fa, [-0.5, 1]) };
+    } },
+    'Pull-ups': { mus: ['lats', 'biceps'], a3: { z: 21, pole: [0.45, -1, 0.7] }, track: 'Hd', eq: ['pullbar'], floor: false, pose(u) {
+      const G = [-1, 122], S = [lerp(-1.2, -5.2, u), lerp(86.9, 117.8, u)], g = lerp(-4, -16, u);
+      const W = add(S, dir(g + 180), L.up), P = add(W, dir(g + 180), L.lo), sa = 212 + 0.3 * g, K = add(P, dir(172 + 0.3 * g), L.th), A = add(K, dir(sa), L.sh);
+      return { A, K, P, W, S, gU: g, tilt: lerp(5, -6, u), G, fA: sa - 50 };
+    } },
+    'Dips': { mus: ['pecs', 'triceps'], track: 'S', eq: ['dips'], pose(u) {
+      const G = [0, 60.8], S = [lerp(-1, 6.5, u), lerp(96.6, 75.2, u)], g = lerp(10, 28, u);
+      const W = add(S, dir(g + 180), L.up), P = add(W, dir(g + 180), L.lo), K = add(P, dir(172), L.th), A = add(K, dir(255), L.sh);
+      return { A, K, P, W, S, gU: g, tilt: -0.3 * g, G, E: ik(S, G, L.ua, L.fa, [-1, 0.15]), fA: 205 };
+    } },
+    'Leg Press': { mus: ['quads', 'glutes'], track: 'A', eq: ['legpress'], pose(u) {
+      const P = [0, 20], v = [Math.SQRT1_2, Math.SQRT1_2], A = add(add(P, [Math.cos(32 * R), Math.sin(32 * R)], 47.4), v, -16 * (1 - u));
+      const K = ik(P, A, L.th, L.sh, [-0.55, 0.85]), { W, S } = trunk(P, -50), G = add(P, [5, 2.5]);
+      return { A, K, P, W, S, gU: -50, tilt: 14, G, E: ik(S, G, L.ua, L.fa, [-0.3, -1]), fA: -45, plat: add(add(A, v, 5.6), dir(-45), 4) };
+    } },
+    'Lunges': { mus: ['quads', 'glutes'], track: 'P', dur: 4.4, eq: ['dbside'], pose(u) {
+      const P = [lerp(-2.6, 27, sm(u, 0, .62)), lerp(53.3, 30.6, sm(u, .05, 1))], s = cl((u - .03) / .42, 0, 1);
+      const A = [lerp(-3.5, 49, ease(s)), 4.2 + 7.5 * Math.sin(Math.PI * s)], fA = 90 - 16 * Math.sin(Math.PI * s);
+      const psi = 55 * sm(u, 0, 1), fA2 = 90 + psi, A2 = onBall([5.9, 0.1], fA2), { W, S } = trunk(P, 3), E = add(S, dir(184), L.ua), G = add(E, dir(178), L.fa);
+      return { A, K: ik(A, P, L.sh, L.th, [1, 0.2]), P, fA, A2, K2: ik(A2, P, L.sh, L.th, [1, 0]), P2: P, fA2, fT2: 90, W, S, gU: 3, tilt: -3, E, G };
+    } },
+    'Hip Thrust': { mus: ['glutes', 'hams'], a3: { z: 17, pole: [0, -1, 0.8] }, track: 'bar', eq: ['bar', 'hipbench'], pose(u) {
+      const S = [-1.5, 28.6], th = lerp(32, 0, u), d = [Math.cos(th * R), -Math.sin(th * R)], W = add(S, d, L.up), P = add(S, d, L.up + L.lo), gL = angOf(P, W), A = [50.5, 4.2];
+      const bar = add(add(P, dir(gL), 3.5), ant(gL), 8.2), G = add(bar, [-1.2, 0.6]);
+      return { A, K: ik(A, P, L.sh, L.th, [0, 1]), P, W, S, gU: gL, tilt: 26 + 0.3 * th, bar, G };
+    } },
+    'Bicep Curl': { mus: ['biceps', 'forearm'], track: 'G', eq: ['db'], pose(u) {
+      const A = A0, K = add(A, dir(2), L.sh), P = add(K, dir(-1), L.th), { W, S } = trunk(P, -1), E = add(S, dir(lerp(178, 170, u)), L.ua), G = add(E, dir(lerp(172, 28, u)), L.fa);
+      return { A, K, P, W, S, gU: -1, tilt: 4, E, G };
+    } },
+    'Lateral Raise': { mus: ['delts', 'traps'], track: 'GR', eq: ['dbfront'], front: true, pose(u) {
+      const b = lerp(10, 86, u), o = { b };
+      [['R', 1], ['L', -1]].forEach(([n, s]) => { const Sh = [s * 11.4, 79.6], E = add(Sh, [s * Math.sin(b * R), -Math.cos(b * R)], 18.5); o['S' + n] = Sh; o['E' + n] = E; o['G' + n] = add(E, [s * Math.sin((b - 12) * R), -Math.cos((b - 12) * R)], 17.4); });
+      return o;
+    } },
+    'Calf Raise': { mus: ['calves'], track: 'Hd', eq: ['step'], pose(u) {
+      const psi = lerp(-18, 32, u), fA = 90 + psi, A = onBall([6.4, 12.5], fA), K = add(A, dir(1.5), L.sh), P = add(K, dir(-0.5), L.th), { W, S } = trunk(P, 2);
+      const G = [22.6, S[1] - 12];
+      return { A, K, P, fA, fT: 90, W, S, gU: 2, tilt: 2, G, E: ik(S, G, L.ua, L.fa, [-0.2, -1]) };
+    } },
+    'Plank / Abs': { mus: ['abs'], arm: [11.5, 8], track: 'S', eq: ['mat'], pose(u) {
+      const P = [0, 7.6], gL = lerp(-91, -87, u), gU = lerp(-91, -58, u), { W, S } = trunk(P, gL, gU), tilt = lerp(6, 22, u), A = [26, 5.4];
+      // руки скрещены на груди: локоть у низа груди, кисть у противоположного плеча
+      const E = add(add(S, dir(gU), -8.2), ant(gU), 7.6), G = add(add(S, dir(gU), -1.2), ant(gU), 7.4);
+      return { A, K: ik(A, P, L.sh, L.th, [0, 1]), P, W, S, gU, tilt, G, E, S2: add(S, [-1.1, 0.6]), E2: add(add(S, dir(gU), -7.6), ant(gU), 6.4), G2: add(add(S, dir(gU), -1.4), ant(gU), 8.2) };
+    } },
+  };
+  // недостающее: голова, дальние конечности (чуть позади и выше — даёт глубину), прямые руки
+  const fin = (k, o) => {
+    const D = X[k]; if (D.front) return o;
+    const ua = D.arm ? D.arm[0] : L.ua, fa = D.arm ? D.arm[1] : L.fa;
+    if (o.fA == null) o.fA = 90; if (o.fT == null) o.fT = o.fA;
+    if (!o.Hd) Object.assign(o, head(o.S, o.gU, o.tilt || 0));
+    if (!o.E && D.a3) { const e = ik3([o.S[0], o.S[1], 11.4], [o.G[0], o.G[1], D.a3.z], L.ua, L.fa, D.a3.pole); o.E = [e[0], e[1]]; }
+    if (!o.E) o.E = ik(o.S, o.G, L.ua, L.fa, [-1, 0]);
+    const LG = [-1.7, 0.5], AR = [-1.1, 0.6];
+    if (!o.A2) { o.A2 = add(o.A, LG); o.K2 = add(o.K, LG); o.P2 = add(o.P, LG); o.fA2 = o.fA; o.fT2 = o.fT; }
+    else { if (!o.P2) o.P2 = o.P; if (o.fA2 == null) o.fA2 = 90; if (o.fT2 == null) o.fT2 = o.fA2; }
+    if (!o.S2) { o.S2 = add(o.S, AR); o.E2 = add(o.E, AR); o.G2 = add(o.G, AR); }
+    return o;
+  };
+  const pose = (k, u) => fin(k, X[k].pose(cl(u, 0, 1)));
+
+  /* ---- формы частей тела (локальные координаты кости: x вдоль кости; у конечностей «перед» = −y, у корпуса и головы «перед» = +y) ---- */
+  const SH = {
+    thigh: l => [[-3.9, 0], [-2.7, -3.7], [0, -5.1], [l * .22, -5.7], [l * .48, -5.4], [l * .76, -4.4], [l * .95, -3.5], [l + 1.4, -2.6], [l + 2.7, -0.2], [l + 1.3, 2.6], [l * .9, 3.3], [l * .62, 4.5], [l * .3, 5.6], [0, 5.4], [-2.7, 3.8]],
+    shorts: l => [[-4.1, 0], [-2.9, -3.9], [0, -5.4], [l * .22, -6.0], [l * .44, -5.9, 1], [l * .44, 5.85, 1], [l * .3, 5.9], [0, 5.7], [-2.9, 4.0]],
+    shank: l => [[-2.8, 0], [-2.0, -2.6], [0, -3.1], [l * .3, -2.9], [l * .7, -2.1], [l * .96, -1.7], [l + 1.5, -0.4], [l + 1.3, 1.3], [l * .92, 1.9], [l * .62, 2.6], [l * .3, 4.1], [l * .12, 3.8], [0, 3.2], [-2.0, 2.5]],
+    sock: l => [[l - 3.6, -2.0, 1], [l * .96, -1.75], [l + 1.5, -0.4], [l + 1.3, 1.3], [l * .92, 1.9], [l - 3.6, 2.15, 1]],
+    foot: () => [[-2.3, -2.4], [0.8, -2.8], [4.6, -1.8], [8.6, -0.6], [10.6, 0.1, 1], [10.6, 4.15, 1], [-2.2, 4.3, 1], [-4.5, 3.4], [-4.9, 0.9], [-4.0, -1.3]],
+    toe: () => [[-1.8, -5.0, 1], [-0.6, -4.7], [2.0, -3.6], [3.1, -1.8], [2.5, 0, 1], [-1.8, 0, 1]],
+    uarm: l => [[-3.5, 0], [-2.5, -2.9], [0, -4.0], [l * .25, -3.8], [l * .55, -3.2], [l * .86, -2.4], [l + 0.7, -2.0], [l + 2.1, 0], [l + 0.7, 2.1], [l * .8, 2.6], [l * .45, 3.4], [l * .12, 3.9], [-2.5, 3.0]],
+    sleeve: l => [[-3.7, 0], [-2.6, -3.1], [0, -4.2], [l * .25, -4.0], [l * .42, -3.7, 1], [l * .42, 3.75, 1], [l * .12, 4.1], [-2.6, 3.2]],
+    farm: l => { const w = l - 2.6; return [[-2.3, 0], [-1.5, -2.2], [w * .25, -2.9], [w * .62, -2.0], [w, -1.55], [w + 0.9, -2.3], [l + 1.3, -2.4], [l + 2.7, -0.6], [l + 2.3, 1.6], [l + 0.4, 2.4], [w + 0.2, 1.8], [w * .62, 1.9], [w * .28, 2.7], [-1.5, 2.2]]; },
+    lo: () => [[-5.3, 2.1], [-3.0, 4.6], [0.6, 5.5], [4.6, 5.9], [8.6, 5.7], [12.8, 5.1], [13.2, -4.0], [8.6, -4.4], [4.2, -5.7], [0.6, -7.3], [-3.0, -6.8], [-5.6, -4.4], [-6.1, -1.1]],
+    briefs: () => [[-5.3, 2.1], [-3.0, 4.6], [0.6, 5.5], [3.8, 5.85, 1], [3.8, -5.95, 1], [0.6, -7.3], [-3.0, -6.8], [-5.6, -4.4], [-6.1, -1.1]],
+    up: () => [[-2.0, 5.0], [3.0, 5.9], [8.0, 7.0], [11.4, 7.2], [14.8, 6.1], [17.6, 4.4], [19.2, 2.3], [19.8, -1.0], [18.0, -4.5], [13.0, -5.9], [7.0, -5.4], [1.0, -4.5], [-2.0, -4.1]],
+    neck: l => [[-1, -2.4, 1], [l * .75, -2.3, 1], [l * .75, 2.6, 1], [-1, 2.6, 1]],
+    head: () => [[6.3, 0], [4.7, -4.3], [0.6, -6.3], [-3.0, -5.4], [-5.3, -3.0], [-4.7, 2.4], [-6.1, 4.5], [-4.3, 6.0], [-2.0, 6.3], [-1.3, 7.5, 1], [0.6, 6.5], [2.6, 6.2], [4.9, 4.2]],
+    hairM: () => [[4.6, 4.7], [6.9, 1.0], [5.5, -4.5], [1.4, -6.9], [-2.7, -6.3], [-0.8, -3.6], [1.9, 0.7], [3.4, 3.7]],
+    hairF: () => [[4.6, 4.7], [6.9, 1.0], [5.5, -4.5], [1.4, -6.9], [-3.4, -6.9], [-1.0, -3.6], [1.9, 0.7], [3.4, 3.7]],
+    tail: () => [[3.8, -5.4], [2.4, -8.6], [-1.6, -10.0], [-6.2, -9.4], [-8.6, -7.6], [-5.4, -7.0], [-1.6, -7.6], [1.2, -6.4]],
+  };
+  // рабочие мышцы (оранжевым) — на тех же костях
+  const MU = {
+    quads: { thigh: l => [[l * .12, -4.7], [l * .4, -5.4], [l * .7, -4.4], [l * .9, -3.3], [l * .75, -2.0], [l * .45, -1.9], [l * .2, -2.7]] },
+    hams: { thigh: l => [[l * .12, 4.9], [l * .35, 5.5], [l * .62, 4.4], [l * .86, 3.2], [l * .72, 2.0], [l * .42, 1.9], [l * .2, 2.7]] },
+    calves: { shank: l => [[l * .06, 3.0], [l * .28, 4.0], [l * .5, 3.0], [l * .64, 2.3], [l * .45, 1.3], [l * .2, 1.3]] },
+    glutes: { lo: () => [[-5.3, -3.9], [-2.8, -6.5], [0.8, -6.9], [3.6, -5.6], [1.6, -3.5], [-1.8, -2.7]] },
+    lowback: { lo: () => [[4.4, -5.3], [8.6, -4.2], [13, -3.8], [13, -2.2], [8.4, -2.6], [4.6, -3.5]], up: () => [[-2, -3.9], [3, -4.6], [5, -4.6], [5, -3.0], [-2, -2.5]] },
+    abs: { lo: () => [[1.2, 5.0], [5, 5.5], [9, 5.3], [13, 4.8], [13, 3.0], [8, 3.5], [4, 3.5], [1.4, 3.3]], up: () => [[-2, 4.7], [2.5, 5.5], [5.5, 6.1], [5.5, 4.1], [2, 3.5], [-2, 3.1]] },
+    pecs: { up: () => [[7.5, 5.2], [10, 7.0], [13.5, 6.6], [16, 5.0], [14, 3.4], [10.5, 3.3]] },
+    lats: { up: () => [[1.5, -4.4], [6, -5.3], [11, -5.7], [14.5, -5.0], [10, -3.0], [5, -2.9]] },
+    traps: { up: () => [[14.5, -5.3], [17.6, -4.3], [19.5, -1.4], [18.4, 0.3], [16, -2.3], [13.6, -3.7]] },
+    delts: { uarm: l => [[-3.4, 0], [-2.6, -2.7], [0.4, -4.1], [l * .3, -3.7], [l * .42, -2.6], [l * .36, 2.6], [l * .1, 3.9], [-2.6, 2.8]] },
+    biceps: { uarm: l => [[l * .3, -3.7], [l * .56, -3.4], [l * .84, -2.5], [l * .7, -1.4], [l * .45, -1.4], [l * .3, -2.1]] },
+    triceps: { uarm: l => [[l * .15, 3.9], [l * .46, 3.6], [l * .8, 2.6], [l * .7, 1.4], [l * .4, 1.6], [l * .18, 2.5]] },
+    forearm: { farm: l => { const w = l - 2.6; return [[w * .1, -2.6], [w * .36, -2.85], [w * .66, -2.0], [w * .5, -1.0], [w * .2, -1.2]]; } },
+  };
+  const PAL = sex => ({ skin: ['#EDBB8F', '#C99470'], shirt: sex === 'f' ? ['#EC4899', '#B83574'] : ['#3B82F6', '#2B5FB8'], shorts: ['#475569', '#334155'],
+    shoe: ['#F1F5F9', '#B6C2D1'], sock: ['#E2E8F0', '#AEB9C8'], sole: '#64748B', hair: '#3B2A20', ol: 'rgba(8,10,16,.6)', mus: '#F97316' });
+  const EQC = { fr: '#64748B', pad: '#334155', top: '#475569', bar: '#CBD5E1', plate: '#1E293B' };
+
+  /* ---- SVG-помощники ---- */
+  const f1 = v => Math.round(v * 10) / 10, f2 = v => Math.round(v * 100) / 100;
+  const sp = pts => { // замкнутый гладкий контур (Катмулл–Ром → Безье); третий элемент 1 — угол
+    const n = pts.length, tg = i => { const p = pts[(i + n) % n]; if (p[2]) return [0, 0]; const a = pts[(i - 1 + n) % n], b = pts[(i + 1) % n]; return [(b[0] - a[0]) / 2, (b[1] - a[1]) / 2]; };
+    let d = `M${f1(pts[0][0])} ${f1(pts[0][1])}`;
+    for (let i = 0; i < n; i++) { const p = pts[i], q = pts[(i + 1) % n], t0 = tg(i), t1 = tg(i + 1);
+      d += p[2] && q[2] ? `L${f1(q[0])} ${f1(q[1])}` : `C${f1(p[0] + t0[0] / 3)} ${f1(p[1] + t0[1] / 3)} ${f1(q[0] - t1[0] / 3)} ${f1(q[1] - t1[1] / 3)} ${f1(q[0])} ${f1(q[1])}`; }
+    return d + 'Z'; };
+  const tB = (p0, p1, Ld, flip) => { const dx = p1[0] - p0[0], dy = p1[1] - p0[1], s = (Math.hypot(dx, dy) || 1e-6) / Ld;
+    return `translate(${f2(p0[0])} ${f2(-p0[1])}) rotate(${f2(Math.atan2(-dy, dx) / R)})${Math.abs(s - 1) > .004 || flip ? ` scale(${f2(s)} ${flip ? -1 : 1})` : ''}`; };
+  const tA = (p, a) => `translate(${f2(p[0])} ${f2(-p[1])}) rotate(${f2(Math.atan2(-Math.cos(a * R), Math.sin(a * R)) / R)})`;
+  const tP = p => `translate(${f2(p[0])} ${f2(-p[1])})`;
+  const pth = (pts, fill, ex = '') => `<path d="${sp(pts)}" fill="${fill}"${ex}/>`;
+  const wr = (x0, y0, x1, y1, fill, rx = 1, ex = '') => `<rect x="${f1(Math.min(x0, x1))}" y="${f1(-Math.max(y0, y1))}" width="${f1(Math.abs(x1 - x0))}" height="${f1(Math.abs(y1 - y0))}" rx="${rx}" fill="${fill}"${ex}/>`;
+  const wl = (pts, stroke, w, ex = '') => `<path d="M${pts.map(p => `${f1(p[0])} ${f1(-p[1])}`).join('L')}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"${ex}/>`;
+  const wpoly = (pts, fill, ex = '') => `<path d="M${pts.map(p => `${f1(p[0])} ${f1(-p[1])}`).join('L')}Z" fill="${fill}"${ex}/>`;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+  /* ---- снаряды (статичные), в мировых координатах; b — габариты [x0, y0, x1, y1] ---- */
+  const EQ = {
+    bench: () => ({ s: wr(-43, 19.6, 14, 24, EQC.pad, 1.6) + wr(-43, 22.6, 14, 24, EQC.top, 1.2) + wr(-35.3, 0, -32.7, 19.6, EQC.fr, .6) + wr(3.7, 0, 6.3, 19.6, EQC.fr, .6) + wr(-40, 0, -28, 1.4, EQC.fr, .6) + wr(-1, 0, 11, 1.4, EQC.fr, .6), b: [-43, 0, 14, 24] }),
+    hipbench: () => ({ s: wr(-38, 19.6, 0, 24, EQC.pad, 1.6) + wr(-38, 22.6, 0, 24, EQC.top, 1.2) + wr(-31.3, 0, -28.7, 19.6, EQC.fr, .6) + wr(-9.3, 0, -6.7, 19.6, EQC.fr, .6) + wr(-36, 0, -24, 1.4, EQC.fr, .6) + wr(-14, 0, -2, 1.4, EQC.fr, .6), b: [-38, 0, 0, 24] }),
+    incline: () => { const d = dir(-55), n = ant(-55), B0 = add([6, 27], n, -6.1), q = (t, o) => add(add(B0, d, t), n, -o);
+      const back = [q(-3, 0), q(35, 0), q(35, 4.2), q(-3, 4.2)], seat = [[-6, 19.4], [13, 19.4], [13, 15.2], [-6, 15.2]], m = q(16, 4.2);
+      return { s: wl([m, [m[0] + 6, 0]], EQC.fr, 2.6) + wl([[4, 15.2], [4, 0]], EQC.fr, 2.6) + wl([[-14, 0.7], [14, 0.7]], EQC.fr, 1.4) + wpoly(back, EQC.pad, ' rx="1"') + wpoly(seat, EQC.pad) + wl([q(-3, 0.5), q(35, 0.5)], EQC.top, 1) + wl([[-6, 18.9], [13, 18.9]], EQC.top, 1), b: [-34, 0, 14, 52] }; },
+    pullbar: () => ({ s: wr(-27.4, 60, -24.6, 128, EQC.fr, .6) + wl([[-26, 122], [-1.4, 122]], EQC.fr, 2.2) + `<circle cx="0" cy="-122" r="1.7" fill="${EQC.bar}" stroke="${EQC.fr}" stroke-width=".6"/>`, b: [-28, 60, 2, 128] }),
+    dips: () => ({ s: wr(-23.2, 0, -20.8, 58.6, EQC.fr, .6) + wr(14.8, 0, 17.2, 58.6, EQC.fr, .6) + wr(-27, 0, -17, 1.4, EQC.fr, .6) + wr(11, 0, 21, 1.4, EQC.fr, .6) + wr(-26, 58.2, 20, 60.4, EQC.bar, 1.1, ` stroke="${EQC.fr}" stroke-width=".5"`), b: [-27, 0, 21, 61] }),
+    legpress: () => { const P = [0, 20], v = [Math.SQRT1_2, Math.SQRT1_2], w = [Math.SQRT1_2, -Math.SQRT1_2], n = ant(-50), d = dir(-50), B0 = add(P, n, -6.2);
+      const back = [add(B0, d, -2), add(B0, d, 30), add(add(B0, d, 30), n, -4), add(add(B0, d, -2), n, -4)], seat = [add(B0, [0.94, -0.34], -2), add(B0, [0.94, -0.34], 12), add(add(B0, [0.94, -0.34], 12), [0.34, 0.94], -4), add(add(B0, [0.94, -0.34], -2), [0.34, 0.94], -4)];
+      const r0 = add([28, 20], w, 0), r1 = add(r0, v, 40), H = add(P, [5, 2.5]);
+      return { s: wl([[-26, 0.7], [62, 0.7]], EQC.fr, 1.4) + wl([add(B0, d, 14), [-12, 0]], EQC.fr, 2.6) + wl([[6, 9], [6, 0]], EQC.fr, 2.6) + wl([r0, [r0[0], 0]], EQC.fr, 2.6) + wl([add(r0, v, 26), [add(r0, v, 26)[0], 0]], EQC.fr, 2.6)
+        + wl([r0, r1], EQC.fr, 3) + wl([add(r0, w, -2.4), add(r1, w, -2.4)], EQC.top, 1) + wpoly(back, EQC.pad) + wpoly(seat, EQC.pad) + wl([add(B0, d, -2), add(B0, d, 30)], EQC.top, 1)
+        + `<circle cx="${f1(H[0])}" cy="${f1(-H[1])}" r="1.4" fill="${EQC.bar}"/>`, b: [-26, 0, 62, 62] }; },
+    step: () => ({ s: wr(21.8, 12.4, 23.6, 90, EQC.fr, .6) + wr(4, 0, 36, 12.4, EQC.pad, 1.4) + wr(4, 10.8, 36, 12.4, EQC.top, 1), b: [4, 0, 36, 90] }),
+    mat: () => ({ s: wr(-44, 0, 40, 1.2, EQC.top, .6), b: [-44, 0, 40, 1.2] }),
+  };
+  const PLATE = `<circle r="12.5" fill="${EQC.plate}" stroke="${EQC.fr}" stroke-width="1"/><circle r="8.6" fill="none" stroke="#334155" stroke-width="1.3"/><circle r="3" fill="#475569"/><circle r="1.2" fill="${EQC.bar}"/>`;
+  const DBEND = `<circle r="4.7" fill="${EQC.plate}" stroke="${EQC.fr}" stroke-width=".8"/><circle r="2.6" fill="none" stroke="#334155" stroke-width=".7"/><circle r="1.1" fill="${EQC.fr}"/>`;
+  const DBSIDE = `<rect x="-3.6" y="-.75" width="7.2" height="1.5" fill="${EQC.bar}"/><rect x="-6.6" y="-3.9" width="3" height="7.8" rx=".9" fill="${EQC.plate}" stroke="${EQC.fr}" stroke-width=".6"/><rect x="3.6" y="-3.9" width="3" height="7.8" rx=".9" fill="${EQC.plate}" stroke="${EQC.fr}" stroke-width=".6"/>`;
+
+  /* ---- трансформации костей для позы ---- */
+  const arms = k => { const D = X[k]; return D.arm ? D.arm : [L.ua, L.fa]; };
+  const sideT = (k, o) => {
+    const D = X[k], [ua, fa] = arms(k), t = {
+      uarm2: tB(o.S2, o.E2, ua), farm2: tB(o.E2, o.G2, fa),
+      thigh2: tB(o.P2, o.K2, L.th), shank2: tB(o.K2, o.A2, L.sh), foot2: tA(o.A2, o.fA2), toe2: tA(ball(o.A2, o.fA2), o.fT2),
+      lo: tB(o.P, o.W, L.lo), up: tB(o.W, o.S, L.up), neck: tB(o.N, o.Hd, NK), head: tA(o.Hd, o.hA),
+      thigh: tB(o.P, o.K, L.th), shank: tB(o.K, o.A, L.sh), foot: tA(o.A, o.fA), toe: tA(ball(o.A, o.fA), o.fT),
+      uarm: tB(o.S, o.E, ua), farm: tB(o.E, o.G, fa) };
+    if (o.bar) { t.plate = tP(o.bar); t.bardot = tP(o.bar); }
+    if (D.eq.includes('db') || D.eq.includes('dbside')) { t.db = tP(o.G); t.db2 = tP(o.G2); }
+    if (o.plat) t.plat = tA(o.plat, -45);
+    return t;
+  };
+  const frontT = o => ({ uarmR: tB(o.SR, o.ER, 18.5), farmR: tB(o.ER, o.GR, 17.4), uarmL: tB(o.SL, o.EL, 18.5, true), farmL: tB(o.EL, o.GL, 17.4, true), dbR: tP(o.GR), dbL: tP(o.GL) });
+  const trans = (k, u) => { const o = pose(k, u); return X[k].front ? frontT(o) : sideT(k, o); };
+  const trackPt = (k, o) => { const t = X[k].track; return o[t]; };
+
+  /* ---- рамка: все позы цикла + снаряды; кэш по упражнению ---- */
+  const VB = {};
+  const box = k => {
+    if (VB[k]) return VB[k];
+    const D = X[k], xs = [], ys = [], put = (p, r = 0) => { if (!p) return; xs.push(p[0] - r, p[0] + r); ys.push(p[1] - r, p[1] + r); };
+    for (let i = 0; i <= 10; i++) { const o = pose(k, i / 10);
+      if (D.front) { ['SR', 'SL', 'ER', 'EL'].forEach(j => put(o[j], 4)); ['GR', 'GL'].forEach(j => put(o[j], 5.5)); put([0, 101.5]); put([-14, 0], 1); put([14, 0], 1); continue; }
+      put(o.Hd, 8); ['S', 'W', 'P'].forEach(j => put(o[j], 7.5)); ['K', 'K2'].forEach(j => put(o[j], 4.5)); ['E', 'E2'].forEach(j => put(o[j], 4)); ['G', 'G2'].forEach(j => put(o[j], 3.5));
+      [[o.A, o.fA], [o.A2, o.fA2]].forEach(([A, f]) => { put(A, 4); put(add(A, dir(f), 13), 2); put(add(A, dir(f), -5), 2); });
+      if (o.bar && D.eq.includes('bar')) put(o.bar, 12.6);
+      if (D.eq.includes('db') || D.eq.includes('dbside')) put(o.G, 7);
+      if (o.plat) { put(add(o.plat, dir(-45), 15), 2); put(add(o.plat, dir(-45), -15), 2); }
+    }
+    D.eq.forEach(e => { if (EQ[e]) { const b = EQ[e]().b; put([b[0], b[1]]); put([b[2], b[3]]); } });
+    if (D.floor !== false) ys.push(-1);
+    let x0 = Math.min(...xs) - 3, x1 = Math.max(...xs) + 3, y0 = Math.min(...ys) - 2, y1 = Math.max(...ys) + 3;
+    return (VB[k] = [x0, -y1, x1 - x0, y1 - y0]); // в координатах SVG
+  };
+  // итоговая рамка с полосой подписи и пропорциями (высота/ширина в пределах [lo, hi])
+  const frame = (k, caps, lo = 0.62, hi = 1.15) => {
+    let [x, y, w, h] = box(k); if (caps) { const band = w * 0.13; y -= band; h += band; }
+    if (h / w < lo) { const nh = w * lo; y -= (nh - h); h = nh; }
+    if (h / w > hi) { const nw = h / hi; x -= (nw - w) / 2; w = nw; }
+    return [x, y, w, h].map(f1);
+  };
+
+  /* ---- сборка SVG ---- */
+  function svg(k, opt = {}) {
+    const D = X[k]; if (!D) return '';
+    const sex = opt.sex === 'f' ? 'f' : 'm', C = PAL(sex), u = opt.u || 0, w = opt.w || 120, detail = opt.detail != null ? opt.detail : w >= 100;
+    const caps = !!(opt.caps && opt.anim), [vx, vy, vw, vh] = frame(k, caps), h = opt.h || Math.round(w * vh / vw);
+    const t = trans(k, u), m = opt.plain ? [] : D.mus, G = (n, inner) => `<g data-b="${n}" transform="${t[n] || ''}">${inner}</g>`;
+    const OLs = detail ? ` stroke="${C.ol}" stroke-width=".55" stroke-linejoin="round"` : '';
+    const musOn = (bone, l, far) => m.map(x => MU[x] && MU[x][bone] ? pth(MU[x][bone](l), C.mus, ` class="mus" opacity="${far ? .55 : .88}"`) : '').join('');
+    let body = '';
+    if (D.front) body = frontBody(D, C, sex, G, musOn, OLs, detail);
+    else {
+      const [ua, fa] = arms(k), o0 = pose(k, u);
+      // слой = контур всех частей (без внутренних швов) + заливки
+      const layer = parts => detail ? parts.map(([n, d]) => G(n, `<path d="${d}" fill="${C.ol}" stroke="${C.ol}" stroke-width="1.1" stroke-linejoin="round"/>`)).join('') + parts.map(([n, , inner]) => G(n, inner)).join('') : parts.map(([n, , inner]) => G(n, inner)).join('');
+      const leg = (sx, i) => { const far = i === 1, th = sp(SH.thigh(L.th)), sk = sp(SH.shank(L.sh)), ft = sp(SH.foot()), to = sp(SH.toe());
+        return [['thigh' + sx, th, `<path d="${th}" fill="${C.skin[i]}"/>${pth(SH.shorts(L.th), C.shorts[i], OLs)}${musOn('thigh', L.th, far)}`],
+          ['shank' + sx, sk, `<path d="${sk}" fill="${C.skin[i]}"/>${musOn('shank', L.sh, far)}${pth(SH.sock(L.sh), C.sock[i])}`],
+          ['foot' + sx, ft, `<path d="${ft}" fill="${C.shoe[i]}"/><path d="M-4.4 3.7H10.6" stroke="${C.sole}" stroke-width="1.1"/>${detail ? `<path d="M1.6 -2.2L3.2 .2M4.4 -1.4L5.8 .8" stroke="${C.sole}" stroke-width=".45" stroke-linecap="round" opacity=".7"/>` : ''}`],
+          ['toe' + sx, to, `<path d="${to}" fill="${C.shoe[i]}"/><path d="M-1.8 -.45H2.6" stroke="${C.sole}" stroke-width="1"/>`]]; };
+      const arm = (sx, i) => { const far = i === 1, a1 = sp(SH.uarm(ua)), a2 = sp(SH.farm(fa)), wd = fa - 2.6;
+        return [['uarm' + sx, a1, `<path d="${a1}" fill="${C.skin[i]}"/>${pth(SH.sleeve(ua), C.shirt[i], OLs)}${musOn('uarm', ua, far)}`],
+          ['farm' + sx, a2, `<path d="${a2}" fill="${C.skin[i]}"/>${musOn('farm', fa, far)}${detail ? `<path d="M${f1(wd + 1)} -1.9Q${f1(fa + 1.6)} -1.6 ${f1(fa + 1.8)} .4M${f1(fa - .2)} 2.2Q${f1(fa + 1.2)} 1.4 ${f1(fa + 2.2)} -.4" stroke="${C.skin[1]}" stroke-width=".45" fill="none" stroke-linecap="round"/>` : ''}`]]; };
+      const hd = sp(SH.head()), nk = sp(SH.neck(NK)), lo = sp(SH.lo()), up = sp(SH.up());
+      const face = detail ? `<ellipse cx="-.4" cy="-.6" rx="1.7" ry="1.15" fill="${C.skin[1]}"/><circle cx="1.5" cy="4.6" r=".6" fill="#1E293B"/><path d="M2.6 3.5Q2.9 4.6 2.5 5.7" stroke="${C.hair}" stroke-width=".55" fill="none" stroke-linecap="round"/><path d="M-3.4 5.1L-3.6 6.1" stroke="#9A5B45" stroke-width=".5" stroke-linecap="round"/>` : '';
+      const headIn = (sex === 'f' ? pth(SH.tail(), C.hair) : '') + `<path d="${hd}" fill="${C.skin[0]}"/>` + pth(sex === 'f' ? SH.hairF() : SH.hairM(), C.hair) + face;
+      const torso = [['lo', lo, `<path d="${lo}" fill="${C.shirt[0]}"/>${pth(SH.briefs(), C.shorts[0])}${musOn('lo', L.lo, false)}`], ['up', up, `<path d="${up}" fill="${C.shirt[0]}"/>${musOn('up', L.up, false)}`],
+        ['neck', nk, `<path d="${nk}" fill="${C.skin[0]}"/>`], ['head', hd + (sex === 'f' ? sp(SH.tail()) : ''), headIn]];
+      const has = e => D.eq.includes(e), st = D.eq.map(e => EQ[e] ? EQ[e]().s : '').join('');
+      body = st + (o0.bar && has('bar') ? G('plate', PLATE) : '') + (has('db') ? G('db2', DBEND) : has('dbside') ? G('db2', DBSIDE) : '')
+        + layer(arm('2', 1)) + layer(leg('2', 1)) + layer(torso)
+        + (o0.plat ? G('plat', `<rect x="-15" y="-1.7" width="30" height="3.4" rx="1" fill="${EQC.top}" stroke="${EQC.fr}" stroke-width=".6"/>`) : '')
+        + layer(leg('', 0)) + (has('db') ? G('db', DBEND) : has('dbside') ? G('db', DBSIDE) : '') + (o0.bar ? G('bardot', `<circle r="1.5" fill="${EQC.bar}" stroke="#475569" stroke-width=".5"/>`) : '')
+        + layer(arm('', 0));
+    }
+    // траектория и подписи фаз
+    let extra = '';
+    if (opt.path && opt.anim && D.track) {
+      const pts = []; for (let i = 0; i <= 24; i++) pts.push(trackPt(k, pose(k, i / 24)));
+      const len = pts.reduce((s, p, i) => i ? s + Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]) : 0, 0);
+      if (len > 6) { const hd = (a, b) => { const dx = a[0] - b[0], dy = a[1] - b[1], l = Math.hypot(dx, dy) || 1, ux = dx / l, uy = dy / l; return wpoly([add(a, [ux, uy], 1.2), add(a, [-ux * 3 - uy * 2, -uy * 3 + ux * 2]), add(a, [-ux * 3 + uy * 2, -uy * 3 - ux * 2])], '#10B981'); };
+        extra += `<g opacity=".9">${wl(pts.slice(1, -1), '#10B981', 1.1, ' stroke-dasharray="2.4 2.2"')}${hd(pts[pts.length - 1], pts[pts.length - 3])}${hd(pts[0], pts[2])}</g>`; }
+    }
+    if (caps && typeof GUIDE !== 'undefined' && GUIDE[k] && GUIDE[k].ph) {
+      const fs = f1(vw / 14.5); extra += `<g font-size="${fs}" font-weight="800" text-anchor="middle" font-family="inherit">${GUIDE[k].ph.map((s, i) => `<text data-cap="${i}" x="${f1(vx + vw / 2)}" y="${f1(vy + vw * 0.085)}" fill="${i ? '#10B981' : '#F59E0B'}" opacity="${i ? 0 : 1}">${esc(s)}</text>`).join('')}</g>`;
+    }
+    const floor = D.floor === false ? '' : `<path d="M${f1(vx + 2)} 0.4H${f1(vx + vw - 2)}" stroke="${EQC.fr}" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>`;
+    return `<svg viewBox="${vx} ${vy} ${vw} ${vh}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet" class="fig" data-fig="${esc(k)}"${opt.anim ? ' data-fig-anim' : ''}${opt.big ? ' data-big' : ''}>${floor}${body}${extra}</svg>`;
+  }
+  // вид спереди (махи в стороны)
+  function frontBody(D, C, sex, G, musOn, OLs, detail) {
+    const sk = C.skin[0], ol = d => detail ? `<path d="${d}" fill="${C.ol}" stroke="${C.ol}" stroke-width="1.1" stroke-linejoin="round"/>` : '';
+    const thF = l => [[-2.6, -5.6], [0, -6.3], [l * .25, -6.4], [l * .55, -5.5], [l * .85, -4.2], [l + 1.2, -3.5], [l + 2.6, -1], [l + 2.4, 2.4], [l + .8, 3.6], [l * .8, 3.9], [l * .55, 4.4], [l * .25, 5.2], [0, 5.6], [-2.6, 5.2]];
+    const shF = l => [[-2.4, -3.7], [0, -4.0], [l * .25, -4.6], [l * .5, -3.7], [l * .8, -2.4], [l + 1, -2.1], [l + 1.6, 0], [l + 1, 2.0], [l * .8, 2.3], [l * .5, 3.1], [l * .25, 4.3], [0, 3.9], [-2.4, 3.5]];
+    let lo = '', lf = '', shoes = '';
+    [1, -1].forEach(q => { const H = [q * 5.6, 52], K = [q * 5.4, 28.8], A = [q * 5.2, 4.8], lt = dist2(H, K), ls = dist2(K, A), dT = sp(thF(lt)), dS = sp(shF(ls));
+      const gT = `<g transform="${tB(H, K, lt, q < 0)}">`, gS = `<g transform="${tB(K, A, ls, q < 0)}">`;
+      lo += gT + ol(dT) + '</g>' + gS + ol(dS) + '</g>';
+      lf += gT + `<path d="${dT}" fill="${sk}"/></g>` + gS + `<path d="${dS}" fill="${sk}"/>` + pth([[ls - 3.8, -2.3, 1], [ls + 1.6, -1.9, 1], [ls + 1.6, 1.9, 1], [ls - 3.8, 2.5, 1]], C.sock[0]) + '</g>';
+      const cx = q * 5.9; shoes += `<path d="M${f1(cx - 3.7)} -.1C${f1(cx - 4.4)} -2.8 ${f1(cx - 3.2)} -5.5 ${f1(cx)} -5.7C${f1(cx + 3.2)} -5.5 ${f1(cx + 4.4)} -2.8 ${f1(cx + 3.7)} -.1Z" fill="${C.shoe[0]}"${OLs}/><path d="M${f1(cx - 3.8)} -.7H${f1(cx + 3.8)}" stroke="${C.sole}" stroke-width="1.1"/>`; });
+    let s = lo + lf + shoes;
+    s += wpoly([[-9.8, 57.6], [9.8, 57.6], [10.6, 50], [11.4, 41.8], [1.2, 41.2], [0, 47.2], [-1.2, 41.2], [-11.4, 41.8], [-10.6, 50]], C.shorts[0], OLs);
+    s += wpoly([[-2.6, 82], [2.6, 82], [2.6, 88.4], [-2.6, 88.4]], sk);
+    s += `<path d="M-11.5 -82.2C-8.4 -83.6 -6.4 -84.6 -4.2 -84.6C-2.2 -82.8 2.2 -82.8 4.2 -84.6C6.4 -84.6 8.4 -83.6 11.5 -82.2C13.4 -81.4 14.2 -80.4 13.8 -79.2C12.4 -77 11.4 -75.4 11 -73.2C10 -69.6 9.2 -66 8.9 -62.5C8.9 -60 9.8 -57.6 9.8 -55.6L-9.8 -55.6C-9.8 -57.6 -8.9 -60 -8.9 -62.5C-9.2 -66 -10 -69.6 -11 -73.2C-11.4 -75.4 -12.4 -77 -13.8 -79.2C-14.2 -80.4 -13.4 -81.4 -11.5 -82.2Z" fill="${C.shirt[0]}"${OLs}/>`;
+    if (detail) s += `<path d="M-4.2 -84.6C-2.2 -82.8 2.2 -82.8 4.2 -84.6" stroke="${C.shirt[1]}" stroke-width=".9" fill="none"/>`;
+    if (D.mus.includes('traps')) s += `<path d="M-3 -86.2C-1 -85.4 1 -85.4 3 -86.2C5.6 -84.8 8 -83.6 10.2 -82.4C7 -82.2 4.6 -82.6 2.8 -83.4C1 -83 -1 -83 -2.8 -83.4C-4.6 -82.6 -7 -82.2 -10.2 -82.4C-8 -83.6 -5.6 -84.8 -3 -86.2Z" fill="${C.mus}" class="mus" opacity=".88"/>`;
+    // голова анфас
+    const hy = -93.4;
+    s += `<ellipse cx="-5.6" cy="${f1(hy + .4)}" rx="1.3" ry="2" fill="${C.skin[1]}"/><ellipse cx="5.6" cy="${f1(hy + .4)}" rx="1.3" ry="2" fill="${C.skin[1]}"/>`;
+    if (sex === 'f') [1, -1].forEach(q => { s += `<path d="M${q * 6.2} ${f1(hy - 1)}C${q * 7.4} ${f1(hy + 3)} ${q * 7.2} ${f1(hy + 7)} ${q * 5.6} ${f1(hy + 8.4)}C${q * 4.6} ${f1(hy + 6)} ${q * 4.2} ${f1(hy + 3)} ${q * 4.4} ${f1(hy - 1)}Z" fill="${C.hair}"/>`; });
+    s += `<ellipse cx="0" cy="${hy}" rx="5.7" ry="6.7" fill="${sk}"${OLs}/>`;
+    s += `<path d="M-5.9 ${f1(hy - 1)}C-6.4 ${f1(hy - 6.2)} -3 ${f1(hy - 8.1)} 0 ${f1(hy - 8.1)}C3 ${f1(hy - 8.1)} 6.4 ${f1(hy - 6.2)} 5.9 ${f1(hy - 1)}C5 ${f1(hy - 3.6)} 3 ${f1(hy - 4.6)} 0 ${f1(hy - 4.4)}C-3 ${f1(hy - 4.6)} -5 ${f1(hy - 3.6)} -5.9 ${f1(hy - 1)}Z" fill="${C.hair}"/>`;
+    if (detail) s += `<circle cx="-2.1" cy="${f1(hy - .2)}" r=".6" fill="#1E293B"/><circle cx="2.1" cy="${f1(hy - .2)}" r=".6" fill="#1E293B"/><path d="M-3.1 ${f1(hy - 1.6)}H-1.2M1.2 ${f1(hy - 1.6)}H3.1" stroke="${C.hair}" stroke-width=".5" stroke-linecap="round"/><path d="M-1.4 ${f1(hy + 3.4)}Q0 ${f1(hy + 4.1)} 1.4 ${f1(hy + 3.4)}" stroke="#9A5B45" stroke-width=".5" fill="none" stroke-linecap="round"/><path d="M0 ${f1(hy + .2)}L-.5 ${f1(hy + 1.9)}H.4" stroke="${C.skin[1]}" stroke-width=".45" fill="none"/>`;
+    // руки (правая на экране справа, левая — зеркально), гантели — за кистью
+    ['R', 'L'].forEach(n => { s += G('db' + n, DBEND); });
+    const a1 = sp(SH.uarm(18.5)), a2 = sp(SH.farm(17.4));
+    ['R', 'L'].forEach(n => { s += G('uarm' + n, ol(a1)) + G('farm' + n, ol(a2)) + G('uarm' + n, `<path d="${a1}" fill="${sk}"/>` + pth(SH.sleeve(18.5), C.shirt[0], OLs) + musOn('uarm', 18.5, false)) + G('farm' + n, `<path d="${a2}" fill="${sk}"/>`); });
+    return s;
+  }
+  const dist2 = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
+
+  /* ---- аниматор ---- */
+  const cyc = c => c < .1 ? 0 : c < .5 ? ease((c - .1) / .4) : c < .6 ? 1 : 1 - ease((c - .6) / .4);
+  const capOp = (c, i) => { const [a, b] = i ? [.58, .98] : [.08, .52]; return cl(Math.min((c - a) / .04, (b - c) / .04), 0, 1); };
+  function place(svg, u, c) {
+    const k = svg.getAttribute('data-fig'); if (!X[k]) return;
+    if (!svg._fb) { const mp = {}; svg.querySelectorAll('[data-b]').forEach(el => { const n = el.getAttribute('data-b'); (mp[n] = mp[n] || []).push(el); }); svg._fb = mp; svg._cp = svg.querySelectorAll('[data-cap]'); }
+    const t = trans(k, u); for (const n in svg._fb) { const v = t[n]; if (v) svg._fb[n].forEach(el => el.setAttribute('transform', v)); }
+    if (c != null && svg._cp.length) svg._cp.forEach((el, i) => el.setAttribute('opacity', capOp(c, i).toFixed(2)));
+  }
+  const AN = { st: 0, tt: 0, last: 0, raf: 0, fr: 0 };
+  function tick(now) {
+    const els = document.querySelectorAll('svg[data-fig-anim]'); if (!els.length) { AN.raf = 0; AN.last = 0; return; }
+    const dt = AN.last ? Math.min(0.1, (now - AN.last) / 1000) : 0; AN.last = now; AN.fr++;
+    AN.st += dt * API.speed; AN.tt += dt;
+    els.forEach(svg => { const big = svg.hasAttribute('data-big'); if (!big && AN.fr % 2) return;
+      const k = svg.getAttribute('data-fig'), d = (X[k] && X[k].dur) || 3.6, c = ((big ? AN.st : AN.tt) / d) % 1;
+      if (svg._c === c) return; svg._c = c; place(svg, cyc(c), big ? c : null); });
+    AN.raf = requestAnimationFrame(tick);
+  }
+  const API = {
+    speed: 1, X, svg, place, pose, cyc,
+    has: k => !!X[k], keys: () => Object.keys(X),
+    scan() { if (!AN.raf && document.querySelector('svg[data-fig-anim]')) { AN.last = 0; AN.raf = requestAnimationFrame(tick); } },
+  };
+  return API;
+})();
+
 const Gemini = {
   key: () => CONFIG.GEMINI_KEY,
   hasKey: () => !!CONFIG.GEMINI_KEY && !/^__/.test(CONFIG.GEMINI_KEY),
@@ -2195,66 +2567,10 @@ const UI = {
     if (e && e.startsWith('fa-')) { const [icon, color] = e.split('|'); return `<span class="emb ${cls}" style="background:${color || '#8B5CF6'}22;color:${color || '#8B5CF6'}"><svg class="ic"><use href="#${icon}"/></svg></span>`; }
     return `<span class="emb ${cls}">${e || '🛡️'}</span>`;
   },
-  /* ---- гайды по упражнениям: анимированная фигурка (SVG SMIL) + техника ---- */
+  /* ---- гайды по упражнениям: детальный персонаж (FIG, скелет + IK) + техника ---- */
   figSVG(key, mode = 'anim', size = 120, opt = {}) {
-    const G = GUIDE[key]; if (!G) return '';
-    const dir = G.dir, r1 = v => +(+v).toFixed(1), pt = q => `${r1(q[0])},${r1(q[1])}`, pts = arr => arr.map(pt).join(' ');
-    const dur = opt.slow ? 6.4 : 3.2, KT = 'keyTimes="0;.12;.5;.62;1"', KS = 'calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1;.45 0 .55 1"';
-    const AN = (attr, A, B) => `<animate attributeName="${attr}" values="${A};${A};${B};${B};${A}" ${KT} dur="${dur}s" repeatCount="indefinite" ${KS}/>`;
-    const P = mode === 'b' ? G.b : G.a, Q = G.b, anim = mode === 'anim';
-    const toe = (X, f, t) => X[t] || (dir ? [X[f][0] + 6.5 * dir, X[f][1] + 0.5] : null);
-    // объёмный сегмент тела: трапеция от точки a (ширина wa) к b (ширина wb)
-    const quad = (a, b, wa, wb) => { const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L; return [[a[0] + nx * wa / 2, a[1] + ny * wa / 2], [b[0] + nx * wb / 2, b[1] + ny * wb / 2], [b[0] - nx * wb / 2, b[1] - ny * wb / 2], [a[0] - nx * wa / 2, a[1] - ny * wa / 2]]; };
-    const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
-    const shp = (fn, attrs, tag = 'polygon') => { const A = fn(P); if (!A) return ''; const a = pts(A), b = anim ? pts(fn(Q)) : a; return `<${tag} points="${a}" ${attrs}>${anim && a !== b ? AN('points', a, b) : ''}</${tag}>`; };
-    const circ = (fn, attrs) => { const A = fn(P), B = fn(Q); if (!A) return ''; return `<circle cx="${r1(A[0])}" cy="${r1(A[1])}" ${attrs}>${anim && r1(A[0]) !== r1(B[0]) ? AN('cx', r1(A[0]), r1(B[0])) : ''}${anim && r1(A[1]) !== r1(B[1]) ? AN('cy', r1(A[1]), r1(B[1])) : ''}</circle>`; };
-    const EQ = '#64748B', HL = '#F97316', hl = new Set(opt.plain ? [] : G.hl || []), back = [], front = [];
-    (G.eq || []).forEach(q => {
-      if (q.t === 'plate') back.push(circ(X => X[q.at], 'r="10" fill="#334155" stroke="#94A3B8" stroke-width="1.6"'), circ(X => X[q.at], 'r="6.5" fill="none" stroke="#94A3B855" stroke-width="1"'), circ(X => X[q.at], 'r="2" fill="#CBD5E1"'));
-      else if (q.t === 'db') front.push(circ(X => X[q.at], 'r="4.4" fill="#475569" stroke="#CBD5E1" stroke-width="1.3"'));
-      else if (q.t === 'plat') back.push(shp(X => [[X[q.at][0] - 8, X[q.at][1] - 8], [X[q.at][0] + 8, X[q.at][1] + 8]], `fill="none" stroke="${EQ}" stroke-width="4" stroke-linecap="round"`, 'polyline'));
-      else if (q.t === 'bench') back.push(`<rect x="${q.x1}" y="${q.y}" width="${q.x2 - q.x1}" height="5" rx="2" fill="${EQ}"/><path d="M${q.x1 + 5} ${q.y + 5}V91M${q.x2 - 5} ${q.y + 5}V91" stroke="${EQ}" stroke-width="2.5"/>`);
-      else if (q.t === 'bar') back.push(`<path d="M${q.x1} ${q.y}H${q.x2}" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>`);
-      else if (q.t === 'line') back.push(`<polyline points="${pts(q.pts)}" fill="none" stroke="${EQ}" stroke-width="${q.w || 3}" stroke-linecap="round"/>`);
-      else if (q.t === 'step') back.push(`<rect x="${q.x1}" y="${q.y}" width="${q.x2 - q.x1}" height="${91 - q.y}" rx="1.5" fill="${EQ}"/>`);
-    });
-    // фигура: сегменты с объёмом + подсветка рабочих мышц оранжевым
-    const C = 'fill="currentColor"', hlA = `fill="${HL}" opacity=".92"`;
-    const seg = (name, fn, wa, wb, extra = '') => { const s1 = shp(X => { const r = fn(X); return r && quad(r[0], r[1], wa, wb); }, `${C} ${extra}`); return s1 + (hl.has(name) ? shp(X => { const r = fn(X); return r && quad(r[0], r[1], wa * .62, wb * .62); }, `${hlA} filter="url(#fglow)"`) : ''); };
-    const J = (fn, r, extra = '') => circ(fn, `r="${r}" ${C} ${extra}`);
-    const ghost = opt.ghost && anim ? `<g opacity=".14">${[[G.b.p, G.b.k, 6], [G.b.k, G.b.f, 4.5], [G.b.n, G.b.p, 9], [G.b.n, G.b.e, 4.6], [G.b.e, G.b.w, 3.6]].map(([a, b, w]) => `<polygon points="${pts(quad(a, b, w, w * .8))}" ${C}/>`).join('')}<circle cx="${G.b.h[0]}" cy="${G.b.h[1]}" r="6.4" ${C}/></g>` : '';
-    let path = '';
-    if (opt.path && anim && G.track) { const a = G.a[G.track], b = G.b[G.track]; if (a && b && Math.hypot(b[0] - a[0], b[1] - a[1]) > 6) { const head = (t, f) => { const dx = t[0] - f[0], dy = t[1] - f[1], L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L; return `<polygon points="${pts([t, [t[0] - ux * 4 - uy * 2.4, t[1] - uy * 4 + ux * 2.4], [t[0] - ux * 4 + uy * 2.4, t[1] - uy * 4 - ux * 2.4]])}" fill="#10B981"/>`; };
-      const a2 = lerp(a, b, .08), b2 = lerp(a, b, .92); path = `<g opacity=".85"><path d="M${pt(a2)}L${pt(b2)}" stroke="#10B981" stroke-width="1.4" stroke-dasharray="2.5 2.5" fill="none"/>${head(b2, a2)}${head(a2, b2)}</g>`; } }
-    const backLimbs = `<g opacity="${dir ? .42 : 1}">${seg('thigh2', X => X.k2 && [X.p, X.k2], 7, 5.2)}${seg('shin2', X => X.k2 && [X.k2, X.f2], 5.2, 3.8)}${shp(X => X.k2 && toe(X, 'f2', 't2') && quad(X.f2, toe(X, 'f2', 't2'), 3.6, 2.4), C)}${dir ? seg('uarm', X => X.e2 && [X.n, X.e2], 5, 4) + seg('farm', X => X.e2 && [X.e2, X.w2], 4, 3) : ''}</g>`;
-    const frontArm2 = dir ? '' : seg('uarm', X => X.e2 && [X.n, X.e2], 5, 4) + seg('farm', X => X.e2 && [X.e2, X.w2], 4, 3) + J(X => X.e2, 2) + J(X => X.w2, 2.3);
-    const body = [
-      backLimbs,
-      seg('thigh', X => [X.p, X.k], 7.6, 5.4), J(X => X.k, 2.7),
-      seg('shin', X => [X.k, X.f], 5.4, 3.8), shp(X => toe(X, 'f', 't') && quad(X.f, toe(X, 'f', 't'), 3.8, 2.6), C), J(X => X.f, 1.9),
-      seg('back', X => [X.n, X.p], 10, 8), hl.has('chest') ? shp(X => quad(lerp(X.n, X.p, .08), lerp(X.n, X.p, .42), 6, 5.4), `${hlA} filter="url(#fglow)"`) : '', hl.has('abs') ? shp(X => quad(lerp(X.n, X.p, .45), lerp(X.n, X.p, .9), 5, 4.6), `${hlA} filter="url(#fglow)"`) : '',
-      J(X => X.p, 4.2), hl.has('glute') ? circ(X => X.p, `r="3.4" ${hlA} filter="url(#fglow)"`) : '', J(X => X.n, 4.6),
-      shp(X => quad(X.n, X.h, 3.6, 3.2), C), J(X => X.h, 6.4),
-      frontArm2,
-      seg('uarm', X => [X.n, X.e], 5.2, 4.1), J(X => X.e, 2.1), seg('farm', X => [X.e, X.w], 4.1, 3.1), J(X => X.w, 2.4),
-    ].join('');
-    let cap = '';
-    if (opt.captions && anim && G.ph) { const [vx0, vy0, vw0] = this.figBox(G, true); const op = (kt, v) => `<animate attributeName="opacity" values="${v}" keyTimes="${kt}" dur="${dur}s" repeatCount="indefinite"/>`;
-      cap = `<g font-size="${r1(vw0 / 15)}" font-weight="800" text-anchor="middle"><text x="${r1(vx0 + vw0 / 2)}" y="${r1(vy0 + vw0 / 13)}" fill="#F59E0B" opacity="0">${U.esc(G.ph[0])}${op('0;.1;.14;.48;.52;1', '0;0;1;1;0;0')}</text><text x="${r1(vx0 + vw0 / 2)}" y="${r1(vy0 + vw0 / 13)}" fill="#10B981" opacity="0">${U.esc(G.ph[1])}${op('0;.6;.64;.97;1', '0;0;1;1;0')}</text></g>`; }
-    const [vx, vy, vw, vh] = this.figBox(G, !!cap);
-    return `<svg viewBox="${vx} ${vy} ${vw} ${vh}" width="${size}" height="${Math.round(size * vh / vw)}" class="fig"><defs><filter id="fglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.1" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${G.floor === false ? '' : `<path d="M${r1(vx + 3)} 91.5H${r1(vx + vw - 3)}" stroke="${EQ}" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>`}${ghost}${back.join('')}${body}${front.join('')}${path}${cap}</svg>`;
-  },
-  // рамка по фигуре (обе позы + снаряды): фигурка крупная и одинаковая в «Старт» и «Финиш»; с подписью — место сверху
-  figBox(G, cap = false) {
-    const r1 = v => +(+v).toFixed(1);
-    if (!G._vb) { const xs = [], ys = [], add = (x, y, r = 0) => { xs.push(x - r, x + r); ys.push(y - r, y + r); };
-      [G.a, G.b].forEach(X => Object.keys(X).forEach(j => add(X[j][0], X[j][1], j === 'h' ? 7 : 4)));
-      (G.eq || []).forEach(q => { if (q.t === 'plate') [G.a, G.b].forEach(X => add(X[q.at][0], X[q.at][1], 11)); else if (q.x1 != null) { add(q.x1, q.y); add(q.x2, q.y); } else if (q.pts) q.pts.forEach(z => add(z[0], z[1])); });
-      if (G.floor !== false) ys.push(92);
-      let x0 = Math.min(...xs) - 6, x1 = Math.max(...xs) + 6, y0 = Math.min(...ys) - 5, y1 = Math.max(...ys) + 3, w = x1 - x0, h = y1 - y0;
-      if (w < h * 1.1) { x0 -= (h * 1.1 - w) / 2; w = h * 1.1; } else { y0 -= (w / 1.1 - h); h = w / 1.1; }
-      G._vb = [x0, y0, w, h].map(r1); }
-    const [x, y, w, h] = G._vb; return cap ? [x, r1(y - w / 9), w, r1(h + w / 9)] : G._vb;
+    if (typeof FIG === 'undefined' || !FIG.has(key)) return '';
+    return FIG.svg(key, { u: mode === 'b' ? 1 : 0, anim: mode === 'anim', w: size, h: size <= 64 ? 58 : undefined, caps: !!opt.captions, path: !!opt.path, big: !!opt.path, sex: S.profile && S.profile.sex, detail: size >= 100 });
   },
   guideFor(e) {
     if (GUIDE[e]) return Object.assign({ anim: e, builtin: true }, GUIDE[e]);
@@ -2281,8 +2597,8 @@ const UI = {
       <button class="btn btn-primary w-full" data-action="guide-ai" data-ex="${U.esc(e)}" ${busy ? 'disabled' : ''}><svg class="ic ${busy ? 'spin' : ''}"><use href="#${busy ? 'fa-circle-notch' : 'fa-wand-magic-sparkles'}"/></svg> ${busy ? 'AI пишет гайд…' : 'Создать гайд с AI'}</button></div>`; }
     const nm = g.builtin ? '' : 'data-no-mt', li = a => (a || []).map(s => `<li>${U.esc(s)}</li>`).join('');
     return `<div class="gd-body">
-      ${g.anim ? `<div class="gd-stage">${this.figSVG(g.anim, 'anim', 300, { path: true, captions: true, slow: this._gdSlow })}
-        <div class="gd-ctl"><button class="chip" data-action="guide-pause"><svg class="ic"><use href="#fa-stop"/></svg> <span>Пауза</span></button><button class="chip ${this._gdSlow ? 'chip-on' : ''}" data-action="guide-slow"><svg class="ic"><use href="#fa-hourglass"/></svg> Медленно</button></div></div>
+      ${g.anim ? `<div class="gd-stage">${this.figSVG(g.anim, 'anim', 300, { path: true, captions: true })}
+        <div class="gd-ctl"><button class="chip ${this._gdPaused ? 'chip-on' : ''}" data-action="guide-pause"><svg class="ic"><use href="#${this._gdPaused ? 'fa-play' : 'fa-stop'}"/></svg> ${this._gdPaused ? 'Играть' : 'Пауза'}</button><button class="chip ${this._gdSlow ? 'chip-on' : ''}" data-action="guide-slow"><svg class="ic"><use href="#fa-hourglass"/></svg> Медленно</button></div></div>
       <div class="gd-legend"><span><i style="background:#F97316"></i>работают</span><span><i style="background:#10B981"></i>траектория</span></div>
       <div class="grid grid-cols-2 gap-2 mb-4"><div class="gd-frame">${this.figSVG(g.anim, 'a', 130)}<span>1 · Старт</span></div><div class="gd-frame">${this.figSVG(g.anim, 'b', 130)}<span>2 · Финиш</span></div></div>` : ''}
       <div class="gd-h"><svg class="ic text-bl"><use href="#fa-bullseye"/></svg> Мышцы</div><div class="text-sm mb-4" ${nm}>${U.esc(g.muscles || '')}</div>
@@ -2305,7 +2621,7 @@ const UI = {
     const body = k === 'friends' ? this.friendsCard() : k === 'clan' ? this.clanPageHtml() : k === 'guide' ? this.guideHtml() : this.challengesCard();
     const top = pg.scrollTop;
     pg.innerHTML = `<div class="pg-hd"><button class="back-btn" data-action="page-back" aria-label="Назад"><svg class="ic"><use href="#fa-arrow-left"/></svg></button><div class="font-black text-lg truncate">${U.esc(title)}</div></div><div class="pg-body">${body}</div>`;
-    pg.scrollTop = top; App.restoreDrafts(pg); if (typeof MT !== 'undefined' && MT.active && MT.active()) MT.apply(pg);
+    pg.scrollTop = top; App.restoreDrafts(pg); if (typeof MT !== 'undefined' && MT.active && MT.active()) MT.apply(pg); if (typeof FIG !== 'undefined') FIG.scan();
   },
   closePage(fromPop = false) {
     const pg = this.$('#page'); this._page = null; if (!pg) return;
@@ -3325,8 +3641,8 @@ const App = {
     'plus-close'() { UI.togglePlus(false); },
     'plus-ai'() { UI.togglePlus(false); UI.openAILog('', UI.tab === 'nutrition' && UI.hDay ? UI.hDay : U.today()); },
     'plus-workout'() { UI.togglePlus(false); UI.openWorkout(); },
-    'guide-pause'(el) { const svg = document.querySelector('.gd-stage svg'); if (!svg) return; const paused = svg.animationsPaused(); if (paused) svg.unpauseAnimations(); else svg.pauseAnimations(); el.querySelector('span').textContent = UI.tt(paused ? 'Пауза' : 'Играть'); el.querySelector('use').setAttribute('href', paused ? '#fa-stop' : '#fa-play'); },
-    'guide-slow'() { UI._gdSlow = !UI._gdSlow; UI.renderPage(); },
+    'guide-pause'() { UI._gdPaused = !UI._gdPaused; FIG.speed = UI._gdPaused ? 0 : UI._gdSlow ? .5 : 1; UI.renderPage(); },
+    'guide-slow'() { UI._gdSlow = !UI._gdSlow; FIG.speed = UI._gdPaused ? 0 : UI._gdSlow ? .5 : 1; UI.renderPage(); },
     'plus-guide'() { UI.togglePlus(false); UI._guideOpen = null; UI.openPage('guide'); },
     'guide-toggle'(el) {
       const ex = el.dataset.ex; UI._guideOpen = UI._guideOpen === ex ? null : ex; UI.renderPage();
