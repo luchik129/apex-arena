@@ -109,16 +109,16 @@ grant execute on function public.nick_available(text) to anon, authenticated;
 
 create or replace function public.clan_create(p_name text, p_emblem text) returns public.clans
 language plpgsql security definer set search_path = public as $$
-declare c public.clans; code text;
+declare c public.clans; v_code text;
 begin
   if auth.uid() is null then raise exception 'not authenticated'; end if;
   if exists (select 1 from profiles where id = auth.uid() and clan_id is not null) then raise exception 'Ты уже в клане'; end if;
   if length(trim(p_name)) < 3 then raise exception 'Название от 3 символов'; end if;
   loop
-    code := 'APEX' || lpad((floor(random() * 9000) + 1000)::int::text, 4, '0');
-    exit when not exists (select 1 from clans where clans.code = code);
+    v_code := 'APEX' || lpad((floor(random() * 9000) + 1000)::int::text, 4, '0');
+    exit when not exists (select 1 from public.clans cl where cl.code = v_code);
   end loop;
-  insert into clans(name, emblem, code, leader_id) values (left(trim(p_name), 24), coalesce(nullif(p_emblem, ''), '🛡️'), code, auth.uid()) returning * into c;
+  insert into clans(name, emblem, code, leader_id) values (left(trim(p_name), 24), coalesce(nullif(p_emblem, ''), '🛡️'), v_code, auth.uid()) returning * into c;
   update profiles set clan_id = c.id, clan_role = 'leader', updated_at = now() where id = auth.uid();
   return c;
 end $$;
