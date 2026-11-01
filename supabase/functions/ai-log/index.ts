@@ -103,7 +103,7 @@ export async function handler(req) {
   const u = await fetch(`${URL_}/auth/v1/user`, { headers: { Authorization: auth, apikey: ANON || SERVICE } }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   if (!u || !u.id) return reply({ error: "auth", message: "Войди в аккаунт" }, 401);
   let b; try { b = await req.json(); } catch { return reply({ error: "bad", message: "Пустой запрос" }, 400); }
-  const kind = b.kind === "activity" ? "activity" : "food", text = str(b.text, 600), day = /^\d{4}-\d{2}-\d{2}$/.test(b.day) ? b.day : new Date().toISOString().slice(0, 10);
+  const kind = b.kind === "activity" ? "activity" : "food", text = str(b.text, 600), day = new Date().toISOString().slice(0, 10); // v27: лимит по дате сервера, а не телефона
   if (text.length < 2) return reply({ error: "bad", message: "Напиши, что съел или что делал" }, 400);
   const rpc = (fn, args) => fetch(`${URL_}/rest/v1/rpc/${fn}`, { method: "POST", headers: { "Content-Type": "application/json", apikey: SERVICE, Authorization: `Bearer ${SERVICE}` }, body: JSON.stringify(args) });
   const q = await rpc("ai_quota_use", { p_user: u.id, p_kind: kind, p_day: day });
