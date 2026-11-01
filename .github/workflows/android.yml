@@ -27,9 +27,6 @@ jobs:
       - name: Accept Android SDK licenses (SDK is preinstalled on the runner)
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null 2>&1 || true
       - uses: gradle/actions/setup-gradle@v4
-      - name: Inject Gemini key (secret GEMINI_KEY)
-        run: |
-          if [ -n "${{ secrets.GEMINI_KEY }}" ]; then sed -i "s|__GEMINI_KEY__|${{ secrets.GEMINI_KEY }}|" www/index.html; else echo '::warning::Секрет GEMINI_KEY не задан: функции Gemini в APK будут выключены'; fi
       - name: Build debug APK
         working-directory: android
         run: |
