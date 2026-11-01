@@ -481,6 +481,7 @@ video.post-img{background:#000;object-fit:contain}
 .auth-loop i{width:.45rem;height:.45rem;border-top:2px solid var(--muted);border-right:2px solid var(--muted);transform:rotate(45deg);opacity:.6}
 .brand{width:1.25rem;height:1.25rem;flex:none}
 .auth-g{background:#fff;color:#1F2937;border:1px solid #E5E7EB;font-weight:800;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.auth-apple{background:#000;color:#fff;border:1px solid #3F3F46;font-weight:800;display:flex;align-items:center;justify-content:center;gap:.6rem}
 .auth-s{background:#FFFC00;color:#111;border:1px solid #E6E300;font-weight:800;display:flex;align-items:center;justify-content:center;gap:.6rem}
 .auth-g:disabled,.auth-s:disabled{opacity:.45}
 .auth-or{display:flex;align-items:center;gap:.6rem;margin:.9rem 0;color:var(--muted);font-size:.7rem}.auth-or:before,.auth-or:after{content:'';flex:1;height:1px;background:var(--line)}
@@ -820,7 +821,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '27 · build 23',
+  APP_VERSION: '28 · build 24',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -3213,12 +3214,13 @@ const Net = {
   /* ---- v22: вход через Google / Snapchat и deep link после подтверждения почты ---- */
   native() { const C = window.Capacitor; return !!(C && C.isNativePlatform && C.isNativePlatform()); },
   oauthRedirect() { return this.native() ? CONFIG.AUTH_REDIRECT_APP : location.origin + location.pathname; },
-  PROVIDERS: { google: 'google', snapchat: 'custom:snapchat' },
+  PROVIDERS: { google: 'google', apple: 'apple', snapchat: 'custom:snapchat' },
+  ios() { const C = window.Capacitor; return !!(C && C.getPlatform && C.getPlatform() === 'ios'); }, // v28: на iPhone обязателен вход через Apple
   async providerOn(id) { // включён ли провайдер на сервере (иначе Supabase покажет в браузере голую ошибку)
     try { const r = await fetch(CONFIG.SUPABASE_URL + '/auth/v1/settings', { headers: { apikey: CONFIG.SUPABASE_KEY } }); if (!r.ok) return true; const j = await r.json(), ex = j.external || {}; return id in ex ? !!ex[id] : true; } catch (_) { return true; }
   },
   async oauth(kind) {
-    const provider = this.PROVIDERS[kind], name = kind === 'google' ? 'Google' : 'Snapchat';
+    const provider = this.PROVIDERS[kind], name = { google: 'Google', apple: 'Apple' }[kind] || 'Snapchat';
     if (!(await this.providerOn(provider))) return { error: `Вход через ${name} ещё не включён на сервере. Пока зарегистрируйся по email.` };
     const { data, error } = await this.client.auth.signInWithOAuth({ provider, options: { redirectTo: this.oauthRedirect(), skipBrowserRedirect: true, queryParams: kind === 'google' ? { prompt: 'select_account' } : undefined } });
     if (error || !data || !data.url) return { error: error ? this.err(error) : 'Не удалось открыть вход' };
@@ -5592,8 +5594,9 @@ Object.assign(UI, {
   oauthBtns(small) {
     const off = !Net.ready ? 'disabled' : '';
     return `<div class="grid grid-cols-1 gap-2">
+      ${Net.ios() ? `<button class="btn auth-apple ${small ? '' : 'py-3.5'}" data-action="auth-oauth" data-val="apple" ${off}><svg viewBox="0 0 17 20" width="17" height="20" aria-hidden="true"><path fill="currentColor" d="M14.06 10.62c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.75 2.2 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.66-2.15.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.34-3.54zM11.87 4.17c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23z"/></svg> <span>Вход через Apple</span></button>` : ''}
       <button class="btn auth-g ${small ? '' : 'py-3.5'}" data-action="auth-oauth" data-val="google" ${off}>${this.googleLogo} <span>Продолжить с Google</span></button>
-    </div>${!Net.ready ? '<div class="text-[10px] muted mt-1 text-center">Вход через Google работает только с интернетом</div>' : ''}`;
+    </div>${!Net.ready ? `<div class="text-[10px] muted mt-1 text-center">Вход через ${Net.ios() ? 'Apple и ' : ''}Google работает только с интернетом</div>` : ''}`;
   },
   openAuth(mode) {
     if (!mode) mode = (S.account && S.account.email) || S.profile.nickname ? 'login' : 'welcome';
