@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0E14">
+<title>Flexo League · Удаление аккаунта</title>
+<style>
+:root{--bg:#0B0E14;--card:#121824;--line:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--em:#10B981}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:24px 16px}
+main{max-width:720px;margin:0 auto}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:28px 0 8px;color:var(--em)}
+p,li{color:#CBD5E1}small,.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:16px 0}
+a{color:#60A5FA}code{background:#1E293B;padding:1px 6px;border-radius:6px}
+.contact:empty{display:none}
+</style>
+</head>
+<body>
+<main>
+<h1>Удаление аккаунта</h1>
+<p class="muted">Flexo League (com.apexarena.app) · English below.</p>
+
+<div class="card">
+<h2 style="margin-top:0">В приложении (сразу)</h2>
+<ol>
+<li>Откройте <b>Настройки</b> (шестерёнка вверху).</li>
+<li><b>Аккаунт и вход → Удалить аккаунт</b>.</li>
+<li>Подтвердите. Аккаунт удаляется сразу.</li>
+</ol>
+</div>
+
+<p class="contact" data-t="Нет доступа к приложению? Напишите на {e} с почты аккаунта, и мы удалим его в течение 7 дней."></p>
+
+<h2>Что удаляется</h2>
+<p>Аккаунт, профиль, прогресс (тренировки, питание, сон, вес), фото Body Progress, посты, фото и видео, комментарии, лайки, жалобы, друзья и дуэли. Если вы лидер клана, лидерство переходит другому участнику; клан без участников удаляется.</p>
+<h2>Что остаётся</h2>
+<p>Ничего не храним после удаления, кроме резервных копий базы, которые автоматически стираются в течение 7 дней.</p>
+
+<div class="card">
+<h2 style="margin-top:0">English</h2>
+<p>Delete your account in the app: <b>Settings → Account → Delete account</b>, then confirm. It is deleted immediately with all data: profile, progress, progress photos, posts, media, comments, likes, reports, friends and duels. Database backups are erased within 7 days.</p>
+<p class="contact" data-t="No access to the app? Email {e} from your account email and we will delete it within 7 days."></p>
+</div>
+<p class="muted"><small>Flexo League · обновлено 1 ноября 2026</small></p>
+</main>
+<script>
+// Почта поддержки. Впиши адрес, и он появится на странице.
+const SUPPORT_EMAIL = '';
+document.querySelectorAll('.contact').forEach(el => { if (SUPPORT_EMAIL) el.innerHTML = el.dataset.t.replace('{e}', `<a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`); });
+</script>
+</body>
+</html>

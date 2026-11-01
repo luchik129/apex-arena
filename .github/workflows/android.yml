@@ -29,11 +29,33 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Build debug APK
         working-directory: android
+        env:
+          VERSION_CODE: ${{ github.run_number }}
+          VERSION_NAME: "1.0.${{ github.run_number }}"
         run: |
           chmod +x gradlew
           set -o pipefail
           ./gradlew assembleDebug --no-daemon 2>&1 | tee ../build.log || { echo "::error::$(grep -n -i -B2 -A8 'what went wrong\|error:' ../build.log | tail -c 3000 | sed ':a;N;$!ba;s/\n/%0A/g')"; exit 1; }
           cp app/build/outputs/apk/debug/app-debug.apk ../apex-arena.apk
+      # v27: подписанный AAB для Google Play — собирается, только если в Secrets добавлен ключ (ANDROID_KEYSTORE_B64 и пароли)
+      - name: Build signed release AAB (Google Play)
+        id: aab
+        working-directory: android
+        env:
+          VERSION_CODE: ${{ github.run_number }}
+          VERSION_NAME: "1.0.${{ github.run_number }}"
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KS_B64" ]; then echo "Нет ключа подписи — AAB пропускаем"; exit 0; fi
+          echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/upload.jks"
+          set -o pipefail
+          ./gradlew bundleRelease --no-daemon 2>&1 | tee ../aab.log || { echo "::error::$(grep -n -i -B2 -A8 'what went wrong\|error:' ../aab.log | tail -c 3000 | sed ':a;N;$!ba;s/\n/%0A/g')"; exit 1; }
+          cp app/build/outputs/bundle/release/app-release.aab ../flexo-league.aab
+          echo "built=1" >> "$GITHUB_OUTPUT"
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -45,4 +67,6 @@ jobs:
           tag_name: build-${{ github.run_number }}
           name: Flexo League build ${{ github.run_number }}
           body: "Скачай apex-arena.apk и установи на телефон (разреши установку из неизвестных источников)."
-          files: apex-arena.apk
+          files: |
+            apex-arena.apk
+            flexo-league.aab

@@ -820,10 +820,12 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '26 · build 22',
+  APP_VERSION: '27 · build 23',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: '', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
+  PRIVACY_URL: 'https://luchik129.github.io/apex-arena/privacy.html', // v27: полная политика для Google Play / App Store
+  DELETE_URL: 'https://luchik129.github.io/apex-arena/delete-account.html',
   AUTH_CONFIRM_PAGE: 'https://luchik129.github.io/apex-arena/confirm.html', // страница «почта подтверждена», дальше открывает приложение
   LOGO: 'data:image/jpeg;base64,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', // v23: логотип Flexo League
   // Арены. Пороги откалиброваны: при 3-4 тренировках в неделю ≈ 160-180 кубков/нед →
@@ -887,6 +889,8 @@ const CONFIG = {
   DAY_TROPHY_CAP: 100,
   // v21: монеты за активность (раньше монеты давали почти только новые арены). Каждая выплата — один раз за событие.
   COINS: { WORKOUT: 10, WEEKLY_BONUS: 30, PR: 5, GOAL: 25, PLAN_DONE: 5, STAR: [10, 5], LEVEL: [20, 5], STREAK: { 3: 10, 7: 25, 14: 50, 30: 100, 60: 150, 100: 250 } },
+  PR_DAY_CAP: 3, PR_MIN_GAIN: 0.01, // v27: за рекорды платим не больше 3 раз в день и только за рост e1RM от 1% (антифарм «50 → 50.5 → 51 кг»)
+  DUEL_PAID_WEEK: 2, // v27: сколько побед в дуэлях за неделю дают монеты
   XP_SET_DAY_CAP: 40, // опыт за подходы — не больше 40 подходов в день (запиши-удали не фармится)
   RM_REPS: { '1RM': 1, '2RM': 2, '4RM': 4, '8RM': 8 },
   RM_CATS: ['1RM', '2RM', '4RM', '8RM'], // 8RM = 8 и больше повторов
@@ -940,8 +944,8 @@ const CONFIG = {
     { id: 'ta_rainbow', type: 'tstyle', name: 'Радуга (анимация)', price: 800, grad: 'linear-gradient(90deg,#F87171,#FBBF24,#34D399,#38BDF8,#A78BFA,#F87171)', anim: true },
     { id: 'ta_shine',   type: 'tstyle', name: 'Сияние (анимация)', price: 800, grad: 'linear-gradient(90deg,#B45309,#FDE68A,#FFFBEB,#FDE68A,#B45309)', anim: true },
     // бусты: расходники и временные эффекты (см. Game.buyBoost)
-    { id: 'boost_x2',     type: 'boost', name: '×2 кубки за тренировку', price: 150, icon: 'fa-bolt', desc: 'Следующая засчитанная тренировка даёт 30 вместо 15. До 2 зарядов.' },
-    { id: 'boost_pr50',   type: 'boost', name: '+50% к рекордам', price: 300, icon: 'fa-crown', desc: 'Неделю каждый PR даёт 37 кубков вместо 25.' },
+    { id: 'boost_x2',     type: 'boost', name: '×2 кубки за тренировку', price: 150, icon: 'fa-bolt', desc: 'Следующая засчитанная тренировка даёт 40 вместо 20. До 2 зарядов.' },
+    { id: 'boost_pr50',   type: 'boost', name: '+50% к рекордам', price: 300, icon: 'fa-crown', desc: 'Неделю каждый PR даёт 38 кубков вместо 25.' },
     { id: 'boost_freeze', type: 'boost', name: 'Заморозка серии', price: 120, icon: 'fa-hourglass', desc: 'Один пропущенный день не ломает серию. До 2 зарядов.' },
     { id: 'boost_shield', type: 'boost', name: 'Щит от потери кубков', price: 250, icon: 'fa-shield-halved', desc: 'Неделю кубки не списываются за паузу в тренировках.' },
   ],
@@ -1272,7 +1276,7 @@ const Calc = {
     return null;
   },
   topLifts(n = 3) { const bw = S.profile.bodyweight || 70; return Calc.exerciseNames().map(ex => { const b = Calc.bestLift(ex); return b ? { ex, weight: b.weight, reps: b.reps || 1, date: b.date, e1rm: b.e1rm, ps: Calc.powerScore(b.e1rm, bw, U.exInfo(ex).mult) } : null; }).filter(Boolean).sort((a, b) => b.ps - a.ps).slice(0, n); },
-  dayStats(day) { return { w: S.game.countedWorkoutDays.includes(day) ? 1 : 0, p: S.lifts.filter(l => l.isPR && !l.flagged && l.date === day).length }; },
+  dayStats(day) { return { w: S.game.countedWorkoutDays.includes(day) ? 1 : 0, p: S.lifts.filter(l => l.isPR && l.paid !== false && !l.flagged && l.date === day).length }; },
   // счёт вызова: 7 дней с дня старта, с нуля. getDay(day) → {w, p}
   windowScore(getDay, start) { let t = 0; for (let i = 0; i < 7; i++) { const d = U.addDays(start, i); if (d > U.today()) break; const x = getDay(d) || {}; t += (x.w || 0) * CONFIG.TROPHY.WORKOUT + (x.p || 0) * CONFIG.TROPHY.PR; } return t; },
   myWindow(start) { return Calc.windowScore(d => Calc.dayStats(d), start); },
@@ -1367,7 +1371,7 @@ const Calc = {
   memberActivity(m) { return (m.week.workouts || 0) * 15 + (m.week.prs || 0) * 25 + (m.week.streak || 0) * 2; },
   myWeek() {
     const wk = U.weekKey();
-    return { workouts: Calc.workoutsInWeek(wk), prs: S.lifts.filter(l => l.isPR && !l.flagged && U.weekKey(U.parseDay(l.date)) === wk).length, streak: Calc.streak().count };
+    return { workouts: Calc.workoutsInWeek(wk), prs: S.lifts.filter(l => l.isPR && l.paid !== false && !l.flagged && U.weekKey(U.parseDay(l.date)) === wk).length, streak: Calc.streak().count };
   },
 };
 
@@ -1436,13 +1440,19 @@ const Game = {
       S.lifts.push(lift);
       // антидюп: рекорд оплачивается, только если он выше уже оплаченного (удалить подход и записать снова не выйдет)
       const pb = S.game.paidBest || (S.game.paidBest = {});
-      if (lift.e1rm > (pb[exerciseName] || 0)) {
+      const prd = S.game.prDay && S.game.prDay.d === U.today() ? S.game.prDay : (S.game.prDay = { d: U.today(), n: 0 });
+      const grew = lift.e1rm > (pb[exerciseName] || 0) * (1 + CONFIG.PR_MIN_GAIN) && lift.e1rm >= (pb[exerciseName] || 0) + 0.5;
+      lift.paid = grew && prd.n < CONFIG.PR_DAY_CAP;
+      if (grew && !lift.paid) this.events.push({ type: 'toast', data: { msg: `Рекорд записан. Кубки за рекорды сегодня уже получены (${CONFIG.PR_DAY_CAP} в день)`, cls: '' } });
+      else if (!grew && lift.e1rm > (pb[exerciseName] || 0)) this.events.push({ type: 'toast', data: { msg: 'Рекорд записан. Кубки дают за прирост от 1%', cls: '' } });
+      if (lift.paid) {
+        prd.n++;
         const prBonus = this.boosts().pr50_until > Date.now() ? Math.round(CONFIG.TROPHY.PR * 1.5) : CONFIG.TROPHY.PR;
         this.addTrophies(prBonus, `PR: ${U.exRu(exerciseName)}${prBonus > CONFIG.TROPHY.PR ? ' (+50%)' : ''}`, true);
         this.addXP(CONFIG.XP.PR, 'PR'); this.addCoins(CONFIG.COINS.PR, 'PR: ' + U.exRu(exerciseName));
         this.events.push({ type: 'pr', data: { lift } });
         if (typeof Net !== 'undefined' && Net.online()) Net.postFeed(lift);
-      } else this.events.push({ type: 'toast', data: { msg: 'Этот рекорд уже был засчитан раньше: повторно кубки не начисляются', cls: '' } });
+      } else if (lift.e1rm <= (pb[exerciseName] || 0)) this.events.push({ type: 'toast', data: { msg: 'Этот рекорд уже был засчитан раньше: повторно кубки не начисляются', cls: '' } });
     }
     if (!lift.flagged) { const pb = S.game.paidBest || (S.game.paidBest = {}); pb[exerciseName] = Math.max(pb[exerciseName] || 0, lift.e1rm); }
     if (!S.lifts.includes(lift)) S.lifts.push(lift);
@@ -1598,6 +1608,7 @@ const Game = {
   },
   saveCustomExercise(obj, origName = null) {
     const name = String(obj.name || '').trim().slice(0, 40); if (!name) return null;
+    if (Profanity.bad(name)) return null; // v27: мат в названии не сохраняем (кнопка покажет ошибку)
     const norm = U.normalizeExercise(name, true); if (CONFIG.EXERCISES[norm]) return norm; // уже есть во встроенных
     const rec = { name, muscles: (obj.muscles || []).filter(m => CONFIG.MUSCLES[m]), bodyweight: !!obj.bodyweight, mult: U.clamp(+obj.mult || CONFIG.DEFAULT_MULT, 0.3, 5), boss: ['bench', 'squat', 'deadlift'].includes(obj.boss) ? obj.boss : '' };
     const i = S.customExercises.findIndex(c => c.name === (origName || name));
@@ -1674,7 +1685,7 @@ const Game = {
     const days = Calc.activeDays(), y = U.addDays(U.today(), -1), y2 = U.addDays(U.today(), -2); g.frozenDays = g.frozenDays || [];
     if (!days.has(y) && !g.frozenDays.includes(y) && (days.has(y2) || g.frozenDays.includes(y2))) { g.frozenDays.push(y); b.freeze--; this.events.push({ type: 'toast', data: { msg: 'Заморозка серии сработала: серия сохранена', cls: 'bl' } }); }
   },
-  setCustomTitle(text) { text = String(text || '').trim().slice(0, 18); if (!text) return false; S.profile.customTitle = text; if (!S.profile.owned.includes('title_custom')) return false; S.profile.avatar.title = 'title_custom'; save(); return true; },
+  setCustomTitle(text) { text = String(text || '').trim().slice(0, 18); if (!text || Profanity.bad(text)) return false; S.profile.customTitle = text; if (!S.profile.owned.includes('title_custom')) return false; S.profile.avatar.title = 'title_custom'; save(); return true; },
   /* --- аккаунт (локально; методы повторяют Supabase Auth: signUp / signIn / signOut) --- */
   async hash(pass, salt) {
     const data = new TextEncoder().encode(salt + ':' + pass);
@@ -2654,14 +2665,14 @@ const ClanService = {
   setPhoto(dataUrl) { return this._clanBuy(dataUrl ? CONFIG.CLAN_SHOP.PHOTO : 0, { photo: dataUrl || null }, 'Фото клана'); },
   buySlots() { const cur = (S.clan && S.clan.capacity) || CONFIG.CLAN_MAX, sl = CONFIG.CLAN_SHOP.SLOTS; if (cur >= sl.max) return Promise.resolve({ error: `Максимум ${sl.max} мест` }); return this._clanBuy(sl.price, { capacity: Math.min(sl.max, cur + sl.add) }, 'Места в клане'); },
   async setClanDesc(text) {
-    if (!S.clan || S.clan.role === 'member') return { error: 'Менять может лидер или заместитель' }; text = String(text || '').trim().slice(0, 140);
+    if (!S.clan || S.clan.role === 'member') return { error: 'Менять может лидер или заместитель' }; text = String(text || '').trim().slice(0, 140); if (Profanity.bad(text)) return { error: 'В тексте есть мат или оскорбление' };
     if (this.online()) { try { await Net.setClanFields(S.clan.id, { description: text }); } catch (e) { return { error: e.message }; } const c = Net.d.clans.find(x => x.id === S.clan.id); if (c) c.description = text; }
     S.clan.description = text; save(); return { ok: true };
   },
   // v21: девиз + «О клане» и витрины страницы клана
   async setClanText(desc, about) {
     if (!S.clan || S.clan.role === 'member') return { error: 'Менять может лидер или заместитель' };
-    desc = String(desc || '').trim().slice(0, 140); about = String(about || '').trim().slice(0, 600);
+    desc = String(desc || '').trim().slice(0, 140); about = String(about || '').trim().slice(0, 600); if (Profanity.bad(desc) || Profanity.bad(about)) return { error: 'В тексте есть мат или оскорбление' };
     if (this.online()) { try { await Net.setClanFields(S.clan.id, { description: desc, about }); } catch (e) { return { error: e.message }; } const c = Net.d.clans.find(x => x.id === S.clan.id); if (c) { c.description = desc; c.about = about; } }
     S.clan.description = desc; S.clan.about = about; save(); return { ok: true };
   },
@@ -2730,7 +2741,11 @@ const ClanService = {
     return { me: Math.max(0, me - b[key].me), opp: Math.max(0, opp - b[key].opp) };
   },
   _duelOutcome(res) {
-    if (res && res.myScore > res.oppScore) { Game.addCoins(CONFIG.TROPHY.DUEL_WIN_COINS, 'Победа в дуэли'); Game.addTrophies(CONFIG.TROPHY.DUEL_WIN, 'Победа в дуэли'); Game.events.push({ type: 'toast', data: { msg: `Дуэль с ${res.opponent.nick} выиграна! +${CONFIG.TROPHY.DUEL_WIN_COINS} монет, +${CONFIG.TROPHY.DUEL_WIN} кубков`, cls: 'or' } }); }
+    // v27: победа над неактивным соперником (0 очков) монет не даёт, а платных побед не больше DUEL_PAID_WEEK в неделю (антифарм через второй аккаунт)
+    if (res && res.myScore > res.oppScore && res.oppScore <= 0) { Game.events.push({ type: 'toast', data: { msg: `Дуэль с ${U.esc(res.opponent.nick)}: соперник не тренировался, награды нет`, cls: '' } }); return; }
+    const wk = U.weekKey(), dw = S.game.duelWins && S.game.duelWins.wk === wk ? S.game.duelWins : (S.game.duelWins = { wk, n: 0 });
+    if (res && res.myScore > res.oppScore && dw.n >= CONFIG.DUEL_PAID_WEEK) { Game.events.push({ type: 'toast', data: { msg: `Дуэль с ${U.esc(res.opponent.nick)} выиграна! Награды за дуэли на этой неделе уже получены`, cls: 'or' } }); return; }
+    if (res && res.myScore > res.oppScore) { dw.n++; Game.addCoins(CONFIG.TROPHY.DUEL_WIN_COINS, 'Победа в дуэли'); Game.addTrophies(CONFIG.TROPHY.DUEL_WIN, 'Победа в дуэли'); Game.events.push({ type: 'toast', data: { msg: `Дуэль с ${res.opponent.nick} выиграна! +${CONFIG.TROPHY.DUEL_WIN_COINS} монет, +${CONFIG.TROPHY.DUEL_WIN} кубков`, cls: 'or' } }); }
     else if (res) Game.events.push({ type: 'toast', data: { msg: `Дуэль с ${res.opponent.nick} проиграна. В следующий раз!`, cls: 'red' } });
   },
   resolveDuel() { // в начале новой недели: награда и сброс
@@ -2764,7 +2779,7 @@ const ClanService = {
     if (done.includes(key)) return; done.push(key);
     const res = this.battle(true);
     const iWasActive = Calc.myWindow(b.weekKey) > 0;
-    if (res && res.myScore >= res.oppScore && iWasActive) { Game.addCoins(CONFIG.TROPHY.CLAN_WIN_COINS, 'Победа в кланбитве'); Game.events.push({ type: 'toast', data: { msg: `Клан выиграл битву недели! +${CONFIG.TROPHY.CLAN_WIN_COINS} монет.`, cls: 'pu' } }); }
+    if (res && res.myScore > res.oppScore && res.oppActive > 0 && iWasActive) { /* v27: ничья и победа над пустым кланом монет не дают */ Game.addCoins(CONFIG.TROPHY.CLAN_WIN_COINS, 'Победа в кланбитве'); Game.events.push({ type: 'toast', data: { msg: `Клан выиграл битву недели! +${CONFIG.TROPHY.CLAN_WIN_COINS} монет.`, cls: 'pu' } }); }
     if (this.online()) { if (S.clan.role !== 'member') Net.setBattle(S.clan.id, null).catch(() => {}); S.clan.battle = null; save(); }
     else this.newBattle();
   },
@@ -2773,6 +2788,83 @@ const ClanService = {
 /* ---------------------- v19: СООБЩЕСТВО (посты, лайки, комментарии, хэштеги, жалобы) ----------------------
    Онлайн: таблицы posts / post_likes / post_comments / hashtags / reports (update_v19.sql).
    Офлайн или сервер не обновлён: свои посты хранятся локально, плюс демо-посты игроков. */
+/* ======================= v27: ФИЛЬТР МАТА И ОСКОРБЛЕНИЙ =======================
+   Русский + английский. Ловит обходы: латиница вместо кириллицы (xyй, cyka), цифры (3ae6ал, п1зда),
+   точки и звёздочки внутри слова (п.и.з.д.а), буквы через пробел (х у й), повторы (хууууй, fuuuck),
+   транслит (blyat, pizdec, suka). Тот же список проверяет сервер (update_v27.sql, flx_bad). */
+const Profanity = {
+  // латиница и цифры, похожие на русские буквы (для слов, где есть кириллица)
+  CYR: { a: 'а', b: 'в', c: 'с', e: 'е', h: 'н', k: 'к', m: 'м', o: 'о', p: 'р', t: 'т', x: 'х', y: 'у', u: 'и', i: 'и', r: 'г', n: 'п', '0': 'о', '3': 'з', '4': 'ч', '6': 'б', '1': 'и', '@': 'а', '$': 'с' },
+  // кириллица и цифры, похожие на латиницу (для слов, где есть латиница)
+  LAT: { 'а': 'a', 'в': 'b', 'с': 'c', 'е': 'e', 'н': 'h', 'к': 'k', 'м': 'm', 'о': 'o', 'р': 'p', 'т': 't', 'х': 'x', 'у': 'y', 'и': 'u', 'і': 'i', '0': 'o', '1': 'i', '!': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a', '$': 's', '|': 'l' },
+  P: '(?:на|по|ни|от|ото|до|за|под|при|про|пере|недо|вы|у|о|об|обо|раз|рас|из|ис|с|со|въ|съ|долбо|мудо|а)?',
+  RU: null, EN: null,
+  init() {
+    if (this.RU) return;
+    const P = this.P, W = '(?:^|[^а-я])';
+    this.RU = [
+      W + P + 'ху[йиеяю]', W + '(?:на|по|ни)?хул[иь](?:$|[^а-я])', 'пи[зс]д', 'пе[зс]д', 'бляд', W + 'бл[яа]д[ьи]', W + P + 'еб(?:$|[^а-я])', W + 'бл[яэ](?:$|[^а-я]|ть|т[ьи]?(?:$|[^а-я]))',
+      W + P + '[ъь]?еб(?:а|у|л|н|и|о|ш|ь|е|ы|т|к|ч|с)', W + P + '[ъь]?[её]бн', 'ебуч', 'ебл[аои]',
+      W + 'с?сук(?:а|и|е|у|ой|ам|ами|ах)(?:$|[^а-я])', W + 'сучк', W + 'сучар', W + 'сукин',
+      W + 'муд(?:ак|ач|ил|оз|охал|озвон|ень)', 'пид[оа]р', 'пидр', W + 'педик', W + 'педр[иа]л', 'гандон', 'гондон(?!д)', 'шлюх', 'шалав', 'залуп', 'дроч',
+      W + 'манд(?:а|у|ой|ы|е)(?:$|[^а-я])', 'херн', W + '(?:на|по|ни)хер', W + 'хер(?:$|[^а-я])', 'ублюд', W + 'чмо(?:$|[^а-я]|ш)', W + 'мраз[ьи]', W + 'гнид[аы]',
+      'нигг?ер', W + 'хач(?:$|[^а-я]|и(?:$|[^а-я])|ей|ик|ьё)', W + 'чурк', W + 'жид(?:$|[^а-я]|ы|ов|ам|яр|ов)', W + 'даун(?:$|[^а-ях])', W + 'уеб', W + 'еблан', W + '(?:деб|диб)ил', W + 'идиот', W + 'кретин', W + 'урод(?:$|[^а-я]|ы|ин|ец)', W + 'лох(?:$|[^а-я]|и|ушк)', W + 'тупорыл',
+    ].map(s => new RegExp(s));
+    const B = '(?:^|[^a-z])';
+    this.EN = [
+      'f+u+c+k', B + 'fu?ck', B + 'fck', B + 'fuk', 'motherf', 'sh+i+t(?!ake|zu)', 'c+u+n+t', 'b+i+t+c+h', B + 'dick(?:s|head)?(?:$|[^a-z])', B + 'cock(?:s|sucker)?(?:$|[^a-z])',
+      'puss(?:y|ies)', 'as+hole', 'nig+(?:er|a)(?:$|[^a-z]|s)', B + 'fag+(?:ot|s)?(?:$|[^a-z])', 'whore', B + 'slut', 'retard', B + 'wank', B + 'twat', 'bastard', B + 'kys(?:$|[^a-z])', B + 'idiot', B + 'moron',
+      // транслит русского мата
+      B + '(?:na|po|ni|ot|o|a)?(?:x|kh|h)u(?:y|j|i(?:$|[^a-z])|e[vt]|ya|yu|ilo)', 'xu[yj]', 'pi[zs]d', 'pe[zs]d', 'bl[yj]a(?:d|t|$|[^a-z])', B + '(?:na|po|za|vy|u|ot|do|ras|raz)?y?eb(?:a[lnt]|an|al|ash|u|lo|nu)', B + 's+u+k+a(?:$|[^a-z])', B + 'suchk',
+      'pid[oa]r', 'pidr', B + 'mudak', 'zalup', 'g[ao]nd[oa]n', 'shl[yj]?u[hx]', 'dolbo', 'blyat',
+    ].map(s => new RegExp(s));
+  },
+  // слова целиком, которые похожи, но не мат
+  OK: /^(?:страху[йяе]|застраху|хули?ган|хула|рубля|корабля|сабля|сукно|сукн|мандарин|мандат|херсон|херес|херувим|оскорбля|колебать|хлебать|ребят|себе|тебе|потребля|употребля|скипидар|ebay|ебург|shitake|cocktail|cockpit|scunthorpe|dickens|assassin|bass|class|pass|glass|grass|mass)/,
+  norm(text) {
+    let s = String(text || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ​-‏⁠﻿]/g, '').replace(/ё/g, 'е').replace(/й/g, 'й');
+    // буквы через пробел или знак: «х у й», «п.и.з.д.а» → одно слово
+    s = s.replace(/(?:^|\s)((?:[\p{L}\d@$][\s.\-_*,'`~+|\\/]+){2,}[\p{L}\d@$])(?=\s|$|[.,!?])/gu, m => ' ' + m.replace(/[\s.\-_*,'`~+|\\/]+/g, ''));
+    // знаки внутри слова: «х*уй», «бл@дь» (@ и $ — буквы, их не трогаем)
+    s = s.replace(/([\p{L}\d@$])[.\-_*'`~+|\\/]+(?=[\p{L}\d@$])/gu, '$1');
+    return s;
+  },
+  variants(text) {
+    const s = this.norm(text), toks = s.split(/[^\p{L}\d@$|!]+/u).filter(Boolean), cyr = [], lat = [], raw = [];
+    toks.forEach(t => {
+      const hasC = /[а-яіїєґ]/.test(t), hasL = /[a-z]/.test(t);
+      if (hasC) cyr.push([...t].map(ch => this.CYR[ch] || ch).join('').replace(/[^а-я]/g, '').replace(/(.)\1+/g, '$1'));
+      if (hasL || !hasC) lat.push([...t].map(ch => this.LAT[ch] || ch).join('').replace(/[^a-z]/g, '').replace(/(.)\1{2,}/g, '$1'));
+      if (hasL && !hasC) { cyr.push(this.translit(t)); cyr.push([...t].map(ch => this.CYR[ch] || ch).join('').replace(/[^а-я]/g, '').replace(/(.)\1+/g, '$1')); }
+      raw.push(t);
+    });
+    return { cyr, lat, raw };
+  },
+  // латинский транслит → кириллица (blyat → блят, pizdec → пиздец)
+  translit(t) {
+    const M = [['shch', 'щ'], ['sch', 'щ'], ['sh', 'ш'], ['ch', 'ч'], ['zh', 'ж'], ['kh', 'х'], ['ya', 'я'], ['ja', 'я'], ['yu', 'ю'], ['ju', 'ю'], ['yo', 'е'], ['ts', 'ц'], ['a', 'а'], ['b', 'б'], ['v', 'в'], ['g', 'г'], ['d', 'д'], ['e', 'е'], ['z', 'з'], ['i', 'и'], ['j', 'й'], ['k', 'к'], ['l', 'л'], ['m', 'м'], ['n', 'н'], ['o', 'о'], ['p', 'п'], ['r', 'р'], ['s', 'с'], ['t', 'т'], ['u', 'у'], ['f', 'ф'], ['h', 'х'], ['x', 'х'], ['c', 'к'], ['y', 'й'], ['w', 'в'], ['q', 'к'], ['0', 'о'], ['3', 'з'], ['4', 'ч'], ['6', 'б'], ['1', 'и'], ['@', 'а'], ['$', 'с']];
+    let out = '', i = 0; const s = t.toLowerCase();
+    while (i < s.length) { const m = M.find(([k]) => s.startsWith(k, i)); if (m) { out += m[1]; i += m[0].length; } else i++; }
+    return out.replace(/(.)\1+/g, '$1');
+  },
+  // true, если в тексте есть мат или оскорбление
+  bad(text) {
+    if (!text) return false; this.init();
+    const { cyr, lat, raw } = this.variants(text), okRaw = new Set(raw.filter(w => this.OK.test(w)).map(w => w));
+    if (okRaw.size === raw.length && raw.length) return false; // все слова из белого списка (ebay, cocktail…)
+    const hit = (words, res) => words.some(w => !this.OK.test(w) && res.some(r => r.test(w)));
+    if (hit(cyr, this.RU) || hit(lat, this.EN)) return true;
+    // склеенный текст: «пиз да», «fu ck» (только корни, которые не встречаются в обычных словах)
+    const glue = cyr.join(''), glueL = lat.join('');
+    return /пи[зс]д|бляд|ху[йе]л|еблан|пид[оа]р|залуп|гандон/.test(glue) || /fuck|pi[zs]d|blyad|cunt/.test(glueL);
+  },
+  // звёздочки вместо плохих слов (для показа старых текстов)
+  mask(text) {
+    this.init();
+    return String(text || '').replace(/[\p{L}\d@$*._-]+/gu, w => this.bad(w) ? w[0] + '*'.repeat(Math.max(2, w.length - 1)) : w);
+  },
+};
+
 /* ======================= v23: ПРИГЛАШЕНИЯ ДРУЗЕЙ =======================
    У каждого есть код (тот же, что для добавления в друзья) и ссылка.
    Новичок вводит код при регистрации (или приходит по ссылке) → сразу +150 монет.
@@ -2976,7 +3068,7 @@ const Social = {
   SPAM: [/(https?:\/\/|www\.|t\.me\/|\.(ru|com|net|org|io|me|gg)(\/|\b))/i, /(прода[мюё]|закладк|кладмен|стероид\S* (за|по) |оплат[аиу] на карт|заработ[ао]к в)/i],
   check(text) {
     const t = String(text || '');
-    if (this.BAD.some(r => r.test(t))) return 'В тексте есть оскорбления или мат. Это против правил сообщества.';
+    if (Profanity.bad(t)) return 'В тексте есть оскорбления или мат. Это против правил сообщества.';
     if (this.SPAM.some(r => r.test(t))) return 'Ссылки, реклама и продажа запрещены правилами сообщества.';
     return null;
   },
@@ -3107,7 +3199,7 @@ const Net = {
       return true;
     } catch (e) { console.warn('Net.init', e); this.ready = false; return false; }
   },
-  err(e) { const m = (e && (e.message || e.error_description || e.msg)) || 'Ошибка сети'; return /fetch|network|Failed to fetch/i.test(m) ? 'Нет связи с сервером. Проверь интернет.' : m; },
+  err(e) { const m = (e && (e.message || e.error_description || e.msg)) || 'Ошибка сети'; if (/flx_bad_words/.test(m)) return 'В тексте есть мат или оскорбление. Это против правил сообщества.'; return /fetch|network|Failed to fetch/i.test(m) ? 'Нет связи с сервером. Проверь интернет.' : m; },
   /* ---- аккаунт ---- */
   async nickAvailable(nick) { const { data, error } = await this.client.rpc('nick_available', { p_nick: nick }); if (error) throw error; return !!data; },
   async signUp(email, pass, nick) {
@@ -3187,7 +3279,7 @@ const Net = {
   async email() { try { const { data } = await this.client.auth.getUser(); return data && data.user ? data.user.email : ''; } catch (_) { return ''; } },
   /* ---- профиль и состояние ---- */
   myWeekStats(weekKey) {
-    return { workouts: Calc.workoutsInWeek(weekKey), prs: S.lifts.filter(l => l.isPR && !l.flagged && U.weekKey(U.parseDay(l.date)) === weekKey).length, streak: Calc.streak().count };
+    return { workouts: Calc.workoutsInWeek(weekKey), prs: S.lifts.filter(l => l.isPR && l.paid !== false && !l.flagged && U.weekKey(U.parseDay(l.date)) === weekKey).length, streak: Calc.streak().count };
   },
   profileRow() {
     const bests = {}; Calc.exerciseNames().forEach(e => { const v = Math.round(Calc.bestE1rm(e)); if (v > 0) bests[e] = v; });
@@ -5354,7 +5446,7 @@ Object.assign(UI, {
       ['Где хранится', 'На телефоне и в облаке Supabase (зашифрованное соединение). Фото Body Progress лежат в закрытом хранилище, доступ только у тебя.'],
       ['AI', 'Тексты для разбора еды и гайдов отправляются в Google Gemini без твоего имени и email.'],
       ['Удаление', 'Настройки → Аккаунт и вход → Удалить аккаунт: стираем профиль, прогресс, посты и фото.'],
-      ['Реклама и продажа данных', 'Нет рекламы, данные не продаём и не передаём третьим лицам.'],
+      ['Реклама и продажа данных', 'Нет рекламы, данные не продаём. Передаём только сервисам, без которых приложение не работает: Supabase (хранение) и Google Gemini (ИИ).'],
     ];
     const terms = [
       ['Возраст', `Приложение для пользователей ${CONFIG.MIN_AGE}+.`],
@@ -5366,7 +5458,7 @@ Object.assign(UI, {
     const xs = kind === 'privacy' ? priv : terms;
     this.modal(`<div class="font-black text-lg mb-3"><svg class="ic text-bl"><use href="#${kind === 'privacy' ? 'fa-user-shield' : 'fa-file-lines'}"/></svg> ${kind === 'privacy' ? 'Политика конфиденциальности' : 'Условия использования'}</div>
       ${xs.map(([h, t]) => `<div class="legal-it"><div class="font-bold text-sm">${h}</div><div class="text-xs muted mt-0.5">${t}</div></div>`).join('')}
-      ${kind === 'terms' && !ret ? '<button class="btn btn-ghost w-full mt-3" data-action="open-rules">Правила сообщества</button>' : ''}${back}`, { center: !!ret && ret.a === 'auth-mode', closable: !ret || ret.a !== 'auth-mode' });
+      ${kind === 'privacy' ? `<a class="btn btn-ghost w-full mt-3" href="${CONFIG.PRIVACY_URL}" target="_blank" rel="noopener">Полная версия политики</a>` : ''}${kind === 'terms' && !ret ? '<button class="btn btn-ghost w-full mt-3" data-action="open-rules">Правила сообщества</button>' : ''}${back}`, { center: !!ret && ret.a === 'auth-mode', closable: !ret || ret.a !== 'auth-mode' });
   },
   /* ---------- открытие функций ---------- */
   openLocked(id) {
@@ -5808,6 +5900,7 @@ const App = {
     'ex-save'() {
       const d = UI._exDraft; d.name = document.getElementById('ex-name').value.trim();
       if (!d.name) { UI.toast('Введи название', 'red'); return; }
+      if (Profanity.bad(d.name)) { UI.toast('В названии есть мат или оскорбление. Придумай другое.', 'red'); return; }
       if (!d.muscles.length) { UI.toast('Выбери хотя бы одну мышцу', 'red'); return; }
       const n = Game.saveCustomExercise(d, d.origName); if (n && S.exTr) delete S.exTr[n]; setTimeout(() => Game.translateExercises(), 300);
       if (!UI._planDraft) { const back = UI._exReturn; UI._exReturn = null; UI.liftEx = n; UI.toast('Упражнение сохранено'); if (back) { save(); back(n); UI.renderTab(UI.tab); } else { UI.closeModal(); App.afterChange(); } return; }
@@ -5941,7 +6034,7 @@ const App = {
     'open-clan-join'() { UI.openClanJoin(); },
     'pick-emblem'(el) { el.parentElement.querySelectorAll('button').forEach(b => { b.classList.remove('glow-em'); b.style.borderColor = ''; }); el.classList.add('glow-em'); el.style.borderColor = '#10B981'; },
     'fill-code'(el) { document.getElementById('clan-code').value = el.dataset.val; },
-    async 'clan-create'() { const name = document.getElementById('clan-name').value.trim(); if (name.length < 3) { UI.toast('Название от 3 символов', 'red'); return; }
+    async 'clan-create'() { const name = document.getElementById('clan-name').value.trim(); if (name.length < 3) { UI.toast('Название от 3 символов', 'red'); return; } if (Profanity.bad(name)) { UI.toast('В названии клана есть мат или оскорбление', 'red'); return; }
       if (S.game.coins < CONFIG.CLAN_PRICE) { UI.toast(`Нужно ${CONFIG.CLAN_PRICE} монет, у тебя ${S.game.coins}`, 'red'); return; }
       UI.askBuy(name, CONFIG.CLAN_PRICE, async () => { if (this._clanBusy) return; this._clanBusy = true; try { await this['clan-create-go'](name); } finally { this._clanBusy = false; } }, { icon: 'fa-shield-halved', kind: 'Новый клан', raw: true }); },
     async 'clan-create-go'(name) { const em = UI._emb ? `${UI._emb.icon}|${UI._emb.color}` : 'fa-shield-halved|#8B5CF6'; const r = await ClanService.create(name, em); if (!r || r.error) { UI.toast((r && r.error) || 'Не удалось создать клан', 'red'); return; } Game.addCoins(-CONFIG.CLAN_PRICE, 'Создание клана'); UI.closeModal(); App.clearDraft('clan-name'); UI._clanNameDraft = ''; UI.toast(`Клан создан за ${CONFIG.CLAN_PRICE} монет! Код приглашения: ` + S.clan.code, 'pu'); App.afterChange(); UI.openPage('clan'); },
@@ -6010,7 +6103,7 @@ const App = {
     'set-units'(el) { S.profile.units = el.dataset.val; save(); UI.openSettings(); UI.renderTab(UI.tab); },
     'settings-save'() {
       const el = id => document.getElementById(id), p = S.profile;
-      if (el('st-nick')) p.nickname = el('st-nick').value.trim().slice(0, 16) || p.nickname;
+      if (el('st-nick')) { const nn = el('st-nick').value.trim().slice(0, 16); if (nn && Profanity.bad(nn)) { UI.toast('В нике есть мат или оскорбление', 'red'); return; } if (nn && nn !== p.nickname && Net.online()) { Net.nickAvailable(nn).then(ok => { if (!ok) { UI.toast('Ник «' + U.esc(nn) + '» уже занят', 'red'); return; } p.nickname = nn; save(); UI.renderHeader(); }).catch(() => {}); } else if (nn) p.nickname = nn; }
       if (el('st-sex')) p.sex = App.segVal('st-sex') || p.sex;
       if (el('st-h')) { const h = +el('st-h').value; if (h > 100 && h < 250) p.height = h; }
       if (el('st-age')) { const a = parseInt(el('st-age').value); if (a >= CONFIG.MIN_AGE && a < 100) p.age = a; }
@@ -6025,7 +6118,7 @@ const App = {
 
     'auth-logout'() { UI.confirm(Net.online() ? 'Выйти из аккаунта? Прогресс сохранён в облаке, для входа нужен пароль.' : 'Выйти из аккаунта? Данные останутся на устройстве, для входа нужен пароль.', async () => { await Game.signOut(); UI.closeModal(); UI.openAuth('login'); }, { yes: 'Выйти' }); },
     'buy-boost'(el) { const id = el.dataset.id, it = U.shopItem(id); UI.askBuy(it.name, it.price, () => { const r = Game.buyBoost(id); if (r.error) { UI.toast(r.error, 'red'); UI.openShop(); return; } UI.openShop(); UI.renderHeader(); }, { icon: it.icon || 'fa-bolt', color: '#F97316', back: () => UI.openShop() }); },
-    'custom-title-save'() { const v = document.getElementById('custom-title').value; if (!Game.setCustomTitle(v)) { UI.toast('Введи титул', 'red'); return; } UI.toast('Титул надет: ' + S.profile.customTitle, 'pu'); UI.openShop(); UI.renderTab(UI.tab); },
+    'custom-title-save'() { const v = document.getElementById('custom-title').value; if (Profanity.bad(v)) { UI.toast('В титуле есть мат или оскорбление', 'red'); return; } if (!Game.setCustomTitle(v)) { UI.toast('Введи титул', 'red'); return; } UI.toast('Титул надет: ' + S.profile.customTitle, 'pu'); UI.openShop(); UI.renderTab(UI.tab); },
     async 'avatar-photo'(el) {
       const file = el.files && el.files[0]; if (!file) return;
       try { S.profile.avatar.photo = await App.imageToDataUrl(file, 160); save(); UI.openShop(); UI.renderHeader(); UI.renderTab(UI.tab); UI.toast('Фото установлено', 'pu'); }
@@ -6230,6 +6323,7 @@ const App = {
       UI.wzRead(); const w = UI._wz, err = document.getElementById('ob-err');
       if (w.step === 0) {
         if (w.nick.length < 2) { err.textContent = 'Ник от 2 символов'; return; }
+        if (Profanity.bad(w.nick)) { err.textContent = 'В нике есть мат или оскорбление, придумай другой'; return; }
         const age = parseInt(w.age); if (!age || age < 5 || age > 100) { err.textContent = 'Укажи реальный возраст'; return; }
         if (age < CONFIG.MIN_AGE) { S.profile.age = age; S.profile.blocked = true; save(); UI.openBlocked(); return; }
         if (Net.online()) { el.disabled = true; try { if (!(await Net.nickAvailable(w.nick))) { el.disabled = false; err.textContent = 'Этот ник уже занят, придумай другой'; return; } } catch (_) {} el.disabled = false; }

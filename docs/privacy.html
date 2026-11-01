@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0E14">
+<title>Flexo League · Политика конфиденциальности</title>
+<style>
+:root{--bg:#0B0E14;--card:#121824;--line:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--em:#10B981}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:24px 16px}
+main{max-width:720px;margin:0 auto}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:28px 0 8px;color:var(--em)}
+p,li{color:#CBD5E1}small,.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:16px 0}
+a{color:#60A5FA}code{background:#1E293B;padding:1px 6px;border-radius:6px}
+.contact:empty{display:none}
+</style>
+</head>
+<body>
+<main>
+<h1>Политика конфиденциальности</h1>
+<p class="muted">Приложение Flexo League (Android: com.apexarena.app). English summary below.</p>
+
+<h2>Какие данные мы собираем</h2>
+<ul>
+<li><b>Аккаунт:</b> email или вход через Google, никнейм, возраст, пол.</li>
+<li><b>Фитнес и здоровье:</b> рост, вес тела, тренировки и рекорды, питание, вода, сон, фото Body Progress.</li>
+<li><b>Публикации:</b> посты, фото и видео в ленте, комментарии, лайки, жалобы, клан, друзья, дуэли.</li>
+<li><b>Технические данные:</b> идентификатор аккаунта и модель устройства (для синхронизации).</li>
+</ul>
+
+<h2>Зачем</h2>
+<p>Только чтобы приложение работало: сохранять прогресс в облаке, считать кубки и арены, показывать рейтинги, ленту, кланы и дуэли, разбирать еду и активность с помощью ИИ.</p>
+
+<h2>Кто видит</h2>
+<p>Другие игроки видят никнейм, аватар, ранг, кубки, рекорды в упражнениях, весовую категорию, клан и ваши публикации. Вес тела, рост, питание, сон и фото Body Progress видите только вы.</p>
+
+<h2>Кому передаём</h2>
+<ul>
+<li><b>Supabase</b> (хранение данных и вход), соединение зашифровано.</li>
+<li><b>Google Gemini</b> (ИИ-разбор текста о еде и активности, переводы, гайды). Отправляется только текст запроса, без имени и email.</li>
+<li><b>Google</b>, если вы входите через Google.</li>
+</ul>
+<p>Рекламы нет. Данные не продаём и не используем для рекламы.</p>
+
+<h2>Хранение и удаление</h2>
+<p>Данные хранятся, пока у вас есть аккаунт. Удалить аккаунт и все данные можно в приложении: <b>Настройки → Аккаунт и вход → Удалить аккаунт</b>. Подробнее: <a href="delete-account.html">как удалить аккаунт</a>.</p>
+
+<h2>Дети</h2>
+<p>Приложение для пользователей от 14 лет. Если вам меньше, приложением пользоваться нельзя.</p>
+
+<h2>Здоровье</h2>
+<p>Flexo League не медицинский сервис и не даёт медицинских советов. Перед нагрузками при болезнях и травмах посоветуйтесь с врачом.</p>
+
+<p class="contact" data-t="Вопросы о данных: {e}"></p>
+
+<div class="card">
+<h2 style="margin-top:0">English summary</h2>
+<p>We collect your account data (email or Google sign-in, nickname, age, sex), fitness and health data you enter (height, body weight, workouts, nutrition, water, sleep, progress photos) and content you post (posts, photos, videos, comments, likes, reports, clans, friends, duels). We use it only to run the app. Other players see your nickname, avatar, rank, trophies, lift records, weight class, clan and posts; your body weight, nutrition, sleep and progress photos are private. Data is stored with Supabase; food/activity text is processed by Google Gemini without your name or email. No ads, no selling of data. Delete your account in the app (Settings → Account → Delete account) or see <a href="delete-account.html">delete-account</a>. The app is for users aged 14+. It is not a medical service.</p>
+<p class="contact" data-t="Contact: {e}"></p>
+</div>
+<p class="muted"><small>Flexo League · обновлено 1 ноября 2026</small></p>
+</main>
+<script>
+// Почта поддержки. Впиши адрес, и он появится на странице.
+const SUPPORT_EMAIL = '';
+document.querySelectorAll('.contact').forEach(el => { if (SUPPORT_EMAIL) el.innerHTML = el.dataset.t.replace('{e}', `<a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`); });
+</script>
+</body>
+</html>

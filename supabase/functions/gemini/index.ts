@@ -1,6 +1,6 @@
 // Flexo League: общий прокси к Gemini (гайды по технике, переводы, разбор тренировки).
 // Ключ хранится только в секрете GEMINI_API_KEY (Edge Functions → Secrets), в приложении его нет.
-// Пускает только вошедших пользователей, не больше 60 запросов в день на человека (update_v24.sql).
+// Пускает только вошедших пользователей, не больше 40 запросов в день на человека (update_v27.sql), только модели Flash.
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -17,11 +17,20 @@ Deno.serve(async (req) => {
   const u = await fetch(`${URL_}/auth/v1/user`, { headers: { Authorization: req.headers.get("Authorization") || "", apikey: ANON || SERVICE || "" } }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   if (!u || !u.id) return reply(401, { error: { message: "Войди в аккаунт" } });
   try {
-    const { model, body } = await req.json();
-    if (!/^[\w.\-]+$/.test(String(model))) return reply(400, { error: { message: "bad model" } });
-    if (SERVICE) {
+    const raw = await req.text();
+    if (raw.length > 150000) return reply(413, { error: { message: "Слишком длинный запрос" } });
+    const { model, body } = JSON.parse(raw);
+    // v27: только быстрые дешёвые модели Flash (чужой не сможет гонять дорогие модели за твой счёт)
+    if (!/^gemini-[\d.]+-flash(-lite)?(-preview)?(-\d{2}-\d{4})?$/.test(String(model))) return reply(400, { error: { message: "bad model" } });
+    if (!body || typeof body !== "object" || !Array.isArray(body.contents)) return reply(400, { error: { message: "bad body" } });
+    const gc = (body.generationConfig = body.generationConfig || {});
+    gc.maxOutputTokens = Math.min(Number(gc.maxOutputTokens) || 8192, 8192);
+    delete body.tools; delete body.cachedContent;
+    if (!SERVICE) return reply(503, { error: { message: "Нет SUPABASE_SERVICE_ROLE_KEY" } });
+    {
       const q = await fetch(`${URL_}/rest/v1/rpc/ai_quota_use`, { method: "POST", headers: { "Content-Type": "application/json", apikey: SERVICE, Authorization: `Bearer ${SERVICE}` }, body: JSON.stringify({ p_user: u.id, p_kind: "misc", p_day: new Date().toISOString().slice(0, 10) }) });
-      if (q.ok && (await q.json()) < 0) return reply(429, { error: { message: "Лимит ИИ на сегодня исчерпан" } });
+      if (!q.ok) return reply(500, { error: { message: "Сервер не обновлён: запусти update_v24.sql" } });
+      if ((await q.json()) < 0) return reply(429, { error: { message: "Лимит ИИ на сегодня исчерпан" } });
     }
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
       method: "POST",
