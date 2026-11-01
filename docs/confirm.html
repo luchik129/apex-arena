@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0B0E14">
-<title>APEX Arena · почта подтверждена</title>
+<title>Flexo League · почта подтверждена</title>
 <style>
 :root{--bg:#0B0E14;--card:#121824;--line:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--em:#10B981;--bl:#3B82F6;--pu:#8B5CF6;--gold:#FBBF24}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -37,21 +37,14 @@ p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
 <div class="card" id="card">
   <div class="rays"></div>
   <div class="medal">
-    <svg viewBox="-60 -62 120 122" width="150" height="150">
-      <defs><linearGradient id="g" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#FEF3C7"/><stop offset=".45" stop-color="#F59E0B"/><stop offset="1" stop-color="#92400E"/></linearGradient><radialGradient id="d" cx=".5" cy=".3" r=".75"><stop offset="0" stop-color="#3b2a0b"/><stop offset="1" stop-color="#120c03"/></radialGradient></defs>
-      <circle r="58" fill="#F59E0B" opacity=".15"/>
-      <path d="M0-40L31-30Q34 2 26 17Q16 33 0 42Q-16 33-26 17Q-34 2-31-30Z" fill="url(#g)" stroke="#78350F" stroke-width="2"/>
-      <circle r="24.5" fill="url(#d)" stroke="#FEF3C7" stroke-width="1.6"/>
-      <path d="M-11-12h22v6a11 11 0 0 1-22 0zM-11-9h-5a5 5 0 0 0 5 7M11-9h5a5 5 0 0 1-5 7M-4 5h8v4h-8zM-8 9h16v4h-16z" fill="none" stroke="#FDE68A" stroke-width="2.2" stroke-linejoin="round"/>
-      <g transform="translate(0 -38)"><path d="M-15 0L-17-13L-8-6L0-17L8-6L17-13L15 0Z" fill="url(#g)" stroke="#78350F" stroke-width=".8"/></g>
-    </svg>
+    <img src="icon.png" width="150" height="150" alt="Flexo League" style="border-radius:34px;display:block;box-shadow:0 0 40px #f9731655">
     <div class="check" id="badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path id="badge-p" d="M5 12l5 5L20 7"/></svg></div>
   </div>
   <h1 id="title">Почта <span>подтверждена!</span></h1>
   <p id="sub">Добро пожаловать на Арену. Аккаунт готов, осталось вернуться в приложение.</p>
   <div class="loop"><b>Тренировка</b><i>›</i><b>Кубки</b><i>›</i><b>Арена</b></div>
-  <a class="btn" id="open" href="#">Открыть APEX Arena</a>
-  <div class="note" id="note">Приложение откроется уже с аккаунтом, вводить пароль не нужно.<br>Если подтверждаешь на компьютере, просто вернись в APEX Arena на телефоне: вход произойдёт сам.</div>
+  <a class="btn" id="open" href="#">Открыть Flexo League</a>
+  <div class="note" id="note">Приложение откроется уже с аккаунтом, вводить пароль не нужно.<br>Если подтверждаешь на компьютере, просто вернись в Flexo League на телефоне: вход произойдёт сам.</div>
 </div>
 <div class="conf" id="conf"></div>
 <script>
@@ -75,7 +68,7 @@ p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
     document.getElementById('title').innerHTML = 'Новый <span>пароль</span>';
     document.getElementById('sub').textContent = 'Открой приложение: оно войдёт в аккаунт и предложит придумать новый пароль.';
   } else if (!h && !q) {
-    document.getElementById('title').innerHTML = 'APEX <span>Arena</span>';
+    document.getElementById('title').innerHTML = 'Flexo <span>League</span>';
     document.getElementById('sub').textContent = 'Тренируйся, собирай кубки и поднимайся по аренам.';
   }
   var cs = ['#10B981', '#3B82F6', '#F59E0B', '#8B5CF6', '#F472B6', '#FDE68A'], c = document.getElementById('conf');

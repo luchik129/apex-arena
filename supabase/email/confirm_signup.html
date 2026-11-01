@@ -1,0 +1,23 @@
+<!-- Supabase → Authentication → Emails → «Confirm signup». Тема письма: «Подтверди почту и выходи на Арену 🏆» -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0B0E14;padding:32px 12px;font-family:Arial,Helvetica,sans-serif">
+  <tr><td align="center">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background:#121824;border:1px solid #1E293B;border-radius:24px;overflow:hidden">
+      <tr><td style="background:linear-gradient(135deg,#10B981,#3B82F6,#8B5CF6);background-color:#3B82F6;padding:28px 24px;text-align:center">
+        <img src="https://luchik129.github.io/apex-arena/icon.png" width="76" height="76" alt="Flexo League" style="display:block;margin:0 auto;border-radius:18px">
+        <div style="font-size:26px;font-weight:900;color:#ffffff;margin-top:8px;letter-spacing:-0.5px">Flexo League</div>
+        <div style="font-size:13px;color:#E0F2FE;margin-top:4px;font-weight:bold">Тренировка › Кубки › Арена</div>
+      </td></tr>
+      <tr><td style="padding:28px 24px 8px;text-align:center;color:#F1F5F9">
+        <div style="font-size:22px;font-weight:900">Остался один шаг!</div>
+        <div style="font-size:15px;color:#94A3B8;line-height:1.5;margin-top:10px">Подтверди почту, и приложение само откроется уже с аккаунтом. Пароль вводить не нужно.</div>
+      </td></tr>
+      <tr><td style="padding:20px 24px 8px" align="center">
+        <a href="{{ .ConfirmationURL }}" style="display:block;background:#10B981;color:#ffffff;text-decoration:none;font-size:17px;font-weight:900;padding:16px 20px;border-radius:14px">Подтвердить почту</a>
+      </td></tr>
+      <tr><td style="padding:16px 24px 24px;text-align:center">
+        <div style="font-size:12px;color:#64748B;line-height:1.5">Открывай ссылку на телефоне, где стоит Flexo League. Если подтверждаешь на компьютере, просто вернись в приложение: вход произойдёт сам.<br><br>Ссылка действует 24 часа. Если ты не регистрировался, просто удали это письмо.</div>
+      </td></tr>
+    </table>
+    <div style="font-size:11px;color:#475569;margin-top:16px">Flexo League · {{ .Email }}</div>
+  </td></tr>
+</table>

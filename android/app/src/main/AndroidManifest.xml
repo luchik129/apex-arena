@@ -28,6 +28,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="com.apexarena.app" android:host="auth-callback" />
+                <data android:scheme="com.apexarena.app" android:host="invite" />
             </intent-filter>
 
         </activity>

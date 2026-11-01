@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0E14">
+<title>Приглашение в Flexo League</title>
+<meta property="og:title" content="Тебя зовут в Flexo League">
+<meta property="og:description" content="Тренировки, кубки и арены. По приглашению +150 монет.">
+<meta property="og:image" content="https://luchik129.github.io/apex-arena/icon.png">
+<style>
+:root{--bg:#0B0E14;--card:#121824;--line:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--or:#F97316;--gold:#FBBF24}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:radial-gradient(120% 70% at 50% 0%,#F9731633,transparent 60%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.card{width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:30px 22px 22px;text-align:center;box-shadow:0 30px 80px #0008}
+.logo{width:120px;height:120px;border-radius:30px;margin:0 auto 10px;display:block;box-shadow:0 0 50px #F9731666;animation:float 3.4s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -8px}}
+h1{font-size:26px;font-weight:900;letter-spacing:-.02em}
+h1 span{background:linear-gradient(90deg,#FBBF24,#F97316);-webkit-background-clip:text;background-clip:text;color:transparent}
+p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
+.code{margin-top:18px;padding:14px;border-radius:16px;border:2px dashed #F9731688;background:#0f1522}
+.code small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.code b{display:block;font-size:30px;font-weight:900;letter-spacing:.15em;margin-top:2px}
+.gift{display:inline-block;margin-top:12px;padding:6px 12px;border-radius:999px;background:#FBBF2422;color:var(--gold);font-weight:800;font-size:13px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;margin-top:16px;padding:16px;border:0;border-radius:16px;font-size:16px;font-weight:900;color:#fff;background:linear-gradient(90deg,#F97316,#FBBF24);text-decoration:none;box-shadow:0 10px 30px #F9731655}
+.btn.ghost{background:#0f1522;border:1px solid var(--line);box-shadow:none;margin-top:10px}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.45}
+</style>
+</head>
+<body>
+<div class="card">
+  <img class="logo" src="icon.png" alt="Flexo League">
+  <h1>Тебя зовут в <span>Flexo League</span></h1>
+  <p>Тренируйся, получай кубки и поднимайся по аренам вместе с другом.</p>
+  <div class="code"><small>Код приглашения</small><b id="code">—</b></div>
+  <div class="gift">🎁 +150 монет при регистрации</div>
+  <a class="btn" id="open" href="#">Открыть приложение</a>
+  <a class="btn ghost" href="https://github.com/luchik129/apex-arena/releases/latest">Скачать приложение</a>
+  <div class="note">Если приложение уже установлено, код подставится сам. Если нет, установи его и введи код при регистрации.</div>
+</div>
+<script>
+  var c = (new URLSearchParams(location.search).get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+  document.getElementById('code').textContent = c || '—';
+  var deep = 'com.apexarena.app://invite?c=' + encodeURIComponent(c);
+  document.getElementById('open').href = deep;
+  if (c && /Android|iPhone|iPad/i.test(navigator.userAgent)) setTimeout(function () { location.href = deep; }, 700);
+</script>
+</body>
+</html>

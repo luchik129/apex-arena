@@ -46,6 +46,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: APEX Arena build ${{ github.run_number }}
+          name: Flexo League build ${{ github.run_number }}
           body: "Скачай apex-arena.apk и установи на телефон (разреши установку из неизвестных источников)."
           files: apex-arena.apk
