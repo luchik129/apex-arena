@@ -1,0 +1,75 @@
+name: Build iOS
+
+# v28: сборка для iPhone на Mac-сервере GitHub.
+# Без ключей Apple: проверяем, что проект собирается (для симулятора).
+# С ключами в Secrets (APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8): подписываем и отправляем в TestFlight.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths: ['ios/**', 'index.html', 'www/**', 'capacitor.config.json', 'package.json', 'package-lock.json', '.github/workflows/ios.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Самый новый Xcode (App Store принимает сборки только из свежего Xcode)
+        run: |
+          X=$(ls -d /Applications/Xcode_*.app | grep -v beta | sort -V | tail -1)
+          echo "Xcode: $X"; sudo xcode-select -s "$X"; xcodebuild -version
+      - name: Capacitor
+        run: |
+          npm ci
+          npx cap sync ios
+      - name: Проверка сборки (симулятор, без подписи)
+        working-directory: ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee ../../ios-build.log | grep -E "error:|warning: .*deprecated|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" ../../ios-build.log || { echo "::error::$(grep -n 'error:' ../../ios-build.log | head -20 | sed ':a;N;$!ba;s/\n/%0A/g')"; exit 1; }
+      - name: Подписать и отправить в TestFlight
+        if: github.event_name != 'pull_request'
+        working-directory: ios/App
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ISSUER: ${{ secrets.ASC_ISSUER_ID }}
+          KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          if [ -z "$TEAM" ] || [ -z "$KEY_ID" ] || [ -z "$ISSUER" ] || [ -z "$KEY_P8" ]; then echo "Нет ключей Apple в Secrets — TestFlight пропускаем"; exit 0; fi
+          KEY="$RUNNER_TEMP/AuthKey_$KEY_ID.p8"
+          if echo "$KEY_P8" | grep -q "BEGIN PRIVATE KEY"; then printf '%s\n' "$KEY_P8" > "$KEY"; else echo "$KEY_P8" | base64 --decode > "$KEY"; fi
+          AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $KEY_ID -authenticationKeyIssuerID $ISSUER"
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic \
+            MARKETING_VERSION=1.0 CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            $AUTH archive 2>&1 | tee ../../ios-archive.log | grep -E "error:|ARCHIVE (SUCCEEDED|FAILED)" || true
+          grep -q "ARCHIVE SUCCEEDED" ../../ios-archive.log || { echo "::error::$(grep -n 'error:' ../../ios-archive.log | head -20 | sed ':a;N;$!ba;s/\n/%0A/g')"; exit 1; }
+          cat > "$RUNNER_TEMP/export.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$TEAM</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/export.plist" \
+            -exportPath "$RUNNER_TEMP/out" $AUTH 2>&1 | tee ../../ios-export.log | grep -E "error:|EXPORT (SUCCEEDED|FAILED)|Upload" || true
+          grep -q "EXPORT SUCCEEDED" ../../ios-export.log || { echo "::error::$(grep -n 'error' ../../ios-export.log | head -20 | sed ':a;N;$!ba;s/\n/%0A/g')"; exit 1; }
+          echo "::notice::Сборка ${{ github.run_number }} отправлена в TestFlight"

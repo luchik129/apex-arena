@@ -2,6 +2,15 @@
   "appId": "com.apexarena.app",
   "appName": "Flexo League",
   "webDir": "www",
-  "android": { "allowMixedContent": false, "backgroundColor": "#0B0E14" },
-  "server": { "androidScheme": "https" }
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0B0E14"
+  },
+  "server": {
+    "androidScheme": "https"
+  },
+  "ios": {
+    "backgroundColor": "#0B0E14",
+    "contentInset": "never"
+  }
 }
