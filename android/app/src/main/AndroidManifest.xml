@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- v22: возврат в приложение после входа через Google/Snapchat и подтверждения почты -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.apexarena.app" android:host="auth-callback" />
+            </intent-filter>
+
         </activity>
 
         <provider

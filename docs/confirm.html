@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0E14">
+<title>APEX Arena · почта подтверждена</title>
+<style>
+:root{--bg:#0B0E14;--card:#121824;--line:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--em:#10B981;--bl:#3B82F6;--pu:#8B5CF6;--gold:#FBBF24}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:radial-gradient(120% 70% at 50% 0%,#8B5CF633,transparent 60%),radial-gradient(90% 60% at 50% 100%,#10B98122,transparent 60%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px;overflow-x:hidden}
+.card{position:relative;width:100%;max-width:420px;background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--line);border-radius:28px;padding:32px 24px 24px;text-align:center;box-shadow:0 30px 80px #0008;overflow:hidden}
+.rays{position:absolute;left:50%;top:110px;width:520px;height:520px;margin:-260px 0 0 -260px;background:conic-gradient(from 0deg,transparent 0 8%,#ffffff10 8% 16%,transparent 16% 24%,#ffffff10 24% 32%,transparent 32% 40%,#ffffff10 40% 48%,transparent 48% 56%,#ffffff10 56% 64%,transparent 64% 72%,#ffffff10 72% 80%,transparent 80% 88%,#ffffff10 88% 96%,transparent 96%);animation:spin 14s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.medal{position:relative;width:150px;height:150px;margin:0 auto 8px;animation:pop .8s cubic-bezier(.2,1.5,.4,1) both,float 3.4s 1s ease-in-out infinite}
+@keyframes pop{from{transform:scale(.3) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.check{position:absolute;right:6px;bottom:10px;width:46px;height:46px;border-radius:50%;background:var(--em);border:4px solid var(--card);display:flex;align-items:center;justify-content:center;animation:pop .5s .6s cubic-bezier(.2,1.6,.4,1) both;box-shadow:0 0 24px #10B98188}
+h1{font-size:28px;font-weight:900;letter-spacing:-.02em;margin-top:6px}
+h1 span{background:linear-gradient(90deg,#34D399,#60A5FA,#A78BFA);-webkit-background-clip:text;background-clip:text;color:transparent}
+p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
+.loop{display:inline-flex;gap:8px;align-items:center;margin-top:16px;padding:7px 12px;border-radius:999px;background:#0f1522;border:1px solid var(--line);font-size:12px;font-weight:800}
+.loop b:nth-child(1){color:#34D399}.loop b:nth-child(3){color:var(--gold)}.loop b:nth-child(5){color:#A78BFA}.loop i{color:var(--muted);font-style:normal}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:22px;padding:17px;border:0;border-radius:16px;font-size:17px;font-weight:900;color:#fff;background:linear-gradient(90deg,#10B981,#3B82F6);text-decoration:none;box-shadow:0 10px 30px #10B98155;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 10px 30px #10B98155}50%{box-shadow:0 10px 40px #3B82F688}}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.45}
+.steps{text-align:left;margin-top:18px;display:grid;gap:8px}
+.steps div{display:flex;gap:10px;align-items:center;font-size:14px;padding:10px 12px;border-radius:12px;background:#0f1522;border:1px solid var(--line)}
+.steps span{flex:none;width:24px;height:24px;border-radius:50%;background:#10B98122;color:#34D399;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center}
+.err .check{background:#EF4444;box-shadow:0 0 24px #EF444488}.err .btn{background:linear-gradient(90deg,#F97316,#EF4444)}
+.conf{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.conf i{position:absolute;top:-12px;width:8px;height:14px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="rays"></div>
+  <div class="medal">
+    <svg viewBox="-60 -62 120 122" width="150" height="150">
+      <defs><linearGradient id="g" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#FEF3C7"/><stop offset=".45" stop-color="#F59E0B"/><stop offset="1" stop-color="#92400E"/></linearGradient><radialGradient id="d" cx=".5" cy=".3" r=".75"><stop offset="0" stop-color="#3b2a0b"/><stop offset="1" stop-color="#120c03"/></radialGradient></defs>
+      <circle r="58" fill="#F59E0B" opacity=".15"/>
+      <path d="M0-40L31-30Q34 2 26 17Q16 33 0 42Q-16 33-26 17Q-34 2-31-30Z" fill="url(#g)" stroke="#78350F" stroke-width="2"/>
+      <circle r="24.5" fill="url(#d)" stroke="#FEF3C7" stroke-width="1.6"/>
+      <path d="M-11-12h22v6a11 11 0 0 1-22 0zM-11-9h-5a5 5 0 0 0 5 7M11-9h5a5 5 0 0 1-5 7M-4 5h8v4h-8zM-8 9h16v4h-16z" fill="none" stroke="#FDE68A" stroke-width="2.2" stroke-linejoin="round"/>
+      <g transform="translate(0 -38)"><path d="M-15 0L-17-13L-8-6L0-17L8-6L17-13L15 0Z" fill="url(#g)" stroke="#78350F" stroke-width=".8"/></g>
+    </svg>
+    <div class="check" id="badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path id="badge-p" d="M5 12l5 5L20 7"/></svg></div>
+  </div>
+  <h1 id="title">Почта <span>подтверждена!</span></h1>
+  <p id="sub">Добро пожаловать на Арену. Аккаунт готов, осталось вернуться в приложение.</p>
+  <div class="loop"><b>Тренировка</b><i>›</i><b>Кубки</b><i>›</i><b>Арена</b></div>
+  <a class="btn" id="open" href="#">Открыть APEX Arena</a>
+  <div class="note" id="note">Приложение откроется уже с аккаунтом, вводить пароль не нужно.<br>Если подтверждаешь на компьютере, просто вернись в APEX Arena на телефоне: вход произойдёт сам.</div>
+</div>
+<div class="conf" id="conf"></div>
+<script>
+(function () {
+  var h = location.hash.slice(1), q = location.search.slice(1), P = new URLSearchParams(h), Q = new URLSearchParams(q);
+  var err = P.get('error_description') || Q.get('error_description');
+  var type = P.get('type') || Q.get('type') || '';
+  var deep = 'com.apexarena.app://auth-callback' + (q ? '?' + q : '') + (h ? '#' + h : '');
+  var open = document.getElementById('open'); open.href = deep;
+  var mobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+  if (err) {
+    document.getElementById('card').classList.add('err');
+    document.getElementById('badge-p').setAttribute('d', 'M7 7l10 10M17 7L7 17');
+    document.getElementById('title').innerHTML = 'Ссылка <span>устарела</span>';
+    document.getElementById('sub').textContent = 'Ссылка уже использована или срок её действия истёк. Открой приложение и запроси новое письмо или просто войди.';
+    open.textContent = 'Открыть приложение'; open.href = 'com.apexarena.app://auth-callback';
+    document.getElementById('note').textContent = 'Письма со ссылкой действуют 24 часа и срабатывают один раз.';
+    return;
+  }
+  if (type === 'recovery') {
+    document.getElementById('title').innerHTML = 'Новый <span>пароль</span>';
+    document.getElementById('sub').textContent = 'Открой приложение: оно войдёт в аккаунт и предложит придумать новый пароль.';
+  } else if (!h && !q) {
+    document.getElementById('title').innerHTML = 'APEX <span>Arena</span>';
+    document.getElementById('sub').textContent = 'Тренируйся, собирай кубки и поднимайся по аренам.';
+  }
+  var cs = ['#10B981', '#3B82F6', '#F59E0B', '#8B5CF6', '#F472B6', '#FDE68A'], c = document.getElementById('conf');
+  for (var i = 0; i < 80; i++) { var e = document.createElement('i'); e.style.left = Math.random() * 100 + '%'; e.style.background = cs[i % cs.length]; e.style.animationDuration = 2 + Math.random() * 2 + 's'; e.style.animationDelay = Math.random() * .8 + 's'; c.appendChild(e); }
+  if (mobile && (h || q)) setTimeout(function () { location.href = deep; }, 900);
+})();
+</script>
+</body>
+</html>
