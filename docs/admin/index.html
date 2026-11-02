@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0E14">
+<title>Flexo Admin</title>
+<link rel="icon" href="../icon.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<style>
+:root {
+  --bg: #0B0E14; --bg2: #0F141D; --card: #121824; --card2: #161E2C; --line: #1E293B; --line2: #273449;
+  --tx: #E6EDF7; --mu: #8B98AE; --mu2: #5D6B82;
+  --em: #10B981; --bl: #3B82F6; --or: #F97316; --pu: #8B5CF6; --rd: #EF4444; --am: #F59E0B;
+  --r: 14px; --sh: 0 10px 30px rgba(0,0,0,.35);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--tx); font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.num { font-variant-numeric: tabular-nums; }
+.muted { color: var(--mu); } .mu2 { color: var(--mu2); }
+.hide { display: none !important; }
+svg.i { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* layout */
+.app { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+.side { position: sticky; top: 0; height: 100vh; border-right: 1px solid var(--line); background: var(--bg2); padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 18px; }
+.brand img { width: 34px; height: 34px; border-radius: 9px; }
+.brand b { font-size: 15px; letter-spacing: .2px; } .brand small { display: block; color: var(--mu); font-size: 11px; }
+.nav { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; color: var(--mu); text-decoration: none; font-weight: 600; cursor: pointer; border: 0; background: none; width: 100%; text-align: left; }
+.nav:hover { background: var(--card); color: var(--tx); }
+.nav.on { background: linear-gradient(90deg, rgba(16,185,129,.16), rgba(16,185,129,.04)); color: var(--tx); box-shadow: inset 2px 0 0 var(--em); }
+.nav .i { font-size: 17px; }
+.nav .bd { margin-left: auto; }
+.side .me { margin-top: auto; padding: 10px; border-top: 1px solid var(--line); font-size: 12px; color: var(--mu); }
+.main { min-width: 0; padding: 26px 30px 90px; max-width: 1240px; }
+.top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.top h1 { font-size: 22px; margin: 0; letter-spacing: -.2px; }
+.top .sp { flex: 1; }
+.bnav { display: none; }
+
+/* atoms */
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); }
+.pad { padding: 16px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line2); background: var(--card2); font-weight: 650; cursor: pointer; white-space: nowrap; transition: .12s; }
+.btn:hover { border-color: #3a4a63; background: #1b2536; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.sm { height: 30px; padding: 0 10px; font-size: 12.5px; border-radius: 8px; }
+.btn.em { background: var(--em); border-color: var(--em); color: #04130d; } .btn.em:hover { background: #14cf91; }
+.btn.rd { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.45); color: #fca5a5; } .btn.rd:hover { background: rgba(239,68,68,.22); }
+.btn.or { background: rgba(249,115,22,.12); border-color: rgba(249,115,22,.45); color: #fdba74; }
+.btn.bl { background: rgba(59,130,246,.12); border-color: rgba(59,130,246,.45); color: #93c5fd; }
+.btn.ghost { background: transparent; }
+.bd { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; background: var(--rd); color: #fff; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.bd.or { background: var(--or); } .bd.z { display: none; }
+.chip { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 9px; border-radius: 99px; font-size: 12px; font-weight: 650; background: var(--card2); border: 1px solid var(--line2); color: var(--mu); white-space: nowrap; }
+.chip.rd { color: #fca5a5; border-color: rgba(239,68,68,.4); background: rgba(239,68,68,.1); }
+.chip.or { color: #fdba74; border-color: rgba(249,115,22,.4); background: rgba(249,115,22,.1); }
+.chip.em { color: #6ee7b7; border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.1); }
+.chip.bl { color: #93c5fd; border-color: rgba(59,130,246,.4); background: rgba(59,130,246,.1); }
+.chip.pu { color: #c4b5fd; border-color: rgba(139,92,246,.4); background: rgba(139,92,246,.1); }
+.seg { display: inline-flex; gap: 2px; padding: 3px; background: var(--bg2); border: 1px solid var(--line); border-radius: 11px; flex-wrap: wrap; }
+.seg button { border: 0; background: none; padding: 6px 12px; border-radius: 8px; color: var(--mu); font-weight: 650; cursor: pointer; font-size: 13px; }
+.seg button.on { background: var(--card2); color: var(--tx); box-shadow: 0 1px 0 var(--line2) inset; }
+.inp { height: 38px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line2); background: var(--bg2); outline: none; width: 100%; }
+.inp:focus { border-color: var(--em); box-shadow: 0 0 0 3px rgba(16,185,129,.15); }
+textarea.inp { height: auto; min-height: 70px; padding: 10px 12px; resize: vertical; }
+.lbl { font-size: 12px; color: var(--mu); font-weight: 650; margin: 0 0 6px; display: block; }
+.row { display: flex; align-items: center; gap: 10px; }
+.wrap { flex-wrap: wrap; }
+.grow { flex: 1; min-width: 0; }
+.av { width: 40px; height: 40px; border-radius: 12px; background: var(--card2); border: 1px solid var(--line2); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; color: var(--mu); overflow: hidden; flex: none; }
+.av img { width: 100%; height: 100%; object-fit: cover; }
+.av.lg { width: 64px; height: 64px; border-radius: 18px; font-size: 22px; }
+.av.sm { width: 28px; height: 28px; border-radius: 8px; font-size: 12px; }
+.link { cursor: pointer; text-decoration: none; } .link:hover { text-decoration: underline; }
+.empty { padding: 48px 20px; text-align: center; color: var(--mu); }
+.empty .i { font-size: 34px; color: var(--em); margin-bottom: 8px; }
+.sk { background: linear-gradient(90deg, var(--card) 0, var(--card2) 50%, var(--card) 100%); background-size: 200% 100%; animation: sk 1.2s infinite; border-radius: var(--r); }
+@keyframes sk { to { background-position: -200% 0; } }
+.list > * + * { border-top: 1px solid var(--line); }
+.kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.kv > div { background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.kv b { display: block; font-size: 18px; } .kv span { font-size: 11.5px; color: var(--mu); }
+table.t { width: 100%; border-collapse: collapse; }
+table.t th { text-align: left; font-size: 11.5px; font-weight: 700; color: var(--mu); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.t td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+table.t tr:last-child td { border-bottom: 0; }
+table.t tr.click { cursor: pointer; } table.t tr.click:hover td { background: rgba(255,255,255,.02); }
+.tw { overflow-x: auto; }
+h2.h { font-size: 15px; margin: 26px 0 10px; display: flex; align-items: center; gap: 8px; }
+h2.h .muted { font-weight: 500; font-size: 13px; }
+
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.stat { padding: 16px; position: relative; overflow: hidden; }
+.stat .k { font-size: 12px; color: var(--mu); font-weight: 650; display: flex; align-items: center; gap: 6px; }
+.stat .v { font-size: 30px; font-weight: 850; letter-spacing: -.5px; margin-top: 4px; }
+.stat .s { font-size: 12px; color: var(--mu); }
+.stat.hot { border-color: rgba(249,115,22,.5); background: linear-gradient(160deg, rgba(249,115,22,.12), var(--card) 60%); cursor: pointer; }
+.stat.hot2 { border-color: rgba(239,68,68,.5); background: linear-gradient(160deg, rgba(239,68,68,.12), var(--card) 60%); cursor: pointer; }
+.bars { display: flex; align-items: flex-end; gap: 5px; height: 110px; padding-top: 10px; }
+.bars div { flex: 1; background: linear-gradient(180deg, var(--em), rgba(16,185,129,.35)); border-radius: 5px 5px 2px 2px; min-height: 3px; position: relative; }
+.bars.bl div { background: linear-gradient(180deg, var(--bl), rgba(59,130,246,.35)); }
+.bars div:hover::after { content: attr(data-t); position: absolute; bottom: 100%; left: 50%; transform: translate(-50%, -6px); background: #000; padding: 3px 7px; border-radius: 6px; font-size: 11px; white-space: nowrap; }
+.bars-x { display: flex; justify-content: space-between; font-size: 11px; color: var(--mu2); margin-top: 6px; }
+
+/* review card */
+.rv { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; overflow: hidden; }
+.rv + .rv { margin-top: 12px; }
+.rv > * { min-width: 0; }
+.rv .l { padding: 16px; border-right: 1px solid var(--line); }
+.stats.two { grid-template-columns: 1fr 1fr; }
+.rv .r { padding: 16px; background: var(--bg2); }
+.big { font-size: 34px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+.ratio { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 74px; height: 74px; border-radius: 18px; font-weight: 900; font-size: 22px; flex: none; }
+.ratio small { font-size: 10px; font-weight: 700; opacity: .8; }
+.ratio.hi { background: rgba(239,68,68,.14); color: #fca5a5; border: 1px solid rgba(239,68,68,.4); }
+.ratio.mid { background: rgba(249,115,22,.14); color: #fdba74; border: 1px solid rgba(249,115,22,.4); }
+.ratio.ok { background: rgba(16,185,129,.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,.35); }
+.hist { display: flex; align-items: flex-end; gap: 4px; height: 64px; margin: 8px 0 4px; }
+.hist div { flex: 1; border-radius: 4px 4px 1px 1px; background: rgba(139,152,174,.35); min-height: 3px; position: relative; }
+.hist div.me { background: var(--or); }
+.hist div:hover::after { content: attr(data-t); position: absolute; bottom: 100%; left: 50%; transform: translate(-50%, -6px); background: #000; padding: 3px 7px; border-radius: 6px; font-size: 11px; white-space: nowrap; z-index: 2; }
+.act { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+/* report / post */
+.rp { padding: 16px; } .rp + .rp { margin-top: 12px; }
+.prev { background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-top: 12px; }
+.prev img, .prev video { max-width: 100%; max-height: 340px; border-radius: 10px; display: block; margin-top: 8px; background: #000; }
+.posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.post { overflow: hidden; display: flex; flex-direction: column; }
+.post .media { background: #000; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+.post .media img, .post .media video { width: 100%; height: 100%; object-fit: cover; }
+.post .b { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.post.hidden { opacity: .55; }
+.note { white-space: pre-wrap; word-break: break-word; }
+
+/* player */
+.ph { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 18px; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 18px 0 12px; }
+.tabs button { border: 1px solid var(--line); background: var(--card); color: var(--mu); border-radius: 99px; padding: 6px 13px; font-weight: 650; cursor: pointer; font-size: 13px; }
+.tabs button.on { color: var(--tx); border-color: var(--em); background: rgba(16,185,129,.1); }
+tr.sus td { background: rgba(249,115,22,.06); }
+tr.bad td { background: rgba(239,68,68,.07); }
+
+/* modal, toast, login */
+.mbg { position: fixed; inset: 0; background: rgba(3,6,10,.72); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; animation: fi .15s; }
+.modal { width: 100%; max-width: 460px; max-height: 90vh; overflow: auto; background: var(--card); border: 1px solid var(--line2); border-radius: 18px; padding: 20px; box-shadow: var(--sh); animation: up .18s; }
+.modal h3 { margin: 0 0 4px; font-size: 18px; }
+@keyframes fi { from { opacity: 0; } } @keyframes up { from { transform: translateY(10px); opacity: 0; } }
+.fld { margin-top: 14px; }
+.toasts { position: fixed; right: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 8px; z-index: 60; }
+.toast { background: #0d1320; border: 1px solid var(--line2); border-left: 3px solid var(--em); border-radius: 10px; padding: 10px 14px; box-shadow: var(--sh); max-width: 360px; animation: up .18s; }
+.toast.err { border-left-color: var(--rd); }
+.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: radial-gradient(800px 400px at 50% -10%, rgba(16,185,129,.15), transparent), var(--bg); }
+.login .card { width: 100%; max-width: 380px; padding: 26px; }
+.login img { width: 56px; height: 56px; border-radius: 15px; }
+.or-line { display: flex; align-items: center; gap: 10px; color: var(--mu2); font-size: 12px; margin: 14px 0; } .or-line::before, .or-line::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+pre.code { background: #070a0f; border: 1px solid var(--line); border-radius: 10px; padding: 12px; overflow-x: auto; font-size: 12px; white-space: pre-wrap; word-break: break-all; }
+.rules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.rules-grid label { display: flex; align-items: center; gap: 8px; background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; padding: 6px 6px 6px 12px; font-size: 13px; }
+.rules-grid label span { flex: 1; } .rules-grid input { width: 74px; height: 32px; }
+.sw { position: relative; width: 42px; height: 24px; border-radius: 99px; background: var(--line2); border: 0; cursor: pointer; flex: none; }
+.sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: .15s; }
+.sw.on { background: var(--em); } .sw.on::after { left: 21px; }
+
+@media (max-width: 980px) { .stats { grid-template-columns: repeat(2, 1fr); } .rv { grid-template-columns: 1fr; } .rv .l { border-right: 0; border-bottom: 1px solid var(--line); } }
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; }
+  .side { display: none; }
+  .main { padding: 16px 16px 96px; }
+  .bnav { display: flex; position: fixed; left: 0; right: 0; bottom: 0; background: rgba(15,20,29,.96); backdrop-filter: blur(8px); border-top: 1px solid var(--line); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); z-index: 40; overflow-x: auto; }
+  .stats.two { grid-template-columns: 1fr; }
+  .bnav button { flex: 1; min-width: 0; letter-spacing: -.2px; white-space: nowrap; border: 0; background: none; color: var(--mu); font-size: 9.5px; font-weight: 650; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 2px; position: relative; cursor: pointer; }
+  .bnav button .i { font-size: 20px; }
+  .bnav button.on { color: var(--em); }
+  .bnav .bd { position: absolute; top: 0; left: 50%; margin-left: 6px; height: 17px; min-width: 17px; font-size: 10px; }
+  .top h1 { font-size: 19px; }
+  .stat .v { font-size: 24px; }
+  .hide-sm { display: none; }
+  .toasts { left: 12px; right: 12px; bottom: 80px; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M6 5v14M18 5v14M2 9v6M22 9v6M6 12h12"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4m0 0s1.5-1 5-1 5 2 8 2 3-1 3-1v10s-1 1-3 1-5-2-8-2-5 1-5 1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 3.5a4 4 0 0 1 0 8M22 21c0-3-1.5-5-4-5.7"/></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 3.9M6.6 6.6A17 17 0 0 0 2 12s4 7 10 7a9.6 9.6 0 0 0 5.4-1.6M3 3l18 18M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9a2.5 2 0 0 0-2.5-1.5c-1.4 0-2.5.8-2.5 2s1.1 1.7 2.5 2 2.5.9 2.5 2-1.1 2-2.5 2A2.5 2 0 0 1 9.5 15M12 6v1.5M12 16.5V18"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12 19 5"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8M21 3v5h-5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+</svg>
+
+<div id="root"></div>
+<div class="toasts" id="toasts"></div>
+
+<script>
+'use strict';
+const CFG = {
+  URL: 'https://xovhzoawtgmlwzeuxukk.supabase.co',
+  KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ приложения; всё админское проверяется на сервере
+};
+const sb = window.supabase.createClient(CFG.URL, CFG.KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: 'flexo-admin-auth' } });
+
+/* ---------- утилиты ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ic = (n, cls = '') => `<svg class="i ${cls}"><use href="#i-${n}"/></svg>`;
+const fmt = n => n == null || n === '' || isNaN(n) ? '—' : Number(n).toLocaleString('ru-RU', { maximumFractionDigits: 1 });
+const kg = n => n == null ? '—' : `${fmt(n)} кг`;
+const dt = d => d ? new Date(d).toLocaleString('ru-RU', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—';
+const dday = d => d ? new Date(d).toLocaleDateString('ru-RU', { day: '2-digit', month: 'short', year: '2-digit' }) : '—';
+const ago = d => { if (!d) return '—'; const s = (Date.now() - new Date(d).getTime()) / 1000; if (s < 60) return 'только что'; if (s < 3600) return `${Math.floor(s / 60)} мин назад`; if (s < 86400) return `${Math.floor(s / 3600)} ч назад`; if (s < 86400 * 30) return `${Math.floor(s / 86400)} дн назад`; return dday(d); };
+const safeImg = u => typeof u === 'string' && (/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(u) || /^https:\/\//i.test(u)) ? u : '';
+const safeUrl = u => typeof u === 'string' && /^https:\/\//i.test(u) ? u : '';
+const EX = { 'Bench Press': 'Жим лёжа', 'Incline Bench': 'Жим на наклонной', 'Overhead Press': 'Жим стоя', 'Squat': 'Присед', 'Deadlift': 'Становая тяга', 'Romanian Deadlift': 'Румынская тяга', 'Barbell Row': 'Тяга в наклоне', 'Pull-ups': 'Подтягивания', 'Dips': 'Брусья', 'Leg Press': 'Жим ногами', 'Lunges': 'Выпады', 'Hip Thrust': 'Ягодичный мост', 'Bicep Curl': 'Бицепс', 'Lateral Raise': 'Махи в стороны', 'Calf Raise': 'Икры', 'Plank / Abs': 'Пресс', bench: 'Свои жимы', squat: 'Свои приседы', deadlift: 'Свои тяги', other: 'Остальные' };
+const exRu = e => EX[e] || e;
+const plural = (n, a, b, c) => { const m = Math.abs(n) % 100, k = m % 10; return m > 10 && m < 20 ? c : k === 1 ? a : k >= 2 && k <= 4 ? b : c; };
+const REASON = { cheat: 'Накрутка, фейк', abuse: 'Оскорбления', spam: 'Спам', nsfw: 'Неприемлемое', other: 'Другое' };
+const WHY = { ratio: ['rd', 'тяжелее нормы для веса тела'], jump: ['or', 'резкий скачок'], record: ['rd', 'выше мирового рекорда'] };
+const ACTIONS = { review_approve: 'Одобрил подход', review_reject: 'Отклонил подход', ban: 'Забанил', unban: 'Разбанил', adjust_trophies: 'Изменил кубки', adjust_coins: 'Изменил монеты', reset_ex: 'Сбросил рекорд', trust: 'Отметил проверенным', untrust: 'Снял «проверенный»', note: 'Заметка', scan: 'Скан базы', rules: 'Правила анти-чита', report_dismiss: 'Жалобы ложные', report_ok: 'Жалобы закрыты', report_hide: 'Скрыл по жалобе', report_delete: 'Удалил по жалобе', post_hide: 'Скрыл пост', post_unhide: 'Вернул пост', post_delete: 'Удалил пост', team_add: 'Добавил модератора', team_remove: 'Убрал модератора' };
+function av(p, cls = '') { const src = safeImg(p && p.avatar); const n = (p && (p.nickname || p.author_nick)) || '?'; return `<span class="av ${cls}">${src ? `<img src="${esc(src)}" alt="">` : esc(String(n).slice(0, 1).toUpperCase())}</span>`; }
+function ratioCls(r) { return r >= 2.5 ? 'hi' : r >= 1.8 ? 'mid' : 'ok'; }
+function toast(msg, err = false) { const el = document.createElement('div'); el.className = 'toast' + (err ? ' err' : ''); el.textContent = msg; $('#toasts').appendChild(el); setTimeout(() => { el.style.transition = 'opacity .3s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 320); }, 3200); }
+function errText(e) { const m = (e && (e.message || e.error_description)) || String(e); if (/forbidden/.test(m)) return 'Нет прав администратора'; if (/PGRST202|schema cache|Could not find the function/i.test(m)) return 'Сервер не обновлён: запусти supabase/update_v30.sql в SQL Editor'; if (/Failed to fetch|network/i.test(m)) return 'Нет связи с сервером'; return m; }
+async function rpc(name, args) { const { data, error } = await sb.rpc(name, args || {}); if (error) throw error; return data; }
+async function act(fn, ok) { try { const r = await fn(); if (ok) toast(ok); return r; } catch (e) { toast(errText(e), true); throw e; } }
+
+/* ---------- модалки ---------- */
+function modal(html, onMount) {
+  closeModal(); const bg = document.createElement('div'); bg.className = 'mbg'; bg.id = 'mbg';
+  bg.innerHTML = `<div class="modal">${html}</div>`; bg.addEventListener('mousedown', e => { if (e.target === bg) closeModal(); });
+  document.body.appendChild(bg); if (onMount) onMount(bg); const f = bg.querySelector('[autofocus]'); if (f) f.focus(); return bg;
+}
+function closeModal() { const m = $('#mbg'); if (m) m.remove(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+function confirmBox(title, text, yes, cls = 'rd') {
+  return new Promise(res => { modal(`<h3>${esc(title)}</h3><div class="muted" style="margin:6px 0 18px">${text}</div><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-no>Отмена</button><button class="btn ${cls}" data-yes>${esc(yes)}</button></div>`, bg => {
+    bg.querySelector('[data-no]').onclick = () => { closeModal(); res(false); }; bg.querySelector('[data-yes]').onclick = () => { closeModal(); res(true); }; }); });
+}
+function banModal(user, nick, preset = '') {
+  return new Promise(res => {
+    let days = 7;
+    modal(`<h3>${ic('ban')} Бан: ${esc(nick || 'игрок')}</h3><div class="muted" style="font-size:13px">Игрок не сможет публиковать, комментировать, жаловаться и вызывать на дуэли. Его профиль и посты пропадут из рейтингов и ленты. Приложение покажет экран блокировки с причиной.</div>
+      <div class="fld"><span class="lbl">Срок</span><div class="seg" id="bd">${[[1, '1 день'], [3, '3 дня'], [7, '7 дней'], [30, '30 дней'], ['', 'Навсегда']].map(([d, t]) => `<button data-d="${d}" class="${d === 7 ? 'on' : ''}">${t}</button>`).join('')}</div></div>
+      <div class="fld"><span class="lbl">Причина (игрок её увидит)</span><select class="inp" id="br">${['Накрутка результатов', 'Фейковые рекорды', 'Оскорбления', 'Спам', 'Неприемлемый контент', 'Другое'].map(x => `<option ${x === preset ? 'selected' : ''}>${x}</option>`).join('')}</select>
+      <textarea class="inp" id="bn" style="margin-top:8px" placeholder="Подробности (необязательно)"></textarea></div>
+      <div class="row" style="justify-content:flex-end;margin-top:18px"><button class="btn ghost" data-no>Отмена</button><button class="btn rd" data-yes>${ic('ban')} Забанить</button></div>`, bg => {
+      bg.querySelectorAll('#bd button').forEach(b => b.onclick = () => { bg.querySelectorAll('#bd button').forEach(x => x.classList.remove('on')); b.classList.add('on'); days = b.dataset.d === '' ? null : +b.dataset.d; });
+      bg.querySelector('[data-no]').onclick = () => { closeModal(); res(false); };
+      bg.querySelector('[data-yes]').onclick = async () => {
+        const reason = [bg.querySelector('#br').value, bg.querySelector('#bn').value.trim()].filter(Boolean).join('. ');
+        try { await act(() => rpc('admin_ban', { p_user: user, p_days: days, p_reason: reason }), `${nick || 'Игрок'} забанен`); closeModal(); res(true); } catch (_) {}
+      };
+    });
+  });
+}
+function adjustModal(user, nick, kind = 'trophies') {
+  return new Promise(res => {
+    let mode = 'delta', k = kind;
+    modal(`<h3>Кубки и монеты: ${esc(nick || '')}</h3><div class="muted" style="font-size:13px">Кубки в рейтинге меняются сразу. В приложении игрока кубки и монеты обновятся, когда он зайдёт в сеть.</div>
+      <div class="fld"><div class="seg" id="ak"><button data-k="trophies" class="${k === 'trophies' ? 'on' : ''}">${ic('trophy')} Кубки</button><button data-k="coins" class="${k === 'coins' ? 'on' : ''}">${ic('coin')} Монеты</button></div></div>
+      <div class="fld"><div class="seg" id="am"><button data-m="delta" class="on">Добавить / снять</button><button data-m="set">Установить</button></div></div>
+      <div class="fld"><span class="lbl" id="al">Сколько (минус, чтобы снять)</span><input class="inp num" id="aa" type="number" placeholder="-500" autofocus></div>
+      <div class="fld"><span class="lbl">Причина</span><input class="inp" id="an" placeholder="Например: накрутка, компенсация за баг"></div>
+      <div class="row" style="justify-content:flex-end;margin-top:18px"><button class="btn ghost" data-no>Отмена</button><button class="btn em" data-yes>${ic('check')} Применить</button></div>`, bg => {
+      bg.querySelectorAll('#ak button').forEach(b => b.onclick = () => { bg.querySelectorAll('#ak button').forEach(x => x.classList.remove('on')); b.classList.add('on'); k = b.dataset.k; });
+      bg.querySelectorAll('#am button').forEach(b => b.onclick = () => { bg.querySelectorAll('#am button').forEach(x => x.classList.remove('on')); b.classList.add('on'); mode = b.dataset.m; bg.querySelector('#al').textContent = mode === 'set' ? 'Новое значение' : 'Сколько (минус, чтобы снять)'; bg.querySelector('#aa').placeholder = mode === 'set' ? '0' : '-500'; });
+      bg.querySelector('[data-no]').onclick = () => { closeModal(); res(false); };
+      bg.querySelector('[data-yes]').onclick = async () => {
+        const v = parseFloat(bg.querySelector('#aa').value); if (isNaN(v)) return toast('Введи число', true);
+        try { await act(() => rpc('admin_adjust', { p_user: user, p_kind: k, p_mode: mode, p_amount: v, p_note: bg.querySelector('#an').value.trim() }), 'Готово'); closeModal(); res(true); } catch (_) {}
+      };
+    });
+  });
+}
+function resetModal(user, nick, ex, current) {
+  return new Promise(res => {
+    modal(`<h3>${ic('reset')} Сбросить рекорд</h3><div class="muted" style="font-size:13px">${esc(nick || '')}: ${esc(exRu(ex))}, сейчас ${kg(current)}. Рекорд в рейтинге станет ниже, а приложение игрока удалит подходы тяжелее нового значения.</div>
+      <div class="fld"><span class="lbl">Новый рекорд, e1RM в кг (0 = удалить полностью)</span><input class="inp num" id="rm" type="number" value="0" autofocus></div>
+      <div class="fld"><span class="lbl">Причина</span><input class="inp" id="rn" placeholder="Например: нереальный вес"></div>
+      <div class="row" style="justify-content:flex-end;margin-top:18px"><button class="btn ghost" data-no>Отмена</button><button class="btn rd" data-yes>Сбросить</button></div>`, bg => {
+      bg.querySelector('[data-no]').onclick = () => { closeModal(); res(false); };
+      bg.querySelector('[data-yes]').onclick = async () => {
+        const v = Math.max(0, parseFloat(bg.querySelector('#rm').value) || 0);
+        try { await act(() => rpc('admin_reset_ex', { p_user: user, p_ex: ex, p_max: v, p_note: bg.querySelector('#rn').value.trim() }), 'Рекорд сброшен'); closeModal(); res(true); } catch (_) {}
+      };
+    });
+  });
+}
+
+/* ---------- состояние и навигация ---------- */
+const S = { me: null, stats: null, rules: null, view: 'home', param: null, tabs: { reviews: 'pending', reports: 'new', players: 'all', posts: 'recent' }, q: '' };
+const NAV = [['home', 'Обзор', 'home'], ['reviews', 'Проверка', 'scale'], ['reports', 'Жалобы', 'flag'], ['players', 'Игроки', 'users'], ['posts', 'Посты', 'img'], ['log', 'Журнал', 'list'], ['settings', 'Настройки', 'cog']];
+function go(view, param) { location.hash = '#/' + view + (param ? '/' + param : ''); }
+function parseHash() { const [, v, p] = (location.hash || '').split('/'); S.view = NAV.some(n => n[0] === v) || v === 'player' ? v : 'home'; S.param = p || null; }
+window.addEventListener('hashchange', () => { parseHash(); render(); });
+
+function shell() {
+  const st = S.stats || {}, badge = { reviews: st.pending_reviews, reports: st.new_reports };
+  const cur = S.view === 'player' ? 'players' : S.view;
+  return `<div class="app">
+    <aside class="side">
+      <div class="brand"><img src="../icon.png" alt=""><div><b>Flexo League</b><small>Админ-панель</small></div></div>
+      ${NAV.map(([k, t, i]) => `<button class="nav ${cur === k ? 'on' : ''}" data-go="${k}">${ic(i)} ${t}${badge[k] ? `<span class="bd ${k === 'reviews' ? 'or' : ''}">${badge[k]}</span>` : ''}</button>`).join('')}
+      <div class="me"><div style="font-weight:700;color:var(--tx)">${esc(S.me.nick || S.me.email)}</div><div>${S.me.role === 'owner' ? 'Владелец' : 'Модератор'}</div><button class="btn sm ghost" style="margin-top:8px" data-logout>${ic('out')} Выйти</button></div>
+    </aside>
+    <main class="main" id="view"></main>
+    <nav class="bnav">${NAV.map(([k, t, i]) => `<button class="${cur === k ? 'on' : ''}" data-go="${k}">${ic(i)}${t}${badge[k] ? `<span class="bd ${k === 'reviews' ? 'or' : ''}">${badge[k]}</span>` : ''}</button>`).join('')}</nav>
+  </div>`;
+}
+function topbar(title, extra = '') { return `<div class="top"><h1>${title}</h1><div class="sp"></div>${extra}</div>`; }
+function loading(n = 3, h = 120) { return Array.from({ length: n }, () => `<div class="sk" style="height:${h}px;margin-bottom:12px"></div>`).join(''); }
+async function refreshStats() { try { S.stats = await rpc('admin_stats'); } catch (_) {} }
+let _rt = 0;
+async function render() {
+  const t = ++_rt;
+  $('#root').innerHTML = shell();
+  const v = $('#view'), fn = VIEWS[S.view] || VIEWS.home;
+  try { await fn(v, () => t === _rt); } catch (e) { if (t === _rt) v.innerHTML = topbar('Ошибка') + `<div class="card pad">${esc(errText(e))}</div>`; }
+}
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (g) { e.preventDefault(); go(g.dataset.go, g.dataset.p); return; }
+  if (e.target.closest('[data-logout]')) { sb.auth.signOut().then(() => location.reload()); }
+  const cp = e.target.closest('[data-copy]'); if (cp) { navigator.clipboard.writeText(cp.dataset.copy).then(() => toast('Скопировано')); }
+});
+
+/* ---------- экраны ---------- */
+const VIEWS = {};
+
+VIEWS.home = async (v, alive) => {
+  v.innerHTML = topbar('Обзор') + loading(2, 110);
+  await refreshStats(); if (!alive()) return; const s = S.stats || {};
+  $('#root').innerHTML = shell(); v = $('#view'); // обновить счётчики в меню
+  const bars = (arr, cls = '') => { const mx = Math.max(1, ...arr.map(x => x.n)); return `<div class="bars ${cls}">${arr.map(x => `<div style="height:${Math.max(3, x.n / mx * 100)}%" data-t="${dday(x.d)}: ${x.n}"></div>`).join('')}</div><div class="bars-x"><span>${dday(arr[0] && arr[0].d)}</span><span>сегодня</span></div>`; };
+  v.innerHTML = topbar('Обзор', `<button class="btn sm" data-reload>${ic('refresh')} Обновить</button>`) + `
+    <div class="stats">
+      <div class="card stat ${s.pending_reviews ? 'hot' : ''}" data-go="reviews"><div class="k">${ic('scale')} Ждут проверки</div><div class="v num">${fmt(s.pending_reviews)}</div><div class="s">подходов под подозрением</div></div>
+      <div class="card stat ${s.new_reports ? 'hot2' : ''}" data-go="reports"><div class="k">${ic('flag')} Новые жалобы</div><div class="v num">${fmt(s.new_reports)}</div><div class="s">${fmt(s.reports_today)} за сутки</div></div>
+      <div class="card stat"><div class="k">${ic('users')} Игроки</div><div class="v num">${fmt(s.players)}</div><div class="s">+${fmt(s.new_today)} сегодня · +${fmt(s.new_week)} за неделю</div></div>
+      <div class="card stat"><div class="k">${ic('bolt')} Активны</div><div class="v num">${fmt(s.active_today)}</div><div class="s">${fmt(s.active_week)} за неделю</div></div>
+    </div>
+    <div class="stats" style="margin-top:12px">
+      <div class="card stat"><div class="k">${ic('check')} Одобрено за неделю</div><div class="v num" style="font-size:22px">${fmt(s.approved_week)}</div></div>
+      <div class="card stat"><div class="k">${ic('x')} Отклонено за неделю</div><div class="v num" style="font-size:22px">${fmt(s.rejected_week)}</div></div>
+      <div class="card stat"><div class="k">${ic('ban')} Забанено</div><div class="v num" style="font-size:22px">${fmt(s.banned)}</div></div>
+      <div class="card stat"><div class="k">${ic('img')} Постов за сутки</div><div class="v num" style="font-size:22px">${fmt(s.posts_today)}</div><div class="s">${fmt(s.hidden_posts)} скрыто</div></div>
+    </div>
+    <div class="stats two" style="margin-top:12px">
+      <div class="card pad"><div class="k muted" style="font-weight:650;font-size:12px">Регистрации за 14 дней</div>${bars(s.signups || [])}</div>
+      <div class="card pad"><div class="k muted" style="font-weight:650;font-size:12px">Тренировались (игроков в день)</div>${bars(s.active || [], 'bl')}</div>
+    </div>
+    <div class="card pad" style="margin-top:12px"><div class="row wrap"><div class="grow"><b>${ic('radar')} Найти читеров в старых данных</b><div class="muted" style="font-size:13px">Проверяет рекорды всех игроков по правилам анти-чита и отправляет подозрительные на проверку.</div></div><button class="btn or" data-scan>${ic('radar')} Сканировать базу</button></div></div>`;
+  v.querySelector('[data-reload]').onclick = () => render();
+  v.querySelector('[data-scan]').onclick = async e => { e.target.disabled = true; try { const n = await act(() => rpc('admin_scan')); toast(n ? `Найдено и отправлено на проверку: ${n}` : 'Новых подозрительных рекордов нет'); if (n) go('reviews'); else render(); } catch (_) { e.target.disabled = false; } };
+};
+
+VIEWS.reviews = async (v, alive) => {
+  const tab = S.tabs.reviews;
+  const head = topbar('Проверка подходов', `<div class="seg" id="rt">${[['pending', 'Ждут'], ['approved', 'Одобрены'], ['rejected', 'Отклонены'], ['all', 'Все']].map(([k, t]) => `<button data-t="${k}" class="${tab === k ? 'on' : ''}">${t}</button>`).join('')}</div><button class="btn sm or" data-scan>${ic('radar')} <span class="hide-sm">Скан базы</span></button>`);
+  v.innerHTML = head + loading(3, 200);
+  const bind = () => { v.querySelectorAll('#rt button').forEach(b => b.onclick = () => { S.tabs.reviews = b.dataset.t; render(); }); v.querySelector('[data-scan]').onclick = async () => { const n = await act(() => rpc('admin_scan')).catch(() => null); if (n != null) { toast(n ? `Найдено: ${n}` : 'Новых подозрительных рекордов нет'); await refreshStats(); render(); } }; };
+  bind();
+  const rows = await rpc('admin_reviews', { p_status: tab, p_limit: 150 }); if (!alive()) return;
+  if (!rows.length) { v.innerHTML = head + `<div class="card empty">${ic('shield')}<div style="font-weight:700;color:var(--tx)">${tab === 'pending' ? 'Очередь пуста' : 'Ничего нет'}</div><div>${tab === 'pending' ? 'Подозрительные подходы будут появляться здесь автоматически.' : ''}</div></div>`; bind(); return; }
+  v.innerHTML = head + `<div class="muted" style="margin:-8px 0 14px;font-size:13px">${tab === 'pending' ? 'Пока подход здесь, игрок не получает за него кубки и он не попадает в рейтинги.' : ''}</div>` + rows.map(reviewCard).join('');
+  bind();
+  v.querySelectorAll('[data-rv]').forEach(card => {
+    const id = card.dataset.rv, r = rows.find(x => x.id === id), note = () => (card.querySelector('[data-note]') || {}).value || '';
+    const done = async (approve, ban) => {
+      card.querySelectorAll('button').forEach(b => b.disabled = true);
+      try {
+        await act(() => rpc('admin_review_decide', { p_id: id, p_approve: approve, p_note: note() }), approve ? 'Одобрено' : 'Отклонено');
+        if (ban) await banModal(r.user_id, r.nickname, 'Фейковые рекорды');
+        card.style.transition = '.25s'; card.style.opacity = '0'; card.style.transform = 'translateX(20px)';
+        setTimeout(async () => { card.remove(); await refreshStats(); const b = document.querySelector('.nav[data-go="reviews"] .bd'); if (b) b.textContent = S.stats.pending_reviews || ''; if (!v.querySelector('[data-rv]')) render(); }, 250);
+      } catch (_) { card.querySelectorAll('button').forEach(b => b.disabled = false); }
+    };
+    const q = s => card.querySelector(s);
+    if (q('[data-ok]')) q('[data-ok]').onclick = () => done(true);
+    if (q('[data-no]')) q('[data-no]').onclick = () => done(false);
+    if (q('[data-noban]')) q('[data-noban]').onclick = () => done(false, true);
+    q('[data-user]').onclick = () => go('player', r.user_id);
+  });
+};
+function reviewCard(r) {
+  const ratio = r.ratio != null ? +r.ratio : null, prev = +r.prev_best || 0, jump = prev ? Math.round((r.e1rm / prev - 1) * 100) : null;
+  const hist = (r.history || []).slice().reverse(); if (!hist.some(h => h.id === r.lift_id || Math.abs(h.e1rm - r.e1rm) < 0.6)) hist.push({ id: r.lift_id, date: r.lift_date || 'сейчас', weight: r.weight || r.e1rm, reps: r.reps || 1, e1rm: +r.e1rm });
+  const mx = Math.max(1, ...hist.map(h => +h.e1rm || 0), +r.e1rm);
+  const st = { pending: ['or', 'ждёт проверки'], approved: ['em', 'одобрен'], rejected: ['rd', 'отклонён'] }[r.status] || ['', r.status];
+  const accDays = r.account_created ? Math.floor((Date.now() - new Date(r.account_created)) / 864e5) : null;
+  return `<div class="card rv" data-rv="${esc(r.id)}">
+    <div class="l">
+      <div class="row wrap" style="margin-bottom:14px">${av(r)}<div class="grow"><a class="link" data-user style="font-weight:800">${esc(r.nickname || 'без ника')}</a> ${r.banned ? '<span class="chip rd">бан</span>' : ''} ${r.trusted ? '<span class="chip em">проверенный</span>' : ''}<div class="muted" style="font-size:12px">${esc(r.email || '')} · аккаунту ${accDays == null ? '?' : accDays} дн</div></div><span class="chip ${st[0]}">${st[1]}</span></div>
+      <div class="row" style="align-items:flex-start;gap:16px">
+        ${ratio != null ? `<div class="ratio ${(r.reasons || []).includes('ratio') ? 'hi' : ratioCls(ratio)}">${ratio.toFixed(1)}×<small>веса тела</small></div>` : ''}
+        <div class="grow">
+          <div class="muted" style="font-weight:700">${esc(exRu(r.ex))} ${r.kind && r.kind !== 'other' && !EX[r.ex] ? `<span class="chip">${esc(r.kind)}</span>` : ''}</div>
+          <div class="big num" style="margin:4px 0">${r.weight ? `${fmt(r.weight)} <span style="font-size:16px" class="muted">кг × ${r.reps || 1}</span>` : `${fmt(r.e1rm)} <span style="font-size:16px" class="muted">кг e1RM</span>`}</div>
+          <div class="muted" style="font-size:13px">e1RM <b class="num" style="color:var(--tx)">${kg(r.e1rm)}</b> · вес тела <b class="num" style="color:var(--tx)">${kg(r.bodyweight)}</b> · был рекорд <b class="num" style="color:var(--tx)">${prev ? kg(prev) : 'нет'}</b>${jump != null ? ` <span class="chip ${jump > 25 ? 'or' : ''}">+${jump}%</span>` : ''}</div>
+        </div>
+      </div>
+      <div class="row wrap" style="gap:6px;margin-top:12px">${(r.reasons || []).map(x => `<span class="chip ${(WHY[x] || ['', ''])[0]}">${esc((WHY[x] || ['', x])[1])}</span>`).join('')}<span class="chip">${r.source === 'app' ? 'из приложения' : r.source === 'scan' ? 'найден сканом' : 'найден сервером'}</span><span class="chip">${dt(r.created_at)}</span></div>
+      ${r.status === 'pending' ? `<input class="inp" data-note placeholder="Комментарий игроку (необязательно)" style="margin-top:14px">
+      <div class="act"><button class="btn em" data-ok>${ic('check')} Одобрить</button><button class="btn rd" data-no>${ic('x')} Отклонить</button><button class="btn ghost" data-noban>${ic('ban')} Отклонить и забанить</button></div>`
+      : `<div class="muted" style="margin-top:12px;font-size:13px">${r.decided_nick ? `Решение: ${esc(r.decided_nick)}, ` : ''}${dt(r.decided_at)}${r.note ? ` · «${esc(r.note)}»` : ''}</div>`}
+    </div>
+    <div class="r">
+      <div class="muted" style="font-size:12px;font-weight:700">История упражнения, e1RM <span style="color:var(--or)">■ этот подход</span></div>
+      ${hist.length ? `<div class="hist">${hist.map(h => `<div class="${h.id === r.lift_id || Math.abs(h.e1rm - r.e1rm) < 0.6 ? 'me' : ''}" style="height:${Math.max(4, h.e1rm / mx * 100)}%" data-t="${esc(h.date)}: ${fmt(h.weight)}×${h.reps} = ${fmt(h.e1rm)}"></div>`).join('')}</div><div class="bars-x"><span>${esc(hist[0].date)}</span><span>${esc(hist[hist.length - 1].date)}</span></div>` : '<div class="muted" style="font-size:13px;margin:10px 0">Нет истории этого упражнения в приложении</div>'}
+      <div class="kv" style="margin-top:12px;grid-template-columns:repeat(3,1fr)">
+        <div><b class="num">${fmt(r.trophies)}</b><span>кубков</span></div>
+        <div><b class="num" style="color:${r.rejected_total ? '#fca5a5' : 'inherit'}">${fmt(r.rejected_total)}</b><span>отклонено раньше</span></div>
+        <div><b class="num" style="color:${r.reports_total ? '#fdba74' : 'inherit'}">${fmt(r.reports_total)}</b><span>жалоб</span></div>
+      </div>
+      ${r.bests && Object.keys(r.bests).length ? `<div class="muted" style="font-size:12px;font-weight:700;margin-top:12px">Рекорды в профиле</div><div class="row wrap" style="gap:6px;margin-top:6px">${Object.entries(r.bests).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([e, val]) => `<span class="chip">${esc(exRu(e))}: <b class="num" style="color:var(--tx)">${fmt(val)}</b></span>`).join('')}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+VIEWS.reports = async (v, alive) => {
+  const tab = S.tabs.reports;
+  const head = topbar('Жалобы', `<div class="seg" id="rt">${[['new', 'Новые'], ['closed', 'Закрытые'], ['all', 'Все']].map(([k, t]) => `<button data-t="${k}" class="${tab === k ? 'on' : ''}">${t}</button>`).join('')}</div>`);
+  v.innerHTML = head + loading(3, 160);
+  const bind = () => v.querySelectorAll('#rt button').forEach(b => b.onclick = () => { S.tabs.reports = b.dataset.t; render(); });
+  bind();
+  const rows = await rpc('admin_reports', { p_status: tab, p_limit: 100 }); if (!alive()) return;
+  if (!rows.length) { v.innerHTML = head + `<div class="card empty">${ic('flag')}<div style="font-weight:700;color:var(--tx)">${tab === 'new' ? 'Новых жалоб нет' : 'Пусто'}</div></div>`; bind(); return; }
+  v.innerHTML = head + rows.map(reportCard).join(''); bind();
+  v.querySelectorAll('[data-rp]').forEach(card => {
+    const g = rows.find(x => x.target_id === card.dataset.rp), t = g.target || {};
+    const resolve = async (action, label) => {
+      if (action === 'delete' && !(await confirmBox('Удалить навсегда?', 'Это нельзя отменить.', 'Удалить'))) return;
+      try { await act(() => rpc('admin_report_resolve', { p_target: g.target_id, p_action: action, p_note: '' }), label); await refreshStats(); render(); } catch (_) {}
+    };
+    card.querySelectorAll('[data-a]').forEach(b => b.onclick = () => resolve(b.dataset.a, b.dataset.l));
+    const bb = card.querySelector('[data-ban]'); if (bb) bb.onclick = async () => { if (await banModal(t.author, t.author_nick, g.items.some(i => i.reason === 'cheat') ? 'Накрутка результатов' : g.items.some(i => i.reason === 'abuse') ? 'Оскорбления' : '')) { await rpc('admin_report_resolve', { p_target: g.target_id, p_action: g.target_kind === 'user' ? 'ok' : 'hide', p_note: 'бан' }).catch(() => {}); await refreshStats(); render(); } };
+    const ub = card.querySelector('[data-user]'); if (ub) ub.onclick = () => go('player', t.author);
+  });
+};
+function reportCard(g) {
+  const t = g.target, kinds = { user: ['Игрок', 'users'], post: ['Пост', 'img'], comment: ['Комментарий', 'list'] }, k = kinds[g.target_kind] || ['?', 'flag'];
+  const counts = {}; g.items.forEach(i => counts[i.reason] = (counts[i.reason] || 0) + 1);
+  let preview = '<div class="prev muted">Уже удалено</div>';
+  if (t && g.target_kind === 'post') {
+    const img = safeImg(t.photo), vid = safeUrl(t.video);
+    preview = `<div class="prev">${t.hidden ? '<span class="chip or" style="margin-bottom:8px">скрыт</span> ' : ''}${t.kind === 'pr' ? `<span class="chip pu">рекорд: ${esc(exRu(t.ex))} ${fmt(t.weight)} кг × ${t.reps || 1}</span>` : ''}<div class="note" style="margin-top:6px">${esc(t.body) || '<span class="muted">без текста</span>'}</div>${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ''}${vid ? `<video src="${esc(vid)}" controls preload="metadata" playsinline></video>` : ''}<div class="muted" style="font-size:12px;margin-top:8px">${dt(t.created_at)} · ${fmt(t.likes)} лайков</div></div>`;
+  } else if (t && g.target_kind === 'comment') {
+    preview = `<div class="prev">${t.hidden ? '<span class="chip or">скрыт</span> ' : ''}<div class="note">${esc(t.body)}</div><div class="muted" style="font-size:12px;margin-top:6px">${dt(t.created_at)}</div></div>`;
+  } else if (t && g.target_kind === 'user') {
+    preview = `<div class="prev"><div class="row">${av(t)}<div class="grow"><b>${esc(t.author_nick)}</b>${t.title ? ` <span class="muted">«${esc(t.title)}»</span>` : ''}<div class="muted" style="font-size:12px">${fmt(t.trophies)} кубков</div></div></div>${t.bests && Object.keys(t.bests).length ? `<div class="row wrap" style="gap:6px;margin-top:10px">${Object.entries(t.bests).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([e, val]) => `<span class="chip">${esc(exRu(e))}: <b class="num" style="color:var(--tx)">${fmt(val)}</b></span>`).join('')}</div>` : ''}</div>`;
+  }
+  const isUser = g.target_kind === 'user';
+  return `<div class="card rp" data-rp="${esc(g.target_id)}">
+    <div class="row wrap"><span class="chip ${g.open ? 'rd' : ''}">${ic(k[1])} ${k[0]}</span>${t ? `<a class="link" data-user style="font-weight:800">${esc(t.author_nick || '?')}</a>` : ''}<div class="grow"></div><span class="chip ${g.n >= 3 ? 'rd' : 'or'}">${g.n} ${plural(g.n, 'жалоба', 'жалобы', 'жалоб')}</span><span class="muted" style="font-size:12px">${ago(g.last_at)}</span></div>
+    <div class="row wrap" style="gap:6px;margin-top:10px">${Object.entries(counts).map(([r, n]) => `<span class="chip ${r === 'cheat' ? 'or' : r === 'abuse' || r === 'nsfw' ? 'rd' : ''}">${esc(REASON[r] || r)}${n > 1 ? ` ×${n}` : ''}</span>`).join('')}</div>
+    ${g.items.filter(i => i.note).slice(0, 4).map(i => `<div class="muted" style="font-size:13px;margin-top:8px">«${esc(i.note)}» <span class="mu2">— ${esc(i.reporter_nick || 'игрок')}</span></div>`).join('')}
+    ${preview}
+    ${g.open ? `<div class="act">
+      ${!isUser && t ? `<button class="btn or" data-a="hide" data-l="Скрыто">${ic('eye-off')} Скрыть</button><button class="btn rd" data-a="delete" data-l="Удалено">${ic('trash')} Удалить</button>` : ''}
+      ${t ? `<button class="btn rd" data-ban>${ic('ban')} Забанить ${isUser ? '' : 'автора'}</button>` : ''}
+      <button class="btn" data-a="${isUser ? 'ok' : 'dismiss'}" data-l="Закрыто">${ic('check')} ${isUser ? 'Проверено, всё ок' : 'Жалобы ложные'}</button>
+      ${t ? `<button class="btn ghost" data-user>${ic('users')} Профиль</button>` : ''}
+    </div>` : `<div class="muted" style="font-size:13px;margin-top:10px">Закрыто: ${esc(g.resolution || '')}</div>`}
+  </div>`;
+}
+
+VIEWS.players = async (v, alive) => {
+  const f = S.tabs.players;
+  const head = topbar('Игроки') + `<div class="row wrap" style="margin-bottom:14px"><div style="position:relative;flex:1;min-width:220px">${ic('search', 'mu2')}<input class="inp" id="pq" placeholder="Ник, email, ID или код друга" value="${esc(S.q)}" style="padding-left:36px"></div>
+    <div class="seg" id="pf">${[['all', 'Все'], ['suspicious', 'Подозрительные'], ['reported', 'С жалобами'], ['new', 'Новые'], ['banned', 'Баны'], ['trusted', 'Проверенные']].map(([k, t]) => `<button data-f="${k}" class="${f === k ? 'on' : ''}">${t}</button>`).join('')}</div></div>`;
+  v.innerHTML = head + `<div class="card" id="pl">${loading(1, 300)}</div>`;
+  const s = v.querySelector('.row .i'); if (s) Object.assign(s.style, { position: 'absolute', left: '12px', top: '11px', fontSize: '16px' });
+  let timer;
+  v.querySelector('#pq').oninput = e => { clearTimeout(timer); timer = setTimeout(() => { S.q = e.target.value; load(); }, 300); };
+  v.querySelectorAll('#pf button').forEach(b => b.onclick = () => { S.tabs.players = b.dataset.f; render(); });
+  const load = async () => {
+    const rows = await rpc('admin_players', { p_q: S.q, p_filter: S.tabs.players, p_limit: 100, p_offset: 0 }); if (!alive()) return;
+    const el = v.querySelector('#pl'); if (!el) return;
+    if (!rows.length) { el.innerHTML = `<div class="empty">${ic('users')}<div>Никого не нашли</div></div>`; return; }
+    el.innerHTML = `<div class="tw"><table class="t"><thead><tr><th>Игрок</th><th>Кубки</th><th class="hide-sm">Монеты</th><th class="hide-sm">Вес тела</th><th>Жим/Присед/Тяга</th><th>Метки</th><th class="hide-sm">Был</th></tr></thead><tbody>${rows.map(p => {
+      const b = p.bests || {}, mr = p.max_ratio != null ? +p.max_ratio : null;
+      return `<tr class="click" data-id="${esc(p.id)}"><td><div class="row">${av(p, 'sm')}<div style="min-width:0"><b>${esc(p.nickname)}</b><div class="muted" style="font-size:12px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.email || '')}</div></div></div></td>
+        <td class="num">${fmt(p.trophies)}</td><td class="num hide-sm">${fmt(p.coins)}</td><td class="num hide-sm">${kg(p.bodyweight)}</td>
+        <td class="num">${[b['Bench Press'], b['Squat'], b['Deadlift']].map(x => fmt(x)).join(' / ')}${mr != null ? ` <span class="chip ${mr >= 2.5 ? 'rd' : mr >= 1.8 ? 'or' : ''}">${mr.toFixed(1)}×</span>` : ''}</td>
+        <td><div class="row wrap" style="gap:4px">${p.is_admin ? '<span class="chip pu">админ</span>' : ''}${p.banned ? '<span class="chip rd">бан</span>' : ''}${p.trusted ? '<span class="chip em">проверенный</span>' : ''}${p.pending_reviews ? `<span class="chip or">${p.pending_reviews} на проверке</span>` : ''}${p.open_reports ? `<span class="chip rd">${p.open_reports} ${plural(p.open_reports, 'жалоба', 'жалобы', 'жалоб')}</span>` : ''}${p.strikes ? `<span class="chip">${p.strikes} ${plural(p.strikes, 'страйк', 'страйка', 'страйков')}</span>` : ''}</div></td>
+        <td class="muted hide-sm" style="font-size:12px">${ago(p.updated_at)}</td></tr>`; }).join('')}</tbody></table></div>`;
+    el.querySelectorAll('tr[data-id]').forEach(tr => tr.onclick = () => go('player', tr.dataset.id));
+  };
+  await load();
+};
+
+VIEWS.player = async (v, alive) => {
+  const id = S.param; v.innerHTML = loading(1, 120) + loading(2, 200);
+  const d = await rpc('admin_player', { p_id: id }); if (!alive()) return;
+  const p = d.profile; if (!p) { v.innerHTML = topbar('Игрок не найден') + `<button class="btn" data-go="players">${ic('back')} К списку</button>`; return; }
+  const st = d.state || {}, g = st.game || {}, pr = st.profile || {}, bw = +pr.bodyweight || null, fl = d.flags || {}, ban = d.ban && d.ban.active ? d.ban : null;
+  const rules = S.rules || (S.rules = await rpc('admin_rules_get').catch(() => null)) || {};
+  const lim = ex => { const r = rules.ratio || {}; return (r[ex] || r.other || 3) * (pr.sex === 'f' || p.sex === 'f' ? (rules.female || 0.72) : 1); };
+  const tab = S.ptab || 'lifts';
+  const lifts = st.lifts || [], exs = [...new Set(lifts.map(l => l.exerciseName))];
+  const pendingAdj = (d.adjustments || []).filter(a => !a.applied_at);
+  v.innerHTML = `<button class="btn sm ghost" data-go="players" style="margin-bottom:12px">${ic('back')} Игроки</button>
+    <div class="card"><div class="ph">${av(p, 'lg')}<div class="grow">
+      <div class="row wrap" style="gap:8px"><span style="font-size:22px;font-weight:850">${esc(p.nickname)}</span>${p.title ? `<span class="muted">«${esc(p.title)}»</span>` : ''}${d.is_admin ? '<span class="chip pu">админ</span>' : ''}${ban ? `<span class="chip rd">${ic('ban')} бан ${ban.until ? 'до ' + dt(ban.until) : 'навсегда'}</span>` : ''}${fl.trusted ? '<span class="chip em">проверенный атлет</span>' : ''}${fl.strikes ? `<span class="chip or">${fl.strikes} страйк</span>` : ''}</div>
+      <div class="muted" style="font-size:13px;margin-top:4px">${esc(d.auth && d.auth.email || '')} · ${esc(d.auth && d.auth.provider || '')} · регистрация ${dday(d.auth && d.auth.created_at)} · вход ${ago(d.auth && d.auth.last_sign_in_at)} · <a class="link" data-copy="${esc(p.id)}">${ic('copy')} ID</a></div>
+      ${d.clan ? `<div class="muted" style="font-size:13px">Клан: <b style="color:var(--tx)">${esc(d.clan.name)}</b> (${esc(d.clan.role)})</div>` : ''}
+      ${ban && ban.reason ? `<div style="font-size:13px;color:#fca5a5;margin-top:4px">Причина бана: ${esc(ban.reason)}</div>` : ''}
+    </div></div>
+    <div style="padding:0 18px 18px" class="row wrap">
+      ${ban ? `<button class="btn em" data-unban>${ic('check')} Разбанить</button>` : `<button class="btn rd" data-ban>${ic('ban')} Забанить</button>`}
+      <button class="btn" data-adj="trophies">${ic('trophy')} Кубки</button><button class="btn" data-adj="coins">${ic('coin')} Монеты</button>
+      <button class="btn ${fl.trusted ? 'em' : ''}" data-trust>${ic('shield')} ${fl.trusted ? 'Проверенный' : 'Сделать проверенным'}</button>
+      <button class="btn ghost" data-note>${ic('pen')} Заметка</button>
+    </div></div>
+    ${fl.note ? `<div class="card pad" style="margin-top:12px;border-color:rgba(139,92,246,.4)"><span class="muted" style="font-size:12px;font-weight:700">Заметка админа</span><div class="note">${esc(fl.note)}</div></div>` : ''}
+    ${pendingAdj.length ? `<div class="card pad" style="margin-top:12px;border-color:rgba(249,115,22,.4)">${ic('refresh')} Ждут применения в приложении: ${pendingAdj.map(a => `<span class="chip or">${a.kind === 'trophies' ? 'кубки' : a.kind === 'coins' ? 'монеты' : 'сброс ' + esc(exRu(a.ex))} ${a.mode === 'set' ? '= ' : a.amount > 0 ? '+' : ''}${fmt(a.amount)}</span>`).join(' ')}</div>` : ''}
+    <h2 class="h">Показатели <span class="muted">${st.saved_at ? 'копия из приложения от ' + dt(st.saved_at) : 'нет копии из приложения'}</span></h2>
+    <div class="kv">
+      <div><b class="num">${fmt(p.trophies)}</b><span>кубков в рейтинге</span></div>
+      <div><b class="num">${fmt(g.trophies)}</b><span>кубков в приложении</span></div>
+      <div><b class="num">${fmt(g.coins)}</b><span>монет</span></div>
+      <div><b class="num">${fmt(p.level)}</b><span>уровень · ${fmt(g.xp)} XP</span></div>
+      <div><b class="num">${kg(bw)}</b><span>вес тела${pr.height ? ` · рост ${fmt(pr.height)}` : ''}${pr.age ? ` · ${fmt(pr.age)} лет` : ''}</span></div>
+      <div><b class="num">${fmt(g.workouts)}</b><span>тренировок · посл. ${esc(g.lastWorkoutDay || '—')}</span></div>
+      <div><b class="num">${fmt(d.friends)}</b><span>друзей</span></div>
+      <div><b class="num">${fmt(d.reports_made)}</b><span>жалоб отправил</span></div>
+    </div>
+    <h2 class="h">Рекорды в рейтинге <span class="muted">e1RM и во сколько раз тяжелее веса тела</span></h2>
+    <div class="card tw"><table class="t"><thead><tr><th>Упражнение</th><th>e1RM</th><th>× вес тела</th><th>Порог</th><th></th></tr></thead><tbody>${Object.entries(p.bests || {}).sort((a, b) => b[1] - a[1]).map(([ex, val]) => { const r = bw ? val / bw : null, L = lim(ex), bad = r != null && r > L; return `<tr class="${bad ? 'bad' : ''}"><td>${esc(exRu(ex))}</td><td class="num"><b>${kg(val)}</b></td><td class="num">${r != null ? `<span class="chip ${bad ? 'rd' : r > L * 0.85 ? 'or' : ''}">${r.toFixed(2)}×</span>` : '—'}</td><td class="num muted">${L.toFixed(2)}×</td><td style="text-align:right"><button class="btn sm ghost" data-reset="${esc(ex)}" data-v="${esc(val)}">${ic('reset')} Сбросить</button></td></tr>`; }).join('') || '<tr><td colspan="5" class="muted">Нет рекордов</td></tr>'}</tbody></table></div>
+    <div class="tabs" id="ptabs">${[['lifts', `Подходы (${lifts.length})`], ['reviews', `Проверки (${(d.reviews || []).length})`], ['reports', `Жалобы (${(d.reports_against || []).length})`], ['posts', `Посты (${(d.posts || []).length})`], ['weights', `Вес тела (${(st.weights || []).length})`], ['ledger', 'Начисления'], ['adj', `Правки (${(d.adjustments || []).length})`], ['log', 'Журнал']].map(([k, t]) => `<button data-t="${k}" class="${tab === k ? 'on' : ''}">${t}</button>`).join('')}</div>
+    <div id="ptab"></div>`;
+  const body = {
+    lifts: () => `<div class="row wrap" style="margin-bottom:10px"><select class="inp" id="lex" style="max-width:260px"><option value="">Все упражнения</option>${exs.map(e => `<option value="${esc(e)}">${esc(exRu(e))}</option>`).join('')}</select><span class="muted" style="font-size:12px">Оранжевым: тяжелее порога для веса тела. Красным: помечен в приложении.</span></div><div class="card tw" id="ltab"></div>`,
+    reviews: () => `<div class="card tw"><table class="t"><thead><tr><th>Когда</th><th>Упражнение</th><th>e1RM</th><th>×вес</th><th>Статус</th><th>Комментарий</th></tr></thead><tbody>${(d.reviews || []).map(r => `<tr><td class="muted" style="font-size:12px">${dt(r.created_at)}</td><td>${esc(exRu(r.ex))}</td><td class="num">${kg(r.e1rm)}</td><td class="num">${r.ratio != null ? (+r.ratio).toFixed(2) + '×' : '—'}</td><td><span class="chip ${r.status === 'approved' ? 'em' : r.status === 'rejected' ? 'rd' : 'or'}">${{ pending: 'ждёт', approved: 'одобрен', rejected: 'отклонён' }[r.status] || esc(r.status)}</span></td><td class="muted">${esc(r.note || '')}</td></tr>`).join('') || '<tr><td colspan="6" class="muted">Нет</td></tr>'}</tbody></table></div>`,
+    reports: () => `<div class="card list">${(d.reports_against || []).map(r => `<div class="pad"><div class="row wrap"><span class="chip ${r.reason === 'cheat' ? 'or' : ''}">${esc(REASON[r.reason] || r.reason)}</span><span class="chip">${{ user: 'на профиль', post: 'на пост', comment: 'на комментарий' }[r.kind] || esc(r.kind)}</span><span class="muted" style="font-size:12px">${esc(r.reporter_nick || '')} · ${dt(r.at)}</span><span class="chip ${r.status === 'new' ? 'rd' : ''}">${r.status === 'new' ? 'новая' : 'закрыта'}</span></div>${r.note ? `<div style="margin-top:6px" class="note">${esc(r.note)}</div>` : ''}</div>`).join('') || '<div class="pad muted">Жалоб нет</div>'}</div>`,
+    posts: () => `<div class="card list">${(d.posts || []).map(x => `<div class="pad row" style="align-items:flex-start"><div class="grow"><div class="row wrap" style="gap:6px">${x.kind === 'pr' ? `<span class="chip pu">рекорд ${esc(exRu(x.ex))} ${fmt(x.weight)}×${x.reps || 1}</span>` : ''}${x.photo ? '<span class="chip">фото</span>' : ''}${x.video ? '<span class="chip">видео</span>' : ''}${x.hidden ? '<span class="chip or">скрыт</span>' : ''}<span class="muted" style="font-size:12px">${dt(x.created_at)} · ${fmt(x.likes)} ♥ · ${fmt(x.comments)} комм.</span></div><div class="note" style="margin-top:6px">${esc(x.body) || '<span class="muted">без текста</span>'}</div></div><div class="row"><button class="btn sm" data-post="${esc(x.id)}" data-a="${x.hidden ? 'unhide' : 'hide'}">${ic(x.hidden ? 'eye' : 'eye-off')}</button><button class="btn sm rd" data-post="${esc(x.id)}" data-a="delete">${ic('trash')}</button></div></div>`).join('') || '<div class="pad muted">Постов нет</div>'}</div>`,
+    weights: () => `<div class="card tw"><table class="t"><thead><tr><th>Дата</th><th>Вес</th></tr></thead><tbody>${(st.weights || []).map(w => `<tr><td>${esc(w.date || '')}</td><td class="num">${kg(w.kg != null ? w.kg : w.weight != null ? w.weight : w.value)}</td></tr>`).join('') || '<tr><td colspan="2" class="muted">Нет записей</td></tr>'}</tbody></table></div>`,
+    ledger: () => `<div class="card tw"><table class="t"><thead><tr><th>Когда</th><th>Что</th><th>Сколько</th><th>За что</th></tr></thead><tbody>${(st.ledger || []).map(l => `<tr><td class="muted" style="font-size:12px">${dt(l.ts)}</td><td>${{ trophy: 'кубки', coin: 'монеты', xp: 'опыт' }[l.type] || esc(l.type)}</td><td class="num" style="color:${l.delta < 0 ? '#fca5a5' : '#6ee7b7'}">${l.delta > 0 ? '+' : ''}${fmt(l.delta)}</td><td>${esc(l.note || '')}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">Пусто</td></tr>'}</tbody></table></div>`,
+    adj: () => `<div class="card tw"><table class="t"><thead><tr><th>Когда</th><th>Что</th><th>Значение</th><th>Причина</th><th>В приложении</th></tr></thead><tbody>${(d.adjustments || []).map(a => `<tr><td class="muted" style="font-size:12px">${dt(a.created_at)}</td><td>${a.kind === 'trophies' ? 'кубки' : a.kind === 'coins' ? 'монеты' : 'сброс: ' + esc(exRu(a.ex))}</td><td class="num">${a.mode === 'set' ? '= ' : a.amount > 0 ? '+' : ''}${fmt(a.amount)}</td><td>${esc(a.note)}</td><td>${a.applied_at ? `<span class="chip em">${dt(a.applied_at)}</span>` : '<span class="chip or">ждёт</span>'}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Нет</td></tr>'}</tbody></table></div>`,
+    log: () => `<div class="card list">${(d.log || []).map(l => `<div class="pad row"><div class="grow"><b>${esc(ACTIONS[l.action] || l.action)}</b> <span class="muted">${esc(logDetails(l))}</span></div><span class="muted" style="font-size:12px">${esc(l.admin_nick || '')} · ${dt(l.at)}</span></div>`).join('') || '<div class="pad muted">Пусто</div>'}</div>`,
+  };
+  const showTab = k => {
+    S.ptab = k; v.querySelectorAll('#ptabs button').forEach(b => b.classList.toggle('on', b.dataset.t === k)); v.querySelector('#ptab').innerHTML = body[k]();
+    if (k === 'lifts') {
+      const draw = () => { const ex = v.querySelector('#lex').value; const xs = lifts.filter(l => !ex || l.exerciseName === ex);
+        v.querySelector('#ltab').innerHTML = `<table class="t"><thead><tr><th>Дата</th><th>Упражнение</th><th>Вес × повт.</th><th>e1RM</th><th>×вес</th><th>Отметки</th></tr></thead><tbody>${xs.slice(0, 300).map(l => { const r = bw ? l.e1rm / bw : null, sus = r != null && r > lim(l.exerciseName) && l.e1rm >= (rules.min_kg || 60); return `<tr class="${l.flagged ? 'bad' : sus ? 'sus' : ''}"><td class="num">${esc(l.date)}</td><td>${esc(exRu(l.exerciseName))}</td><td class="num">${fmt(l.weight)} × ${esc(l.reps || 1)}</td><td class="num"><b>${fmt(l.e1rm)}</b></td><td class="num">${r != null ? r.toFixed(2) + '×' : '—'}</td><td><div class="row wrap" style="gap:4px">${l.isPR ? '<span class="chip pu">PR</span>' : ''}${l.flagged ? '<span class="chip rd">помечен</span>' : ''}${l.review ? `<span class="chip or">${esc(l.review)}</span>` : ''}${l.confirmed ? '<span class="chip">подтвердил сам</span>' : ''}${l.warmup ? '<span class="chip">разминка</span>' : ''}</div></td></tr>`; }).join('') || '<tr><td colspan="6" class="muted">Нет подходов</td></tr>'}</tbody></table>`; };
+      v.querySelector('#lex').onchange = draw; draw();
+    }
+    v.querySelectorAll('[data-post]').forEach(b => b.onclick = async () => { if (b.dataset.a === 'delete' && !(await confirmBox('Удалить пост?', 'Это нельзя отменить.', 'Удалить'))) return; await act(() => rpc('admin_post_action', { p_id: b.dataset.post, p_action: b.dataset.a }), 'Готово').catch(() => {}); render(); });
+  };
+  v.querySelectorAll('#ptabs button').forEach(b => b.onclick = () => showTab(b.dataset.t)); showTab(tab);
+  const q = s => v.querySelector(s);
+  if (q('[data-ban]')) q('[data-ban]').onclick = async () => { if (await banModal(p.id, p.nickname)) render(); };
+  if (q('[data-unban]')) q('[data-unban]').onclick = async () => { if (await confirmBox('Разбанить?', `${esc(p.nickname)} снова сможет публиковать и появится в рейтингах.`, 'Разбанить', 'em')) { await act(() => rpc('admin_ban', { p_user: p.id, p_days: 0, p_reason: '' }), 'Бан снят').catch(() => {}); render(); } };
+  v.querySelectorAll('[data-adj]').forEach(b => b.onclick = async () => { if (await adjustModal(p.id, p.nickname, b.dataset.adj)) render(); });
+  q('[data-trust]').onclick = async () => { await act(() => rpc('admin_set_flags', { p_user: p.id, p_trusted: !fl.trusted, p_note: null }), fl.trusted ? 'Метка снята' : 'Подходы этого игрока больше не уходят на проверку').catch(() => {}); render(); };
+  q('[data-note]').onclick = () => modal(`<h3>Заметка об игроке</h3><div class="muted" style="font-size:13px">Видна только админам.</div><textarea class="inp" id="nt" style="margin-top:12px;min-height:110px" autofocus>${esc(fl.note || '')}</textarea><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost" data-no>Отмена</button><button class="btn em" data-yes>Сохранить</button></div>`, bg => {
+    bg.querySelector('[data-no]').onclick = closeModal;
+    bg.querySelector('[data-yes]').onclick = async () => { await act(() => rpc('admin_set_flags', { p_user: p.id, p_trusted: null, p_note: bg.querySelector('#nt').value }), 'Сохранено').catch(() => {}); closeModal(); render(); };
+  });
+  v.querySelectorAll('[data-reset]').forEach(b => b.onclick = async () => { if (await resetModal(p.id, p.nickname, b.dataset.reset, +b.dataset.v)) render(); });
+};
+function logDetails(l) {
+  const d = l.details || {};
+  if (l.action.startsWith('review')) return `${exRu(d.ex)} ${fmt(d.e1rm)} кг${d.note ? ` · ${d.note}` : ''}`;
+  if (l.action === 'ban') return `${d.days ? d.days + ' дн' : 'навсегда'}${d.reason ? ' · ' + d.reason : ''}`;
+  if (l.action.startsWith('adjust')) return `${d.mode === 'set' ? '= ' : d.amount > 0 ? '+' : ''}${fmt(d.amount)}${d.note ? ' · ' + d.note : ''}`;
+  if (l.action === 'reset_ex') return `${exRu(d.ex)} → ${fmt(d.max)} кг`;
+  if (l.action === 'scan') return `найдено ${fmt(d.found)}`;
+  if (l.action === 'note') return d.note || '';
+  return '';
+}
+
+VIEWS.posts = async (v, alive) => {
+  const tab = S.tabs.posts;
+  const head = topbar('Посты', `<div class="seg" id="ptb">${[['recent', 'Свежие'], ['reported', 'С жалобами'], ['hidden', 'Скрытые'], ['video', 'Видео']].map(([k, t]) => `<button data-t="${k}" class="${tab === k ? 'on' : ''}">${t}</button>`).join('')}</div>`);
+  v.innerHTML = head + `<div class="posts">${Array.from({ length: 6 }, () => '<div class="sk" style="height:300px"></div>').join('')}</div>`;
+  const bind = () => v.querySelectorAll('#ptb button').forEach(b => b.onclick = () => { S.tabs.posts = b.dataset.t; render(); });
+  bind();
+  let rows = await rpc('admin_posts', { p_mode: tab, p_limit: 40, p_before: null }); if (!alive()) return;
+  const card = x => { const img = safeImg(x.photo), vid = safeUrl(x.video); return `<div class="card post ${x.hidden ? 'hidden' : ''}" data-id="${esc(x.id)}">${img || vid ? `<div class="media">${vid ? `<video src="${esc(vid)}" controls preload="metadata" playsinline></video>` : `<img src="${esc(img)}" alt="" loading="lazy">`}</div>` : ''}<div class="b">
+    <div class="row">${av(x, 'sm')}<a class="link grow" data-user="${esc(x.user_id)}" style="font-weight:750">${esc(x.nickname || '?')}</a>${x.banned ? '<span class="chip rd">бан</span>' : ''}</div>
+    ${x.kind === 'pr' ? `<span class="chip pu" style="align-self:flex-start">рекорд: ${esc(exRu(x.ex))} ${fmt(x.weight)} кг × ${x.reps || 1}</span>` : ''}
+    <div class="note" style="font-size:13.5px">${esc(x.body) || '<span class="muted">без текста</span>'}</div>
+    ${(x.tags || []).length ? `<div class="muted" style="font-size:12px">${x.tags.map(t => '#' + esc(t)).join(' ')}</div>` : ''}
+    <div class="row wrap" style="gap:6px;font-size:12px" class="muted"><span class="muted">${ago(x.created_at)} · ${fmt(x.like_count)} ♥ · ${fmt(x.view_count)} просм.</span>${x.reports ? `<span class="chip rd">${x.reports} ${plural(x.reports, 'жалоба', 'жалобы', 'жалоб')}</span>` : ''}${x.hidden ? '<span class="chip or">скрыт</span>' : ''}</div>
+    <div class="row" style="margin-top:auto"><button class="btn sm grow" data-a="${x.hidden ? 'unhide' : 'hide'}">${ic(x.hidden ? 'eye' : 'eye-off')} ${x.hidden ? 'Вернуть' : 'Скрыть'}</button><button class="btn sm rd" data-a="delete">${ic('trash')}</button><button class="btn sm ghost" data-ban="${esc(x.user_id)}" data-n="${esc(x.nickname || '')}">${ic('ban')}</button></div>
+  </div></div>`; };
+  const paint = () => {
+    v.innerHTML = head + (rows.length ? `<div class="posts">${rows.map(card).join('')}</div>${rows.length % 40 === 0 ? '<div style="text-align:center;margin-top:16px"><button class="btn" data-more>Показать ещё</button></div>' : ''}` : `<div class="card empty">${ic('img')}<div>Постов нет</div></div>`);
+    bind();
+    v.querySelectorAll('.post').forEach(el => {
+      const id = el.dataset.id;
+      el.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => { if (b.dataset.a === 'delete' && !(await confirmBox('Удалить пост?', 'Это нельзя отменить.', 'Удалить'))) return; try { await act(() => rpc('admin_post_action', { p_id: id, p_action: b.dataset.a }), 'Готово'); if (b.dataset.a === 'delete') rows = rows.filter(r => r.id !== id); else { const r = rows.find(r => r.id === id); r.hidden = b.dataset.a === 'hide'; } paint(); } catch (_) {} });
+      el.querySelector('[data-user]').onclick = e => go('player', e.target.dataset.user);
+      el.querySelector('[data-ban]').onclick = async e => { const b = e.currentTarget; if (await banModal(b.dataset.ban, b.dataset.n)) render(); };
+    });
+    const m = v.querySelector('[data-more]'); if (m) m.onclick = async () => { m.disabled = true; const more = await rpc('admin_posts', { p_mode: tab, p_limit: 40, p_before: rows[rows.length - 1].created_at }); rows = rows.concat(more); paint(); };
+  };
+  paint();
+};
+
+VIEWS.log = async (v, alive) => {
+  v.innerHTML = topbar('Журнал действий') + loading(1, 300);
+  const rows = await rpc('admin_log_list', { p_limit: 300 }); if (!alive()) return;
+  v.innerHTML = topbar('Журнал действий') + (rows.length ? `<div class="card list">${rows.map(l => `<div class="pad row wrap"><div class="grow" style="min-width:200px"><b>${esc(ACTIONS[l.action] || l.action)}</b>${l.target_nick ? ` · <a class="link" data-go="player" data-p="${esc(l.target_id)}">${esc(l.target_nick)}</a>` : ''} <span class="muted">${esc(logDetails(l))}</span></div><span class="muted" style="font-size:12px">${esc(l.admin_nick || '')} · ${dt(l.created_at)}</span></div>`).join('')}</div>` : `<div class="card empty">${ic('list')}<div>Пока пусто</div></div>`);
+};
+
+VIEWS.settings = async (v, alive) => {
+  v.innerHTML = topbar('Настройки') + loading(2, 200);
+  const [rules, team] = await Promise.all([rpc('admin_rules_get'), rpc('admin_team')]); if (!alive()) return; S.rules = rules;
+  const R = JSON.parse(JSON.stringify(rules || {})); R.ratio = R.ratio || {}; R.record = R.record || {};
+  const order = ['Bench Press', 'Incline Bench', 'Overhead Press', 'Squat', 'Deadlift', 'Romanian Deadlift', 'Barbell Row', 'Pull-ups', 'Dips', 'Leg Press', 'Lunges', 'Hip Thrust', 'Bicep Curl', 'Lateral Raise', 'Calf Raise', 'bench', 'squat', 'deadlift', 'other'];
+  const keys = [...order.filter(k => k in R.ratio), ...Object.keys(R.ratio).filter(k => !order.includes(k))];
+  const owner = S.me.role === 'owner';
+  v.innerHTML = topbar('Настройки', `<button class="btn em" data-save>${ic('check')} Сохранить правила</button>`) + `
+    <div class="card pad">
+      <div class="row"><div class="grow"><b>Анти-чит</b><div class="muted" style="font-size:13px">Подход уходит на проверку, если он тяжелее порога × вес тела, резко вырос от прошлого рекорда или выше мирового рекорда. Пока подход на проверке, кубков за него нет и в рейтинг он не попадает.</div></div><button class="sw ${R.enabled ? 'on' : ''}" id="en" aria-label="Включить"></button></div>
+      <div class="kv" style="margin-top:14px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+        <div><span>Скачок от прошлого рекорда, %</span><input class="inp num" id="jump" type="number" step="1" value="${Math.round((R.jump || 0.25) * 100)}" style="margin-top:6px"></div>
+        <div><span>Не проверять легче, кг e1RM</span><input class="inp num" id="mink" type="number" step="5" value="${R.min_kg || 60}" style="margin-top:6px"></div>
+        <div><span>Множитель для девушек</span><input class="inp num" id="fem" type="number" step="0.01" value="${R.female || 0.72}" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <h2 class="h">Пороги: во сколько раз тяжелее веса тела <span class="muted">e1RM / вес тела</span></h2>
+    <div class="rules-grid" id="rg">${keys.map(k => `<label><span>${esc(exRu(k))}</span><input class="inp num" type="number" step="0.05" data-k="${esc(k)}" value="${esc(R.ratio[k])}"></label>`).join('')}</div>
+    <div class="muted" style="font-size:12px;margin-top:8px">«Свои жимы / приседы / тяги»: свои упражнения игрока, привязанные к боссу арены. «Остальные»: всё, чего нет в списке.</div>
+    <h2 class="h">Мировые рекорды, кг <span class="muted">выше — всегда на проверку</span></h2>
+    <div class="rules-grid">${['bench', 'squat', 'deadlift'].map(k => `<label><span>${esc({ bench: 'Жим', squat: 'Присед', deadlift: 'Становая' }[k])}</span><input class="inp num" type="number" data-rec="${k}" value="${esc(R.record[k] || '')}"></label>`).join('')}</div>
+    <h2 class="h">Команда <span class="muted">${owner ? 'добавлять модераторов может только владелец' : ''}</span></h2>
+    <div class="card list">${team.map(t => `<div class="pad row"><span class="av sm">${esc((t.nickname || t.email || '?').slice(0, 1).toUpperCase())}</span><div class="grow"><b>${esc(t.nickname || 'без ника')}</b> <span class="muted" style="font-size:12px">${esc(t.email || '')}</span></div><span class="chip ${t.role === 'owner' ? 'pu' : ''}">${t.role === 'owner' ? 'владелец' : 'модератор'}</span>${owner && t.role !== 'owner' ? `<button class="btn sm rd" data-rm="${esc(t.user_id)}">${ic('x')}</button>` : ''}</div>`).join('')}
+    ${owner ? `<div class="pad row"><input class="inp" id="tq" placeholder="Ник или email игрока, чтобы сделать модератором"><button class="btn" data-add>Добавить</button></div>` : ''}</div>`;
+  v.querySelector('#en').onclick = e => { R.enabled = !R.enabled; e.currentTarget.classList.toggle('on', R.enabled); };
+  v.querySelector('[data-save]').onclick = async () => {
+    v.querySelectorAll('[data-k]').forEach(i => { const x = parseFloat(i.value); if (x > 0) R.ratio[i.dataset.k] = x; });
+    v.querySelectorAll('[data-rec]').forEach(i => { const x = parseFloat(i.value); if (x > 0) R.record[i.dataset.rec] = x; });
+    R.jump = Math.max(0.05, (parseFloat(v.querySelector('#jump').value) || 25) / 100); R.min_kg = Math.max(0, parseFloat(v.querySelector('#mink').value) || 60); R.female = Math.min(1, Math.max(0.3, parseFloat(v.querySelector('#fem').value) || 0.72));
+    try { S.rules = await act(() => rpc('admin_rules_set', { p_rules: R }), 'Правила сохранены. Приложения подхватят их при следующем входе в сеть.'); } catch (_) {}
+  };
+  v.querySelectorAll('[data-rm]').forEach(b => b.onclick = async () => { if (await confirmBox('Убрать модератора?', 'Он потеряет доступ к админке.', 'Убрать')) { await act(() => rpc('admin_team_set', { p_user: b.dataset.rm, p_on: false }), 'Убран').catch(() => {}); render(); } });
+  const add = v.querySelector('[data-add]'); if (add) add.onclick = async () => {
+    const q = v.querySelector('#tq').value.trim(); if (!q) return;
+    const found = await rpc('admin_players', { p_q: q, p_filter: 'all', p_limit: 5, p_offset: 0 });
+    const p = found.find(x => (x.nickname || '').toLowerCase() === q.toLowerCase() || (x.email || '').toLowerCase() === q.toLowerCase()) || (found.length === 1 ? found[0] : null);
+    if (!p) return toast(found.length ? 'Нашлось несколько игроков: введи точный ник или email' : 'Игрок не найден', true);
+    if (await confirmBox('Сделать модератором?', `<b>${esc(p.nickname)}</b> (${esc(p.email || '')}) сможет проверять подходы, жалобы и банить игроков.`, 'Сделать модератором', 'em')) { await act(() => rpc('admin_team_set', { p_user: p.id, p_on: true }), 'Добавлен').catch(() => {}); render(); }
+  };
+};
+
+/* ---------- вход ---------- */
+function loginView(msg = '') {
+  $('#root').innerHTML = `<div class="login"><div class="card">
+    <div class="row" style="margin-bottom:18px"><img src="../icon.png" alt=""><div><div style="font-size:19px;font-weight:850">Flexo League</div><div class="muted">Админ-панель</div></div></div>
+    <form id="lf"><label class="lbl">Email</label><input class="inp" id="le" type="email" autocomplete="username" required autofocus>
+    <label class="lbl" style="margin-top:12px">Пароль</label><input class="inp" id="lp" type="password" autocomplete="current-password" required>
+    <button class="btn em" style="width:100%;margin-top:16px;height:42px">Войти</button></form>
+    <div class="or-line">или</div>
+    <button class="btn" id="lg" style="width:100%;height:42px"><svg class="i" viewBox="0 0 24 24" style="stroke:none"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.6 3.8-5.5 3.8-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.2 14.6 2.2 12 2.2 6.6 2.2 2.2 6.6 2.2 12s4.4 9.8 9.8 9.8c5.7 0 9.4-4 9.4-9.6 0-.6-.1-1.1-.2-1.6H12z"/></svg> Войти через Google</button>
+    <div id="lm" style="margin-top:14px;font-size:13px;color:#fca5a5">${esc(msg)}</div>
+    <div class="muted" style="font-size:12px;margin-top:10px">Тот же аккаунт, что и в приложении. Доступ только у админов.</div>
+  </div></div>`;
+  $('#lf').onsubmit = async e => { e.preventDefault(); $('#lm').textContent = ''; const { error } = await sb.auth.signInWithPassword({ email: $('#le').value.trim(), password: $('#lp').value }); if (error) { $('#lm').textContent = /Invalid login/i.test(error.message) ? 'Неверный email или пароль' : error.message; return; } boot(); };
+  $('#lg').onclick = async () => { const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname, queryParams: { prompt: 'select_account' } } }); if (error) $('#lm').textContent = error.message; };
+}
+function noAccess(me) {
+  const sql = `insert into public.admins(user_id, role) values ('${me.uid}', 'owner')\non conflict (user_id) do update set role = 'owner';`;
+  $('#root').innerHTML = `<div class="login"><div class="card" style="max-width:520px">
+    <div style="font-size:19px;font-weight:850">${ic('shield')} Нет доступа</div>
+    <div class="muted" style="margin:8px 0 14px">Ты вошёл как <b style="color:var(--tx)">${esc(me.email || me.nick || '')}</b>, но этот аккаунт не админ.</div>
+    <div style="font-size:13px">Если это твой проект: открой Supabase → SQL Editor и выполни (один раз):</div>
+    <pre class="code" style="margin-top:8px">${esc(sql)}</pre>
+    <div class="row" style="margin-top:12px"><button class="btn" data-copy="${esc(sql)}">${ic('copy')} Скопировать</button><button class="btn em" onclick="location.reload()">${ic('refresh')} Я выполнил</button><div class="grow"></div><button class="btn ghost" data-logout>${ic('out')} Выйти</button></div>
+  </div></div>`;
+}
+async function boot() {
+  const { data } = await sb.auth.getSession();
+  if (!data.session) return loginView();
+  let me;
+  try { me = await rpc('admin_me'); } catch (e) { return loginView(errText(e)); }
+  if (!me || !me.is_admin) return noAccess(me || {});
+  S.me = me; parseHash(); await refreshStats(); render();
+  setInterval(async () => { const before = S.stats && S.stats.pending_reviews + S.stats.new_reports; await refreshStats(); const now = S.stats && S.stats.pending_reviews + S.stats.new_reports; if (now !== before) document.querySelectorAll('.nav, .bnav button').forEach(n => { const k = n.dataset.go, c = k === 'reviews' ? S.stats.pending_reviews : k === 'reports' ? S.stats.new_reports : 0; let b = n.querySelector('.bd'); if (k === 'reviews' || k === 'reports') { if (!b && c) { b = document.createElement('span'); b.className = 'bd' + (k === 'reviews' ? ' or' : ''); n.appendChild(b); } if (b) { b.textContent = c || ''; b.classList.toggle('z', !c); } } }); document.title = (now ? `(${now}) ` : '') + 'Flexo Admin'; }, 60000);
+}
+sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') loginView(); });
+boot();
+</script>
+</body>
+</html>

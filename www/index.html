@@ -192,7 +192,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .seg button.on{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4)}
 #toast-root{position:fixed;top:calc(5.6rem + env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:70;display:flex;flex-direction:column;gap:.5rem;width:calc(100% - 2rem);max-width:26rem;pointer-events:none}
 .toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--em);border-radius:.8rem;padding:.7rem .9rem;font-size:.85rem;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:toastIn .3s ease}
-.toast.or{border-left-color:var(--or)}.toast.bl{border-left-color:var(--bl)}.toast.pu{border-left-color:var(--pu)}.toast.red{border-left-color:#EF4444}
+.toast.or{border-left-color:var(--or)}.toast.bl{border-left-color:var(--bl)}.toast.pu{border-left-color:var(--pu)}.toast.red{border-left-color:#EF4444}.toast.mod{border-left-color:var(--or)}
 @keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:80}
 .confetti i{position:absolute;top:-20px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards}
@@ -933,6 +933,8 @@ const CONFIG = {
   WORKOUT_MIN_EXERCISES: 3,
   WEEKLY_BONUS_WORKOUTS: 3,
   CHEAT_JUMP: 0.15,
+  // v30: правила анти-чита (сервер присылает актуальные из админки; это запасные). Подход выше порога уходит модератору.
+  AC_RULES: { enabled: true, ratio: { 'Bench Press': 2.0, 'Incline Bench': 1.8, 'Overhead Press': 1.4, 'Squat': 2.7, 'Deadlift': 3.0, 'Romanian Deadlift': 2.6, 'Barbell Row': 1.8, 'Pull-ups': 2.2, 'Dips': 2.4, 'Leg Press': 6.0, 'Lunges': 2.0, 'Hip Thrust': 4.0, 'Bicep Curl': 1.0, 'Lateral Raise': 0.6, 'Calf Raise': 4.0, bench: 2.0, squat: 2.7, deadlift: 3.0, other: 3.0 }, record: { bench: 355, squat: 490, deadlift: 505 }, female: 0.72, jump: 0.25, min_kg: 60 },
   // античит: предел e1RM (кг) — абсолютный (около мирового рекорда) и в долях веса тела
   LIFT_CAPS: { bench: [355, 3.2], squat: [490, 4.2], deadlift: [505, 4.5], other: [400, 4.5] },
   DAY_TROPHY_CAP: 100,
@@ -1331,6 +1333,19 @@ const Calc = {
     if (!prev.length) return false; // первый лог упражнения — точка отсчёта, не рекорд
     return lift.e1rm > Math.max(...prev.map(l => l.e1rm));
   },
+  // v30: нужна ли проверка модератором: ratio (тяжелее N× веса тела), jump (скачок от рекорда), record (выше мирового)
+  reviewReasons(lift, prevOverride) {
+    const r = S.acRules || CONFIG.AC_RULES; if (!r || r.enabled === false || !lift || lift.warmup) return [];
+    const ex = lift.exerciseName, kind = U.exInfo(ex).boss || 'other', e = +lift.e1rm || 0, out = [];
+    if (r.record && r.record[kind] && e > r.record[kind]) out.push('record');
+    if (e < (r.min_kg != null ? r.min_kg : 60)) return out;
+    const R = r.ratio || {}; let lim = R[ex] != null ? R[ex] : R[kind] != null ? R[kind] : (R.other || 3);
+    if (S.profile.sex === 'f') lim *= (r.female || 0.72);
+    const bw = +S.profile.bodyweight || 0; if (bw > 0 && e > bw * lim) out.push('ratio');
+    const prev = prevOverride != null ? prevOverride : Calc.bestE1rm(ex, Calc.validLifts().filter(l => l.id !== lift.id));
+    if (prev > 0 && e > prev * (1 + (r.jump || 0.25))) out.push('jump');
+    return out;
+  },
   isSuspicious(lift) { // античит: скачок e1RM >15% от лучшего за раз
     const best = Calc.bestE1rm(lift.exerciseName, Calc.validLifts().filter(l => l.id !== lift.id && l.date < lift.date));
     return best > 0 && lift.e1rm > best * (1 + CONFIG.CHEAT_JUMP);
@@ -1502,7 +1517,9 @@ const Game = {
     const capErr = Calc.liftCapError(exerciseName, +weight, lift.e1rm);
     if (capErr) return { rejected: true, error: capErr, exerciseName };
     const fresh = date >= U.addDays(U.today(), -1); // задним числом рекорды и кубки не даём
-    lift.flagged = !warmup && Calc.isSuspicious(lift);
+    const why = warmup ? [] : Calc.reviewReasons(lift);
+    if (why.length) { lift.review = 'pending'; lift.reviewWhy = why; lift.fresh = fresh; } // v30: кубки только после одобрения модератором
+    lift.flagged = !warmup && (why.length > 0 || Calc.isSuspicious(lift));
     if (lift.flagged) { lift.verified = false; }
     else if (!warmup && fresh && Calc.isPR(lift)) {
       lift.isPR = true;
@@ -1533,10 +1550,11 @@ const Game = {
     if (date === U.today()) { const pl = Calc.plannedExercisesDone(date); if (pl.length && pl.every(p => p.done)) this.award('plan:' + date, CONFIG.TROPHY.PLAN_DONE, 'План дня выполнен', { coins: CONFIG.COINS.PLAN_DONE, toast: 'План дня выполнен: +{n} кубков' }); }
     this.checkStreak();
     save();
+    if (lift.review === 'pending' && typeof Mod !== 'undefined') Mod.submit(lift);
     return lift;
   },
   deleteLift(id) { S.lifts = S.lifts.filter(l => l.id !== id); save(); },
-  confirmLift(id) { const l = S.lifts.find(x => x.id === id); if (!l || !l.flagged) return; l.flagged = false; l.verified = true; l.confirmed = true; const pb = S.game.paidBest || (S.game.paidBest = {}); pb[l.exerciseName] = Math.max(pb[l.exerciseName] || 0, l.e1rm); save(); },
+  confirmLift(id) { const l = S.lifts.find(x => x.id === id); if (!l || !l.flagged || l.review) return; const why = Calc.reviewReasons(l); if (why.length) { l.review = 'pending'; l.reviewWhy = why; l.fresh = false; save(); if (typeof Mod !== 'undefined') Mod.submit(l); return 'review'; } l.flagged = false; l.verified = true; l.confirmed = true; const pb = S.game.paidBest || (S.game.paidBest = {}); pb[l.exerciseName] = Math.max(pb[l.exerciseName] || 0, l.e1rm); save(); },
   // v29: сундук за засчитанную тренировку (содержимое выдаётся сразу, окно — только показ)
   rollChest(kind = 'normal') {
     const b = this.boosts(), gold = kind === 'gold', out = { kind, coins: U.rnd(gold ? 35 : 15, gold ? 60 : 35), items: [] };
@@ -2668,6 +2686,7 @@ const ClanService = {
       (Net.d.duels || []).forEach(d => { if (d.b_id === Net.uid && d.status === 'active' && Net.d.byId[d.a_id]) out.push({ kind: 'duel', uid: d.a_id, ts: new Date(d.created_at).getTime() }); });
     }
     this.feed().filter(f => !f.self && fr.has(f.uid)).forEach(f => out.push({ kind: 'pr', uid: f.uid, ex: f.ex, weight: f.weight, reps: f.reps, ts: f.ts }));
+    (S.modNotes || []).forEach(m => out.push({ kind: 'mod', text: m.text, ok: m.ok, ts: m.ts }));
     return out.sort((a, b) => b.ts - a.ts).slice(0, 40);
   },
   unread() { const seen = S.notifSeen || 0; return this.notifications().filter(n => n.kind === 'req' || n.ts > seen).length; },
@@ -3284,7 +3303,7 @@ const Net = {
       return true;
     } catch (e) { console.warn('Net.init', e); this.ready = false; return false; }
   },
-  err(e) { const m = (e && (e.message || e.error_description || e.msg)) || 'Ошибка сети'; if (/flx_bad_words/.test(m)) return 'В тексте есть мат или оскорбление. Это против правил сообщества.'; return /fetch|network|Failed to fetch/i.test(m) ? 'Нет связи с сервером. Проверь интернет.' : m; },
+  err(e) { const m = (e && (e.message || e.error_description || e.msg)) || 'Ошибка сети'; if (/flx_bad_words/.test(m)) return 'В тексте есть мат или оскорбление. Это против правил сообщества.'; if (/flx_banned/.test(m)) return 'Аккаунт заблокирован модератором.'; return /fetch|network|Failed to fetch/i.test(m) ? 'Нет связи с сервером. Проверь интернет.' : m; },
   /* ---- аккаунт ---- */
   async nickAvailable(nick) { const { data, error } = await this.client.rpc('nick_available', { p_nick: nick }); if (error) throw error; return !!data; },
   async signUp(email, pass, nick) {
@@ -3349,7 +3368,7 @@ const Net = {
   _cfg: false,
   async loadConfig() { // общие настройки приложения (таблица app_config)
     if (this._cfg || !this.online()) return; this._cfg = true;
-    try { const { data } = await this.client.from('app_config').select('key,value'); void data; // v24: ключ Gemini только в секретах Edge Functions, в app_config его нет
+    try { const { data } = await this.client.from('app_config').select('key,value'); (data || []).forEach(r => { if (r.key === 'anticheat') { try { const j = JSON.parse(r.value); if (j && typeof j === 'object' && j.ratio) S.acRules = j; } catch (_) {} } }); // v30: правила анти-чита из админки // v24: ключ Gemini только в секретах Edge Functions, в app_config его нет
     if (typeof MT !== 'undefined') MT.kick(); if (typeof Game !== 'undefined') Game.translateExercises(); } catch (_) { this._cfg = false; }
   },
   // v23: убрать сессию с телефона, даже если сервер её уже не знает
@@ -3461,6 +3480,7 @@ const Net = {
         const myDuel = this.d.duels.find(x => U.addDays(x.week_key, 7) > U.today() && x.status === 'active');
         S.duel = myDuel ? { id: myDuel.id, opponentId: myDuel.a_id === this.uid ? myDuel.b_id : myDuel.a_id, nick: (byId[myDuel.a_id === this.uid ? myDuel.b_id : myDuel.a_id] || {}).nick || '?', weekKey: myDuel.week_key, startedAt: new Date(myDuel.created_at).getTime(), byMe: myDuel.a_id === this.uid } : null;
         if (typeof Referral !== 'undefined') Referral.sync();
+        if (typeof Mod !== 'undefined') Mod.sync();
         if (typeof League !== 'undefined') League.settle();
         save(); return true;
       } catch (e) { console.warn('Net.refresh', e); return false; }
@@ -3512,13 +3532,97 @@ const League = {
   },
 };
 
+/* =====================================================================
+   v30: модерация. Подозрительные подходы уходят на проверку в админку,
+   приложение забирает решения, правки кубков/монет и бан (my_moderation).
+   ===================================================================== */
+const Mod = {
+  _at: 0, _busy: false,
+  submit(l) {
+    if (!Net.online() || !l || l.review !== 'pending') return;
+    Net.client.rpc('lift_review_submit', { p_lift_id: l.id, p_ex: l.exerciseName, p_weight: +l.weight, p_reps: +l.reps || 1, p_e1rm: +l.e1rm, p_bw: +S.profile.bodyweight || null, p_date: l.date })
+      .then(({ data, error }) => { if (error) return; l.reviewSent = true; if (data === 'approved') { this.approve(l, null, true); App.afterChange(); } else if (data === 'rejected') this.reject({ lift_id: l.id, ex: l.exerciseName, e1rm: l.e1rm, source: 'app' }); save(); })
+      .catch(() => {});
+  },
+  note(text, ok) { S.modNotes = (S.modNotes || []).concat({ ts: Date.now(), text, ok: !!ok }).slice(-30); },
+  label(l) { return `${U.exRu(l.exerciseName || l.ex)} ${U.w(l.weight || l.e1rm)} ${U.wUnit()}${l.reps ? ' × ' + l.reps : ''}`; },
+  approve(l, note, silent) {
+    if (!l || l.review === 'approved') return;
+    l.review = 'approved'; l.flagged = false; l.verified = true;
+    const ex = l.exerciseName, pb = S.game.paidBest || (S.game.paidBest = {});
+    if (l.fresh !== false && !l.warmup && Calc.isPR(l)) {
+      l.isPR = true;
+      const grew = l.e1rm > (pb[ex] || 0) * (1 + CONFIG.PR_MIN_GAIN) && l.e1rm >= (pb[ex] || 0) + 0.5;
+      if (grew) { l.paid = true; Game.addTrophies(CONFIG.TROPHY.PR, `PR одобрен: ${U.exRu(ex)}`, true); Game.addXP(CONFIG.XP.PR, 'PR'); Game.addCoins(CONFIG.COINS.PR, 'PR: ' + U.exRu(ex)); }
+    }
+    pb[ex] = Math.max(pb[ex] || 0, l.e1rm);
+    if (!silent) this.note(`подход ${this.label(l)} одобрен${l.paid ? ', кубки начислены' : ''}${note ? '. ' + note : ''}`, true);
+  },
+  reject(rv) {
+    const bad = S.lifts.filter(l => l.id === rv.lift_id || (l.exerciseName === rv.ex && (l.e1rm >= rv.e1rm - 0.5 || (rv.source !== 'app' && Calc.reviewReasons(l, 0).some(x => x !== 'jump')))));
+    const ids = new Set(bad.map(l => l.id)); S.lifts = S.lifts.filter(l => !ids.has(l.id));
+    this.repay(rv.ex);
+    this.note(`${bad.length > 1 ? `рекорд ${U.exRu(rv.ex)} ${U.w(rv.e1rm)} ${U.wUnit()} отклонён, подходы удалены (${bad.length})` : `подход ${bad[0] ? this.label(bad[0]) : U.exRu(rv.ex)} отклонён и удалён`}${rv.note ? '. ' + rv.note : ''}`);
+  },
+  repay(ex) { const pb = S.game.paidBest || (S.game.paidBest = {}); const b = Calc.bestE1rm(ex); if (b > 0) pb[ex] = Math.min(pb[ex] || b, b); else delete pb[ex]; },
+  adjust(a) {
+    const g = S.game, v = +a.amount || 0, why = a.note ? ` (${a.note})` : '';
+    if (a.kind === 'trophies') {
+      const before = g.trophies; g.trophies = Math.max(0, Math.round(a.mode === 'set' ? v : g.trophies + v));
+      while (g.arenaIdx > 0 && Calc.arena(g.arenaIdx).min > g.trophies) g.arenaIdx--;
+      Game.ledger('trophy', g.trophies - before, 'Модератор' + why);
+      this.note(`кубки ${a.mode === 'set' ? 'изменены на ' + g.trophies : (v > 0 ? '+' : '') + v}${why}`, v > 0);
+    } else if (a.kind === 'coins') {
+      const before = g.coins; g.coins = Math.max(0, Math.round(a.mode === 'set' ? v : g.coins + v));
+      Game.ledger('coin', g.coins - before, 'Модератор' + why);
+      this.note(`монеты ${a.mode === 'set' ? 'изменены на ' + g.coins : (v > 0 ? '+' : '') + v}${why}`, v > 0);
+    } else if (a.kind === 'reset_ex' && a.ex) {
+      const n0 = S.lifts.length; S.lifts = S.lifts.filter(l => !(l.exerciseName === a.ex && (v <= 0 || l.e1rm > v + 0.5)));
+      this.repay(a.ex);
+      this.note(`рекорд ${U.exRu(a.ex)} сброшен${v > 0 ? ` до ${U.w(v)} ${U.wUnit()}` : ''}, удалено подходов: ${n0 - S.lifts.length}${why}`);
+    }
+  },
+  async sync(force) {
+    if (!Net.online() || this._busy || (!force && Date.now() - this._at < 60000)) return;
+    this._busy = true; this._at = Date.now();
+    try {
+      S.lifts.filter(l => l.review === 'pending' && !l.reviewSent).forEach(l => this.submit(l)); // отправленные без сети
+      const { data, error } = await Net.client.rpc('my_moderation'); if (error || !data) return;
+      const notes0 = (S.modNotes || []).length, wasBan = !!S.ban;
+      S.ban = data.ban && (!data.ban.until || new Date(data.ban.until) > new Date()) ? data.ban : null;
+      (data.reviews || []).forEach(rv => {
+        const l = S.lifts.find(x => x.id === rv.lift_id);
+        if (rv.status === 'approved') { if (l) this.approve(l, rv.note); else if (rv.source !== 'app') this.note(`рекорд ${U.exRu(rv.ex)} ${U.w(rv.e1rm)} ${U.wUnit()} подтверждён${rv.note ? '. ' + rv.note : ''}`, true); }
+        else if (rv.status === 'rejected') this.reject(rv);
+      });
+      (data.adjustments || []).forEach(a => this.adjust(a));
+      const pend = new Set(data.pending || []); S.lifts.forEach(l => { if (l.review === 'pending' && l.reviewSent && !pend.has(l.id) && !(data.reviews || []).some(r => r.lift_id === l.id)) l.reviewSent = false; }); // сервер не знает о подходе — отправим снова
+      save();
+      const fresh = (S.modNotes || []).slice(notes0);
+      if (S.ban) this.showBan(); else if (wasBan) { UI.closeModal(); UI.renderHeader(); UI.renderTab(UI.tab); }
+      else if (!fresh.length && (data.reviews || []).length) { UI.renderHeader(); UI.renderTab(UI.tab); }
+      else if (fresh.length) { UI.renderHeader(); UI.renderTab(UI.tab); UI.modal(`<div class="text-center"><div class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center" style="background:#F9731622"><svg class="ic text-or text-2xl"><use href="#fa-shield-halved"/></svg></div><div class="font-black text-lg">Решение модератора</div></div><div class="mt-3">${fresh.map(n => `<div class="text-sm py-2 border-t line">${n.ok ? '<svg class="ic text-em"><use href="#fa-check"/></svg>' : '<svg class="ic text-or"><use href="#fa-triangle-exclamation"/></svg>'} ${U.esc(n.text[0].toUpperCase() + n.text.slice(1))}</div>`).join('')}</div><button class="btn btn-primary w-full mt-4" data-action="close-modal">Понятно</button>`, { center: true }); }
+    } catch (e) { console.warn('Mod.sync', e); } finally { this._busy = false; }
+  },
+  showBan() {
+    const b = S.ban; if (!b) return;
+    Game.events.length = 0; if (UI._bigQueue) UI._bigQueue.length = 0; // окно бана важнее наград
+    UI.modal(`<div class="text-center"><div class="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center" style="background:#EF444422"><svg class="ic text-3xl" style="color:#EF4444"><use href="#fa-ban"/></svg></div>
+      <div class="font-black text-xl">Аккаунт заблокирован</div>
+      <div class="text-sm muted mt-1">${b.until ? `до <b data-no-mt>${new Date(b.until).toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}</b>` : 'навсегда'}</div>
+      ${b.reason ? `<div class="sub p-3 mt-3 text-sm text-left"><div class="text-[11px] muted mb-1">Причина</div>${U.esc(b.reason)}</div>` : ''}
+      <div class="text-xs muted mt-3">Пока действует блокировка, ты не появляешься в рейтингах и не можешь публиковать, комментировать и вызывать на дуэли.${CONFIG.SUPPORT_EMAIL ? ` Если это ошибка, напиши: <b data-no-mt>${U.esc(CONFIG.SUPPORT_EMAIL)}</b>` : ''}</div>
+      <div class="grid grid-cols-2 gap-2 mt-4"><button class="btn btn-ghost" data-action="ban-recheck">Проверить снова</button><button class="btn btn-or" data-action="ban-logout">Выйти</button></div></div>`, { center: true, closable: false });
+  },
+};
+
 const UI = {
   tab: 'arena', charts: {}, liftEx: null, liftRM: '1RM', liftZoom: '1M',
   $: s => document.querySelector(s),
   $$: s => [...document.querySelectorAll(s)],
   /* ---- базовые элементы ---- */
   toast(msg, cls = '') {
-    if (cls !== 'red') return; // v20: всплывающие уведомления убраны по просьбе пользователя, остаются только ошибки
+    if (cls !== 'red' && cls !== 'mod') return; // v20: всплывающие уведомления убраны по просьбе пользователя, остаются только ошибки
     const root = this.$('#toast-root'), el = document.createElement('div');
     el.className = `toast ${cls}`; el.innerHTML = msg; root.appendChild(el);
     setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(() => el.remove(), 320); }, 2800);
@@ -3856,8 +3960,8 @@ const UI = {
     const html = `
       ${this.scheduleCard()}
       <button class="btn btn-primary w-full py-4 mb-4" data-action="open-log-set"><svg class="ic "><use href="#fa-plus"/></svg> ${T('log_set')}</button>
-      ${flagged.length ? `<div class="card p-3 mb-4" style="border-color:#F9731666"><div class="text-sm font-bold text-or"><svg class="ic "><use href="#fa-triangle-exclamation"/></svg> На проверке (${flagged.length})</div><div class="text-[11px] muted mb-2">Скачок больше 15% за раз: пока не учитывается в рекордах.</div>
-        ${flagged.map(l => `<div class="flex items-center justify-between text-xs py-1 border-t line"><span>${U.exRu(l.exerciseName)} · ${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span><span class="flex items-center gap-3"><button class="chip text-em" data-action="lift-confirm" data-id="${l.id}"><svg class="ic"><use href="#fa-check"/></svg> Это мой вес</button><button class="text-red-400" data-action="delete-lift" data-id="${l.id}"><svg class="ic "><use href="#fa-trash"/></svg></button></span></div>`).join('')}<div class="text-[10px] muted mt-1">Если вес настоящий, подтверди: подход попадёт в рекорды и на график, но кубков за такой скачок не будет.</div></div>` : ''}
+      ${flagged.length ? `<div class="card p-3 mb-4" style="border-color:#F9731666"><div class="text-sm font-bold text-or"><svg class="ic "><use href="#fa-triangle-exclamation"/></svg> На проверке (${flagged.length})</div><div class="text-[11px] muted mb-2">${flagged.some(l => l.review === 'pending') ? 'Слишком большой вес для твоего веса тела или резкий скачок: модератор проверит подход, и если всё честно, кубки придут автоматически.' : 'Скачок больше 15% за раз: пока не учитывается в рекордах.'}</div>
+        ${flagged.map(l => `<div class="flex items-center justify-between text-xs py-1 border-t line"><span>${U.exRu(l.exerciseName)} · ${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span><span class="flex items-center gap-3">${l.review === 'pending' ? '<span class="chip text-or">у модератора</span>' : `<button class="chip text-em" data-action="lift-confirm" data-id="${l.id}"><svg class="ic"><use href="#fa-check"/></svg> Это мой вес</button>`}<button class="text-red-400" data-action="delete-lift" data-id="${l.id}"><svg class="ic "><use href="#fa-trash"/></svg></button></span></div>`).join('')}<div class="text-[10px] muted mt-1">Если вес настоящий, подтверди: подход попадёт в рекорды и на график, но кубков за такой скачок не будет.</div></div>` : ''}
       <div class="card p-4 mb-4" id="lift-card">
         <div class="mb-3">${this.dd('lift-ex', this.liftEx, names.map(n => [n, U.exRu(n)]), { add: true })}</div>
         <div class="flex gap-1.5 mb-3">${CONFIG.RM_CATS.map(c => `<button class="chip ${this.liftRMs.has(c) ? 'chip-on' : ''}" style="${this.liftRMs.has(c) ? `border-color:${rmColor[c]};color:${rmColor[c]}` : ''}" data-action="lift-rm-toggle" data-rm="${c}"><span class="w-2 h-2 rounded-full inline-block" style="background:${rmColor[c]}"></span> ${U.rmName(c)}</button>`).join('')}</div>
@@ -4224,7 +4328,8 @@ const UI = {
   /* ---- уведомления (колокольчик) ---- */
   openNotifs() {
     const list = ClanService.notifications(), unit = U.wUnit();
-    const row = n => { const p = ClanService.player(n.uid) || { nick: '?', sex: 'm' }, who = this.nick(n.uid, p.nick, 'font-bold');
+    const row = n => { if (n.kind === 'mod') return `<div class="flex items-center gap-3 py-2.5 border-t line ${n.ts > (S.notifSeen || 0) ? '' : 'opacity-80'}"><div class="w-9 h-9 rounded-full flex items-center justify-center" style="flex-shrink:0;background:${n.ok ? '#10B98122' : '#F9731622'}"><svg class="ic ${n.ok ? 'text-em' : 'text-or'}"><use href="#fa-shield-halved"/></svg></div><div class="flex-1 min-w-0 text-sm leading-snug"><b>Модерация</b>: ${U.esc(n.text)}<div class="text-[10px] muted mt-0.5">${U.ago(n.ts)}</div></div></div>`;
+      const p = ClanService.player(n.uid) || { nick: '?', sex: 'm' }, who = this.nick(n.uid, p.nick, 'font-bold');
       const text = n.kind === 'req' ? `${who} хочет добавить тебя в друзья` : n.kind === 'acc' ? `${who} принял(а) твою заявку в друзья` : n.kind === 'duel' ? `${who} вызвал(а) тебя на дуэль` : `${who}: новый рекорд · ${U.esc(U.exRu(n.ex))} <b class="num">${U.wEx(n.ex, n.weight)} ${unit}</b> × ${U.reps(n.reps)}`;
       return `<div class="flex items-center gap-3 py-2.5 border-t line ${n.ts > (S.notifSeen || 0) ? '' : 'opacity-80'}">${this.av(p, 36)}<div class="flex-1 min-w-0 text-sm leading-snug">${text}<div class="text-[10px] muted mt-0.5">${U.ago(n.ts)}</div></div>
         ${n.kind === 'req' ? `<button class="btn btn-primary btn-sm" data-action="friend-accept" data-id="${n.id}"><svg class="ic"><use href="#fa-check"/></svg></button><button class="btn btn-ghost btn-sm" data-action="friend-decline" data-id="${n.id}"><svg class="ic"><use href="#fa-xmark"/></svg></button>` : ''}</div>`; };
@@ -4368,7 +4473,7 @@ const UI = {
       return;
     }
     this.modal(`${head}${progress}
-      ${lifts.length ? `<div class="mb-3 max-h-36 overflow-y-auto">${lifts.slice().reverse().map(l => `<div class="flex items-center justify-between text-sm py-1.5 border-t line"><span>${U.esc(U.exRu(l.exerciseName))} ${l.isPR ? '<svg class="ic text-amber-400 text-xs"><use href="#fa-crown"/></svg>' : ''}${l.flagged ? '<svg class="ic text-or text-xs"><use href="#fa-triangle-exclamation"/></svg>' : ''}${l.warmup ? ' <span class="text-[10px] muted">разм.</span>' : ''}</span><span class="num">${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)} ${l.flagged ? `<button class="chip text-em ml-2" data-action="lift-confirm" data-id="${l.id}" data-reopen="workout">мой вес</button>` : ''}<button class="muted ml-2 wk-x" data-action="delete-lift" data-id="${l.id}" data-reopen="workout"><svg class="ic"><use href="#fa-xmark"/></svg></button></span></div>`).join('')}</div>` : ''}
+      ${lifts.length ? `<div class="mb-3 max-h-36 overflow-y-auto">${lifts.slice().reverse().map(l => `<div class="flex items-center justify-between text-sm py-1.5 border-t line"><span>${U.esc(U.exRu(l.exerciseName))} ${l.isPR ? '<svg class="ic text-amber-400 text-xs"><use href="#fa-crown"/></svg>' : ''}${l.flagged ? '<svg class="ic text-or text-xs"><use href="#fa-triangle-exclamation"/></svg>' : ''}${l.warmup ? ' <span class="text-[10px] muted">разм.</span>' : ''}</span><span class="num">${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)} ${l.flagged ? (l.review === 'pending' ? '<span class="chip text-or ml-2">у модератора</span>' : `<button class="chip text-em ml-2" data-action="lift-confirm" data-id="${l.id}" data-reopen="workout">мой вес</button>`) : ''}<button class="muted ml-2 wk-x" data-action="delete-lift" data-id="${l.id}" data-reopen="workout"><svg class="ic"><use href="#fa-xmark"/></svg></button></span></div>`).join('')}</div>` : ''}
       <div class="sub p-3">
         <div class="mb-2">${this.dd('ws-ex', this.liftEx, this.liftExercises().map(n => [n, U.exRu(n)]), { add: true })}</div>
         <div class="flex gap-2 mb-2"><input class="input num" id="ws-w" type="number" inputmode="decimal" step="0.5" placeholder="Вес, ${U.wUnit()}"><input class="input num" id="ws-reps" type="number" inputmode="numeric" min="1" max="50" placeholder="Повторы" style="max-width:7rem"><button type="button" class="wk-wu" id="ws-wu" data-action="wu-toggle" aria-label="Разминочный подход">разм.</button></div>
@@ -4858,7 +4963,7 @@ const UI = {
     const l = S.lifts.find(x => x.id === id); if (!l) return;
     this.modal(`
       <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg truncate">${U.esc(U.exRu(l.exerciseName))}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
-      <div class="sub p-4 mb-4 flex items-center justify-between"><div><div class="text-3xl font-black num">${U.wEx(l.exerciseName, l.weight)} <span class="text-sm muted">${U.wUnit()}</span></div><div class="text-xs muted mt-1">${l.rmCategory} · ${U.fmtDate(l.date)}</div></div>${l.flagged ? '<span class="chip text-or">на проверке</span>' : ''}</div>
+      <div class="sub p-4 mb-4 flex items-center justify-between"><div><div class="text-3xl font-black num">${U.wEx(l.exerciseName, l.weight)} <span class="text-sm muted">${U.wUnit()}</span></div><div class="text-xs muted mt-1">${l.rmCategory} · ${U.fmtDate(l.date)}</div></div>${l.flagged ? `<span class="chip text-or">${l.review === 'pending' ? 'у модератора' : 'на проверке'}</span>` : ''}</div>
       <div class="grid grid-cols-2 gap-2"><button class="btn btn-ghost" data-action="close-modal">${T('close')}</button><button class="btn btn-or" data-action="point-del" data-id="${l.id}"><svg class="ic"><use href="#fa-trash"/></svg> Удалить</button></div>`, { center: true });
   },
   /* ========================= v13: ЗДОРОВЬЕ ========================= */
@@ -6081,7 +6186,8 @@ const App = {
     const lift = Game.logLift(data);
     if (lift.rejected) { UI.toast(`<svg class="ic text-or"><use href="#fa-triangle-exclamation"/></svg> ${U.exRu(lift.exerciseName)}: ${lift.error}`, 'red'); return lift; }
     UI.liftEx = lift.exerciseName;
-    if (lift.flagged) UI.toast(`<svg class="ic text-or"><use href="#fa-triangle-exclamation"/></svg> Скачок больше 15% от прошлого рекорда: подход на проверке. Если вес настоящий, подтверди его в «Силовых»`, 'or');
+    if (lift.review === 'pending') UI.toast(`<svg class="ic text-or"><use href="#fa-shield-halved"/></svg> ${U.exRu(lift.exerciseName)} ${U.w(lift.weight)} ${U.wUnit()}: такой вес проверит модератор. Если всё честно, кубки за рекорд придут автоматически.`, 'mod');
+    else if (lift.flagged) UI.toast(`<svg class="ic text-or"><use href="#fa-triangle-exclamation"/></svg> Скачок больше 15% от прошлого рекорда: подход на проверке. Если вес настоящий, подтверди его в «Силовых»`, 'or');
     else if (!lift.isPR) UI.toast(`Записано: ${U.exRu(lift.exerciseName)} ${U.wEx(lift.exerciseName, lift.weight)} ${U.wUnit()} × ${U.rmLabel(lift)}`);
     return lift;
   },
@@ -6113,7 +6219,9 @@ const App = {
     'wu-toggle'(el) { el.classList.toggle('on'); },
     'workout-resume'() { UI.openWorkout(); },
     'wk-guide'(el) { const ex = el.dataset.ex, g = UI.guideFor(ex); UI.wkKeep(); UI.modal(`<div class="flex items-center justify-between mb-2"><button class="btn btn-ghost btn-sm" data-action="workout-resume"><svg class="ic"><use href="#fa-chevron-left"/></svg> К тренировке</button><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div><div class="font-black text-xl mb-2">${U.esc(U.exRu(ex))}</div>${UI.guideDetail(ex, g)}<button class="btn btn-primary w-full mt-3" data-action="workout-resume">Понятно, к тренировке</button>`); UI._inWorkout = true; },
-    'lift-confirm'(el) { Game.confirmLift(el.dataset.id); UI.toast('Подход подтверждён: он в рекордах и на графике (без кубков за рекорд)', 'bl'); if (el.dataset.reopen === 'workout') UI.openWorkout('free'); else UI.closeModal(); App.afterChange(); },
+    async 'ban-recheck'() { await Mod.sync(true); if (!S.ban) UI.toast('Блокировка снята', 'mod'); },
+    async 'ban-logout'() { UI.closeModal(); S.ban = null; await Game.signOut(); UI.openAuth('login'); },
+    'lift-confirm'(el) { const r = Game.confirmLift(el.dataset.id); UI.toast(r === 'review' ? 'Вес слишком большой для самоподтверждения: подход отправлен модератору' : 'Подход подтверждён: он в рекордах и на графике (без кубков за рекорд)', r === 'review' ? 'mod' : 'bl'); if (el.dataset.reopen === 'workout') UI.openWorkout('free'); else UI.closeModal(); App.afterChange(); },
     'chest-open'() { const c = document.getElementById('chest'); if (!c || c.classList.contains('open')) return; c.classList.add('open'); if (!S.profile.reduceMotion) UI.confetti(70); },
     'chest-take'(el) { const st = el.dataset.starter; UI.closeModal(); App.afterChange(); if (st) App.maybeOnboard(true); },
     'finish-workout'(el) {
