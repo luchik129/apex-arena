@@ -21,3 +21,14 @@ https://luchik129.github.io/apex-arena/emu.html — приложение в ра
 ## Ключ Gemini
 Ключа нет ни в приложении, ни в репозитории: ИИ работает через edge-функции Supabase (`supabase/functions/gemini`, `ai-log`).
 Ключ хранится в секрете `GEMINI_API_KEY` (Supabase → Edge Functions → Secrets).
+
+## Админ-панель
+https://luchik129.github.io/apex-arena/admin/ — проверка подозрительных подходов, жалобы, игроки, баны, кубки и монеты, посты, журнал, правила анти-чита.
+Это отдельный сайт (`docs/admin/index.html`), в приложение он не попадает. Все права проверяются на сервере (`supabase/update_v30.sql`).
+
+1. Запусти `supabase/update_v30.sql` в Supabase → SQL Editor.
+2. Сделай себя владельцем (свой email из приложения):
+   `insert into public.admins(user_id, role) select id, 'owner' from auth.users where email = 'ТВОЙ_EMAIL' on conflict (user_id) do update set role = 'owner';`
+3. Для входа через Google добавь `https://luchik129.github.io/apex-arena/admin/` в Supabase → Authentication → URL Configuration → Redirect URLs (вход по email и паролю работает и без этого).
+
+Как работает анти-чит: если e1RM подхода тяжелее порога × вес тела (жим 2.0×, присед 2.7×, тяга 3.0× и т.д.), выросло больше чем на 25% от прошлого рекорда или выше мирового рекорда, подход уходит на проверку. Пока он там, кубков нет и в рейтинг он не попадает (сервер держит старый рекорд, даже если приложение взломано). После решения в админке приложение игрока само начисляет кубки или удаляет подход.
