@@ -30,8 +30,9 @@ p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
 <body>
 <div class="card">
   <img class="logo" src="icon.png" alt="Flexo League">
-  <h1>Тебя зовут в <span>Flexo League</span></h1>
-  <p>Тренируйся, получай кубки и поднимайся по аренам вместе с другом.</p>
+  <h1 id="ttl">Тебя зовут в <span>Flexo League</span></h1>
+  <p id="sub">Тренируйся, получай кубки и поднимайся по аренам вместе с другом.</p>
+  <div class="code" id="clanbox" style="display:none;border-color:#8B5CF688"><small>Клан</small><b id="clan">—</b></div>
   <div class="code"><small>Код приглашения</small><b id="code">—</b></div>
   <div class="gift">🎁 +150 монет при регистрации</div>
   <a class="btn" id="open" href="#">Открыть приложение</a>
@@ -39,9 +40,17 @@ p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
   <div class="note">Если приложение уже установлено, код подставится сам. Если нет, установи его и введи код при регистрации.</div>
 </div>
 <script>
-  var c = (new URLSearchParams(location.search).get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+  var q = new URLSearchParams(location.search);
+  var c = (q.get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+  var k = (q.get('k') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12); // v29: приглашение сразу в клан
   document.getElementById('code').textContent = c || '—';
-  var deep = 'com.apexarena.app://invite?c=' + encodeURIComponent(c);
+  if (k) {
+    document.getElementById('ttl').innerHTML = 'Тебя зовут в <span>клан</span>';
+    document.getElementById('sub').textContent = 'Открой приложение: после входа ты сразу окажешься в клане друга.';
+    document.getElementById('clanbox').style.display = '';
+    document.getElementById('clan').textContent = k;
+  }
+  var deep = 'com.apexarena.app://invite?c=' + encodeURIComponent(c) + (k ? '&k=' + encodeURIComponent(k) : '');
   document.getElementById('open').href = deep;
   if (c && /Android|iPhone|iPad/i.test(navigator.userAgent)) setTimeout(function () { location.href = deep; }, 700);
 </script>
