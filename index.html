@@ -869,7 +869,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '29',
+  APP_VERSION: '34',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1114,6 +1114,33 @@ const DEVICE_LANG = (() => {
   } catch (_) {}
   return 'en';
 })();
+/* v34: отчёты об ошибках. Необработанные ошибки копятся в телефоне (до 20) и уходят в таблицу
+   client_errors, когда игрок онлайн; в админке они на вкладке «Ошибки». Одна и та же ошибка за сеанс отправляется один раз. */
+const ErrLog = {
+  KEY: 'FLX_ERRQ', q: [], seen: new Set(), _busy: false, _off: false,
+  init() {
+    try { this.q = JSON.parse(localStorage.getItem(this.KEY) || '[]') || []; } catch (_) { this.q = []; }
+    window.addEventListener('error', e => { if (e && e.message) this.add(e.message, e.error && e.error.stack, `${String(e.filename || '').split('/').pop()}:${e.lineno || 0}:${e.colno || 0}`); });
+    window.addEventListener('unhandledrejection', e => { const r = e && e.reason; this.add(r && r.message ? r.message : String(r), r && r.stack, 'promise'); });
+  },
+  add(msg, stack, place) {
+    msg = String(msg || '').slice(0, 300); if (!msg || /ResizeObserver loop|^Script error\.?$|Failed to fetch|NetworkError|Load failed|AbortError/i.test(msg)) return;
+    const k = msg + '|' + (place || ''); if (this.seen.has(k) || this.seen.size > 40) return; this.seen.add(k);
+    let screen = ''; try { screen = typeof UI !== 'undefined' ? String(UI.tab || '') : ''; } catch (_) {}
+    this.q.push({ msg, stack: String(stack || '').slice(0, 2000), place: String(place || '').slice(0, 200), screen: screen.slice(0, 40), ver: String(CONFIG.APP_VERSION + (window.Capacitor && window.Capacitor.getPlatform ? '/' + window.Capacitor.getPlatform() : '/web')).slice(0, 40), ua: navigator.userAgent.slice(0, 200), at: new Date().toISOString() });
+    this.q = this.q.slice(-20); this.persist(); setTimeout(() => this.flush(), 2000);
+  },
+  persist() { try { localStorage.setItem(this.KEY, JSON.stringify(this.q)); } catch (_) {} },
+  async flush() {
+    if (this._busy || this._off || !this.q.length || typeof Net === 'undefined' || !Net.online || !Net.online() || !Net.uid) return;
+    this._busy = true; const xs = this.q.slice();
+    try {
+      const { error } = await Net.client.from('client_errors').insert(xs.map(({ at, ...x }) => x));
+      if (!error || /client_errors|PGRST205|42P01|does not exist/.test((error.code || '') + ' ' + (error.message || ''))) { this.q = this.q.slice(xs.length); this.persist(); if (error) this._off = true; } // таблицы ещё нет (update_v34.sql не запущен) — не копим
+    } catch (_) {} finally { this._busy = false; }
+  },
+};
+ErrLog.init();
 const Store = {
   defaults() {
     return {
@@ -1172,7 +1199,8 @@ const Store = {
       return this.migrate(JSON.parse(raw));
     } catch (e) { console.warn('Store.load', e); return this.defaults(); }
   },
-  save(state) { state.meta = state.meta || {}; state.meta.savedAt = Date.now(); try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { console.warn('Store.save', e); } if (typeof Net !== 'undefined') Net.schedule(); },
+  persist(state) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { console.warn('Store.persist', e); } }, // v34: записать без отправки на сервер
+  save(state) { state.meta = state.meta || {}; state.meta.savedAt = Date.now(); state.meta.dirty = true; state.meta.rev = (state.meta.rev || 0) + 1; try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { console.warn('Store.save', e); } if (typeof Net !== 'undefined') Net.schedule(); },
   reset() { localStorage.removeItem(STORAGE_KEY); },
   export(state) { return JSON.stringify(state, null, 2); },
 };
@@ -2659,7 +2687,8 @@ const ClanService = {
   },
   async addFriend(q) {
     q = String(q || '').trim().toLowerCase(); if (!q) return { error: 'Введи ник' };
-    const p = this.allPlayers().find(x => x.nick.toLowerCase() === q || (x.friendCode && x.friendCode.toLowerCase() === q));
+    let p = this.allPlayers().find(x => x.nick.toLowerCase() === q || (x.friendCode && x.friendCode.toLowerCase() === q));
+    if (!p && this.online()) p = await Net.findPlayer(q); // v34: в телефоне только топ и знакомые — остальных ищем на сервере
     if (!p) return { error: this.online() ? 'Игрок с таким ником или кодом не найден' : 'Игрок не найден (пока доступны демо-ники)' };
     return this.addFriendById(p.id);
   },
@@ -3320,6 +3349,52 @@ const Photos = {
    Публичные данные игрока (ник, кубки, арена, лучшие e1RM, активность недели)
    лежат в таблице profiles, полное состояние приложения — в app_state (приватно).
    --------------------------------------------------------------------------- */
+/* v34: склейка состояния, если менялось и в телефоне, и на сервере (второй телефон, веб-версия, офлайн).
+   Основа — серверная копия; из телефона добавляются подходы, еда, вес, сон, вода, цели и фото, которых на сервере нет,
+   и начисления из журнала (ledger), сделанные после последней синхронизации. Ничего не удаляется. */
+const Sync = {
+  clone(x) { return x == null ? x : JSON.parse(JSON.stringify(x)); },
+  key(x) { return x && typeof x === 'object' ? (x.id != null ? 'i:' + x.id : x.date != null ? 'd:' + x.date + ':' + (x.ts || '') : 'j:' + JSON.stringify(x)) : 'v:' + x; },
+  union(r, l, key = x => this.key(x)) {
+    if (!Array.isArray(l)) return Array.isArray(r) ? r : l; if (!Array.isArray(r)) return this.clone(l);
+    const m = new Map(r.map(x => [key(x), x]));
+    l.forEach(x => { const k = key(x), y = m.get(k); if (!y || (+(x && x.ts) || 0) > (+(y && y.ts) || 0)) m.set(k, this.clone(x)); });
+    return [...m.values()];
+  },
+  set(r, l) { return [...new Set([...(Array.isArray(r) ? r : []), ...(Array.isArray(l) ? l : [])])]; },
+  day(r, l) { if (!l || !l.d) return r; if (!r || !r.d || l.d > r.d) return this.clone(l); return l.d === r.d ? { ...r, n: Math.max(+r.n || 0, +l.n || 0) } : r; },
+  lk(e) { return `${e.ts}|${e.type}|${e.delta}|${e.note}`; },
+  merge(L, R) {
+    const out = this.clone(R), lt = (L.meta && L.meta.savedAt) || 0, rt = (R.meta && R.meta.savedAt) || 0;
+    // профиль, программа и настройки — с того устройства, где их меняли позже; язык и тема — всегда этого телефона
+    if (lt > rt) { out.profile = this.clone(L.profile); out.program = this.clone(L.program); out.battleOpen = L.battleOpen; }
+    out.profile.owned = this.set(R.profile && R.profile.owned, L.profile && L.profile.owned);
+    ['lang', 'langSet', 'theme'].forEach(k => { if (L.profile && L.profile[k] !== undefined) out.profile[k] = L.profile[k]; });
+    // списки — объединяем
+    out.lifts = this.union(R.lifts, L.lifts);
+    out.goals = this.union(R.goals, L.goals);
+    out.customExercises = this.union(R.customExercises, L.customExercises, x => 'n:' + (x && x.name || x));
+    ['log', 'burn'].forEach(k => { out.nutrition[k] = this.union(R.nutrition && R.nutrition[k], L.nutrition && L.nutrition[k]); });
+    ['weights', 'water', 'photos'].forEach(k => { out.health[k] = this.union(R.health && R.health[k], L.health && L.health[k]); });
+    out.health.sleep = this.union(R.health && R.health.sleep, L.health && L.health.sleep, x => 'd:' + (x && x.date));
+    if (L.social && out.social) { out.social.posts = this.union(out.social.posts, L.social.posts); out.social.reports = this.union(out.social.reports, L.social.reports); ['likes', 'comments', 'tags'].forEach(k => { out.social[k] = { ...(L.social[k] || {}), ...(out.social[k] || {}) }; }); }
+    // игра: начисления из журнала телефона, которых нет на сервере (после последней синхронизации)
+    const g = out.game, lg = L.game || {}, rl = Array.isArray(R.ledger) ? R.ledger : [], rk = new Set(rl.map(e => this.lk(e)));
+    const since = (L.meta && L.meta.syncAt) || 0, oldest = rl.length >= 2000 ? rl[0].ts : 0;
+    const extra = (Array.isArray(L.ledger) ? L.ledger : []).filter(e => e && !rk.has(this.lk(e)) && e.ts > since && e.ts >= oldest);
+    extra.forEach(e => { const d = +e.delta || 0; if (e.type === 'trophy') g.trophies = Math.max(0, (g.trophies || 0) + d); else if (e.type === 'coin') g.coins = Math.max(0, (g.coins || 0) + d); else if (e.type === 'xp') g.xp = Math.max(0, (g.xp || 0) + d); });
+    out.ledger = [...rl, ...this.clone(extra)].sort((a, b) => a.ts - b.ts).slice(-2000);
+    g.awards = { ...(lg.awards || {}), ...(g.awards || {}) };
+    const pb = g.paidBest || (g.paidBest = {}); Object.entries(lg.paidBest || {}).forEach(([k, v]) => { pb[k] = Math.max(+pb[k] || 0, +v || 0); });
+    ['countedWorkoutDays', 'weeklyBonusWeeks', 'nutritionDays', 'frozenDays', 'resolvedDuels', 'resolvedBattles'].forEach(k => { g[k] = this.set(g[k], lg[k]); });
+    g.arenaIdx = Math.max(g.arenaIdx || 0, lg.arenaIdx || 0); g.decayAppliedWeeks = Math.max(g.decayAppliedWeeks || 0, lg.decayAppliedWeeks || 0);
+    if (lg.lastWorkoutDay && (!g.lastWorkoutDay || lg.lastWorkoutDay > g.lastWorkoutDay)) g.lastWorkoutDay = lg.lastWorkoutDay;
+    ['prDay', 'xpDay', 'dayGain'].forEach(k => { g[k] = this.day(g[k], lg[k]); });
+    if (g.boosts && lg.boosts) Object.keys(lg.boosts).forEach(k => { if (/_until$/.test(k)) g.boosts[k] = Math.max(+g.boosts[k] || 0, +lg.boosts[k] || 0); });
+    out.account = L.account; out.session = L.session; out.meta = { ...(R.meta || {}), ...(L.meta || {}), savedAt: Date.now() };
+    return out;
+  },
+};
 const Net = {
   client: null, uid: null, ready: false, d: { players: [], clans: [], friends: [], duels: [], requests: [], feed: [], byId: {}, at: 0 }, _t: null, _refreshing: null,
   enabled() { return !!(window.supabase && CONFIG.SUPABASE_URL && CONFIG.SUPABASE_KEY); },
@@ -3439,7 +3514,9 @@ const Net = {
     if (error) { if (error.code === '23505') throw new Error('Этот никнейм уже занят'); throw error; }
     return null;
   },
-  schedule() { if (!this.online()) return; clearTimeout(this._t); this._t = setTimeout(() => this.push().catch(e => console.warn('Net.push', e)), 1500); },
+  schedule() { if (!this.online()) return; clearTimeout(this._t); this._t = setTimeout(() => this.push().then(() => this.afterMerge()).catch(e => console.warn('Net.push', e)), 1500); },
+  // v34: после склейки с данными другого устройства перерисовываем экран
+  afterMerge() { if (!this._merged) return; this._merged = false; try { Game.boot(); UI.renderHeader(); if (!document.getElementById('modal')) UI.keepInputs(() => UI.renderTab(UI.tab)); } catch (e) { console.warn('afterMerge', e); } },
   async push() {
     if (!this.online()) return;
     if (!S.meta || S.meta.owner !== this.uid) return; // v23: пока не сверились с сервером (pull), ничего не отправляем
@@ -3451,8 +3528,30 @@ const Net = {
       const r = await this.client.from('profiles').update(row).eq('id', this.uid); if (!r.error) break;
       const m = /column "?([a-z_]+)"?|'([a-z_]+)' column/i.exec(r.error.message || ''), col = m && (m[1] || m[2]); if (!col || !(col in row)) break; miss.add(col); delete row[col];
     }
-    const data = { ...S, account: null, session: undefined, clan: null, meta: { savedAt: Date.now(), owner: this.uid, device: navigator.userAgent.slice(0, 40) } };
-    await this.client.from('app_state').upsert({ user_id: this.uid, data });
+    // v34: запись «только если на сервере то же, что мы видели в прошлый раз» (по updated_at).
+    // Если другой телефон или веб-версия успели записать раньше — забираем их данные, склеиваем и пробуем снова.
+    for (let tries = 0; tries < 3; tries++) {
+      const rev = S.meta.rev || 0, data = this.blob(), exp = S.meta.remoteAt;
+      const r = exp ? await this.client.from('app_state').update({ data }).eq('user_id', this.uid).eq('updated_at', exp).select('updated_at')
+                    : await this.client.from('app_state').upsert({ user_id: this.uid, data }).select('updated_at');
+      if (r.error) throw r.error;
+      if (r.data && r.data.length) { this.synced(r.data[0].updated_at, rev); return 'ok'; }
+      if (!await this.mergeRemote()) return 'conflict';
+    }
+    return 'conflict';
+  },
+  blob() { return { ...S, account: null, session: undefined, clan: null, meta: { savedAt: S.meta.savedAt || Date.now(), owner: this.uid, device: navigator.userAgent.slice(0, 40) } }; },
+  // отметка «телефон и сервер совпадают»; сохраняем без новой отправки
+  synced(at, rev) { S.meta.remoteAt = at; S.meta.syncAt = Date.now(); if (rev == null || (S.meta.rev || 0) === rev) S.meta.dirty = false; Store.persist(S); },
+  replaceState(next) { Object.keys(S).forEach(k => delete S[k]); Object.assign(S, next); if (typeof Photos !== 'undefined') Photos.thumbs = {}; },
+  async mergeRemote() {
+    const { data, error } = await this.client.from('app_state').select('data,updated_at').eq('user_id', this.uid).maybeSingle();
+    if (error) throw error;
+    if (!data || !data.data) { S.meta.remoteAt = null; return true; }
+    const keep = { owner: this.uid, rev: S.meta.rev || 0, syncAt: S.meta.syncAt };
+    this.replaceState(Sync.merge(S, Store.migrate(data.data)));
+    S.meta = { ...(S.meta || {}), ...keep, remoteAt: data.updated_at, dirty: true }; S.session = { loggedIn: true }; Store.persist(S);
+    this._merged = true; return true;
   },
   // при входе: если на сервере есть более свежее состояние, берём его; иначе отправляем локальное
   async pull() {
@@ -3469,22 +3568,45 @@ const Net = {
       S.profile.lang = keepLang || S.profile.lang; S.profile.langSet = !!(keepLangSet || S.profile.langSet); S.profile.theme = keepTheme || S.profile.theme; if (ugc && !S.profile.ugcOk) S.profile.ugcOk = ugc;
       S.meta = { ...(S.meta || {}), owner: this.uid, remoteAt: data ? data.updated_at : null }; S.session = { loggedIn: true };
       if (typeof Photos !== 'undefined') Photos.thumbs = {}; this._avSrc = undefined;
-      if (data && data.data) { save(); return 'pulled'; }
+      if (data && data.data) { save(); this.synced(data.updated_at); return 'pulled'; }
       save(); return 'fresh';
     }
+    // v34: один и тот же аккаунт. Раньше более свежая сторона целиком затирала другую — терялись тренировки.
+    S.meta.owner = this.uid; S.session = { loggedIn: true };
+    if (!data || !data.data) { S.meta.remoteAt = null; save(); await this.push(); return 'pushed'; }
     const localFresh = S.lifts.length > 0 || S.game.trophies > 0;
-    if (data && data.data && (!localFresh || (S.meta && S.meta.remoteAt !== data.updated_at && new Date(data.updated_at).getTime() > (S.meta.savedAt || 0)))) {
-      const remote = data.data; remote.meta = { ...(remote.meta || {}), remoteAt: data.updated_at };
-      const keepLang = S.profile.lang, keepLangSet = S.profile.langSet, keepTheme = S.profile.theme;
-      Object.keys(S).forEach(k => delete S[k]); Object.assign(S, Store.migrate(remote)); S.profile.lang = keepLang || S.profile.lang; S.profile.langSet = !!(keepLangSet || S.profile.langSet); S.profile.theme = keepTheme || S.profile.theme;
-      S.meta.owner = this.uid; S.session = { loggedIn: true }; save(); if (typeof Photos !== 'undefined') Photos.thumbs = {}; return 'pulled';
+    if (S.meta.remoteAt && S.meta.remoteAt === data.updated_at) { // на сервере ничего нового
+      if (S.meta.dirty !== false) { save(); await this.push(); return 'pushed'; }
+      return 'same';
     }
-    S.meta.owner = this.uid; S.session = { loggedIn: true }; save(); await this.push(); return 'pushed';
+    const keepLang = S.profile.lang, keepLangSet = S.profile.langSet, keepTheme = S.profile.theme;
+    if (!localFresh || S.meta.dirty === false) { // в телефоне нет своих несохранённых изменений — просто берём серверные
+      const rev = S.meta.rev || 0;
+      this.replaceState(Store.migrate(data.data)); S.profile.lang = keepLang || S.profile.lang; S.profile.langSet = !!(keepLangSet || S.profile.langSet); S.profile.theme = keepTheme || S.profile.theme;
+      S.meta = { ...(S.meta || {}), owner: this.uid, rev }; S.session = { loggedIn: true }; this.synced(data.updated_at); return 'pulled';
+    }
+    // изменения есть и тут, и на сервере — склеиваем
+    const keep = { owner: this.uid, rev: S.meta.rev || 0, syncAt: S.meta.syncAt };
+    this.replaceState(Sync.merge(S, Store.migrate(data.data)));
+    S.meta = { ...(S.meta || {}), ...keep, remoteAt: data.updated_at }; S.session = { loggedIn: true };
+    save(); await this.push(); return 'merged';
   },
   /* ---- чтение общих данных ---- */
   weekOf(p, weekKey) { if (!p) return { workouts: 0, prs: 0, streak: 0 }; if (p.week_key === weekKey) return p.week || { workouts: 0, prs: 0, streak: 0 }; if (p.prev_week_key === weekKey) return p.prev_week || { workouts: 0, prs: 0, streak: 0 }; return { workouts: 0, prs: 0, streak: 0 }; },
   windowOf(p, start) { return Calc.windowScore(d => (p && p.days && p.days[d]) || null, start); },
   toMember(p) { return { avatar: p.avatar || null, sex: p.sex || 'm', wclass: p.weight_class || null, id: p.id, nick: p.nickname, arenaIdx: p.arena_idx || 0, trophies: p.trophies || 0, role: p.clan_role || 'member', week: this.weekOf(p, U.weekKey()), bests: p.bests || {}, boss: p.boss || {}, clanId: p.clan_id, friendCode: p.friend_code, title: p.title, titleStyle: p.title_style || null, battleOpen: p.battle_open !== false, raw: p, self: p.id === this.uid }; },
+  TOP_N: 100,
+  // v34: найти игрока по нику или коду друга на сервере и добавить в локальный кэш
+  async findPlayer(q) {
+    q = String(q || '').trim(); if (!q || q.length > 40 || !this.online()) return null;
+    try {
+      let r = await this.client.from('profiles').select('*').eq('nickname', q).limit(1);
+      if (!r.error && !(r.data || []).length && /^fr[a-z0-9]{4,10}$/i.test(q)) r = await this.client.from('profiles').select('*').eq('friend_code', q.toUpperCase()).limit(1);
+      const row = !r.error && (r.data || [])[0]; if (!row) return null;
+      const m = this.toMember(row); if (!this.d.byId[m.id]) { this.d.players.push(m); this.d.byId[m.id] = m; }
+      return { id: m.id, nick: m.nick, arenaIdx: m.arenaIdx, seed: 0, friendCode: m.friendCode };
+    } catch (_) { return null; }
+  },
   refresh(force = false) {
     if (!this.online()) return Promise.resolve(false);
     if (this._refreshing) return this._refreshing;
@@ -3493,19 +3615,36 @@ const Net = {
       try {
         this.loadConfig();
         const wk = U.weekKey(), prev = U.weekKey(U.parseDay(U.addDays(U.today(), -7)));
-        const [pr, cl, fr, du, rq, fd] = await Promise.all([
-          this.client.from('profiles').select('*').order('trophies', { ascending: false }).limit(1000),
-          this.client.from('clans').select('*'),
+        // v34: не качаем всех игроков. Берём топ-100 по кубкам, топ-100 по силовым, свою арену (лига),
+        // участников кланов, а друзей, соперников, заявки и авторов ленты — точечно по id.
+        const P = () => this.client.from('profiles').select('*');
+        const [top, rec, arena, clanM, cl, fr, du, rq, fd, rk] = await Promise.all([
+          P().order('trophies', { ascending: false }).limit(this.TOP_N),
+          P().order('boss_total', { ascending: false }).limit(this.TOP_N), // колонка из update_v34.sql; без неё просто пропускаем
+          P().eq('arena_idx', S.game.arenaIdx || 0).order('trophies', { ascending: false }).limit(this.TOP_N),
+          P().not('clan_id', 'is', null).order('trophies', { ascending: false }).limit(1000),
+          this.client.from('clans').select('*').limit(500),
           this.client.from('friendships').select('friend_id').eq('user_id', this.uid),
           this.client.from('duels').select('*').gte('week_key', U.addDays(U.today(), -21)).or(`a_id.eq.${this.uid},b_id.eq.${this.uid}`),
           this.client.from('friend_requests').select('*').or(`from_id.eq.${this.uid},to_id.eq.${this.uid}`).order('created_at', { ascending: false }).limit(100),
           this.client.from('feed').select('*').gte('created_at', new Date(Date.now() - 7 * 864e5).toISOString()).order('created_at', { ascending: false }).limit(40),
+          this.client.from('profiles').select('id', { count: 'exact', head: true }).gt('trophies', S.game.trophies || 0),
         ]);
-        if (pr.error) throw pr.error;
-        const players = (pr.data || []).map(p => this.toMember(p));
+        if (top.error) throw top.error;
+        const rows = new Map();
+        [top, rec, arena, clanM].forEach(r => { if (!r.error) (r.data || []).forEach(p => rows.set(p.id, p)); });
+        const want = new Set([this.uid]);
+        (fr.data || []).forEach(f => want.add(f.friend_id));
+        (du.data || []).forEach(d => { want.add(d.a_id); want.add(d.b_id); });
+        if (!rq.error) (rq.data || []).forEach(r => { want.add(r.from_id); want.add(r.to_id); });
+        if (!fd.error) (fd.data || []).forEach(f => want.add(f.user_id));
+        (S.friends || []).forEach(f => f && f.id && want.add(f.id));
+        const miss = [...want].filter(id => id && !rows.has(id) && !/^(me|lp_|m)/.test(id) && /^[0-9a-f-]{36}$/i.test(id));
+        for (let i = 0; i < miss.length; i += 150) { const r = await P().in('id', miss.slice(i, i + 150)); if (!r.error) (r.data || []).forEach(p => rows.set(p.id, p)); }
+        const players = [...rows.values()].sort((a, b) => (b.trophies || 0) - (a.trophies || 0)).map(p => this.toMember(p));
         const byId = Object.fromEntries(players.map(p => [p.id, p]));
         const clans = (cl.data || []).map(c => ({ id: c.id, name: c.name, emblem: c.emblem, code: c.code, leaderId: c.leader_id, createdAt: new Date(c.created_at).getTime(), battle: c.battle ? { weekKey: c.battle.week_key, opponentId: c.battle.opponent_id, challenged: !!c.battle.challenged } : null, battleOpen: c.battle_open !== false, description: c.description || '', about: c.about || '', showcases: Array.isArray(c.showcases) ? c.showcases : null, theme: c.theme || null, photo: c.photo || null, capacity: c.capacity || CONFIG.CLAN_MAX, members: players.filter(p => p.clanId === c.id) }));
-        this.d = { players, clans, byId, friends: (fr.data || []).map(f => f.friend_id).filter(id => byId[id]), duels: (du.data || []), requests: rq.error ? [] : (rq.data || []), feed: fd.error ? [] : (fd.data || []), at: Date.now() };
+        this.d = { players, clans, byId, friends: (fr.data || []).map(f => f.friend_id).filter(id => byId[id]), duels: (du.data || []), requests: rq.error ? [] : (rq.data || []), feed: fd.error ? [] : (fd.data || []), rankAhead: rk.error ? null : rk.count, at: Date.now() };
         // локальные зеркала, чтобы остальной код работал без изменений
         const me = byId[this.uid];
         S.friends = this.d.friends.map(id => ({ id, nick: byId[id].nick }));
@@ -5719,7 +5858,7 @@ Object.assign(UI, {
     const rest = (pod ? items.slice(3, lim) : items.slice(0, lim)).map(x => ({ x, i: items.indexOf(x) }));
     const me = items.findIndex(x => x.self); if (me >= lim) rest.push({ x: items[me], i: me, gap: true });
     const rows = rest.map(({ x, i, gap }) => `${gap ? '<div class="lb-gap">• • •</div>' : ''}${btn(x, `
-        ${this.lbRank(i)}<span class="lb-av">${x.av}</span>
+        ${this.lbRank(gap && o.selfRank != null ? Math.max(i, o.selfRank) : i)}<span class="lb-av">${x.av}</span>
         <span class="lb-main"><span class="lb-nick" data-no-mt>${U.esc(x.nick)}${x.self ? ' <span class="chip text-em lb-you">ты</span>' : ''}</span>${x.sub ? `<span class="lb-sub">${x.sub}</span>` : ''}<span class="lb-bar"><i style="width:${Math.max(4, (+x.value || 0) / max * 100)}%"></i></span></span>
         <span class="lb-val num">${x.label}</span>`, `lb-row ${x.self ? 'self' : ''}`)}`).join('');
     const more = items.length > lim ? `<button class="lb-more" data-action="lb-more">Показать всех (${Math.min(items.length, 100)})</button>` : '';
@@ -5735,8 +5874,8 @@ Object.assign(UI, {
     const k = this.cbKey || 'clans', clan = S.clan;
     let body;
     if (k === 'players') {
-      const rows = this.wcFilter(ClanService.trophyBoard());
-      body = this.lbBoard(rows.map(p => this.lbPlayer(p, p.trophies, `${p.trophies} ${this.trophyIcon}`, `${this.rankDot(Calc.arena(p.arenaIdx))} <span>${TN(Calc.arena(p.arenaIdx).name)}</span>`)), { limit: 10 });
+      const rows = this.wcFilter(ClanService.trophyBoard()), ahead = ClanService.online() && (this.wcF || 'all') === 'all' && Net.d && Net.d.rankAhead != null ? Net.d.rankAhead : null; // v34: место считает сервер (загружен только топ)
+      body = this.lbBoard(rows.map(p => this.lbPlayer(p, p.trophies, `${p.trophies} ${this.trophyIcon}`, `${this.rankDot(Calc.arena(p.arenaIdx))} <span>${TN(Calc.arena(p.arenaIdx).name)}</span>`)), { limit: 10, selfRank: ahead });
     } else {
       const list = ClanService.list();
       body = this.lbBoard(list.map(c => ({ id: c.id, nick: c.name, self: !!(clan && c.id === clan.id), value: c.score, label: `${c.score}`, medal: null, action: 'clan-view',
@@ -6769,7 +6908,7 @@ const App = {
       if (!busy() && (newDay || away > 5 * 6e4)) UI.keepInputs(() => UI.renderTab(UI.tab));
       else if (UI.tab === 'lifts') setTimeout(() => { if (UI.charts.lift) UI.charts.lift.resize(); else UI.drawLiftChart(); }, 300);
       UI.flushEvents(); Notify.ensureSleep(); Notify.remindSoon();
-      if (Net.online()) Net.refresh(true).then(ok => { if (ok) { Game.boot(); UI.renderHeader(); if (!busy()) UI.keepInputs(() => { if (UI.tab !== 'lifts') UI.renderTab(UI.tab); if (UI._page) UI.renderPage(); }); UI.flushEvents(); App.restoreFocus(true); } });
+      if (Net.online()) { ErrLog.flush(); (Net.uid && away > 6e4 ? Net.pull().catch(e => console.warn('Net.pull', e)) : Promise.resolve()).then(() => Net.refresh(true)).then(ok => { if (ok) { Game.boot(); UI.renderHeader(); if (!busy()) UI.keepInputs(() => { if (UI.tab !== 'lifts') UI.renderTab(UI.tab); if (UI._page) UI.renderPage(); }); UI.flushEvents(); App.restoreFocus(true); } }); }
     });
     document.addEventListener('visibilitychange', () => { if (document.hidden) UI.closeDD(); });
     // v22: ползунок масштаба графика ведём сами (pointer events): на Android нативный range иногда «залипает», если палец чуть ушёл вверх/вниз
@@ -6949,6 +7088,7 @@ const App = {
     if (online) {
       if (Net.uid) {
         try { await Net.pull(); await Net.ensureProfile(); Net.email().then(e => { Net.emailAddr = e; }); } catch (e) { console.warn('Net boot', e); }
+        ErrLog.flush();
         this.applyTheme(); UI.applyLang(); Game.boot(); UI.renderAll();
         if (!S.profile.nickname) { this.afterAuth('boot'); return; }
         UI.flushEvents(); this.maybeOnboard(); Notify.remindApply();

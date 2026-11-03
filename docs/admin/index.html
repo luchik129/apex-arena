@@ -196,6 +196,7 @@ pre.code { background: #070a0f; border: 1px solid var(--line); border-radius: 10
   <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
   <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 24 24"><path d="M8 2l1.9 1.9M16 2l-1.9 1.9M9 7.1V6a3 3 0 0 1 6 0v1.1M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6zM12 20v-9M6.5 13H3M21 13h-3.5M6 9.5 3.5 7.5M18 9.5l2.5-2M6 17l-2.5 2M18 17l2.5 2"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
   <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></symbol>
   <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 3.9M6.6 6.6A17 17 0 0 0 2 12s4 7 10 7a9.6 9.6 0 0 0 5.4-1.6M3 3l18 18M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
@@ -316,7 +317,7 @@ function resetModal(user, nick, ex, current) {
 
 /* ---------- состояние и навигация ---------- */
 const S = { me: null, stats: null, rules: null, view: 'home', param: null, tabs: { reviews: 'pending', reports: 'new', players: 'all', posts: 'recent' }, q: '' };
-const NAV = [['home', 'Обзор', 'home'], ['reviews', 'Проверка', 'scale'], ['reports', 'Жалобы', 'flag'], ['players', 'Игроки', 'users'], ['posts', 'Посты', 'img'], ['log', 'Журнал', 'list'], ['settings', 'Настройки', 'cog']];
+const NAV = [['home', 'Обзор', 'home'], ['reviews', 'Проверка', 'scale'], ['reports', 'Жалобы', 'flag'], ['players', 'Игроки', 'users'], ['posts', 'Посты', 'img'], ['errors', 'Ошибки', 'bug'], ['log', 'Журнал', 'list'], ['settings', 'Настройки', 'cog']];
 function go(view, param) { location.hash = '#/' + view + (param ? '/' + param : ''); }
 function parseHash() { const [, v, p] = (location.hash || '').split('/'); S.view = NAV.some(n => n[0] === v) || v === 'player' ? v : 'home'; S.param = p || null; }
 window.addEventListener('hashchange', () => { parseHash(); render(); });
@@ -624,6 +625,29 @@ VIEWS.posts = async (v, alive) => {
     const m = v.querySelector('[data-more]'); if (m) m.onclick = async () => { m.disabled = true; const more = await rpc('admin_posts', { p_mode: tab, p_limit: 40, p_before: rows[rows.length - 1].created_at }); rows = rows.concat(more); paint(); };
   };
   paint();
+};
+
+// v34: ошибки, которые приложение отправило с телефонов игроков (таблица client_errors)
+VIEWS.errors = async (v, alive) => {
+  const days = S.errDays || 7;
+  const head = topbar('Ошибки в приложении', `<div class="seg" id="ed">${[[1, 'Сутки'], [7, 'Неделя'], [30, 'Месяц']].map(([k, t]) => `<button data-d="${k}" class="${days === k ? 'on' : ''}">${t}</button>`).join('')}</div>`);
+  v.innerHTML = head + loading(2, 120);
+  const bind = () => v.querySelectorAll('#ed button').forEach(b => b.onclick = () => { S.errDays = +b.dataset.d; render(); });
+  let rows;
+  try { rows = await rpc('admin_errors', { p_days: days, p_limit: 200 }); }
+  catch (e) { if (!alive()) return; v.innerHTML = head + `<div class="card pad">${/admin_errors|PGRST202|schema cache|does not exist/i.test(((e && e.message) || '') + ' ' + ((e && e.code) || '')) ? 'Сначала запусти <b>supabase/update_v34.sql</b> в Supabase SQL Editor.' : esc(errText(e))}</div>`; bind(); return; }
+  if (!alive()) return;
+  if (!rows.length) { v.innerHTML = head + `<div class="card empty">${ic('bug')}<div style="font-weight:700;color:var(--tx)">Ошибок нет</div><div>Если у игроков что-то упадёт, это появится здесь.</div></div>`; bind(); return; }
+  v.innerHTML = head + `<div class="muted" style="margin:-8px 0 14px;font-size:13px">Одинаковые ошибки собраны вместе. «Игроков» — у скольких она случилась. Отчёты старше 30 дней удаляются сами.</div>` +
+    `<div class="card list">${rows.map((r, i) => `<div class="pad">
+      <div class="row wrap"><div class="grow" style="min-width:220px"><b style="word-break:break-word">${esc(r.msg)}</b>
+        <div class="muted" style="font-size:12px;margin-top:2px">${esc(r.place || '')}${r.screens ? ' · экран: ' + esc(r.screens) : ''}${r.vers ? ' · версия: ' + esc(r.vers) : ''}</div></div>
+        <div style="text-align:right"><b class="num">${fmt(r.n)}</b> <span class="muted" style="font-size:12px">раз · ${fmt(r.users)} игр.</span><div class="muted" style="font-size:12px">${ago(r.last_at)}</div></div>
+        <button class="btn sm ghost" data-clear="${i}" title="Убрать из списка">${ic('check')} Исправлено</button></div>
+      ${r.stack ? `<details style="margin-top:6px"><summary class="muted" style="cursor:pointer;font-size:12px">Подробности</summary><pre style="white-space:pre-wrap;font-size:11px;margin:6px 0 0;color:var(--mu)">${esc(r.stack)}\n\n${esc(r.ua || '')}</pre></details>` : ''}
+    </div>`).join('')}</div>`;
+  bind();
+  v.querySelectorAll('[data-clear]').forEach(b => b.onclick = async () => { const r = rows[+b.dataset.clear]; try { await act(() => rpc('admin_errors_clear', { p_msg: r.msg })); toast('Убрано'); render(); } catch (_) {} });
 };
 
 VIEWS.log = async (v, alive) => {
