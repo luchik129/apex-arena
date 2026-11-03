@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="en" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -1105,13 +1105,22 @@ MT.SEED_ADD = {"en": {"ты {0}": "you {0}", "+{0} кубков и сундук"
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
+// v33: язык по умолчанию = язык телефона (если такого нет в приложении — английский)
+const DEVICE_LANG = (() => {
+  const ok = ['ru', 'en', 'uk', 'kk', 'de', 'es', 'fr', 'tr'], alias = { be: 'ru' };
+  try {
+    const list = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || navigator.userLanguage || '']);
+    for (const t of list) { const p = String(t || '').toLowerCase().split(/[-_]/)[0]; if (ok.includes(p)) return p; if (alias[p]) return alias[p]; }
+  } catch (_) {}
+  return 'en';
+})();
 const Store = {
   defaults() {
     return {
       version: 4,
       profile: {
         nickname: '', age: null, sex: 'm', bodyweight: 70, height: 175, units: 'kg', theme: 'dark',
-        createdAt: null, blocked: false, lang: 'ru', geminiModel: CONFIG.GEMINI_MODEL_DEFAULT, waterGoal: 2500, cupMl: 500,
+        createdAt: null, blocked: false, lang: DEVICE_LANG, langSet: false, geminiModel: CONFIG.GEMINI_MODEL_DEFAULT, waterGoal: 2500, cupMl: 500,
         avatar: { skin: '#F2C4A0', hair: 'short', hairColor: '#1F2937', hat: null, outfit: 'outfit_tank', frame: null, title: 'title_rookie', photo: null }, customTitle: '',
         owned: ['title_rookie'],
       },
@@ -1148,6 +1157,7 @@ const Store = {
     const d = this.defaults();
     const merge = (a, b) => { for (const k in a) if (b[k] === undefined) b[k] = a[k]; else if (a[k] && typeof a[k] === 'object' && !Array.isArray(a[k]) && b[k] && typeof b[k] === 'object') merge(a[k], b[k]); return b; };
     const out = merge(d, s);
+    if (!out.profile.langSet && out.profile.lang === 'ru') out.profile.lang = DEVICE_LANG; // v33: раньше русский ставился всем; пока язык не выбран вручную — берём язык телефона
     (out.lifts || []).forEach(l => { if (l.rmCategory === 'CUSTOM') { const r = parseInt(l.reps) || 1; l.rmCategory = r <= 1 ? '1RM' : r <= 3 ? '2RM' : '4RM'; } if (l.rmCategory === '4RM' && (parseInt(l.reps) || 4) >= 8) l.rmCategory = '8RM'; }); // вариант «Своё» убран; 8+ повторов — своя категория
     const pb = out.game.paidBest || (out.game.paidBest = {}); (out.lifts || []).forEach(l => { if (!l.flagged) pb[l.exerciseName] = Math.max(pb[l.exerciseName] || 0, +l.e1rm || 0); });
     const aw = out.game.awards || (out.game.awards = {}); (out.goals || []).forEach(g => { if (g.doneAt) aw[`goal:${g.ex}:${g.rm}:${g.target}`] = aw[`goal:${g.ex}:${g.rm}:${g.target}`] || 1; });
@@ -3374,9 +3384,9 @@ const Net = {
   // v23: убрать сессию с телефона, даже если сервер её уже не знает
   // v23: чистый прогресс для нового аккаунта (язык, тема и согласие с правилами остаются)
   resetFor(uid) {
-    const keepLang = S.profile.lang, keepTheme = S.profile.theme, ugc = S.profile.ugcOk, d = Store.defaults();
+    const keepLang = S.profile.lang, keepLangSet = S.profile.langSet, keepTheme = S.profile.theme, ugc = S.profile.ugcOk, d = Store.defaults();
     Object.keys(S).forEach(k => delete S[k]); Object.assign(S, d);
-    S.profile.lang = keepLang || S.profile.lang; S.profile.theme = keepTheme || S.profile.theme; if (ugc) S.profile.ugcOk = ugc;
+    S.profile.lang = keepLang || S.profile.lang; S.profile.langSet = !!(keepLangSet || S.profile.langSet); S.profile.theme = keepTheme || S.profile.theme; if (ugc) S.profile.ugcOk = ugc;
     S.meta = { ...(S.meta || {}), owner: uid || null }; if (typeof Photos !== 'undefined') Photos.thumbs = {}; this._avSrc = undefined; save();
   },
   async dropSession() { this._leaving = true; try { await this.client.auth.signOut({ scope: 'local' }); } catch (_) {} try { Object.keys(localStorage).filter(k => /^sb-.*-auth-token/.test(k)).forEach(k => localStorage.removeItem(k)); } catch (_) {} this.uid = null; this.user = null; this.emailAddr = ''; this._leaving = false; },
@@ -3429,10 +3439,10 @@ const Net = {
     // v23: данные на телефоне принадлежат другому аккаунту → никогда не отправляем их в этот
     const owner = S.meta.owner || (S.account && S.account.uid && !/^local_/.test(S.account.uid) ? S.account.uid : null);
     if (owner && owner !== this.uid) {
-      const keepLang = S.profile.lang, keepTheme = S.profile.theme, ugc = S.profile.ugcOk;
+      const keepLang = S.profile.lang, keepLangSet = S.profile.langSet, keepTheme = S.profile.theme, ugc = S.profile.ugcOk;
       const next = data && data.data ? Store.migrate(data.data) : Store.defaults();
       Object.keys(S).forEach(k => delete S[k]); Object.assign(S, next);
-      S.profile.lang = keepLang || S.profile.lang; S.profile.theme = keepTheme || S.profile.theme; if (ugc && !S.profile.ugcOk) S.profile.ugcOk = ugc;
+      S.profile.lang = keepLang || S.profile.lang; S.profile.langSet = !!(keepLangSet || S.profile.langSet); S.profile.theme = keepTheme || S.profile.theme; if (ugc && !S.profile.ugcOk) S.profile.ugcOk = ugc;
       S.meta = { ...(S.meta || {}), owner: this.uid, remoteAt: data ? data.updated_at : null }; S.session = { loggedIn: true };
       if (typeof Photos !== 'undefined') Photos.thumbs = {}; this._avSrc = undefined;
       if (data && data.data) { save(); return 'pulled'; }
@@ -3441,8 +3451,8 @@ const Net = {
     const localFresh = S.lifts.length > 0 || S.game.trophies > 0;
     if (data && data.data && (!localFresh || (S.meta && S.meta.remoteAt !== data.updated_at && new Date(data.updated_at).getTime() > (S.meta.savedAt || 0)))) {
       const remote = data.data; remote.meta = { ...(remote.meta || {}), remoteAt: data.updated_at };
-      const keepLang = S.profile.lang, keepTheme = S.profile.theme;
-      Object.keys(S).forEach(k => delete S[k]); Object.assign(S, Store.migrate(remote)); S.profile.lang = keepLang || S.profile.lang; S.profile.theme = keepTheme || S.profile.theme;
+      const keepLang = S.profile.lang, keepLangSet = S.profile.langSet, keepTheme = S.profile.theme;
+      Object.keys(S).forEach(k => delete S[k]); Object.assign(S, Store.migrate(remote)); S.profile.lang = keepLang || S.profile.lang; S.profile.langSet = !!(keepLangSet || S.profile.langSet); S.profile.theme = keepTheme || S.profile.theme;
       S.meta.owner = this.uid; S.session = { loggedIn: true }; save(); if (typeof Photos !== 'undefined') Photos.thumbs = {}; return 'pulled';
     }
     S.meta.owner = this.uid; S.session = { loggedIn: true }; save(); await this.push(); return 'pushed';
@@ -6418,7 +6428,7 @@ const App = {
     'open-sleep'() { UI.openSleep(); },
     'streak-info'() { UI.openStreakInfo(); },
     'sleep-del'(el) { Game.deleteSleep(el.dataset.date); App.afterChange(); UI.openSleep(); },
-    'set-lang'(el) { S.profile.lang = el.dataset.val; save(); UI.applyLang(); UI.openSettings(); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
+    'set-lang'(el) { S.profile.lang = el.dataset.val; S.profile.langSet = true; save(); UI.applyLang(); UI.openSettings(); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
     async 'friend-add'() { const r = await ClanService.addFriend(document.getElementById('friend-nick').value); if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('friend-nick'); UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Добавлен: ' + U.esc(r.friend.nick), 'bl'); UI.renderClans(); },
     async 'friend-add-id'(el) { el.disabled = true; const r = await ClanService.addFriendById(el.dataset.id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Теперь вы друзья: ' + U.esc(r.friend.nick), 'bl'); if (UI.$('#modal')) UI.openMiniProfile(el.dataset.id); UI.renderClans(); },
     async 'friend-accept'(el) { const r = await ClanService.respondRequest(el.dataset.id, true); if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Заявка принята', 'bl'); if (UI.$('#modal')) UI.openNotifs(); UI.renderClans(); },
