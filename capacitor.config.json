@@ -4,13 +4,13 @@
   "webDir": "www",
   "android": {
     "allowMixedContent": false,
-    "backgroundColor": "#0B0E14"
+    "backgroundColor": "#000000"
   },
   "server": {
     "androidScheme": "https"
   },
   "ios": {
-    "backgroundColor": "#0B0E14",
+    "backgroundColor": "#000000",
     "contentInset": "never"
   }
 }

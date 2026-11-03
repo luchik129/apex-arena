@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0B0E14">
+<meta name="theme-color" content="#000000">
 <title>Flexo League</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0E14'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='56'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
@@ -953,9 +953,122 @@ html.light .bd-m.sel{stroke:#0F172A}
 #nav .nav-plus{background:linear-gradient(145deg,#F8FAFC,#CBD5E1);color:#0B0E14}
 html.light #nav .nav-plus{background:linear-gradient(145deg,#1E293B,#0B0E14);color:#fff}
 #nav .nav-plus .ic{transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+/* ===== v32: стиль под логотип — чёрно-белый, без градиентов и свечений; лёгкие анимации ===== */
+@font-face{font-family:'Flexo Display';src:url('vendor/fonts/inter-display-800.woff') format('woff');font-weight:700 900;font-style:normal;font-display:swap}
+:root{--bg:#000;--card:#0E0E0F;--sub:#161618;--line:#242427;--text:#F5F5F4;--muted:#8E8E93;--em:#34C759;--pu:#A1A1A6;--disp:'Flexo Display',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--ld0:#1F1F22;--ld1:#4B4B51;--ld2:#A1A1A6;--ld3:#FFFFFF;--gold:#F5C04A}
+html.light{--bg:#F2F2F3;--card:#FFFFFF;--sub:#F2F2F3;--line:#E4E4E7;--text:#0A0A0A;--muted:#6E6E73;--ld0:#E4E4E7;--ld1:#B4B4BA;--ld2:#6E6E73;--ld3:#0A0A0A}
+*,*:before,*:after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+body{letter-spacing:-.005em}
+.font-black,.font-extrabold,.hdr-h,.hm-big,.hm-nick,.pf-nick,.cl-name,.au-title,.au-h,.hm-tv,.cl-vs b,.pf-st b,.hm-st b,.rm-t,.hm-tt,.lb-val,.lbp-val{font-family:var(--disp);letter-spacing:-.03em}
+.hdr-h{font-size:1.75rem}.hm-big{letter-spacing:-.05em}
+/* поверхности */
+#header{background:var(--bg)!important}
+.card,.hm-tile,.rm-card,.pf-card,.cl-hero,.hm-banner{background:var(--card);border-color:var(--line)}
+.modal-bg{background:rgba(0,0,0,.78)}
+.lb-card,.newbie,.lg-card,.cl-hero,.inv-card,.calm-hero{background:var(--card)!important;border-color:var(--line)!important}
+.glow-em{box-shadow:none!important}
+/* кнопки */
+.btn-primary,.btn-or,.btn-pu,.nut-ai,.hm-cta{background:var(--text)!important;color:var(--bg)!important;box-shadow:none!important;border-color:transparent!important}
+.btn-or{background:var(--sub)!important;color:var(--text)!important;border-color:var(--line)!important}
+.hm-cta{margin:1rem 0 .4rem}
+.btn{border-radius:999px}
+.btn-sm{border-radius:999px}
+/* иконки: без цветных плашек и теней */
+.hm-ti,.rm-ic,.set-ic,.inv-ic,.nut-act-ic,.core-ic,.buy-ic{background:var(--sub)!important;color:var(--text)!important;box-shadow:none!important;border:1px solid var(--line)}
+.hm-tile .hm-ti{background:none!important;border:0;width:auto;height:auto;border-radius:0;color:var(--text)!important}
+.hm-tile .hm-ti .ic{width:1.6rem;height:1.6rem;stroke-width:1.7}
+.hm-tile .hm-ti .emb{width:2.4rem;height:2.4rem;border-radius:.7rem;background:var(--sub)!important;font-size:1.1rem}
+.hm-tile{min-height:8.6rem;gap:1.2rem;border-radius:1.4rem}
+.hm-tile.dash{border:1px dashed var(--line);background:transparent}
+.hm-tile.dash .hm-ti{color:var(--muted)!important}
+.rm-ic{border-radius:50%;width:2.75rem;height:2.75rem}
+.rm-go{color:var(--text)}
+.rm-card,.hm-banner{border-radius:1.4rem}
+.hm-banner .hm-ti{background:var(--text)!important;color:var(--bg)!important;border:0}
+.hm-banner .go{background:var(--text);color:var(--bg)}
+.hm-stats .ic,.pf-st .ic{color:var(--muted)!important}
+.hm-ticks i.on,.hm-ticks i.cur{background:var(--text);box-shadow:none}
+.hm-ticks i.end{background:var(--muted)}
+.hm-av,.hm-delta i{box-shadow:none}
+.hm-delta{color:var(--em)}.hm-delta i{background:var(--em)}
+.streak-ring{border-width:2px}
+.streak-ring.on{background:#F97316;border-color:#F97316;box-shadow:none}
+.streak-ring.on .ic,.hdr-streak.on .ic{animation:none}
+.plus-item .pc{background:var(--text)!important;color:var(--bg)!important;box-shadow:none}
+.plus-item.v2 span:last-child{background:var(--card);border-color:var(--line);color:var(--text)}
+.plus-bg{background:rgba(0,0,0,.7)}
+.cl-kick{color:var(--muted)}
+.cl-vs .win{color:var(--text)}
+.cl-emb{border-radius:1rem!important}
+.inv-card{border-radius:1.4rem}
+.app-logo{box-shadow:none}
+.brand-or{background:none;-webkit-text-fill-color:currentColor;color:inherit}
+.chip-on{border-color:var(--text);color:var(--text);background:transparent}
+.core-st.go{animation:none;box-shadow:none}
+.lg-pz.on{border-color:var(--text);box-shadow:none}
+.lb-row.self{background:var(--sub);box-shadow:inset 3px 0 0 var(--text)}
+.lbp-1 .lbp-av{box-shadow:none}
+.au-feat{border:1px solid var(--line);background:var(--card)}
+.au-langs button.on{border-color:var(--text);color:var(--text)}
+.agree input:checked+.agree-box{background:var(--text);border-color:var(--text);box-shadow:none}.agree input:checked+.agree-box .ic{color:var(--bg)}
+.set-sw input:checked+i{background:var(--em)}
+.ar-cta{box-shadow:none}
+/* логотип */
+.flx-logo{display:block;fill:currentColor}
+.hdr-logo{height:1.6rem;width:auto;color:var(--text);margin:.15rem 0 .05rem}
+.au-top .flx-logo{height:1.7rem;width:auto;color:var(--text)}
+/* меню снизу: простая подсветка, двигается только transform */
+.nav-pill{background:var(--card)!important;border-color:var(--line);box-shadow:0 8px 24px rgba(0,0,0,.5)!important}
+html.light .nav-pill{box-shadow:0 8px 24px rgba(0,0,0,.08)!important}
+.nav-ind{background:var(--sub)!important;box-shadow:inset 0 0 0 1px var(--line)!important;transition:transform .2s cubic-bezier(.2,.8,.2,1)!important;width:var(--w,0)}
+.nav-ind:after{display:none}
+#nav .nav-btn.active .ic{color:var(--text);transform:none}
+#nav .nav-btn .ic{transition:none}
+#nav .nav-btn:active .ic{transform:none}
+#nav .nav-plus{background:var(--text)!important;color:var(--bg)!important;box-shadow:0 8px 20px rgba(0,0,0,.45)}
+/* эффекты обложек: только transform и opacity, без размытия и фильтров */
+.pfx i{will-change:transform,opacity}
+.pfx-sparkle i{filter:none}
+.pfx-embers i,.pfx-snow i,.pfx-fireflies i{box-shadow:none}
+.pfx-aurora:before,.pfx-aurora:after{filter:none;opacity:1;background:radial-gradient(closest-side,#34D39966,transparent)!important;animation-name:pfBlob2}
+.pfx-aurora:after{background:radial-gradient(closest-side,#8B5CF666,transparent)!important}
+@keyframes pfBlob2{0%{transform:translate(0,0)}100%{transform:translate(18%,20%)}}
+.pfx-prism{background:none;animation:none}
+.pfx-prism:before{content:'';position:absolute;inset:-60%;background:conic-gradient(#F43F5E33,#8B5CF633,#06B6D433,#10B98133,#F43F5E33);animation:pfSpin 14s linear infinite}
+.pfx-flash{background:#E0F2FE;opacity:0;animation:pfFlash2 6.5s linear infinite}
+@keyframes pfFlash2{0%,84%,88%,92%,100%{opacity:0}86%,90%{opacity:.4}}
+.th-storm,.th-prism,.theme-anim{animation:none!important}
+.fx-off .pfx,.fx-off .pfx *,.fx-off .pfx:before,.fx-off .pfx:after{animation-play-state:paused!important}
+body.modal-on #main .pfx,body.modal-on #main .pfx *{animation-play-state:paused!important}
+.pf-cb{background:rgba(0,0,0,.6)}
+.pf-cam{background:var(--text);color:var(--bg)}
+.pf-lvl b{background:var(--text);color:var(--bg)}
+.shop-tabs button.on{box-shadow:none;background:var(--card)}
+/* нагрузка: монохром */
+.ld-stage{background:var(--sub)}
+.bd-skin{fill:var(--ld0)}
+.bd-m{stroke:var(--bg);stroke-width:.6}
+.bd-m.l1{fill:var(--ld1)}.bd-m.l2{fill:var(--ld2)}.bd-m.l3{fill:var(--ld3)}.bd-m.l0{fill:var(--ld0)}
+.bd-m.dim{opacity:.4}
+.bd-m.sel{stroke:var(--em);stroke-width:1.2}
+.bd-line{stroke:var(--bg)}
+.ld-scale{display:flex;align-items:center;gap:.4rem;font-size:.66rem;color:var(--muted);margin:.35rem 0 .7rem}
+.ld-scale i{width:1.1rem;height:.5rem;border-radius:.2rem;display:inline-block}
+.ld-bar{display:block;height:3px;border-radius:3px;background:var(--line);margin-top:.3rem;overflow:hidden}.ld-bar i{display:block;height:100%;border-radius:3px;background:var(--text)}
+/* загрузочный экран */
+#boot{position:fixed;inset:0;z-index:200;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .3s ease}
+#boot.out{opacity:0;pointer-events:none}
+.boot-in{position:relative;width:88px;height:88px}
+.boot-in video{position:absolute;inset:0;width:100%;height:100%;opacity:0;background:#000}
+#boot.vid video{opacity:1}
+.boot-in svg{position:absolute;left:2.5%;top:18.5%;width:95%;height:auto;fill:#fff;animation:bootP 1.6s ease-in-out infinite}
+#boot.vid svg{display:none}
+@keyframes bootP{0%,100%{opacity:.35}50%{opacity:1}}
 </style>
 </head>
 <body>
+<div id="boot" aria-hidden="true"><div class="boot-in"><svg viewBox="0 16.8 100 66.4"><path d="M50.1 67.3 48.2 65.2 45.3 62.6 42.0 60.6 39.4 59.7 37.9 59.5 37.4 59.3 34.6 59.3 34.2 59.5 32.8 59.7 30.2 60.8 27.9 62.5 15.7 74.9 9.2 80.9 8.7 81.7 8.8 82.3 9.3 82.7 9.8 83.0 10.7 83.2 22.8 83.2 25.0 83.1 25.4 82.9 26.9 82.7 29.4 82.0 31.9 80.8 35.2 78.4 43.4 70.3 44.9 69.2 46.9 68.1 48.4 67.7 50.0 67.6ZM100.0 20.5 99.7 19.8 98.8 19.0 97.8 18.7 97.2 18.7 96.9 18.5 95.6 18.5 95.0 18.3 92.3 18.3 91.9 18.1 89.3 18.1 87.9 17.9 82.3 17.9 81.9 17.7 75.4 17.7 75.0 17.9 72.2 17.9 71.8 18.1 70.9 18.1 70.5 18.3 69.8 18.3 69.4 18.5 68.0 18.7 65.0 19.6 63.8 20.0 60.6 21.7 57.0 24.2 53.5 27.6 45.7 36.5 44.5 37.7 43.2 38.7 41.2 39.7 39.0 40.3 38.2 40.3 37.9 40.5 34.3 40.5 33.9 40.3 32.5 40.3 32.1 40.1 30.8 40.1 29.9 39.9 26.8 39.9 26.3 40.1 25.3 40.1 22.6 40.8 19.9 42.1 18.3 43.2 17.0 44.4 15.2 46.3 12.7 49.7 12.4 49.5 12.4 47.3 11.8 45.7 11.1 44.4 9.7 42.9 9.1 41.5 9.0 39.6 9.3 38.3 9.6 37.8 10.1 37.8 11.1 38.2 12.6 38.2 13.9 37.6 14.8 36.7 14.9 36.1 14.8 34.2 13.9 32.5 13.4 31.9 12.6 31.3 11.8 30.9 10.6 30.8 8.5 31.1 6.7 32.2 5.3 33.6 3.4 36.5 2.4 38.5 1.5 40.9 0.7 43.3 0.5 44.8 0.4 45.1 0.4 45.6 0.2 46.0 0.2 46.9 0.0 47.3 0.0 50.8 0.2 51.2 0.2 51.9 0.7 53.6 0.7 53.9 1.7 55.6 2.8 56.6 3.8 57.2 5.6 58.0 8.8 58.5 12.9 58.5 13.6 58.3 16.0 58.2 16.5 58.0 18.0 57.8 19.1 57.4 19.5 57.4 20.4 57.1 21.0 57.1 23.2 56.3 25.8 55.8 27.7 55.2 29.3 55.0 29.8 54.9 30.8 54.9 31.3 54.7 32.8 54.7 33.2 54.5 37.0 54.7 37.7 54.9 38.5 54.9 38.9 55.0 40.8 55.4 43.4 56.3 45.8 57.6 47.3 58.5 50.0 60.6 54.8 65.4 60.6 71.7 66.2 77.4 68.7 79.5 71.1 81.0 73.2 82.0 75.9 82.7 77.9 83.1 93.1 83.1 95.0 82.5 95.8 82.1 96.2 81.7 96.4 81.0 96.2 80.1 92.9 77.3 91.8 76.6 76.4 64.3 76.0 63.7 75.6 62.8 75.9 61.7 83.3 54.3 84.7 52.7 85.5 51.4 86.1 50.0 86.1 48.5 85.6 47.6 84.7 46.7 83.5 46.1 81.6 45.4 81.1 45.4 80.8 45.2 79.9 45.2 79.6 45.1 76.2 45.1 74.6 45.5 73.1 46.3 66.7 51.6 64.5 52.6 63.4 52.6 62.7 52.4 61.1 51.6 57.7 49.0 57.0 48.4 56.6 47.4 56.6 46.8 56.8 46.2 57.9 44.7 59.6 42.8 62.5 39.7 66.2 36.7 68.0 35.5 70.6 34.1 73.1 33.0 74.4 32.7 75.7 32.1 78.0 31.8 80.0 31.2 80.8 31.2 81.1 31.0 82.2 31.0 82.6 30.8 83.9 30.8 84.4 30.7 86.0 30.7 86.4 30.5 88.1 30.5 88.5 30.3 90.7 30.1 91.7 29.7 92.8 29.6 95.1 28.4 96.3 27.5 98.1 25.8 98.6 25.1 99.8 22.8 99.8 22.3 100.0 22.0ZM18.2 21.4 17.1 22.8 17.0 23.1 17.0 23.5 18.5 23.1 20.5 23.1 21.9 23.5 22.9 24.0 24.2 24.9 25.8 26.7 26.9 28.7 27.5 31.0 27.5 34.1 27.1 35.4 27.4 35.8 30.1 36.9 30.8 37.1 31.7 37.1 32.1 37.3 33.1 37.3 33.5 37.1 34.3 37.1 35.0 36.9 37.0 36.0 38.3 35.1 39.5 33.7 40.4 32.1 40.8 31.3 41.0 30.0 41.2 29.7 41.2 27.0 41.0 26.6 40.8 25.3 40.3 24.2 39.2 22.2 38.3 21.0 37.2 19.9 35.8 18.9 33.7 17.8 31.9 17.2 31.4 17.2 31.1 17.0 30.0 17.0 29.5 16.8 27.5 16.8 25.2 17.2 23.6 17.7 21.7 18.6 19.6 20.0Z"/></svg><video src="vendor/loader.mp4" muted autoplay loop playsinline preload="auto" disablepictureinpicture></video></div></div>
+<script>(function () { var b = document.getElementById('boot'), v = b.querySelector('video'); b._t0 = Date.now(); v.addEventListener('playing', function () { b.classList.add('vid'); }); v.addEventListener('error', function () { v.remove(); }); try { var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} })();</script>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
 <symbol id="fa-xmark" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 <symbol id="fa-trophy" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 3h10v6a5 5 0 0 1-10 0zM7 5H4a2 2 0 0 0 0 4h3M17 5h3a2 2 0 0 1 0 4h-3"/></symbol>
@@ -1148,7 +1261,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '31',
+  APP_VERSION: '32',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1407,6 +1520,8 @@ Object.keys(MT.SEED_V30).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_A
 // v31: профиль, оформление, нагрузка
 MT.SEED_V31 = {"en": {"Вулкан": "Volcano", "Сменить": "Change", "Оформить": "Customize", "серия": "streak", "Нагрузка": "Muscle load", "{0} дн.": "{0} d", "нет": "none", "мало: до {0} подх./нед": "low: under {0} sets/wk", "норма: {0}–{1}": "normal: {0}–{1}", "много: {0}+": "high: {0}+", "Нажми на мышцу, чтобы увидеть подробности": "Tap a muscle to see details", "Не работали за {0} дн.:": "Not trained in {0} days:", "подх. за {0} дн. · не работала": "sets in {0} days · not trained", "подх. за {0} дн. · мало": "sets in {0} days · low", "подх. за {0} дн. · норма": "sets in {0} days · normal", "подх. за {0} дн. · много": "sets in {0} days · high", "Бусты": "Boosts", "Так тебя видят друзья и соперники": "This is how friends and rivals see you", "Обложка профиля": "Profile cover", "Рамка аватара": "Avatar frame", "Северное сияние": "Northern lights", "Глубина": "Deep sea", "Светлячки": "Fireflies", "Сакура": "Sakura", "Ледник": "Glacier", "Звездопад": "Starfall", "Киберпанк": "Cyberpunk", "Гроза": "Storm", "Королевский": "Royal", "Призма": "Prism", "Чемпион": "Champion", "Неон": "Neon", "Лёд": "Ice", "Токсик": "Toxic", "Пламя": "Flame", "Радуга": "Rainbow", "Бездна": "Void", "Золото": "Gold", "ЭПИК": "EPIC", "ЛЕГЕНДА": "LEGEND", "надето": "equipped", "Оформление": "Style", "рекорды": "records"}, "uk": {"Вулкан": "Вулкан", "Сменить": "Змінити", "Оформить": "Оформити", "серия": "серія", "Нагрузка": "Навантаження", "{0} дн.": "{0} дн.", "нет": "немає", "мало: до {0} подх./нед": "мало: до {0} підх./тиж", "норма: {0}–{1}": "норма: {0}–{1}", "много: {0}+": "багато: {0}+", "Нажми на мышцу, чтобы увидеть подробности": "Натисни на м'яз, щоб побачити деталі", "Не работали за {0} дн.:": "Не працювали за {0} дн.:", "подх. за {0} дн. · не работала": "підх. за {0} дн. · не працював", "подх. за {0} дн. · мало": "підх. за {0} дн. · мало", "подх. за {0} дн. · норма": "підх. за {0} дн. · норма", "подх. за {0} дн. · много": "підх. за {0} дн. · багато", "Бусты": "Бусти", "Так тебя видят друзья и соперники": "Так тебе бачать друзі й суперники", "Обложка профиля": "Обкладинка профілю", "Рамка аватара": "Рамка аватара", "Северное сияние": "Північне сяйво", "Глубина": "Глибина", "Светлячки": "Світлячки", "Сакура": "Сакура", "Ледник": "Льодовик", "Звездопад": "Зорепад", "Киберпанк": "Кіберпанк", "Гроза": "Гроза", "Королевский": "Королівський", "Призма": "Призма", "Чемпион": "Чемпіон", "Неон": "Неон", "Лёд": "Лід", "Токсик": "Токсик", "Пламя": "Полум'я", "Радуга": "Веселка", "Бездна": "Безодня", "Золото": "Золото", "ЭПИК": "ЕПІК", "ЛЕГЕНДА": "ЛЕГЕНДА", "надето": "одягнено", "Оформление": "Оформлення", "рекорды": "рекорди"}, "kk": {"Вулкан": "Жанартау", "Сменить": "Ауыстыру", "Оформить": "Безендіру", "серия": "серия", "Нагрузка": "Жүктеме", "{0} дн.": "{0} күн", "нет": "жоқ", "мало: до {0} подх./нед": "аз: аптасына {0} тәсілге дейін", "норма: {0}–{1}": "қалыпты: {0}–{1}", "много: {0}+": "көп: {0}+", "Нажми на мышцу, чтобы увидеть подробности": "Толығырақ көру үшін бұлшықетті бас", "Не работали за {0} дн.:": "{0} күнде жұмыс істемеді:", "подх. за {0} дн. · не работала": "{0} күнде тәсіл · жұмыс істемеді", "подх. за {0} дн. · мало": "{0} күнде тәсіл · аз", "подх. за {0} дн. · норма": "{0} күнде тәсіл · қалыпты", "подх. за {0} дн. · много": "{0} күнде тәсіл · көп", "Бусты": "Бустер", "Так тебя видят друзья и соперники": "Достар мен қарсыластар сені осылай көреді", "Обложка профиля": "Профиль мұқабасы", "Рамка аватара": "Аватар жиегі", "Северное сияние": "Солтүстік шұғыласы", "Глубина": "Тереңдік", "Светлячки": "Жарқанаттар", "Сакура": "Сакура", "Ледник": "Мұздық", "Звездопад": "Жұлдыз жаңбыры", "Киберпанк": "Киберпанк", "Гроза": "Найзағай", "Королевский": "Корольдік", "Призма": "Призма", "Чемпион": "Чемпион", "Неон": "Неон", "Лёд": "Мұз", "Токсик": "Улы", "Пламя": "Жалын", "Радуга": "Кемпірқосақ", "Бездна": "Тұңғиық", "Золото": "Алтын", "ЭПИК": "ЭПИК", "ЛЕГЕНДА": "АҢЫЗ", "надето": "киілген", "Оформление": "Безендіру", "рекорды": "рекордтар"}, "de": {"Вулкан": "Vulkan", "Сменить": "Ändern", "Оформить": "Gestalten", "серия": "Serie", "Нагрузка": "Belastung", "{0} дн.": "{0} T.", "нет": "keine", "мало: до {0} подх./нед": "wenig: unter {0} Sätze/Wo.", "норма: {0}–{1}": "normal: {0}–{1}", "много: {0}+": "viel: {0}+", "Нажми на мышцу, чтобы увидеть подробности": "Tippe auf einen Muskel für Details", "Не работали за {0} дн.:": "In {0} Tagen nicht trainiert:", "подх. за {0} дн. · не работала": "Sätze in {0} Tagen · nicht trainiert", "подх. за {0} дн. · мало": "Sätze in {0} Tagen · wenig", "подх. за {0} дн. · норма": "Sätze in {0} Tagen · normal", "подх. за {0} дн. · много": "Sätze in {0} Tagen · viel", "Бусты": "Boosts", "Так тебя видят друзья и соперники": "So sehen dich Freunde und Gegner", "Обложка профиля": "Profilcover", "Рамка аватара": "Avatar-Rahmen", "Северное сияние": "Nordlicht", "Глубина": "Tiefsee", "Светлячки": "Glühwürmchen", "Сакура": "Sakura", "Ледник": "Gletscher", "Звездопад": "Sternschnuppen", "Киберпанк": "Cyberpunk", "Гроза": "Gewitter", "Королевский": "Königlich", "Призма": "Prisma", "Чемпион": "Champion", "Неон": "Neon", "Лёд": "Eis", "Токсик": "Toxisch", "Пламя": "Flamme", "Радуга": "Regenbogen", "Бездна": "Abgrund", "Золото": "Gold", "ЭПИК": "EPISCH", "ЛЕГЕНДА": "LEGENDE", "надето": "angelegt", "Оформление": "Design", "рекорды": "Rekorde"}, "es": {"Вулкан": "Volcán", "Сменить": "Cambiar", "Оформить": "Personalizar", "серия": "racha", "Нагрузка": "Carga", "{0} дн.": "{0} d", "нет": "nada", "мало: до {0} подх./нед": "poco: menos de {0} series/sem", "норма: {0}–{1}": "normal: {0}–{1}", "много: {0}+": "mucho: {0}+", "Нажми на мышцу, чтобы увидеть подробности": "Toca un músculo para ver detalles", "Не работали за {0} дн.:": "Sin trabajar en {0} días:", "подх. за {0} дн. · не работала": "series en {0} días · sin trabajar", "подх. за {0} дн. · мало": "series en {0} días · poco", "подх. за {0} дн. · норма": "series en {0} días · normal", "подх. за {0} дн. · много": "series en {0} días · mucho", "Бусты": "Potenciadores", "Так тебя видят друзья и соперники": "Así te ven amigos y rivales", "Обложка профиля": "Portada del perfil", "Рамка аватара": "Marco de avatar", "Северное сияние": "Aurora boreal", "Глубина": "Profundidad", "Светлячки": "Luciérnagas", "Сакура": "Sakura", "Ледник": "Glaciar", "Звездопад": "Lluvia de estrellas", "Киберпанк": "Cyberpunk", "Гроза": "Tormenta", "Королевский": "Real", "Призма": "Prisma", "Чемпион": "Campeón", "Неон": "Neón", "Лёд": "Hielo", "Токсик": "Tóxico", "Пламя": "Llama", "Радуга": "Arcoíris", "Бездна": "Abismo", "Золото": "Oro", "ЭПИК": "ÉPICO", "ЛЕГЕНДА": "LEYENDA", "надето": "equipado", "Оформление": "Estilo", "рекорды": "récords"}, "fr": {"Вулкан": "Volcan", "Сменить": "Changer", "Оформить": "Personnaliser", "серия": "série", "Нагрузка": "Charge", "{0} дн.": "{0} j", "нет": "aucune", "мало: до {0} подх./нед": "peu : moins de {0} séries/sem", "норма: {0}–{1}": "normal : {0}–{1}", "много: {0}+": "beaucoup : {0}+", "Нажми на мышцу, чтобы увидеть подробности": "Touche un muscle pour voir les détails", "Не работали за {0} дн.:": "Pas travaillés depuis {0} j :", "подх. за {0} дн. · не работала": "séries en {0} j · non travaillé", "подх. за {0} дн. · мало": "séries en {0} j · peu", "подх. за {0} дн. · норма": "séries en {0} j · normal", "подх. за {0} дн. · много": "séries en {0} j · beaucoup", "Бусты": "Boosts", "Так тебя видят друзья и соперники": "C'est ainsi que te voient amis et rivaux", "Обложка профиля": "Couverture du profil", "Рамка аватара": "Cadre d'avatar", "Северное сияние": "Aurore boréale", "Глубина": "Abysses", "Светлячки": "Lucioles", "Сакура": "Sakura", "Ледник": "Glacier", "Звездопад": "Pluie d'étoiles", "Киберпанк": "Cyberpunk", "Гроза": "Orage", "Королевский": "Royal", "Призма": "Prisme", "Чемпион": "Champion", "Неон": "Néon", "Лёд": "Glace", "Токсик": "Toxique", "Пламя": "Flamme", "Радуга": "Arc-en-ciel", "Бездна": "Abîme", "Золото": "Or", "ЭПИК": "ÉPIQUE", "ЛЕГЕНДА": "LÉGENDE", "надето": "équipé", "Оформление": "Style", "рекорды": "records"}, "tr": {"Вулкан": "Volkan", "Сменить": "Değiştir", "Оформить": "Özelleştir", "серия": "seri", "Нагрузка": "Yük", "{0} дн.": "{0} g", "нет": "yok", "мало: до {0} подх./нед": "az: haftada {0} setten az", "норма: {0}–{1}": "normal: {0}–{1}", "много: {0}+": "çok: {0}+", "Нажми на мышцу, чтобы увидеть подробности": "Ayrıntılar için bir kasa dokun", "Не работали за {0} дн.:": "{0} günde çalışmadı:", "подх. за {0} дн. · не работала": "{0} günde set · çalışmadı", "подх. за {0} дн. · мало": "{0} günde set · az", "подх. за {0} дн. · норма": "{0} günde set · normal", "подх. за {0} дн. · много": "{0} günde set · çok", "Бусты": "Güçlendiriciler", "Так тебя видят друзья и соперники": "Arkadaşların ve rakiplerin seni böyle görür", "Обложка профиля": "Profil kapağı", "Рамка аватара": "Avatar çerçevesi", "Северное сияние": "Kuzey ışıkları", "Глубина": "Derinlik", "Светлячки": "Ateşböcekleri", "Сакура": "Sakura", "Ледник": "Buzul", "Звездопад": "Yıldız yağmuru", "Киберпанк": "Siberpunk", "Гроза": "Fırtına", "Королевский": "Kraliyet", "Призма": "Prizma", "Чемпион": "Şampiyon", "Неон": "Neon", "Лёд": "Buz", "Токсик": "Toksik", "Пламя": "Alev", "Радуга": "Gökkuşağı", "Бездна": "Boşluk", "Золото": "Altın", "ЭПИК": "EPİK", "ЛЕГЕНДА": "EFSANE", "надето": "takılı", "Оформление": "Görünüm", "рекорды": "rekorlar"}};
 Object.keys(MT.SEED_V31).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V31[l]));
+MT.SEED_V32 = {"en": {"меньше": "less", "больше": "more", "подходов в неделю": "sets per week"}, "uk": {"меньше": "менше", "больше": "більше", "подходов в неделю": "підходів на тиждень"}, "kk": {"меньше": "аз", "больше": "көп", "подходов в неделю": "аптасына тәсіл"}, "de": {"меньше": "weniger", "больше": "mehr", "подходов в неделю": "Sätze pro Woche"}, "es": {"меньше": "menos", "больше": "más", "подходов в неделю": "series por semana"}, "fr": {"меньше": "moins", "больше": "plus", "подходов в неделю": "séries par semaine"}, "tr": {"меньше": "az", "больше": "çok", "подходов в неделю": "haftalık set"}};
+Object.keys(MT.SEED_V32).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V32[l]));
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -1484,6 +1599,7 @@ Object.defineProperty(CONFIG, 'WEEKDAYS', { get() { const l = (S && S.profile &&
 /* ---------------- v21: арт для тем клана (SVG-сцены, рисуются на лету) ----------------
    Каждая тема — картинка 400×600: шапка клана берёт её целиком, страница клана — как фон
    во весь экран (как фон профиля в Steam). */
+const LOGO_SVG = (cls = '') => `<svg class="flx-logo ${cls}" viewBox="0 16.8 100 66.4" aria-label="Flexo League"><path d="M50.1 67.3 48.2 65.2 45.3 62.6 42.0 60.6 39.4 59.7 37.9 59.5 37.4 59.3 34.6 59.3 34.2 59.5 32.8 59.7 30.2 60.8 27.9 62.5 15.7 74.9 9.2 80.9 8.7 81.7 8.8 82.3 9.3 82.7 9.8 83.0 10.7 83.2 22.8 83.2 25.0 83.1 25.4 82.9 26.9 82.7 29.4 82.0 31.9 80.8 35.2 78.4 43.4 70.3 44.9 69.2 46.9 68.1 48.4 67.7 50.0 67.6ZM100.0 20.5 99.7 19.8 98.8 19.0 97.8 18.7 97.2 18.7 96.9 18.5 95.6 18.5 95.0 18.3 92.3 18.3 91.9 18.1 89.3 18.1 87.9 17.9 82.3 17.9 81.9 17.7 75.4 17.7 75.0 17.9 72.2 17.9 71.8 18.1 70.9 18.1 70.5 18.3 69.8 18.3 69.4 18.5 68.0 18.7 65.0 19.6 63.8 20.0 60.6 21.7 57.0 24.2 53.5 27.6 45.7 36.5 44.5 37.7 43.2 38.7 41.2 39.7 39.0 40.3 38.2 40.3 37.9 40.5 34.3 40.5 33.9 40.3 32.5 40.3 32.1 40.1 30.8 40.1 29.9 39.9 26.8 39.9 26.3 40.1 25.3 40.1 22.6 40.8 19.9 42.1 18.3 43.2 17.0 44.4 15.2 46.3 12.7 49.7 12.4 49.5 12.4 47.3 11.8 45.7 11.1 44.4 9.7 42.9 9.1 41.5 9.0 39.6 9.3 38.3 9.6 37.8 10.1 37.8 11.1 38.2 12.6 38.2 13.9 37.6 14.8 36.7 14.9 36.1 14.8 34.2 13.9 32.5 13.4 31.9 12.6 31.3 11.8 30.9 10.6 30.8 8.5 31.1 6.7 32.2 5.3 33.6 3.4 36.5 2.4 38.5 1.5 40.9 0.7 43.3 0.5 44.8 0.4 45.1 0.4 45.6 0.2 46.0 0.2 46.9 0.0 47.3 0.0 50.8 0.2 51.2 0.2 51.9 0.7 53.6 0.7 53.9 1.7 55.6 2.8 56.6 3.8 57.2 5.6 58.0 8.8 58.5 12.9 58.5 13.6 58.3 16.0 58.2 16.5 58.0 18.0 57.8 19.1 57.4 19.5 57.4 20.4 57.1 21.0 57.1 23.2 56.3 25.8 55.8 27.7 55.2 29.3 55.0 29.8 54.9 30.8 54.9 31.3 54.7 32.8 54.7 33.2 54.5 37.0 54.7 37.7 54.9 38.5 54.9 38.9 55.0 40.8 55.4 43.4 56.3 45.8 57.6 47.3 58.5 50.0 60.6 54.8 65.4 60.6 71.7 66.2 77.4 68.7 79.5 71.1 81.0 73.2 82.0 75.9 82.7 77.9 83.1 93.1 83.1 95.0 82.5 95.8 82.1 96.2 81.7 96.4 81.0 96.2 80.1 92.9 77.3 91.8 76.6 76.4 64.3 76.0 63.7 75.6 62.8 75.9 61.7 83.3 54.3 84.7 52.7 85.5 51.4 86.1 50.0 86.1 48.5 85.6 47.6 84.7 46.7 83.5 46.1 81.6 45.4 81.1 45.4 80.8 45.2 79.9 45.2 79.6 45.1 76.2 45.1 74.6 45.5 73.1 46.3 66.7 51.6 64.5 52.6 63.4 52.6 62.7 52.4 61.1 51.6 57.7 49.0 57.0 48.4 56.6 47.4 56.6 46.8 56.8 46.2 57.9 44.7 59.6 42.8 62.5 39.7 66.2 36.7 68.0 35.5 70.6 34.1 73.1 33.0 74.4 32.7 75.7 32.1 78.0 31.8 80.0 31.2 80.8 31.2 81.1 31.0 82.2 31.0 82.6 30.8 83.9 30.8 84.4 30.7 86.0 30.7 86.4 30.5 88.1 30.5 88.5 30.3 90.7 30.1 91.7 29.7 92.8 29.6 95.1 28.4 96.3 27.5 98.1 25.8 98.6 25.1 99.8 22.8 99.8 22.3 100.0 22.0ZM18.2 21.4 17.1 22.8 17.0 23.1 17.0 23.5 18.5 23.1 20.5 23.1 21.9 23.5 22.9 24.0 24.2 24.9 25.8 26.7 26.9 28.7 27.5 31.0 27.5 34.1 27.1 35.4 27.4 35.8 30.1 36.9 30.8 37.1 31.7 37.1 32.1 37.3 33.1 37.3 33.5 37.1 34.3 37.1 35.0 36.9 37.0 36.0 38.3 35.1 39.5 33.7 40.4 32.1 40.8 31.3 41.0 30.0 41.2 29.7 41.2 27.0 41.0 26.6 40.8 25.3 40.3 24.2 39.2 22.2 38.3 21.0 37.2 19.9 35.8 18.9 33.7 17.8 31.9 17.2 31.4 17.2 31.1 17.0 30.0 17.0 29.5 16.8 27.5 16.8 25.2 17.2 23.6 17.7 21.7 18.6 19.6 20.0Z"/></svg>`; // v32: знак приложения
 const CLAN_ART = (() => {
   const rnd = seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const stars = (n, seed, h = 600, op = .9) => { const r = rnd(seed); let s = ''; for (let i = 0; i < n; i++) s += `<circle cx="${(r() * 400).toFixed(0)}" cy="${(r() * h).toFixed(0)}" r="${(r() * 1.3 + .3).toFixed(1)}" fill="#fff" opacity="${(r() * op + .1).toFixed(2)}"/>`; return s; };
@@ -3946,7 +4062,7 @@ const UI = {
     const bg = document.createElement('div'); bg.className = `modal-bg ${center ? 'center' : ''}`; bg.id = 'modal'; if (!closable) bg.dataset.lock = '1';
     bg.innerHTML = `<div class="modal ${center ? 'center' : ''}">${html}</div>`;
     if (closable) bg.addEventListener('click', e => { if (e.target === bg) this.closeModal(); });
-    this.$('#modal-root').appendChild(bg); if (typeof App !== 'undefined') App.restoreDrafts(bg); return bg;
+    this.$('#modal-root').appendChild(bg); document.body.classList.add('modal-on'); if (typeof App !== 'undefined') App.restoreDrafts(bg); return bg;
   },
   confirm(text, onYes, { danger = false, yes = 'Да', no = 'Отмена' } = {}) {
     this._onConfirm = onYes;
@@ -3970,7 +4086,7 @@ const UI = {
   closeModal() {
     this.closeDD(); this._authOpen = false; this._shopOpen = false; this._wzOpen = false; this._obOpen = false; this._rulesGate = false;
     this._composer = false; this._cmOpen = false; this._clanShop = false; this._clanSet = false; this._clanModal = null; this._nutModal = null; this._wModal = null; this._slModal = null; this._setModal = null; this._hCal = null; this._aifOpen = false; this._actOpen = false;
-    const m = this.$('#modal'); if (m) m.remove();
+    const m = this.$('#modal'); if (m) m.remove(); document.body.classList.remove('modal-on');
     if (!this._suppressReopen && (this._inWorkout || this._summaryOpen)) { this._inWorkout = false; this._summaryOpen = false; setTimeout(() => this.releaseHeld(), 120); }
     // вернуть модалку тренировки после анимаций PR/арены
     if (this._reopen && !this._suppressReopen && !(this._bigQueue && this._bigQueue.length)) { const fn = this._reopen; this._reopen = null; setTimeout(fn, 150); }
@@ -4088,34 +4204,31 @@ const UI = {
       ['calves', 'M40.2 140.8C42.8 138.6 46 139.4 47.3 142C48 150 47.2 159 45.8 165.5C44.4 167.8 42.4 167.8 41.2 165.6C39.4 158.8 39.2 148.6 40.2 140.8Z']],
     backLines: 'M28.5 48C27.6 52 27.6 56 28.2 60M44 110C44.6 118 44.6 126 43.8 132.5M43.8 146C43.9 152 43.7 158 43.3 164',
   },
-  LOAD_COL: ['var(--bdskin)', '#3B82F6', '#10B981', '#F97316'],
+  LOAD_COL: ['var(--ld0)', 'var(--ld1)', 'var(--ld2)', 'var(--ld3)'],
   loadLevel(sets, days) { const pw = sets / (days / 7); return sets <= 0 ? 0 : pw < 6 ? 1 : pw <= 20 ? 2 : 3; },
   bodySVG(days = 30) {
     const { raw } = Calc.muscleLoad(days), B = this.BODY, sel = this._muscle, C = this.LOAD_COL, lv = m => this.loadLevel(raw[m], days);
     const mir = 'matrix(-1 0 0 1 100 0)';
-    const defs = `<defs>${C.slice(1).map((c, i) => `<linearGradient id="bdg${i + 1}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${this._mix(c, '#ffffff', .35)}"/><stop offset=".55" stop-color="${c}"/><stop offset="1" stop-color="${this._mix(c, '#000000', .3)}"/></linearGradient>`).join('')}</defs>`;
+    const defs = '';
     const base = `<ellipse class="bd-skin" cx="50" cy="13.5" rx="7.6" ry="9.6"/><path class="bd-skin" d="M45.6 21H54.4L55.8 29H44.2Z"/><ellipse class="bd-skin" cx="24.4" cy="94" rx="2.8" ry="4"/><ellipse class="bd-skin" cx="75.6" cy="94" rx="2.8" ry="4"/>`
       + B.base.map(d => `<path class="bd-skin" d="${d}"/><path class="bd-skin" d="${d}" transform="${mir}"/>`).join('');
-    const mus = list => list.map(([m, d]) => { const l = lv(m), f = l ? `url(#bdg${l})` : 'var(--bdskin)', cls = `bd-m ${sel && sel !== m ? 'dim' : ''} ${sel === m ? 'sel' : ''}`, gl = l === 3 ? ' style="filter:drop-shadow(0 0 2.5px #F97316)"' : '';
-      return [d, ''].map((_, k) => `<path class="${cls}" data-action="muscle-pick" data-m="${m}" d="${d}" fill="${f}"${gl}${k ? ` transform="${mir}"` : ''}><title>${TN(CONFIG.MUSCLES[m])}</title></path>`).join(''); }).join('');
+    const mus = list => list.map(([m, d]) => { const l = lv(m), cls = `bd-m l${l} ${sel && sel !== m ? 'dim' : ''} ${sel === m ? 'sel' : ''}`, gl = '';
+      return [d, ''].map((_, k) => `<path class="${cls}" data-action="muscle-pick" data-m="${m}" d="${d}"${gl}${k ? ` transform="${mir}"` : ''}><title>${TN(CONFIG.MUSCLES[m])}</title></path>`).join(''); }).join('');
     const lines = d => `<path class="bd-line" d="${d}" stroke-width=".55" opacity=".7"/><path class="bd-line" d="${d}" stroke-width=".55" opacity=".7" transform="${mir}"/>`;
     const svg = inner => `<svg viewBox="12 2 76 196" preserveAspectRatio="xMidYMid meet">${defs}${base}${inner}</svg>`;
     return { front: svg(mus(B.front) + lines(B.frontLines) + '<path class="bd-line" d="M50 49V88" stroke-width=".6" opacity=".7"/>'), back: svg(mus(B.back) + lines(B.backLines) + '<path class="bd-line" d="M50 48V88" stroke-width=".6" opacity=".7"/>'), weak: Object.keys(CONFIG.MUSCLES).filter(m => raw[m] === 0), raw, lv };
   },
   /* ---- рендер ---- */
   renderAll() { this.renderHeader(); this.renderTab(this.tab); this.navInd(false); },
-  // v31: подсветка выбранной вкладки — «капля» сначала дотягивается до новой кнопки, потом подтягивает хвост
+  // v32: подсветка выбранной вкладки едет только по transform (дёшево для телефона)
   navInd(animate) {
     const pill = this.$('.nav-pill'); if (!pill) return;
-    let ind = pill.querySelector('.nav-ind'); if (!ind) { ind = document.createElement('span'); ind.className = 'nav-ind'; pill.prepend(ind); window.addEventListener('resize', () => { this._indX = null; this.navInd(false); }); }
+    let ind = pill.querySelector('.nav-ind'); if (!ind) { ind = document.createElement('span'); ind.className = 'nav-ind'; pill.prepend(ind); window.addEventListener('resize', () => this.navInd(false)); }
     const b = pill.querySelector('.nav-btn.active'); if (!b || !b.offsetWidth) return;
-    const x = b.offsetLeft, w = b.offsetWidth, ox = this._indX, ow = this._indW; this._indX = x; this._indW = w; clearTimeout(this._indT);
-    const set = (l, ww) => { ind.style.transform = `translateX(${l}px)`; ind.style.width = ww + 'px'; };
-    if (!animate || ox == null || document.documentElement.classList.contains('reduce-motion')) { ind.style.transition = 'none'; set(x, w); void ind.offsetWidth; ind.style.transition = ''; return; }
-    if (ox === x) return;
-    const l = Math.min(ox, x), r = Math.max(ox + ow, x + w); ind.classList.add('fast'); set(l, r - l);
-    this._indT = setTimeout(() => { ind.classList.remove('fast'); set(x, w); }, 150);
+    if (!animate || document.documentElement.classList.contains('reduce-motion')) { ind.style.transition = 'none'; ind.style.setProperty('--w', b.offsetWidth + 'px'); ind.style.transform = `translateX(${b.offsetLeft}px)`; void ind.offsetWidth; ind.style.transition = ''; return; }
+    ind.style.setProperty('--w', b.offsetWidth + 'px'); ind.style.transform = `translateX(${b.offsetLeft}px)`;
   },
+
   applyLang() { document.documentElement.lang = S.profile.lang || 'ru'; this.$$('[data-i18n]').forEach(el => el.textContent = T(el.dataset.i18n)); },
   renderHeader() {
     const bell = this.$('#hdr-bell'); if (bell) { const n = ClanService.unread(); bell.textContent = n > 9 ? '9+' : n; bell.classList.toggle('hidden', !n); }
@@ -4126,7 +4239,8 @@ const UI = {
     const [ttl, sub] = { arena: ['Главная', date.charAt(0).toUpperCase() + date.slice(1)], lifts: [T('lifts'), `${wk} из ${tg} тренировок на этой неделе`], clans: ['Кланы', S.clan ? 'клан, друзья, дуэли и лента' : 'найди команду и друзей'], nutrition: [T('health'), 'еда, вода, сон и вес'], profile: [T('profile'), S.profile.nickname || ''] }[t] || ['', ''];
     const ht = this.$('#hdr-title'), hs = this.$('#hdr-sub');
     { const cb = this.$('.nav-btn[data-tab=clans]'); if (cb) { const on = ClanService.incoming().length > 0; let d = cb.querySelector('.nav-dot'); if (on && !d) { d = document.createElement('i'); d.className = 'nav-dot'; cb.appendChild(d); } else if (!on && d) d.remove(); } }
-    if (ht && ht.textContent !== ttl) { ht.textContent = ttl; if (ht._mtSrc != null) ht._mtSrc = null; }
+    if (ht && t === 'arena') { if (!ht.querySelector('.flx-logo')) ht.innerHTML = LOGO_SVG('hdr-logo'); }
+    else if (ht && ht.textContent !== ttl) { ht.textContent = ttl; if (ht._mtSrc != null) ht._mtSrc = null; }
     if (hs) { hs.textContent = sub; hs.toggleAttribute('data-no-mt', t === 'profile'); }
     if (typeof MT !== 'undefined' && MT.active && MT.active()) { MT.done.delete(ht && ht.firstChild); MT.done.delete(hs && hs.firstChild); MT.apply(this.$('#header')); }
     document.querySelector('meta[name=theme-color]').setAttribute('content', S.profile.theme === 'light' ? '#F1F5F9' : '#0B0E14');
@@ -4233,7 +4347,9 @@ const UI = {
     const P = { embers: [1, 2, 5, 3, 6], bubbles: [.6, 4, 11, 5, 9], petals: [.7, 6, 10, 6, 10], snow: [1, 2, 4, 6, 11], fireflies: [.6, 3, 5, 2.5, 4], meteors: [.25, 0, 0, 6, 11], sparkle: [.6, 6, 12, 2, 3.5], rain: [1.5, 0, 0, .6, 1.1] };
     return fx.map(k => { const c = P[k]; if (!c) return `<div class="pfx pfx-${k}"></div>`; let h = ''; for (let i = 0, m = Math.max(2, Math.round(n * c[0])); i < m; i++) h += `<i style="--x:${(r() * 100).toFixed(1)}%;--y:${(r() * 80).toFixed(1)}%;--s:${(c[1] + r() * (c[2] - c[1])).toFixed(1)}px;--t:${(c[3] + r() * (c[4] - c[3])).toFixed(2)}s;--d:${(-r() * c[4]).toFixed(2)}s;--dx:${((r() - .5) * 60).toFixed(0)}px"></i>`; return `<div class="pfx pfx-${k}">${h}</div>`; }).join('');
   },
-  avFrame(inner, frame, col) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; return `<span class="pfr ${f}" style="--ring:${col}">${inner}</span>`; },
+  avFrame(inner, frame, col) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; return `<span class="pfr ${f}" style="--ring:${f ? col : 'var(--line)'}">${inner}</span>`; },
+  // v32: эффекты обложек замирают, когда обложка не видна или поверх открыто окно
+  watchFx(root) { if (!('IntersectionObserver' in window) || !root) return; const io = this._fxIO || (this._fxIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('fx-off', !e.isIntersecting)))); root.querySelectorAll('.pf-cover,.mp-cover').forEach(el => { if (!el._fxw) { el._fxw = 1; io.observe(el); } }); },
   /* ===================== v30: ГЛАВНАЯ ===================== */
   homeHero() {
     const p = S.profile, g = S.game, a = Calc.arena(), next = Calc.nextArena(), rk = Calc.rank(g.trophies, g.arenaIdx), lvl = Calc.level(g.xp), wk = Calc.weekLedger(), place = !next ? Calc.legendPlace() : null;
@@ -4837,7 +4953,7 @@ const UI = {
     const sel = this._muscle && CONFIG.MUSCLES[this._muscle] ? this._muscle : null, LV = ['не работала', 'мало', 'норма', 'много'];
     const html = `
       <div class="pf-card" style="--ac:${acc}">
-        <div class="pf-cover ${th && th.art === 'storm' ? 'th-storm' : ''}" style="${this.coverStyle(p.avatar.ptheme, a.color)}">${th ? this.pfx(th.fx, 14, 3) : ''}
+        <div class="pf-cover" style="${this.coverStyle(p.avatar.ptheme, a.color)}">${th ? this.pfx(th.fx, 14, 3) : ''}
           ${th ? `<span class="pf-cname">${th.name}</span>` : ''}<button class="pf-cb" data-action="open-shop" data-tab="look"><svg class="ic"><use href="#fa-palette"/></svg> ${th ? 'Сменить' : 'Оформить'}</button></div>
         <div class="pf-body">
           <div class="pf-avrow">
@@ -4845,7 +4961,7 @@ const UI = {
             <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 34, anim: false })}<span class="min-w-0"><span class="block text-xs font-black truncate" style="color:${a.color}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
           </div>
           <div class="pf-nick" data-no-mt>${U.esc(p.nickname)}</div>${tt}
-          <div class="pf-lvl"><b class="num">${lvl}</b><div class="flex-1">${this.bar(xpCur / xpNeed * 100, 'linear-gradient(90deg,#A78BFA,#7C3AED)')}</div><span class="muted num">${xpCur}/${xpNeed} XP</span></div>
+          <div class="pf-lvl"><b class="num">${lvl}</b><div class="flex-1">${this.bar(xpCur / xpNeed * 100, 'var(--text)')}</div><span class="muted num">${xpCur}/${xpNeed} XP</span></div>
           ${S.clan ? `<button class="clan-row mt-3" data-action="open-page" data-kind="clan">${this.emblem(S.clan, 'w-9 h-9 text-base')}<div class="flex-1 min-w-0 text-left"><div class="text-[10px] muted uppercase tracking-wider">Клан</div><div class="font-bold text-sm truncate" data-no-mt>${U.esc(S.clan.name)}</div></div><span class="chip text-[10px]">${({ leader: 'Лидер', deputy: 'Заместитель', member: 'Участник' })[S.clan.role] || ''}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>` : ''}
           <div class="pf-stats">
             ${stat('', 'fa-dumbbell', '#10B981', g.countedWorkoutDays.length, 'трен.')}
@@ -4865,14 +4981,14 @@ const UI = {
       </div>
       <div class="card p-4 mb-4">
         <div class="flex items-center justify-between gap-2 mb-1"><div class="font-bold min-w-0 leading-tight"><svg class="ic text-bl"><use href="#fa-person"/></svg> Нагрузка</div><div class="ld-seg">${[7, 14, 30].map(d => `<button class="${d === days ? 'on' : ''}" data-action="load-days" data-val="${d}">${d} дн.</button>`).join('')}</div></div>
-        <div class="ld-legend">${['нет', 'мало: до 6 подх./нед', 'норма: 6–20', 'много: 20+'].map((t, i) => `<span><i style="background:${this.LOAD_COL[i]}"></i>${t}</span>`).join('')}</div>
+        <div class="ld-scale"><span>меньше</span>${this.LOAD_COL.map(c => `<i style="background:${c}"></i>`).join('')}<span>больше</span><span class="flex-1"></span><span>подходов в неделю</span></div>
         <div class="ld-stage"><div><div class="ld-cap">спереди</div>${body.front}</div><div><div class="ld-cap">сзади</div>${body.back}</div></div>
-        ${sel ? `<div class="ld-info"><i style="background:${this.LOAD_COL[body.lv(sel)]}"></i><span class="flex-1 min-w-0"><b>${TN(CONFIG.MUSCLES[sel])}</b> · <span class="num">${Math.round(body.raw[sel] * 2) / 2}</span> подх. за ${days} дн. · ${LV[body.lv(sel)]}</span><button class="muted" data-action="muscle-pick" data-m="${sel}" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>` : '<div class="text-[11px] muted text-center mt-2">Нажми на мышцу, чтобы увидеть подробности</div>'}
-        <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-3">${Object.keys(CONFIG.MUSCLES).map(m => { const l = body.lv(m), pw = body.raw[m] / (days / 7); return `<button class="ld-row ${sel === m ? 'sel' : ''}" data-action="muscle-pick" data-m="${m}"><span class="flex justify-between text-[10px]"><span class="${body.raw[m] ? '' : 'muted'}">${TN(CONFIG.MUSCLES[m])}</span><span class="num muted">${body.raw[m] ? Math.round(body.raw[m] * 2) / 2 + ' подх.' : '—'}</span></span>${this.bar(Math.min(1, pw / 20) * 100, this.LOAD_COL[l], 'mt-0.5')}</button>`; }).join('')}</div>
+        ${sel ? `<div class="ld-info"><i style="background:${this.LOAD_COL[body.lv(sel)]};border:1px solid var(--line)"></i><span class="flex-1 min-w-0"><b>${TN(CONFIG.MUSCLES[sel])}</b> · <span class="num">${Math.round(body.raw[sel] * 2) / 2}</span> подх. за ${days} дн. · ${LV[body.lv(sel)]}</span><button class="muted" data-action="muscle-pick" data-m="${sel}" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>` : ''}
+        <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-3">${Object.keys(CONFIG.MUSCLES).map(m => { const l = body.lv(m), pw = body.raw[m] / (days / 7); return `<button class="ld-row ${sel === m ? 'sel' : ''}" data-action="muscle-pick" data-m="${m}"><span class="flex justify-between text-[11px]"><span class="${body.raw[m] ? '' : 'muted'}">${TN(CONFIG.MUSCLES[m])}</span><span class="num muted">${body.raw[m] ? Math.round(body.raw[m] * 2) / 2 : '—'}</span></span><span class="ld-bar"><i style="width:${Math.min(1, pw / 20) * 100}%"></i></span></button>`; }).join('')}</div>
         ${body.weak.length ? `<div class="mt-3 text-xs"><span class="text-or font-semibold"><svg class="ic "><use href="#fa-arrow-trend-up"/></svg> Не работали за ${days} дн.:</span> ${body.weak.map(m => TN(CONFIG.MUSCLES[m])).join(', ')}</div>` : '<div class="mt-3 text-xs text-em"><svg class="ic "><use href="#fa-check"/></svg> Все группы в работе</div>'}
       </div>
       ${S.game.season.history.length ? `<div class="card p-4 mb-4"><div class="font-bold mb-2"><svg class="ic "><use href="#fa-hourglass"/></svg> Сезоны</div>${S.game.season.history.map(s => `<div class="text-xs py-1 border-t line flex justify-between"><span>${s.id}</span><span>${Calc.arena(s.arenaIdx).name} · ${s.trophies} ${this.trophyIcon} · +${s.reward} ${this.coinIcon}</span></div>`).join('')}</div>` : ''}`;
-    this.morph(this.$('#tab-profile'), html);
+    this.morph(this.$('#tab-profile'), html); this.watchFx(this.$('#tab-profile'));
     this.drawRadar(radar);
   },
   drawRadar(r) {
@@ -5148,7 +5264,7 @@ const UI = {
           <div class="pf-body"><div class="flex items-end gap-3"><span id="shop-avatar">${this.avFrame(this.avatarSVG(p.avatar, 64), p.avatar.pframe, acc)}</span><div class="min-w-0 pb-1"><div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nickname || '')}</div>${title ? `<div class="text-xs font-bold"><span class="${ts.cls || 'text-pu'}" style="${ts.style}" ${title.custom ? 'data-no-mt' : ''}>« ${U.esc(title.custom ? (p.customTitle || 'Свой титул') : title.name)} »</span></div>` : ''}</div></div></div></div>
         <div class="flex gap-2 items-center text-xs muted mb-1"><label class="btn btn-ghost btn-sm cursor-pointer"><svg class="ic"><use href="#fa-camera"/></svg> ${p.avatar.photo ? 'Другое фото' : 'Своё фото'}<input type="file" accept="image/*" class="hidden" data-action="avatar-photo"></label>${p.avatar.photo ? '<button class="btn btn-ghost btn-sm text-red-400" data-action="avatar-photo-remove"><svg class="ic"><use href="#fa-xmark"/></svg></button>' : ''}<span class="flex-1">Так тебя видят друзья и соперники</span></div>
         <div class="shop-h"><span><svg class="ic text-pu"><use href="#fa-mountain-sun"/></svg> Обложка профиля</span>${p.avatar.ptheme ? '<button class="chip" data-action="look-off" data-val="ptheme">снять</button>' : ''}</div>
-        <div class="grid grid-cols-2 gap-2">${U.styleList('ptheme').map((i, k) => { const it = U.ptheme(i.id), owned = p.owned.includes(i.id), on = p.avatar.ptheme === i.id; return `<button class="pt-tile ${on ? 'on' : ''} ${it.art === 'storm' ? 'th-storm' : ''}" style="background:${it.bg};--acc:${it.accent}" data-action="shop-item" data-id="${i.id}" data-key="pt-${i.id}">${this.pfx(it.fx, 7, k + 5)}<span class="pt-name">${i.name}</span><span class="pt-foot">${cost(i, owned, on)}</span>${i.price >= 1000 ? '<span class="pt-badge">ЛЕГЕНДА</span>' : i.price >= 650 ? '<span class="pt-badge">ЭПИК</span>' : ''}</button>`; }).join('')}</div>
+        <div class="grid grid-cols-2 gap-2">${U.styleList('ptheme').map((i, k) => { const it = U.ptheme(i.id), owned = p.owned.includes(i.id), on = p.avatar.ptheme === i.id; return `<button class="pt-tile ${on ? 'on' : ''} ${it.art === 'storm' ? 'th-storm' : ''}" style="background:${it.bg};--acc:${it.accent}" data-action="shop-item" data-id="${i.id}" data-key="pt-${i.id}"><span class="pt-name">${i.name}</span><span class="pt-foot">${cost(i, owned, on)}</span>${i.price >= 1000 ? '<span class="pt-badge">ЛЕГЕНДА</span>' : i.price >= 650 ? '<span class="pt-badge">ЭПИК</span>' : ''}</button>`; }).join('')}</div>
         <div class="shop-h"><span><svg class="ic text-em"><use href="#fa-circle-notch"/></svg> Рамка аватара</span>${p.avatar.pframe ? '<button class="chip" data-action="look-off" data-val="pframe">снять</button>' : ''}</div>
         <div class="grid grid-cols-3 gap-2">${U.styleList('pframe').map(i => { const owned = p.owned.includes(i.id), on = p.avatar.pframe === i.id; return `<button class="fr-tile ${on ? 'on' : ''}" data-action="shop-item" data-id="${i.id}" data-key="pf-${i.id}">${this.avFrame(this.avatarSVG(p.avatar, 50), i.id, i.color)}<b>${i.name}</b><small>${cost(i, owned, on)}</small></button>`; }).join('')}</div>`;
     } else if (t === 'title') body = `<div>
@@ -6396,7 +6512,7 @@ Object.assign(UI, {
   // v30: экран входа на весь экран в стиле главной + выбор языка сверху
   authTop(back) {
     const L = S.profile.lang || 'ru', open = !!this._auLang;
-    return `<div class="au-top">${back ? `<button class="back-btn" data-action="auth-mode" data-val="welcome" aria-label="Назад"><svg class="ic"><use href="#fa-arrow-left"/></svg></button><span class="au-brand"></span>` : `<img class="app-logo" src="${CONFIG.LOGO}" alt=""><span class="au-brand" data-no-mt>Flexo League</span>`}
+    return `<div class="au-top">${back ? `<button class="back-btn" data-action="auth-mode" data-val="welcome" aria-label="Назад"><svg class="ic"><use href="#fa-arrow-left"/></svg></button><span class="au-brand"></span>` : `${LOGO_SVG()}<span class="au-brand" data-no-mt>Flexo League</span>`}
       <button class="au-lang" data-action="auth-lang-toggle" aria-label="${T('language')}"><svg class="ic"><use href="#fa-earth"/></svg><span data-no-mt>${I18N.langs[L] || L}</span><svg class="ic"><use href="#fa-chevron-${open ? 'up' : 'down'}"/></svg></button></div>
       ${open ? `<div class="au-langs">${Object.keys(I18N.langs).map(l => `<button class="${l === L ? 'on' : ''}" data-action="auth-lang" data-val="${l}" data-no-mt>${I18N.langs[l]}${l === L ? '<svg class="ic"><use href="#fa-check"/></svg>' : ''}</button>`).join('')}</div>` : ''}`;
   },
@@ -6415,7 +6531,7 @@ Object.assign(UI, {
       <div class="au-feats">${feat('#10B981', 'fa-dumbbell', 'Тренировки', 'подходы и рекорды')}${feat('#F59E0B', 'fa-trophy', 'Арены', `${nAr} арен и ${nLg} лиг`)}${feat('#8B5CF6', 'fa-shield-halved', 'Кланы', 'битвы недели')}</div>
       <div class="au-fill"></div>
       ${this.oauthBtns(false)}
-      <button class="btn btn-primary w-full py-3.5 mt-2" data-action="auth-mode" data-val="register"><svg class="ic"><use href="#fa-envelope"/></svg> Зарегистрироваться по email</button>
+      <button class="btn btn-ghost w-full py-3.5 mt-2" data-action="auth-mode" data-val="register"><svg class="ic"><use href="#fa-envelope"/></svg> Зарегистрироваться по email</button>
       <div class="text-sm text-center mt-4">Уже есть аккаунт? <button class="link font-bold" data-action="auth-mode" data-val="login">Войти</button></div>
       <div id="ob-err" class="text-xs text-red-400 mt-2 text-center">${err}</div>${legal}`;
     else if (mode === 'register') html = `${this.authTop(true)}
@@ -6463,11 +6579,11 @@ Object.assign(UI, {
       <div id="ob-err" class="text-xs text-red-400 mt-2"></div>
       <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-ghost" data-action="auth-mode" data-val="register">Другой email</button><button class="btn btn-ghost" data-action="auth-resend" id="cw-resend">Отправить ещё раз</button></div>
     </div>`;
-    this.modal(`<div class="auth"><div class="au-top"><img class="app-logo" src="${CONFIG.LOGO}" alt=""><span class="au-brand" data-no-mt>Flexo League</span></div><div class="mt-6"></div>${html}</div>`, { center: true, closable: false }).classList.add('auth-full'); this._authOpen = true;
+    this.modal(`<div class="auth"><div class="au-top">${LOGO_SVG()}<span class="au-brand" data-no-mt>Flexo League</span></div><div class="mt-6"></div>${html}</div>`, { center: true, closable: false }).classList.add('auth-full'); this._authOpen = true;
     App.waitConfirm();
   },
   openNewPassword() { this.modal(`<div class="auth"><div class="font-black text-xl mb-1"><svg class="ic text-em"><use href="#fa-key"/></svg> Новый пароль</div><div class="text-xs muted mb-3">Ты вошёл по ссылке из письма. Придумай новый пароль.</div><div class="relative"><input class="input pr-11" id="np-pass" type="password" autocomplete="new-password" placeholder="Новый пароль, от 8 символов"><button type="button" class="pass-eye" data-action="pass-eye" data-for="np-pass"><svg class="ic"><use href="#fa-eye"/></svg></button></div><div id="ob-err" class="text-xs text-red-400 mt-2"></div><button class="btn btn-primary w-full mt-3 py-3" data-action="auth-newpass">Сохранить пароль</button></div>`, { center: true }); },
-  openAuthBusy(text) { this.modal(`<div class="text-center py-6"><div class="auth-medal mx-auto" style="width:84px"><img class="app-logo" src="${CONFIG.LOGO}" width="84" height="84" alt=""></div><div class="font-bold mt-3"><svg class="ic spin"><use href="#fa-circle-notch"/></svg> ${text}</div></div>`, { center: true, closable: false }); },
+  openAuthBusy(text) { this.modal(`<div class="text-center py-6"><div class="mx-auto" style="width:84px;color:var(--text)">${LOGO_SVG()}</div><div class="font-bold mt-3"><svg class="ic spin"><use href="#fa-circle-notch"/></svg> ${text}</div></div>`, { center: true, closable: false }); },
   /* ---------- мастер профиля после регистрации ---------- */
   GOALS: [['cut', 'fa-fire', 'Похудеть', 'дефицит калорий'], ['keep', 'fa-heart-pulse', 'Форма', 'поддержание'], ['strength', 'fa-dumbbell', 'Сила', 'рост рекордов'], ['bulk', 'fa-arrow-up', 'Масса', 'профицит']],
   ACTS: [['low', 'Мало двигаюсь'], ['mid', 'Средне'], ['high', 'Много']],
@@ -6591,7 +6707,7 @@ Object.assign(UI, {
     else if (t === 'data') body = `<div class="set-grp mb-2"><button class="set-row" data-action="export-data"><span class="set-ic" style="--c:#10B981"><svg class="ic"><use href="#fa-download"/></svg></span><span class="flex-1 text-left text-sm font-semibold">${T('export')}<span class="block text-[11px] muted font-normal">файл JSON со всеми данными</span></span></button>
         <button class="set-row" data-action="reset-data"><span class="set-ic" style="--c:#EF4444"><svg class="ic"><use href="#fa-trash"/></svg></span><span class="flex-1 text-left text-sm font-semibold text-red-400">${T('reset')}<span class="block text-[11px] muted font-normal">стереть данные на этом телефоне</span></span></button></div>`;
     else if (t === 'invite') body = this.inviteHtml();
-    else if (t === 'about') body = `<div class="text-center mb-3"><div class="mx-auto" style="width:72px"><img class="app-logo" src="${CONFIG.LOGO}" width="72" height="72" alt=""></div><div class="font-black text-lg mt-1">Flexo League</div><div class="text-[11px] muted">версия ${CONFIG.APP_VERSION}</div></div>
+    else if (t === 'about') body = `<div class="text-center mb-3"><div class="mx-auto" style="width:84px;color:var(--text)">${LOGO_SVG()}</div><div class="font-black text-lg mt-1">Flexo League</div><div class="text-[11px] muted">версия ${CONFIG.APP_VERSION}</div></div>
       <div class="set-grp">${[['open-rules', 'fa-file-lines', 'Правила сообщества'], ['legal-privacy', 'fa-user-shield', 'Политика конфиденциальности'], ['legal-terms', 'fa-scale', 'Условия использования'], ['ob-replay', 'fa-sparkles', 'Показать обучение ещё раз']].map(([a, ic, l]) => `<button class="set-row" data-action="${a}"><svg class="ic muted"><use href="#${ic}"/></svg><span class="flex-1 text-left text-sm font-semibold">${l}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>`).join('')}</div>
       ${CONFIG.SUPPORT_EMAIL ? `<div class="text-[11px] muted mt-3 text-center">Поддержка: <b data-no-mt>${U.esc(CONFIG.SUPPORT_EMAIL)}</b></div>` : ''}`;
     else body = this.statsHtml();
@@ -7423,7 +7539,9 @@ const App = {
   },
 };
 
-document.addEventListener('DOMContentLoaded', () => { App.init(); setTimeout(() => Game.translateExercises(), 4000); });
+// v32: загрузочный экран держим, пока приложение запускается (не меньше одного захода анимации, не дольше 5 с)
+function bootHide() { const b = document.getElementById('boot'); if (!b || b._done) return; b._done = true; setTimeout(() => { b.classList.add('out'); setTimeout(() => { const v = b.querySelector('video'); if (v) { try { v.pause(); v.removeAttribute('src'); v.load(); } catch (_) {} } b.remove(); }, 320); }, Math.max(0, 1500 - (Date.now() - (b._t0 || 0)))); }
+document.addEventListener('DOMContentLoaded', () => { const cap = setTimeout(bootHide, 5000); Promise.resolve().then(() => App.init()).catch(e => console.warn('init', e)).finally(() => { clearTimeout(cap); bootHide(); }); setTimeout(() => Game.translateExercises(), 4000); });
 </script>
 </body>
 </html>
