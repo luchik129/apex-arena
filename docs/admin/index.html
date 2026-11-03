@@ -242,7 +242,7 @@ const EX = { 'Bench Press': 'Жим лёжа', 'Incline Bench': 'Жим на н�
 const exRu = e => EX[e] || e;
 const plural = (n, a, b, c) => { const m = Math.abs(n) % 100, k = m % 10; return m > 10 && m < 20 ? c : k === 1 ? a : k >= 2 && k <= 4 ? b : c; };
 const REASON = { cheat: 'Накрутка, фейк', abuse: 'Оскорбления', spam: 'Спам', nsfw: 'Неприемлемое', other: 'Другое' };
-const WHY = { ratio: ['rd', 'тяжелее нормы для веса тела'], jump: ['or', 'резкий скачок'], record: ['rd', 'выше мирового рекорда'] };
+const WHY = { ratio: ['rd', 'тяжелее нормы для веса тела'], jump: ['or', 'резкий скачок'], growth: ['or', 'рост >25% за 30 дней'], top: ['pu', 'попадает в топ-10'], record: ['rd', 'выше мирового рекорда'] };
 const ACTIONS = { review_approve: 'Одобрил подход', review_reject: 'Отклонил подход', ban: 'Забанил', unban: 'Разбанил', adjust_trophies: 'Изменил кубки', adjust_coins: 'Изменил монеты', reset_ex: 'Сбросил рекорд', trust: 'Отметил проверенным', untrust: 'Снял «проверенный»', note: 'Заметка', scan: 'Скан базы', rules: 'Правила анти-чита', report_dismiss: 'Жалобы ложные', report_ok: 'Жалобы закрыты', report_hide: 'Скрыл по жалобе', report_delete: 'Удалил по жалобе', post_hide: 'Скрыл пост', post_unhide: 'Вернул пост', post_delete: 'Удалил пост', team_add: 'Добавил модератора', team_remove: 'Убрал модератора' };
 function av(p, cls = '') { const src = safeImg(p && p.avatar); const n = (p && (p.nickname || p.author_nick)) || '?'; return `<span class="av ${cls}">${src ? `<img src="${esc(src)}" alt="">` : esc(String(n).slice(0, 1).toUpperCase())}</span>`; }
 function ratioCls(r) { return r >= 2.5 ? 'hi' : r >= 1.8 ? 'mid' : 'ok'; }
@@ -422,7 +422,7 @@ function reviewCard(r) {
         <div class="grow">
           <div class="muted" style="font-weight:700">${esc(exRu(r.ex))} ${r.kind && r.kind !== 'other' && !EX[r.ex] ? `<span class="chip">${esc(r.kind)}</span>` : ''}</div>
           <div class="big num" style="margin:4px 0">${r.weight ? `${fmt(r.weight)} <span style="font-size:16px" class="muted">кг × ${r.reps || 1}</span>` : `${fmt(r.e1rm)} <span style="font-size:16px" class="muted">кг e1RM</span>`}</div>
-          <div class="muted" style="font-size:13px">e1RM <b class="num" style="color:var(--tx)">${kg(r.e1rm)}</b> · вес тела <b class="num" style="color:var(--tx)">${kg(r.bodyweight)}</b> · был рекорд <b class="num" style="color:var(--tx)">${prev ? kg(prev) : 'нет'}</b>${jump != null ? ` <span class="chip ${jump > 25 ? 'or' : ''}">+${jump}%</span>` : ''}</div>
+          <div class="muted" style="font-size:13px">e1RM <b class="num" style="color:var(--tx)">${kg(r.e1rm)}</b> · вес тела <b class="num" style="color:var(--tx)">${kg(r.bodyweight)}</b> · был рекорд <b class="num" style="color:var(--tx)">${prev ? kg(prev) : 'нет'}</b>${jump != null ? ` <span class="chip ${jump > 15 ? 'or' : ''}">+${jump}%</span>` : ''}</div>
         </div>
       </div>
       <div class="row wrap" style="gap:6px;margin-top:12px">${(r.reasons || []).map(x => `<span class="chip ${(WHY[x] || ['', ''])[0]}">${esc((WHY[x] || ['', x])[1])}</span>`).join('')}<span class="chip">${r.source === 'app' ? 'из приложения' : r.source === 'scan' ? 'найден сканом' : 'найден сервером'}</span><span class="chip">${dt(r.created_at)}</span></div>
@@ -569,7 +569,7 @@ VIEWS.player = async (v, alive) => {
     S.ptab = k; v.querySelectorAll('#ptabs button').forEach(b => b.classList.toggle('on', b.dataset.t === k)); v.querySelector('#ptab').innerHTML = body[k]();
     if (k === 'lifts') {
       const draw = () => { const ex = v.querySelector('#lex').value; const xs = lifts.filter(l => !ex || l.exerciseName === ex);
-        v.querySelector('#ltab').innerHTML = `<table class="t"><thead><tr><th>Дата</th><th>Упражнение</th><th>Вес × повт.</th><th>e1RM</th><th>×вес</th><th>Отметки</th></tr></thead><tbody>${xs.slice(0, 300).map(l => { const r = bw ? l.e1rm / bw : null, sus = r != null && r > lim(l.exerciseName) && l.e1rm >= (rules.min_kg || 60); return `<tr class="${l.flagged ? 'bad' : sus ? 'sus' : ''}"><td class="num">${esc(l.date)}</td><td>${esc(exRu(l.exerciseName))}</td><td class="num">${fmt(l.weight)} × ${esc(l.reps || 1)}</td><td class="num"><b>${fmt(l.e1rm)}</b></td><td class="num">${r != null ? r.toFixed(2) + '×' : '—'}</td><td><div class="row wrap" style="gap:4px">${l.isPR ? '<span class="chip pu">PR</span>' : ''}${l.flagged ? '<span class="chip rd">помечен</span>' : ''}${l.review ? `<span class="chip or">${esc(l.review)}</span>` : ''}${l.confirmed ? '<span class="chip">подтвердил сам</span>' : ''}${l.warmup ? '<span class="chip">разминка</span>' : ''}</div></td></tr>`; }).join('') || '<tr><td colspan="6" class="muted">Нет подходов</td></tr>'}</tbody></table>`; };
+        v.querySelector('#ltab').innerHTML = `<table class="t"><thead><tr><th>Дата</th><th>Упражнение</th><th>Вес × повт.</th><th>e1RM</th><th>×вес</th><th>Отметки</th></tr></thead><tbody>${xs.slice(0, 300).map(l => { const r = bw ? l.e1rm / bw : null, sus = r != null && r > lim(l.exerciseName) && l.e1rm >= (rules.min_kg || 60); return `<tr class="${l.flagged ? 'bad' : sus ? 'sus' : ''}"><td class="num">${esc(l.date)}</td><td>${esc(exRu(l.exerciseName))}</td><td class="num">${fmt(l.weight)} × ${esc(l.reps || 1)}</td><td class="num"><b>${fmt(l.e1rm)}</b></td><td class="num">${r != null ? r.toFixed(2) + '×' : '—'}</td><td><div class="row wrap" style="gap:4px">${l.isPR ? '<span class="chip pu">PR</span>' : ''}${l.flagged ? '<span class="chip rd">' + (l.review === 'pending' ? 'на проверке' : l.review === 'approved' ? 'одобрен' : 'помечен') + '</span>' : ''}${l.review ? `<span class="chip or">${esc(l.review)}</span>` : ''}${l.confirmed ? '<span class="chip">подтвердил сам</span>' : ''}${l.warmup ? '<span class="chip">разминка</span>' : ''}</div></td></tr>`; }).join('') || '<tr><td colspan="6" class="muted">Нет подходов</td></tr>'}</tbody></table>`; };
       v.querySelector('#lex').onchange = draw; draw();
     }
     v.querySelectorAll('[data-post]').forEach(b => b.onclick = async () => { if (b.dataset.a === 'delete' && !(await confirmBox('Удалить пост?', 'Это нельзя отменить.', 'Удалить'))) return; await act(() => rpc('admin_post_action', { p_id: b.dataset.post, p_action: b.dataset.a }), 'Готово').catch(() => {}); render(); });
@@ -643,10 +643,15 @@ VIEWS.settings = async (v, alive) => {
     <div class="card pad">
       <div class="row"><div class="grow"><b>Анти-чит</b><div class="muted" style="font-size:13px">Подход уходит на проверку, если он тяжелее порога × вес тела, резко вырос от прошлого рекорда или выше мирового рекорда. Пока подход на проверке, кубков за него нет и в рейтинг он не попадает.</div></div><button class="sw ${R.enabled ? 'on' : ''}" id="en" aria-label="Включить"></button></div>
       <div class="kv" style="margin-top:14px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
-        <div><span>Скачок от прошлого рекорда, %</span><input class="inp num" id="jump" type="number" step="1" value="${Math.round((R.jump || 0.25) * 100)}" style="margin-top:6px"></div>
+        <div><span>Скачок от прошлого рекорда, %</span><input class="inp num" id="jump" type="number" step="1" value="${Math.round((R.jump || 0.15) * 100)}" style="margin-top:6px"></div>
         <div><span>Не проверять легче, кг e1RM</span><input class="inp num" id="mink" type="number" step="5" value="${R.min_kg || 60}" style="margin-top:6px"></div>
         <div><span>Множитель для девушек</span><input class="inp num" id="fem" type="number" step="0.01" value="${R.female || 0.72}" style="margin-top:6px"></div>
+        <div><span>Рост за 30 дней, % <span class="muted">0 = выкл</span></span><input class="inp num" id="growth" type="number" step="1" value="${Math.round((R.growth != null ? R.growth : 0.25) * 100)}" style="margin-top:6px"></div>
+        <div><span>Топ-N рейтинга на проверку <span class="muted">0 = выкл</span></span><input class="inp num" id="top" type="number" step="1" value="${R.top != null ? R.top : 10}" style="margin-top:6px"></div>
+        <div><span>Топ проверять с, кг e1RM</span><input class="inp num" id="topmin" type="number" step="5" value="${R.top_min || 100}" style="margin-top:6px"></div>
+        <div><span>Топ проверять, когда игроков в рейтинге от</span><input class="inp num" id="topfrom" type="number" step="1" value="${R.top_from || 30}" style="margin-top:6px"></div>
       </div>
+      <div class="muted" style="font-size:12px;margin-top:10px">Вес тела для проверки берётся минимальный за последние 30 дней, поэтому накрутка веса тела не поднимает лимиты. Монеты на сервере растут не больше чем на 1000 в день (кроме выданных модератором).</div>
     </div>
     <h2 class="h">Пороги: во сколько раз тяжелее веса тела <span class="muted">e1RM / вес тела</span></h2>
     <div class="rules-grid" id="rg">${keys.map(k => `<label><span>${esc(exRu(k))}</span><input class="inp num" type="number" step="0.05" data-k="${esc(k)}" value="${esc(R.ratio[k])}"></label>`).join('')}</div>
@@ -660,7 +665,9 @@ VIEWS.settings = async (v, alive) => {
   v.querySelector('[data-save]').onclick = async () => {
     v.querySelectorAll('[data-k]').forEach(i => { const x = parseFloat(i.value); if (x > 0) R.ratio[i.dataset.k] = x; });
     v.querySelectorAll('[data-rec]').forEach(i => { const x = parseFloat(i.value); if (x > 0) R.record[i.dataset.rec] = x; });
-    R.jump = Math.max(0.05, (parseFloat(v.querySelector('#jump').value) || 25) / 100); R.min_kg = Math.max(0, parseFloat(v.querySelector('#mink').value) || 60); R.female = Math.min(1, Math.max(0.3, parseFloat(v.querySelector('#fem').value) || 0.72));
+    R.jump = Math.max(0.05, (parseFloat(v.querySelector('#jump').value) || 15) / 100); R.min_kg = Math.max(0, parseFloat(v.querySelector('#mink').value) || 60); R.female = Math.min(1, Math.max(0.3, parseFloat(v.querySelector('#fem').value) || 0.72));
+    const num = (id, d) => { const x = parseFloat(v.querySelector(id).value); return isNaN(x) ? d : x; };
+    R.growth = Math.max(0, num('#growth', 25) / 100); R.top = Math.max(0, Math.round(num('#top', 10))); R.top_min = Math.max(0, num('#topmin', 100)); R.top_from = Math.max(0, Math.round(num('#topfrom', 30)));
     try { S.rules = await act(() => rpc('admin_rules_set', { p_rules: R }), 'Правила сохранены. Приложения подхватят их при следующем входе в сеть.'); } catch (_) {}
   };
   v.querySelectorAll('[data-rm]').forEach(b => b.onclick = async () => { if (await confirmBox('Убрать модератора?', 'Он потеряет доступ к админке.', 'Убрать')) { await act(() => rpc('admin_team_set', { p_user: b.dataset.rm, p_on: false }), 'Убран').catch(() => {}); render(); } });
