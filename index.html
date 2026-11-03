@@ -934,7 +934,7 @@ const CONFIG = {
   WEEKLY_BONUS_WORKOUTS: 3,
   CHEAT_JUMP: 0.15,
   // v30: правила анти-чита (сервер присылает актуальные из админки; это запасные). Подход выше порога уходит модератору.
-  AC_RULES: { enabled: true, ratio: { 'Bench Press': 2.0, 'Incline Bench': 1.8, 'Overhead Press': 1.4, 'Squat': 2.7, 'Deadlift': 3.0, 'Romanian Deadlift': 2.6, 'Barbell Row': 1.8, 'Pull-ups': 2.2, 'Dips': 2.4, 'Leg Press': 6.0, 'Lunges': 2.0, 'Hip Thrust': 4.0, 'Bicep Curl': 1.0, 'Lateral Raise': 0.6, 'Calf Raise': 4.0, bench: 2.0, squat: 2.7, deadlift: 3.0, other: 3.0 }, record: { bench: 355, squat: 490, deadlift: 505 }, female: 0.72, jump: 0.25, min_kg: 60 },
+  AC_RULES: { enabled: true, ratio: { 'Bench Press': 2.0, 'Incline Bench': 1.8, 'Overhead Press': 1.4, 'Squat': 2.7, 'Deadlift': 3.0, 'Romanian Deadlift': 2.6, 'Barbell Row': 1.8, 'Pull-ups': 2.2, 'Dips': 2.4, 'Leg Press': 6.0, 'Lunges': 2.0, 'Hip Thrust': 4.0, 'Bicep Curl': 1.0, 'Lateral Raise': 0.6, 'Calf Raise': 4.0, bench: 2.0, squat: 2.7, deadlift: 3.0, other: 3.0 }, record: { bench: 355, squat: 490, deadlift: 505 }, female: 0.72, jump: 0.15, min_kg: 60 },
   // античит: предел e1RM (кг) — абсолютный (около мирового рекорда) и в долях веса тела
   LIFT_CAPS: { bench: [355, 3.2], squat: [490, 4.2], deadlift: [505, 4.5], other: [400, 4.5] },
   DAY_TROPHY_CAP: 100,
@@ -1343,7 +1343,7 @@ const Calc = {
     if (S.profile.sex === 'f') lim *= (r.female || 0.72);
     const bw = +S.profile.bodyweight || 0; if (bw > 0 && e > bw * lim) out.push('ratio');
     const prev = prevOverride != null ? prevOverride : Calc.bestE1rm(ex, Calc.validLifts().filter(l => l.id !== lift.id));
-    if (prev > 0 && e > prev * (1 + (r.jump || 0.25))) out.push('jump');
+    if (prev > 0 && e > prev * (1 + (r.jump || 0.15))) out.push('jump');
     return out;
   },
   isSuspicious(lift) { // античит: скачок e1RM >15% от лучшего за раз
@@ -1518,6 +1518,7 @@ const Game = {
     if (capErr) return { rejected: true, error: capErr, exerciseName };
     const fresh = date >= U.addDays(U.today(), -1); // задним числом рекорды и кубки не даём
     const why = warmup ? [] : Calc.reviewReasons(lift);
+    if (!warmup && !why.length && Calc.isSuspicious(lift)) why.push('jump'); // v31: любой помеченный подход идёт модератору
     if (why.length) { lift.review = 'pending'; lift.reviewWhy = why; lift.fresh = fresh; } // v30: кубки только после одобрения модератором
     lift.flagged = !warmup && (why.length > 0 || Calc.isSuspicious(lift));
     if (lift.flagged) { lift.verified = false; }
@@ -1554,7 +1555,7 @@ const Game = {
     return lift;
   },
   deleteLift(id) { S.lifts = S.lifts.filter(l => l.id !== id); save(); },
-  confirmLift(id) { const l = S.lifts.find(x => x.id === id); if (!l || !l.flagged || l.review) return; const why = Calc.reviewReasons(l); if (why.length) { l.review = 'pending'; l.reviewWhy = why; l.fresh = false; save(); if (typeof Mod !== 'undefined') Mod.submit(l); return 'review'; } l.flagged = false; l.verified = true; l.confirmed = true; const pb = S.game.paidBest || (S.game.paidBest = {}); pb[l.exerciseName] = Math.max(pb[l.exerciseName] || 0, l.e1rm); save(); },
+  confirmLift(id) { const l = S.lifts.find(x => x.id === id); if (!l || !l.flagged || l.review) return; const why = Calc.reviewReasons(l); if (!why.length) why.push('jump'); { l.review = 'pending'; l.reviewWhy = why; l.fresh = false; save(); if (typeof Mod !== 'undefined') Mod.submit(l); return 'review'; } l.flagged = false; l.verified = true; l.confirmed = true; const pb = S.game.paidBest || (S.game.paidBest = {}); pb[l.exerciseName] = Math.max(pb[l.exerciseName] || 0, l.e1rm); save(); },
   // v29: сундук за засчитанную тренировку (содержимое выдаётся сразу, окно — только показ)
   rollChest(kind = 'normal') {
     const b = this.boosts(), gold = kind === 'gold', out = { kind, coins: U.rnd(gold ? 35 : 15, gold ? 60 : 35), items: [] };
@@ -3586,6 +3587,8 @@ const Mod = {
     if (!Net.online() || this._busy || (!force && Date.now() - this._at < 60000)) return;
     this._busy = true; this._at = Date.now();
     try {
+      const d30 = U.addDays(U.today(), -30); // v31: старые помеченные подходы (до модерации) тоже отправляем на проверку
+      S.lifts.forEach(l => { if (l.flagged && !l.review && !l.confirmed && !l.warmup && l.date >= d30) { l.review = 'pending'; l.reviewWhy = ['jump']; l.fresh = l.date >= U.addDays(U.today(), -1); } });
       S.lifts.filter(l => l.review === 'pending' && !l.reviewSent).forEach(l => this.submit(l)); // отправленные без сети
       const { data, error } = await Net.client.rpc('my_moderation'); if (error || !data) return;
       const notes0 = (S.modNotes || []).length, wasBan = !!S.ban;
@@ -3960,8 +3963,8 @@ const UI = {
     const html = `
       ${this.scheduleCard()}
       <button class="btn btn-primary w-full py-4 mb-4" data-action="open-log-set"><svg class="ic "><use href="#fa-plus"/></svg> ${T('log_set')}</button>
-      ${flagged.length ? `<div class="card p-3 mb-4" style="border-color:#F9731666"><div class="text-sm font-bold text-or"><svg class="ic "><use href="#fa-triangle-exclamation"/></svg> На проверке (${flagged.length})</div><div class="text-[11px] muted mb-2">${flagged.some(l => l.review === 'pending') ? 'Слишком большой вес для твоего веса тела или резкий скачок: модератор проверит подход, и если всё честно, кубки придут автоматически.' : 'Скачок больше 15% за раз: пока не учитывается в рекордах.'}</div>
-        ${flagged.map(l => `<div class="flex items-center justify-between text-xs py-1 border-t line"><span>${U.exRu(l.exerciseName)} · ${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span><span class="flex items-center gap-3">${l.review === 'pending' ? '<span class="chip text-or">у модератора</span>' : `<button class="chip text-em" data-action="lift-confirm" data-id="${l.id}"><svg class="ic"><use href="#fa-check"/></svg> Это мой вес</button>`}<button class="text-red-400" data-action="delete-lift" data-id="${l.id}"><svg class="ic "><use href="#fa-trash"/></svg></button></span></div>`).join('')}<div class="text-[10px] muted mt-1">Если вес настоящий, подтверди: подход попадёт в рекорды и на график, но кубков за такой скачок не будет.</div></div>` : ''}
+      ${flagged.length ? `<div class="card p-3 mb-4" style="border-color:#F9731666"><div class="text-sm font-bold text-or"><svg class="ic "><use href="#fa-triangle-exclamation"/></svg> На проверке (${flagged.length})</div><div class="text-[11px] muted mb-2">Слишком большой вес для твоего веса тела или скачок больше 15% от рекорда: модератор проверит подход, и если всё честно, рекорд и кубки придут автоматически.</div>
+        ${flagged.map(l => `<div class="flex items-center justify-between text-xs py-1 border-t line"><span>${U.exRu(l.exerciseName)} · ${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span><span class="flex items-center gap-3">${l.review === 'pending' ? '<span class="chip text-or">у модератора</span>' : `<button class="chip text-em" data-action="lift-confirm" data-id="${l.id}"><svg class="ic"><use href="#fa-shield-halved"/></svg> На проверку</button>`}<button class="text-red-400" data-action="delete-lift" data-id="${l.id}"><svg class="ic "><use href="#fa-trash"/></svg></button></span></div>`).join('')}</div>` : ''}
       <div class="card p-4 mb-4" id="lift-card">
         <div class="mb-3">${this.dd('lift-ex', this.liftEx, names.map(n => [n, U.exRu(n)]), { add: true })}</div>
         <div class="flex gap-1.5 mb-3">${CONFIG.RM_CATS.map(c => `<button class="chip ${this.liftRMs.has(c) ? 'chip-on' : ''}" style="${this.liftRMs.has(c) ? `border-color:${rmColor[c]};color:${rmColor[c]}` : ''}" data-action="lift-rm-toggle" data-rm="${c}"><span class="w-2 h-2 rounded-full inline-block" style="background:${rmColor[c]}"></span> ${U.rmName(c)}</button>`).join('')}</div>
@@ -6221,7 +6224,7 @@ const App = {
     'wk-guide'(el) { const ex = el.dataset.ex, g = UI.guideFor(ex); UI.wkKeep(); UI.modal(`<div class="flex items-center justify-between mb-2"><button class="btn btn-ghost btn-sm" data-action="workout-resume"><svg class="ic"><use href="#fa-chevron-left"/></svg> К тренировке</button><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div><div class="font-black text-xl mb-2">${U.esc(U.exRu(ex))}</div>${UI.guideDetail(ex, g)}<button class="btn btn-primary w-full mt-3" data-action="workout-resume">Понятно, к тренировке</button>`); UI._inWorkout = true; },
     async 'ban-recheck'() { await Mod.sync(true); if (!S.ban) UI.toast('Блокировка снята', 'mod'); },
     async 'ban-logout'() { UI.closeModal(); S.ban = null; await Game.signOut(); UI.openAuth('login'); },
-    'lift-confirm'(el) { const r = Game.confirmLift(el.dataset.id); UI.toast(r === 'review' ? 'Вес слишком большой для самоподтверждения: подход отправлен модератору' : 'Подход подтверждён: он в рекордах и на графике (без кубков за рекорд)', r === 'review' ? 'mod' : 'bl'); if (el.dataset.reopen === 'workout') UI.openWorkout('free'); else UI.closeModal(); App.afterChange(); },
+    'lift-confirm'(el) { const r = Game.confirmLift(el.dataset.id); UI.toast('Подход отправлен модератору', 'mod'); if (el.dataset.reopen === 'workout') UI.openWorkout('free'); else UI.closeModal(); App.afterChange(); },
     'chest-open'() { const c = document.getElementById('chest'); if (!c || c.classList.contains('open')) return; c.classList.add('open'); if (!S.profile.reduceMotion) UI.confetti(70); },
     'chest-take'(el) { const st = el.dataset.starter; UI.closeModal(); App.afterChange(); if (st) App.maybeOnboard(true); },
     'finish-workout'(el) {
