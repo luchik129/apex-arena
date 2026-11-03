@@ -52,6 +52,10 @@ jobs:
           if [ -z "$KS_B64" ]; then echo "Нет ключа подписи — AAB пропускаем"; exit 0; fi
           echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
           export ANDROID_KEYSTORE_PATH="$RUNNER_TEMP/upload.jks"
+          # v29: имя ключа берём из самого файла (секрет с лишним пробелом/кавычками больше не ломает сборку)
+          A=$(keytool -list -keystore "$ANDROID_KEYSTORE_PATH" -storepass "$ANDROID_KEYSTORE_PASSWORD" 2>/dev/null | awk -F, '/PrivateKeyEntry/{print $1; exit}')
+          if [ -n "$A" ]; then export ANDROID_KEY_ALIAS="$A"; fi
+          if [ -z "$ANDROID_KEY_PASSWORD" ]; then export ANDROID_KEY_PASSWORD="$ANDROID_KEYSTORE_PASSWORD"; fi
           set -o pipefail
           ./gradlew bundleRelease --no-daemon 2>&1 | tee ../aab.log || { echo "::error::$(grep -n -i -B2 -A8 'what went wrong\|error:' ../aab.log | tail -c 3000 | sed ':a;N;$!ba;s/\n/%0A/g')"; exit 1; }
           cp app/build/outputs/bundle/release/app-release.aab ../flexo-league.aab
