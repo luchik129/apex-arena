@@ -934,7 +934,7 @@ const CONFIG = {
   WEEKLY_BONUS_WORKOUTS: 3,
   CHEAT_JUMP: 0.15,
   // v30: правила анти-чита (сервер присылает актуальные из админки; это запасные). Подход выше порога уходит модератору.
-  AC_RULES: { enabled: true, ratio: { 'Bench Press': 2.0, 'Incline Bench': 1.8, 'Overhead Press': 1.4, 'Squat': 2.7, 'Deadlift': 3.0, 'Romanian Deadlift': 2.6, 'Barbell Row': 1.8, 'Pull-ups': 2.2, 'Dips': 2.4, 'Leg Press': 6.0, 'Lunges': 2.0, 'Hip Thrust': 4.0, 'Bicep Curl': 1.0, 'Lateral Raise': 0.6, 'Calf Raise': 4.0, bench: 2.0, squat: 2.7, deadlift: 3.0, other: 3.0 }, record: { bench: 355, squat: 490, deadlift: 505 }, female: 0.72, jump: 0.15, min_kg: 60 },
+  AC_RULES: { enabled: true, ratio: { 'Bench Press': 2.0, 'Incline Bench': 1.8, 'Overhead Press': 1.4, 'Squat': 2.7, 'Deadlift': 3.0, 'Romanian Deadlift': 2.6, 'Barbell Row': 1.8, 'Pull-ups': 2.2, 'Dips': 2.4, 'Leg Press': 6.0, 'Lunges': 2.0, 'Hip Thrust': 4.0, 'Bicep Curl': 1.0, 'Lateral Raise': 0.6, 'Calf Raise': 4.0, bench: 2.0, squat: 2.7, deadlift: 3.0, other: 3.0 }, record: { bench: 355, squat: 490, deadlift: 505 }, female: 0.72, jump: 0.15, growth: 0.25, min_kg: 60 },
   // античит: предел e1RM (кг) — абсолютный (около мирового рекорда) и в долях веса тела
   LIFT_CAPS: { bench: [355, 3.2], squat: [490, 4.2], deadlift: [505, 4.5], other: [400, 4.5] },
   DAY_TROPHY_CAP: 100,
@@ -1341,10 +1341,23 @@ const Calc = {
     if (e < (r.min_kg != null ? r.min_kg : 60)) return out;
     const R = r.ratio || {}; let lim = R[ex] != null ? R[ex] : R[kind] != null ? R[kind] : (R.other || 3);
     if (S.profile.sex === 'f') lim *= (r.female || 0.72);
-    const bw = +S.profile.bodyweight || 0; if (bw > 0 && e > bw * lim) out.push('ratio');
+    const bw = Calc.acBw(); if (bw > 0 && e > bw * lim) out.push('ratio');
     const prev = prevOverride != null ? prevOverride : Calc.bestE1rm(ex, Calc.validLifts().filter(l => l.id !== lift.id));
     if (prev > 0 && e > prev * (1 + (r.jump || 0.15))) out.push('jump');
+    else if (r.growth > 0) { const base = Calc.growthBase(ex, lift.id); if (base > 0 && e > base * (1 + r.growth)) out.push('growth'); }
     return out;
+  },
+  // v31: вес тела для анти-чита — минимум за 30 дней (накрутка веса тела не поднимает лимиты)
+  acBw() {
+    const d30 = U.addDays(U.today(), -30), xs = [+S.profile.bodyweight || 0, +Calc.weightAt(d30) || 0, ...(S.health.weights || []).filter(w => w.date >= d30 || (w.ts || 0) > Date.now() - 30 * 864e5).map(w => +w.kg)].filter(x => x > 20);
+    return xs.length ? Math.min(...xs) : 0;
+  },
+  // v31: от чего считать рост за 30 дней — лучший результат, записанный 30+ дней назад (иначе самый первый), не ниже одобренного модератором
+  growthBase(ex, skipId) {
+    const xs = Calc.validLifts().filter(l => l.exerciseName === ex && l.id !== skipId); if (!xs.length) return 0;
+    const cut = Date.now() - 30 * 864e5, at = l => l.ts || Date.parse(l.date) || 0, old = xs.filter(l => at(l) <= cut);
+    const base = old.length ? Math.max(...old.map(l => l.e1rm)) : xs.slice().sort((a, b) => at(a) - at(b))[0].e1rm;
+    return Math.max(base, ...xs.filter(l => l.review === 'approved').map(l => l.e1rm));
   },
   isSuspicious(lift) { // античит: скачок e1RM >15% от лучшего за раз
     const best = Calc.bestE1rm(lift.exerciseName, Calc.validLifts().filter(l => l.id !== lift.id && l.date < lift.date));
