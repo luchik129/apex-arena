@@ -4,7 +4,7 @@ android {
     namespace "com.apexarena.app"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.apexarena.app"
+        applicationId "com.flexoleague.app" // v29: пакет в Google Play; namespace и схема ссылок com.apexarena.app остаются
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // v27: номер сборки растёт сам (GitHub Actions передаёт VERSION_CODE), Google Play требует новый номер на каждую загрузку
