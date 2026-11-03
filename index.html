@@ -1064,6 +1064,67 @@ body.modal-on #main .pfx,body.modal-on #main .pfx *{animation-play-state:paused!
 .boot-in svg{position:absolute;left:2.5%;top:18.5%;width:95%;height:auto;fill:#fff;animation:bootP 1.6s ease-in-out infinite}
 #boot.vid svg{display:none}
 @keyframes bootP{0%,100%{opacity:.35}50%{opacity:1}}
+/* ===== v33: без увеличения шрифтов системой, ничего не вылезает за край; ранги крупно и ярко ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{overflow-x:hidden;max-width:100%;overscroll-behavior:none}
+#app,#main{overflow-x:clip;max-width:100vw}
+.hdr-h{font-size:1.5rem}.hdr-logo{height:1.4rem}
+.hdr-rb{width:2.4rem;height:2.4rem}.hdr-coin{height:2.4rem;padding:0 .75rem 0 .6rem;font-size:.8rem}
+.hm-big{font-size:var(--bigfs,3.4rem);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.hm-nick{font-size:1.05rem}
+.hm-top .streak-ring{transform:scale(.88)}
+.rm-main{min-height:4.8rem;padding:.85rem 2.3rem .85rem .85rem}.rm-t{font-size:.9rem}
+.hm-tile{min-height:7.8rem;padding:.9rem}.hm-tt{font-size:.92rem}.hm-tv{font-size:1.05rem}
+.hm-cta{padding:.85rem 1.1rem!important;font-size:.95rem!important}
+#nav .nav-btn{height:3.1rem;font-size:.58rem}#nav .nav-btn .ic{width:1.2rem;height:1.2rem}
+#nav .nav-plus{width:3.6rem;height:3.6rem}
+.pf-nick{font-size:1.35rem}
+/* витрина ранга на главной — всегда тёмная карточка, цвет арены */
+.rk-show{position:relative;display:flex;align-items:center;gap:.8rem;width:100%;margin-top:1rem;padding:.8rem 1rem .8rem .5rem;border-radius:1.5rem;overflow:hidden;text-align:left;color:#fff;isolation:isolate;
+  background:radial-gradient(90% 140% at 12% 50%,color-mix(in srgb,var(--rc) 60%,transparent),transparent 62%),linear-gradient(120deg,color-mix(in srgb,var(--rc) 30%,#050506),#050506 75%);
+  border:1px solid color-mix(in srgb,var(--rc) 55%,transparent);box-shadow:0 10px 30px -14px var(--rc)}
+.rk-show:before{content:'';position:absolute;top:-40%;bottom:-40%;width:30%;left:-40%;z-index:-1;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);transform:skewX(-18deg);animation:rkShine 5.5s ease-in-out infinite}
+@keyframes rkShine{0%,60%{transform:translateX(0) skewX(-18deg)}100%{transform:translateX(560%) skewX(-18deg)}}
+.rk-medal{flex:none;display:block;filter:drop-shadow(0 0 16px var(--rc)) saturate(1.25) brightness(1.08)}
+.rk-medal .medal{filter:none}
+.rk-info{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.rk-kick{font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.rk-name{font-family:var(--disp);font-size:1.55rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;color:var(--rh);text-shadow:0 0 22px var(--rc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk-next{font-size:.72rem;color:rgba(255,255,255,.72);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk-next b{color:#fff}
+.rk-show .stars svg{width:15px;height:15px}
+.hm-hero{--ac:var(--rc)}
+.hm-ticks i.on{background:var(--rc)}.hm-ticks i.cur{background:var(--rh);box-shadow:0 0 8px var(--rc)}
+.rank-chip .medal{filter:drop-shadow(0 0 8px var(--c)) saturate(1.2)}
+/* повышение ранга: на весь экран */
+.modal-bg.rku-full{background:#000;align-items:stretch;justify-content:center}
+.modal-bg.rku-full .modal{margin:0;width:100%;max-width:28rem;height:100%;max-height:none;border:0;border-radius:0;background:#000;padding:0;display:flex;animation:none;overflow:hidden}
+.rku{position:relative;flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#fff;text-align:center;isolation:isolate;padding:calc(1.5rem + env(safe-area-inset-top)) 1.4rem calc(1.5rem + env(safe-area-inset-bottom))}
+.rku-burst{position:absolute;inset:0;z-index:-3;background:radial-gradient(55% 40% at 50% 42%,color-mix(in srgb,var(--rc) 80%,transparent),color-mix(in srgb,var(--rc) 22%,transparent) 55%,transparent 80%);animation:rkuBurst 1s cubic-bezier(.2,.8,.2,1) both}
+.rku-rays{position:absolute;left:50%;top:42%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;z-index:-2;background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--rh) 30%,transparent) 0 6deg,transparent 6deg 18deg);-webkit-mask:radial-gradient(closest-side,#000 10%,transparent 70%);mask:radial-gradient(closest-side,#000 10%,transparent 70%);animation:rkuSpin 26s linear infinite,rkuFade 1.2s ease both}
+.rku-flash{position:absolute;inset:0;z-index:3;background:#fff;pointer-events:none;animation:rkuFlash .7s ease-out both}
+.rku-in{position:relative;display:flex;flex-direction:column;align-items:center;width:100%}
+.rku-kick{font-size:.72rem;font-weight:900;letter-spacing:.3em;text-transform:uppercase;color:var(--rh);animation:rkuUp .5s .35s both}
+.rku-medal{margin:.6rem 0 .2rem;filter:drop-shadow(0 0 34px var(--rc)) saturate(1.3) brightness(1.1);animation:rkuMedal 1.1s .1s cubic-bezier(.2,1.5,.35,1) both}
+.rku-medal .medal{filter:none}
+.rku-name{font-family:var(--disp);font-size:2.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;color:#fff;text-shadow:0 0 30px var(--rc),0 0 2px var(--rh);animation:rkuUp .6s .55s both}
+.rku-stars{margin-top:.6rem;animation:rkuUp .5s .7s both}.rku-stars .stars svg{width:22px;height:22px}
+.rku-sub{font-size:.82rem;color:rgba(255,255,255,.7);margin-top:.6rem;animation:rkuUp .5s .8s both}
+.rku-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;margin-top:1rem;animation:rkuUp .5s .9s both}
+.rku-chips span{display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .8rem;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);font-weight:800;font-size:.85rem}
+.rku-next{margin-top:1.1rem;width:100%;max-width:18rem;animation:rkuUp .5s 1s both}
+.rku-next .bar{background:rgba(255,255,255,.12)}
+.rku-btn{margin-top:1.4rem;width:100%;max-width:18rem;background:#fff!important;color:#000!important;padding:.95rem!important;font-weight:900;animation:rkuUp .5s 1.1s both}
+@keyframes rkuBurst{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@keyframes rkuSpin{to{transform:rotate(360deg)}}
+@keyframes rkuFade{from{opacity:0}to{opacity:1}}
+@keyframes rkuFlash{from{opacity:.85}to{opacity:0}}
+@keyframes rkuMedal{0%{opacity:0;transform:scale(.15) rotate(-35deg)}60%{opacity:1}100%{transform:none}}
+@keyframes rkuUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.reduce-motion .rku-rays,.reduce-motion .rk-show:before{animation:none}
+.pf-avrow .rank-chip{flex:0 1 auto;min-width:0;max-width:calc(100% - 6.6rem)}
+.pf-avrow .rank-chip .min-w-0>span:last-child{flex-wrap:wrap}
+@media (max-width:370px){.nav2{gap:.4rem;margin:0 .5rem .5rem}#nav .nav-btn{font-size:.52rem;padding:0}#nav .nav-plus{width:3.2rem;height:3.2rem}.pf-body{padding:0 .85rem .9rem}.pf-st small{font-size:.56rem}.hm-stats{gap:.2rem}.rk-name{font-size:1.35rem}.rk-medal .medal{width:76px;height:76px}#main{padding-left:.85rem;padding-right:.85rem}}
 </style>
 </head>
 <body>
@@ -1261,7 +1322,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '32',
+  APP_VERSION: '33',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1522,6 +1583,8 @@ MT.SEED_V31 = {"en": {"Вулкан": "Volcano", "Сменить": "Change", "О
 Object.keys(MT.SEED_V31).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V31[l]));
 MT.SEED_V32 = {"en": {"меньше": "less", "больше": "more", "подходов в неделю": "sets per week"}, "uk": {"меньше": "менше", "больше": "більше", "подходов в неделю": "підходів на тиждень"}, "kk": {"меньше": "аз", "больше": "көп", "подходов в неделю": "аптасына тәсіл"}, "de": {"меньше": "weniger", "больше": "mehr", "подходов в неделю": "Sätze pro Woche"}, "es": {"меньше": "menos", "больше": "más", "подходов в неделю": "series por semana"}, "fr": {"меньше": "moins", "больше": "plus", "подходов в неделю": "séries par semaine"}, "tr": {"меньше": "az", "больше": "çok", "подходов в неделю": "haftalık set"}};
 Object.keys(MT.SEED_V32).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V32[l]));
+MT.SEED_V33 = {"en": {"Ур. {0}": "Lv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Star {0} of {1} · next in {2} trophies", "Арена {0} из {1} · от {2} кубков": "Arena {0} of {1} · from {2} trophies", "Лига {0} · от {1} кубков": "League {0} · from {1} trophies", "На этой арене есть Босс: силовой тест для перехода дальше": "This arena has a Boss: a strength test to move on", "Новая лига": "New league", "Все {0} звёзд: впереди новая арена": "All {0} stars: a new arena is next"}, "uk": {"Ур. {0}": "Рів. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Зірка {0} з {1} · наступна через {2} кубків", "Арена {0} из {1} · от {2} кубков": "Арена {0} з {1} · від {2} кубків", "Лига {0} · от {1} кубков": "Ліга {0} · від {1} кубків", "На этой арене есть Босс: силовой тест для перехода дальше": "На цій арені є Бос: силовий тест для переходу далі", "Новая лига": "Нова ліга", "Все {0} звёзд: впереди новая арена": "Усі {0} зірок: попереду нова арена"}, "kk": {"Ур. {0}": "{0}-деңгей", "Звезда {0} из {1} · следующая через {2} кубков": "{0}/{1} жұлдыз · келесісі {2} кубоктан кейін", "Арена {0} из {1} · от {2} кубков": "{1} аренадан {0} · {2} кубоктан", "Лига {0} · от {1} кубков": "{0}-лига · {1} кубоктан", "На этой арене есть Босс: силовой тест для перехода дальше": "Бұл аренада Босс бар: әрі өту үшін күш сынағы", "Новая лига": "Жаңа лига", "Все {0} звёзд: впереди новая арена": "Барлық {0} жұлдыз: алда жаңа арена"}, "de": {"Ур. {0}": "Lvl {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Stern {0} von {1} · nächster in {2} Trophäen", "Арена {0} из {1} · от {2} кубков": "Arena {0} von {1} · ab {2} Trophäen", "Лига {0} · от {1} кубков": "Liga {0} · ab {1} Trophäen", "На этой арене есть Босс: силовой тест для перехода дальше": "Diese Arena hat einen Boss: ein Krafttest, um weiterzukommen", "Новая лига": "Neue Liga", "Все {0} звёзд: впереди новая арена": "Alle {0} Sterne: als Nächstes eine neue Arena"}, "es": {"Ур. {0}": "Nv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Estrella {0} de {1} · la siguiente en {2} trofeos", "Арена {0} из {1} · от {2} кубков": "Arena {0} de {1} · desde {2} trofeos", "Лига {0} · от {1} кубков": "Liga {0} · desde {1} trofeos", "На этой арене есть Босс: силовой тест для перехода дальше": "Esta arena tiene un Jefe: una prueba de fuerza para avanzar", "Новая лига": "Nueva liga", "Все {0} звёзд: впереди новая арена": "{0} estrellas: sigue una nueva arena"}, "fr": {"Ур. {0}": "Niv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Étoile {0} sur {1} · prochaine dans {2} trophées", "Арена {0} из {1} · от {2} кубков": "Arène {0} sur {1} · dès {2} trophées", "Лига {0} · от {1} кубков": "Ligue {0} · dès {1} trophées", "На этой арене есть Босс: силовой тест для перехода дальше": "Cette arène a un Boss : un test de force pour avancer", "Новая лига": "Nouvelle ligue", "Все {0} звёзд: впереди новая арена": "{0} étoiles : une nouvelle arène t'attend"}, "tr": {"Ур. {0}": "Sv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Yıldız {0}/{1} · sonraki {2} kupa sonra", "Арена {0} из {1} · от {2} кубков": "Arena {0}/{1} · {2} kupadan itibaren", "Лига {0} · от {1} кубков": "Lig {0} · {1} kupadan itibaren", "На этой арене есть Босс: силовой тест для перехода дальше": "Bu arenada bir Patron var: ilerlemek için güç testi", "Новая лига": "Yeni lig", "Все {0} звёзд: впереди новая арена": "{0} yıldızın hepsi: sırada yeni arena"}};
+Object.keys(MT.SEED_V33).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V33[l]));
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -4353,25 +4416,30 @@ const UI = {
   /* ===================== v30: ГЛАВНАЯ ===================== */
   homeHero() {
     const p = S.profile, g = S.game, a = Calc.arena(), next = Calc.nextArena(), rk = Calc.rank(g.trophies, g.arenaIdx), lvl = Calc.level(g.xp), wk = Calc.weekLedger(), place = !next ? Calc.legendPlace() : null;
-    const pct = next ? U.clamp((g.trophies - a.min) / (next.min - a.min), 0, 1) : 1, N = 38, cur = Math.round(pct * (N - 2)), left = next ? Math.max(0, next.min - g.trophies) : 0;
+    const pct = next ? U.clamp((g.trophies - a.min) / (next.min - a.min), 0, 1) : 1, N = 34, cur = Math.round(pct * (N - 2)), left = next ? Math.max(0, next.min - g.trophies) : 0;
     const ticks = Array.from({ length: N }, (_, i) => `<i class="${i === N - 1 ? 'end' : i === cur ? 'cur' : i < cur ? 'on' : ''}"></i>`).join('');
     const wDone = Calc.workoutsInWeek(U.weekKey()), wT = U.clamp(p.weekTarget || 3, 2, 6), prs = S.lifts.filter(l => l.isPR && !l.flagged).length;
-    const st = (attrs, icon, color, val, label, on = false) => `<button class="hm-st ${on ? 'on' : ''}" ${attrs}><b class="num"><svg class="ic" style="color:${color}"><use href="#${icon}"/></svg>${val}</b><small>${label}</small></button>`;
-    return `<div class="hm-hero" style="--ac:${a.color}">
+    const big = String(g.trophies) + (next ? '/' + next.min : ''), fs = big.length <= 6 ? 3.4 : big.length <= 8 ? 2.9 : big.length <= 10 ? 2.4 : 2.05; // v33: длинное число не вылезает за край
+    const hi = this._mix(a.color, '#ffffff', .4), nAr = CONFIG.ARENAS.filter(x => !x.league).length;
+    const st = (attrs, icon, val, label) => `<button class="hm-st" ${attrs}><b class="num"><svg class="ic"><use href="#${icon}"/></svg>${val}</b><small>${label}</small></button>`;
+    return `<div class="hm-hero" style="--rc:${a.color};--rh:${hi}">
       <div class="hm-top">
-        <button class="flex-none" data-action="go-tab" data-tab="profile" aria-label="Профиль">${this.avFrame(this.avatarSVG(p.avatar, 50), p.avatar.pframe, a.color)}</button>
-        <button class="hm-who" data-action="go-tab" data-tab="profile"><span class="hm-nick" data-no-mt>${U.esc(p.nickname || '')}</span><span class="hm-rank">${this.medal(g.arenaIdx, { size: 20, anim: false })}<span class="truncate" style="color:${this._mix(a.color, '#ffffff', .25)}">${TN(a.name)}</span>${this.starsHtml(rk.stars)}</span></button>
-        <button class="streak-btn" data-action="streak-info" aria-label="Серия">${this.streakCircle(50)}</button>
+        <button class="flex-none" data-action="go-tab" data-tab="profile" aria-label="Профиль">${this.avFrame(this.avatarSVG(p.avatar, 44), p.avatar.pframe, a.color)}</button>
+        <button class="hm-who" data-action="go-tab" data-tab="profile"><span class="hm-nick" data-no-mt>${U.esc(p.nickname || '')}</span><span class="hm-rank"><span>Ур. ${lvl}</span></span></button>
+        <button class="streak-btn" data-action="streak-info" aria-label="Серия">${this.streakCircle(46)}</button>
       </div>
+      <button class="rk-show" data-action="open-road" data-key="rk-${g.arenaIdx}-${rk.stars}">
+        <span class="rk-medal">${this.medal(g.arenaIdx, { size: 88, stars: rk.stars, place, anim: false })}</span>
+        <span class="rk-info"><span class="rk-kick">${a.league ? `Лига ${a.id - nAr}` : `Арена ${a.id} из ${nAr}`}</span><span class="rk-name">${TN(a.name)}</span>${this.starsHtml(rk.stars)}<span class="rk-next">${next ? `<span>${TN(next.name)}</span> · <b class="num">${left}</b> ${this.trophyIcon}` : place ? `#${place}` : T('max_arena')}</span></span>
+      </button>
       <div class="hm-lbl"><span>Кубки</span>${wk ? `<span class="hm-delta ${wk < 0 ? 'neg' : ''}"><i><svg class="ic"><use href="#fa-arrow-up"/></svg></i><span class="num">${wk > 0 ? '+' : ''}${wk}</span> <span>за неделю</span></span>` : ''}</div>
-      <button class="hm-big num" data-action="open-road">${g.trophies}${next ? `<small>/${next.min}</small>` : ''}</button>
+      <button class="hm-big num" style="--bigfs:${fs}rem" data-action="open-road">${g.trophies}${next ? `<small>/${next.min}</small>` : ''}</button>
       <button class="hm-ticks w-full" data-action="open-road" aria-label="${T('trophy_road')}">${ticks}</button>
-      <div class="hm-ends"><span><b>${TN(a.name)}</b></span><span>${next ? `<span>${TN(next.name)}</span><span>·</span><span class="num">${left}</span> ${this.trophyIcon}` : place ? `#${place}` : T('max_arena')}</span></div>
       <div class="hm-stats">
-        ${st('data-action="go-tab" data-tab="lifts"', 'fa-dumbbell', '#10B981', `${Math.min(wDone, 99)}/${wT}`, 'за неделю', wDone >= wT)}
-        ${st('data-action="coins-info"', 'fa-coins', '#FACC15', g.coins, 'монеты')}
-        ${st('data-action="go-tab" data-tab="profile"', 'fa-star', '#FBBF24', lvl, 'уровень')}
-        ${st('data-action="open-records"', 'fa-crown', '#F97316', prs, 'рекорды')}
+        ${st('data-action="go-tab" data-tab="lifts"', 'fa-dumbbell', `${Math.min(wDone, 99)}/${wT}`, 'за неделю')}
+        ${st('data-action="coins-info"', 'fa-coins', g.coins, 'монеты')}
+        ${st('data-action="go-tab" data-tab="profile"', 'fa-star', lvl, 'уровень')}
+        ${st('data-action="open-records"', 'fa-crown', prs, 'рекорды')}
       </div>
     </div>`;
   },
@@ -4958,7 +5026,7 @@ const UI = {
         <div class="pf-body">
           <div class="pf-avrow">
             <button class="pf-av" data-action="open-shop" data-tab="look">${this.avFrame(this.avatarSVG(p.avatar, 92), p.avatar.pframe, acc)}<span class="pf-cam"><svg class="ic"><use href="#fa-camera"/></svg></span></button>
-            <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 34, anim: false })}<span class="min-w-0"><span class="block text-xs font-black truncate" style="color:${a.color}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
+            <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 44, anim: false })}<span class="min-w-0"><span class="block text-sm font-black truncate" style="color:${this._mix(a.color, '#ffffff', .35)}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
           </div>
           <div class="pf-nick" data-no-mt>${U.esc(p.nickname)}</div>${tt}
           <div class="pf-lvl"><b class="num">${lvl}</b><div class="flex-1">${this.bar(xpCur / xpNeed * 100, 'var(--text)')}</div><span class="muted num">${xpCur}/${xpNeed} XP</span></div>
@@ -5235,20 +5303,33 @@ const UI = {
       <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-ghost" data-action="close-modal">Закрыть</button><button class="btn btn-pu" data-action="share-pr" data-text="${U.esc(`🏆 Новый PR: ${U.exRu(lift.exerciseName)} ${U.w(lift.weight)} ${U.wUnit()} (${U.rmLabel(lift)}) · ${Calc.arena().name} · ${S.game.trophies} кубков · Flexo League`)}"><svg class="ic "><use href="#fa-share-nodes"/></svg> ${T('share')}</button></div>`, { center: true });
   },
   openArenaUp(arena, reward) {
-    this.confetti(140);
-    this.modal(`
-      <div class="text-center relative overflow-hidden py-3"><div class="rays"></div>
-        <div class="relative hero-up">
-          <div class="text-[11px] uppercase tracking-[.3em] muted font-bold">${T('new_arena')}</div>
-          <div class="medal-reveal my-2">${this.medal(arena.id - 1, { size: 170, stars: 1, pop: true })}</div>
-          <div class="text-3xl font-black" style="color:${arena.color}">${TN(arena.name)}</div>
-          <div class="mt-1">${this.starsHtml(1, 'lg')}</div><div class="muted text-sm mt-1">${arena.league ? 'Лига' : 'Арена'} ${arena.league ? arena.id - CONFIG.ARENAS.filter(x => !x.league).length : arena.id} · от ${arena.min} кубков</div>
-          <div class="flex justify-center gap-2 mt-3 flex-wrap">${reward.coins ? `<span class="chip">+${reward.coins} ${this.coinIcon}</span>` : ''}${reward.item ? `<span class="chip"><svg class="ic text-pu"><use href="#fa-gift"/></svg> ${U.shopItem(reward.item)?.name}</span>` : ''}</div>
-          ${arena.boss ? `<div class="text-xs text-or mt-3"><svg class="ic "><use href="#fa-dragon"/></svg> На этой арене есть Босс: силовой тест для перехода дальше</div>` : ''}
-        </div>
-      </div>
-      <button class="btn btn-primary w-full mt-3" data-action="close-modal">Вперёд!</button>`, { center: true });
+    const nAr = CONFIG.ARENAS.filter(x => !x.league).length, nx = CONFIG.ARENAS[arena.id];
+    this.rankUp({ idx: arena.id - 1, kick: arena.league ? 'Новая лига' : T('new_arena'), stars: 1, big: true,
+      sub: `${arena.league ? `Лига ${arena.id - nAr}` : `Арена ${arena.id} из ${nAr}`} · от ${arena.min} кубков`,
+      chips: [reward && reward.coins ? `+${reward.coins} ${this.coinIcon}` : '', reward && reward.item ? `<svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(reward.item)?.name || ''}` : ''],
+      note: arena.boss ? '<svg class="ic"><use href="#fa-dragon"/></svg> На этой арене есть Босс: силовой тест для перехода дальше' : '', next: nx, btn: 'Вперёд!' });
   },
+  // v33: праздник ранга — вспышка, лучи, медаль крупно, вибрация
+  rankUp(o) {
+    const a = CONFIG.ARENAS[U.clamp(o.idx, 0, CONFIG.ARENAS.length - 1)], hi = this._mix(a.color, '#ffffff', .45), g = S.game;
+    try { if (navigator.vibrate) navigator.vibrate(o.big ? [40, 70, 40, 70, 120] : [40, 60, 80]); } catch (_) {}
+    this.confetti(o.big ? 160 : 90);
+    const nx = o.next, pct = nx ? U.clamp((g.trophies - a.min) / (nx.min - a.min), 0, 1) * 100 : 100, chips = (o.chips || []).filter(Boolean);
+    const bg = this.modal(`<div class="rku" style="--rc:${a.color};--rh:${hi}"><div class="rku-burst"></div><div class="rku-rays"></div><div class="rku-flash"></div>
+      <div class="rku-in">
+        <div class="rku-kick">${o.kick}</div>
+        <div class="rku-medal">${this.medal(o.idx, { size: 200, stars: o.stars, pop: true })}</div>
+        <div class="rku-name">${TN(a.name)}</div>
+        <div class="rku-stars">${this.starsHtml(o.stars, 'lg')}</div>
+        <div class="rku-sub">${o.sub || ''}</div>
+        ${chips.length ? `<div class="rku-chips">${chips.map(c => `<span>${c}</span>`).join('')}</div>` : ''}
+        ${o.note ? `<div class="rku-sub" style="color:#FDBA74">${o.note}</div>` : ''}
+        ${nx ? `<div class="rku-next"><div class="flex justify-between text-[11px] mb-1" style="color:rgba(255,255,255,.7)"><span>Дальше: ${TN(nx.name)}</span><span class="num">${Math.max(0, nx.min - g.trophies)} ${this.trophyIcon}</span></div>${this.bar(pct, a.color)}</div>` : ''}
+        <button class="btn rku-btn" data-action="close-modal">${o.btn}</button>
+      </div></div>`, { center: true });
+    bg.classList.add('rku-full');
+  },
+
   openLevelUp(level, coins = 0) {
     this.modal(`<div class="text-center py-3"><div class="text-6xl lvl-up inline-block">⭐</div><div class="text-[11px] uppercase tracking-[.3em] text-pu font-bold mt-2">${T('level_up')}</div><div class="text-5xl font-black num">LVL ${level}</div>${coins ? `<div class="flex justify-center mt-3"><span class="chip">+${coins} ${this.coinIcon}</span></div>` : ''}</div><button class="btn btn-pu w-full mt-3" data-action="close-modal">Круто</button>`, { center: true });
   },
@@ -6239,17 +6320,10 @@ Object.assign(UI, {
   rankMedal(p, size = 28, o = {}) { const idx = p.arenaIdx || 0, r = Calc.rank(p.trophies || 0, idx); return this.medal(idx, { size, stars: size >= 40 ? r.stars : null, anim: false, ...o }); },
   // экран «новая звезда»
   openStarUp(idx, star, coins) {
-    const a = Calc.arena(idx);
-    this.modal(`<div class="text-center py-2 relative overflow-hidden"><div class="rays" style="--rc:${a.color}"></div>
-      <div class="relative">
-        <div class="text-[11px] uppercase tracking-[.3em] muted font-bold">Новая звезда</div>
-        <div class="medal-reveal my-2">${this.medal(idx, { size: 150, stars: star, pop: true })}</div>
-        <div class="text-2xl font-black" style="color:${a.color}">${TN(a.name)}</div>
-        <div class="mt-1">${this.starsHtml(star, 'lg')}</div>
-        ${coins ? `<div class="flex justify-center mt-3"><span class="chip">+${coins} ${this.coinIcon}</span></div>` : ''}
-      </div></div>
-      <button class="btn btn-primary w-full mt-3" data-action="close-modal">Дальше</button>`, { center: true });
+    const a = Calc.arena(idx), nx = CONFIG.ARENAS[idx + 1], rk = Calc.rank(S.game.trophies, idx);
+    this.rankUp({ idx, kick: 'Новая звезда', stars: star, sub: star < 5 ? `Звезда ${star} из 5 · следующая через ${rk.toStar} кубков` : 'Все 5 звёзд: впереди новая арена', chips: [coins ? `+${coins} ${this.coinIcon}` : ''], next: nx, btn: 'Дальше' });
   },
+
 });
 
 /* ======================= v22: ЛИДЕРБОРДЫ — пьедестал, медали, полоски ======================= */
