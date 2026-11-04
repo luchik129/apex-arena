@@ -1306,6 +1306,56 @@ body.vp-fs-on .fab,body.vp-fs-on #fab{visibility:hidden}
 .pfr>svg.rfr-o{position:absolute;left:50%;top:50%;border-radius:0;overflow:visible;pointer-events:none;z-index:1}
 .pf-av .rfr{margin-bottom:.5rem}
 /*V41CSS*/
+/* v43: кольцо калорий, блюда, подтверждение удаления */
+.kring{display:block;overflow:visible;flex:none}
+.kring .kr-f{transition:stroke-dasharray .7s cubic-bezier(.2,.8,.2,1),stroke-dashoffset .7s cubic-bezier(.2,.8,.2,1);animation:krin 1.1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes krin{from{stroke-dasharray:0 1000}}
+html.reduce-motion .kring .kr-f{animation:none;transition:none}
+.kr-big{font-family:var(--disp);font-weight:900;letter-spacing:-.04em}
+.mlg{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;width:100%;margin-top:.6rem}
+.mlg>div{min-width:0}
+.mlg small{display:block;font-size:.6rem;font-weight:800;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mlg b{display:block;font-size:.85rem;font-weight:800;margin-top:.1rem}
+.mlg b span{font-size:.6rem;color:var(--muted);font-weight:600;margin-left:.1rem}
+.mlg i{display:block;height:3px;border-radius:99px;background:color-mix(in srgb,var(--c) 20%,transparent);margin-top:.3rem;overflow:hidden}
+.mlg i:after{content:'';display:block;height:100%;width:var(--p);background:var(--c);border-radius:99px;transition:width .6s}
+.mbar+.mbar{margin-top:.65rem}
+.mbar-h{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem;font-size:.75rem;margin-bottom:.15rem}
+.mbar-h b{font-weight:800}.mbar-h em{font-style:normal;font-size:.65rem;color:var(--muted)}
+.nut-met{display:flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:700;color:var(--em);margin-top:.5rem}
+.meal-row{display:flex;align-items:center;gap:.75rem;width:100%;padding:.7rem .75rem;border-radius:1.1rem;background:var(--sub);border:1px solid var(--line);text-align:left;transition:transform .15s}
+.meal-row:active{transform:scale(.985)}
+.meal-row+.meal-row{margin-top:.45rem}
+.meal-ic{width:2.3rem;height:2.3rem;flex:none;border-radius:.8rem;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--line);font-size:1rem;color:var(--text)}
+.meal-n{display:block;font-size:.9rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meal-s{display:block;font-size:.66rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.1rem}
+.meal-k{text-align:right;flex:none;line-height:1.1}.meal-k b{display:block;font-size:.95rem;font-weight:900}.meal-k small{font-size:.58rem;color:var(--muted)}
+.meal-go{color:var(--muted);margin-left:-.25rem}
+.dish-back{display:flex;align-items:center;gap:.2rem;font-size:.8rem;font-weight:700;color:var(--muted)}
+.dish-t{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);font-family:var(--disp);font-weight:900;font-size:1.4rem;letter-spacing:-.03em;color:var(--text);padding:.1rem 0 .5rem;outline:none;border-radius:0}
+.dish-t:focus{border-color:var(--text)}
+.dish-list{border-radius:1.1rem;background:var(--sub);border:1px solid var(--line);padding:0 .75rem}
+.dish-it{padding:.65rem 0}.dish-it+.dish-it{border-top:1px solid var(--line)}
+.dish-row{display:flex;align-items:center;gap:.55rem}
+.dish-nm{display:block;width:100%;background:transparent;border:0;font-size:.88rem;font-weight:700;color:var(--text);outline:none;padding:0;text-overflow:ellipsis}
+.dish-nm:focus{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.dish-x{width:1.9rem;height:1.9rem;flex:none;border-radius:99px;display:flex;align-items:center;justify-content:center;color:var(--muted);margin-right:-.4rem}
+.dish-x:active{background:var(--card)}
+.dish-mac{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-top:.1rem}
+.dish-mac label{display:block;font-size:.58rem;color:var(--muted);font-weight:700}
+.dish-mac input{display:block;width:100%;background:var(--card);border:1px solid var(--line);border-radius:.65rem;padding:.4rem .45rem;font-size:.82rem;font-weight:700;color:var(--text);outline:none;margin-top:.15rem}
+.dish-row+.dish-mac{margin-top:.45rem}
+.dish-add{display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;padding:.65rem;border-radius:1rem;border:1px dashed var(--line);font-size:.75rem;font-weight:700;color:var(--muted);margin-top:.5rem}
+.dish-tot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.75rem .85rem;margin-top:.5rem}
+.dish-tot b{font-size:1.15rem;font-weight:900}.dish-tot small{font-size:.65rem;font-weight:600}
+.btn-del{background:transparent!important;border:1px solid color-mix(in srgb,#FF453A 45%,transparent)!important;color:#FF453A!important}
+.btn-del-solid{background:#FF453A!important;color:#fff!important;border-color:transparent!important}
+.del-ask{display:flex;flex-direction:column;align-items:center;text-align:center}
+.del-ic{width:3.2rem;height:3.2rem;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;color:#FF453A;background:color-mix(in srgb,#FF453A 14%,transparent);margin-bottom:.75rem}
+.del-name{font-size:.9rem;font-weight:700;margin-top:.35rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aif-title{display:block;width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);font-family:var(--disp);font-weight:900;font-size:1.05rem;letter-spacing:-.02em;color:var(--text);padding:.1rem 0 .4rem;margin-bottom:.6rem;outline:none;border-radius:0}
+.aif-title:focus{border-color:var(--text)}
+.aif-done{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}.aif-done small{font-size:.66rem}
 </style>
 </head>
 <body>
@@ -1507,7 +1557,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '42',
+  APP_VERSION: '43',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1776,6 +1826,9 @@ MT.SEED_V41 = {"en": {"Стандартная тема": "Default theme", "кк�
 Object.keys(MT.SEED_V41).forEach(l => Object.keys(MT.SEED_V41[l]).forEach(k => { if (!(MT.SEED_ADD[l] || {})[k] && !(MT.SEED[l] || {})[k]) (MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}))[k] = MT.SEED_V41[l][k]; }));
 MT.SEED_V42 = {"en": {"Качайся с друзьями.": "Train with friends.", "Побеждай в дуэлях и кланах.": "Win duels and clan wars.", "Тренировки приносят кубки, арены и победы твоему клану. Рейтинг честный: подозрительные рекорды проверяет модератор.": "Workouts earn trophies, arenas and wins for your clan. Fair ranking: suspicious records are checked by a moderator.", "неделя {0} на {1}": "{0} vs {1} for a week", "Честный рейтинг": "Fair ranking", "битвы недели": "weekly battles", "Отдых окончен": "Rest over", "Подход!": "Next set!", "авто": "auto", "Вызови на дуэль": "Challenge to a duel", "Неделя {0} на {1}: у кого больше тренировок и кубков": "{0} vs {1} for a week: most workouts and trophies wins", "В бой": "Fight", "Вступи в клан": "Join a clan", "Твои тренировки приносят победы команде": "Your workouts bring wins to the team", "Неделя один на один: с другом или случайным соперником": "One on one for a week: with a friend or a random opponent", "Таймер отдыха будет запускаться сам после каждого подхода": "The rest timer will start by itself after every set", "Автозапуск выключен: запускай таймер кнопкой ▶": "Auto-start off: start the timer with ▶", "Таймер отдыха": "Rest timer", "Пора делать следующий подход": "Time for your next set"}, "uk": {"Качайся с друзьями.": "Качайся з друзями.", "Побеждай в дуэлях и кланах.": "Перемагай у дуелях і кланах.", "Тренировки приносят кубки, арены и победы твоему клану. Рейтинг честный: подозрительные рекорды проверяет модератор.": "Тренування приносять кубки, арени й перемоги твоєму клану. Рейтинг чесний: підозрілі рекорди перевіряє модератор.", "неделя {0} на {1}": "тиждень {0} на {1}", "Честный рейтинг": "Чесний рейтинг", "битвы недели": "битви тижня", "Отдых окончен": "Відпочинок закінчено", "Подход!": "Підхід!", "авто": "авто", "Вызови на дуэль": "Виклич на дуель", "Неделя {0} на {1}: у кого больше тренировок и кубков": "Тиждень {0} на {1}: у кого більше тренувань і кубків", "В бой": "У бій", "Вступи в клан": "Вступи в клан", "Твои тренировки приносят победы команде": "Твої тренування приносять перемоги команді", "Неделя один на один: с другом или случайным соперником": "Тиждень один на один: з другом або випадковим суперником", "Таймер отдыха будет запускаться сам после каждого подхода": "Таймер відпочинку запускатиметься сам після кожного підходу", "Автозапуск выключен: запускай таймер кнопкой ▶": "Автозапуск вимкнено: запускай таймер кнопкою ▶", "Таймер отдыха": "Таймер відпочинку", "Пора делать следующий подход": "Час для наступного підходу"}, "kk": {"Качайся с друзьями.": "Достарыңмен жаттық.", "Побеждай в дуэлях и кланах.": "Дуэльдер мен кландарда жең.", "Тренировки приносят кубки, арены и победы твоему клану. Рейтинг честный: подозрительные рекорды проверяет модератор.": "Жаттығулар кубоктар, ареналар және кланыңа жеңіс әкеледі. Рейтинг әділ: күдікті рекордтарды модератор тексереді.", "неделя {0} на {1}": "апта {0} де {1}", "Честный рейтинг": "Әділ рейтинг", "битвы недели": "апта шайқастары", "Отдых окончен": "Демалыс аяқталды", "Подход!": "Келесі подход!", "авто": "авто", "Вызови на дуэль": "Дуэльге шақыр", "Неделя {0} на {1}: у кого больше тренировок и кубков": "Апта {0} де {1}: кімде жаттығу мен кубок көп", "В бой": "Шайқасқа", "Вступи в клан": "Кланға кір", "Твои тренировки приносят победы команде": "Жаттығуларың командаға жеңіс әкеледі", "Неделя один на один: с другом или случайным соперником": "Бір апта бірге бір: доспен немесе кездейсоқ қарсыласпен", "Таймер отдыха будет запускаться сам после каждого подхода": "Демалыс таймері әр подходтан кейін өзі қосылады", "Автозапуск выключен: запускай таймер кнопкой ▶": "Автоқосу өшірулі: таймерді ▶ батырмасымен қос", "Таймер отдыха": "Демалыс таймері", "Пора делать следующий подход": "Келесі подходқа уақыт"}, "de": {"Качайся с друзьями.": "Trainiere mit Freunden.", "Побеждай в дуэлях и кланах.": "Gewinne Duelle und Clan-Kämpfe.", "Тренировки приносят кубки, арены и победы твоему клану. Рейтинг честный: подозрительные рекорды проверяет модератор.": "Workouts bringen Pokale, Arenen und Siege für deinen Clan. Faires Ranking: verdächtige Rekorde prüft ein Moderator.", "неделя {0} на {1}": "eine Woche {0} gegen {1}", "Честный рейтинг": "Faires Ranking", "битвы недели": "Wochenkämpfe", "Отдых окончен": "Pause vorbei", "Подход!": "Nächster Satz!", "авто": "auto", "Вызови на дуэль": "Zum Duell fordern", "Неделя {0} на {1}: у кого больше тренировок и кубков": "Eine Woche {0} gegen {1}: mehr Workouts und Pokale gewinnen", "В бой": "Los", "Вступи в клан": "Tritt einem Clan bei", "Твои тренировки приносят победы команде": "Deine Workouts bringen dem Team Siege", "Неделя один на один: с другом или случайным соперником": "Eine Woche eins gegen eins: mit einem Freund oder zufälligem Gegner", "Таймер отдыха будет запускаться сам после каждого подхода": "Der Pausentimer startet nach jedem Satz automatisch", "Автозапуск выключен: запускай таймер кнопкой ▶": "Autostart aus: starte den Timer mit ▶", "Таймер отдыха": "Pausentimer", "Пора делать следующий подход": "Zeit für den nächsten Satz"}, "es": {"Качайся с друзьями.": "Entrena con amigos.", "Побеждай в дуэлях и кланах.": "Gana duelos y guerras de clanes.", "Тренировки приносят кубки, арены и победы твоему клану. Рейтинг честный: подозрительные рекорды проверяет модератор.": "Los entrenos dan trofeos, arenas y victorias a tu clan. Ranking justo: un moderador revisa los récords sospechosos.", "неделя {0} на {1}": "una semana {0} contra {1}", "Честный рейтинг": "Ranking justo", "битвы недели": "batallas semanales", "Отдых окончен": "Descanso terminado", "Подход!": "¡Siguiente serie!", "авто": "auto", "Вызови на дуэль": "Reta a un duelo", "Неделя {0} на {1}: у кого больше тренировок и кубков": "Una semana {0} contra {1}: gana quien tenga más entrenos y trofeos", "В бой": "A luchar", "Вступи в клан": "Únete a un clan", "Твои тренировки приносят победы команде": "Tus entrenos dan victorias al equipo", "Неделя один на один: с другом или случайным соперником": "Una semana uno contra uno: con un amigo o un rival aleatorio", "Таймер отдыха будет запускаться сам после каждого подхода": "El temporizador de descanso se iniciará solo tras cada serie", "Автозапуск выключен: запускай таймер кнопкой ▶": "Inicio automático desactivado: inicia el temporizador con ▶", "Таймер отдыха": "Temporizador de descanso", "Пора делать следующий подход": "Hora de la siguiente serie"}, "fr": {"Качайся с друзьями.": "Entraîne-toi avec tes amis.", "Побеждай в дуэлях и кланах.": "Gagne des duels et des guerres de clans.", "Тренировки приносят кубки, арены и победы твоему клану. Рейтинг честный: подозрительные рекорды проверяет модератор.": "Les séances rapportent des trophées, des arènes et des victoires à ton clan. Classement honnête : un modérateur vérifie les records suspects.", "неделя {0} на {1}": "{0} contre {1} pendant une semaine", "Честный рейтинг": "Classement honnête", "битвы недели": "batailles de la semaine", "Отдых окончен": "Repos terminé", "Подход!": "Série suivante !", "авто": "auto", "Вызови на дуэль": "Lance un duel", "Неделя {0} на {1}: у кого больше тренировок и кубков": "{0} contre {1} pendant une semaine : le plus de séances et de trophées gagne", "В бой": "Au combat", "Вступи в клан": "Rejoins un clan", "Твои тренировки приносят победы команде": "Tes séances font gagner l'équipe", "Неделя один на один: с другом или случайным соперником": "Une semaine en un contre un : avec un ami ou un adversaire aléatoire", "Таймер отдыха будет запускаться сам после каждого подхода": "Le minuteur de repos démarrera seul après chaque série", "Автозапуск выключен: запускай таймер кнопкой ▶": "Démarrage auto désactivé : lance le minuteur avec ▶", "Таймер отдыха": "Minuteur de repos", "Пора делать следующий подход": "C'est l'heure de la série suivante"}, "tr": {"Качайся с друзьями.": "Arkadaşlarınla antrenman yap.", "Побеждай в дуэлях и кланах.": "Düellolarda ve klan savaşlarında kazan.", "Тренировки приносят кубки, арены и победы твоему клану. Рейтинг честный: подозрительные рекорды проверяет модератор.": "Antrenmanlar kupa, arena ve klanına zafer getirir. Adil sıralama: şüpheli rekorları moderatör kontrol eder.", "неделя {0} на {1}": "bir hafta {0}'e {1}", "Честный рейтинг": "Adil sıralama", "битвы недели": "haftalık savaşlar", "Отдых окончен": "Dinlenme bitti", "Подход!": "Sıradaki set!", "авто": "oto", "Вызови на дуэль": "Düelloya davet et", "Неделя {0} на {1}: у кого больше тренировок и кубков": "Bir hafta {0}'e {1}: en çok antrenman ve kupa kazanır", "В бой": "Savaş", "Вступи в клан": "Bir klana katıl", "Твои тренировки приносят победы команде": "Antrenmanların takıma zafer getirir", "Неделя один на один: с другом или случайным соперником": "Bir hafta bire bir: bir arkadaşla ya da rastgele rakiple", "Таймер отдыха будет запускаться сам после каждого подхода": "Dinlenme sayacı her setten sonra kendiliğinden başlayacak", "Автозапуск выключен: запускай таймер кнопкой ▶": "Otomatik başlatma kapalı: sayacı ▶ ile başlat", "Таймер отдыха": "Dinlenme sayacı", "Пора делать следующий подход": "Sıradaki set zamanı"}};
 Object.keys(MT.SEED_V42).forEach(l => Object.keys(MT.SEED_V42[l]).forEach(k => { if (!(MT.SEED_ADD[l] || {})[k] && !(MT.SEED[l] || {})[k]) (MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}))[k] = MT.SEED_V42[l][k]; }));
+// v43: кольцо калорий и блюда
+MT.SEED_V43 = {"en": {"ккал осталось": "kcal left", "ккал сверх": "kcal over", "+{0} активность": "+{0} activity", "г · ещё {0}": "g · {0} to go", "г · норма": "g · on target", "Цели по питанию выполнены · +{0} кубка": "Nutrition goals met · +{0} trophies", "прибавлено к кольцу калорий": "added to the calorie ring", "Название блюда": "Dish name", "Добавить продукт": "Add item", "Порция": "Portion", "Записать блюдо": "Log dish", "Записано": "Logged", "Изменить": "Edit", "Удалить блюдо?": "Delete this dish?", "Убрать продукт из блюда?": "Remove item from the dish?", "Удалить запись?": "Delete this entry?", "Удалить активность?": "Delete this activity?", "Удалить взвешивание?": "Delete this weigh-in?", "в блюдо": "to dish", "Добавить еду": "Add food", "{0} продукт": "{0} item", "{0} продукта": "{0} items", "{0} продуктов": "{0} items", "Еда": "Food", "Б, г": "P, g", "У, г": "C, g", "Ж, г": "F, g"}, "uk": {"ккал осталось": "ккал залишилось", "ккал сверх": "ккал понад норму", "+{0} активность": "+{0} активність", "г · ещё {0}": "г · ще {0}", "г · норма": "г · норма", "Цели по питанию выполнены · +{0} кубка": "Цілі харчування виконано · +{0} кубки", "прибавлено к кольцу калорий": "додано до кільця калорій", "Название блюда": "Назва страви", "Добавить продукт": "Додати продукт", "Порция": "Порція", "Записать блюдо": "Записати страву", "Записано": "Записано", "Изменить": "Змінити", "Удалить блюдо?": "Видалити страву?", "Убрать продукт из блюда?": "Прибрати продукт зі страви?", "Удалить запись?": "Видалити запис?", "Удалить активность?": "Видалити активність?", "Удалить взвешивание?": "Видалити зважування?", "в блюдо": "у страву", "Добавить еду": "Додати їжу", "{0} продукт": "{0} продукт", "{0} продукта": "{0} продукти", "{0} продуктов": "{0} продуктів", "Еда": "Їжа", "Б, г": "Б, г", "У, г": "В, г", "Ж, г": "Ж, г"}, "kk": {"ккал осталось": "ккал қалды", "ккал сверх": "ккал артық", "+{0} активность": "+{0} белсенділік", "г · ещё {0}": "г · тағы {0}", "г · норма": "г · норма", "Цели по питанию выполнены · +{0} кубка": "Тамақтану мақсаттары орындалды · +{0} кубок", "прибавлено к кольцу калорий": "калория сақинасына қосылды", "Название блюда": "Тағам атауы", "Добавить продукт": "Өнім қосу", "Порция": "Порция", "Записать блюдо": "Тағамды жазу", "Записано": "Жазылды", "Изменить": "Өзгерту", "Удалить блюдо?": "Тағамды жою керек пе?", "Убрать продукт из блюда?": "Өнімді тағамнан алып тастау керек пе?", "Удалить запись?": "Жазбаны жою керек пе?", "Удалить активность?": "Белсенділікті жою керек пе?", "Удалить взвешивание?": "Өлшеуді жою керек пе?", "в блюдо": "тағамға", "Добавить еду": "Тамақ қосу", "{0} продукт": "{0} өнім", "{0} продукта": "{0} өнім", "{0} продуктов": "{0} өнім", "Еда": "Тамақ", "Б, г": "А, г", "У, г": "К, г", "Ж, г": "М, г"}, "de": {"ккал осталось": "kcal übrig", "ккал сверх": "kcal drüber", "+{0} активность": "+{0} Aktivität", "г · ещё {0}": "g · noch {0}", "г · норма": "g · Ziel erreicht", "Цели по питанию выполнены · +{0} кубка": "Ernährungsziele erreicht · +{0} Pokale", "прибавлено к кольцу калорий": "zum Kalorienring addiert", "Название блюда": "Name des Gerichts", "Добавить продукт": "Zutat hinzufügen", "Порция": "Portion", "Записать блюдо": "Gericht eintragen", "Записано": "Eingetragen", "Изменить": "Bearbeiten", "Удалить блюдо?": "Gericht löschen?", "Убрать продукт из блюда?": "Zutat aus dem Gericht entfernen?", "Удалить запись?": "Eintrag löschen?", "Удалить активность?": "Aktivität löschen?", "Удалить взвешивание?": "Wiegen löschen?", "в блюдо": "zum Gericht", "Добавить еду": "Essen hinzufügen", "{0} продукт": "{0} Zutat", "{0} продукта": "{0} Zutaten", "{0} продуктов": "{0} Zutaten", "Еда": "Essen", "Б, г": "E, g", "У, г": "K, g", "Ж, г": "F, g"}, "es": {"ккал осталось": "kcal restantes", "ккал сверх": "kcal de más", "+{0} активность": "+{0} actividad", "г · ещё {0}": "g · faltan {0}", "г · норма": "g · objetivo", "Цели по питанию выполнены · +{0} кубка": "Metas de nutrición cumplidas · +{0} trofeos", "прибавлено к кольцу калорий": "sumado al anillo de calorías", "Название блюда": "Nombre del plato", "Добавить продукт": "Añadir alimento", "Порция": "Porción", "Записать блюдо": "Registrar plato", "Записано": "Registrado", "Изменить": "Editar", "Удалить блюдо?": "¿Eliminar el plato?", "Убрать продукт из блюда?": "¿Quitar el alimento del plato?", "Удалить запись?": "¿Eliminar el registro?", "Удалить активность?": "¿Eliminar la actividad?", "Удалить взвешивание?": "¿Eliminar el pesaje?", "в блюдо": "al plato", "Добавить еду": "Añadir comida", "{0} продукт": "{0} alimento", "{0} продукта": "{0} alimentos", "{0} продуктов": "{0} alimentos", "Еда": "Comida", "Б, г": "P, g", "У, г": "C, g", "Ж, г": "G, g"}, "fr": {"ккал осталось": "kcal restantes", "ккал сверх": "kcal en trop", "+{0} активность": "+{0} activité", "г · ещё {0}": "g · encore {0}", "г · норма": "g · objectif", "Цели по питанию выполнены · +{0} кубка": "Objectifs nutrition atteints · +{0} trophées", "прибавлено к кольцу калорий": "ajouté à l'anneau de calories", "Название блюда": "Nom du plat", "Добавить продукт": "Ajouter un aliment", "Порция": "Portion", "Записать блюдо": "Enregistrer le plat", "Записано": "Enregistré", "Изменить": "Modifier", "Удалить блюдо?": "Supprimer le plat ?", "Убрать продукт из блюда?": "Retirer l'aliment du plat ?", "Удалить запись?": "Supprimer l'entrée ?", "Удалить активность?": "Supprimer l'activité ?", "Удалить взвешивание?": "Supprimer la pesée ?", "в блюдо": "au plat", "Добавить еду": "Ajouter un repas", "{0} продукт": "{0} aliment", "{0} продукта": "{0} aliments", "{0} продуктов": "{0} aliments", "Еда": "Repas", "Б, г": "P, g", "У, г": "G, g", "Ж, г": "L, g"}, "tr": {"ккал осталось": "kcal kaldı", "ккал сверх": "kcal fazla", "+{0} активность": "+{0} aktivite", "г · ещё {0}": "g · {0} kaldı", "г · норма": "g · hedefte", "Цели по питанию выполнены · +{0} кубка": "Beslenme hedefleri tamam · +{0} kupa", "прибавлено к кольцу калорий": "kalori halkasına eklendi", "Название блюда": "Yemek adı", "Добавить продукт": "Ürün ekle", "Порция": "Porsiyon", "Записать блюдо": "Yemeği kaydet", "Записано": "Kaydedildi", "Изменить": "Düzenle", "Удалить блюдо?": "Yemek silinsin mi?", "Убрать продукт из блюда?": "Ürün yemekten çıkarılsın mı?", "Удалить запись?": "Kayıt silinsin mi?", "Удалить активность?": "Aktivite silinsin mi?", "Удалить взвешивание?": "Tartım silinsin mi?", "в блюдо": "yemeğe", "Добавить еду": "Yemek ekle", "{0} продукт": "{0} ürün", "{0} продукта": "{0} ürün", "{0} продуктов": "{0} ürün", "Еда": "Yemek", "Б, г": "P, g", "У, г": "K, g", "Ж, г": "Y, g"}};
+Object.keys(MT.SEED_V43).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V43[l]));
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -2115,6 +2168,21 @@ const Calc = {
     const t = { cals: 0, protein: 0, carbs: 0, fat: 0 }; items.forEach(f => { t.cals += +f.cals || 0; t.protein += +f.protein || 0; t.carbs += +f.carbs || 0; t.fat += +f.fat || 0; });
     return { items, total: t };
   },
+  // v43: продукты одного приёма пищи → одно блюдо. Старые записи ИИ (до v43) группируем по времени сохранения
+  dishKey(f) { return f.gid || (f.src === 'ai' && f.meal && f.ts ? `ai:${f.date}:${f.meal}:${f.ts}` : f.id); },
+  meals(day = U.today()) {
+    const map = new Map();
+    S.nutrition.log.filter(f => f.date === day).forEach(f => {
+      const k = Calc.dishKey(f); let d = map.get(k);
+      if (!d) map.set(k, d = { gid: k, name: f.gid ? (f.gname || AIFood.mealName(f.meal)) : AIFood.mealName(f.meal), meal: f.meal || null, items: [], grouped: !!f.gid, ai: f.src === 'ai' });
+      d.items.push(f);
+    });
+    return [...map.values()].map(d => {
+      if (!d.grouped && d.items.length === 1) { const f = d.items[0]; d.gid = f.id; d.name = f.name; }
+      d.t = { cals: 0, protein: 0, carbs: 0, fat: 0 }; d.items.forEach(f => ['cals', 'protein', 'carbs', 'fat'].forEach(x => d.t[x] += +f[x] || 0));
+      Object.keys(d.t).forEach(x => d.t[x] = Math.round(d.t[x])); return d;
+    });
+  },
   defaultGoals(o) {
     const p = o ? { ...S.profile, ...o } : S.profile, bw = p.bodyweight || 70, h = p.height || 175, age = p.age || 25;
     const bmr = 10 * bw + 6.25 * h - 5 * age + (p.sex === 'f' ? -161 : 5);
@@ -2334,10 +2402,35 @@ const Game = {
   },
   /* --- питание --- */
   logFood(items, date = U.today()) {
-    items.forEach(f => S.nutrition.log.push({ id: U.uid(), date, name: String(f.name || 'Еда').slice(0, 60), cals: Math.round(+f.cals || 0), protein: Math.round(+f.protein || 0), carbs: Math.round(+f.carbs || 0), fat: Math.round(+f.fat || 0), ...(f.grams ? { grams: Math.round(+f.grams) } : {}), ...(f.meal ? { meal: f.meal } : {}), ...(f.src ? { src: f.src } : {}), ts: Date.now() }));
+    items.forEach(f => S.nutrition.log.push({ id: U.uid(), date, name: String(f.name || 'Еда').slice(0, 60), cals: Math.round(+f.cals || 0), protein: Math.round(+f.protein || 0), carbs: Math.round(+f.carbs || 0), fat: Math.round(+f.fat || 0), ...(f.grams ? { grams: Math.round(+f.grams) } : {}), ...(f.meal ? { meal: f.meal } : {}), ...(f.src ? { src: f.src } : {}), ...(f.gid ? { gid: String(f.gid), gname: String(f.gname || '').slice(0, 40) } : {}), ...(f.per ? { per: { k: +f.per.k || 0, p: +f.per.p || 0, c: +f.per.c || 0, f: +f.per.f || 0 } } : {}), ts: Date.now() }));
     this.evaluateNutrition(date); this.evaluateQuests(); this.checkStreak(); save();
   },
   deleteFood(id) { S.nutrition.log = S.nutrition.log.filter(f => f.id !== id); save(); },
+  // v43: блюдо — несколько продуктов под одним названием (gid). Ключ блюда даёт Calc.dishKey
+  dishItems(key) { return S.nutrition.log.filter(f => Calc.dishKey(f) === key || f.id === key); },
+  pinDish(key, force) { // закрепить группу за ключом, чтобы правки (приём пищи, удаление) её не разваливали
+    const xs = this.dishItems(key), d = xs[0] && Calc.meals(xs[0].date).find(x => x.gid === key); if (!d) return;
+    if (xs.length > 1 || force || String(key).startsWith('ai:')) xs.forEach(f => { if (!f.gid) { f.gid = key; f.gname = d.name; } });
+  },
+  renameDish(key, name) {
+    name = String(name || '').replace(/\s+/g, ' ').trim().slice(0, 40); if (!name) return;
+    this.pinDish(key); this.dishItems(key).forEach(f => { if (f.gid) f.gname = name; else f.name = name.slice(0, 60); });
+  },
+  setDishMeal(key, meal) {
+    const xs = this.dishItems(key); if (!xs.length) return; this.pinDish(key);
+    const d = Calc.meals(xs[0].date).find(x => x.gid === key), auto = d && d.grouped && AIFood.MEALS.some(m => m[1] === d.name);
+    xs.forEach(f => { f.meal = meal; if (auto && f.gid) f.gname = AIFood.mealName(meal); }); save();
+  },
+  updateFood(id, p) {
+    const f = S.nutrition.log.find(x => x.id === id); if (!f) return;
+    if (p.name != null && String(p.name).trim()) f.name = String(p.name).replace(/\s+/g, ' ').trim().slice(0, 60);
+    if (p.grams != null) {
+      const per = f.per || (f.grams > 0 ? { k: f.cals / f.grams * 100, p: f.protein / f.grams * 100, c: f.carbs / f.grams * 100, f: f.fat / f.grams * 100 } : null);
+      if (per) { const g = U.clamp(Math.round(+p.grams || 0), 0, 3000), k = g / 100; f.per = per; f.grams = g; f.cals = Math.round(per.k * k); f.protein = Math.round(per.p * k); f.carbs = Math.round(per.c * k); f.fat = Math.round(per.f * k); }
+    }
+    ['cals', 'protein', 'carbs', 'fat'].forEach(k => { if (p[k] != null) f[k] = U.clamp(Math.round(+p[k] || 0), 0, 9999); });
+  },
+  deleteDish(key) { const ids = new Set(this.dishItems(key).map(f => f.id)); S.nutrition.log = S.nutrition.log.filter(f => !ids.has(f.id)); save(); },
   // v24: сожжённые калории (тренировка, бег, футбол…): от ИИ или вручную
   logBurn(items, date = U.today(), src = 'manual') {
     items.forEach(x => S.nutrition.burn.push({ id: U.uid(), date, name: String(x.name || 'Активность').slice(0, 60), kcal: Math.round(U.clamp(+x.kcal || 0, 0, 5000)), minutes: Math.round(+x.minutes || 0) || null, src, ts: Date.now() }));
@@ -3205,11 +3298,19 @@ const AIFood = {
     if (typeof j.left === 'number') this.left = { ...this.left, [kind]: j.left, day };
     if (j.error === 'limit') return { limit: true, error: kind === 'food' ? `Лимит ИИ на сегодня: ${this.LIMIT.food} раза. Завтра снова можно, а пока добавь вручную.` : `Лимит ИИ на сегодня: ${this.LIMIT.activity} раза. Впиши калории вручную.`, limit: true };
     if (j.error) return { error: j.message || 'Ошибка ИИ' };
-    return { items: j.items || [], left: j.left };
+    return { items: j.items || [], left: j.left, dish: typeof j.dish === 'string' ? j.dish.slice(0, 40) : '' };
   },
   // пересчёт продукта под граммы
-  scale(it, grams) { const k = (+grams || 0) / 100; return { name: it.name, grams: Math.round(+grams || 0), meal: it.meal, cals: Math.round(it.kcal100 * k), protein: Math.round(it.p100 * k), carbs: Math.round(it.c100 * k), fat: Math.round(it.f100 * k), src: 'ai' }; },
+  scale(it, grams) { const k = (+grams || 0) / 100; return { name: it.name, grams: Math.round(+grams || 0), meal: it.meal, cals: Math.round(it.kcal100 * k), protein: Math.round(it.p100 * k), carbs: Math.round(it.c100 * k), fat: Math.round(it.f100 * k), per: { k: +it.kcal100 || 0, p: +it.p100 || 0, c: +it.c100 || 0, f: +it.f100 || 0 }, src: 'ai' }; },
   burn(it, minutes) { const bw = S.profile.bodyweight || 70; return { name: it.name, minutes: Math.round(+minutes || 0), kcal: Math.round((+it.met || 4) * bw * (+minutes || 0) / 60) }; },
+  // v43: название блюда. Если человек назвал сам («Сырники от бабушки: …») — его название, иначе приём пищи
+  mealName(k) { return (this.MEALS.find(m => m[0] === k) || [])[1] || 'Еда'; },
+  mealByTime(h = new Date().getHours()) { return h < 11 ? 'breakfast' : h < 16 ? 'lunch' : h < 21 ? 'dinner' : 'snack'; },
+  userTitle(text) {
+    const m = String(text || '').match(/^\s*([^\n:—–]{2,32}?)(?:\s*:\s*|\s+[-—–]\s+)\S/); if (!m) return '';
+    const t = m[1].trim().replace(/^[«"']|[»"']$/g, ''); if (t.length < 2 || /\d/.test(t) || t.split(/\s+/).length > 5) return '';
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  },
   chat(day = U.today()) { const c = S.nutrition.aiChat || (S.nutrition.aiChat = {}); Object.keys(c).forEach(k => { if (k < U.addDays(U.today(), -3)) delete c[k]; }); return c[day] || (c[day] = []); },
 };
 
@@ -4414,6 +4515,17 @@ const UI = {
     this._onConfirm = onYes;
     this.modal(`<div class="text-sm mb-4">${text}</div><div class="grid grid-cols-2 gap-2"><button class="btn btn-ghost" data-action="close-modal">${no}</button><button class="btn ${danger ? 'btn-or' : 'btn-primary'}" data-action="confirm-yes">${yes}</button></div>`, { center: true });
   },
+  // v43: удаление только после подтверждения; «Отмена» возвращает в окно, откуда удаляли
+  askDel(title, { name = '', sub = '', yes, back, done } = {}) {
+    this._onConfirm = () => { yes(); if (typeof App !== 'undefined') App.afterChange(); const f = done || back; if (f) f(); };
+    this._onCancel = back || null;
+    this.modal(`<div class="del-ask">
+      <div class="del-ic"><svg class="ic"><use href="#fa-trash"/></svg></div>
+      <div class="font-black text-lg leading-tight">${title}</div>
+      ${name ? `<div class="del-name" data-no-mt>${U.esc(name)}</div>` : ''}${sub ? `<div class="text-xs muted mt-0.5">${sub}</div>` : ''}
+      <div class="grid grid-cols-2 gap-2 mt-4 w-full"><button class="btn btn-ghost" data-action="buy-cancel">Отмена</button><button class="btn btn-del-solid" data-action="confirm-yes"><svg class="ic"><use href="#fa-trash"/></svg> Удалить</button></div>
+    </div>`, { center: true });
+  },
   // v21: подтверждение перед любой покупкой за монеты
   askBuy(name, price, fn, { icon = 'fa-store', color = 'var(--pu)', back = null, kind = '', raw = false } = {}) {
     if (!price) return fn();
@@ -4431,7 +4543,7 @@ const UI = {
   },
   closeModal() {
     this.closeDD(); this._authOpen = false; this._shopOpen = false; this._wzOpen = false; this._obOpen = false; this._rulesGate = false;
-    this._composer = false; this._cmOpen = false; this._clanShop = false; this._clanSet = false; this._clanModal = null; this._nutModal = null; this._wModal = null; this._slModal = null; this._setModal = null; this._hCal = null; this._aifOpen = false; this._actOpen = false;
+    this._composer = false; this._cmOpen = false; this._clanShop = false; this._clanSet = false; this._clanModal = null; this._nutModal = null; this._wModal = null; this._slModal = null; this._setModal = null; this._hCal = null; this._aifOpen = false; this._actOpen = false; this._dishOpen = false;
     const m = this.$('#modal'); if (m) m.remove(); document.body.classList.remove('modal-on');
     if (!this._suppressReopen && (this._inWorkout || this._summaryOpen)) { this._inWorkout = false; this._summaryOpen = false; setTimeout(() => this.releaseHeld(), 120); }
     // вернуть модалку тренировки после анимаций PR/арены
@@ -5305,26 +5417,62 @@ const UI = {
     if (this._nutModal && this.$('#modal .modal')) this.openNutrition();
   },
   openNutrition() {
-    const day = this.hDay || U.today(), g = S.nutrition.goals || Calc.defaultGoals(), { items, total } = Calc.nutritionToday(day), burned = Calc.burnedOn(day), left = g.cals + burned - total.cals;
-    const macro = (name, v, goal, color) => `<div><div class="flex justify-between text-xs"><span>${name}</span><span class="num muted">${Math.round(v)} / ${goal} г</span></div>${this.bar(v / goal * 100, color)}</div>`;
+    const day = this.hDay || U.today(), g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(day), burned = Calc.burnedOn(day), left = Math.round(g.cals + burned - total.cals), meals = Calc.meals(day);
+    const macro = (name, v, goal, color) => { const rest = Math.round(goal - v); return `<div class="mbar"><div class="mbar-h"><span>${name}</span><span><b class="num">${Math.round(v)}</b> <em class="num">${rest > goal * 0.05 ? `г · ещё ${rest}` : rest < -goal * 0.05 ? `г · +${-rest}` : 'г · норма'}</em></span></div>${this.bar(v / goal * 100, color)}</div>`; };
     const html = `
-      <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')} · <span>${day === U.today() ? T('today') : `<span data-no-mt>${U.fmtDate(day)}</span>`}</span></div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
-      <div class="flex items-center gap-4 mb-3">${this.macroDonut(120, day)}<div class="flex-1 grid gap-2">${macro(T('protein'), total.protein, g.protein, '#3B82F6')}${macro(T('carbs'), total.carbs, g.carbs, '#F97316')}${macro(T('fat'), total.fat, g.fat, '#8B5CF6')}</div></div>
-      <div class="flex items-center justify-between mb-3"><div class="text-xs ${left < 0 ? 'text-or' : 'muted'}">${Math.abs(Math.round(left))} ${left < 0 ? T('kcal_over') : T('kcal_left')}${Calc.nutritionGoalMet(day) ? ' · <span class="text-em">+3 кубка</span>' : ''}</div><button class="btn btn-ghost btn-sm" data-action="open-goals"><svg class="ic "><use href="#fa-bullseye"/></svg> ${T('goals')}</button></div>
-      <div class="grid grid-cols-2 gap-2 mb-2">
+      <div class="flex items-center justify-between gap-2 mb-3"><div class="font-bold text-lg min-w-0 truncate"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')} · <span>${day === U.today() ? T('today') : `<span data-no-mt>${U.fmtDate(day)}</span>`}</span></div><div class="flex items-center gap-1 flex-none"><button class="btn btn-ghost btn-sm" data-action="open-goals"><svg class="ic"><use href="#fa-bullseye"/></svg> ${T('goals')}</button><button data-action="close-modal" class="muted px-1"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div></div>
+      <div class="flex items-center gap-4 mb-3">${this.macroDonut(132, day)}<div class="flex-1 min-w-0">${macro(T('protein'), total.protein, g.protein, '#3B82F6')}${macro(T('carbs'), total.carbs, g.carbs, '#F97316')}${macro(T('fat'), total.fat, g.fat, '#8B5CF6')}</div></div>
+      <div class="nut-budget"><div><b class="num">${g.cals}</b><small>цель</small></div><i>+</i><div><b class="num ${burned ? 'text-yl' : 'muted'}">${burned}</b><small>активность</small></div><i>−</i><div><b class="num">${Math.round(total.cals)}</b><small>съедено</small></div><i>=</i><div><b class="num ${left < 0 ? 'text-red-400' : 'text-em'}">${left}</b><small>осталось</small></div></div>
+      ${Calc.nutritionGoalMet(day) ? '<div class="nut-met"><svg class="ic"><use href="#fa-check"/></svg> Цели по питанию выполнены · +3 кубка</div>' : ''}
+      <div class="grid grid-cols-2 gap-2 mt-3 mb-2">
         <button class="btn nut-ai py-3" data-action="food-ai"><svg class="ic "><use href="#fa-wand-magic-sparkles"/></svg> Что съел?</button>
         <button class="btn btn-ghost py-3" data-action="open-food-manual"><svg class="ic "><use href="#fa-plus"/></svg> ${T('manual')}</button>
       </div>
-      <button class="nut-act mb-3" data-action="activity-open"><span class="nut-act-ic"><svg class="ic"><use href="#fa-fire-flame-curved"/></svg></span><span class="flex-1 min-w-0 text-left"><b class="block">Активность</b><small class="muted">${burned ? 'добавлено к цели дня' : 'сжёг калории? добавь их к цели'}</small></span>${burned ? `<b class="num text-yl">+${burned}</b>` : '<svg class="ic muted"><use href="#fa-plus"/></svg>'}</button>
-      ${burned ? `<details class="nut-how mb-3"><summary>Как считается остаток</summary><div class="nut-budget mt-2"><div><b class="num">${g.cals}</b><small>цель</small></div><i>+</i><div><b class="num text-yl">${burned}</b><small>активность</small></div><i>−</i><div><b class="num">${Math.round(total.cals)}</b><small>съедено</small></div><i>=</i><div><b class="num ${left < 0 ? 'text-red-400' : 'text-em'}">${Math.round(left)}</b><small>осталось</small></div></div></details>` : ''}
-      <div class="text-xs font-bold muted mb-1">${day === U.today() ? T('eaten_today') : `${T('nutrition')} · ${U.fmtDate(day)}`}</div>
-      ${items.length ? items.map(f => `<div class="flex items-center gap-3 py-2 border-t line">
-          <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${f.src === 'ai' ? '<svg class="ic text-pu"><use href="#fa-wand-magic-sparkles"/></svg> ' : ''}${U.esc(f.name)}</div><div class="text-[11px] muted num">${f.grams ? `${f.grams} г · ` : ''}${f.meal ? `${(AIFood.MEALS.find(m => m[0] === f.meal) || [])[1] || ''} · ` : ''}Б ${f.protein} · У ${f.carbs} · Ж ${f.fat}</div></div>
-          <div class="num font-bold text-sm">${f.cals} <span class="muted text-[10px]">ккал</span></div>
-          <button class="muted px-1" data-action="delete-food" data-id="${f.id}"><svg class="ic "><use href="#fa-xmark"/></svg></button>
-        </div>`).join('') : `<div class="muted text-sm py-3 text-center">${T('empty_food')}</div>`}`;
+      <button class="nut-act mb-4" data-action="activity-open"><span class="nut-act-ic"><svg class="ic"><use href="#fa-fire-flame-curved"/></svg></span><span class="flex-1 min-w-0 text-left"><b class="block">Активность</b><small class="muted">${burned ? 'прибавлено к кольцу калорий' : 'сжёг калории? добавь их к цели'}</small></span>${burned ? `<b class="num text-yl">+${burned}</b>` : '<svg class="ic muted"><use href="#fa-plus"/></svg>'}</button>
+      <div class="flex items-center justify-between mb-2"><span class="text-xs font-bold muted">${day === U.today() ? T('eaten_today') : `${T('nutrition')} · <span data-no-mt>${U.fmtDate(day)}</span>`}</span>${meals.length ? `<span class="text-xs font-black num">${Math.round(total.cals)} ккал</span>` : ''}</div>
+      ${meals.length ? meals.map(d => this.mealRow(d)).join('') : `<div class="muted text-sm py-3 text-center">${T('empty_food')}</div>`}`;
     const m = this.$('#modal .modal'); if (m && this._nutModal) this.morph(m, html); else this.modal(html);
     this._nutModal = true;
+  },
+  // v43: блюдо в истории — одна плашка; по нажатию открывается состав
+  mealRow(d) {
+    const M = AIFood.MEALS.find(m => m[0] === d.meal), n = d.items.length, auto = AIFood.MEALS.some(m => m[1] === d.name);
+    const sub = [M && !auto ? M[1] : '', n > 1 ? `${n} ${U.plural(n, 'продукт', 'продукта', 'продуктов')}` : d.items[0].grams ? `${d.items[0].grams} г` : '', `Б ${d.t.protein} · У ${d.t.carbs} · Ж ${d.t.fat}`].filter(Boolean).join(' · ');
+    return `<button class="meal-row" data-action="dish-open" data-id="${U.esc(d.gid)}">
+      <span class="meal-ic"><svg class="ic"><use href="#${M ? M[2] : 'fa-utensils'}"/></svg></span>
+      <span class="flex-1 min-w-0"><span class="meal-n"${auto ? '' : ' data-no-mt'}>${U.esc(d.name)}</span><span class="meal-s">${sub}</span></span>
+      <span class="meal-k"><b class="num">${d.t.cals}</b><small>ккал</small></span><svg class="ic meal-go"><use href="#fa-chevron-right"/></svg>
+    </button>`;
+  },
+  openDish(key) {
+    const day = this.hDay || U.today(), d = Calc.meals(day).find(x => x.gid === key);
+    if (!d) { this._dish = null; return this.openNutrition(); }
+    this._dish = key;
+    const one = d.items.length === 1 && !d.grouped, auto = AIFood.MEALS.some(m => m[1] === d.name);
+    const rows = d.items.map(f => {
+      const gr = f.per || f.grams > 0, nm = one ? '' : `<input class="dish-nm" maxlength="60" value="${U.esc(f.name)}" data-action="dish-f" data-id="${f.id}" data-k="name" aria-label="Название">`;
+      const del = one ? '' : `<button class="dish-x" data-action="dish-item-del" data-id="${f.id}" aria-label="Убрать"><svg class="ic"><use href="#fa-xmark"/></svg></button>`;
+      if (gr) return `<div class="dish-it"><div class="dish-row">
+          <div class="flex-1 min-w-0">${nm || `<div class="text-sm font-semibold">Порция</div>`}<div class="text-[10px] muted num" data-dm="${f.id}">Б ${f.protein} · У ${f.carbs} · Ж ${f.fat}</div></div>
+          <label class="aif-g"><input class="num" type="number" inputmode="numeric" min="0" max="3000" value="${f.grams || 0}" data-action="dish-f" data-id="${f.id}" data-k="grams"><span>г</span></label>
+          <div class="aif-k"><b class="num" data-dk="${f.id}">${f.cals}</b><small>ккал</small></div>${del}</div></div>`;
+      const inp = (k, lbl) => `<label><span>${lbl}</span><input class="num" type="number" inputmode="numeric" min="0" max="9999" value="${f[k] || 0}" data-action="dish-f" data-id="${f.id}" data-k="${k}"></label>`;
+      return `<div class="dish-it">${nm || del ? `<div class="dish-row">${nm || '<div class="flex-1"></div>'}${del}</div>` : ''}<div class="dish-mac">${inp('cals', 'ккал')}${inp('protein', 'Б, г')}${inp('carbs', 'У, г')}${inp('fat', 'Ж, г')}</div></div>`;
+    }).join('');
+    const html = `
+      <div class="flex items-center justify-between mb-3"><button class="dish-back" data-action="open-nutrition"><svg class="ic"><use href="#fa-chevron-left"/></svg> ${T('nutrition')}</button><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <input class="dish-t" id="dish-t" maxlength="40" value="${U.esc(d.name)}" data-action="dish-name" placeholder="Название блюда" ${auto ? '' : 'data-no-mt'}>
+      <div class="seg aif-meal my-3" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${d.meal === k ? 'on' : ''}" data-action="dish-meal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>
+      <div class="dish-list">${rows}</div>
+      <button class="dish-add" data-action="dish-add"><svg class="ic"><use href="#fa-plus"/></svg> Добавить продукт</button>
+      <div class="dish-tot"><span class="text-xs muted num" data-dtm>Б ${d.t.protein} · У ${d.t.carbs} · Ж ${d.t.fat}</span><b class="num"><span data-dt>${d.t.cals}</span> <small class="muted">ккал</small></b></div>
+      <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-del" data-action="dish-del"><svg class="ic"><use href="#fa-trash"/></svg> Удалить</button><button class="btn btn-primary" data-action="dish-done"><svg class="ic"><use href="#fa-check"/></svg> Готово</button></div>`;
+    const m = this.$('#modal .modal'); if (m && this._dishOpen) this.morph(m, html); else { this.modal(html); this._dishOpen = true; }
+  },
+  dishTotals() {
+    const d = Calc.meals(this.hDay || U.today()).find(x => x.gid === this._dish); if (!d) return;
+    d.items.forEach(f => { const k = this.$(`[data-dk="${f.id}"]`), m = this.$(`[data-dm="${f.id}"]`); if (k) k.textContent = f.cals; if (m) m.textContent = `Б ${f.protein} · У ${f.carbs} · Ж ${f.fat}`; });
+    const t = this.$('[data-dt]'), tm = this.$('[data-dtm]'); if (t) t.textContent = d.t.cals; if (tm) tm.textContent = `Б ${d.t.protein} · У ${d.t.carbs} · Ж ${d.t.fat}`;
   },
   /* ========================= PROFILE ======================= */
   renderProfile() {
@@ -5719,12 +5867,15 @@ const UI = {
         <div class="flex-1 min-w-0"><div class="aif-name" data-no-mt>${U.esc(it.name)}</div><div class="text-[10px] muted num">Б ${x.protein} · У ${x.carbs} · Ж ${x.fat}</div></div>
         <label class="aif-g"><input class="num" type="number" inputmode="numeric" min="1" max="3000" value="${m.grams[i]}" data-action="aif-grams" data-i="${idx}" data-j="${i}" ${m.saved ? 'disabled' : ''}><span>г</span></label>
         <div class="aif-k"><b class="num" data-k="${idx}-${i}">${x.cals}</b><small>ккал</small></div></div>`; }).join('');
-    const tot = m.items.reduce((a, it, i) => a + (m.on[i] ? AIFood.scale(it, m.grams[i]).cals : 0), 0);
+    const tot = m.items.reduce((a, it, i) => a + (m.on[i] ? AIFood.scale(it, m.grams[i]).cals : 0), 0), title = m.title || AIFood.mealName(m.meal), auto = AIFood.MEALS.some(x => x[1] === title);
+    // v43: ИИ собирает одно блюдо: название сверху, продукты внутри, в историю ложится одной плашкой
     return `<div class="aif-card">
-      ${m.saved ? '' : `<div class="seg aif-meal mb-2" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${m.meal === k ? 'on' : ''}" data-action="aif-meal" data-i="${idx}" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>`}
+      ${m.saved ? `<div class="aif-done"><span class="meal-ic"><svg class="ic"><use href="#${(AIFood.MEALS.find(x => x[0] === m.meal) || [])[2] || 'fa-utensils'}"/></svg></span><span class="flex-1 min-w-0"><b class="block truncate"${auto ? '' : ' data-no-mt'}>${U.esc(title)}</b><small class="muted"><svg class="ic text-em"><use href="#fa-check"/></svg> Записано</small></span>${m.gid ? `<button class="btn btn-ghost btn-sm" data-action="dish-open" data-id="${U.esc(m.gid)}">Изменить</button>` : ''}</div>`
+        : `<input class="aif-title" maxlength="40" value="${U.esc(title)}" placeholder="Название блюда" data-action="aif-title" data-i="${idx}" ${auto ? '' : 'data-no-mt'}>
+      <div class="seg aif-meal mb-2" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${m.meal === k ? 'on' : ''}" data-action="aif-meal" data-i="${idx}" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>`}
       ${rows}
-      <div class="flex items-center justify-between mt-2"><span class="text-xs muted">${m.saved ? `<svg class="ic text-em"><use href="#fa-check"/></svg> Записано · ${(AIFood.MEALS.find(x => x[0] === m.meal) || [])[1] || ''}` : 'Проверь граммы, цифры пересчитаются'}</span><b class="num text-sm" data-tot="${idx}">${tot} ккал</b></div>
-      ${m.saved ? '' : `<div class="grid grid-cols-3 gap-2 mt-2"><button class="btn btn-ghost btn-sm" data-action="aif-drop" data-i="${idx}">Отмена</button><button class="btn btn-primary btn-sm col-span-2" data-action="aif-save" data-i="${idx}"><svg class="ic"><use href="#fa-check"/></svg> Записать</button></div>`}
+      <div class="flex items-center justify-between mt-2"><span class="text-xs muted">${m.saved ? '' : 'Проверь граммы, цифры пересчитаются'}</span><b class="num text-sm" data-tot="${idx}">${tot} ккал</b></div>
+      ${m.saved ? '' : `<div class="grid grid-cols-3 gap-2 mt-2"><button class="btn btn-ghost btn-sm" data-action="aif-drop" data-i="${idx}">Отмена</button><button class="btn btn-primary btn-sm col-span-2" data-action="aif-save" data-i="${idx}"><svg class="ic"><use href="#fa-check"/></svg> Записать блюдо</button></div>`}
     </div>`;
   },
   renderFoodAI(fresh) {
@@ -5769,9 +5920,12 @@ const UI = {
   },
   openFoodText() { this.openFoodAI(); },
   renderFoodResult(items) { this.renderAILogResult({ sets: [], food: items }); },
-  openFoodManual() {
+  openFoodManual(dish) {
+    this._fmDish = dish || null; this._fmMeal = this._fmMeal && this._fmMealDay === U.today() ? this._fmMeal : AIFood.mealByTime(); this._fmMealDay = U.today();
+    const d = dish ? Calc.meals(this.hDay || U.today()).find(x => x.gid === dish) : null;
     this.modal(`
-      <div class="font-bold text-lg mb-3"><svg class="ic text-em"><use href="#fa-pen"/></svg> Добавить еду</div>
+      <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg min-w-0 truncate"><svg class="ic text-em"><use href="#fa-pen"/></svg> ${d ? 'Добавить продукт' : 'Добавить еду'}</div>${d ? `<button class="dish-back" data-action="dish-open" data-id="${U.esc(dish)}"><svg class="ic"><use href="#fa-chevron-left"/></svg> Назад</button>` : ''}</div>
+      ${d ? `<div class="text-xs muted mb-2">в блюдо <b data-no-mt>${U.esc(d.name)}</b></div>` : `<div class="seg aif-meal mb-2" id="fm-meal" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${this._fmMeal === k ? 'on' : ''}" data-action="fm-meal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>`}
       <input class="input mb-2" id="fm-name" data-draft placeholder="Название">
       <div class="grid grid-cols-4 gap-2 mb-4">
         <div><label class="text-[10px] muted">ккал</label><input class="input num" id="fm-cals" data-draft type="number" inputmode="numeric"></div>
@@ -6059,27 +6213,40 @@ const UI = {
         scales: { x: { grid: { display: false }, ticks: { color: tick, font: { size: 10 } } }, y: { beginAtZero: true, suggestedMax: hi + 1, grid: { color: grid }, ticks: { color: tick, font: { size: 10 }, stepSize: 2 } } } },
       plugins: [{ id: 'norm', beforeDatasetsDraw(ch) { const { ctx, chartArea: a, scales: { y } } = ch, t = y.getPixelForValue(hi), b = y.getPixelForValue(lo); ctx.save(); ctx.fillStyle = '#10B98118'; ctx.fillRect(a.left, t, a.right - a.left, b - t); ctx.restore(); } }] });
   },
+  // v43: два кольца. Снаружи — калории дня: зелёным съеденное в пределах нормы, жёлтым — калории, «заработанные» активностью
+  // (кольцо растёт на сожжённое), красным — второй круг, если съедено больше. Внутри — белки, углеводы, жиры. В центре — сколько осталось.
   macroDonut(size = 150, day = U.today()) {
-    // v25: сожжённые калории — отдельный кусок круга, цель дня растёт на их величину
-    const g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(day), burned = Calc.burnedOn(day), goal = g.cals + burned;
-    const parts = [['protein', '#3B82F6', 4], ['carbs', '#F97316', 4], ['fat', '#8B5CF6', 9]];
-    const goalCals = parts.reduce((a, [k, , kc]) => a + g[k] * kc, 0) || 1, base = burned ? g.cals / goal : 1;
-    const r = 40, c = 2 * Math.PI * r, gap = 0.03 * c; let off = 0;
-    const arc = (share, col, fill) => { const len = Math.max(0, share * c - gap), start = off; off += share * c;
-      return `<circle r="${r}" cx="50" cy="50" fill="none" stroke="${col}33" stroke-width="10" stroke-linecap="round" stroke-dasharray="${Math.max(0.01, len - 10)} ${c}" stroke-dashoffset="${-(start + 5)}" transform="rotate(-90 50 50)"/><circle class="donut-fill" r="${r}" cx="50" cy="50" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${fill > 0 ? Math.max(0.01, len * fill - 10) : 0} ${c}" stroke-dashoffset="${-(start + 5)}" transform="rotate(-90 50 50)"/>`; }; // v26: круглые концы не вылезают за свой сектор
-    let arcs = parts.map(([k, col, kc]) => arc(g[k] * kc / goalCals * base, col, U.clamp(total[k] / g[k], 0, 1))).join('');
-    if (burned) arcs += arc(1 - base, '#FACC15', U.clamp((total.cals - g.cals) / burned, 0, 1));
-    const pct = Math.round(total.cals / goal * 100);
-    return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">${arcs}<text x="50" y="${burned ? 44 : 47}" text-anchor="middle" font-size="15" font-weight="800" fill="currentColor" class="num">${Math.round(total.cals)}</text><text x="50" y="${burned ? 55 : 59}" text-anchor="middle" font-size="7" fill="var(--muted)">/ ${goal} ккал</text>${burned ? `<text x="50" y="64" text-anchor="middle" font-size="6.5" font-weight="800" fill="#FACC15">+${burned} 🔥</text>` : ''}<text x="50" y="${burned ? 73 : 70}" text-anchor="middle" font-size="8" font-weight="700" fill="${pct > 110 ? '#F97316' : '#10B981'}">${pct}%</text></svg>`;
+    const g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(day), burned = Calc.burnedOn(day), budget = Math.max(1, g.cals + burned), eaten = Math.round(total.cals), left = Math.round(budget - eaten);
+    const KC = '#34C759', BC = '#FFD60A', OC = '#FF453A', R = 54, W = 7, r = 43, w = 5;
+    const arc = (rad, wd, a, b, col, { op = 1, round = true, fill = false } = {}) => { // дуга от доли a до доли b; круглые концы не вылезают за свой отрезок
+      if (b - a <= 0.0004) return '';
+      const C = 2 * Math.PI * rad, pad = round ? wd / 2 : 0, len = Math.max(0.01, (b - a) * C - pad * 2);
+      return `<circle${fill ? ' class="kr-f"' : ''} r="${rad}" cx="60" cy="60" fill="none" stroke="${col}"${op < 1 ? ` stroke-opacity="${op}"` : ''} stroke-width="${wd}" stroke-linecap="${round ? 'round' : 'butt'}" transform="rotate(-90 60 60)" style="stroke-dasharray:${len.toFixed(2)} ${(C + 1).toFixed(2)};stroke-dashoffset:${(-(a * C + pad)).toFixed(2)}"/>`;
+    };
+    const base = g.cals / budget;
+    let out = arc(R, W, 0, 1, 'currentColor', { op: .08, round: false });
+    if (burned) out += arc(R, W, base, 1, BC, { op: .2, round: false });
+    if (eaten > 0) out += arc(R, W, 0, Math.max(0.0005, Math.min(eaten, g.cals) / budget), KC, { fill: true });
+    if (burned && eaten > g.cals) out += arc(R, W, base, Math.min(eaten, budget) / budget, BC, { fill: true });
+    if (eaten > budget) out += arc(R, W, 0, Math.min(1, (eaten - budget) / budget), OC, { fill: true });
+    const parts = [['protein', '#3B82F6', 4], ['carbs', '#F97316', 4], ['fat', '#8B5CF6', 9]], gk = parts.reduce((s, [k, , kc]) => s + g[k] * kc, 0) || 1, gap = 0.025;
+    let at = 0, inner = '';
+    parts.forEach(([k, col, kc]) => { const sh = g[k] * kc / gk, a = at + gap / 2, b = at + sh - gap / 2, p = U.clamp(total[k] / (g[k] || 1), 0, 1); at += sh;
+      inner += arc(r, w, a, b, col, { op: .2 }); if (p > 0) inner += arc(r, w, a, a + Math.max(0.0005, (b - a) * p), col, { fill: true }); });
+    const over = left < 0, y0 = burned ? 57 : 61;
+    const mid = `<text x="60" y="${y0}" text-anchor="middle" font-size="${Math.abs(left) >= 10000 ? 18 : 22}" class="kr-big num" fill="${over ? OC : 'currentColor'}">${Math.abs(left)}</text>
+      <text x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="600" fill="var(--muted)">${over ? 'ккал сверх' : 'ккал осталось'}</text>
+      ${burned ? `<text x="60" y="${y0 + 22}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}`;
+    return `<svg class="kring" viewBox="0 0 120 120" width="${size}" height="${size}" role="img" aria-label="${eaten} ккал">${out}${inner}${mid}</svg>`;
   },
   macroCard(k) {
     const g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(k);
     const leg = [['protein', T('protein'), '#3B82F6'], ['carbs', T('carbs'), '#F97316'], ['fat', T('fat'), '#8B5CF6']];
     return `<div class="card p-3 flex flex-col items-center">
       <button class="w-full flex flex-col items-center text-left" data-action="open-nutrition">
-      <div class="text-xs font-bold muted self-start"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')}</div>
+      <div class="text-xs font-bold muted self-start mb-1"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')}</div>
       ${this.macroDonut(150, k)}
-      <div class="grid grid-cols-3 gap-1 w-full text-center">${leg.map(([key, n, c]) => `<div><div class="text-[10px] font-bold" style="color:${c}">${n}</div><div class="text-[10px] num muted">${Math.round(total[key])}/${g[key]}</div></div>`).join('')}</div>
+      <div class="mlg">${leg.map(([key, n, c]) => `<div style="--c:${c};--p:${Math.round(U.clamp(total[key] / (g[key] || 1), 0, 1) * 100)}%"><small>${n}</small><b class="num">${Math.round(total[key])}<span>г</span></b><i></i></div>`).join('')}</div>
       </button>
     </div>`;
   },
@@ -6163,7 +6330,7 @@ const UI = {
     const byEx = {}; lifts.forEach(l => (byEx[l.exerciseName] = byEx[l.exerciseName] || []).push(l));
     const rows = [];
     if (lifts.length) rows.push(row('fa-dumbbell', '#10B981', done ? 'Тренировка засчитана' : 'Подходы', `${lifts.length} подх.`, Object.keys(byEx).map(e => `${U.esc(U.exRu(e))}: ${byEx[e].map(l => `${U.w(l.weight)}×${l.rmCategory}`).join(', ')}`).join('<br>')));
-    if (items.length) rows.push(row('fa-utensils', '#F97316', T('nutrition'), `${Math.round(total.cals)} ккал`, `Б ${Math.round(total.protein)} · У ${Math.round(total.carbs)} · Ж ${Math.round(total.fat)} · ${items.map(f => U.esc(f.name)).slice(0, 4).join(', ')}${items.length > 4 ? '…' : ''}`));
+    if (items.length) rows.push(row('fa-utensils', '#F97316', T('nutrition'), `${Math.round(total.cals)} ккал`, `Б ${Math.round(total.protein)} · У ${Math.round(total.carbs)} · Ж ${Math.round(total.fat)} · ${(ms => ms.slice(0, 4).map(d => U.esc(d.name)).join(', ') + (ms.length > 4 ? '…' : ''))(Calc.meals(k))}`));
     if (sl) rows.push(row('fa-moon', '#8B5CF6', T('sleep'), `${sl.hours} ч`, Calc.sleepGrade(Calc.sleepScore(sl.hours), sl.hours).label));
     if (w) rows.push(row('fa-droplet', '#0EA5E9', T('water'), `${(w / 1000).toFixed(1)} л`, ''));
     if (wt != null) rows.push(row('fa-scale', '#3B82F6', T('scale'), `${U.w(wt)} ${U.wUnit()}`, ''));
@@ -7399,7 +7566,7 @@ const App = {
     'h-cal-pick'(el) { UI.hDay = el.dataset.date; UI._stripFocus = el.dataset.date; UI.closeModal(); UI.renderNutrition(); },
     'open-weight'() { UI.openWeight(); },
     'weight-save'() { const kg = U.toKg(document.getElementById('wt-kg').value); if (!Game.logWeight(kg, UI.hDay || U.today())) { UI.toast('Проверь вес', 'red'); return; } UI.toast(`${T('scale')}: ${U.w(kg)} ${U.wUnit()}`, 'bl'); App.afterChange(); UI.openWeight(); },
-    'weight-del'(el) { Game.deleteWeight(el.dataset.id); App.afterChange(); UI.openWeight(); },
+    'weight-del'(el) { const id = el.dataset.id, w = (S.health.weights || []).find(x => x.id === id); UI.askDel('Удалить взвешивание?', { sub: w ? `${U.fmtDate(w.date)} · ${U.w(w.kg)} ${U.wUnit()}` : '', yes: () => Game.deleteWeight(id), back: () => UI.openWeight() }); },
     'water-plus'() { const v = parseInt(document.getElementById('water-ml')?.value) || S.profile.cupMl || 500; S.profile.cupMl = U.clamp(v, 50, 3000); if (!Game.logWater(S.profile.cupMl, UI.hDay || U.today())) { UI.toast('Проверь объём', 'red'); return; } App.afterChange(); },
     'water-minus'() { if (!Game.undoWater(UI.hDay || U.today())) { UI.toast('Пока нечего убирать', 'bl'); return; } App.afterChange(); },
     'water-cup'(el) { const v = parseInt(el.value); if (v >= 50 && v <= 3000) { S.profile.cupMl = v; save(); } },
@@ -7526,8 +7693,29 @@ const App = {
       finally { el.disabled = false; el.innerHTML = '<svg class="ic "><use href="#fa-bolt"/></svg> Оценить'; }
     },
     'food-confirm'() { const rows = UI.$$('[data-food-row]'); const items = rows.filter(r => r.querySelector('input').checked).map(r => UI._foodItems[+r.dataset.foodRow]); if (items.length) Game.logFood(items, UI.hDay || U.today()); UI.closeModal(); UI.toast(`Записано: ${items.length}`); App.afterChange(); UI.openNutrition(); },
-    'food-manual-save'() { const g = id => document.getElementById(id).value; const name = g('fm-name').trim(); if (!name) { UI.toast('Введи название', 'red'); return; } ['fm-name', 'fm-cals', 'fm-p', 'fm-c', 'fm-f'].forEach(i => App.clearDraft(i)); Game.logFood([{ name, cals: g('fm-cals'), protein: g('fm-p'), carbs: g('fm-c'), fat: g('fm-f') }], UI.hDay || U.today()); UI.closeModal(); App.afterChange(); UI.openNutrition(); },
-    'delete-food'(el) { Game.deleteFood(el.dataset.id); App.afterChange(); },
+    'food-manual-save'() {
+      const g = id => document.getElementById(id).value; const name = g('fm-name').trim(); if (!name) { UI.toast('Введи название', 'red'); return; }
+      ['fm-name', 'fm-cals', 'fm-p', 'fm-c', 'fm-f'].forEach(i => App.clearDraft(i));
+      const key = UI._fmDish, day = UI.hDay || U.today(), it = { name, cals: g('fm-cals'), protein: g('fm-p'), carbs: g('fm-c'), fat: g('fm-f') };
+      const d = key && Calc.meals(day).find(x => x.gid === key);
+      if (d) { Game.pinDish(key, true); Object.assign(it, { gid: key, gname: d.name, meal: d.meal || undefined }); } else it.meal = UI._fmMeal || AIFood.mealByTime();
+      Game.logFood([it], day); UI._fmDish = null; UI.closeModal(); App.afterChange(); if (d) UI.openDish(key); else UI.openNutrition();
+    },
+    'fm-meal'(el) { UI._fmMeal = el.dataset.val; document.querySelectorAll('#fm-meal button').forEach(b => b.classList.toggle('on', b.dataset.val === UI._fmMeal)); },
+    'delete-food'(el) { const id = el.dataset.id, f = S.nutrition.log.find(x => x.id === id); UI.askDel('Удалить запись?', { name: f ? f.name : '', yes: () => Game.deleteFood(id), back: () => UI.openNutrition() }); },
+    /* v43: блюда */
+    'dish-open'(el) { UI.openDish(el.dataset.id); },
+    'dish-meal'(el) { Game.setDishMeal(UI._dish, el.dataset.val); UI.openDish(UI._dish); if (UI.tab === 'nutrition') UI.renderNutrition(); },
+    'dish-add'() { const k = UI._dish; save(); UI.openFoodManual(k); },
+    'dish-item-del'(el) {
+      const key = UI._dish, id = el.dataset.id, f = S.nutrition.log.find(x => x.id === id); if (!f) return; save();
+      UI.askDel('Убрать продукт из блюда?', { name: f.name, sub: `${f.cals} ккал`, yes: () => { Game.pinDish(key); Game.deleteFood(id); }, back: () => UI.openDish(key) });
+    },
+    'dish-del'() {
+      const key = UI._dish, d = Calc.meals(UI.hDay || U.today()).find(x => x.gid === key); if (!d) return; save();
+      UI.askDel('Удалить блюдо?', { name: d.name, sub: `${d.t.cals} ккал${d.items.length > 1 ? ` · ${d.items.length} ${U.plural(d.items.length, 'продукт', 'продукта', 'продуктов')}` : ''}`, yes: () => Game.deleteDish(key), back: () => UI.openDish(key), done: () => UI.openNutrition() });
+    },
+    'dish-done'() { const day = UI.hDay || U.today(); clearTimeout(UI._dishT); Game.evaluateNutrition(day); App.afterChange(); UI.openNutrition(); },
     /* profile & shop */
     'open-shop'(el) { UI.openShop(el && el.dataset && el.dataset.tab); },
     'shop-tab'(el) { UI.openShop(el.dataset.val); const m = document.querySelector('#modal .modal'); if (m) m.scrollTop = 0; },
@@ -7591,17 +7779,18 @@ const App = {
       const day = UI._aifDay || U.today(), chat = AIFood.chat(day); chat.push({ role: 'me', text: text.slice(0, 600) }); ta.value = ''; UI._aifBusy = true; save(); UI.renderFoodAI();
       const r = await AIFood.ask('food', text, day); UI._aifBusy = false;
       if (r.error) chat.push({ role: 'err', text: r.error });
-      else { const it = r.items || [], meal = (it[0] && it[0].meal) || 'snack'; chat.push({ role: 'ai', items: it, grams: it.map(x => x.grams), on: it.map(() => true), meal, saved: false }); }
+      else { const it = r.items || [], meal = (it[0] && it[0].meal) || 'snack', own = (r.dish || '').trim() || AIFood.userTitle(text); chat.push({ role: 'ai', items: it, grams: it.map(x => x.grams), on: it.map(() => true), meal, title: own || AIFood.mealName(meal), auto: !own, saved: false }); }
       if (chat.length > 30) chat.splice(0, chat.length - 30); save(); if (UI._aifOpen) { UI.renderFoodAI(); const t2 = document.getElementById('aif-text'); if (t2 && r.error && !r.limit && !t2.value) t2.value = text; }
     },
     'aif-toggle'(el) { const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return; m.on[+el.dataset.j] = !m.on[+el.dataset.j]; save(); UI.renderFoodAI(); },
-    'aif-meal'(el) { const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return; m.meal = el.dataset.val; save(); UI.renderFoodAI(); },
+    'aif-meal'(el) { const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return; m.meal = el.dataset.val; if (m.auto !== false || !m.title) { m.title = AIFood.mealName(m.meal); m.auto = true; } save(); UI.renderFoodAI(); },
     'aif-drop'(el) { const c = AIFood.chat(UI._aifDay), i = +el.dataset.i; c.splice(i, 1); save(); UI.renderFoodAI(); },
     'aif-save'(el) {
       const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return;
-      const items = m.items.map((it, i) => m.on[i] && m.grams[i] > 0 ? { ...AIFood.scale(it, m.grams[i]), meal: m.meal } : null).filter(Boolean);
+      const gid = U.uid(), gname = String(m.title || '').trim() || AIFood.mealName(m.meal);
+      const items = m.items.map((it, i) => m.on[i] && m.grams[i] > 0 ? { ...AIFood.scale(it, m.grams[i]), meal: m.meal, gid, gname } : null).filter(Boolean);
       if (!items.length) { UI.toast('Отметь хотя бы один продукт', 'red'); return; }
-      Game.logFood(items, UI._aifDay); m.saved = true; save(); UI.renderFoodAI(); App.afterChange(); UI.flushEvents();
+      Game.logFood(items, UI._aifDay); m.saved = true; m.gid = gid; m.title = gname; save(); UI.renderFoodAI(); App.afterChange(); UI.flushEvents();
     },
     /* v24: активность */
     'activity-open'() { UI._actRes = null; UI._actErr = ''; UI.openActivity(); },
@@ -7620,7 +7809,7 @@ const App = {
       if (!(kcal > 0 && kcal <= 5000)) { UI._actErr = 'Впиши калории: от 1 до 5000'; UI.renderActivity(); return; }
       Game.logBurn([{ name: v('act-name').trim() || 'Активность', kcal, minutes: +v('act-mins') || null }], UI._actDay, 'manual'); UI._actErr = ''; UI.renderActivity(); const ki = document.getElementById('act-kcal'); if (ki) ki.value = ''; App.afterChange(); UI.toast(`+${kcal} ккал к цели`, 'or');
     },
-    'act-del'(el) { Game.deleteBurn(el.dataset.id); UI.renderActivity(); App.afterChange(); },
+    'act-del'(el) { const id = el.dataset.id, x = (S.nutrition.burn || []).find(b => b.id === id), tab = UI._actTab; UI.askDel('Удалить активность?', { name: x ? x.name : '', sub: x ? `+${x.kcal} ккал` : '', yes: () => Game.deleteBurn(id), back: () => UI.openActivity(tab) }); },
     /* v23: приглашения */
     'set-open'(el) { UI.openSettings(el.dataset.val); },
     'ref-copy'(el) { const t = el.dataset.val; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { el.innerHTML = '<svg class="ic text-em"><use href="#fa-check"/></svg>'; }, () => {}); },
@@ -8002,6 +8191,12 @@ const App = {
     document.addEventListener('input', e => {
       const el = e.target; if (!el || !el.dataset) return;
       if (el.dataset.action === 'aif-grams') { const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return; m.grams[+el.dataset.j] = U.clamp(Math.round(+el.value || 0), 0, 3000); UI.aifTotals(+el.dataset.i); clearTimeout(this._aifT); this._aifT = setTimeout(save, 600); }
+      if (el.dataset.action === 'aif-title') { const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return; m.title = el.value.slice(0, 40); m.auto = false; clearTimeout(this._aifT); this._aifT = setTimeout(save, 600); }
+      if (el.dataset.action === 'dish-f' || el.dataset.action === 'dish-name') { // v43: правка блюда сразу пересчитывает цифры
+        if (el.dataset.action === 'dish-name') Game.renameDish(UI._dish, el.value); else Game.updateFood(el.dataset.id, { [el.dataset.k]: el.value });
+        if (el.dataset.k !== 'name') UI.dishTotals();
+        clearTimeout(UI._dishT); UI._dishT = setTimeout(() => { save(); if (UI.tab === 'nutrition') UI.renderNutrition(); }, 500);
+      }
       if (el.dataset.action === 'act-min') { const x = (UI._actRes || [])[+el.dataset.j]; if (!x) return; x._min = U.clamp(Math.round(+el.value || 0), 0, 600); const k = document.querySelector(`[data-ak="${el.dataset.j}"]`); if (k) k.textContent = AIFood.burn(x, x._min).kcal; }
     });
     document.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && e.target && e.target.id === 'aif-text') { e.preventDefault(); this.actions['aif-send'](); } if (e.key === 'Enter' && e.target && e.target.id === 'act-kcal') { e.preventDefault(); this.actions['act-manual'](); } });

@@ -29,6 +29,7 @@ const SCHEMA_FOOD = {
         required: ["name", "grams", "kcal100", "p100", "c100", "f100", "meal"],
       },
     },
+    dish: { type: "STRING" },
   },
   required: ["items"],
 };
@@ -52,6 +53,7 @@ function prompt(kind, b) {
   if (kind === "food") {
     return `Ты нутрициолог. Пользователь пишет, что он съел. Разбери текст на отдельные продукты или блюда.
 Для каждого: name — короткое название на языке «${lang}»; grams — вес порции в граммах (если указаны штуки, ложки, тарелки или порция не указана — оцени типичный вес); kcal100, p100, c100, f100 — калории, белки, углеводы и жиры на 100 г по справочным таблицам (для готового блюда — для готового вида); meal — приём пищи по тексту (завтрак → breakfast, обед → lunch, ужин → dinner, перекус → snack), а если не сказано — по времени ${str(b.time, 5) || "12:00"}.
+dish — название блюда, только если пользователь сам его назвал (например «Сырники от бабушки: …» или «Шаурма после зала — …»); иначе пустая строка, не придумывай.
 Напитки тоже считай (вода и чай/кофе без сахара — 0 ккал, их можно не включать). Не выдумывай продукты, которых нет в тексте. Если еды в тексте нет — верни пустой items.
 Текст: """${text}"""`;
   }
@@ -87,7 +89,7 @@ async function gemini(key, kind, b) {
       if (r.status !== 200) { last = j?.error?.message || `AI ${r.status}`; continue; }
       const t = (j?.candidates?.[0]?.content?.parts || []).map((p) => p.text || "").join("");
       const o = JSON.parse(t.match(/\{[\s\S]*\}/)?.[0] || "{}");
-      return clean(kind, o.items);
+      return { items: clean(kind, o.items), dish: kind === "food" ? str(o.dish, 40) : "" }; // v43: название блюда
     } catch (e) { last = String(e?.message || e); }
   }
   throw new Error(last);
@@ -111,9 +113,9 @@ export async function handler(req) {
   const left = await q.json();
   if (left < 0) return reply({ error: "limit", left: 0, limit: LIMIT[kind], message: "Лимит на сегодня исчерпан" }, 429);
   try {
-    const items = await gemini(KEY, kind, b);
+    const { items, dish } = await gemini(KEY, kind, b);
     if (!items.length) await rpc("ai_quota_refund", { p_user: u.id, p_kind: kind, p_day: day }); // ничего не нашёл — попытку не списываем
-    return reply({ ok: true, items, left: items.length ? left : left + 1, limit: LIMIT[kind] });
+    return reply({ ok: true, items, dish, left: items.length ? left : left + 1, limit: LIMIT[kind] });
   } catch (e) {
     await rpc("ai_quota_refund", { p_user: u.id, p_kind: kind, p_day: day });
     return reply({ error: "ai", message: "ИИ сейчас не ответил, попробуй ещё раз", detail: String(e?.message || e).slice(0, 200) }, 502);
