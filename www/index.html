@@ -1596,7 +1596,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '45',
+  APP_VERSION: '46',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -6976,19 +6976,19 @@ Object.assign(UI, {
     if (t >= 5) s += F(ring(51, 49.4), lt, dk, ev);
     if (t >= 1) s += [-Math.PI / 4, -3 * Math.PI / 4, Math.PI / 4 - .05, 3 * Math.PI / 4 + .05].map(a => stud(a)).join('');
     if (t >= 2) s += F(this._rpoly([[-12, -44], [-15, -56], [-6, -49], [0, -59], [6, -49], [15, -56], [12, -44]], 1.2), t >= 4 ? '#F5C04A' : lt, t >= 4 ? '#C98A14' : dk);
-    s += `<g transform="translate(0 47) scale(.34)">${this.rankArt(i)}</g>`;
+    s += `<image href="${this.medalSrc(i)}" x="-19" y="28" width="38" height="38" preserveAspectRatio="xMidYMid meet"/>`;
     const O = Math.round(size * 120 / 83);
     return `<span class="pfr rfr">${inner}<svg class="rfr-o" viewBox="-60 -60 120 120" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px" aria-hidden="true">${s}</svg></span>`;
   },
+  // v46: эмблемы рангов — готовые картинки ranks/rank_NN.webp (NN = номер арены, 01…17)
+  medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp`; },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
   medal(idx, o = {}) {
-    this.medalDefs();
     const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), a = CONFIG.ARENAS[i], size = o.size || 64, small = size < 40, c = a.color;
-    let s = '';
-    const k = (i <= 2 ? 1.2 : i <= 3 ? 1.1 : 1) * (o.stars != null && !small ? .92 : 1);
-    s += `<g transform="translate(0 ${o.stars != null && !small ? -4 : 0}) scale(${k})">${this.rankArt(i)}</g>`;
+    const below = !small && (o.place || o.stars != null), w = below ? 104 : 120, y = below ? -62 : -60;
+    let s = `<image href="${this.medalSrc(i)}" x="${-w / 2}" y="${y}" width="${w}" height="${w}" preserveAspectRatio="xMidYMid meet"/>`;
     if (o.place) s += `<g transform="translate(0 47)"><rect x="-15" y="-7" width="30" height="13" rx="6.5" fill="#0b0b0c" stroke="#F5C04A" stroke-width="1.4"/><text y="3.6" text-anchor="middle" font-size="10" font-weight="900" fill="#FFE07A" font-family="var(--disp),sans-serif">#${o.place}</text></g>`;
-    else if (o.stars != null && !small) s += [-16, -8, 0, 8, 16].map((x, k) => { const on = k < o.stars; return `<path class="${k === o.stars - 1 && o.pop ? 'md-pop' : ''}" d="M${x} 44l3.6 4.6-3.6 4.6-3.6-4.6Z" fill="${on ? '#FFFFFF' : 'rgba(255,255,255,.18)'}" stroke="${on ? c : 'none'}" stroke-width=".8"/>`; }).join('');
+    else if (o.stars != null && !small) s += [-16, -8, 0, 8, 16].map((x, k) => { const on = k < o.stars; return `<path class="${k === o.stars - 1 && o.pop ? 'md-pop' : ''}" d="M${x} 47l3.6 4.6-3.6 4.6-3.6-4.6Z" fill="${on ? '#FFFFFF' : 'rgba(255,255,255,.18)'}" stroke="${on ? c : 'none'}" stroke-width=".8"/>`; }).join('');
     return `<svg class="medal ${o.cls || ''}" viewBox="-60 -62 120 122" width="${size}" height="${size}" role="img" aria-label="${U.esc(TN(a.name))}${o.stars ? ` ${o.stars}/5` : ''}">${s}</svg>`;
   },
   rankDot(a) { return `<span class="rank-dot">${this.medal(CONFIG.ARENAS.indexOf(a), { size: 18, anim: false })}</span>`; },
