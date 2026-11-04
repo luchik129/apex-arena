@@ -1146,6 +1146,57 @@ html{overflow-x:hidden;overscroll-behavior:none}body{overflow-x:clip;max-width:1
 .rank-chip .medal{filter:drop-shadow(0 0 4px color-mix(in srgb,var(--c) 60%,transparent))}
 .rk-show{box-shadow:0 8px 22px -16px var(--rc)}
 .rku-burst{opacity:.85}
+/* v40: силуэт-аватар */
+:root{--avbg:#3A3A3C;--avfg:#9A9AA0}
+html.light{--avbg:#D1D1D6;--avfg:#FFFFFF}
+/* v40: серия в кружке, подсказки, лифты, перевод постов, плеер, вход */
+.stk{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:.05em;border-radius:50%;line-height:1;flex:none}
+.stk .ic{width:.92em;height:.92em}
+.stk b{font-family:var(--disp);font-size:.8em;font-weight:900;letter-spacing:-.02em}
+.stk.on{background:#FF9500;color:#fff;box-shadow:0 0 0 3px rgba(255,149,0,.2)}
+.stk.risk{background:var(--card);color:#FF9500;box-shadow:inset 0 0 0 2px #FF9500}
+.stk.off{background:var(--card);color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line)}
+.hm-top .streak-btn{margin-top:0;border-radius:50%}
+.tipbox{position:fixed;z-index:300;max-width:16rem;padding:.55rem .75rem;border-radius:.8rem;background:var(--text);color:var(--bg);font-size:.78rem;font-weight:600;line-height:1.3;box-shadow:0 8px 24px rgba(0,0,0,.35);pointer-events:none;animation:tipIn .16s ease-out}
+.tipbox:after{content:'';position:absolute;left:var(--ax,50%);bottom:-5px;width:10px;height:10px;margin-left:-5px;background:var(--text);transform:rotate(45deg);border-radius:2px}
+.tipbox.below:after{bottom:auto;top:-5px}
+@keyframes tipIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hm-st{flex-direction:row;justify-content:center;padding:.7rem .2rem}
+.hm-st b{font-size:1.05rem}
+.pf-st{flex-direction:row;justify-content:center;gap:.4rem;padding:.75rem .2rem}
+.pf-st .ic{width:1.05rem;height:1.05rem}
+.hm-tile{min-height:6.6rem}
+.b3-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.45rem}
+.b3{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.75rem .3rem .65rem;border-radius:1.1rem;background:var(--sub);border:1px solid var(--line);min-width:0}
+.b3 .ic{width:1.9rem;height:1.9rem;margin-bottom:.15rem}
+.b3 b{font-family:var(--disp);font-size:1.25rem;font-weight:900;letter-spacing:-.02em;line-height:1}
+.b3 b small{font-size:.6em;color:var(--muted);margin-left:.1rem;font-weight:700}
+.b3-r{font-size:.7rem;color:var(--muted);font-weight:700}
+.b3-n{font-size:.66rem;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.b3-more{margin-top:.5rem;border-radius:1rem;background:var(--sub);border:1px solid var(--line);overflow:hidden}
+.b3-more summary{display:flex;align-items:center;gap:.5rem;padding:.65rem .8rem;font-size:.82rem;font-weight:700;cursor:pointer;list-style:none}
+.b3-more summary::-webkit-details-marker{display:none}
+.b3-more summary span{flex:1}.b3-more summary b{color:var(--muted);font-size:.78rem}
+.b3-more summary .ic{transition:transform .2s;color:var(--muted)}.b3-more[open] summary .ic{transform:rotate(180deg)}
+.b3-li{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.55rem .8rem;border-top:1px solid var(--line);font-size:.82rem}
+.b3-li b{font-weight:800;white-space:nowrap}.b3-li small{color:var(--muted);font-weight:600}
+.post-tr{display:inline-flex;align-items:center;gap:.35rem;margin:-.2rem 0 .6rem;padding:.3rem .6rem;border-radius:999px;font-size:.72rem;font-weight:700;color:var(--muted);background:var(--sub);border:1px solid var(--line)}
+.post-tr.on{color:var(--text)}
+.post-tr .ic{width:.9rem;height:.9rem}
+.vp.fs{position:fixed;inset:0;z-index:300;margin:0;background:#000;border-radius:0;max-height:none;aspect-ratio:auto}
+.vp.fs video{inset:max(env(safe-area-inset-top),2.2rem) 0 calc(max(env(safe-area-inset-bottom),1.4rem) + 3.6rem)}
+.vp.fs .vp-bar{bottom:max(env(safe-area-inset-bottom),1.4rem);padding:.9rem max(env(safe-area-inset-right),1rem) .7rem max(env(safe-area-inset-left),1rem);background:linear-gradient(transparent,#000c 40%)}
+.vp.fs .vp-bar button{width:2.6rem;height:2.6rem}.vp.fs .vp-bar .ic{width:1.3rem;height:1.3rem}
+body.vp-fs-on{overflow:hidden}body.vp-fs-on #nav,body.vp-fs-on #header{visibility:hidden}
+.au-hero{position:relative;width:96px;height:96px;margin:1.4rem 0 -.4rem}
+.au-hero video{position:absolute;inset:0;width:100%;height:100%;background:var(--bg);border-radius:1.4rem}
+html.light .au-hero video{filter:invert(1);background:#fff}
+.au-hero .au-hero-logo{display:none;width:100%;height:auto;color:var(--text);margin-top:18px}
+.au-hero.nov video{display:none}.au-hero.nov .au-hero-logo{display:block}
+.au-welcome>*{animation:auIn .55s cubic-bezier(.2,.8,.2,1) both}
+.au-welcome>*:nth-child(2){animation-delay:.05s}.au-welcome>*:nth-child(3){animation-delay:.12s}.au-welcome>*:nth-child(4){animation-delay:.2s}.au-welcome>*:nth-child(5){animation-delay:.28s}.au-welcome>*:nth-child(n+6){animation-delay:.36s}
+@keyframes auIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.au-title{font-size:2.4rem}
 </style>
 </head>
 <body>
@@ -1278,6 +1329,10 @@ html{overflow-x:hidden;overscroll-behavior:none}body{overflow-x:clip;max-width:1
 <symbol id="fa-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8zM5 2l.6 1.4L7 4l-1.4.6L5 6l-.6-1.4L3 4l1.4-.6z"/></symbol>
 <symbol id="fa-user-xmark" viewBox="0 0 24 24"><path d="M15 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M12.5 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM17 8l5 5M22 8l-5 5"/></symbol>
 <symbol id="fa-check-double" viewBox="0 0 24 24"><path d="m2 12 5 5L18 6M12 16l1 1L22 8"/></symbol>
+<symbol id="fa-lift-bench" viewBox="0 0 24 24"><path d="M2.5 17.5h12.5M5 17.5V21M13 17.5V21"/><circle cx="4.6" cy="13.6" r="1.7" fill="currentColor"/><path d="M6.6 14.2h7.4l2.6 3.3v3.4M9.6 14V8.4" stroke-width="2.2"/><path d="M3 8.4h13" stroke-width="1.6"/><rect x="2.4" y="5.6" width="2.2" height="5.6" rx=".7" fill="currentColor"/><rect x="14.4" y="5.6" width="2.2" height="5.6" rx=".7" fill="currentColor"/></symbol>
+<symbol id="fa-lift-squat" viewBox="0 0 24 24"><circle cx="12.4" cy="4.4" r="1.8" fill="currentColor"/><path d="M4 8h16" stroke-width="1.6"/><rect x="3.2" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><rect x="18.6" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><path d="M12.2 8.4 10.8 13.6l4.8 1.4-1.2 5.6M10.8 13.6l-2.4 2 .6 4.6M10 8.6 8.6 8" stroke-width="2.2"/></symbol>
+<symbol id="fa-lift-dead" viewBox="0 0 24 24"><circle cx="7.6" cy="6" r="1.8" fill="currentColor"/><path d="M9.2 7.8 15.6 11.4 15 15.6l.6 4.8M15.6 11.4l2.4 4 -.6 4.8M10.4 8.6v7" stroke-width="2.2"/><path d="M3 16.4h15" stroke-width="1.6"/><circle cx="4.6" cy="16.4" r="3" fill="currentColor" stroke="none" opacity=".9"/><circle cx="16.6" cy="16.4" r="3" fill="currentColor" stroke="none" opacity=".9"/></symbol>
+<symbol id="fa-language" viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c.8 3.5 3 6 6 7.5M11 5c-.8 3.5-3.4 6.4-7 8"/><path d="M12.5 21 16.5 11l4 10M13.8 18h5.4"/></symbol>
 <symbol id="fa-house" viewBox="0 0 24 24"><path d="M3 10a2 2 0 0 1 .7-1.53l7-6a2 2 0 0 1 2.6 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M15 21v-7a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v7"/></symbol>
 <symbol id="fa-heart-pulse" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3.5 12h4l2-3 3 6 2-3h6"/></symbol>
 </svg>
@@ -1343,7 +1398,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '39',
+  APP_VERSION: '40',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1606,6 +1661,8 @@ MT.SEED_V32 = {"en": {"меньше": "less", "больше": "more", "подх�
 Object.keys(MT.SEED_V32).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V32[l]));
 MT.SEED_V33 = {"en": {"Ур. {0}": "Lv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Star {0} of {1} · next in {2} trophies", "Арена {0} из {1} · от {2} кубков": "Arena {0} of {1} · from {2} trophies", "Лига {0} · от {1} кубков": "League {0} · from {1} trophies", "На этой арене есть Босс: силовой тест для перехода дальше": "This arena has a Boss: a strength test to move on", "Новая лига": "New league", "Все {0} звёзд: впереди новая арена": "All {0} stars: a new arena is next"}, "uk": {"Ур. {0}": "Рів. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Зірка {0} з {1} · наступна через {2} кубків", "Арена {0} из {1} · от {2} кубков": "Арена {0} з {1} · від {2} кубків", "Лига {0} · от {1} кубков": "Ліга {0} · від {1} кубків", "На этой арене есть Босс: силовой тест для перехода дальше": "На цій арені є Бос: силовий тест для переходу далі", "Новая лига": "Нова ліга", "Все {0} звёзд: впереди новая арена": "Усі {0} зірок: попереду нова арена"}, "kk": {"Ур. {0}": "{0}-деңгей", "Звезда {0} из {1} · следующая через {2} кубков": "{0}/{1} жұлдыз · келесісі {2} кубоктан кейін", "Арена {0} из {1} · от {2} кубков": "{1} аренадан {0} · {2} кубоктан", "Лига {0} · от {1} кубков": "{0}-лига · {1} кубоктан", "На этой арене есть Босс: силовой тест для перехода дальше": "Бұл аренада Босс бар: әрі өту үшін күш сынағы", "Новая лига": "Жаңа лига", "Все {0} звёзд: впереди новая арена": "Барлық {0} жұлдыз: алда жаңа арена"}, "de": {"Ур. {0}": "Lvl {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Stern {0} von {1} · nächster in {2} Trophäen", "Арена {0} из {1} · от {2} кубков": "Arena {0} von {1} · ab {2} Trophäen", "Лига {0} · от {1} кубков": "Liga {0} · ab {1} Trophäen", "На этой арене есть Босс: силовой тест для перехода дальше": "Diese Arena hat einen Boss: ein Krafttest, um weiterzukommen", "Новая лига": "Neue Liga", "Все {0} звёзд: впереди новая арена": "Alle {0} Sterne: als Nächstes eine neue Arena"}, "es": {"Ур. {0}": "Nv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Estrella {0} de {1} · la siguiente en {2} trofeos", "Арена {0} из {1} · от {2} кубков": "Arena {0} de {1} · desde {2} trofeos", "Лига {0} · от {1} кубков": "Liga {0} · desde {1} trofeos", "На этой арене есть Босс: силовой тест для перехода дальше": "Esta arena tiene un Jefe: una prueba de fuerza para avanzar", "Новая лига": "Nueva liga", "Все {0} звёзд: впереди новая арена": "{0} estrellas: sigue una nueva arena"}, "fr": {"Ур. {0}": "Niv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Étoile {0} sur {1} · prochaine dans {2} trophées", "Арена {0} из {1} · от {2} кубков": "Arène {0} sur {1} · dès {2} trophées", "Лига {0} · от {1} кубков": "Ligue {0} · dès {1} trophées", "На этой арене есть Босс: силовой тест для перехода дальше": "Cette arène a un Boss : un test de force pour avancer", "Новая лига": "Nouvelle ligue", "Все {0} звёзд: впереди новая арена": "{0} étoiles : une nouvelle arène t'attend"}, "tr": {"Ур. {0}": "Sv. {0}", "Звезда {0} из {1} · следующая через {2} кубков": "Yıldız {0}/{1} · sonraki {2} kupa sonra", "Арена {0} из {1} · от {2} кубков": "Arena {0}/{1} · {2} kupadan itibaren", "Лига {0} · от {1} кубков": "Lig {0} · {1} kupadan itibaren", "На этой арене есть Босс: силовой тест для перехода дальше": "Bu arenada bir Patron var: ilerlemek için güç testi", "Новая лига": "Yeni lig", "Все {0} звёзд: впереди новая арена": "{0} yıldızın hepsi: sırada yeni arena"}};
 Object.keys(MT.SEED_V33).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V33[l]));
+MT.SEED_V40 = {"en": {"Тренировки на этой неделе из твоей цели": "Workouts this week out of your goal", "Монеты: за тренировки и арены, тратятся в магазине": "Coins: earned for workouts and arenas, spent in the shop", "Уровень: растёт от опыта за тренировки и рекорды": "Level: grows with XP from workouts and records", "Личные рекорды за всё время": "Personal records, all time", "Засчитанные тренировки за всё время": "Counted workouts, all time", "Личные рекорды": "Personal records", "Серия: дней подряд с записями": "Streak: days in a row with entries", "Друзья": "Friends", "{0}: пока нет записи": "{0}: no entry yet", "Другие рекорды": "Other records", "Перевести": "Translate", "Показать оригинал": "Show original", "Перевод недоступен": "Translation unavailable", "Жим лёжа": "Bench press", "Присед": "Squat", "Становая тяга": "Deadlift"}, "uk": {"Тренировки на этой неделе из твоей цели": "Тренування цього тижня з твоєї цілі", "Монеты: за тренировки и арены, тратятся в магазине": "Монети: за тренування й арени, витрачаються в магазині", "Уровень: растёт от опыта за тренировки и рекорды": "Рівень: росте від досвіду за тренування й рекорди", "Личные рекорды за всё время": "Особисті рекорди за весь час", "Засчитанные тренировки за всё время": "Зараховані тренування за весь час", "Личные рекорды": "Особисті рекорди", "Серия: дней подряд с записями": "Серія: днів поспіль із записами", "Друзья": "Друзі", "{0}: пока нет записи": "{0}: поки немає запису", "Другие рекорды": "Інші рекорди", "Перевести": "Перекласти", "Показать оригинал": "Показати оригінал", "Перевод недоступен": "Переклад недоступний", "Жим лёжа": "Жим лежачи", "Присед": "Присід", "Становая тяга": "Станова тяга"}, "kk": {"Тренировки на этой неделе из твоей цели": "Осы аптадағы жаттығулар, мақсатыңнан", "Монеты: за тренировки и арены, тратятся в магазине": "Монеталар: жаттығу мен арена үшін, дүкенде жұмсалады", "Уровень: растёт от опыта за тренировки и рекорды": "Деңгей: жаттығу мен рекордтардан тәжірибемен өседі", "Личные рекорды за всё время": "Барлық уақыттағы жеке рекордтар", "Засчитанные тренировки за всё время": "Барлық уақыттағы есептелген жаттығулар", "Личные рекорды": "Жеке рекордтар", "Серия: дней подряд с записями": "Серия: жазбасы бар қатарынан күндер", "Друзья": "Достар", "{0}: пока нет записи": "{0}: әзірге жазба жоқ", "Другие рекорды": "Басқа рекордтар", "Перевести": "Аудару", "Показать оригинал": "Түпнұсқаны көрсету", "Перевод недоступен": "Аударма қолжетімсіз", "Жим лёжа": "Жатып жим", "Присед": "Отырып-тұру", "Становая тяга": "Становая тартылыс"}, "de": {"Тренировки на этой неделе из твоей цели": "Trainings diese Woche von deinem Ziel", "Монеты: за тренировки и арены, тратятся в магазине": "Münzen: für Trainings und Arenen, im Shop ausgeben", "Уровень: растёт от опыта за тренировки и рекорды": "Level: steigt mit XP aus Trainings und Rekorden", "Личные рекорды за всё время": "Persönliche Rekorde insgesamt", "Засчитанные тренировки за всё время": "Gezählte Trainings insgesamt", "Личные рекорды": "Persönliche Rekorde", "Серия: дней подряд с записями": "Serie: Tage in Folge mit Einträgen", "Друзья": "Freunde", "{0}: пока нет записи": "{0}: noch kein Eintrag", "Другие рекорды": "Weitere Rekorde", "Перевести": "Übersetzen", "Показать оригинал": "Original anzeigen", "Перевод недоступен": "Übersetzung nicht verfügbar", "Жим лёжа": "Bankdrücken", "Присед": "Kniebeuge", "Становая тяга": "Kreuzheben"}, "es": {"Тренировки на этой неделе из твоей цели": "Entrenos esta semana de tu meta", "Монеты: за тренировки и арены, тратятся в магазине": "Monedas: por entrenos y arenas, se gastan en la tienda", "Уровень: растёт от опыта за тренировки и рекорды": "Nivel: sube con la experiencia de entrenos y récords", "Личные рекорды за всё время": "Récords personales de siempre", "Засчитанные тренировки за всё время": "Entrenos contados de siempre", "Личные рекорды": "Récords personales", "Серия: дней подряд с записями": "Racha: días seguidos con registros", "Друзья": "Amigos", "{0}: пока нет записи": "{0}: aún sin registro", "Другие рекорды": "Otros récords", "Перевести": "Traducir", "Показать оригинал": "Ver original", "Перевод недоступен": "Traducción no disponible", "Жим лёжа": "Press de banca", "Присед": "Sentadilla", "Становая тяга": "Peso muerto"}, "fr": {"Тренировки на этой неделе из твоей цели": "Séances cette semaine sur ton objectif", "Монеты: за тренировки и арены, тратятся в магазине": "Pièces : gagnées aux séances et arènes, à dépenser en boutique", "Уровень: растёт от опыта за тренировки и рекорды": "Niveau : monte avec l'XP des séances et records", "Личные рекорды за всё время": "Records personnels au total", "Засчитанные тренировки за всё время": "Séances comptées au total", "Личные рекорды": "Records personnels", "Серия: дней подряд с записями": "Série : jours d'affilée avec des entrées", "Друзья": "Amis", "{0}: пока нет записи": "{0} : pas encore de record", "Другие рекорды": "Autres records", "Перевести": "Traduire", "Показать оригинал": "Voir l'original", "Перевод недоступен": "Traduction indisponible", "Жим лёжа": "Développé couché", "Присед": "Squat", "Становая тяга": "Soulevé de terre"}, "tr": {"Тренировки на этой неделе из твоей цели": "Bu hafta hedefinden antrenmanlar", "Монеты: за тренировки и арены, тратятся в магазине": "Coin: antrenman ve arenalardan, mağazada harcanır", "Уровень: растёт от опыта за тренировки и рекорды": "Seviye: antrenman ve rekorlardan gelen XP ile artar", "Личные рекорды за всё время": "Tüm zamanların kişisel rekorları", "Засчитанные тренировки за всё время": "Tüm zamanlarda sayılan antrenmanlar", "Личные рекорды": "Kişisel rekorlar", "Серия: дней подряд с записями": "Seri: kayıt olan art arda günler", "Друзья": "Arkadaşlar", "{0}: пока нет записи": "{0}: henüz kayıt yok", "Другие рекорды": "Diğer rekorlar", "Перевести": "Çevir", "Показать оригинал": "Orijinali göster", "Перевод недоступен": "Çeviri kullanılamıyor", "Жим лёжа": "Bench press", "Присед": "Squat", "Становая тяга": "Deadlift"}};
+Object.keys(MT.SEED_V40).forEach(l => Object.keys(MT.SEED_V40[l]).forEach(k => { if (!(MT.SEED_ADD[l] || {})[k] && !(MT.SEED[l] || {})[k]) (MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}))[k] = MT.SEED_V40[l][k]; }));
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -3061,6 +3118,10 @@ const Gemini = {
     const prompt = `Переведи названия силовых упражнений на язык: ${langName}. Исходный язык любой. Верни массив {src, dst}: src — исходное название БЕЗ изменений, dst — короткое название, как принято в спорте на этом языке (если уже на нужном языке — верни как есть). Названия:\n${names.map(x => JSON.stringify(x)).join('\n')}`;
     return this.call([{ text: prompt }], this.SCHEMA_TRANSLATE);
   },
+  translatePost(text, langName) {
+    const prompt = `Переведи пост из соцсети фитнес-приложения на язык: ${langName}. Сохрани смысл, тон, эмодзи, хэштеги (#...) и переносы строк. Если текст уже на этом языке, верни его без изменений. Верни объект {text}.\n\n${String(text).slice(0, 1500)}`;
+    return this.call([{ text: prompt }], { type: 'OBJECT', properties: { text: { type: 'STRING' } }, required: ['text'] });
+  },
   translate(strings, langName) {
     const prompt = `Переведи строки интерфейса фитнес-приложения с русского на язык: ${langName}. Верни массив объектов {src, dst}, где src — исходная строка БЕЗ изменений, dst — перевод. Плейсхолдеры вида {0}, {1} — это числа: сохрани их в переводе без изменений. Сохраняй единицы, эмодзи, знаки «·», «→», «×», регистр и краткость. Это короткие подписи кнопок и карточек мобильного приложения. Названия упражнений переводи как принято в спорте. Строки:\n${strings.map(x => JSON.stringify(x)).join('\n')}`;
     return this.call([{ text: prompt }], this.SCHEMA_TRANSLATE);
@@ -4233,27 +4294,11 @@ const UI = {
     const ring = frame ? `<circle cx="50" cy="50" r="47" fill="none" stroke="${frame.anim ? 'url(#rainbow)' : frame.color}" stroke-width="4" ${frame.id === 'frame_neon' ? 'style="filter:drop-shadow(0 0 4px ' + frame.color + ')"' : ''} ${frame.anim ? 'class="frame-anim"' : ''}/>${frame.id === 'frame_gold' ? '<circle cx="50" cy="50" r="43" fill="none" stroke="#FDE68A" stroke-width="1.5" stroke-dasharray="4 3"/>' : ''}` : '';
     const rainbowDef = `<linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F472B6"/><stop offset=".5" stop-color="#8B5CF6"/><stop offset="1" stop-color="#10B981"/></linearGradient>`;
     if (av.photo) return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="clp"><circle cx="50" cy="50" r="45"/></clipPath>${rainbowDef}</defs><circle cx="50" cy="50" r="45" fill="#1E293B"/><image href="${av.photo}" x="5" y="5" width="90" height="90" clip-path="url(#clp)" preserveAspectRatio="xMidYMid slice"/>${ring}</svg>`;
-    return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
-      <defs><clipPath id="cl"><circle cx="50" cy="50" r="45"/></clipPath>${rainbowDef}</defs>
-      <circle cx="50" cy="50" r="45" fill="#1E293B"/>
-      <g clip-path="url(#cl)">
-        <path d="M22 100 Q22 72 50 70 Q78 72 78 100 Z" fill="${outfit.color}" ${outfit.glow ? 'style="filter:drop-shadow(0 0 3px #A78BFA)"' : ''}/>
-        ${outfit.id === 'outfit_tank' ? `<path d="M36 72 L42 86 L50 80 L58 86 L64 72 Q50 70 36 72Z" fill="${av.skin}"/>` : ''}
-        ${outfit.id === 'outfit_gi' ? `<path d="M50 70 L38 100 L50 78 L62 100 Z" fill="#CBD5E1"/><rect x="30" y="92" width="40" height="4" fill="#111827"/>` : ''}
-        ${outfit.id === 'outfit_hoodie' ? `<path d="M40 72 Q50 82 60 72" stroke="#93C5FD" stroke-width="2" fill="none"/><line x1="46" y1="76" x2="46" y2="88" stroke="#F8FAFC" stroke-width="1.5"/><line x1="54" y1="76" x2="54" y2="88" stroke="#F8FAFC" stroke-width="1.5"/>` : ''}
-        ${outfit.id === 'outfit_cyber' ? `<path d="M30 80 L70 80" stroke="#22D3EE" stroke-width="1.5"/><path d="M34 90 L66 90" stroke="#22D3EE" stroke-width="1"/>` : ''}
-        <rect x="44" y="58" width="12" height="14" rx="4" fill="${av.skin}"/>
-        <ellipse cx="50" cy="46" rx="17" ry="19" fill="${av.skin}"/>
-        ${hair}
-        <circle cx="43" cy="46" r="2.2" fill="#0F172A"/><circle cx="57" cy="46" r="2.2" fill="#0F172A"/>
-        <circle cx="43.8" cy="45.2" r=".7" fill="#fff"/><circle cx="57.8" cy="45.2" r=".7" fill="#fff"/>
-        <path d="M44 55 Q50 60 56 55" stroke="#9A3412" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-        <ellipse cx="40" cy="52" rx="3" ry="1.6" fill="#FCA5A5" opacity=".5"/><ellipse cx="60" cy="52" rx="3" ry="1.6" fill="#FCA5A5" opacity=".5"/>
-        ${fem ? `<path d="M33 44 Q36 30 50 31 Q60 31 66 40 Q56 34 46 37 Q38 39 33 44Z" fill="${av.hairColor}"/><path d="M39.5 42.5 l4.5 -1 M60.5 42.5 l-4.5 -1" stroke="#0F172A" stroke-width="1" stroke-linecap="round"/><path d="M45.5 55.5 Q50 58.5 54.5 55.5" stroke="#E11D48" stroke-width="2" fill="none" stroke-linecap="round"/>` : `<path d="M39 41.5 h7 M54 41.5 h7" stroke="#1F2937" stroke-width="1.8" stroke-linecap="round"/>`}
-        ${hat}
-      </g>
-      ${ring}
-    </svg>`;
+    // v40: аватар по умолчанию — простой силуэт парня или девушки (как в контактах телефона)
+    const hairF = fem ? '<path d="M27 66C27 52 29 40 31 33 34 22 41 17 50 17S66 22 69 33C71 40 73 52 73 66 66 62 60 61 50 61S34 62 27 66Z" fill="var(--avfg)" opacity=".72"/>' : '';
+    return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="avc"><circle cx="50" cy="50" r="45"/></clipPath></defs>
+      <circle cx="50" cy="50" r="45" fill="var(--avbg)"/><g clip-path="url(#avc)" fill="var(--avfg)">${hairF}<circle cx="50" cy="${fem ? 41 : 40}" r="${fem ? 15 : 15.5}"/>
+      <path d="M${fem ? 19 : 15} 100C${fem ? 19 : 15} 76 ${fem ? 32 : 30} 62 50 62S${fem ? 81 : 85} 76 ${fem ? 81 : 85} 100Z"/></g></svg>`;
   },
   // аватар другого игрока: фото или рисованный по полу
   av(p, size = 32) {
@@ -4333,24 +4378,19 @@ const UI = {
     document.querySelector('meta[name=theme-color]').setAttribute('content', S.profile.theme === 'light' ? '#F1F5F9' : '#0B0E14');
   },
   goTab(name) {
-    this.closeDD(); this.tab = name; this.togglePlus(false);
+    this.closeDD(); this.hideTip(); this.tab = name; this.togglePlus(false);
     this.$$('.tab').forEach(t => t.classList.toggle('active', t.id === `tab-${name}`));
     this.$$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name)); this.navInd(true);
     window.scrollTo({ top: 0 }); this.renderTab(name); this.renderHeader();
   },
   renderTab(name) { ({ arena: this.renderArena, lifts: this.renderLifts, clans: this.renderClans, nutrition: this.renderNutrition, profile: this.renderProfile })[name].call(this); },
   /* ========================= ARENA ========================= */
-  // v35: значок серии — пламя с числом: горит, если сегодня есть запись; бледнеет, если серия под угрозой; серое, когда серии нет
+  // v40: значок серии — кружок с огнём и числом, как в других приложениях
   streakCircle(size = 76) {
-    const st = Calc.streak(), n = st.count, mode = st.today ? 'on' : n > 0 ? 'risk' : 'off', id = 'sf-' + mode; // id по режиму: у одинаковых значков общий градиент
-    const g = mode === 'on' ? ['#FFE066', '#FF9500', '#FF3B30'] : mode === 'risk' ? ['#FFD9A8', '#D98A3D', '#8C4A1E'] : ['#6B6B70', '#45454A', '#2C2C30'];
-    const fs = n > 999 ? 24 : n > 99 ? 29 : 35;
-    return `<span class="sflame ${mode}" style="width:${size}px;height:${Math.round(size * 1.1)}px" title="${T('streak')}">
-      <svg viewBox="0 0 100 110" width="${size}" height="${Math.round(size * 1.1)}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${g[0]}"/><stop offset=".5" stop-color="${g[1]}"/><stop offset="1" stop-color="${g[2]}"/></linearGradient></defs>
-        <g class="sf-fl"><path d="M50 3C58 20 79 33 82 58C85 84 68 106 50 106S14 89 17 63C19 46 30 38 34 25C39 33 41 40 41 47C47 37 49 21 50 3Z" fill="url(#${id})"/>
-        <path d="M51 42C56 55 68 62 68 78C68 92 60 100 50 100S32 92 32 80C32 71 37 66 40 59C43 63 44 67 44 71C48 63 50 54 51 42Z" fill="#fff" fill-opacity="${mode === 'off' ? '.08' : '.28'}"/></g>
-        <text x="50" y="88" text-anchor="middle" font-size="${fs}" font-weight="900" fill="#fff" stroke="${mode === 'off' ? '#2C2C30' : g[2]}" stroke-width="3" paint-order="stroke" style="font-family:var(--disp)">${n}</text></svg></span>`;
+    const st = Calc.streak(), n = st.count, mode = st.today ? 'on' : n > 0 ? 'risk' : 'off';
+    return `<span class="stk ${mode}" style="width:${size}px;height:${size}px;font-size:${(size / 46).toFixed(2)}rem" title="${T('streak')}"><svg class="ic"><use href="#fa-fire"/></svg><b class="num">${n}</b></span>`;
   },
+
 
   renderArena() {
     if (S.profile.calm) { this.morph(this.$('#tab-arena'), this.calmHome()); this.bindRemDots(); return; } // v29: спокойный режим
@@ -4443,6 +4483,23 @@ const UI = {
     return fx.map(k => { const c = P[k]; if (!c) return `<div class="pfx pfx-${k}"></div>`; let h = ''; for (let i = 0, m = Math.max(2, Math.round(n * c[0])); i < m; i++) h += `<i style="--x:${(r() * 100).toFixed(1)}%;--y:${(r() * 80).toFixed(1)}%;--s:${(c[1] + r() * (c[2] - c[1])).toFixed(1)}px;--t:${(c[3] + r() * (c[4] - c[3])).toFixed(2)}s;--d:${(-r() * c[4]).toFixed(2)}s;--dx:${((r() - .5) * 60).toFixed(0)}px"></i>`; return `<div class="pfx pfx-${k}">${h}</div>`; }).join('');
   },
   avFrame(inner, frame, col) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; return `<span class="pfr ${f}" style="--ring:${f ? col : 'var(--line)'}">${inner}</span>`; },
+  // v40: жим, присед, тяга с рисунком; остальные рекорды — в раскрывающемся списке
+  bigThree() {
+    const all = Calc.topLifts(99), kinds = [['bench', 'fa-lift-bench', '#0A84FF', 'Жим лёжа'], ['squat', 'fa-lift-squat', '#34C759', 'Присед'], ['deadlift', 'fa-lift-dead', '#FF9F0A', 'Становая тяга']];
+    const best = k => all.filter(t => U.exInfo(t.ex).boss === k).sort((a, b) => (b.e1rm || 0) - (a.e1rm || 0))[0];
+    const cell = ([k, ic, col, name]) => { const t = best(k); return `<button class="b3" data-action="tip" data-tip="${t ? `${U.exRu(t.ex)} · ${U.fmtDate(t.date)}` : `${name}: пока нет записи`}"><svg class="ic" style="color:${col}"><use href="#${ic}"/></svg>
+      ${t ? `<b class="num">${U.wEx(t.ex, t.weight)}<small>${U.wUnit()}</small></b><span class="b3-r num">×${t.reps}</span>` : '<b class="muted">—</b><span class="b3-r">&nbsp;</span>'}<span class="b3-n">${name}</span></button>`; };
+    const rest = all.filter(t => !['bench', 'squat', 'deadlift'].includes(U.exInfo(t.ex).boss));
+    return `<div class="pf-sec"><svg class="ic text-amber-400"><use href="#fa-crown"/></svg> Лучшие лифты</div><div class="b3-row">${kinds.map(cell).join('')}</div>
+      ${rest.length ? `<details class="b3-more"><summary><span>Другие рекорды</span><b class="num">${rest.length}</b><svg class="ic"><use href="#fa-chevron-down"/></svg></summary>${rest.map(t => `<div class="b3-li"><span class="truncate">${U.esc(U.exRu(t.ex))}</span><b class="num">${U.wEx(t.ex, t.weight)} <small>${U.wUnit()} × ${t.reps}</small></b></div>`).join('')}</details>` : ''}`;
+  },
+  // v40: подсказка по нажатию вместо мелких подписей
+  tip(el, text) {
+    this.hideTip(); if (!el || !text) return; const r = el.getBoundingClientRect(), t = document.createElement('div'); t.className = 'tipbox'; t.textContent = text; document.body.appendChild(t);
+    const w = t.offsetWidth, h = t.offsetHeight; let x = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)), y = r.top - h - 10, below = y < 60; if (below) y = r.bottom + 10;
+    t.style.left = x + 'px'; t.style.top = y + 'px'; t.style.setProperty('--ax', (r.left + r.width / 2 - x) + 'px'); t.classList.toggle('below', below); this._tipEl = t; this._tipT = setTimeout(() => this.hideTip(), 2800);
+  },
+  hideTip() { clearTimeout(this._tipT); if (this._tipEl) { this._tipEl.remove(); this._tipEl = null; } },
   // v32: эффекты обложек замирают, когда обложка не видна или поверх открыто окно
   watchFx(root) { if (!('IntersectionObserver' in window) || !root) return; const io = this._fxIO || (this._fxIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('fx-off', !e.isIntersecting)))); root.querySelectorAll('.pf-cover,.mp-cover').forEach(el => { if (!el._fxw) { el._fxw = 1; io.observe(el); } }); },
   /* ===================== v30: ГЛАВНАЯ ===================== */
@@ -4453,7 +4510,7 @@ const UI = {
     const wDone = Calc.workoutsInWeek(U.weekKey()), wT = U.clamp(p.weekTarget || 3, 2, 6), prs = S.lifts.filter(l => l.isPR && !l.flagged).length;
     const big = String(g.trophies) + (next ? '/' + next.min : ''), fs = big.length <= 6 ? 3.4 : big.length <= 8 ? 2.9 : big.length <= 10 ? 2.4 : 2.05; // v33: длинное число не вылезает за край
     const hi = this._mix(a.color, '#ffffff', .4), nAr = CONFIG.ARENAS.filter(x => !x.league).length;
-    const st = (attrs, icon, color, val, label) => `<button class="hm-st" ${attrs}><b class="num"><svg class="ic" style="color:${color}"><use href="#${icon}"/></svg>${val}</b><small>${label}</small></button>`;
+    const st = (attrs, icon, color, val, label) => `<button class="hm-st" data-action="tip" data-tip="${label}"><b class="num"><svg class="ic" style="color:${color}"><use href="#${icon}"/></svg>${val}</b></button>`;
     return `<div class="hm-hero" style="--rc:${a.color};--rh:${hi}">
       <div class="hm-top">
         <button class="flex-none" data-action="go-tab" data-tab="profile" aria-label="Профиль">${this.avFrame(this.avatarSVG(p.avatar, 44), p.avatar.pframe, a.color)}</button>
@@ -4468,10 +4525,10 @@ const UI = {
       <button class="hm-big num" style="--bigfs:${fs}rem" data-action="open-road">${g.trophies}${next ? `<small>/${next.min}</small>` : ''}</button>
       <button class="hm-ticks w-full" data-action="open-road" aria-label="${T('trophy_road')}">${ticks}</button>
       <div class="hm-stats">
-        ${st('data-action="go-tab" data-tab="lifts"', 'fa-dumbbell', '#34C759', `${Math.min(wDone, 99)}/${wT}`, 'за неделю')}
-        ${st('data-action="coins-info"', 'fa-coins', '#F5C04A', g.coins, 'монеты')}
-        ${st('data-action="go-tab" data-tab="profile"', 'fa-star', '#FBBF24', lvl, 'уровень')}
-        ${st('data-action="open-records"', 'fa-crown', '#FF9F0A', prs, 'рекорды')}
+        ${st('data-action="go-tab" data-tab="lifts"', 'fa-dumbbell', '#34C759', `${Math.min(wDone, 99)}/${wT}`, 'Тренировки на этой неделе из твоей цели')}
+        ${st('data-action="coins-info"', 'fa-coins', '#F5C04A', g.coins, 'Монеты: за тренировки и арены, тратятся в магазине')}
+        ${st('data-action="go-tab" data-tab="profile"', 'fa-star', '#FBBF24', lvl, 'Уровень: растёт от опыта за тренировки и рекорды')}
+        ${st('data-action="open-records"', 'fa-crown', '#FF9F0A', prs, 'Личные рекорды за всё время')}
       </div>
     </div>`;
   },
@@ -4515,7 +4572,7 @@ const UI = {
   },
   homeTile({ attrs, c, icon, ic = '', title, val = '', sub = '', dash = false, badge = 0, lock = 0, raw = false }) {
     return `<button class="hm-tile ${dash ? 'dash' : ''} ${lock ? 'tile-locked' : ''}" style="--c:${c}" ${attrs}><span class="hm-ti">${ic || `<svg class="ic"><use href="#${icon}"/></svg>`}</span>
-      <span class="min-w-0 w-full"><span class="hm-tt" ${raw ? 'data-no-mt' : ''}>${title}</span>${val ? `<span class="hm-tv num">${val}</span>` : ''}${sub ? `<span class="hm-ts">${sub}</span>` : ''}</span>
+      <span class="min-w-0 w-full"><span class="hm-tt" ${raw ? 'data-no-mt' : ''}>${title}</span>${val ? `<span class="hm-tv num">${val}</span>` : ''}</span>
       ${badge ? `<span class="bell-dot">${badge}</span>` : lock ? '<svg class="ic hm-lock"><use href="#fa-lock"/></svg>' : ''}</button>`;
   },
   homeTiles() {
@@ -4912,6 +4969,7 @@ const UI = {
   },
   // системная «назад»: модалка → страница → меню плюса → вкладка Арена → выход
   back() {
+    { const fs = document.querySelector('.vp.fs'); if (fs) { fs.classList.remove('fs'); document.body.classList.remove('vp-fs-on'); App.vpPaint(fs); return true; } }
     const md = this.$('#modal');
     if (md && md.dataset.lock) { // v23: экран входа/регистрации и другие обязательные окна кнопкой «Назад» не закрываются
       if (this._authOpen && this._authMode && this._authMode !== 'welcome') { this.openAuth('welcome'); return true; }
@@ -5048,7 +5106,7 @@ const UI = {
     const title = U.shopItem(p.avatar.title), titleText = title ? (title.custom ? (p.customTitle || 'Свой титул') : title.name) : '', prs = S.lifts.filter(l => l.isPR && !l.flagged).length, radar = Calc.radar(), st = Calc.streak();
     const th = U.ptheme(p.avatar.ptheme), acc = th ? th.accent : a.color, days = [7, 14, 30].includes(+p.loadDays) ? +p.loadDays : 30, body = this.bodySVG(days);
     const tt = title ? (() => { const ts = U.tstyle(p.avatar.tstyle); return `<div class="pf-title"><span class="${ts.style ? ts.cls : title.id === 'title_champion' || title.id === 'title_titan' ? 'title-gold' : title.custom ? 'text-em' : 'text-pu'}" style="${ts.style}" ${title.custom ? 'data-no-mt' : ''}>« ${U.esc(titleText)} »</span></div>`; })() : '';
-    const stat = (attrs, icon, color, val, label) => `<${attrs ? 'button' : 'div'} class="pf-st" ${attrs}><b class="num">${val}</b><small><svg class="ic" style="color:${color}"><use href="#${icon}"/></svg> ${label}</small></${attrs ? 'button' : 'div'}>`;
+    const stat = (attrs, icon, color, val, label) => `<button class="pf-st" data-action="tip" data-tip="${label}"><svg class="ic" style="color:${color}"><use href="#${icon}"/></svg><b class="num">${val}</b></button>`;
     const act = (attrs, c, icon, label) => `<button ${attrs}><span class="hm-ti" style="--c:${c}"><svg class="ic"><use href="#${icon}"/></svg></span>${label}</button>`;
     const sel = this._muscle && CONFIG.MUSCLES[this._muscle] ? this._muscle : null, LV = ['не работала', 'мало', 'норма', 'много'];
     const html = `
@@ -5064,12 +5122,12 @@ const UI = {
           <div class="pf-lvl"><b class="num">${lvl}</b><div class="flex-1">${this.bar(xpCur / xpNeed * 100, 'var(--text)')}</div><span class="muted num">${xpCur}/${xpNeed} XP</span></div>
           ${S.clan ? `<button class="clan-row mt-3" data-action="open-page" data-kind="clan">${this.emblem(S.clan, 'w-9 h-9 text-base')}<div class="flex-1 min-w-0 text-left"><div class="text-[10px] muted uppercase tracking-wider">Клан</div><div class="font-bold text-sm truncate" data-no-mt>${U.esc(S.clan.name)}</div></div><span class="chip text-[10px]">${({ leader: 'Лидер', deputy: 'Заместитель', member: 'Участник' })[S.clan.role] || ''}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>` : ''}
           <div class="pf-stats">
-            ${stat('', 'fa-dumbbell', '#10B981', g.countedWorkoutDays.length, 'трен.')}
-            ${stat('data-action="open-records"', 'fa-crown', '#F97316', prs, 'рекорды')}
-            ${stat('data-action="streak-info"', 'fa-fire', '#F97316', st.count, 'серия')}
-            ${stat('data-action="open-page" data-kind="friends"', 'fa-users', '#3B82F6', (S.friends || []).length, T('friends'))}
+            ${stat('', 'fa-dumbbell', '#34C759', g.countedWorkoutDays.length, 'Засчитанные тренировки за всё время')}
+            ${stat('', 'fa-crown', '#FF9F0A', prs, 'Личные рекорды')}
+            ${stat('', 'fa-fire', '#FF9500', st.count, 'Серия: дней подряд с записями')}
+            ${stat('', 'fa-users', '#0A84FF', (S.friends || []).length, 'Друзья')}
           </div>
-          ${(() => { const top = Calc.topLifts(3); return `<div class="pf-sec"><svg class="ic text-amber-400"><use href="#fa-crown"/></svg> Лучшие лифты</div><div class="top3">${[0, 1, 2].map(i => { const t = top[i]; return t ? `<div><div class="font-black num text-xl leading-none">${U.wEx(t.ex, t.weight)}</div><div class="text-[10px] muted">${U.wUnit()} × ${U.reps(t.reps)}</div><div class="text-[10px] font-semibold mt-1 leading-tight">${U.esc(U.exRu(t.ex))}</div></div>` : `<div class="muted"><svg class="ic text-lg"><use href="#fa-dumbbell"/></svg><div class="text-[10px] mt-1">—</div></div>`; }).join('')}</div>`; })()}
+          ${this.bigThree()}
           ${Game.activeBoosts().length ? `<div class="flex flex-wrap gap-1.5 mt-3">${Game.activeBoosts().map(b => `<span class="chip text-or"><svg class="ic"><use href="#${b.icon}"/></svg> ${b.label}</span>`).join('')}</div>` : ''}
           <div class="pf-acts">${act('data-action="open-shop" data-tab="look"', '#8B5CF6', 'fa-palette', 'Оформление')}${act('data-action="open-shop" data-tab="boost"', '#EAB308', 'fa-store', T('shop'))}${act('data-action="user-posts" data-id="me"', '#3B82F6', 'fa-image', 'Мои посты')}</div>
         </div>
@@ -5939,6 +5997,7 @@ const UI = {
 
 /* ======================= v19: СООБЩЕСТВО, КЛАНЫ, BODY PROGRESS ======================= */
 Object.assign(UI, {
+  postText(p) { const on = this._trOn && this._trOn[p.id], tr = Social.tr && Social.tr[(S.profile.lang || 'ru') + '|' + p.id]; return on && tr ? tr : p.body; },
   postBody(t) { return U.esc(t).replace(/#([\p{L}\p{N}_]{2,30})/gu, (m, tag) => `<button class="tag-link" data-action="feed-tag" data-tag="${tag.toLowerCase()}">#${tag}</button>`).replace(/\n/g, '<br>'); },
   prBlock(p, big) { return `<div class="pr-block ${big ? 'big' : ''}"><div class="text-[10px] font-black uppercase tracking-wider text-amber-400"><svg class="ic"><use href="#fa-crown"/></svg> Новый рекорд</div><div class="text-[11px] muted truncate">${U.esc(U.exRu(p.ex))}</div><div class="font-black num ${big ? 'text-3xl' : 'text-xl'} leading-tight">${U.wEx(p.ex, p.weight)} <span class="text-xs muted font-semibold">${U.wUnit()} × ${U.reps(p.reps)}</span></div></div>`; },
   // свёрнутая карусель последних постов на вкладке «Сообщество»
@@ -5964,7 +6023,7 @@ Object.assign(UI, {
         <button class="muted px-1" data-action="post-menu" data-id="${U.esc(p.id)}" aria-label="Ещё"><svg class="ic"><use href="#fa-ellipsis-vertical"/></svg></button>
       </div>
       ${p.kind === 'pr' ? this.prBlock(p, true) : ''}
-      ${p.body ? `<div class="text-sm leading-relaxed mb-2 break-words" data-no-mt>${this.postBody(p.body)}</div>` : ''}
+      ${p.body ? `<div class="text-sm leading-relaxed mb-2 break-words" data-no-mt>${this.postBody(this.postText(p))}</div>${p.self ? '' : `<button class="post-tr ${this._trOn && this._trOn[p.id] ? 'on' : ''}" data-action="post-tr" data-id="${U.esc(p.id)}"><svg class="ic ${this._trBusy === p.id ? 'spin' : ''}"><use href="#${this._trBusy === p.id ? 'fa-circle-notch' : 'fa-language'}"/></svg> ${this._trOn && this._trOn[p.id] ? 'Показать оригинал' : 'Перевести'}</button>`}` : ''}
       ${p.img ? `<img class="post-img" src="${p.img}" alt="" loading="lazy">` : ''}
       ${p.video || p.vkey ? this.vplayer(p) : ''}
       ${p.tags.length && p.kind === 'pr' ? `<div class="flex flex-wrap gap-x-2 gap-y-1 mb-1 text-xs">${p.tags.map(t => `<button class="tag-link" data-action="feed-tag" data-tag="${U.esc(t)}">#${U.esc(t)}</button>`).join('')}</div>` : ''}
@@ -6291,12 +6350,10 @@ Object.assign(UI, {
    Внутри ранга 5 звёзд. На последнем ранге вместо звёзд — место в мировом рейтинге. */
 Object.assign(UI, {
   _mix(a, b, t) { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); },
-  // v36: ранги — у каждой арены своя форма, металл растёт от железа к золоту и платине, чем выше — тем больше украшений
+  // v40: ранги в стиле Valorant / Dota / Mobile Legends — плоские геометрические эмблемы,
+  // светлая левая и тёмная правая половины, без градиентов; с каждым рангом форма богаче
   medalTier(i) { const n = CONFIG.ARENAS.length - 1; return i >= n ? 6 : CONFIG.ARENAS[i] && CONFIG.ARENAS[i].league ? 5 : i >= 8 ? 4 : i >= 6 ? 3 : i >= 3 ? 2 : i >= 1 ? 1 : 0; },
-  MEDAL_METAL: { iron: ['#E5E7EB', '#8B93A1', '#3A4150', '#B8BFCA', '#4B5261'], bronze: ['#FFE3C2', '#D08A4B', '#6E3410', '#E9B07A', '#7C3E14'], silver: ['#FFFFFF', '#C3CCD6', '#566170', '#E6EBF0', '#6B7684'],
-    gold: ['#FFF8D6', '#F7C548', '#8A4E05', '#FFE38A', '#9A5B07'], plat: ['#FFFFFF', '#DCD8FF', '#5C569E', '#F1EFFF', '#6D67B5'], ruby: ['#FFE4E6', '#FB7185', '#5B0A1E', '#FDA4AF', '#6E0B24'], prism: ['#FFFFFF', '#FDE68A', '#A16207', '#FBCFE8', '#7C3AED'] },
-  medalMetal(i) { const a = CONFIG.ARENAS[i]; if (i >= CONFIG.ARENAS.length - 1) return 'prism'; if (a.name === 'Абсолют') return 'ruby'; if (a.league) return /Мастер/.test(a.name) ? 'plat' : 'gold'; return i === 0 ? 'iron' : i <= 2 ? 'bronze' : i <= 5 ? 'silver' : 'gold'; },
-  _rpoly(pts, rad) { // многоугольник со скруглёнными углами
+  _rpoly(pts, rad) {
     const n = pts.length; let d = '';
     for (let k = 0; k < n; k++) { const p = pts[k], a = pts[(k + n - 1) % n], b = pts[(k + 1) % n], la = Math.hypot(a[0] - p[0], a[1] - p[1]), lb = Math.hypot(b[0] - p[0], b[1] - p[1]), r = Math.min(rad, la / 2.2, lb / 2.2);
       const p1 = [p[0] + (a[0] - p[0]) * r / la, p[1] + (a[1] - p[1]) * r / la], p2 = [p[0] + (b[0] - p[0]) * r / lb, p[1] + (b[1] - p[1]) * r / lb];
@@ -6304,239 +6361,54 @@ Object.assign(UI, {
     return d + 'Z';
   },
   _ring(n, r1, r2, rot = 0) { const o = []; for (let k = 0; k < n * 2; k++) { const r = k % 2 ? r2 : r1, a = Math.PI * k / n + rot; o.push([r * Math.sin(a), -r * Math.cos(a)]); } return o; },
-  _medalShape(i) {
-    if (this._shp && this._shp[i]) return this._shp[i]; this._shp = this._shp || {};
-    const R = (pts, r) => this._rpoly(pts, r), A = CONFIG.ARENAS[i], last = i >= CONFIG.ARENAS.length - 1;
-    let d;
-    if (i === 0) d = R(this._ring(3, 42, 42, 0), 7);                                                       // шестигранная плита
-    else if (i === 1) d = R(Array.from({ length: 40 }, (_, k) => { const a = Math.floor(k / 4) * Math.PI / 5 + [-.13, .13, .2, .43][k % 4], r = k % 4 < 2 ? 44 : 37.5; return [r * Math.sin(a), -r * Math.cos(a)]; }), 1.6); // шестерня
-    else if (i === 2) d = R(this._ring(16, 42, 39.2, 0), 1.2);                                              // блин штанги
-    else if (i === 3) d = 'M0-43C13-37 27-38 37-43C39-18 37 6 27 23C19 35 9 41 0 47C-9 41-19 35-27 23C-37 6-39-18-37-43C-27-38-13-37 0-43Z'; // щит
-    else if (i === 4) d = R([[0, -47], [15, -38], [34, -41], [35, -12], [24, 18], [0, 47], [-24, 18], [-35, -12], [-34, -41], [-15, -38]], 5); // щит-клин
-    else if (i === 5) d = R(this._ring(8, 47, 31, Math.PI / 8), 3);                                         // колючая звезда
-    else if (i === 6) d = 'M0-40C6-47 18-49 24-42C31-47 39-45 41-36C43-10 37 14 23 30C15 38 7 44 0 48C-7 44-15 38-23 30C-37 14-43-10-41-36C-39-45-31-47-24-42C-18-49-6-47 0-40Z'; // гербовый щит
-    else if (i === 7) d = R(this._ring(4, 45, 45, Math.PI / 8), 3);                 // кристалл-восьмигранник
-    else if (i === 8) d = R(this._ring(12, 47, 39.5), 2.5);                                                 // сияние
-    else if (/Мастер/.test(A.name)) d = R([[0, -50], [37, -24], [37, 24], [0, 50], [-37, 24], [-37, -24]], 6); // огранённый камень
-    else if (last) d = R(this._ring(16, 49, 41), 1.8);
-    else if (A.name === 'Абсолют') d = R(this._ring(4, 52, 33, 0), 4);
-    else if (i === 9) d = R(this._ring(10, 48, 35), 3);
-    else d = R(this._ring(8, 48, 37, Math.PI / 8), 3);
-    return (this._shp[i] = d);
-  },
   medalDefs() {
     if (document.getElementById('medal-defs')) return;
-    const M = this.MEDAL_METAL, met = Object.keys(M).map(k => { const c = M[k]; return `<linearGradient id="mgX${k}" x1="0" y1="0" x2=".75" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset=".3" stop-color="${c[1]}"/><stop offset=".55" stop-color="${c[2]}"/><stop offset=".78" stop-color="${c[3]}"/><stop offset="1" stop-color="${c[4]}"/></linearGradient>`; }).join('');
-    const g = CONFIG.ARENAS.map((a, i) => { const c = a.color, hi = this._mix(c, '#ffffff', .5), lo = this._mix(c, '#000000', .6); return `
-      <radialGradient id="mgE${i}" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="${hi}"/><stop offset=".45" stop-color="${c}"/><stop offset="1" stop-color="${lo}"/></radialGradient>
-      <radialGradient id="mgD${i}" cx=".5" cy=".3" r=".8"><stop offset="0" stop-color="${this._mix(c, '#0b0e14', .35)}"/><stop offset="1" stop-color="${this._mix(c, '#05070b', .85)}"/></radialGradient>
-      <radialGradient id="mgG${i}"><stop offset=".45" stop-color="${c}" stop-opacity=".38"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>
-      <clipPath id="mgC${i}"><path d="${this._medalShape(i)}"/></clipPath>`; }).join('');
-    document.body.insertAdjacentHTML('beforeend', `<svg id="medal-defs" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true"><defs>${met}${g}
-      <linearGradient id="mgGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF8D6"/><stop offset=".45" stop-color="#FBBF24"/><stop offset="1" stop-color="#9A5B07"/></linearGradient>
-      <linearGradient id="mgShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".6"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-      <linearGradient id="mgGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-      <linearGradient id="mgFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#EF4444"/><stop offset=".5" stop-color="#F97316"/><stop offset="1" stop-color="#FDE047"/></linearGradient>
-      <clipPath id="mgIn"><circle r="22.4"/></clipPath>
-      <linearGradient id="lfS" x1=".1" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".45" stop-color="#F2F2F0" stop-opacity=".9"/><stop offset="1" stop-color="#A5A5A2" stop-opacity=".85"/></linearGradient>
-      <pattern id="mgPat" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="2" height="5" fill="#fff" opacity=".07"/></pattern>
-    </defs></svg>`);
+    document.body.insertAdjacentHTML('beforeend', `<svg id="medal-defs" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true"><defs><clipPath id="mxR"><rect x="0" y="-80" width="80" height="160"/></clipPath>
+      <linearGradient id="mgGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF3C4"/><stop offset="1" stop-color="#F5B82E"/></linearGradient></defs></svg>`);
   },
-  _star(x, y, r, on, cls = '') { let d = ''; for (let k = 0; k < 10; k++) { const rr = k % 2 ? r * .45 : r, a = Math.PI * k / 5; d += (k ? 'L' : 'M') + (x + rr * Math.sin(a)).toFixed(2) + ' ' + (y - rr * Math.cos(a)).toFixed(2); } return `<path class="${cls}" d="${d}Z" fill="${on ? 'url(#mgGold)' : 'rgba(255,255,255,.16)'}" stroke="${on ? '#78350F' : 'rgba(0,0,0,.4)'}" stroke-width=".5"/>`; },
-  _wing(i, big) { // перья в два ряда: металл снаружи, эмаль внутри
-    const m = `url(#mgX${this.medalMetal(i)})`, e = `url(#mgE${i})`, st = 'rgba(0,0,0,.55)';
-    const row = (L, A, fill, x0, y0) => L.map((len, k) => { const w = len * .24; return `<path d="M0 0C${(len * .3).toFixed(1)} ${(-w).toFixed(1)} ${(len * .8).toFixed(1)} ${(-w * .7).toFixed(1)} ${len} 0C${(len * .7).toFixed(1)} ${(w * .55).toFixed(1)} ${(len * .3).toFixed(1)} ${(w * .5).toFixed(1)} 0 0Z" transform="translate(${x0} ${y0}) rotate(${A[k]})" fill="${fill}" stroke="${st}" stroke-width=".6"/>`; }).join('');
-    const one = big ? row([34, 42, 47, 45, 38, 28], [-80, -62, -44, -27, -10, 7], m, 22, -6) + row([24, 30, 32, 28], [-66, -46, -27, -9], e, 24, -6) : row([28, 35, 36, 29], [-70, -48, -27, -6], m, 22, -6) + row([20, 24, 22], [-56, -36, -16], e, 24, -6);
-    return `<g>${one}</g><g transform="scale(-1 1)">${one}</g>`;
+  // форма + раскраска «свет слева / тень справа»
+  _fx(d, light, dark, extra = '') { return `<path d="${d}" fill="${light}"${extra}/><path d="${d}" fill="${dark}" clip-path="url(#mxR)"${extra}/>`; },
+  _chev(y, w = 16, h = 7, t = 4.2) { return `M${-w} ${y}L0 ${y + h}L${w} ${y}V${y + t}L0 ${y + h + t}L${-w} ${y + t}Z`; },
+  _blades(n, x0, y0, len, spread, side) { // перья-лезвия крыльев
+    let d = ''; for (let k = 0; k < n; k++) { const a = (-20 - k * spread) * Math.PI / 180, L = len - k * 3.5, w = 4.2; const tip = [x0 + side * Math.cos(a) * L, y0 + Math.sin(a) * L], nx = -Math.sin(a) * w * side, ny = Math.cos(a) * w;
+      d += `M${x0} ${y0 + k * 2.2}L${(tip[0]).toFixed(1)} ${(tip[1]).toFixed(1)}L${(x0 + side * Math.cos(a) * L * .5 + nx).toFixed(1)} ${(y0 + Math.sin(a) * L * .5 + ny + k * 2.2).toFixed(1)}Z`; }
+    return d;
   },
-  _laurel(i) {
-    const m = `url(#mgX${this.medalMetal(i) === 'iron' ? 'bronze' : this.medalMetal(i)})`;
-    let s = ''; for (let k = 0; k < 8; k++) { const th = (84 - k * 14.5) * Math.PI / 180, x = 45 * Math.cos(th), y = 45 * Math.sin(th) - 2, rot = (84 - k * 14.5) - 62; s += `<path d="M0 0C3-3 8-3 11 0C8 3 3 3 0 0Z" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot}) translate(-5.5 0)" fill="${m}" stroke="rgba(0,0,0,.5)" stroke-width=".5"/>`; }
-    s += `<path d="M7 47Q30 40 44 6" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.3"/>`;
-    return `<g>${s}</g><g transform="scale(-1 1)">${s}</g>`;
-  },
-  _flames(i) { let s = ''; [[-34, 30, .9], [-19, 44, 1.1], [0, 53, 1.3], [19, 44, 1.1], [34, 30, .9]].forEach(([x, h, k]) => { s += `<path d="M${x - 9 * k} -6C${x - 13 * k} ${-h * .45} ${x - 4 * k} ${-h * .75} ${x + 1 * k} ${-h - 4}C${x + 3 * k} ${-h * .7} ${x + 13 * k} ${-h * .5} ${x + 9 * k} -6Z" fill="url(#mgFlame)" stroke="rgba(120,20,0,.45)" stroke-width=".6"/>`; }); return s; },
-  _spikes(i, n = 8, r1 = 56, r2 = 38) { return `<path d="${this._rpoly(this._ring(n, r1, r2, Math.PI / n), 1.5)}" fill="url(#mgX${this.medalMetal(i)})" stroke="rgba(0,0,0,.55)" stroke-width=".8"/>`; },
-  _gem(x, y, r, c) { return `<g transform="translate(${x} ${y})"><path d="M0-${r}L${r * .85} 0L0 ${r}L-${r * .85} 0Z" fill="${c}" stroke="rgba(0,0,0,.6)" stroke-width=".6"/><path d="M0-${r}L${r * .85} 0L0 0Z" fill="#fff" opacity=".45"/><circle cx="${-r * .25}" cy="${-r * .35}" r="${r * .16}" fill="#fff"/></g>`; },
-  _crown(i, y, big) {
-    const m = `url(#mgX${this.medalMetal(i) === 'plat' ? 'plat' : 'gold'})`, c = CONFIG.ARENAS[i].color, k = big ? 1.12 : 1;
-    return `<g transform="translate(0 ${y}) scale(${k})"><path d="M-17 0L-19-14L-10-7L0-19L10-7L19-14L17 0Z" fill="${m}" stroke="rgba(60,30,0,.75)" stroke-width=".8" stroke-linejoin="round"/><rect x="-17.5" y="-2" width="35" height="4.5" rx="1.5" fill="${m}" stroke="rgba(60,30,0,.75)" stroke-width=".7"/>
-      ${this._gem(0, -6.5, 3.2, c)}<circle cx="-19" cy="-14.5" r="2" fill="#FFF8D6" stroke="rgba(60,30,0,.6)" stroke-width=".5"/><circle cx="19" cy="-14.5" r="2" fill="#FFF8D6" stroke="rgba(60,30,0,.6)" stroke-width=".5"/><circle cy="-19.5" r="2.2" fill="#FFF8D6" stroke="rgba(60,30,0,.6)" stroke-width=".5"/></g>`;
-  },
-  // v38: в центре знака — силуэт качка: от сутулого дрыща с телефоном до звезды бодибилдинга (дерзко, как логотип)
-  LIFTERS: [
-    { side: 1 },
-    { sh: 3.6, ws: 3.2, hp: 3, ua: 1.45, fa: 1.35, th: 1.9, ca: 1.6, pose: ['down', 'down'], belly: 1, slump: 1 },
-    { sh: 4.4, ws: 3.4, hp: 3.1, ua: 2, fa: 1.8, th: 2.4, ca: 2, pose: ['down', 'curl'] },
-    { sh: 5, ws: 3.4, hp: 3.1, ua: 2.4, fa: 2.1, th: 2.8, ca: 2.3, delt: 1.3, pose: ['hips', 'hips'] },
-    { sh: 5.6, ws: 3.5, hp: 3.2, ua: 2.8, fa: 2.4, th: 3.1, ca: 2.6, delt: 1.6, bi: 1.5, pose: ['down', 'dbl'], swoosh: 1 },
-    { sh: 5.9, ws: 3.5, hp: 3.2, ua: 3, fa: 2.5, th: 3.3, ca: 2.7, delt: 1.8, bi: 1.7, pose: ['dbl', 'dbl'], swoosh: 1, abs: 1 },
-    { sh: 6.5, ws: 3.4, hp: 3.3, ua: 3.1, fa: 2.6, th: 3.5, ca: 2.8, delt: 2, lats: 1, pose: ['hips', 'hips'], swoosh: 1, abs: 1 },
-    { sh: 6.6, ws: 3.8, hp: 3.4, ua: 3.4, fa: 2.8, th: 3.7, ca: 3, delt: 2.2, trap: 3.4, pose: ['crab', 'crab'], swoosh: 1, abs: 1 },
-    { sh: 6.6, ws: 3.5, hp: 3.3, ua: 3.4, fa: 2.8, th: 3.7, ca: 3, delt: 2.2, bi: 2, trap: 2.6, pose: ['dbl', 'dbl'], swoosh: 1, abs: 1, shades: 1 },
-    { sh: 6.6, ws: 3.5, hp: 3.3, ua: 3.4, fa: 2.8, th: 3.7, ca: 3, delt: 2.2, bi: 1.9, trap: 2.6, pose: ['hips', 'point'], swoosh: 1, abs: 1, shades: 1 },
-    { sh: 6.6, ws: 3.5, hp: 3.3, ua: 3.5, fa: 2.9, th: 3.8, ca: 3, delt: 2.3, bi: 2.1, trap: 2.8, pose: ['dbl', 'dbl'], swoosh: 1, abs: 1, shades: 1, k: .8, dy: -3.5 },
-    { sh: 6.8, ws: 3.5, hp: 3.3, ua: 3.7, fa: 3, th: 3.9, ca: 3.1, delt: 2.4, bi: 2.2, trap: 3, pose: ['dbl', 'dbl'], swoosh: 1, abs: 1, shades: 1, k: .8, dy: -3.5 },
-    { sh: 7, ws: 3.6, hp: 3.4, ua: 3.9, fa: 3.1, th: 4, ca: 3.2, delt: 2.5, bi: 2.4, trap: 3.2, pose: ['dbl', 'dbl'], swoosh: 1, abs: 1, shades: 1, k: .8, dy: -3.5 },
-    { sh: 6.8, ws: 3.5, hp: 3.3, ua: 3.6, fa: 2.9, th: 3.8, ca: 3, delt: 2.3, trap: 2.8, pose: ['trophy', 'trophy'], swoosh: 1, abs: 1, shades: 1, k: .86, dy: 2 },
-    { sh: 7.2, ws: 3.9, hp: 3.5, ua: 3.9, fa: 3.1, th: 4, ca: 3.2, delt: 2.6, trap: 3.8, pose: ['crab', 'crab'], abs: 1, shades: 1, fire: 1 },
-    { sh: 7.2, ws: 3.6, hp: 3.4, ua: 4, fa: 3.2, th: 4.1, ca: 3.3, delt: 2.6, bi: 2.5, trap: 3.4, pose: ['dbl', 'dbl'], abs: 1, eyes: 1, bolts: 1 },
-    { sh: 7.2, ws: 3.6, hp: 3.4, ua: 4, fa: 3.2, th: 4.1, ca: 3.3, delt: 2.6, bi: 2.5, trap: 3.4, pose: ['dbl', 'dbl'], abs: 1, shades: 1, cape: 1, crown: 1 },
-  ],
-  lifterSVG(i, c) { // v39: мышцы отдельными объёмами с объёмной заливкой, прорисовка рельефа, суровое лицо
-    const b = this.LIFTERS[Math.min(i, this.LIFTERS.length - 1)], dk = this._mix(c, '#000000', .45), f = n => (+n).toFixed(2), D = 'rgba(0,0,0,.42)';
-    const seg = (pts, w) => `<path d="M${pts.map(p => f(p[0]) + ' ' + f(p[1])).join('L')}" fill="none" stroke-width="${f(w)}"/>`;
-    const tap = (A, B, w1, w2) => { const dx = B[0] - A[0], dy = B[1] - A[1], l = Math.hypot(dx, dy) || 1, nx = -dy / l, ny = dx / l; return `<path d="M${f(A[0] + nx * w1 / 2)} ${f(A[1] + ny * w1 / 2)}L${f(B[0] + nx * w2 / 2)} ${f(B[1] + ny * w2 / 2)}A${f(w2 / 2)} ${f(w2 / 2)} 0 0 1 ${f(B[0] - nx * w2 / 2)} ${f(B[1] - ny * w2 / 2)}L${f(A[0] - nx * w1 / 2)} ${f(A[1] - ny * w1 / 2)}A${f(w1 / 2)} ${f(w1 / 2)} 0 0 1 ${f(A[0] + nx * w1 / 2)} ${f(A[1] + ny * w1 / 2)}Z"/>`; };
-    const ell = (x, y, rx, ry, rot = 0) => `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(rx)}" ry="${f(ry)}" transform="rotate(${f(rot)} ${f(x)} ${f(y)})"/>`;
-    const ang = (A, B) => Math.atan2(B[1] - A[1], B[0] - A[0]) * 57.2958, lerp = (A, B, t) => [A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t];
-    let body = '', lines = '', extra = '', back = '';
-    if (b.side) { // сутулый с телефоном, вид сбоку
-      body = `<path d="M1.2-7.6C-3.8-5.5-3.6-1-.4 1.6" fill="none" stroke-width="4.4"/>${seg([[1.2, -7.6], [3.4, -9.2]], 1.6)}<path d="M4.6-12C6.4-12 7.3-10.7 7.2-9.4 7.1-8 6.2-6.9 4.8-6.9 3.1-6.9 2-8 2-9.5 2-11 3.1-12 4.6-12Z"/>
-        ${seg([[.6, -6.6], [2.2, -1], [4.6, .6]], 1.4)}${seg([[-.4, 1.6], [1, 8.4], [-.2, 15.2], [2.2, 15.5]], 1.8)}${seg([[-.6, 2], [-1.6, 8.6], [-2, 15.2], [.4, 15.5]], 1.7)}`;
-      lines = `<path d="M5.6-9.6 6.6-9.1M4.6-7.9C5.3-7.6 5.9-7.7 6.3-8.1" fill="none" stroke="${D}" stroke-width=".45" stroke-linecap="round"/>`;
-      extra = `<rect x="4.1" y="-1.5" width="1.8" height="3.2" rx=".4" fill="#111" transform="rotate(-25 5 .1)"/><path d="M5.6-.6 8.6-4.8" stroke="#7DD3FC" stroke-width="1.6" opacity=".55" stroke-linecap="round"/><path d="M6.6-11.8 7.6-13M8-10.2H9.6" stroke="#fff" stroke-width=".6" opacity=".6"/>`;
-    } else {
-      const sy = b.slump ? -7.6 : -8.4, sh = b.sh, hp = b.hp, tr = b.trap || 1.6, big = sh >= 5.5, mid = sh >= 4.9, hy = -12.3;
-      const lat = b.ws + (b.lats ? 2.4 : big ? 1.3 : .3), ws = big ? b.ws - .6 : b.ws + (b.belly ? .9 : 0);
-      const torso = [[-tr, -10.4], [tr, -10.4], [sh, sy - .3], [sh - .2, sy + 2.4], [lat, -3.8], [ws, .2], [hp, 2.6], [-hp, 2.6], [-ws, .2], [-lat, -3.8], [-sh + .2, sy + 2.4], [-sh, sy - .3]];
-      // голова: челюсть шире у сильных
-      const jw = big ? 2.5 : 2.2;
-      const head = `<path d="M0 ${f(hy - 3)}C2.3 ${f(hy - 3)} 2.9 ${f(hy - 1.5)} 2.9 ${f(hy)}C2.9 ${f(hy + 1.6)} ${f(jw)} ${f(hy + 2.6)} 0 ${f(hy + 3)}C${f(-jw)} ${f(hy + 2.6)} -2.9 ${f(hy + 1.6)} -2.9 ${f(hy)}C-2.9 ${f(hy - 1.5)} -2.3 ${f(hy - 3)} 0 ${f(hy - 3)}Z"/>`;
-      const arm = (side, pose) => { const s = side, S = [s * sh, sy + .3]; let E, H, xtra = '';
-        if (pose === 'down') { E = [s * (sh + 1.2), sy + 6.2]; H = [s * (sh + 1.5), sy + 11.8]; }
-        else if (pose === 'hips') { E = [s * (sh + 3.6), sy + 4.6]; H = [s * (b.ws + .9), -.4]; }
-        else if (pose === 'dbl') { E = [s * (sh + 4.6), sy + .2]; H = [s * (sh + 3.6), sy - 5]; }
-        else if (pose === 'crab') { E = [s * (sh + 2.6), sy + 5.4]; H = [s * 1.4, .6]; }
-        else if (pose === 'curl') { E = [s * (sh + 1), sy + 5.6]; H = [s * (sh + .6), sy + .8]; xtra = `<g stroke="none"><rect x="${f(H[0] - 3)}" y="${f(H[1] - 1.6)}" width="1.2" height="3.2" rx=".4"/><rect x="${f(H[0] + 1.8)}" y="${f(H[1] - 1.6)}" width="1.2" height="3.2" rx=".4"/><rect x="${f(H[0] - 2)}" y="${f(H[1] - .4)}" width="4" height=".8"/></g>`; }
-        else if (pose === 'point') { E = [s * (sh + 2.6), sy - 4.6]; H = [s * (sh + 2.2), sy - 9.4]; xtra = tap(H, [H[0] + s * .3, H[1] - 3.4], .95, .8); }
-        else { E = [s * (sh + 1.4), sy - 5.6]; H = [s * 2.4, sy - 10.2]; }
-        const au = ang(S, E), af = ang(E, H), flex = pose === 'dbl' || pose === 'point' || pose === 'trophy';
-        let o = tap(S, E, b.ua * 1.02, b.ua * .7) + tap(E, H, b.fa * 1.1, b.fa * .6);
-        if (b.ua >= 2.6) { const fm = lerp(E, H, .28); o += ell(fm[0], fm[1], b.fa * .78, b.fa * .62, af); }  // предплечье у локтя
-        if (b.bi) { const m = lerp(S, E, .55), up = flex ? -1 : 1; o += ell(m[0] + (flex ? 0 : s * .2), m[1] + up * b.bi * .55 * (flex ? 1 : .2), b.bi * 1.35, b.bi * (flex ? 1.12 : .8), au); }
-        if (b.ua >= 3) { const m = lerp(S, E, .5); o += ell(m[0], m[1] + (flex ? b.ua * .35 : 0) + (flex ? 0 : 0), b.ua * .62, b.ua * .45, au); } // трицепс
-        if (b.delt) o += ell(S[0] + s * .2, S[1] + .1, b.delt * 1.12, b.delt * .98, au);
-        o += `<circle cx="${f(H[0])}" cy="${f(H[1])}" r="${f(b.fa * .62)}"/>` + xtra;
-        if (b.delt && b.delt >= 1.6) lines += `<path d="M${f(S[0] + s * b.delt * .2)} ${f(S[1] + b.delt * .95)}Q${f(S[0] - s * b.delt * .55)} ${f(S[1] + .4)} ${f(S[0] - s * b.delt * .45)} ${f(S[1] - b.delt * .7)}" fill="none" stroke="${D}" stroke-width=".42" stroke-linecap="round"/>`;
-        if (b.bi && flex) { const m = lerp(S, E, .6); lines += `<path d="M${f(m[0] - s * .6)} ${f(m[1] + .2)}q${f(s * .7)} ${f(-.9)} ${f(s * 1.6)} ${f(-.2)}" fill="none" stroke="${D}" stroke-width=".38" stroke-linecap="round"/>`; }
-        return o; };
-      const leg = side => { const s = side, P = [s * hp * .55, 2.4], K = [s * (hp * .62 + .3), 9], F = [s * (hp * .62 + .5), 15.1], T = [s * (hp * .62 + 2.2), 15.5];
-        let o = tap(P, K, b.th * 1.1, b.th * .6) + tap(K, F, b.ca * .9, b.ca * .48) + seg([F, T], b.ca * .55);
-        if (b.th >= 2.8) { o += ell((P[0] + K[0]) / 2 + s * b.th * .22, (P[1] + K[1]) / 2 - .2, b.th * .55, 3.5, s * 8) + ell(K[0] - s * b.th * .12, K[1] - 1.5, b.th * .38, 1.6, s * -20); // внешняя часть бедра и «капля»
-          lines += `<path d="M${f(P[0] + s * .2)} ${f(P[1] + 1.4)}Q${f(K[0] - s * b.th * .1)} ${f(K[1] - 3.4)} ${f(K[0] - s * b.th * .15)} ${f(K[1] - .4)}" fill="none" stroke="${D}" stroke-width=".42" stroke-linecap="round"/>`; }
-        if (b.ca >= 2.3) { o += ell(K[0] + s * b.ca * .18, K[1] + 2.6, b.ca * .6, 2.3, s * -6); lines += `<path d="M${f(K[0] + s * .1)} ${f(K[1] + 1.3)}V${f(K[1] + 4.2)}" stroke="${D}" stroke-width=".38" stroke-linecap="round"/>`; }
-        return o; };
-      body = `<path d="${this._rpoly(torso, 1.4)}" stroke-width="1"/>${tap([0, -10.8], [0, -8.6], Math.max(2, tr), Math.max(2, tr))}${head}`;
-      if (mid) body += ell(-sh * .48, sy + 2.3, sh * .52, 2.3, 4) + ell(sh * .48, sy + 2.3, sh * .52, 2.3, -4); // грудные
-      if (b.lats) body += ell(-lat + 1, -4.6, 1.7, 3.6, 12) + ell(lat - 1, -4.6, 1.7, 3.6, -12);
-      body += leg(-1) + leg(1) + arm(-1, b.pose[0]) + arm(1, b.pose[1]);
-      if (mid) lines += `<path d="M${f(-sh * .9)} ${f(sy + 3.4)}Q${f(-sh * .45)} ${f(sy + 5.1)} -.3 ${f(sy + 3.9)}M${f(sh * .9)} ${f(sy + 3.4)}Q${f(sh * .45)} ${f(sy + 5.1)} .3 ${f(sy + 3.9)}M0 ${f(sy + .8)}V${f(sy + 4.2)}" fill="none" stroke="${D}" stroke-width=".45" stroke-linecap="round"/>`;
-      if (b.abs) { let ab = ''; [-3.4, -1.7, 0].forEach(y => { ab += `<rect x="-2.3" y="${y}" width="2" height="1.45" rx=".6"/><rect x=".3" y="${y}" width="2" height="1.45" rx=".6"/>`; }); lines += `<g fill="none" stroke="${D}" stroke-width=".38">${ab}<path d="M${f(-ws + .2)} -3C-3.4-1.6-3.4.4-2.6 2M${f(ws - .2)} -3C3.4-1.6 3.4.4 2.6 2"/></g>`; }
-      // лицо: брови домиком у сильных — сурово
-      if (big && !b.shades && !b.eyes) lines += `<path d="M-2 ${f(hy - .9)}L-.6 ${f(hy - .3)}M2 ${f(hy - .9)}L.6 ${f(hy - .3)}M-.9 ${f(hy + 1.6)}H.9" fill="none" stroke="rgba(0,0,0,.6)" stroke-width=".5" stroke-linecap="round"/>`;
-      if (big) lines += `<path d="M-1.1 ${f(hy + 1.9)}H1.1" stroke="rgba(0,0,0,.55)" stroke-width=".45" stroke-linecap="round"/>`;
-      if (b.slump) lines += `<path d="M-1.2 ${f(hy - .2)}h.6M.6 ${f(hy - .2)}h.6M-.8 ${f(hy + 1.6)}q.8-.5 1.6 0" fill="none" stroke="rgba(0,0,0,.5)" stroke-width=".4" stroke-linecap="round"/>`;
-      if (b.shades) extra += `<path d="M-2.9 ${f(hy - .9)}H2.9V${f(hy + .1)}Q1.6 ${f(hy + .9)} .5 ${f(hy + .1)}H-.5Q-1.6 ${f(hy + .9)}-2.9 ${f(hy + .1)}Z" fill="#0B0B0C"/><path d="M-2.2 ${f(hy - .6)}H-1" stroke="#fff" stroke-width=".35" opacity=".8"/><path d="M-1 ${f(hy + 2)}H1" stroke="rgba(0,0,0,.6)" stroke-width=".45" stroke-linecap="round"/>`;
-      if (b.eyes) extra += `<path d="M-2.1 ${f(hy - 1)}L-.5 ${f(hy - .3)}M2.1 ${f(hy - 1)}L.5 ${f(hy - .3)}" stroke="rgba(0,0,0,.7)" stroke-width=".55" stroke-linecap="round"/><circle cx="-1.15" cy="${f(hy + .1)}" r=".55" fill="#FF3B30"/><circle cx="1.15" cy="${f(hy + .1)}" r=".55" fill="#FF3B30"/>`;
-      if (b.crown) extra += `<path d="M-2.6 ${f(hy - 2.8)}H2.6L3.2 ${f(hy - 6)} 1.4 ${f(hy - 4.4)} 0 ${f(hy - 6.6)}-1.4 ${f(hy - 4.4)}-3.2 ${f(hy - 6)}Z" fill="url(#mgGold)" stroke="rgba(60,30,0,.7)" stroke-width=".35"/>`;
-      if (b.pose[0] === 'trophy') extra += `<path d="M-3.6-21.6H3.6V-19.4C3.6-17.4 2-16.2 0-16.2S-3.6-17.4-3.6-19.4Z" fill="url(#mgGold)" stroke="rgba(60,30,0,.7)" stroke-width=".4"/><path d="M-3.6-20.8H-5C-5.8-20.8-5.8-18.6-3.4-18.4M3.6-20.8H5C5.8-20.8 5.8-18.6 3.4-18.4" fill="none" stroke="#F59E0B" stroke-width=".7"/><path d="M0-21.1.5-20.1 1.6-20 .8-19.3 1-18.2 0-18.7-1-18.2-.8-19.3-1.6-20-.5-20.1Z" fill="#fff"/>`;
-      if (b.cape) back += `<path d="M-${f(sh - .5)}-8.6C-12-2-13 8-11 15.5L0 11 11 15.5C13 8 12-2 ${f(sh - .5)}-8.6Z" fill="${c}" stroke="${dk}" stroke-width=".6"/>`;
-      if (b.fire) back += `<g transform="translate(0 2) scale(.42)">${this._flames(i)}</g>`;
-      if (b.bolts) back += `<path d="M-15.5-10-12-4H-14L-11 2-16.5-5H-14.5Z" fill="#FDE047"/><path d="M15.5-10 12-4H14L11 2 16.5-5H14.5Z" fill="#FDE047"/>`;
-    }
-    if (b.swoosh) back += `<path d="M-15.5 10.5C-6 5.5 6-1 15.5-12.5 9.5-3.5-1.5 4.5-15.5 12.5Z" fill="${c}" opacity=".85"/>`;
-    const grp = (fill, stroke, dx, dy) => `<g transform="translate(${dx} ${dy})" fill="${fill}" stroke="${stroke}" stroke-linecap="round" stroke-linejoin="round">${body}</g>`;
-    const k = b.k || 1, dy = b.dy || 0;
-    return `<g transform="translate(0 ${dy}) scale(${k})">${back}${grp(dk, dk, .9, .9)}${grp('#EDEDEB', '#EDEDEB', 0, 0)}<g fill="url(#lfS)" stroke="none">${body.replace(/<path[^>]*fill="none"[^>]*\/>/g, '').replace(/stroke-width="[^"]*"/g, '')}</g>${lines}${extra}</g>`;
-  },
-  // v37: рисунки в центре знаков — у каждой арены своя сцена (как значки арен в играх), а не обычная иконка
-  medalEmblem(i, c, hi) {
-    const a = CONFIG.ARENAS[i], dk = this._mix(c, '#000000', .55), lt = this._mix(c, '#ffffff', .82), G = 'url(#mgGold)', O = 'rgba(0,0,0,.55)', W = '#FFFFFF';
-    const sw = (w = .8) => `stroke="${O}" stroke-width="${w}" stroke-linejoin="round"`;
-    const n = a.name;
-    if (i === 0) return `<path d="M0-16V-9" stroke="${lt}" stroke-width="1.1"/><rect x="-3" y="-9.5" width="6" height="4" rx="1" fill="#9CA3AF" ${sw(.6)}/>
-      <g opacity=".55" stroke="#FDE68A" stroke-width="1" stroke-linecap="round"><path d="M-9-1H-12M9-1H12M-7-7-9-9M7-7 9-9M-7 5-9 7M7 5 9 7"/></g>
-      <path d="M0-5.5C6-5.5 8.5-.5 6.3 3.6 5.2 5.6 3.2 6.8 3.2 9H-3.2C-3.2 6.8-5.2 5.6-6.3 3.6-8.5-.5-6-5.5 0-5.5Z" fill="#FEF3C7" ${sw(.7)} style="filter:drop-shadow(0 0 3px #FDE047)"/>
-      <path d="M-2.2 4.5-1.1 1.2 0 4.5 1.1 1.2 2.2 4.5" fill="none" stroke="#F59E0B" stroke-width=".8"/><rect x="-3.2" y="9" width="6.4" height="2.6" rx=".8" fill="#9CA3AF" ${sw(.5)}/>
-      <g fill="${lt}" opacity=".3"><rect x="-14" y="12" width="7" height="2.8" rx=".5"/><rect x="-6" y="12" width="7" height="2.8" rx=".5"/><rect x="7" y="12" width="7" height="2.8" rx=".5"/></g>`;
-    if (i === 1) return `<path d="M-14-5 0-14 14-5Z" fill="${lt}" ${sw()}/><rect x="-11.5" y="-5" width="23" height="17" rx="1" fill="#141414" stroke="${lt}" stroke-width="1.2"/>
-      <g stroke="${lt}" stroke-width=".7" opacity=".55"><path d="M-11-1.5H11M-11 1.8H11M-11 5.1H11M-11 8.4H11"/></g>
-      <path d="M2.5-4-3.5 4H0L-2.5 11.5 4.5 1.5H1L3.5-4Z" fill="#FDE047" ${sw(.6)}/>`;
-    if (i === 2) return `<path d="M-6.5-3.5C-7.5-14 7.5-14 6.5-3.5" fill="none" stroke="${lt}" stroke-width="3.4" stroke-linecap="round"/><path d="M-6.5-3.5C-7.5-14 7.5-14 6.5-3.5" fill="none" stroke="${O}" stroke-width=".6"/>
-      <circle cy="4.5" r="10" fill="${lt}" ${sw()}/><path d="M6.5-3C10 .5 10.5 7 7 11 5 13 2 14.4-1 14.4 4 12 7 7 6.5-3Z" fill="${c}" opacity=".55"/>
-      <ellipse cx="-4.5" cy="0" rx="2.2" ry="3.5" fill="#fff" opacity=".7" transform="rotate(25 -4.5 0)"/><text y="9" text-anchor="middle" font-size="5.5" font-weight="900" fill="${dk}" font-family="Arial,sans-serif">32</text>`;
-    if (i === 3) return `<rect x="-12.5" y="-13" width="2.6" height="27" rx=".8" fill="#6B7280" ${sw(.5)}/><rect x="9.9" y="-13" width="2.6" height="27" rx=".8" fill="#6B7280" ${sw(.5)}/><path d="M-15 14H15" stroke="#6B7280" stroke-width="1.8"/>
-      <rect x="-16" y="-5.4" width="32" height="2" rx="1" fill="${lt}" ${sw(.5)}/>
-      ${[-14.5, -12, 12, 14.5].map((x, k) => `<rect x="${x - (k === 1 || k === 2 ? 1.6 : 1.1)}" y="${k === 1 || k === 2 ? -11.5 : -9.5}" width="${k === 1 || k === 2 ? 3.2 : 2.2}" height="${k === 1 || k === 2 ? 14 : 10}" rx="1" fill="${k === 1 || k === 2 ? c : lt}" ${sw(.6)}/>`).join('')}
-      <path d="M-11.2-3.4V-1.5H-9.4M11.2-3.4V-1.5H9.4" fill="none" stroke="#9CA3AF" stroke-width="1"/>`;
-    if (i === 4) return `${[[-6, 10, .9], [0, 14, 1.1], [6, 10, .9]].map(([x, h, k]) => `<path d="M${x - 3.5 * k}-3C${x - 5 * k}-${h * .45} ${x - 1 * k}-${h * .7} ${x}-${h + 2}C${x + 1.5 * k}-${h * .65} ${x + 5 * k}-${h * .5} ${x + 3.5 * k}-3Z" fill="url(#mgFlame)" stroke="rgba(120,20,0,.5)" stroke-width=".5"/>`).join('')}
-      <path d="M-15-2.5C-10.5-2.5-8.5-4-6-4H12.5V.8H6.5L4.5 5 8 9.5H-8L-4.5 5-6.5.8H-9.5C-12.5.8-14.5-.2-15-2.5Z" fill="${lt}" ${sw()}/><path d="M-6-4H12.5V-2.4H-7.8Z" fill="#fff" opacity=".6"/>
-      <g fill="#FDE047"><circle cx="13" cy="-8" r=".9"/><circle cx="-11" cy="-7" r=".7"/><circle cx="10.5" cy="-12" r=".6"/></g>`;
-    if (i === 5) return `<path d="M-15-9-10-3H-12.5L-9 3-16-4H-13.5Z" fill="#FDE047" ${sw(.5)}/><path d="M15-9 10-3H12.5L9 3 16-4H13.5Z" fill="#FDE047" ${sw(.5)}/>
-      <rect x="-5.5" y="8" width="11" height="6.5" rx="1.5" fill="${lt}" ${sw(.7)}/><rect x="-10" y="-8" width="19.5" height="17.5" rx="5" fill="${lt}" ${sw()}/>
-      ${[-6.4, -2.1, 2.2, 6.4].map(x => `<circle cx="${x}" cy="-7.2" r="2.7" fill="${lt}" ${sw(.7)}/>`).join('')}<rect x="-9" y="-7.4" width="17.5" height="4" fill="${lt}"/>
-      <path d="M-4.2-6.5V-1.5M0-6.5V-1.5M4.3-6.5V-1.5" stroke="${O}" stroke-width=".7"/>
-      <path d="M-10.2.2C-5.5-1.6 1-1.6 5.5.6 7 1.4 6.8 4 4.8 4.1-.5 3.6-5.6 4.4-10.2 5.8Z" fill="${this._mix(c, '#ffffff', .7)}" ${sw(.7)}/><path d="M-7.5-9.2C-6.8-10.3-5.4-10.4-4.8-9.4M-3.2-9.2C-2.5-10.3-1.1-10.4-.5-9.4" stroke="#fff" stroke-width=".7" fill="none" opacity=".85"/>`;
-    if (i === 6) return `<rect x="-16" y="-4" width="32" height="8" rx="2.5" fill="${dk}" stroke="${c}" stroke-width=".8"/><path d="M-16-1.5H16M-16 1.5H16" stroke="${c}" stroke-width=".4" opacity=".7"/>
-      <rect x="-15" y="-4.5" width="5.5" height="9" rx="1.5" fill="${G}" ${sw(.6)}/><rect x="9.5" y="-4.5" width="5.5" height="9" rx="1.5" fill="${G}" ${sw(.6)}/>
-      <path d="${this._rpoly(this._ring(8, 11, 9.4, Math.PI / 8), 1.2)}" fill="${G}" ${sw()}/><circle r="6.8" fill="${dk}" stroke="#FDE68A" stroke-width=".8"/>
-      <path d="${this._rpoly(this._ring(5, 4.6, 2, 0), .3)}" fill="#FDE68A"/>`;
-    if (i === 7) return `<path d="M-1-13C-7-20 5-23 13-16.5 7-16.5 3.5-14.5 1.5-12Z" fill="${c}" ${sw(.6)}/>
-      <path d="M0-13C8.5-13 12.5-7 12.5 1V11.5H5.2V3.4H2V12.5H-2V3.4H-5.2V11.5H-12.5V1C-12.5-7-8.5-13 0-13Z" fill="${lt}" ${sw()}/>
-      <path d="M-8.5-2H8.5V1.2H2V10.5H-2V1.2H-8.5Z" fill="#0B0E14"/><path d="M-9-8C-6-11.5-1-12-1-12" fill="none" stroke="#fff" stroke-width="1" opacity=".7"/>`;
-    if (i === 8) return `<path d="M-8.5-11H8.5V-4C8.5 2 4.5 5.3 0 5.3S-8.5 2-8.5-4Z" fill="${G}" ${sw()}/><path d="M-8.5-8.5H-11.5C-14-8.5-14-2-8.2-1M8.5-8.5H11.5C14-8.5 14-2 8.2-1" fill="none" stroke="#F59E0B" stroke-width="1.6"/>
-      <rect x="-1.6" y="5" width="3.2" height="4.5" fill="${G}"/><rect x="-6.5" y="9.3" width="13" height="3.6" rx="1" fill="${G}" ${sw(.6)}/>
-      <path d="${this._rpoly(this._ring(5, 4.2, 1.8, 0), .2)}" transform="translate(0 -4)" fill="#fff"/><path d="M-6-9.5C-6-6-5-3.5-3.5-2" stroke="#fff" stroke-width=".9" fill="none" opacity=".75"/>`;
-    if (i === 9) return `<path d="M-6-11.5C2-14.5 11.5-10.5 11.5-2.5 11.5 3.5 7.5 6.8 3.5 6.8V7H-7.5V5.8C-11.5 3-11.5-6.5-6-11.5Z" fill="${c}" ${sw()}/>
-      <path d="M-7.5 1.5C-5.5-1.5-1.5-1 .5 1" fill="none" stroke="${O}" stroke-width=".8"/><path d="M-3-9.5C1-11 6-9.5 7.5-6" fill="none" stroke="#fff" stroke-width="1.1" opacity=".55"/>
-      <rect x="-8.2" y="6.6" width="12.5" height="6" rx="1.4" fill="#F8FAFC" ${sw(.7)}/><path d="M-5.5 8.5H1.5M-5.5 10.6H1.5" stroke="${O}" stroke-width=".5"/>`;
-    if (/Мастер/.test(n)) return `<g transform="translate(0 -3)"><path d="M-12-4.5-6.5-10.5H6.5L12-4.5 0 11Z" fill="${lt}" ${sw()}/><path d="M-12-4.5H12L0 11Z" fill="${c}" opacity=".55"/>
-      <path d="M-6.5-10.5-3-4.5 0-10.5 3-4.5 6.5-10.5M-12-4.5H12M-3-4.5 0 11 3-4.5" fill="none" stroke="${O}" stroke-width=".55"/><path d="M-3-4.5 0-10.5 3-4.5Z" fill="#fff" opacity=".65"/>
-      <path d="M9-13 9.6-11.6 11-11 9.6-10.4 9-9 8.4-10.4 7-11 8.4-11.6Z" fill="#fff"/></g>`;
-    if (n === 'Чемпион лиги') return `<path d="${this._rpoly(this._ring(12, 14.5, 11, 0), .8)}" fill="${G}" ${sw()}/><ellipse cy="1" rx="7.6" ry="8.6" fill="#FDE68A" ${sw(.6)}/>
-      <ellipse cy="4.4" rx="4.4" ry="3.4" fill="#FFF7E0"/><path d="M-2 1.6H2L0 3.8Z" fill="#7C2D12"/><path d="M0 3.8V5.4M0 5.4C-1.2 6.4-2.4 6.2-3 5.6M0 5.4C1.2 6.4 2.4 6.2 3 5.6" fill="none" stroke="#7C2D12" stroke-width=".6"/>
-      <ellipse cx="-3.2" cy="-1.8" rx=".95" ry="1.2" fill="#1C1917"/><ellipse cx="3.2" cy="-1.8" rx=".95" ry="1.2" fill="#1C1917"/><path d="M-5-4.2-1.8-3.4M5-4.2 1.8-3.4" stroke="#7C2D12" stroke-width=".7"/>
-      <path d="M-5-13.5-6.5-18-2.5-15.2 0-19 2.5-15.2 6.5-18 5-13.5Z" fill="${G}" ${sw(.5)}/>`;
-    if (n === 'Великий чемпион') return `<path d="M-13 9C-14 0-10-7-3-9.5L1-15.5 2.6-10C7-9.5 11-7 13.5-3L7.5-2.5 12.5.8C9 4.2 4 5.2-1 4.8L-3 10Z" fill="${lt}" ${sw()}/>
-      <path d="M-3-9.5-6-15-1-10.8" fill="${c}" ${sw(.5)}/><path d="M7.5-2.5 12.5.8C9.5 2.6 6 3.4 2.5 3.4" fill="none" stroke="${O}" stroke-width=".6"/>
-      <path d="M2.5-5.4 6-6.2 4-3.6Z" fill="#FDE047" stroke="#7C2D12" stroke-width=".4"/><path d="M-8-1C-6-3-3-3.5-1-3" fill="none" stroke="${O}" stroke-width=".6"/>
-      <path d="M-10 4-7 2.5-6.5 5.5M-7.5 7.5-4.5 6-4 9" fill="none" stroke="${c}" stroke-width=".8"/><path d="M13.5-3C15.5-3.5 16-1.5 15 0 16.5 1 15.5 3 13.5 2.5" fill="url(#mgFlame)" opacity=".9"/>`;
-    if (n === 'Абсолют') return `<g fill="none" stroke="${lt}" stroke-width=".9" opacity=".85"><ellipse rx="14.5" ry="5"/><ellipse rx="14.5" ry="5" transform="rotate(60)"/><ellipse rx="14.5" ry="5" transform="rotate(-60)"/></g>
-      <circle r="6.2" fill="${c}" stroke="#fff" stroke-width=".8" style="filter:drop-shadow(0 0 3px ${c})"/><circle cx="-1.8" cy="-2" r="2" fill="#fff" opacity=".75"/>
-      <circle cx="14.5" cy="0" r="1.4" fill="#fff"/><circle cx="-7.2" cy="-12.6" r="1.4" fill="#fff"/><circle cx="-7.2" cy="12.6" r="1.4" fill="#fff"/>`;
-    if (i >= CONFIG.ARENAS.length - 1) return `<g transform="translate(-14 -7.5) scale(.28)"><path fill-rule="evenodd" d="${LOGO_PATH}" fill="${G}" stroke="rgba(60,30,0,.7)" stroke-width="2"/></g>
-      <path d="M11-12 11.7-10.3 13.4-9.6 11.7-8.9 11-7.2 10.3-8.9 8.6-9.6 10.3-10.3Z" fill="#fff"/><path d="M-11 9 -10.5 10.2-9.3 10.7-10.5 11.2-11 12.4-11.5 11.2-12.7 10.7-11.5 10.2Z" fill="#fff"/>`;
-    return `<use href="#${a.icon}" x="-12" y="-12" width="24" height="24" fill="none" stroke="${hi}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>`;
+  rankArt(i) {
+    const a = CONFIG.ARENAS[i], c = a.color, lt = this._mix(c, '#ffffff', .3), dk = this._mix(c, '#000000', .3), dd = this._mix(c, '#000000', .58), W = '#FFFFFF', Wd = '#E6E6EA', n = a.name, F = (d, l = lt, k = dk, e = '') => this._fx(d, l, k, e);
+    const R = (pts, r) => this._rpoly(pts, r), shield = (s = 1, y = 0) => R([[0, -36], [30, -27], [30, 4], [0, 38], [-30, 4], [-30, -27]].map(([x, yy]) => [x * s, yy * s + y]), 4);
+    const gem = (s, y = 0) => R([[0, -40], [30, -12], [0, 40], [-30, -12]].map(([x, yy]) => [x * s, yy * s + y]), 3);
+    const wings = (n2, len, y = -6, x0 = 22) => F(this._blades(n2, x0, y, len, 16, 1) + this._blades(n2, -x0, y, len, 16, -1), lt, dk) ;
+    const crown = (y, s = 1, col = '#F5C04A', colD = '#C98A14') => F(R([[-14, 0], [-17, -13], [-7, -6], [0, -17], [7, -6], [17, -13], [14, 0]].map(([x, yy]) => [x * s, yy * s + y]), 1.2), col, colD);
+    const pip = (x, y, r = 4) => F(`M${x} ${y - r}L${x + r} ${y}L${x} ${y + r}L${x - r} ${y}Z`, W, Wd);
+    if (i === 0) return F(R(this._ring(3, 32, 32, 0), 4)) + `<path d="${R(this._ring(3, 15, 15, 0), 2)}" fill="${dd}"/>` + F(this._chev(-2, 9, 4, 3), W, Wd);
+    if (i === 1) return F(shield(.95)) + F(shield(.62), c, dd) + F(this._chev(-4, 13, 6, 4.5), W, Wd);
+    if (i === 2) return F(shield(1)) + F(shield(.66), c, dd) + F(this._chev(-11, 13, 6, 4.2), W, Wd) + F(this._chev(0, 13, 6, 4.2), W, Wd);
+    if (i === 3) return F(R([[0, -38], [22, -30], [38, -36], [32, -6], [0, 40], [-32, -6], [-38, -36], [-22, -30]], 3)) + F(shield(.62, 1), c, dd) + [-14, -4, 6].map(y => F(this._chev(y, 12, 5, 3.6), W, Wd)).join('');
+    if (i === 4) return F(R([[0, -46], [8, -34], [16, -42], [18, -26], [34, -6], [0, 42], [-34, -6], [-18, -26], [-16, -42], [-8, -34]], 2.5)) + F(gem(.6, 4), c, dd) + F(gem(.28, 4), W, Wd);
+    if (i === 5) return F(R(this._ring(4, 46, 15, 0), 2)) + F(R(this._ring(4, 30, 11, Math.PI / 4), 1.5), c, dd) + F(gem(.36, 0), W, Wd);
+    if (i === 6) return wings(3, 30, -10, 20) + F(shield(1.02, 4)) + F(shield(.66, 5), c, dd) + crown(-26, 1) + F(R(this._ring(5, 10, 4.2, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 6)"');
+    if (i === 7) return wings(4, 34, -2, 18) + F(R([[0, -44], [26, -22], [26, 14], [0, 44], [-26, 14], [-26, -22]], 3)) + F(R([[0, -28], [15, -12], [0, 28], [-15, -12]], 2), c, dd) + `<path d="M-26-22L0-8 26-22M0-8V44" fill="none" stroke="${dd}" stroke-width="1.6" opacity=".55"/>` + F(gem(.2, -12), W, Wd);
+    if (i === 8) return F(R(this._ring(8, 48, 26, Math.PI / 8), 2)) + F(R(this._ring(8, 30, 20, 0), 2), c, dd) + F(gem(.42, 0), W, Wd) + crown(-30, .75);
+    if (i === 9) return F(`M-30-20C-40-34-36-46-26-50-28-38-22-30-14-28L0-34 14-28C22-30 28-38 26-50 36-46 40-34 30-20L30 6 0 40-30 6Z`) + F(shield(.6, 2), c, dd) + F(R(this._ring(2, 9, 4, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 2)"');
+    if (/Мастер/.test(n)) { const lvl = (/(I{1,3})$/.exec(n) || [, 'I'])[1].length;
+      return wings(1 + lvl, 30 + lvl * 2, -2, 20) + F(R([[0, -42], [28, -24], [28, 18], [0, 42], [-28, 18], [-28, -24]], 4)) + F(R([[0, -26], [17, -14], [17, 10], [0, 26], [-17, 10], [-17, -14]], 2.5), c, dd) + F(gem(.3, 0), W, Wd)
+        + Array.from({ length: lvl }, (_, k) => pip((k - (lvl - 1) / 2) * 11, -48, 4.2)).join(''); }
+    if (n === 'Чемпион лиги') return wings(4, 36, -8, 20) + F(R([[-26, -8], [-30, -38], [-13, -24], [0, -44], [13, -24], [30, -38], [26, -8], [24, 26], [0, 42], [-24, 26]], 3), '#F7CB4D', '#C98F17') + F(shield(.6, 6), c, dd) + F(R(this._ring(5, 10, 4.2, 0), 1).replace(/^/, ''), W, Wd).replace(/<path/g, '<path transform="translate(0 6)"');
+    if (n === 'Великий чемпион') return F(`M0 40C-14 30-46 22-48-16-36-6-28-6-24-10-34-22-34-36-28-46-22-30-12-26 0-30 12-26 22-30 28-46 34-36 34-22 24-10 28-6 36-6 48-16 46 22 14 30 0 40Z`) + F(gem(.58, 2), c, dd) + F(R(this._ring(3, 11, 5.5, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 2)"');
+    if (n === 'Абсолют') return F(`M0-24 10-40 30-50 24-30 36-16 26-4 30 18 0 44-30 18-26-4-36-16-24-30-30-50-10-40Z`, lt, dk) + F(R([[0, -22], [18, -6], [14, 16], [0, 30], [-14, 16], [-18, -6]], 3), dd, '#1a0006') + `<circle r="8.5" cy="2" fill="${W}"/><circle r="4.5" cy="2" fill="${c}"/>`;
+    // Легенда Flexo: сияние, корона, знак приложения
+    return F(R(this._ring(12, 52, 34, 0), 1.6), '#FFE07A', '#E0A92A') + F(R(this._ring(6, 36, 28, Math.PI / 6), 2), lt, dk) + `<circle r="22" fill="${dd}"/>` + crown(-30, 1.05) + `<g transform="translate(-15 -8) scale(.3)"><path fill-rule="evenodd" d="${typeof LOGO_PATH !== 'undefined' ? LOGO_PATH : ''}" fill="#FFE07A"/></g>`;
   },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
   medal(idx, o = {}) {
     this.medalDefs();
-    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), a = CONFIG.ARENAS[i], t = this.medalTier(i), size = o.size || 64, small = size < 40, anim = o.anim !== false && !small;
-    const c = a.color, hi = this._mix(c, '#ffffff', .7), shape = this._medalShape(i), metal = `url(#mgX${this.medalMetal(i)})`, last = i >= CONFIG.ARENAS.length - 1;
+    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), a = CONFIG.ARENAS[i], size = o.size || 64, small = size < 40, c = a.color;
     let s = '';
-    // задний план: свечение, лучи, шипы, пламя, крылья, лавры
-    if (t >= 4 && !small) s += `<circle r="${t >= 5 ? 58 : 52}" fill="url(#mgG${i})" class="${anim && t >= 5 ? 'md-pulse' : ''}"/>`;
-    if (t >= 5 && !small) { let r = ''; const n = last ? 20 : 14; for (let k = 0; k < n; k++) r += `<path d="M-2.6-36L0-62L2.6-36Z" transform="rotate(${k * 360 / n})" fill="${hi}" opacity="${k % 2 ? .14 : .32}"/>`; s += `<g class="${anim ? 'md-rays' : ''}">${r}</g>`; }
-    if (!small && (i === 4 || a.name === 'Великий чемпион')) s += this._flames(i);
-    if (!small && (i === 5 || i === 9 || a.name === 'Абсолют')) s += this._spikes(i, a.name === 'Абсолют' ? 4 : 8, a.name === 'Абсолют' ? 60 : 55, a.name === 'Абсолют' ? 30 : 36);
-    if (t >= 3 && !small) s += this._wing(i, t >= 5);
-    if (t >= 2 && !small) s += this._laurel(i);
-    // корпус: металлический обод, эмаль с узором, блеск
-    s += `<path d="${shape}" fill="${metal}" stroke="rgba(0,0,0,.7)" stroke-width="1.6"/>`;
-    s += `<path d="${shape}" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1" transform="scale(.955)"/>`;
-    s += `<g transform="scale(.8)"><path d="${shape}" fill="url(#mgE${i})" stroke="rgba(0,0,0,.55)" stroke-width="1.6"/>${small ? '' : `<path d="${shape}" fill="url(#mgPat)"/>`}</g>`;
-    if (!small && i <= 2) for (let k = 0; k < 6; k++) { const an = k * Math.PI / 3 + Math.PI / 6, r = i === 1 ? 38.5 : 37; s += `<circle cx="${(r * Math.sin(an)).toFixed(1)}" cy="${(-r * Math.cos(an)).toFixed(1)}" r="1.9" fill="url(#mgX${this.medalMetal(i)})" stroke="rgba(0,0,0,.6)" stroke-width=".5"/>`; }
-    // медальон с иконкой
-    s += `<circle r="24" fill="url(#mgD${i})" stroke="${metal}" stroke-width="3.2"/><circle r="20.6" fill="none" stroke="${hi}" stroke-width=".7" opacity=".5"/>`;
-    const rn = (/\s(I{1,3}|IV|V)$/.exec(a.name) || [])[1];
-    s += `<g clip-path="url(#mgIn)"><g transform="translate(0 .8) scale(1.2)">${this.lifterSVG(i, c)}</g></g>`; // v38: силуэт качка вместо значка
-    if (rn) s += `<rect x="-8" y="11.6" width="16" height="9" rx="4.5" fill="rgba(5,7,11,.85)" stroke="${hi}" stroke-width=".6"/><text y="18.6" text-anchor="middle" font-size="7.5" font-weight="900" fill="${hi}" font-family="Georgia,serif" letter-spacing=".8">${rn}</text>`;
-    if (!small) s += `<g clip-path="url(#mgC${i})"><ellipse cx="0" cy="-30" rx="44" ry="22" fill="url(#mgGloss)" opacity=".7"/>${anim && t >= 4 ? '<rect class="md-shine" x="-70" y="-60" width="24" height="124" fill="url(#mgShine)"/>' : ''}</g>`;
-    // камни на ободе и корона
-    if (!small && i >= 6) { const gx = i === 7 ? 38 : 36; s += this._gem(-gx, -2, 4, c) + this._gem(gx, -2, 4, c); if (t >= 5) s += this._gem(0, 40, 4.5, c); }
-    if (!small && t >= 4) s += this._crown(i, last ? -39 : /Мастер/.test(a.name) ? -43 : -40, last);
-    if (o.place) s += `<g transform="translate(0 36)"><path d="M-18-6H18L15 0L18 6H-18L-15 0Z" fill="#0b0e14" stroke="url(#mgGold)" stroke-width="1.2"/><text y="3.4" text-anchor="middle" font-size="9.5" font-weight="900" fill="#FDE68A" font-family="inherit">#${o.place}</text></g>`;
-    else if (o.stars != null && !small) { const xs = [-17, -8.5, 0, 8.5, 17]; s += `<path d="M-27 29Q0 44 27 29L25 36Q0 50-25 36Z" fill="rgba(5,7,11,.82)" stroke="${metal}" stroke-width="1"/>` + xs.map((x, k) => this._star(x, 33.8 + 5.2 * (1 - (x / 26) ** 2), 3.9, k < o.stars, k === o.stars - 1 && o.pop ? 'md-pop' : '')).join(''); }
+    const k = (i <= 2 ? 1.2 : i <= 3 ? 1.1 : 1) * (o.stars != null && !small ? .92 : 1);
+    s += `<g transform="translate(0 ${o.stars != null && !small ? -4 : 0}) scale(${k})">${this.rankArt(i)}</g>`;
+    if (o.place) s += `<g transform="translate(0 47)"><rect x="-15" y="-7" width="30" height="13" rx="6.5" fill="#0b0b0c" stroke="#F5C04A" stroke-width="1.4"/><text y="3.6" text-anchor="middle" font-size="10" font-weight="900" fill="#FFE07A" font-family="var(--disp),sans-serif">#${o.place}</text></g>`;
+    else if (o.stars != null && !small) s += [-16, -8, 0, 8, 16].map((x, k) => { const on = k < o.stars; return `<path class="${k === o.stars - 1 && o.pop ? 'md-pop' : ''}" d="M${x} 44l3.6 4.6-3.6 4.6-3.6-4.6Z" fill="${on ? '#FFFFFF' : 'rgba(255,255,255,.18)'}" stroke="${on ? c : 'none'}" stroke-width=".8"/>`; }).join('');
     return `<svg class="medal ${o.cls || ''}" viewBox="-60 -62 120 122" width="${size}" height="${size}" role="img" aria-label="${U.esc(TN(a.name))}${o.stars ? ` ${o.stars}/5` : ''}">${s}</svg>`;
   },
   rankDot(a) { return `<span class="rank-dot">${this.medal(CONFIG.ARENAS.indexOf(a), { size: 18, anim: false })}</span>`; },
@@ -6824,6 +6696,7 @@ Object.assign(UI, {
     const feat = (c, icon, t, sub) => `<div class="au-feat" style="--c:${c}"><span class="hm-ti"><svg class="ic"><use href="#${icon}"/></svg></span><span><b>${t}</b><small>${sub}</small></span></div>`;
     let html;
     if (mode === 'welcome') html = `${this.authTop(false)}
+      <div class="au-hero"><video src="vendor/loader.mp4" muted autoplay loop playsinline preload="auto" disablepictureinpicture onerror="this.parentNode.classList.add('nov')"></video>${LOGO_SVG('au-hero-logo')}</div>
       <div class="au-title">Тренируйся.<br><span>Поднимайся по аренам.</span></div>
       <div class="au-sub">Каждая тренировка приносит кубки, открывает новые арены и усиливает твой клан.</div>
       <div class="au-feats">${feat('#10B981', 'fa-dumbbell', 'Тренировки', 'подходы и рекорды')}${feat('#F59E0B', 'fa-trophy', 'Арены', `${nAr} арен и ${nLg} лиг`)}${feat('#8B5CF6', 'fa-shield-halved', 'Кланы', 'битвы недели')}</div>
@@ -6857,7 +6730,7 @@ Object.assign(UI, {
       ${this.oauthBtns(true)}
       <div class="au-fill"></div>
       <div class="text-sm text-center mt-4">Нет аккаунта? <button class="link font-bold" data-action="auth-mode" data-val="welcome">Создать</button></div>`;
-    const full = `<div class="auth">${html}</div>`, m = this.$('#modal .modal'); if (m && this._authOpen) this.morph(m, full); else { this.modal(full, { center: true, closable: false }).classList.add('auth-full'); this._authOpen = true; }
+    const full = `<div class="auth au-${mode}">${html}</div>`, m = this.$('#modal .modal'); if (m && this._authOpen) this.morph(m, full); else { this.modal(full, { center: true, closable: false }).classList.add('auth-full'); this._authOpen = true; }
   },
   passScore(p) { p = p || ''; let n = 0; if (p.length >= 8) n++; if (p.length >= 12) n++; if (/[A-ZА-Я]/.test(p) && /[a-zа-я]/.test(p)) n++; if (/\d/.test(p) && /[^\wА-Яа-я]/.test(p)) n++; else if (/\d/.test(p)) n += .5; return Math.min(4, Math.floor(n)); },
   // экран «проверь почту»: ждём подтверждения и входим сами
@@ -7097,6 +6970,7 @@ const App = {
   },
   actions: {
     'go-tab'(el) { UI.goTab(el.dataset.tab); },
+    'tip'(el) { if (UI._tipEl && UI._tipFrom === el) { UI.hideTip(); return; } UI.tip(el, el.dataset.tip); UI._tipFrom = el; },
     'close-modal'() { UI.closeModal(); },
     'seg'(el) { el.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('on')); el.classList.add('on'); const reps = document.getElementById(el.parentElement.id.replace('-rm', '-reps')); if (reps) { reps.classList.toggle('hidden', el.dataset.val !== 'CUSTOM'); if (el.dataset.val === 'CUSTOM') reps.focus(); } },
     'copy'(el) { navigator.clipboard?.writeText(el.dataset.text).then(() => UI.toast('Скопировано: ' + el.dataset.text, 'bl')); },
@@ -7459,11 +7333,20 @@ const App = {
     'vp-noop'() {},
     'vp-mute'(el) { const vp = el.closest('.vp'), v = vp && vp.querySelector('video'); if (!v) return; v.muted = !v.muted; App.vpPaint(vp); App.vpIdle(vp); },
     'vp-fs'(el) { const vp = el.closest('.vp'); if (!vp) return; const on = document.fullscreenElement === vp || vp.classList.contains('fs');
-      if (on) { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); vp.classList.remove('fs'); }
-      else if (vp.requestFullscreen) vp.requestFullscreen().catch(() => vp.classList.add('fs')); else vp.classList.add('fs');
+      if (on) { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); vp.classList.remove('fs'); document.body.classList.remove('vp-fs-on'); }
+      else if (vp.requestFullscreen && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) vp.requestFullscreen().catch(() => vp.classList.add('fs')); else vp.classList.add('fs'); // v40: на телефоне — свой полноэкранный режим с отступами от системных кнопок
+      document.body.classList.toggle('vp-fs-on', !!document.querySelector('.vp.fs'));
       setTimeout(() => App.vpPaint(vp), 60); },
     'feed-sort'(el) { const k = el.dataset.val; if (Social.sort === k) return; Social.sort = k; Social.cache = []; Social.done = false; UI.renderPage(); Social.load(true).then(() => UI._page === 'feed' && UI.renderPage()); },
     'post-comments'(el) { UI.openComments(el.dataset.id); },
+    // v40: перевод поста и обратно к оригиналу
+    async 'post-tr'(el) { const id = el.dataset.id, p = Social.find(id); if (!p || !p.body) return; UI._trOn = UI._trOn || {}; Social.tr = Social.tr || {};
+      if (UI._trOn[id]) { UI._trOn[id] = false; UI.refreshSocial(); return; }
+      const key = (S.profile.lang || 'ru') + '|' + id;
+      if (!Social.tr[key]) { UI._trBusy = id; UI.refreshSocial();
+        try { const r = await Gemini.translatePost(p.body, I18N.langs[S.profile.lang || 'ru'] || 'Русский'); Social.tr[key] = String((r && r.text) || '').slice(0, 2000) || p.body; } catch (e) { UI._trBusy = null; UI.toast(e.message || 'Перевод недоступен', 'red'); UI.refreshSocial(); return; }
+        UI._trBusy = null; }
+      UI._trOn[id] = true; UI.refreshSocial(); },
     async 'comment-send'() { const t = document.getElementById('cm-text'); if (!t || !t.value.trim()) return; if (!UI.rulesOk()) { const id = UI._cmId; App.saveDraft('cm-text', t.value); UI.needRules(() => UI.openComments(id)); return; } const v = t.value; t.value = ''; App.clearDraft('cm-text'); const r = await Social.comment(UI._cmId, v); if (r.error) { t.value = v; UI.toast(r.error, 'red'); return; } const c = await Social.comments(UI._cmId); UI._cmItems = c.items || UI._cmItems; UI._renderComments && UI._renderComments(); UI.refreshSocial(); const l = document.querySelector('#modal .cm-list'); if (l && l.lastElementChild) l.lastElementChild.scrollIntoView({ block: 'end' }); },
     'post-menu'(el) { UI.openPostMenu(el.dataset.id); },
     'post-delete'(el) { const id = el.dataset.id; UI.confirm('Удалить пост?', async () => { const r = await Social.remove(id); if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Пост удалён'); UI.refreshSocial(); }, { danger: true, yes: 'Удалить' }); },
@@ -7621,6 +7504,7 @@ const App = {
     'user-block'(el) { const id = el.dataset.id, nick = (ClanService.player(id) || {}).nick || ''; UI.confirm(`Заблокировать <b data-no-mt>${U.esc(nick)}</b>? Его посты и комментарии пропадут у тебя. Разблокировать можно в Настройки → Приватность.`, () => { Social.block(id, nick); UI.closeModal(); UI.refreshSocial(); if (UI._cmId && UI._cmOpen) UI.openComments(UI._cmId); }, { danger: true, yes: 'Заблокировать' }); },
   },
   bind() {
+    document.addEventListener('pointerdown', e => { if (!e.target.closest('[data-tip]')) UI.hideTip(); }, true); window.addEventListener('scroll', () => UI.hideTip(), { passive: true });
     document.addEventListener('click', e => {
       if (!e.target.closest('.dd, .dd-float')) UI.closeDD();
       const el = e.target.closest('[data-action]'); if (!el) return;
