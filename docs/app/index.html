@@ -1140,6 +1140,12 @@ html{overflow-x:hidden;overscroll-behavior:none}body{overflow-x:clip;max-width:1
 .reduce-motion .sflame .sf-fl{animation:none}
 .streak-btn{border-radius:1rem}
 .hm-top .streak-btn{margin-top:-.3rem}
+/* v39: свечение знаков ровнее */
+.rk-medal{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--rc) 65%,transparent))}
+.rku-medal{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--rc) 70%,transparent))}
+.rank-chip .medal{filter:drop-shadow(0 0 4px color-mix(in srgb,var(--c) 60%,transparent))}
+.rk-show{box-shadow:0 8px 22px -16px var(--rc)}
+.rku-burst{opacity:.85}
 </style>
 </head>
 <body>
@@ -1337,7 +1343,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '38',
+  APP_VERSION: '39',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -6324,7 +6330,7 @@ Object.assign(UI, {
     const g = CONFIG.ARENAS.map((a, i) => { const c = a.color, hi = this._mix(c, '#ffffff', .5), lo = this._mix(c, '#000000', .6); return `
       <radialGradient id="mgE${i}" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="${hi}"/><stop offset=".45" stop-color="${c}"/><stop offset="1" stop-color="${lo}"/></radialGradient>
       <radialGradient id="mgD${i}" cx=".5" cy=".3" r=".8"><stop offset="0" stop-color="${this._mix(c, '#0b0e14', .35)}"/><stop offset="1" stop-color="${this._mix(c, '#05070b', .85)}"/></radialGradient>
-      <radialGradient id="mgG${i}"><stop offset=".3" stop-color="${c}" stop-opacity=".7"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>
+      <radialGradient id="mgG${i}"><stop offset=".45" stop-color="${c}" stop-opacity=".38"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>
       <clipPath id="mgC${i}"><path d="${this._medalShape(i)}"/></clipPath>`; }).join('');
     document.body.insertAdjacentHTML('beforeend', `<svg id="medal-defs" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true"><defs>${met}${g}
       <linearGradient id="mgGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF8D6"/><stop offset=".45" stop-color="#FBBF24"/><stop offset="1" stop-color="#9A5B07"/></linearGradient>
@@ -6332,6 +6338,7 @@ Object.assign(UI, {
       <linearGradient id="mgGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
       <linearGradient id="mgFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#EF4444"/><stop offset=".5" stop-color="#F97316"/><stop offset="1" stop-color="#FDE047"/></linearGradient>
       <clipPath id="mgIn"><circle r="22.4"/></clipPath>
+      <linearGradient id="lfS" x1=".1" y1="0" x2=".85" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".45" stop-color="#F2F2F0" stop-opacity=".9"/><stop offset="1" stop-color="#A5A5A2" stop-opacity=".85"/></linearGradient>
       <pattern id="mgPat" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="2" height="5" fill="#fff" opacity=".07"/></pattern>
     </defs></svg>`);
   },
@@ -6376,50 +6383,71 @@ Object.assign(UI, {
     { sh: 7.2, ws: 3.6, hp: 3.4, ua: 4, fa: 3.2, th: 4.1, ca: 3.3, delt: 2.6, bi: 2.5, trap: 3.4, pose: ['dbl', 'dbl'], abs: 1, eyes: 1, bolts: 1 },
     { sh: 7.2, ws: 3.6, hp: 3.4, ua: 4, fa: 3.2, th: 4.1, ca: 3.3, delt: 2.6, bi: 2.5, trap: 3.4, pose: ['dbl', 'dbl'], abs: 1, shades: 1, cape: 1, crown: 1 },
   ],
-  lifterSVG(i, c) {
-    const b = this.LIFTERS[Math.min(i, this.LIFTERS.length - 1)], dk = this._mix(c, '#000000', .45), W = '#F5F5F4', f = n => (+n).toFixed(2);
-    const seg = (pts, w) => `<path d="M${pts.map(p => f(p[0]) + ' ' + f(p[1])).join('L')}" stroke-width="${f(w)}"/>`;
-    const tap = (A, B, w1, w2) => { const dx = B[0] - A[0], dy = B[1] - A[1], l = Math.hypot(dx, dy) || 1, nx = -dy / l, ny = dx / l; return `<path d="M${f(A[0] + nx * w1 / 2)} ${f(A[1] + ny * w1 / 2)}L${f(B[0] + nx * w2 / 2)} ${f(B[1] + ny * w2 / 2)}L${f(B[0] - nx * w2 / 2)} ${f(B[1] - ny * w2 / 2)}L${f(A[0] - nx * w1 / 2)} ${f(A[1] - ny * w1 / 2)}Z" stroke-width=".3"/><circle cx="${f(A[0])}" cy="${f(A[1])}" r="${f(w1 / 2)}" stroke="none"/><circle cx="${f(B[0])}" cy="${f(B[1])}" r="${f(w2 / 2)}" stroke="none"/>`; };
-    const ell = (x, y, rx, ry, rot = 0) => `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(rx)}" ry="${f(ry)}" transform="rotate(${f(rot)} ${f(x)} ${f(y)})" stroke="none"/>`;
-    let body, lines = '', extra = '', back = '';
+  lifterSVG(i, c) { // v39: мышцы отдельными объёмами с объёмной заливкой, прорисовка рельефа, суровое лицо
+    const b = this.LIFTERS[Math.min(i, this.LIFTERS.length - 1)], dk = this._mix(c, '#000000', .45), f = n => (+n).toFixed(2), D = 'rgba(0,0,0,.42)';
+    const seg = (pts, w) => `<path d="M${pts.map(p => f(p[0]) + ' ' + f(p[1])).join('L')}" fill="none" stroke-width="${f(w)}"/>`;
+    const tap = (A, B, w1, w2) => { const dx = B[0] - A[0], dy = B[1] - A[1], l = Math.hypot(dx, dy) || 1, nx = -dy / l, ny = dx / l; return `<path d="M${f(A[0] + nx * w1 / 2)} ${f(A[1] + ny * w1 / 2)}L${f(B[0] + nx * w2 / 2)} ${f(B[1] + ny * w2 / 2)}A${f(w2 / 2)} ${f(w2 / 2)} 0 0 1 ${f(B[0] - nx * w2 / 2)} ${f(B[1] - ny * w2 / 2)}L${f(A[0] - nx * w1 / 2)} ${f(A[1] - ny * w1 / 2)}A${f(w1 / 2)} ${f(w1 / 2)} 0 0 1 ${f(A[0] + nx * w1 / 2)} ${f(A[1] + ny * w1 / 2)}Z"/>`; };
+    const ell = (x, y, rx, ry, rot = 0) => `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(rx)}" ry="${f(ry)}" transform="rotate(${f(rot)} ${f(x)} ${f(y)})"/>`;
+    const ang = (A, B) => Math.atan2(B[1] - A[1], B[0] - A[0]) * 57.2958, lerp = (A, B, t) => [A[0] + (B[0] - A[0]) * t, A[1] + (B[1] - A[1]) * t];
+    let body = '', lines = '', extra = '', back = '';
     if (b.side) { // сутулый с телефоном, вид сбоку
-      body = `<path d="M1.2-7.6C-3.8-5.5-3.6-1-.4 1.6" fill="none" stroke-width="4.4"/>${seg([[1.2, -7.6], [3.4, -9.2]], 1.6)}<circle cx="4.6" cy="-9.3" r="2.6"/>
+      body = `<path d="M1.2-7.6C-3.8-5.5-3.6-1-.4 1.6" fill="none" stroke-width="4.4"/>${seg([[1.2, -7.6], [3.4, -9.2]], 1.6)}<path d="M4.6-12C6.4-12 7.3-10.7 7.2-9.4 7.1-8 6.2-6.9 4.8-6.9 3.1-6.9 2-8 2-9.5 2-11 3.1-12 4.6-12Z"/>
         ${seg([[.6, -6.6], [2.2, -1], [4.6, .6]], 1.4)}${seg([[-.4, 1.6], [1, 8.4], [-.2, 15.2], [2.2, 15.5]], 1.8)}${seg([[-.6, 2], [-1.6, 8.6], [-2, 15.2], [.4, 15.5]], 1.7)}`;
-      extra = `<rect x="4.1" y="-1.5" width="1.8" height="3.2" rx=".4" fill="#111" transform="rotate(-25 5 .1)"/><path d="M5.6-.6 8.6-4.8" stroke="#7DD3FC" stroke-width="1.6" opacity=".55" stroke-linecap="round"/><path d="M6.6-11.8 7.6-13M8-10.2H9.6" stroke="${W}" stroke-width=".6" opacity=".6"/>`;
+      lines = `<path d="M5.6-9.6 6.6-9.1M4.6-7.9C5.3-7.6 5.9-7.7 6.3-8.1" fill="none" stroke="${D}" stroke-width=".45" stroke-linecap="round"/>`;
+      extra = `<rect x="4.1" y="-1.5" width="1.8" height="3.2" rx=".4" fill="#111" transform="rotate(-25 5 .1)"/><path d="M5.6-.6 8.6-4.8" stroke="#7DD3FC" stroke-width="1.6" opacity=".55" stroke-linecap="round"/><path d="M6.6-11.8 7.6-13M8-10.2H9.6" stroke="#fff" stroke-width=".6" opacity=".6"/>`;
     } else {
-      const sy = b.slump ? -7.6 : -8.4, sh = b.sh, hp = b.hp, tr = b.trap || 1.6, hd = [0, -12.4, 2.8];
-      const big = sh >= 5.5, lat = b.ws + (b.lats ? 2.2 : big ? 1.2 : .3), ws = big ? b.ws - .5 : b.ws + (b.belly ? .9 : 0), torso = [[-tr, -10.2], [tr, -10.2], [sh, sy - .3], [sh - .2, sy + 2.4], [lat, -3.8], [ws, .2], [hp, 2.6], [-hp, 2.6], [-ws, .2], [-lat, -3.8], [-sh + .2, sy + 2.4], [-sh, sy - .3]];
+      const sy = b.slump ? -7.6 : -8.4, sh = b.sh, hp = b.hp, tr = b.trap || 1.6, big = sh >= 5.5, mid = sh >= 4.9, hy = -12.3;
+      const lat = b.ws + (b.lats ? 2.4 : big ? 1.3 : .3), ws = big ? b.ws - .6 : b.ws + (b.belly ? .9 : 0);
+      const torso = [[-tr, -10.4], [tr, -10.4], [sh, sy - .3], [sh - .2, sy + 2.4], [lat, -3.8], [ws, .2], [hp, 2.6], [-hp, 2.6], [-ws, .2], [-lat, -3.8], [-sh + .2, sy + 2.4], [-sh, sy - .3]];
+      // голова: челюсть шире у сильных
+      const jw = big ? 2.5 : 2.2;
+      const head = `<path d="M0 ${f(hy - 3)}C2.3 ${f(hy - 3)} 2.9 ${f(hy - 1.5)} 2.9 ${f(hy)}C2.9 ${f(hy + 1.6)} ${f(jw)} ${f(hy + 2.6)} 0 ${f(hy + 3)}C${f(-jw)} ${f(hy + 2.6)} -2.9 ${f(hy + 1.6)} -2.9 ${f(hy)}C-2.9 ${f(hy - 1.5)} -2.3 ${f(hy - 3)} 0 ${f(hy - 3)}Z"/>`;
       const arm = (side, pose) => { const s = side, S = [s * sh, sy + .3]; let E, H, xtra = '';
         if (pose === 'down') { E = [s * (sh + 1.2), sy + 6.2]; H = [s * (sh + 1.5), sy + 11.8]; }
         else if (pose === 'hips') { E = [s * (sh + 3.6), sy + 4.6]; H = [s * (b.ws + .9), -.4]; }
         else if (pose === 'dbl') { E = [s * (sh + 4.6), sy + .2]; H = [s * (sh + 3.6), sy - 5]; }
         else if (pose === 'crab') { E = [s * (sh + 2.6), sy + 5.4]; H = [s * 1.4, .6]; }
-        else if (pose === 'curl') { E = [s * (sh + 1), sy + 5.6]; H = [s * (sh + .6), sy + .8]; xtra = `<g fill="${W}" stroke="none"><rect x="${f(H[0] - 3)}" y="${f(H[1] - 1.6)}" width="1.2" height="3.2" rx=".4"/><rect x="${f(H[0] + 1.8)}" y="${f(H[1] - 1.6)}" width="1.2" height="3.2" rx=".4"/><rect x="${f(H[0] - 2)}" y="${f(H[1] - .4)}" width="4" height=".8"/></g>`; }
-        else if (pose === 'point') { E = [s * (sh + 2.6), sy - 4.6]; H = [s * (sh + 2.2), sy - 9.4]; xtra = seg([H, [H[0] + s * .3, H[1] - 3.2]], .9); }
+        else if (pose === 'curl') { E = [s * (sh + 1), sy + 5.6]; H = [s * (sh + .6), sy + .8]; xtra = `<g stroke="none"><rect x="${f(H[0] - 3)}" y="${f(H[1] - 1.6)}" width="1.2" height="3.2" rx=".4"/><rect x="${f(H[0] + 1.8)}" y="${f(H[1] - 1.6)}" width="1.2" height="3.2" rx=".4"/><rect x="${f(H[0] - 2)}" y="${f(H[1] - .4)}" width="4" height=".8"/></g>`; }
+        else if (pose === 'point') { E = [s * (sh + 2.6), sy - 4.6]; H = [s * (sh + 2.2), sy - 9.4]; xtra = tap(H, [H[0] + s * .3, H[1] - 3.4], .95, .8); }
         else { E = [s * (sh + 1.4), sy - 5.6]; H = [s * 2.4, sy - 10.2]; }
-        let o = tap(S, E, b.ua * 1.05, b.ua * .72) + tap(E, H, b.fa * 1.08, b.fa * .62) + `<circle cx="${f(H[0])}" cy="${f(H[1])}" r="${f(b.fa * .6)}" stroke="none"/>` + xtra;
-        if (b.delt) o += `<circle cx="${f(S[0] + s * .3)}" cy="${f(S[1] - .2)}" r="${f(b.delt)}" stroke="none"/>`;
-        if (b.bi && (pose === 'dbl' || pose === 'point')) { const mx = S[0] + (E[0] - S[0]) * .55, my = S[1] + (E[1] - S[1]) * .55 - b.bi * .7; o += ell(mx, my, b.bi * 1.3, b.bi * 1.05, Math.atan2(E[1] - S[1], E[0] - S[0]) * 57.3); }
+        const au = ang(S, E), af = ang(E, H), flex = pose === 'dbl' || pose === 'point' || pose === 'trophy';
+        let o = tap(S, E, b.ua * 1.02, b.ua * .7) + tap(E, H, b.fa * 1.1, b.fa * .6);
+        if (b.ua >= 2.6) { const fm = lerp(E, H, .28); o += ell(fm[0], fm[1], b.fa * .78, b.fa * .62, af); }  // предплечье у локтя
+        if (b.bi) { const m = lerp(S, E, .55), up = flex ? -1 : 1; o += ell(m[0] + (flex ? 0 : s * .2), m[1] + up * b.bi * .55 * (flex ? 1 : .2), b.bi * 1.35, b.bi * (flex ? 1.12 : .8), au); }
+        if (b.ua >= 3) { const m = lerp(S, E, .5); o += ell(m[0], m[1] + (flex ? b.ua * .35 : 0) + (flex ? 0 : 0), b.ua * .62, b.ua * .45, au); } // трицепс
+        if (b.delt) o += ell(S[0] + s * .2, S[1] + .1, b.delt * 1.12, b.delt * .98, au);
+        o += `<circle cx="${f(H[0])}" cy="${f(H[1])}" r="${f(b.fa * .62)}"/>` + xtra;
+        if (b.delt && b.delt >= 1.6) lines += `<path d="M${f(S[0] + s * b.delt * .2)} ${f(S[1] + b.delt * .95)}Q${f(S[0] - s * b.delt * .55)} ${f(S[1] + .4)} ${f(S[0] - s * b.delt * .45)} ${f(S[1] - b.delt * .7)}" fill="none" stroke="${D}" stroke-width=".42" stroke-linecap="round"/>`;
+        if (b.bi && flex) { const m = lerp(S, E, .6); lines += `<path d="M${f(m[0] - s * .6)} ${f(m[1] + .2)}q${f(s * .7)} ${f(-.9)} ${f(s * 1.6)} ${f(-.2)}" fill="none" stroke="${D}" stroke-width=".38" stroke-linecap="round"/>`; }
         return o; };
       const leg = side => { const s = side, P = [s * hp * .55, 2.4], K = [s * (hp * .62 + .3), 9], F = [s * (hp * .62 + .5), 15.1], T = [s * (hp * .62 + 2.2), 15.5];
-        let o = tap(P, K, b.th * 1.1, b.th * .62) + tap(K, F, b.ca * .95, b.ca * .5) + seg([F, T], b.ca * .55);
-        if (b.th >= 3) o += ell((P[0] + K[0]) / 2 + s * .3, (P[1] + K[1]) / 2, b.th * .62, 3.4, s * 6);
-        if (b.ca >= 2.6) o += ell(K[0] + s * .25, K[1] + 2.4, b.ca * .62, 2.2);
+        let o = tap(P, K, b.th * 1.1, b.th * .6) + tap(K, F, b.ca * .9, b.ca * .48) + seg([F, T], b.ca * .55);
+        if (b.th >= 2.8) { o += ell((P[0] + K[0]) / 2 + s * b.th * .22, (P[1] + K[1]) / 2 - .2, b.th * .55, 3.5, s * 8) + ell(K[0] - s * b.th * .12, K[1] - 1.5, b.th * .38, 1.6, s * -20); // внешняя часть бедра и «капля»
+          lines += `<path d="M${f(P[0] + s * .2)} ${f(P[1] + 1.4)}Q${f(K[0] - s * b.th * .1)} ${f(K[1] - 3.4)} ${f(K[0] - s * b.th * .15)} ${f(K[1] - .4)}" fill="none" stroke="${D}" stroke-width=".42" stroke-linecap="round"/>`; }
+        if (b.ca >= 2.3) { o += ell(K[0] + s * b.ca * .18, K[1] + 2.6, b.ca * .6, 2.3, s * -6); lines += `<path d="M${f(K[0] + s * .1)} ${f(K[1] + 1.3)}V${f(K[1] + 4.2)}" stroke="${D}" stroke-width=".38" stroke-linecap="round"/>`; }
         return o; };
-      body = `<path d="${this._rpoly(torso, 1.4)}" stroke-width="1.2"/>${seg([[0, -10.6], [0, -8.8]], Math.max(1.8, tr))}<circle cx="0" cy="${hd[1]}" r="${hd[2]}"/>` + leg(-1) + leg(1) + arm(-1, b.pose[0]) + arm(1, b.pose[1]);
-      if (b.abs) lines = `<g stroke="${dk}" stroke-width=".5" fill="none" opacity=".75" stroke-linecap="round"><path d="M-${f(sh - 1.6)} ${f(sy + 2.6)}Q0 ${f(sy + 4.4)} ${f(sh - 1.6)} ${f(sy + 2.6)}M0 ${f(sy + 2.8)}V1.6M-1.8-2.4H1.8M-1.6-.4H1.6"/></g>`;
-      if (b.shades) extra += `<path d="M-2.8-13.1H2.8V-12.1Q1.6-11.3.5-12.1H-.5Q-1.6-11.3-2.8-12.1Z" fill="#0B0B0C"/><path d="M-2.2-12.8H-1" stroke="#fff" stroke-width=".35" opacity=".8"/>`;
-      if (b.eyes) extra += `<circle cx="-1.1" cy="-12.6" r=".55" fill="#FF3B30" style="filter:drop-shadow(0 0 1px #FF3B30)"/><circle cx="1.1" cy="-12.6" r=".55" fill="#FF3B30" style="filter:drop-shadow(0 0 1px #FF3B30)"/>`;
-      if (b.crown) extra += `<path d="M-2.6-15.2-3.2-18.4-1.4-16.8 0-19-1.4-16.8M1.4-16.8 0-19 1.4-16.8 3.2-18.4 2.6-15.2Z" fill="url(#mgGold)" stroke="rgba(60,30,0,.7)" stroke-width=".35"/><path d="M-2.6-15.2H2.6L3.2-18.4 1.4-16.8 0-19-1.4-16.8-3.2-18.4Z" fill="url(#mgGold)" stroke="rgba(60,30,0,.7)" stroke-width=".35"/>`;
+      body = `<path d="${this._rpoly(torso, 1.4)}" stroke-width="1"/>${tap([0, -10.8], [0, -8.6], Math.max(2, tr), Math.max(2, tr))}${head}`;
+      if (mid) body += ell(-sh * .48, sy + 2.3, sh * .52, 2.3, 4) + ell(sh * .48, sy + 2.3, sh * .52, 2.3, -4); // грудные
+      if (b.lats) body += ell(-lat + 1, -4.6, 1.7, 3.6, 12) + ell(lat - 1, -4.6, 1.7, 3.6, -12);
+      body += leg(-1) + leg(1) + arm(-1, b.pose[0]) + arm(1, b.pose[1]);
+      if (mid) lines += `<path d="M${f(-sh * .9)} ${f(sy + 3.4)}Q${f(-sh * .45)} ${f(sy + 5.1)} -.3 ${f(sy + 3.9)}M${f(sh * .9)} ${f(sy + 3.4)}Q${f(sh * .45)} ${f(sy + 5.1)} .3 ${f(sy + 3.9)}M0 ${f(sy + .8)}V${f(sy + 4.2)}" fill="none" stroke="${D}" stroke-width=".45" stroke-linecap="round"/>`;
+      if (b.abs) { let ab = ''; [-3.4, -1.7, 0].forEach(y => { ab += `<rect x="-2.3" y="${y}" width="2" height="1.45" rx=".6"/><rect x=".3" y="${y}" width="2" height="1.45" rx=".6"/>`; }); lines += `<g fill="none" stroke="${D}" stroke-width=".38">${ab}<path d="M${f(-ws + .2)} -3C-3.4-1.6-3.4.4-2.6 2M${f(ws - .2)} -3C3.4-1.6 3.4.4 2.6 2"/></g>`; }
+      // лицо: брови домиком у сильных — сурово
+      if (big && !b.shades && !b.eyes) lines += `<path d="M-2 ${f(hy - .9)}L-.6 ${f(hy - .3)}M2 ${f(hy - .9)}L.6 ${f(hy - .3)}M-.9 ${f(hy + 1.6)}H.9" fill="none" stroke="rgba(0,0,0,.6)" stroke-width=".5" stroke-linecap="round"/>`;
+      if (big) lines += `<path d="M-1.1 ${f(hy + 1.9)}H1.1" stroke="rgba(0,0,0,.55)" stroke-width=".45" stroke-linecap="round"/>`;
+      if (b.slump) lines += `<path d="M-1.2 ${f(hy - .2)}h.6M.6 ${f(hy - .2)}h.6M-.8 ${f(hy + 1.6)}q.8-.5 1.6 0" fill="none" stroke="rgba(0,0,0,.5)" stroke-width=".4" stroke-linecap="round"/>`;
+      if (b.shades) extra += `<path d="M-2.9 ${f(hy - .9)}H2.9V${f(hy + .1)}Q1.6 ${f(hy + .9)} .5 ${f(hy + .1)}H-.5Q-1.6 ${f(hy + .9)}-2.9 ${f(hy + .1)}Z" fill="#0B0B0C"/><path d="M-2.2 ${f(hy - .6)}H-1" stroke="#fff" stroke-width=".35" opacity=".8"/><path d="M-1 ${f(hy + 2)}H1" stroke="rgba(0,0,0,.6)" stroke-width=".45" stroke-linecap="round"/>`;
+      if (b.eyes) extra += `<path d="M-2.1 ${f(hy - 1)}L-.5 ${f(hy - .3)}M2.1 ${f(hy - 1)}L.5 ${f(hy - .3)}" stroke="rgba(0,0,0,.7)" stroke-width=".55" stroke-linecap="round"/><circle cx="-1.15" cy="${f(hy + .1)}" r=".55" fill="#FF3B30"/><circle cx="1.15" cy="${f(hy + .1)}" r=".55" fill="#FF3B30"/>`;
+      if (b.crown) extra += `<path d="M-2.6 ${f(hy - 2.8)}H2.6L3.2 ${f(hy - 6)} 1.4 ${f(hy - 4.4)} 0 ${f(hy - 6.6)}-1.4 ${f(hy - 4.4)}-3.2 ${f(hy - 6)}Z" fill="url(#mgGold)" stroke="rgba(60,30,0,.7)" stroke-width=".35"/>`;
       if (b.pose[0] === 'trophy') extra += `<path d="M-3.6-21.6H3.6V-19.4C3.6-17.4 2-16.2 0-16.2S-3.6-17.4-3.6-19.4Z" fill="url(#mgGold)" stroke="rgba(60,30,0,.7)" stroke-width=".4"/><path d="M-3.6-20.8H-5C-5.8-20.8-5.8-18.6-3.4-18.4M3.6-20.8H5C5.8-20.8 5.8-18.6 3.4-18.4" fill="none" stroke="#F59E0B" stroke-width=".7"/><path d="M0-21.1.5-20.1 1.6-20 .8-19.3 1-18.2 0-18.7-1-18.2-.8-19.3-1.6-20-.5-20.1Z" fill="#fff"/>`;
       if (b.cape) back += `<path d="M-${f(sh - .5)}-8.6C-12-2-13 8-11 15.5L0 11 11 15.5C13 8 12-2 ${f(sh - .5)}-8.6Z" fill="${c}" stroke="${dk}" stroke-width=".6"/>`;
       if (b.fire) back += `<g transform="translate(0 2) scale(.42)">${this._flames(i)}</g>`;
       if (b.bolts) back += `<path d="M-15.5-10-12-4H-14L-11 2-16.5-5H-14.5Z" fill="#FDE047"/><path d="M15.5-10 12-4H14L11 2 16.5-5H14.5Z" fill="#FDE047"/>`;
     }
     if (b.swoosh) back += `<path d="M-15.5 10.5C-6 5.5 6-1 15.5-12.5 9.5-3.5-1.5 4.5-15.5 12.5Z" fill="${c}" opacity=".85"/>`;
-    const grp = (col, dx, dy) => `<g transform="translate(${dx} ${dy})" fill="${col}" stroke="${col}" stroke-linecap="round" stroke-linejoin="round">${body}</g>`;
+    const grp = (fill, stroke, dx, dy) => `<g transform="translate(${dx} ${dy})" fill="${fill}" stroke="${stroke}" stroke-linecap="round" stroke-linejoin="round">${body}</g>`;
     const k = b.k || 1, dy = b.dy || 0;
-    return `<g transform="translate(0 ${dy}) scale(${k})">${back}${grp(dk, .9, .9)}${grp(W, 0, 0)}${lines}${extra}</g>`;
+    return `<g transform="translate(0 ${dy}) scale(${k})">${back}${grp(dk, dk, .9, .9)}${grp('#EDEDEB', '#EDEDEB', 0, 0)}<g fill="url(#lfS)" stroke="none">${body.replace(/<path[^>]*fill="none"[^>]*\/>/g, '').replace(/stroke-width="[^"]*"/g, '')}</g>${lines}${extra}</g>`;
   },
   // v37: рисунки в центре знаков — у каждой арены своя сцена (как значки арен в играх), а не обычная иконка
   medalEmblem(i, c, hi) {
@@ -6487,8 +6515,8 @@ Object.assign(UI, {
     const c = a.color, hi = this._mix(c, '#ffffff', .7), shape = this._medalShape(i), metal = `url(#mgX${this.medalMetal(i)})`, last = i >= CONFIG.ARENAS.length - 1;
     let s = '';
     // задний план: свечение, лучи, шипы, пламя, крылья, лавры
-    if (t >= 4 && !small) s += `<circle r="60" fill="url(#mgG${i})" class="${anim ? 'md-pulse' : ''}"/>`;
-    if (t >= 5 && !small) { let r = ''; const n = last ? 20 : 14; for (let k = 0; k < n; k++) r += `<path d="M-2.6-36L0-62L2.6-36Z" transform="rotate(${k * 360 / n})" fill="${hi}" opacity="${k % 2 ? .3 : .6}"/>`; s += `<g class="${anim ? 'md-rays' : ''}">${r}</g>`; }
+    if (t >= 4 && !small) s += `<circle r="${t >= 5 ? 58 : 52}" fill="url(#mgG${i})" class="${anim && t >= 5 ? 'md-pulse' : ''}"/>`;
+    if (t >= 5 && !small) { let r = ''; const n = last ? 20 : 14; for (let k = 0; k < n; k++) r += `<path d="M-2.6-36L0-62L2.6-36Z" transform="rotate(${k * 360 / n})" fill="${hi}" opacity="${k % 2 ? .14 : .32}"/>`; s += `<g class="${anim ? 'md-rays' : ''}">${r}</g>`; }
     if (!small && (i === 4 || a.name === 'Великий чемпион')) s += this._flames(i);
     if (!small && (i === 5 || i === 9 || a.name === 'Абсолют')) s += this._spikes(i, a.name === 'Абсолют' ? 4 : 8, a.name === 'Абсолют' ? 60 : 55, a.name === 'Абсолют' ? 30 : 36);
     if (t >= 3 && !small) s += this._wing(i, t >= 5);
