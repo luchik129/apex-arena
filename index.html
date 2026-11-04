@@ -6937,7 +6937,9 @@ Object.assign(UI, {
   },
   // v46: картинка ранга кладётся один раз в #medal-defs, медали ссылаются на неё через <use>
   rankImg(i) {
-    const a = CONFIG.ARENAS[i], src = a && (CONFIG.RANK_ICONS || {})[a.id];
+    // новые медали включаются только целым набором: смесь с векторными смотрится как два разных стиля
+    const I = CONFIG.RANK_ICONS || {}; if (this._rkFull == null) this._rkFull = CONFIG.ARENAS.every(x => I[x.id]);
+    const a = CONFIG.ARENAS[i], src = this._rkFull && a && I[a.id];
     if (!src) return '';
     const id = 'rki' + a.id;
     if (!document.getElementById(id)) { this.medalDefs(); document.querySelector('#medal-defs defs').insertAdjacentHTML('beforeend', `<image id="${id}" href="${src}" x="-58" y="-58" width="116" height="116" preserveAspectRatio="xMidYMid meet"/>`); }
@@ -6996,7 +6998,7 @@ Object.assign(UI, {
     this.medalDefs();
     const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), a = CONFIG.ARENAS[i], size = o.size || 64, small = size < 40, c = a.color;
     let s = '';
-    const k = (CONFIG.RANK_ICONS[a.id] ? 1 : i <= 2 ? 1.2 : i <= 3 ? 1.1 : 1) * (o.stars != null && !small ? .92 : 1);
+    const k = (this.rankImg(i) ? 1 : i <= 2 ? 1.2 : i <= 3 ? 1.1 : 1) * (o.stars != null && !small ? .92 : 1);
     s += `<g transform="translate(0 ${o.stars != null && !small ? -4 : 0}) scale(${k})">${this.rankArt(i)}</g>`;
     if (o.place) s += `<g transform="translate(0 47)"><rect x="-15" y="-7" width="30" height="13" rx="6.5" fill="#0b0b0c" stroke="#F5C04A" stroke-width="1.4"/><text y="3.6" text-anchor="middle" font-size="10" font-weight="900" fill="#FFE07A" font-family="var(--disp),sans-serif">#${o.place}</text></g>`;
     else if (o.stars != null && !small) s += [-16, -8, 0, 8, 16].map((x, k) => { const on = k < o.stars; return `<path class="${k === o.stars - 1 && o.pop ? 'md-pop' : ''}" d="M${x} 44l3.6 4.6-3.6 4.6-3.6-4.6Z" fill="${on ? '#FFFFFF' : 'rgba(255,255,255,.18)'}" stroke="${on ? c : 'none'}" stroke-width=".8"/>`; }).join('');
