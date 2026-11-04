@@ -1,10 +1,9 @@
 # Иконки рангов
 
-`src/rNN.jpg` — исходник медали ранга на чёрном фоне, где `NN` = `id` арены из `CONFIG.ARENAS`.
-Команда `python3 art/ranks/build_icons.py` делает фон прозрачным, сжимает картинки в WebP 288×288 и
-записывает строку `RANK_ICONS` в `index.html`. После неё `art/ranks/sync.sh` обновляет `www/` и `docs/app/`.
-
-Картинки-медали включаются только целым набором из 17 штук. Пока набор неполный, используются векторные медали `UI.rankArt`.
+`src/rNN.jpg` — исходник медали ранга на чёрном фоне, где `NN` — номер ранга от 01 до 17.
+Команда `python3 art/ranks/build_icons.py` делает фон прозрачным и сохраняет картинки в WebP 512×512 в трёх местах:
+`ranks/rank_NN.webp`, `www/ranks/` и `docs/app/ranks/`. Приложение берёт их через `UI.medalSrc`.
+`art/ranks/sync.sh` копирует `index.html` в `www/` и `docs/app/`.
 
 ## Как сделан набор (Higgsfield, GPT Image 2.5, качество high, 1:1)
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Иконки рангов: art/ranks/src/rNN.jpg (NN = id арены из CONFIG.ARENAS, фон чёрный)
--> прозрачный WebP -> строка `RANK_ICONS: {...}` в index.html.
+"""Иконки рангов: art/ranks/src/rNN.jpg (NN = номер ранга 01…17, фон чёрный)
+-> прозрачный WebP 512×512 -> ranks/rank_NN.webp (+ копии в www/ranks и docs/app/ranks).
+Приложение берёт их через UI.medalSrc.
 
 Запуск из корня репозитория:  python3 art/ranks/build_icons.py
 Чтобы добавить/заменить иконку ранга: положить картинку на чёрном фоне в
 art/ranks/src/rNN.jpg (или .png) и запустить скрипт ещё раз.
-Ранги без картинки рисуются старой векторной медалью (UI.rankArt).
 """
 import base64, glob, io, os, re
 import numpy as np
@@ -13,9 +13,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SRC = os.path.join(ROOT, 'art', 'ranks', 'src')
-OUT = os.path.join(ROOT, 'art', 'ranks', 'out')
-HTML = os.path.join(ROOT, 'index.html')
-SIZE = 288        # px: медаль в приложении не больше 200 css px
+SIZE = 512
 LO, HI = 6, 46    # яркость фона: <= LO — прозрачно, >= HI — непрозрачно
 
 
@@ -39,26 +37,19 @@ def cut(path):
 
 
 def main():
-    os.makedirs(OUT, exist_ok=True)
-    icons = {}
+    n = 0
     for p in sorted(glob.glob(os.path.join(SRC, 'r*.*'))):
         m = re.match(r'r(\d+)\.(jpe?g|png|webp)$', os.path.basename(p), re.I)
         if not m:
             continue
         rid = int(m.group(1))
         img = cut(p)
-        img.save(os.path.join(OUT, 'r%02d.png' % rid))
-        buf = io.BytesIO()
-        img.save(buf, 'WEBP', quality=82, method=6)
-        icons[rid] = 'data:image/webp;base64,' + base64.b64encode(buf.getvalue()).decode()
-        print('rank %2d: %5.1f KB' % (rid, len(buf.getvalue()) / 1024))
-    line = '  RANK_ICONS: {' + ', '.join("%d: '%s'" % (k, v) for k, v in sorted(icons.items())) + '}, // @rank-icons (art/ranks/build_icons.py)\n'
-    src = open(HTML, encoding='utf-8').read()
-    src, n = re.subn(r'^  RANK_ICONS: .*// @rank-icons.*\n', lambda _: line, src, flags=re.M)
-    if n != 1:
-        raise SystemExit('не нашёл строку RANK_ICONS в index.html')
-    open(HTML, 'w', encoding='utf-8').write(src)
-    print('index.html: %d иконок' % len(icons))
+        for d in ('ranks', 'www/ranks', 'docs/app/ranks'):
+            os.makedirs(os.path.join(ROOT, d), exist_ok=True)
+            img.save(os.path.join(ROOT, d, 'rank_%02d.webp' % rid), 'WEBP', quality=86, method=6)
+        print('rank %2d: %5.1f KB' % (rid, os.path.getsize(os.path.join(ROOT, 'ranks', 'rank_%02d.webp' % rid)) / 1024))
+        n += 1
+    print('готово: %d рангов' % n)
 
 
 if __name__ == '__main__':
