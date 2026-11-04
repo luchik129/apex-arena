@@ -1337,7 +1337,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '35',
+  APP_VERSION: '36',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -6284,60 +6284,105 @@ Object.assign(UI, {
    Внутри ранга 5 звёзд. На последнем ранге вместо звёзд — место в мировом рейтинге. */
 Object.assign(UI, {
   _mix(a, b, t) { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); },
+  // v36: ранги — у каждой арены своя форма, металл растёт от железа к золоту и платине, чем выше — тем больше украшений
   medalTier(i) { const n = CONFIG.ARENAS.length - 1; return i >= n ? 6 : CONFIG.ARENAS[i] && CONFIG.ARENAS[i].league ? 5 : i >= 8 ? 4 : i >= 6 ? 3 : i >= 3 ? 2 : i >= 1 ? 1 : 0; },
-  _medalShape(t) {
-    const pts = (n, r1, r2, rot = 0) => { let d = ''; for (let k = 0; k < n * 2; k++) { const r = k % 2 ? r2 : r1, a = (Math.PI * k) / n + rot; d += (k ? 'L' : 'M') + (r * Math.sin(a)).toFixed(1) + ' ' + (-r * Math.cos(a)).toFixed(1); } return d + 'Z'; };
-    if (t === 0) return 'M0-34A34 34 0 1 1 0 34A34 34 0 1 1 0-34Z';
-    if (t === 1) return pts(18, 36.5, 33.5);                                   // блин штанги с насечками
-    if (t === 2 || t === 3) return 'M0-40L31-30Q34 2 26 17Q16 33 0 42Q-16 33-26 17Q-34 2-31-30Z'; // щит
-    if (t === 4) return pts(4, 39, 37, Math.PI / 8);                         // восьмигранник
-    return pts(12, 41, 35);                                                    // звезда-сияние лиг
+  MEDAL_METAL: { iron: ['#E5E7EB', '#8B93A1', '#3A4150', '#B8BFCA', '#4B5261'], bronze: ['#FFE3C2', '#D08A4B', '#6E3410', '#E9B07A', '#7C3E14'], silver: ['#FFFFFF', '#C3CCD6', '#566170', '#E6EBF0', '#6B7684'],
+    gold: ['#FFF8D6', '#F7C548', '#8A4E05', '#FFE38A', '#9A5B07'], plat: ['#FFFFFF', '#DCD8FF', '#5C569E', '#F1EFFF', '#6D67B5'], ruby: ['#FFE4E6', '#FB7185', '#5B0A1E', '#FDA4AF', '#6E0B24'], prism: ['#FFFFFF', '#FDE68A', '#A16207', '#FBCFE8', '#7C3AED'] },
+  medalMetal(i) { const a = CONFIG.ARENAS[i]; if (i >= CONFIG.ARENAS.length - 1) return 'prism'; if (a.name === 'Абсолют') return 'ruby'; if (a.league) return /Мастер/.test(a.name) ? 'plat' : 'gold'; return i === 0 ? 'iron' : i <= 2 ? 'bronze' : i <= 5 ? 'silver' : 'gold'; },
+  _rpoly(pts, rad) { // многоугольник со скруглёнными углами
+    const n = pts.length; let d = '';
+    for (let k = 0; k < n; k++) { const p = pts[k], a = pts[(k + n - 1) % n], b = pts[(k + 1) % n], la = Math.hypot(a[0] - p[0], a[1] - p[1]), lb = Math.hypot(b[0] - p[0], b[1] - p[1]), r = Math.min(rad, la / 2.2, lb / 2.2);
+      const p1 = [p[0] + (a[0] - p[0]) * r / la, p[1] + (a[1] - p[1]) * r / la], p2 = [p[0] + (b[0] - p[0]) * r / lb, p[1] + (b[1] - p[1]) * r / lb];
+      d += `${k ? 'L' : 'M'}${p1[0].toFixed(1)} ${p1[1].toFixed(1)}Q${p[0].toFixed(1)} ${p[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`; }
+    return d + 'Z';
+  },
+  _ring(n, r1, r2, rot = 0) { const o = []; for (let k = 0; k < n * 2; k++) { const r = k % 2 ? r2 : r1, a = Math.PI * k / n + rot; o.push([r * Math.sin(a), -r * Math.cos(a)]); } return o; },
+  _medalShape(i) {
+    if (this._shp && this._shp[i]) return this._shp[i]; this._shp = this._shp || {};
+    const R = (pts, r) => this._rpoly(pts, r), A = CONFIG.ARENAS[i], last = i >= CONFIG.ARENAS.length - 1;
+    let d;
+    if (i === 0) d = R(this._ring(3, 42, 42, 0), 7);                                                       // шестигранная плита
+    else if (i === 1) d = R(Array.from({ length: 40 }, (_, k) => { const a = Math.floor(k / 4) * Math.PI / 5 + [-.13, .13, .2, .43][k % 4], r = k % 4 < 2 ? 44 : 37.5; return [r * Math.sin(a), -r * Math.cos(a)]; }), 1.6); // шестерня
+    else if (i === 2) d = R(this._ring(16, 42, 39.2, 0), 1.2);                                              // блин штанги
+    else if (i === 3) d = 'M0-43C13-37 27-38 37-43C39-18 37 6 27 23C19 35 9 41 0 47C-9 41-19 35-27 23C-37 6-39-18-37-43C-27-38-13-37 0-43Z'; // щит
+    else if (i === 4) d = R([[0, -47], [15, -38], [34, -41], [35, -12], [24, 18], [0, 47], [-24, 18], [-35, -12], [-34, -41], [-15, -38]], 5); // щит-клин
+    else if (i === 5) d = R(this._ring(8, 47, 31, Math.PI / 8), 3);                                         // колючая звезда
+    else if (i === 6) d = 'M0-40C6-47 18-49 24-42C31-47 39-45 41-36C43-10 37 14 23 30C15 38 7 44 0 48C-7 44-15 38-23 30C-37 14-43-10-41-36C-39-45-31-47-24-42C-18-49-6-47 0-40Z'; // гербовый щит
+    else if (i === 7) d = R(this._ring(4, 45, 45, Math.PI / 8), 3);                 // кристалл-восьмигранник
+    else if (i === 8) d = R(this._ring(12, 47, 39.5), 2.5);                                                 // сияние
+    else if (/Мастер/.test(A.name)) d = R([[0, -50], [37, -24], [37, 24], [0, 50], [-37, 24], [-37, -24]], 6); // огранённый камень
+    else if (last) d = R(this._ring(16, 49, 41), 1.8);
+    else if (A.name === 'Абсолют') d = R(this._ring(4, 52, 33, 0), 4);
+    else if (i === 9) d = R(this._ring(10, 48, 35), 3);
+    else d = R(this._ring(8, 48, 37, Math.PI / 8), 3);
+    return (this._shp[i] = d);
   },
   medalDefs() {
     if (document.getElementById('medal-defs')) return;
-    const g = CONFIG.ARENAS.map((a, i) => { const c = a.color, hi = this._mix(c, '#ffffff', .55), lo = this._mix(c, '#000000', .55); return `
-      <linearGradient id="mgM${i}" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="${hi}"/><stop offset=".42" stop-color="${c}"/><stop offset="1" stop-color="${lo}"/></linearGradient>
-      <radialGradient id="mgD${i}" cx=".5" cy=".3" r=".75"><stop offset="0" stop-color="${this._mix(c, '#0b0e14', .45)}"/><stop offset="1" stop-color="${this._mix(c, '#05070b', .82)}"/></radialGradient>
-      <radialGradient id="mgG${i}"><stop offset=".35" stop-color="${c}" stop-opacity=".55"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>`; }).join('');
-    const clips = [0, 1, 2, 4, 5].map(t => `<clipPath id="mgC${t}"><path d="${this._medalShape(t)}"/></clipPath>`).join('');
-    document.body.insertAdjacentHTML('beforeend', `<svg id="medal-defs" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true"><defs>${g}${clips}
-      <linearGradient id="mgGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FEF3C7"/><stop offset=".5" stop-color="#FBBF24"/><stop offset="1" stop-color="#B45309"/></linearGradient>
-      <linearGradient id="mgShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    const M = this.MEDAL_METAL, met = Object.keys(M).map(k => { const c = M[k]; return `<linearGradient id="mgX${k}" x1="0" y1="0" x2=".75" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset=".3" stop-color="${c[1]}"/><stop offset=".55" stop-color="${c[2]}"/><stop offset=".78" stop-color="${c[3]}"/><stop offset="1" stop-color="${c[4]}"/></linearGradient>`; }).join('');
+    const g = CONFIG.ARENAS.map((a, i) => { const c = a.color, hi = this._mix(c, '#ffffff', .5), lo = this._mix(c, '#000000', .6); return `
+      <radialGradient id="mgE${i}" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="${hi}"/><stop offset=".45" stop-color="${c}"/><stop offset="1" stop-color="${lo}"/></radialGradient>
+      <radialGradient id="mgD${i}" cx=".5" cy=".3" r=".8"><stop offset="0" stop-color="${this._mix(c, '#0b0e14', .35)}"/><stop offset="1" stop-color="${this._mix(c, '#05070b', .85)}"/></radialGradient>
+      <radialGradient id="mgG${i}"><stop offset=".3" stop-color="${c}" stop-opacity=".7"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>
+      <clipPath id="mgC${i}"><path d="${this._medalShape(i)}"/></clipPath>`; }).join('');
+    document.body.insertAdjacentHTML('beforeend', `<svg id="medal-defs" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true"><defs>${met}${g}
+      <linearGradient id="mgGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF8D6"/><stop offset=".45" stop-color="#FBBF24"/><stop offset="1" stop-color="#9A5B07"/></linearGradient>
+      <linearGradient id="mgShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".6"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <linearGradient id="mgGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <linearGradient id="mgFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#EF4444"/><stop offset=".5" stop-color="#F97316"/><stop offset="1" stop-color="#FDE047"/></linearGradient>
+      <pattern id="mgPat" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="2" height="5" fill="#fff" opacity=".07"/></pattern>
     </defs></svg>`);
   },
-  _star(x, y, r, on, cls = '') { let d = ''; for (let k = 0; k < 10; k++) { const rr = k % 2 ? r * .45 : r, a = Math.PI * k / 5; d += (k ? 'L' : 'M') + (x + rr * Math.sin(a)).toFixed(2) + ' ' + (y - rr * Math.cos(a)).toFixed(2); } return `<path class="${cls}" d="${d}Z" fill="${on ? 'url(#mgGold)' : 'rgba(255,255,255,.14)'}" stroke="${on ? '#78350F' : 'rgba(0,0,0,.35)'}" stroke-width=".5"/>`; },
-  _wing(i, n, big) {
-    const c = CONFIG.ARENAS[i].color, L = big ? [30, 38, 43, 41, 34, 25] : [28, 35, 34, 26], A = big ? [-82, -64, -46, -29, -12, 5] : [-70, -48, -27, -6];
-    const f = (len, ang, k) => { const w = len * .2; return `<path d="M0 0Q${(len * .5).toFixed(1)} ${(-w).toFixed(1)} ${len} 0Q${(len * .55).toFixed(1)} ${(w * .45).toFixed(1)} 0 0Z" transform="translate(21 -9) rotate(${ang})" fill="${k % 2 ? `url(#mgM${i})` : this._mix(c, '#ffffff', .3)}" stroke="${this._mix(c, '#000000', .62)}" stroke-width=".8"/>`; };
-    const one = L.map((len, k) => f(len, A[k], k)).join('') + `<path d="M17-4Q32-22 40-40" fill="none" stroke="${this._mix(c, '#ffffff', .65)}" stroke-width=".9" opacity=".6"/>`;
+  _star(x, y, r, on, cls = '') { let d = ''; for (let k = 0; k < 10; k++) { const rr = k % 2 ? r * .45 : r, a = Math.PI * k / 5; d += (k ? 'L' : 'M') + (x + rr * Math.sin(a)).toFixed(2) + ' ' + (y - rr * Math.cos(a)).toFixed(2); } return `<path class="${cls}" d="${d}Z" fill="${on ? 'url(#mgGold)' : 'rgba(255,255,255,.16)'}" stroke="${on ? '#78350F' : 'rgba(0,0,0,.4)'}" stroke-width=".5"/>`; },
+  _wing(i, big) { // перья в два ряда: металл снаружи, эмаль внутри
+    const m = `url(#mgX${this.medalMetal(i)})`, e = `url(#mgE${i})`, st = 'rgba(0,0,0,.55)';
+    const row = (L, A, fill, x0, y0) => L.map((len, k) => { const w = len * .24; return `<path d="M0 0C${(len * .3).toFixed(1)} ${(-w).toFixed(1)} ${(len * .8).toFixed(1)} ${(-w * .7).toFixed(1)} ${len} 0C${(len * .7).toFixed(1)} ${(w * .55).toFixed(1)} ${(len * .3).toFixed(1)} ${(w * .5).toFixed(1)} 0 0Z" transform="translate(${x0} ${y0}) rotate(${A[k]})" fill="${fill}" stroke="${st}" stroke-width=".6"/>`; }).join('');
+    const one = big ? row([34, 42, 47, 45, 38, 28], [-80, -62, -44, -27, -10, 7], m, 22, -6) + row([24, 30, 32, 28], [-66, -46, -27, -9], e, 24, -6) : row([28, 35, 36, 29], [-70, -48, -27, -6], m, 22, -6) + row([20, 24, 22], [-56, -36, -16], e, 24, -6);
     return `<g>${one}</g><g transform="scale(-1 1)">${one}</g>`;
   },
-  _laurel(gold) {
-    const fill = gold ? 'url(#mgGold)' : '#86EFAC', st = gold ? '#78350F' : '#14532D';
-    let leaves = ''; for (let k = 0; k < 7; k++) { const th = (78 - k * 15) * Math.PI / 180, x = 41 * Math.cos(th), y = 41 * Math.sin(th), rot = (78 - k * 15) - 70; leaves += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="5.4" ry="2.1" transform="rotate(${rot} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${fill}" stroke="${st}" stroke-width=".5"/>`; }
-    return `<g>${leaves}</g><g transform="scale(-1 1)">${leaves}</g>`;
+  _laurel(i) {
+    const m = `url(#mgX${this.medalMetal(i) === 'iron' ? 'bronze' : this.medalMetal(i)})`;
+    let s = ''; for (let k = 0; k < 8; k++) { const th = (84 - k * 14.5) * Math.PI / 180, x = 45 * Math.cos(th), y = 45 * Math.sin(th) - 2, rot = (84 - k * 14.5) - 62; s += `<path d="M0 0C3-3 8-3 11 0C8 3 3 3 0 0Z" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot}) translate(-5.5 0)" fill="${m}" stroke="rgba(0,0,0,.5)" stroke-width=".5"/>`; }
+    s += `<path d="M7 47Q30 40 44 6" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.3"/>`;
+    return `<g>${s}</g><g transform="scale(-1 1)">${s}</g>`;
+  },
+  _flames(i) { let s = ''; [[-34, 30, .9], [-19, 44, 1.1], [0, 53, 1.3], [19, 44, 1.1], [34, 30, .9]].forEach(([x, h, k]) => { s += `<path d="M${x - 9 * k} -6C${x - 13 * k} ${-h * .45} ${x - 4 * k} ${-h * .75} ${x + 1 * k} ${-h - 4}C${x + 3 * k} ${-h * .7} ${x + 13 * k} ${-h * .5} ${x + 9 * k} -6Z" fill="url(#mgFlame)" stroke="rgba(120,20,0,.45)" stroke-width=".6"/>`; }); return s; },
+  _spikes(i, n = 8, r1 = 56, r2 = 38) { return `<path d="${this._rpoly(this._ring(n, r1, r2, Math.PI / n), 1.5)}" fill="url(#mgX${this.medalMetal(i)})" stroke="rgba(0,0,0,.55)" stroke-width=".8"/>`; },
+  _gem(x, y, r, c) { return `<g transform="translate(${x} ${y})"><path d="M0-${r}L${r * .85} 0L0 ${r}L-${r * .85} 0Z" fill="${c}" stroke="rgba(0,0,0,.6)" stroke-width=".6"/><path d="M0-${r}L${r * .85} 0L0 0Z" fill="#fff" opacity=".45"/><circle cx="${-r * .25}" cy="${-r * .35}" r="${r * .16}" fill="#fff"/></g>`; },
+  _crown(i, y, big) {
+    const m = `url(#mgX${this.medalMetal(i) === 'plat' ? 'plat' : 'gold'})`, c = CONFIG.ARENAS[i].color, k = big ? 1.12 : 1;
+    return `<g transform="translate(0 ${y}) scale(${k})"><path d="M-17 0L-19-14L-10-7L0-19L10-7L19-14L17 0Z" fill="${m}" stroke="rgba(60,30,0,.75)" stroke-width=".8" stroke-linejoin="round"/><rect x="-17.5" y="-2" width="35" height="4.5" rx="1.5" fill="${m}" stroke="rgba(60,30,0,.75)" stroke-width=".7"/>
+      ${this._gem(0, -6.5, 3.2, c)}<circle cx="-19" cy="-14.5" r="2" fill="#FFF8D6" stroke="rgba(60,30,0,.6)" stroke-width=".5"/><circle cx="19" cy="-14.5" r="2" fill="#FFF8D6" stroke="rgba(60,30,0,.6)" stroke-width=".5"/><circle cy="-19.5" r="2.2" fill="#FFF8D6" stroke="rgba(60,30,0,.6)" stroke-width=".5"/></g>`;
   },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
   medal(idx, o = {}) {
     this.medalDefs();
-    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), a = CONFIG.ARENAS[i], t = this.medalTier(i), size = o.size || 64, small = size < 40;
-    const c = a.color, hi = this._mix(c, '#ffffff', .6), dk = this._mix(c, '#000000', .6), shape = this._medalShape(t), clip = t === 3 ? 2 : t === 6 ? 5 : t;
+    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), a = CONFIG.ARENAS[i], t = this.medalTier(i), size = o.size || 64, small = size < 40, anim = o.anim !== false && !small;
+    const c = a.color, hi = this._mix(c, '#ffffff', .7), shape = this._medalShape(i), metal = `url(#mgX${this.medalMetal(i)})`, last = i >= CONFIG.ARENAS.length - 1;
     let s = '';
-    if (t >= 5) s += `<circle r="58" fill="url(#mgG${i})" class="${o.anim === false ? '' : 'md-pulse'}"/>`;
-    if (t === 6) { let r = ''; for (let k = 0; k < 16; k++) r += `<path d="M-2.2-34L0-60L2.2-34Z" transform="rotate(${k * 22.5})" fill="${hi}" opacity="${k % 2 ? .25 : .5}"/>`; s += `<g class="${o.anim === false ? '' : 'md-rays'}">${r}</g>`; }
-    if (t >= 3 && !small) s += this._wing(i, 0, t >= 4);
-    if ((t === 2 || t === 3 || t >= 5) && !small) s += this._laurel(t >= 3);
-    s += `<path d="${shape}" fill="url(#mgM${i})" stroke="${dk}" stroke-width="2"/>`;
-    if (t === 1) s += `<circle r="30.5" fill="none" stroke="${dk}" stroke-width="1.2" opacity=".7"/>`;
-    s += `<path d="${shape}" fill="none" stroke="${hi}" stroke-width=".8" opacity=".55" transform="scale(.9)"/>`;
-    s += `<circle r="24.5" fill="url(#mgD${i})" stroke="${hi}" stroke-width="1.6"/><circle r="21" fill="none" stroke="${c}" stroke-width=".6" opacity=".6"/>`;
+    // задний план: свечение, лучи, шипы, пламя, крылья, лавры
+    if (t >= 4 && !small) s += `<circle r="60" fill="url(#mgG${i})" class="${anim ? 'md-pulse' : ''}"/>`;
+    if (t >= 5 && !small) { let r = ''; const n = last ? 20 : 14; for (let k = 0; k < n; k++) r += `<path d="M-2.6-36L0-62L2.6-36Z" transform="rotate(${k * 360 / n})" fill="${hi}" opacity="${k % 2 ? .3 : .6}"/>`; s += `<g class="${anim ? 'md-rays' : ''}">${r}</g>`; }
+    if (!small && (i === 4 || a.name === 'Великий чемпион')) s += this._flames(i);
+    if (!small && (i === 5 || i === 9 || a.name === 'Абсолют')) s += this._spikes(i, a.name === 'Абсолют' ? 4 : 8, a.name === 'Абсолют' ? 60 : 55, a.name === 'Абсолют' ? 30 : 36);
+    if (t >= 3 && !small) s += this._wing(i, t >= 5);
+    if (t >= 2 && !small) s += this._laurel(i);
+    // корпус: металлический обод, эмаль с узором, блеск
+    s += `<path d="${shape}" fill="${metal}" stroke="rgba(0,0,0,.7)" stroke-width="1.6"/>`;
+    s += `<path d="${shape}" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1" transform="scale(.955)"/>`;
+    s += `<g transform="scale(.8)"><path d="${shape}" fill="url(#mgE${i})" stroke="rgba(0,0,0,.55)" stroke-width="1.6"/>${small ? '' : `<path d="${shape}" fill="url(#mgPat)"/>`}</g>`;
+    if (!small && i <= 2) for (let k = 0; k < 6; k++) { const an = k * Math.PI / 3 + Math.PI / 6, r = i === 1 ? 38.5 : 37; s += `<circle cx="${(r * Math.sin(an)).toFixed(1)}" cy="${(-r * Math.cos(an)).toFixed(1)}" r="1.9" fill="url(#mgX${this.medalMetal(i)})" stroke="rgba(0,0,0,.6)" stroke-width=".5"/>`; }
+    // медальон с иконкой
+    s += `<circle r="20.5" fill="url(#mgD${i})" stroke="${metal}" stroke-width="3"/><circle r="17.2" fill="none" stroke="${hi}" stroke-width=".7" opacity=".55"/>`;
     const rn = (/\s(I{1,3}|IV|V)$/.exec(a.name) || [])[1];
-    s += `<use href="#${a.icon}" x="${rn ? -10.5 : -12.5}" y="${rn ? -17 : -15}" width="${rn ? 21 : 25}" height="${rn ? 21 : 25}" fill="none" stroke="${hi}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="color:${hi}"/>`;
-    if (rn) s += `<text y="16" text-anchor="middle" font-size="9" font-weight="900" fill="${hi}" font-family="Georgia,serif" letter-spacing="1">${rn}</text>`;
-    if (t >= 5 && o.anim !== false && !small) s += `<g clip-path="url(#mgC${clip})"><rect class="md-shine" x="-70" y="-60" width="26" height="120" fill="url(#mgShine)"/></g>`;
-    if (t >= 4) s += `<g transform="translate(0 ${t >= 5 ? -38 : -36})"><path d="M-15 0L-17-13L-8-6L0-17L8-6L17-13L15 0Z" fill="url(#mgGold)" stroke="#78350F" stroke-width=".8"/><circle cx="-17" cy="-13" r="1.8" fill="#FEF3C7"/><circle cx="17" cy="-13" r="1.8" fill="#FEF3C7"/><circle cy="-17" r="2" fill="#FEF3C7"/>${t >= 5 ? `<path d="M0-8L3.4-4.5L0-1L-3.4-4.5Z" fill="${c}" stroke="#fff" stroke-width=".6"/>` : `<circle cy="-4" r="2.2" fill="${c}"/>`}</g>`;
-    if (o.place) s += `<g transform="translate(0 33)"><path d="M-17-6H17L14 0L17 6H-17L-14 0Z" fill="#0b0e14" stroke="url(#mgGold)" stroke-width="1.2"/><text y="3.4" text-anchor="middle" font-size="9.5" font-weight="900" fill="#FDE68A" font-family="inherit">#${o.place}</text></g>`;
-    else if (o.stars != null && !small) { const xs = [-17, -8.5, 0, 8.5, 17]; s += `<path d="M-26 26Q0 41 26 26L24 33Q0 47-24 33Z" fill="rgba(5,7,11,.72)" stroke="${c}" stroke-width=".7"/>` + xs.map((x, k) => this._star(x, 30.8 + 5.2 * (1 - (x / 26) ** 2), 3.9, k < o.stars, k === o.stars - 1 && o.pop ? 'md-pop' : '')).join(''); }
+    s += `<use href="#${a.icon}" x="${rn ? -10 : -12}" y="${rn ? -16 : -12}" width="${rn ? 20 : 24}" height="${rn ? 20 : 24}" fill="none" stroke="${hi}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="color:${hi};filter:drop-shadow(0 0 2px ${c})"/>`;
+    if (rn) s += `<text y="14.5" text-anchor="middle" font-size="8.5" font-weight="900" fill="${hi}" font-family="Georgia,serif" letter-spacing="1">${rn}</text>`;
+    if (!small) s += `<g clip-path="url(#mgC${i})"><ellipse cx="0" cy="-30" rx="44" ry="22" fill="url(#mgGloss)" opacity=".7"/>${anim && t >= 4 ? '<rect class="md-shine" x="-70" y="-60" width="24" height="124" fill="url(#mgShine)"/>' : ''}</g>`;
+    // камни на ободе и корона
+    if (!small && i >= 6) { const gx = i === 7 ? 38 : 36; s += this._gem(-gx, -2, 4, c) + this._gem(gx, -2, 4, c); if (t >= 5) s += this._gem(0, 40, 4.5, c); }
+    if (!small && t >= 4) s += this._crown(i, last ? -39 : /Мастер/.test(a.name) ? -43 : -40, last);
+    if (o.place) s += `<g transform="translate(0 36)"><path d="M-18-6H18L15 0L18 6H-18L-15 0Z" fill="#0b0e14" stroke="url(#mgGold)" stroke-width="1.2"/><text y="3.4" text-anchor="middle" font-size="9.5" font-weight="900" fill="#FDE68A" font-family="inherit">#${o.place}</text></g>`;
+    else if (o.stars != null && !small) { const xs = [-17, -8.5, 0, 8.5, 17]; s += `<path d="M-27 29Q0 44 27 29L25 36Q0 50-25 36Z" fill="rgba(5,7,11,.82)" stroke="${metal}" stroke-width="1"/>` + xs.map((x, k) => this._star(x, 33.8 + 5.2 * (1 - (x / 26) ** 2), 3.9, k < o.stars, k === o.stars - 1 && o.pop ? 'md-pop' : '')).join(''); }
     return `<svg class="medal ${o.cls || ''}" viewBox="-60 -62 120 122" width="${size}" height="${size}" role="img" aria-label="${U.esc(TN(a.name))}${o.stars ? ` ${o.stars}/5` : ''}">${s}</svg>`;
   },
   rankDot(a) { return `<span class="rank-dot">${this.medal(CONFIG.ARENAS.indexOf(a), { size: 18, anim: false })}</span>`; },
