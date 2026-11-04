@@ -1395,6 +1395,24 @@ html.reduce-motion .kring .kr-f{animation:none;transition:none}
 .aif-title{display:block;width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);font-family:var(--disp);font-weight:900;font-size:1.05rem;letter-spacing:-.02em;color:var(--text);padding:.1rem 0 .4rem;margin-bottom:.6rem;outline:none;border-radius:0}
 .aif-title:focus{border-color:var(--text)}
 .aif-done{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}.aif-done small{font-size:.66rem}
+/* v47: лёгкая полировка дизайна — фон арены в карточке ранга, свечение главной, плавное появление вкладок */
+.rk-show.has-bg{background:radial-gradient(70% 130% at 10% 50%,color-mix(in srgb,var(--rc) 45%,transparent),transparent 65%),linear-gradient(90deg,rgba(5,5,6,.35),rgba(5,5,6,.55) 45%,rgba(5,5,6,.8)),var(--abg) center/cover no-repeat,#050506}
+.rk-show.has-bg .rk-name{text-shadow:0 0 22px var(--rc),0 2px 8px rgba(0,0,0,.8)}
+.rk-show.has-bg .rk-kick,.rk-show.has-bg .rk-next{text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.hm-hero{position:relative}
+.hm-hero:after{content:'';position:absolute;left:-1.5rem;right:-1.5rem;top:-7rem;height:26rem;z-index:-1;pointer-events:none;background:radial-gradient(70% 55% at 50% 30%,color-mix(in srgb,var(--rc) 22%,transparent),transparent 72%)}
+html.light .hm-hero:after{opacity:.55}
+.hm-sec>span:first-child:before{content:'';display:inline-block;width:.22rem;height:.9rem;border-radius:2px;margin-right:.45rem;vertical-align:-.1rem;background:linear-gradient(180deg,#34D399,#3B82F6)}
+.hm-ticks i.cur{animation:tickPulse 1.8s ease-in-out infinite}
+@keyframes tickPulse{0%,100%{box-shadow:0 0 6px var(--rc)}50%{box-shadow:0 0 16px var(--rc),0 0 2px #fff}}
+.tab.enter>*{animation:tabRise .42s cubic-bezier(.2,.8,.2,1) both}
+.tab.enter>*:nth-child(2){animation-delay:.04s}.tab.enter>*:nth-child(3){animation-delay:.08s}.tab.enter>*:nth-child(4){animation-delay:.12s}.tab.enter>*:nth-child(5){animation-delay:.16s}.tab.enter>*:nth-child(n+6){animation-delay:.2s}
+@keyframes tabRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.nav-btn.active .ic{animation:navPop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes navPop{0%{transform:scale(.7)}100%{transform:scale(1)}}
+.card[data-action],.rm-card .rm-main,.hm-banner,.rk-show{transition:transform .15s}
+.card[data-action]:active,.rm-card .rm-main:active,.rk-show:active{transform:scale(.98)}
+@media (prefers-reduced-motion:reduce){.tab.enter>*,.nav-btn.active .ic,.hm-ticks i.cur{animation:none}}
 </style>
 </head>
 <body>
@@ -4770,6 +4788,7 @@ const UI = {
     this.$$('.tab').forEach(t => t.classList.toggle('active', t.id === `tab-${name}`));
     this.$$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name)); this.navInd(true);
     window.scrollTo({ top: 0 }); this.renderTab(name); this.renderHeader();
+    const te = this.$(`#tab-${name}`); if (te) { te.classList.remove('enter'); void te.offsetWidth; te.classList.add('enter'); clearTimeout(this._enterT); this._enterT = setTimeout(() => te.classList.remove('enter'), 700); } // v47
   },
   renderTab(name) { ({ arena: this.renderArena, lifts: this.renderLifts, clans: this.renderClans, nutrition: this.renderNutrition, profile: this.renderProfile })[name].call(this); },
   /* ========================= ARENA ========================= */
@@ -4871,6 +4890,11 @@ const UI = {
     const capNote = capped ? `<div class="mb-4 text-xs rounded-lg px-3 py-2" style="background:#F9731622;border:1px solid #F9731655"><svg class="ic text-or"><use href="#fa-lock"/></svg> Кубки на паузе: победи Босса арены (ниже), чтобы пройти дальше</div>` : '';
     this.morph(this.$('#tab-arena'), this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + (S.profile.showCore === true ? this.coreLoop() : '') + this.newbieCard() + (capped || boss ? bossCard : '') + this.leagueCard() + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
     this.bindRemDots();
+    // v47: при первом открытии кубки «набегают» от нуля
+    if (!this._cu) { this._cu = 1; const el = this.$('#tab-arena .hm-big'), tn = el && el.firstChild, to = S.game.trophies;
+      if (tn && tn.nodeType === 3 && to > 0 && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { const t0 = performance.now(), D = 900;
+        const step = now => { const k = Math.min(1, (now - t0) / D), v = Math.round(to * (1 - Math.pow(1 - k, 3))); if (tn.isConnected) tn.nodeValue = String(k < 1 ? v : S.game.trophies); if (k < 1 && tn.isConnected) requestAnimationFrame(step); };
+        requestAnimationFrame(step); } }
   },
 
   /* ===================== v31: ОФОРМЛЕНИЕ ПРОФИЛЯ ===================== */
@@ -4916,7 +4940,7 @@ const UI = {
         <button class="hm-who" data-action="go-tab" data-tab="profile"><span class="hm-nick" data-no-mt>${U.esc(p.nickname || '')}</span><span class="hm-rank"><span>Ур. ${lvl}</span></span></button>
         <button class="streak-btn" data-action="streak-info" aria-label="Серия">${this.streakCircle(46)}</button>
       </div>
-      <button class="rk-show" data-action="open-road" data-key="rk-${g.arenaIdx}-${rk.stars}">
+      <button class="rk-show has-bg" style="--abg:url(${this.arenaBg(g.arenaIdx)})" data-action="open-road" data-key="rk-${g.arenaIdx}-${rk.stars}">
         <span class="rk-medal">${this.medal(g.arenaIdx, { size: 112, stars: rk.stars, place, anim: false })}</span>
         <span class="rk-info"><span class="rk-kick">${a.league ? `Лига ${a.id - nAr}` : `Арена ${a.id} из ${nAr}`}</span><span class="rk-name">${TN(a.name)}</span>${this.starsHtml(rk.stars)}<span class="rk-next">${next ? `<span>${TN(next.name)}</span> · <b class="num">${left}</b> ${this.trophyIcon}` : place ? `#${place}` : T('max_arena')}</span></span>
       </button>
@@ -6981,6 +7005,8 @@ Object.assign(UI, {
     return `<span class="pfr rfr">${inner}<svg class="rfr-o" viewBox="-60 -60 120 120" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px" aria-hidden="true">${s}</svg></span>`;
   },
   // v46: эмблемы рангов — готовые картинки ranks/rank_NN.webp (NN = номер арены, 01…17)
+  // v47: фон арены для карточки ранга (картинки arenas/aNN.webp; у всех лиг общий a10)
+  arenaBg(i) { const n = U.clamp((i || 0) + 1, 1, CONFIG.ARENAS.length); return `arenas/a${String(Math.min(n, 10)).padStart(2, '0')}.webp`; },
   medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp`; },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
   medal(idx, o = {}) {
