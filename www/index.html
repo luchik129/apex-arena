@@ -1183,10 +1183,6 @@ html.light{--avbg:#D1D1D6;--avfg:#FFFFFF}
 .post-tr{display:inline-flex;align-items:center;gap:.35rem;margin:-.2rem 0 .6rem;padding:.3rem .6rem;border-radius:999px;font-size:.72rem;font-weight:700;color:var(--muted);background:var(--sub);border:1px solid var(--line)}
 .post-tr.on{color:var(--text)}
 .post-tr .ic{width:.9rem;height:.9rem}
-.vp.fs{position:fixed;inset:0;z-index:300;margin:0;background:#000;border-radius:0;max-height:none;aspect-ratio:auto}
-.vp.fs video{inset:max(env(safe-area-inset-top),2.2rem) 0 calc(max(env(safe-area-inset-bottom),1.4rem) + 3.6rem)}
-.vp.fs .vp-bar{bottom:max(env(safe-area-inset-bottom),1.4rem);padding:.9rem max(env(safe-area-inset-right),1rem) .7rem max(env(safe-area-inset-left),1rem);background:linear-gradient(transparent,#000c 40%)}
-.vp.fs .vp-bar button{width:2.6rem;height:2.6rem}.vp.fs .vp-bar .ic{width:1.3rem;height:1.3rem}
 body.vp-fs-on{overflow:hidden}body.vp-fs-on #nav,body.vp-fs-on #header{visibility:hidden}
 .au-hero{position:relative;width:96px;height:96px;margin:1.4rem 0 -.4rem}
 .au-hero video{position:absolute;inset:0;width:100%;height:100%;background:var(--bg);border-radius:1.4rem}
@@ -1197,6 +1193,101 @@ html.light .au-hero video{filter:invert(1);background:#fff}
 .au-welcome>*:nth-child(2){animation-delay:.05s}.au-welcome>*:nth-child(3){animation-delay:.12s}.au-welcome>*:nth-child(4){animation-delay:.2s}.au-welcome>*:nth-child(5){animation-delay:.28s}.au-welcome>*:nth-child(n+6){animation-delay:.36s}
 @keyframes auIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .au-title{font-size:2.4rem}
+/* v41: поиск дуэли, история, «соперник найден» */
+.mm-box{display:flex;flex-direction:column;align-items:center}
+.mm-radar{position:relative;width:176px;height:176px;margin:.2rem auto .6rem;border-radius:50%;overflow:hidden}
+.mm-radar i{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
+.mm-radar i:nth-child(2){inset:18%}.mm-radar i:nth-child(3){inset:34%}
+.mm-radar.on i{inset:0;border:1.5px solid var(--text);opacity:0;animation:mmPing 2.4s cubic-bezier(.2,.6,.3,1) infinite}
+.mm-radar.on i:nth-child(2){animation-delay:.8s}.mm-radar.on i:nth-child(3){animation-delay:1.6s}
+@keyframes mmPing{0%{transform:scale(.3);opacity:.8}100%{transform:scale(1);opacity:0}}
+.mm-sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 290deg,color-mix(in srgb,var(--text) 22%,transparent) 360deg);animation:mmSpin 2.2s linear infinite}
+@keyframes mmSpin{to{transform:rotate(360deg)}}
+.mm-radar s{position:absolute;left:var(--x);top:var(--y);width:9px;height:9px;margin:-4px;border-radius:50%;background:#FF9500;opacity:0;animation:mmBlip 2.6s ease-out infinite}
+@keyframes mmBlip{0%,40%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.4)}}
+.mm-me{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.mm-me>*{box-shadow:0 0 0 4px var(--card),0 0 0 5px var(--line)}
+.mm-t{font-family:var(--disp);font-size:1.25rem;font-weight:800;letter-spacing:-.02em}
+.mm-time{font-size:.85rem;color:var(--muted);font-weight:700;margin:.1rem 0 .5rem}
+.mm-live{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:999px;background:var(--sub);border:1px solid var(--line);font-size:.8rem;font-weight:700;color:var(--muted)}
+.mm-live b{color:var(--text);font-size:.9rem}
+.mm-dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--muted)}
+.mm-live.hot .mm-dot{background:#34C759;box-shadow:0 0 0 0 #34C75988;animation:mmDot 1.6s infinite}
+@keyframes mmDot{70%{box-shadow:0 0 0 7px #34C75900}100%{box-shadow:0 0 0 0 #34C75900}}
+.mm-go{font-size:1rem;padding-block:.9rem}
+.hm-tile.mm-on .hm-ti{animation:mmBreath 1.4s ease-in-out infinite}
+@keyframes mmBreath{50%{transform:scale(.88);opacity:.6}}
+.lead-pick{display:flex;align-items:center;gap:.7rem;width:100%;padding:.6rem .75rem;border-radius:1rem;background:var(--sub);border:1px solid var(--line)}
+.lead-pick b{font-size:.9rem}.lead-pick small{font-size:.72rem}
+.dh-row{display:flex;align-items:center;gap:.65rem;padding:.55rem 0;border-top:1px solid var(--line)}
+.dh-row:first-of-type{border-top:0}
+.dh-tag{font-size:.68rem;font-weight:800;padding:.2rem .5rem;border-radius:999px;white-space:nowrap;background:var(--sub);color:var(--muted)}
+.dh-tag.w{background:#34C75922;color:#34C759}.dh-tag.l{background:#FF3B3022;color:#FF453A}
+.df-box{padding:.4rem .2rem}
+.df-k{text-align:center;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.df-vs{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1rem}
+.df-p{display:flex;flex-direction:column;align-items:center;gap:.45rem;min-width:0;max-width:7rem;animation:dfIn .5s cubic-bezier(.2,.8,.2,1) both}
+.df-p:last-child{animation-name:dfInR}
+.df-p b{font-size:.85rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.df-x{font-family:var(--disp);font-size:1.6rem;font-weight:900;animation:dfX .45s .3s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes dfIn{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes dfInR{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes dfX{from{opacity:0;transform:scale(2.2)}to{opacity:1;transform:none}}
+html.reduce-motion .mm-radar *,html.reduce-motion .hm-tile.mm-on .hm-ti{animation:none!important}
+html.reduce-motion .mm-radar.on i{opacity:.4}
+/* v41: разделы — компактные плитки с цветной иконкой */
+.hm-grid{gap:.55rem}
+.hm-grid .hm-tile,.hm-grid .hm-tile.dash{flex-direction:row;align-items:center;justify-content:flex-start;gap:.7rem;min-height:0;padding:.7rem .75rem;border-radius:1.25rem;background:var(--card);border:1px solid var(--line)}
+.hm-grid .hm-tile .hm-ti,.hm-grid .hm-tile.dash .hm-ti{width:2.55rem;height:2.55rem;border-radius:.85rem;background:var(--c)!important;color:#fff!important;border:0;box-shadow:none!important;flex:none}
+.hm-grid .hm-tile .hm-ti .ic{width:1.4rem;height:1.4rem}
+.hm-grid .hm-tile .hm-ti .emb{width:100%;height:100%;border-radius:0;background:transparent!important;color:#fff!important;font-size:1.1rem}
+.hm-tx{display:flex;flex-direction:column;min-width:0;flex:1}
+.hm-grid .hm-tt{font-size:.92rem;line-height:1.15}
+.hm-ts{display:block;margin-top:.15rem;font-size:.72rem;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
+.hm-ts b{color:var(--text);font-weight:800;font-family:var(--disp);font-size:.95rem;letter-spacing:-.02em}
+.hm-kind{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.05rem .32rem;border-radius:.35rem;background:var(--sub);color:var(--text);vertical-align:.08em;margin-right:.1rem}
+.hm-grid .hm-tile .bell-dot{top:.4rem;right:.45rem}
+.hm-grid .hm-tile .hm-lock{top:.55rem;right:.55rem}
+.hm-grid .tile-locked .hm-ti{filter:grayscale(1);opacity:.5}
+.hm-grid>.hm-tile:last-child:nth-child(odd){grid-column:span 2}
+.tr-sw{display:inline-flex;align-items:center;gap:.4rem;margin:-.1rem 0 .6rem;padding:.28rem .35rem .28rem .6rem;border-radius:999px;font-size:.72rem;font-weight:700;color:var(--muted);background:var(--sub);border:1px solid var(--line)}
+.tr-sw .ic{width:.95rem;height:.95rem}
+.tr-k{position:relative;width:1.9rem;height:1.1rem;border-radius:999px;background:var(--line);transition:background .2s;flex:none}
+.tr-k:after{content:'';position:absolute;top:.14rem;left:.14rem;width:.82rem;height:.82rem;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.tr-sw.on{color:var(--text)}.tr-sw.on .tr-k{background:#34C759}.tr-sw.on .tr-k:after{transform:translateX(.8rem)}
+.tr-sw.busy .tr-k:after{animation:trBusy .8s ease-in-out infinite alternate}
+@keyframes trBusy{to{transform:translateX(.8rem)}}
+.tr-sw.sm{margin:.35rem 0 0;font-size:.66rem;padding:.2rem .3rem .2rem .5rem}
+.pc-card{cursor:pointer}
+.vp{max-height:72vh}
+.vp-top,.vp-mid{display:none}
+.vp.fs{position:fixed;inset:0;z-index:400;margin:0;background:#000;border-radius:0;max-height:none;height:100%;width:100%;aspect-ratio:auto!important}
+.vp.fs video{inset:0}
+.vp.fs .vp-big,.vp.fs .vp-bar [data-action=vp-toggle]{display:none}
+.vp.fs .vp-top{display:flex;position:absolute;left:0;right:0;top:0;align-items:center;gap:.6rem;padding:calc(max(env(safe-area-inset-top),1.4rem) + .4rem) max(env(safe-area-inset-right),1rem) 2rem max(env(safe-area-inset-left),1rem);background:linear-gradient(#000000b3,transparent);color:#fff;transition:opacity .3s}
+.vp-top button{width:2.6rem;height:2.6rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#ffffff24;flex:none}
+.vp-top .ic{width:1.3rem;height:1.3rem}
+.vp-ttl{flex:1;min-width:0;font-weight:700;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vp-top .vp-spd{width:auto;min-width:3rem;padding:0 .8rem;border-radius:999px;font-weight:800;font-size:.82rem}
+.vp.fs .vp-mid{display:flex;position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);justify-content:center;align-items:center;gap:2.2rem;color:#fff;transition:opacity .3s;pointer-events:none}
+.vp-mid button{pointer-events:auto;position:relative;display:flex;align-items:center;justify-content:center;width:3.3rem;height:3.3rem;border-radius:50%;background:#00000059}
+.vp-mid .ic{width:1.6rem;height:1.6rem}
+.vp-mid b{position:absolute;left:50%;top:50%;transform:translate(-50%,-42%);font-size:.56rem;font-weight:800}
+.vp-mid .vp-pp{width:4.6rem;height:4.6rem;background:#ffffff2e}
+.vp-mid .vp-pp .ic{width:2rem;height:2rem}
+.vp-fwd .ic{transform:scaleX(-1)}
+.vp.fs .vp-bar{bottom:0;gap:.7rem;padding:2.4rem max(env(safe-area-inset-right),1rem) calc(max(env(safe-area-inset-bottom),1.5rem) + .7rem) max(env(safe-area-inset-left),1rem);background:linear-gradient(transparent,#000000c4)}
+.vp.fs .vp-bar button{width:2.6rem;height:2.6rem;border-radius:50%;background:#ffffff1f}.vp.fs .vp-bar .ic{width:1.2rem;height:1.2rem}
+.vp.fs .vp-time{font-size:.78rem;min-width:5.2rem}
+.vp.fs .vp-track:before,.vp.fs .vp-track>div{height:5px}
+.vp.fs.play.idle .vp-top,.vp.fs.play.idle .vp-mid{opacity:0}
+.vp.fs.play.idle .vp-top button,.vp.fs.play.idle .vp-mid button,.vp.fs.play.idle .vp-bar{pointer-events:none}
+.vp.fs:not(.ready) .vp-mid button{opacity:.35}
+body.vp-fs-on .fab,body.vp-fs-on #fab{visibility:hidden}
+.rfr{padding:4px}.rfr:before,.rfr:after{display:none}
+.pfr>svg.rfr-o{position:absolute;left:50%;top:50%;border-radius:0;overflow:visible;pointer-events:none;z-index:1}
+.pf-av .rfr{margin-bottom:.5rem}
+/*V41CSS*/
 </style>
 </head>
 <body>
@@ -1329,12 +1420,12 @@ html.light .au-hero video{filter:invert(1);background:#fff}
 <symbol id="fa-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8zM5 2l.6 1.4L7 4l-1.4.6L5 6l-.6-1.4L3 4l1.4-.6z"/></symbol>
 <symbol id="fa-user-xmark" viewBox="0 0 24 24"><path d="M15 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M12.5 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM17 8l5 5M22 8l-5 5"/></symbol>
 <symbol id="fa-check-double" viewBox="0 0 24 24"><path d="m2 12 5 5L18 6M12 16l1 1L22 8"/></symbol>
-<symbol id="fa-lift-bench" viewBox="0 0 24 24"><path d="M2.5 17.5h12.5M5 17.5V21M13 17.5V21"/><circle cx="4.6" cy="13.6" r="1.7" fill="currentColor"/><path d="M6.6 14.2h7.4l2.6 3.3v3.4M9.6 14V8.4" stroke-width="2.2"/><path d="M3 8.4h13" stroke-width="1.6"/><rect x="2.4" y="5.6" width="2.2" height="5.6" rx=".7" fill="currentColor"/><rect x="14.4" y="5.6" width="2.2" height="5.6" rx=".7" fill="currentColor"/></symbol>
+<symbol id="fa-lift-bench" viewBox="0 0 24 24"><circle cx="8" cy="5.6" r="3.6"/><circle cx="8" cy="5.6" r=".9" fill="currentColor" stroke="none"/><path d="M8 9.2v4.4" stroke-width="2.2"/><circle cx="4" cy="13.4" r="1.9" fill="currentColor" stroke="none"/><path d="M6.6 13.8h6.6l3.9-1.1.5 7.8" stroke-width="2.4"/><path d="M2.2 16.4h13.6M4.6 16.4V21M13.4 16.4V21"/></symbol>
 <symbol id="fa-lift-squat" viewBox="0 0 24 24"><circle cx="12.4" cy="4.4" r="1.8" fill="currentColor"/><path d="M4 8h16" stroke-width="1.6"/><rect x="3.2" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><rect x="18.6" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><path d="M12.2 8.4 10.8 13.6l4.8 1.4-1.2 5.6M10.8 13.6l-2.4 2 .6 4.6M10 8.6 8.6 8" stroke-width="2.2"/></symbol>
 <symbol id="fa-lift-dead" viewBox="0 0 24 24"><circle cx="7.6" cy="6" r="1.8" fill="currentColor"/><path d="M9.2 7.8 15.6 11.4 15 15.6l.6 4.8M15.6 11.4l2.4 4 -.6 4.8M10.4 8.6v7" stroke-width="2.2"/><path d="M3 16.4h15" stroke-width="1.6"/><circle cx="4.6" cy="16.4" r="3" fill="currentColor" stroke="none" opacity=".9"/><circle cx="16.6" cy="16.4" r="3" fill="currentColor" stroke="none" opacity=".9"/></symbol>
 <symbol id="fa-language" viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c.8 3.5 3 6 6 7.5M11 5c-.8 3.5-3.4 6.4-7 8"/><path d="M12.5 21 16.5 11l4 10M13.8 18h5.4"/></symbol>
 <symbol id="fa-house" viewBox="0 0 24 24"><path d="M3 10a2 2 0 0 1 .7-1.53l7-6a2 2 0 0 1 2.6 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M15 21v-7a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v7"/></symbol>
-<symbol id="fa-heart-pulse" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3.5 12h4l2-3 3 6 2-3h6"/></symbol>
+<symbol id="sx-lift" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><rect x="1" y="9.2" width="2.6" height="5.6" rx="1"/><rect x="4.2" y="5.8" width="3.8" height="12.4" rx="1.4"/><rect x="8" y="10.7" width="8" height="2.6" rx=".9"/><rect x="16" y="5.8" width="3.8" height="12.4" rx="1.4"/><rect x="20.4" y="9.2" width="2.6" height="5.6" rx="1"/></g></symbol><symbol id="sx-health" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 21.2s-8.6-5-9.8-10.6C1.4 6.9 3.8 3.6 7.2 3.6c2 0 3.6 1 4.8 2.7 1.2-1.7 2.8-2.7 4.8-2.7 3.4 0 5.8 3.3 5 7C20.6 16.2 12 21.2 12 21.2z"/><path d="M5.4 11.6h3.2l1.6-2.6 2.6 5 1.6-2.4h4.2" stroke-width="1.7" style="stroke:var(--c,#000)"/></symbol><symbol id="sx-feed" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><path fill-rule="evenodd" d="M5 7.5h14a2 2 0 0 1 2 2v9.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2zm1 11.4h12l-3.7-4.8-2.6 3.1-1.8-2.1zm10-6.1a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2z"/><rect x="5.6" y="3.4" width="12.8" height="2.6" rx="1.1" opacity=".55"/></g></symbol><symbol id="sx-duel" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><g transform="rotate(45 12 12)"><path d="M12 .8l1.3 2.2v11.6h-2.6V3z"/><rect x="8.2" y="14.4" width="7.6" height="2.1" rx="1"/><rect x="11" y="16.4" width="2" height="4.4" rx=".8"/></g><g transform="rotate(-45 12 12)"><path d="M12 .8l1.3 2.2v11.6h-2.6V3z"/><rect x="8.2" y="14.4" width="7.6" height="2.1" rx="1"/><rect x="11" y="16.4" width="2" height="4.4" rx=".8"/></g></g></symbol><symbol id="sx-friends" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="9" cy="7.6" r="3.6"/><path d="M1.8 20.2c0-4.2 3.1-6.8 7.2-6.8s7.2 2.6 7.2 6.8z"/><circle cx="16.8" cy="7.4" r="2.9" opacity=".6"/><path opacity=".6" d="M16 13.3c.4-.1.9-.1 1.3-.1 3.4 0 5.6 2.3 5.6 6.4v.6h-5c0-2.8-.7-5.1-1.9-6.9z"/></g></symbol><symbol id="sx-guide" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><path d="M2 5.2c3.2-1.3 6.6-1.1 9.2.8v14.5c-2.6-1.6-6-1.9-9.2-.8z"/><path d="M22 5.2c-3.2-1.3-6.6-1.1-9.2.8v14.5c2.6-1.6 6-1.9 9.2-.8z" opacity=".7"/></g></symbol><symbol id="sx-clan" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" fill-rule="evenodd" d="M12 1.8l8.4 3.1v6.2c0 5.3-3.6 9.6-8.4 11.2-4.8-1.6-8.4-5.9-8.4-11.2V4.9zM12.00 7.00L13.06 9.74L15.99 9.90L13.71 11.76L14.47 14.60L12.00 13.00L9.53 14.60L10.29 11.76L8.01 9.90L10.94 9.74z"/></symbol><symbol id="sx-weight" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" fill-rule="evenodd" d="M6 3.5h12a3.5 3.5 0 0 1 3.5 3.5v10A3.5 3.5 0 0 1 18 20.5H6A3.5 3.5 0 0 1 2.5 17V7A3.5 3.5 0 0 1 6 3.5zM7.6 10.6h8.8a4.4 4.4 0 0 0-8.8 0zm4.9-2.9l-1.2 2.9h1.4l.6-2.6z"/></symbol><symbol id="fa-heart-pulse" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3.5 12h4l2-3 3 6 2-3h6"/></symbol>
 </svg>
 <div id="app" class="max-w-md mx-auto min-h-screen relative">
   <header id="header">
@@ -1398,7 +1489,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '40',
+  APP_VERSION: '41',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1663,6 +1754,8 @@ MT.SEED_V33 = {"en": {"Ур. {0}": "Lv. {0}", "Звезда {0} из {1} · сл
 Object.keys(MT.SEED_V33).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V33[l]));
 MT.SEED_V40 = {"en": {"Тренировки на этой неделе из твоей цели": "Workouts this week out of your goal", "Монеты: за тренировки и арены, тратятся в магазине": "Coins: earned for workouts and arenas, spent in the shop", "Уровень: растёт от опыта за тренировки и рекорды": "Level: grows with XP from workouts and records", "Личные рекорды за всё время": "Personal records, all time", "Засчитанные тренировки за всё время": "Counted workouts, all time", "Личные рекорды": "Personal records", "Серия: дней подряд с записями": "Streak: days in a row with entries", "Друзья": "Friends", "{0}: пока нет записи": "{0}: no entry yet", "Другие рекорды": "Other records", "Перевести": "Translate", "Показать оригинал": "Show original", "Перевод недоступен": "Translation unavailable", "Жим лёжа": "Bench press", "Присед": "Squat", "Становая тяга": "Deadlift"}, "uk": {"Тренировки на этой неделе из твоей цели": "Тренування цього тижня з твоєї цілі", "Монеты: за тренировки и арены, тратятся в магазине": "Монети: за тренування й арени, витрачаються в магазині", "Уровень: растёт от опыта за тренировки и рекорды": "Рівень: росте від досвіду за тренування й рекорди", "Личные рекорды за всё время": "Особисті рекорди за весь час", "Засчитанные тренировки за всё время": "Зараховані тренування за весь час", "Личные рекорды": "Особисті рекорди", "Серия: дней подряд с записями": "Серія: днів поспіль із записами", "Друзья": "Друзі", "{0}: пока нет записи": "{0}: поки немає запису", "Другие рекорды": "Інші рекорди", "Перевести": "Перекласти", "Показать оригинал": "Показати оригінал", "Перевод недоступен": "Переклад недоступний", "Жим лёжа": "Жим лежачи", "Присед": "Присід", "Становая тяга": "Станова тяга"}, "kk": {"Тренировки на этой неделе из твоей цели": "Осы аптадағы жаттығулар, мақсатыңнан", "Монеты: за тренировки и арены, тратятся в магазине": "Монеталар: жаттығу мен арена үшін, дүкенде жұмсалады", "Уровень: растёт от опыта за тренировки и рекорды": "Деңгей: жаттығу мен рекордтардан тәжірибемен өседі", "Личные рекорды за всё время": "Барлық уақыттағы жеке рекордтар", "Засчитанные тренировки за всё время": "Барлық уақыттағы есептелген жаттығулар", "Личные рекорды": "Жеке рекордтар", "Серия: дней подряд с записями": "Серия: жазбасы бар қатарынан күндер", "Друзья": "Достар", "{0}: пока нет записи": "{0}: әзірге жазба жоқ", "Другие рекорды": "Басқа рекордтар", "Перевести": "Аудару", "Показать оригинал": "Түпнұсқаны көрсету", "Перевод недоступен": "Аударма қолжетімсіз", "Жим лёжа": "Жатып жим", "Присед": "Отырып-тұру", "Становая тяга": "Становая тартылыс"}, "de": {"Тренировки на этой неделе из твоей цели": "Trainings diese Woche von deinem Ziel", "Монеты: за тренировки и арены, тратятся в магазине": "Münzen: für Trainings und Arenen, im Shop ausgeben", "Уровень: растёт от опыта за тренировки и рекорды": "Level: steigt mit XP aus Trainings und Rekorden", "Личные рекорды за всё время": "Persönliche Rekorde insgesamt", "Засчитанные тренировки за всё время": "Gezählte Trainings insgesamt", "Личные рекорды": "Persönliche Rekorde", "Серия: дней подряд с записями": "Serie: Tage in Folge mit Einträgen", "Друзья": "Freunde", "{0}: пока нет записи": "{0}: noch kein Eintrag", "Другие рекорды": "Weitere Rekorde", "Перевести": "Übersetzen", "Показать оригинал": "Original anzeigen", "Перевод недоступен": "Übersetzung nicht verfügbar", "Жим лёжа": "Bankdrücken", "Присед": "Kniebeuge", "Становая тяга": "Kreuzheben"}, "es": {"Тренировки на этой неделе из твоей цели": "Entrenos esta semana de tu meta", "Монеты: за тренировки и арены, тратятся в магазине": "Monedas: por entrenos y arenas, se gastan en la tienda", "Уровень: растёт от опыта за тренировки и рекорды": "Nivel: sube con la experiencia de entrenos y récords", "Личные рекорды за всё время": "Récords personales de siempre", "Засчитанные тренировки за всё время": "Entrenos contados de siempre", "Личные рекорды": "Récords personales", "Серия: дней подряд с записями": "Racha: días seguidos con registros", "Друзья": "Amigos", "{0}: пока нет записи": "{0}: aún sin registro", "Другие рекорды": "Otros récords", "Перевести": "Traducir", "Показать оригинал": "Ver original", "Перевод недоступен": "Traducción no disponible", "Жим лёжа": "Press de banca", "Присед": "Sentadilla", "Становая тяга": "Peso muerto"}, "fr": {"Тренировки на этой неделе из твоей цели": "Séances cette semaine sur ton objectif", "Монеты: за тренировки и арены, тратятся в магазине": "Pièces : gagnées aux séances et arènes, à dépenser en boutique", "Уровень: растёт от опыта за тренировки и рекорды": "Niveau : monte avec l'XP des séances et records", "Личные рекорды за всё время": "Records personnels au total", "Засчитанные тренировки за всё время": "Séances comptées au total", "Личные рекорды": "Records personnels", "Серия: дней подряд с записями": "Série : jours d'affilée avec des entrées", "Друзья": "Amis", "{0}: пока нет записи": "{0} : pas encore de record", "Другие рекорды": "Autres records", "Перевести": "Traduire", "Показать оригинал": "Voir l'original", "Перевод недоступен": "Traduction indisponible", "Жим лёжа": "Développé couché", "Присед": "Squat", "Становая тяга": "Soulevé de terre"}, "tr": {"Тренировки на этой неделе из твоей цели": "Bu hafta hedefinden antrenmanlar", "Монеты: за тренировки и арены, тратятся в магазине": "Coin: antrenman ve arenalardan, mağazada harcanır", "Уровень: растёт от опыта за тренировки и рекорды": "Seviye: antrenman ve rekorlardan gelen XP ile artar", "Личные рекорды за всё время": "Tüm zamanların kişisel rekorları", "Засчитанные тренировки за всё время": "Tüm zamanlarda sayılan antrenmanlar", "Личные рекорды": "Kişisel rekorlar", "Серия: дней подряд с записями": "Seri: kayıt olan art arda günler", "Друзья": "Arkadaşlar", "{0}: пока нет записи": "{0}: henüz kayıt yok", "Другие рекорды": "Diğer rekorlar", "Перевести": "Çevir", "Показать оригинал": "Orijinali göster", "Перевод недоступен": "Çeviri kullanılamıyor", "Жим лёжа": "Bench press", "Присед": "Squat", "Становая тяга": "Deadlift"}};
 Object.keys(MT.SEED_V40).forEach(l => Object.keys(MT.SEED_V40[l]).forEach(k => { if (!(MT.SEED_ADD[l] || {})[k] && !(MT.SEED[l] || {})[k]) (MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}))[k] = MT.SEED_V40[l][k]; }));
+MT.SEED_V41 = {"en": {"Стандартная тема": "Default theme", "ккал осталось": "kcal left", "ккал сверх": "kcal over", "вступи в клан": "join a clan", "{0} на {1}": "{0} vs {1}", "посты игроков": "players' posts", "техника": "technique", "поиск…": "searching…", "Сейчас ищут": "Searching now", "Найти соперника": "Find opponent", "{0} дней, счёт с нуля · победа +{1}": "{0} days, score from zero · win +{1}", "История дуэлей": "Duel history", "Победа": "Win", "Поражение": "Loss", "Ничья": "Draw", "Сдался": "Gave up", "Настройки боёв": "Battle settings", "Открыт к дуэлям": "Open to duels", "Друзья и игроки могут вызвать тебя": "Friends and players can challenge you", "Ищем соперника…": "Searching for an opponent…", "Отменить поиск": "Cancel search", "Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»": "The duel starts as soon as someone else taps «Find opponent»", "Соперник найден": "Opponent found", "{0} дней. Кто больше натренирует, тот и победил.": "{0} days. Whoever trains more wins.", "В бой": "Fight", "Участие": "Membership", "Выйти из клана": "Leave clan", "Перед выходом выберешь, кому передать лидерство.": "Before leaving you'll choose who gets leadership.", "Ты один в клане: при выходе клан будет удалён.": "You're alone in the clan: it will be deleted when you leave.", "Ты лидер клана": "You're the clan leader", "Перед выходом передай лидерство. Новый лидер получит все права.": "Hand over leadership before leaving. The new leader gets all rights.", "заместитель ·": "deputy ·", "участник ·": "member ·", "Передать лидерство игроку": "Hand over leadership to", "и выйти из клана?": "and leave the clan?", "Передать и выйти": "Hand over and leave", "Ты станешь заместителем.": "You'll become a deputy.", "Передать лидерство": "Hand over leadership", "Передать": "Hand over", "Управление в клане": "Manage in clan", "Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.": "You're the last one in the clan. If you leave, the clan will be deleted forever along with its trophies and design.", "Удалить клан и выйти": "Delete clan and leave", "Лидерство передано": "Leadership handed over", "Лидерство передано, ты вышел из клана": "Leadership handed over, you left the clan", "Перевод": "Translate", "Перевожу…": "Translating…", "Здесь появятся твои прошедшие дуэли": "Your past duels will appear here", "друг": "friend", "друга": "friends", "друзей": "friends", "через {0} трен.": "in {0} workouts", "Передать лидерство может только лидер": "Only the leader can hand over leadership", "Сейчас ищут:": "Searching now:"}, "uk": {"Стандартная тема": "Стандартна тема", "ккал осталось": "ккал залишилось", "ккал сверх": "ккал понад", "вступи в клан": "вступи в клан", "{0} на {1}": "{0} на {1}", "посты игроков": "пости гравців", "техника": "техніка", "поиск…": "пошук…", "Сейчас ищут": "Зараз шукають", "Найти соперника": "Знайти суперника", "{0} дней, счёт с нуля · победа +{1}": "{0} днів, рахунок з нуля · перемога +{1}", "История дуэлей": "Історія дуелей", "Победа": "Перемога", "Поражение": "Поразка", "Ничья": "Нічия", "Сдался": "Здався", "Настройки боёв": "Налаштування боїв", "Открыт к дуэлям": "Відкритий до дуелей", "Друзья и игроки могут вызвать тебя": "Друзі та гравці можуть викликати тебе", "Ищем соперника…": "Шукаємо суперника…", "Отменить поиск": "Скасувати пошук", "Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»": "Дуель почнеться, щойно хтось ще натисне «Знайти суперника»", "Соперник найден": "Суперника знайдено", "{0} дней. Кто больше натренирует, тот и победил.": "{0} днів. Хто більше натренує, той і переміг.", "В бой": "У бій", "Участие": "Участь", "Выйти из клана": "Вийти з клану", "Перед выходом выберешь, кому передать лидерство.": "Перед виходом обереш, кому передати лідерство.", "Ты один в клане: при выходе клан будет удалён.": "Ти один у клані: після виходу клан буде видалено.", "Ты лидер клана": "Ти лідер клану", "Перед выходом передай лидерство. Новый лидер получит все права.": "Перед виходом передай лідерство. Новий лідер отримає всі права.", "заместитель ·": "заступник ·", "участник ·": "учасник ·", "Передать лидерство игроку": "Передати лідерство гравцю", "и выйти из клана?": "і вийти з клану?", "Передать и выйти": "Передати й вийти", "Ты станешь заместителем.": "Ти станеш заступником.", "Передать лидерство": "Передати лідерство", "Передать": "Передати", "Управление в клане": "Керування в клані", "Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.": "Ти останній у клані. Якщо вийдеш, клан буде видалено назавжди разом із кубками та оформленням.", "Удалить клан и выйти": "Видалити клан і вийти", "Лидерство передано": "Лідерство передано", "Лидерство передано, ты вышел из клана": "Лідерство передано, ти вийшов з клану", "Перевод": "Переклад", "Перевожу…": "Перекладаю…", "Здесь появятся твои прошедшие дуэли": "Тут з'являться твої минулі дуелі", "друг": "друг", "друга": "друга", "друзей": "друзів", "через {0} трен.": "через {0} трен.", "Передать лидерство может только лидер": "Передати лідерство може лише лідер", "Сейчас ищут:": "Зараз шукають:"}, "kk": {"Стандартная тема": "Стандартты тақырып", "ккал осталось": "ккал қалды", "ккал сверх": "ккал артық", "вступи в клан": "кланға кір", "{0} на {1}": "{0} - {1}", "посты игроков": "ойыншылар жазбалары", "техника": "техника", "поиск…": "іздеу…", "Сейчас ищут": "Қазір іздеуде", "Найти соперника": "Қарсылас табу", "{0} дней, счёт с нуля · победа +{1}": "{0} күн, есеп нөлден · жеңіс +{1}", "История дуэлей": "Дуэльдер тарихы", "Победа": "Жеңіс", "Поражение": "Жеңіліс", "Ничья": "Тең", "Сдался": "Берілді", "Настройки боёв": "Шайқас баптаулары", "Открыт к дуэлям": "Дуэльге ашық", "Друзья и игроки могут вызвать тебя": "Достар мен ойыншылар сені шақыра алады", "Ищем соперника…": "Қарсылас ізделуде…", "Отменить поиск": "Іздеуді тоқтату", "Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»": "Тағы біреу «Қарсылас табу» басқанда дуэль басталады", "Соперник найден": "Қарсылас табылды", "{0} дней. Кто больше натренирует, тот и победил.": "{0} күн. Кім көп жаттықса, сол жеңеді.", "В бой": "Шайқасқа", "Участие": "Қатысу", "Выйти из клана": "Кланнан шығу", "Перед выходом выберешь, кому передать лидерство.": "Шығар алдында көшбасшылықты кімге беретініңді таңдайсың.", "Ты один в клане: при выходе клан будет удалён.": "Кланда жалғызсың: шықсаң, клан жойылады.", "Ты лидер клана": "Сен клан көшбасшысысың", "Перед выходом передай лидерство. Новый лидер получит все права.": "Шығар алдында көшбасшылықты бер. Жаңа көшбасшы барлық құқықты алады.", "заместитель ·": "орынбасар ·", "участник ·": "мүше ·", "Передать лидерство игроку": "Көшбасшылықты ойыншыға беру:", "и выйти из клана?": "және кланнан шығу керек пе?", "Передать и выйти": "Беру және шығу", "Ты станешь заместителем.": "Сен орынбасар боласың.", "Передать лидерство": "Көшбасшылықты беру", "Передать": "Беру", "Управление в клане": "Клан басқаруы", "Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.": "Кланда соңғы адамсың. Шықсаң, клан кубоктары мен безендіруімен бірге біржола жойылады.", "Удалить клан и выйти": "Кланды жою және шығу", "Лидерство передано": "Көшбасшылық берілді", "Лидерство передано, ты вышел из клана": "Көшбасшылық берілді, сен кланнан шықтың", "Перевод": "Аударма", "Перевожу…": "Аударылуда…", "Здесь появятся твои прошедшие дуэли": "Мұнда өткен дуэльдерің көрсетіледі", "друг": "дос", "друга": "дос", "друзей": "дос", "через {0} трен.": "{0} жаттығудан кейін", "Передать лидерство может только лидер": "Көшбасшылықты тек көшбасшы бере алады", "Сейчас ищут:": "Қазір іздеуде:"}, "de": {"Стандартная тема": "Standard-Design", "ккал осталось": "kcal übrig", "ккал сверх": "kcal drüber", "вступи в клан": "Clan beitreten", "{0} на {1}": "{0} gegen {1}", "посты игроков": "Posts der Spieler", "техника": "Technik", "поиск…": "Suche…", "Сейчас ищут": "Suchen gerade", "Найти соперника": "Gegner finden", "{0} дней, счёт с нуля · победа +{1}": "{0} Tage, Punkte ab null · Sieg +{1}", "История дуэлей": "Duell-Verlauf", "Победа": "Sieg", "Поражение": "Niederlage", "Ничья": "Unentschieden", "Сдался": "Aufgegeben", "Настройки боёв": "Kampf-Einstellungen", "Открыт к дуэлям": "Offen für Duelle", "Друзья и игроки могут вызвать тебя": "Freunde und Spieler können dich herausfordern", "Ищем соперника…": "Suche nach Gegner…", "Отменить поиск": "Suche abbrechen", "Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»": "Das Duell startet, sobald jemand anderes auf «Gegner finden» tippt", "Соперник найден": "Gegner gefunden", "{0} дней. Кто больше натренирует, тот и победил.": "{0} Tage. Wer mehr trainiert, gewinnt.", "В бой": "Los geht's", "Участие": "Mitgliedschaft", "Выйти из клана": "Clan verlassen", "Перед выходом выберешь, кому передать лидерство.": "Vor dem Verlassen wählst du, wer die Leitung übernimmt.", "Ты один в клане: при выходе клан будет удалён.": "Du bist allein im Clan: beim Verlassen wird er gelöscht.", "Ты лидер клана": "Du bist Clan-Anführer", "Перед выходом передай лидерство. Новый лидер получит все права.": "Übergib vor dem Verlassen die Leitung. Der neue Anführer erhält alle Rechte.", "заместитель ·": "Stellvertreter ·", "участник ·": "Mitglied ·", "Передать лидерство игроку": "Leitung übergeben an", "и выйти из клана?": "und den Clan verlassen?", "Передать и выйти": "Übergeben und verlassen", "Ты станешь заместителем.": "Du wirst Stellvertreter.", "Передать лидерство": "Leitung übergeben", "Передать": "Übergeben", "Управление в клане": "Im Clan verwalten", "Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.": "Du bist der Letzte im Clan. Wenn du gehst, wird der Clan samt Trophäen und Design für immer gelöscht.", "Удалить клан и выйти": "Clan löschen und verlassen", "Лидерство передано": "Leitung übergeben", "Лидерство передано, ты вышел из клана": "Leitung übergeben, du hast den Clan verlassen", "Перевод": "Übersetzung", "Перевожу…": "Übersetze…", "Здесь появятся твои прошедшие дуэли": "Hier erscheinen deine vergangenen Duelle", "друг": "Freund", "друга": "Freunde", "друзей": "Freunde", "через {0} трен.": "in {0} Trainings", "Передать лидерство может только лидер": "Nur der Anführer kann die Leitung übergeben", "Сейчас ищут:": "Suchen gerade:"}, "es": {"Стандартная тема": "Tema estándar", "ккал осталось": "kcal restantes", "ккал сверх": "kcal de más", "вступи в клан": "únete a un clan", "{0} на {1}": "{0} vs {1}", "посты игроков": "posts de jugadores", "техника": "técnica", "поиск…": "buscando…", "Сейчас ищут": "Buscando ahora", "Найти соперника": "Buscar rival", "{0} дней, счёт с нуля · победа +{1}": "{0} días, marcador desde cero · victoria +{1}", "История дуэлей": "Historial de duelos", "Победа": "Victoria", "Поражение": "Derrota", "Ничья": "Empate", "Сдался": "Se rindió", "Настройки боёв": "Ajustes de combate", "Открыт к дуэлям": "Abierto a duelos", "Друзья и игроки могут вызвать тебя": "Amigos y jugadores pueden retarte", "Ищем соперника…": "Buscando rival…", "Отменить поиск": "Cancelar búsqueda", "Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»": "El duelo empieza en cuanto otra persona pulse «Buscar rival»", "Соперник найден": "Rival encontrado", "{0} дней. Кто больше натренирует, тот и победил.": "{0} días. Quien más entrene, gana.", "В бой": "A pelear", "Участие": "Membresía", "Выйти из клана": "Salir del clan", "Перед выходом выберешь, кому передать лидерство.": "Antes de salir elegirás a quién pasar el liderazgo.", "Ты один в клане: при выходе клан будет удалён.": "Estás solo en el clan: al salir se eliminará.", "Ты лидер клана": "Eres el líder del clan", "Перед выходом передай лидерство. Новый лидер получит все права.": "Pasa el liderazgo antes de salir. El nuevo líder tendrá todos los derechos.", "заместитель ·": "subjefe ·", "участник ·": "miembro ·", "Передать лидерство игроку": "Pasar el liderazgo a", "и выйти из клана?": "y salir del clan?", "Передать и выйти": "Pasar y salir", "Ты станешь заместителем.": "Serás subjefe.", "Передать лидерство": "Pasar liderazgo", "Передать": "Pasar", "Управление в клане": "Gestionar en el clan", "Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.": "Eres el último del clan. Si sales, el clan se eliminará para siempre junto con sus trofeos y diseño.", "Удалить клан и выйти": "Eliminar clan y salir", "Лидерство передано": "Liderazgo transferido", "Лидерство передано, ты вышел из клана": "Liderazgo transferido, saliste del clan", "Перевод": "Traducir", "Перевожу…": "Traduciendo…", "Здесь появятся твои прошедшие дуэли": "Aquí aparecerán tus duelos pasados", "друг": "amigo", "друга": "amigos", "друзей": "amigos", "через {0} трен.": "en {0} entrenos", "Передать лидерство может только лидер": "Solo el líder puede pasar el liderazgo", "Сейчас ищут:": "Buscando ahora:"}, "fr": {"Стандартная тема": "Thème standard", "ккал осталось": "kcal restantes", "ккал сверх": "kcal en trop", "вступи в клан": "rejoins un clan", "{0} на {1}": "{0} contre {1}", "посты игроков": "posts des joueurs", "техника": "technique", "поиск…": "recherche…", "Сейчас ищут": "Cherchent maintenant", "Найти соперника": "Trouver un adversaire", "{0} дней, счёт с нуля · победа +{1}": "{0} jours, score à zéro · victoire +{1}", "История дуэлей": "Historique des duels", "Победа": "Victoire", "Поражение": "Défaite", "Ничья": "Égalité", "Сдался": "Abandon", "Настройки боёв": "Réglages des combats", "Открыт к дуэлям": "Ouvert aux duels", "Друзья и игроки могут вызвать тебя": "Amis et joueurs peuvent te défier", "Ищем соперника…": "Recherche d'un adversaire…", "Отменить поиск": "Annuler la recherche", "Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»": "Le duel commence dès que quelqu'un d'autre appuie sur «Trouver un adversaire»", "Соперник найден": "Adversaire trouvé", "{0} дней. Кто больше натренирует, тот и победил.": "{0} jours. Celui qui s'entraîne le plus gagne.", "В бой": "Au combat", "Участие": "Participation", "Выйти из клана": "Quitter le clan", "Перед выходом выберешь, кому передать лидерство.": "Avant de partir, tu choisiras à qui confier la direction.", "Ты один в клане: при выходе клан будет удалён.": "Tu es seul dans le clan : il sera supprimé quand tu partiras.", "Ты лидер клана": "Tu es le chef du clan", "Перед выходом передай лидерство. Новый лидер получит все права.": "Confie la direction avant de partir. Le nouveau chef aura tous les droits.", "заместитель ·": "adjoint ·", "участник ·": "membre ·", "Передать лидерство игроку": "Confier la direction à", "и выйти из клана?": "et quitter le clan ?", "Передать и выйти": "Confier et quitter", "Ты станешь заместителем.": "Tu deviendras adjoint.", "Передать лидерство": "Confier la direction", "Передать": "Confier", "Управление в клане": "Gérer dans le clan", "Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.": "Tu es le dernier du clan. Si tu pars, le clan sera supprimé pour toujours avec ses trophées et son design.", "Удалить клан и выйти": "Supprimer le clan et partir", "Лидерство передано": "Direction confiée", "Лидерство передано, ты вышел из клана": "Direction confiée, tu as quitté le clan", "Перевод": "Traduction", "Перевожу…": "Traduction…", "Здесь появятся твои прошедшие дуэли": "Tes duels passés apparaîtront ici", "друг": "ami", "друга": "amis", "друзей": "amis", "через {0} трен.": "dans {0} séances", "Передать лидерство может только лидер": "Seul le chef peut confier la direction", "Сейчас ищут:": "Cherchent maintenant :"}, "tr": {"Стандартная тема": "Standart tema", "ккал осталось": "kcal kaldı", "ккал сверх": "kcal fazla", "вступи в клан": "klana katıl", "{0} на {1}": "{0}'e {1}", "посты игроков": "oyuncu gönderileri", "техника": "teknik", "поиск…": "aranıyor…", "Сейчас ищут": "Şu an arayan", "Найти соперника": "Rakip bul", "{0} дней, счёт с нуля · победа +{1}": "{0} gün, skor sıfırdan · galibiyet +{1}", "История дуэлей": "Düello geçmişi", "Победа": "Galibiyet", "Поражение": "Mağlubiyet", "Ничья": "Beraberlik", "Сдался": "Pes etti", "Настройки боёв": "Savaş ayarları", "Открыт к дуэлям": "Düellolara açık", "Друзья и игроки могут вызвать тебя": "Arkadaşlar ve oyuncular sana meydan okuyabilir", "Ищем соперника…": "Rakip aranıyor…", "Отменить поиск": "Aramayı iptal et", "Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»": "Başka biri «Rakip bul»a dokunduğu anda düello başlar", "Соперник найден": "Rakip bulundu", "{0} дней. Кто больше натренирует, тот и победил.": "{0} gün. Kim daha çok çalışırsa o kazanır.", "В бой": "Savaşa", "Участие": "Üyelik", "Выйти из клана": "Klandan çık", "Перед выходом выберешь, кому передать лидерство.": "Çıkmadan önce liderliği kime vereceğini seçeceksin.", "Ты один в клане: при выходе клан будет удалён.": "Klanda yalnızsın: çıkınca klan silinecek.", "Ты лидер клана": "Klan liderisin", "Перед выходом передай лидерство. Новый лидер получит все права.": "Çıkmadan önce liderliği devret. Yeni lider tüm haklara sahip olur.", "заместитель ·": "yardımcı ·", "участник ·": "üye ·", "Передать лидерство игроку": "Liderliği devret:", "и выйти из клана?": "ve klandan çık?", "Передать и выйти": "Devret ve çık", "Ты станешь заместителем.": "Yardımcı olacaksın.", "Передать лидерство": "Liderliği devret", "Передать": "Devret", "Управление в клане": "Klanda yönet", "Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.": "Klandaki son kişisin. Çıkarsan klan kupaları ve tasarımıyla birlikte sonsuza dek silinecek.", "Удалить клан и выйти": "Klanı sil ve çık", "Лидерство передано": "Liderlik devredildi", "Лидерство передано, ты вышел из клана": "Liderlik devredildi, klandan çıktın", "Перевод": "Çeviri", "Перевожу…": "Çevriliyor…", "Здесь появятся твои прошедшие дуэли": "Geçmiş düelloların burada görünecek", "друг": "arkadaş", "друга": "arkadaş", "друзей": "arkadaş", "через {0} трен.": "{0} antrenman sonra", "Передать лидерство может только лидер": "Liderliği yalnızca lider devredebilir", "Сейчас ищут:": "Şu an arayan:"}};
+Object.keys(MT.SEED_V41).forEach(l => Object.keys(MT.SEED_V41[l]).forEach(k => { if (!(MT.SEED_ADD[l] || {})[k] && !(MT.SEED[l] || {})[k]) (MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}))[k] = MT.SEED_V41[l][k]; }));
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -2411,7 +2504,7 @@ const Game = {
     Object.entries(CONFIG.TROPHY.STREAK).forEach(([m, t]) => { if (n >= +m) this.award(`streak:${m}:${start}`, t, `Серия ${m} дн.`, { coins: CONFIG.COINS.STREAK[m] || 0, toast: `Серия ${m} дней: +{n} кубков` }); });
   },
   /* --- старт --- */
-  boot() { { const s = S.game.season; if (s && !s.v29) { s.v29 = 1; s.enabled = true; } } if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); save(); },
+  boot() { if (!S.v41bo) { S.v41bo = 1; S.battleOpen = true; } { const s = S.game.season; if (s && !s.v29) { s.v29 = 1; s.enabled = true; } } if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); save(); },
 };
 
 /* ------------------- v13: вода, вес, цели, оценка дня ------------------- */
@@ -3311,6 +3404,15 @@ const ClanService = {
   },
   async leave() { if (this.online()) { try { await Net.rpc('clan_leave'); } catch (e) { return { error: e.message }; } S.clan = null; save(); await Net.refresh(true); return { ok: true }; } S.clan = null; save(); return { ok: true }; },
   async setRole(memberId, role) { if (!S.clan || S.clan.role !== 'leader') return; if (this.online()) { try { await Net.rpc('clan_set_role', { p_member: memberId, p_role: role }); await Net.refresh(true); } catch (e) { return { error: e.message }; } return; } const m = S.clan.members.find(x => x.id === memberId); if (m) m.role = role; save(); },
+  // v41: передать лидерство участнику (я становлюсь заместителем)
+  async transferLeader(memberId) {
+    if (!S.clan || S.clan.role !== 'leader') return { error: 'Передать лидерство может только лидер' };
+    if (this.online()) { try { await Net.rpc('clan_transfer_leader', { p_member: memberId }); await Net.refresh(true); return { ok: true }; } catch (e) { return { error: /clan_transfer_leader|function|schema cache/i.test(e.message || '') ? 'Сервер не обновлён: запусти update_v41.sql в Supabase' : e.message }; } }
+    (S.clan.members || []).forEach(m => { if (m.id === memberId) m.role = 'leader'; else if (m.role === 'leader') m.role = 'deputy'; });
+    S.clan.role = 'deputy'; save(); return { ok: true };
+  },
+  // участники моего клана, кроме меня
+  clanOthers() { if (!S.clan) return []; const c = this.list().find(x => x.id === S.clan.id); return ((c && c.members) || S.clan.members || []).filter(m => !m.self && m.id !== 'me' && m.id !== (Net.uid || '')); },
   async kick(memberId) { if (!S.clan || S.clan.role === 'member') return; if (this.online()) { try { await Net.rpc('clan_kick', { p_member: memberId }); await Net.refresh(true); } catch (e) { return { error: e.message }; } return; } S.clan.members = S.clan.members.filter(m => m.id !== memberId); save(); },
   async newBattle(opponentId = null) {
     if (!S.clan) return;
@@ -3400,7 +3502,34 @@ const ClanService = {
     if (!opp) return null;
     S.duel = { opponentId: opp.id, nick: opp.nick, weekKey: U.today(), startedAt: Date.now() }; save(); return S.duel;
   },
-  async cancelDuel() { if (this.online() && S.duel && S.duel.id) { try { await Net.cancelDuel(S.duel.id); } catch (_) {} } S.duel = null; save(); if (this.online()) Net.refresh(true); },
+  async cancelDuel() { const r = this.duel(); if (r) this.histPush(r, 'gave'); if (this.online() && S.duel && S.duel.id) { try { await Net.cancelDuel(S.duel.id); } catch (_) {} } S.duel = null; save(); if (this.online()) Net.refresh(true); },
+  /* v41: поиск соперника — очередь, пока кто-то ещё не нажмёт «Найти» */
+  async mmJoin() {
+    if (this.online()) { try { return (await Net.rpc('duel_queue_join', { p_arena: S.game.arenaIdx })) || {}; } catch (e) { return { error: /duel_queue|function|schema cache/i.test(e.message || '') ? 'Сервер не обновлён: запусти update_v41.sql в Supabase' : e.message }; } }
+    return { matched: false, waiting: this.queueCount() };
+  },
+  async mmPoll(m) {
+    if (this.online()) { try { return (await Net.rpc('duel_queue_poll')) || {}; } catch (e) { return { error: e.message }; } }
+    if (Date.now() - m.since < m.simAt) return { matched: false, waiting: Math.max(0, this.queueCount() - 1) };
+    const pool = this.allPlayers().filter(p => Math.abs(p.arenaIdx - S.game.arenaIdx) <= 1), opp = U.pick(pool.length ? pool : this.allPlayers());
+    if (!opp) return { matched: false, waiting: 0 };
+    S.duel = { opponentId: opp.id, nick: opp.nick, weekKey: U.today(), startedAt: Date.now() }; save();
+    return { matched: true, opponent: opp.id };
+  },
+  async mmLeave() { if (this.online()) { try { await Net.rpc('duel_queue_leave'); } catch (_) {} } },
+  // сколько людей (кроме меня) сейчас ищут дуэль
+  queueCount() {
+    if (this.online()) return (Net.d.queue || []).filter(q => q.user_id !== Net.uid && Date.now() - new Date(q.updated_at).getTime() < 60000).length;
+    const r = this._seed(Math.floor(Date.now() / 180000)); const x = r(); return x < .45 ? 0 : x < .8 ? 1 : x < .95 ? 2 : 3;
+  },
+  histPush(r, kind) {
+    const h = S.duelHist || (S.duelHist = []), o = r.opponent || {};
+    const res = kind || (r.myScore > r.oppScore ? 'win' : r.myScore < r.oppScore ? 'loss' : 'draw');
+    const key = (r.id || r.startedAt || '') + ':' + (o.id || o.nick);
+    if (h.some(x => x.key === key)) return;
+    h.unshift({ key, ts: Date.now(), oppId: o.id || r.opponentId || null, nick: o.nick || r.nick || '?', arenaIdx: o.arenaIdx || 0, me: r.myScore || 0, opp: r.oppScore || 0, res });
+    h.length = Math.min(h.length, 20); save();
+  },
   duel() {
     const d = S.duel; if (!d) return null;
     // 7 дней с дня старта, счёт с нуля: то, что было сделано в день старта до вызова, вычитается
@@ -3419,6 +3548,7 @@ const ClanService = {
     return { me: Math.max(0, me - b[key].me), opp: Math.max(0, opp - b[key].opp) };
   },
   _duelOutcome(res) {
+    if (res) this.histPush(res);
     // v27: победа над неактивным соперником (0 очков) монет не даёт, а платных побед не больше DUEL_PAID_WEEK в неделю (антифарм через второй аккаунт)
     if (res && res.myScore > res.oppScore && res.oppScore <= 0) { Game.events.push({ type: 'toast', data: { msg: `Дуэль с ${U.esc(res.opponent.nick)}: соперник не тренировался, награды нет`, cls: '' } }); return; }
     const wk = U.weekKey(), dw = S.game.duelWins && S.game.duelWins.wk === wk ? S.game.duelWins : (S.game.duelWins = { wk, n: 0 });
@@ -3431,7 +3561,7 @@ const ClanService = {
       const done = S.game.resolvedDuels || (S.game.resolvedDuels = []);
       Net.d.duels.filter(x => U.addDays(x.week_key, 7) <= U.today() && x.status === 'active' && !done.includes(x.id)).forEach(x => {
         const oid = x.a_id === Net.uid ? x.b_id : x.a_id, p = Net.d.byId[oid]; done.push(x.id); if (!p) return;
-        const sc = this._fromZero('duel:' + x.id, Calc.myWindow(x.week_key), Net.windowOf(p.raw, x.week_key), x.week_key); this._duelOutcome({ opponent: { nick: p.nick }, myScore: sc.me, oppScore: sc.opp });
+        const sc = this._fromZero('duel:' + x.id, Calc.myWindow(x.week_key), Net.windowOf(p.raw, x.week_key), x.week_key); this._duelOutcome({ id: x.id, opponent: { id: p.id, nick: p.nick, arenaIdx: p.arenaIdx }, myScore: sc.me, oppScore: sc.opp });
       });
       save(); return;
     }
@@ -4035,19 +4165,20 @@ const Net = {
       try {
         this.loadConfig();
         const wk = U.weekKey(), prev = U.weekKey(U.parseDay(U.addDays(U.today(), -7)));
-        const [pr, cl, fr, du, rq, fd] = await Promise.all([
+        const [pr, cl, fr, du, rq, fd, dq] = await Promise.all([
           this.client.from('profiles').select('*').order('trophies', { ascending: false }).limit(1000),
           this.client.from('clans').select('*'),
           this.client.from('friendships').select('friend_id').eq('user_id', this.uid),
           this.client.from('duels').select('*').gte('week_key', U.addDays(U.today(), -21)).or(`a_id.eq.${this.uid},b_id.eq.${this.uid}`),
           this.client.from('friend_requests').select('*').or(`from_id.eq.${this.uid},to_id.eq.${this.uid}`).order('created_at', { ascending: false }).limit(100),
           this.client.from('feed').select('*').gte('created_at', new Date(Date.now() - 7 * 864e5).toISOString()).order('created_at', { ascending: false }).limit(40),
+          this.client.from('duel_queue').select('user_id,updated_at').gte('updated_at', new Date(Date.now() - 60000).toISOString()).then(r => r, () => ({ data: [] })),
         ]);
         if (pr.error) throw pr.error;
         const players = (pr.data || []).map(p => this.toMember(p));
         const byId = Object.fromEntries(players.map(p => [p.id, p]));
         const clans = (cl.data || []).map(c => ({ id: c.id, name: c.name, emblem: c.emblem, code: c.code, leaderId: c.leader_id, createdAt: new Date(c.created_at).getTime(), battle: c.battle ? { weekKey: c.battle.week_key, opponentId: c.battle.opponent_id, challenged: !!c.battle.challenged } : null, battleOpen: c.battle_open !== false, description: c.description || '', about: c.about || '', showcases: Array.isArray(c.showcases) ? c.showcases : null, theme: c.theme || null, photo: c.photo || null, capacity: c.capacity || CONFIG.CLAN_MAX, members: players.filter(p => p.clanId === c.id) }));
-        this.d = { players, clans, byId, friends: (fr.data || []).map(f => f.friend_id).filter(id => byId[id]), duels: (du.data || []), requests: rq.error ? [] : (rq.data || []), feed: fd.error ? [] : (fd.data || []), at: Date.now() };
+        this.d = { players, clans, byId, friends: (fr.data || []).map(f => f.friend_id).filter(id => byId[id]), duels: (du.data || []), requests: rq.error ? [] : (rq.data || []), feed: fd.error ? [] : (fd.data || []), queue: dq && !dq.error ? (dq.data || []) : [], at: Date.now() };
         // локальные зеркала, чтобы остальной код работал без изменений
         const me = byId[this.uid];
         S.friends = this.d.friends.map(id => ({ id, nick: byId[id].nick }));
@@ -4482,7 +4613,7 @@ const UI = {
     const P = { embers: [1, 2, 5, 3, 6], bubbles: [.6, 4, 11, 5, 9], petals: [.7, 6, 10, 6, 10], snow: [1, 2, 4, 6, 11], fireflies: [.6, 3, 5, 2.5, 4], meteors: [.25, 0, 0, 6, 11], sparkle: [.6, 6, 12, 2, 3.5], rain: [1.5, 0, 0, .6, 1.1] };
     return fx.map(k => { const c = P[k]; if (!c) return `<div class="pfx pfx-${k}"></div>`; let h = ''; for (let i = 0, m = Math.max(2, Math.round(n * c[0])); i < m; i++) h += `<i style="--x:${(r() * 100).toFixed(1)}%;--y:${(r() * 80).toFixed(1)}%;--s:${(c[1] + r() * (c[2] - c[1])).toFixed(1)}px;--t:${(c[3] + r() * (c[4] - c[3])).toFixed(2)}s;--d:${(-r() * c[4]).toFixed(2)}s;--dx:${((r() - .5) * 60).toFixed(0)}px"></i>`; return `<div class="pfx pfx-${k}">${h}</div>`; }).join('');
   },
-  avFrame(inner, frame, col) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; return `<span class="pfr ${f}" style="--ring:${f ? col : 'var(--line)'}">${inner}</span>`; },
+  avFrame(inner, frame, col, idx, size) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; if (!f && idx != null && size && !S.profile.calm) return this.rankFrame(inner, idx, size); return `<span class="pfr ${f}" style="--ring:${f ? col : 'var(--line)'}">${inner}</span>`; },
   // v40: жим, присед, тяга с рисунком; остальные рекорды — в раскрывающемся списке
   bigThree() {
     const all = Calc.topLifts(99), kinds = [['bench', 'fa-lift-bench', '#0A84FF', 'Жим лёжа'], ['squat', 'fa-lift-squat', '#34C759', 'Присед'], ['deadlift', 'fa-lift-dead', '#FF9F0A', 'Становая тяга']];
@@ -4513,12 +4644,12 @@ const UI = {
     const st = (attrs, icon, color, val, label) => `<button class="hm-st" data-action="tip" data-tip="${label}"><b class="num"><svg class="ic" style="color:${color}"><use href="#${icon}"/></svg>${val}</b></button>`;
     return `<div class="hm-hero" style="--rc:${a.color};--rh:${hi}">
       <div class="hm-top">
-        <button class="flex-none" data-action="go-tab" data-tab="profile" aria-label="Профиль">${this.avFrame(this.avatarSVG(p.avatar, 44), p.avatar.pframe, a.color)}</button>
+        <button class="flex-none" data-action="go-tab" data-tab="profile" aria-label="Профиль">${this.avFrame(this.avatarSVG(p.avatar, 44), p.avatar.pframe, a.color, S.game.arenaIdx, 44)}</button>
         <button class="hm-who" data-action="go-tab" data-tab="profile"><span class="hm-nick" data-no-mt>${U.esc(p.nickname || '')}</span><span class="hm-rank"><span>Ур. ${lvl}</span></span></button>
         <button class="streak-btn" data-action="streak-info" aria-label="Серия">${this.streakCircle(46)}</button>
       </div>
       <button class="rk-show" data-action="open-road" data-key="rk-${g.arenaIdx}-${rk.stars}">
-        <span class="rk-medal">${this.medal(g.arenaIdx, { size: 88, stars: rk.stars, place, anim: false })}</span>
+        <span class="rk-medal">${this.medal(g.arenaIdx, { size: 112, stars: rk.stars, place, anim: false })}</span>
         <span class="rk-info"><span class="rk-kick">${a.league ? `Лига ${a.id - nAr}` : `Арена ${a.id} из ${nAr}`}</span><span class="rk-name">${TN(a.name)}</span>${this.starsHtml(rk.stars)}<span class="rk-next">${next ? `<span>${TN(next.name)}</span> · <b class="num">${left}</b> ${this.trophyIcon}` : place ? `#${place}` : T('max_arena')}</span></span>
       </button>
       <div class="hm-lbl"><span>Кубки</span>${wk ? `<span class="hm-delta ${wk < 0 ? 'neg' : ''}"><i><svg class="ic"><use href="#fa-arrow-up"/></svg></i><span class="num">${wk > 0 ? '+' : ''}${wk}</span> <span>за неделю</span></span>` : ''}</div>
@@ -4570,30 +4701,31 @@ const UI = {
     return `<button class="btn btn-primary w-full hm-cta" data-action="start-workout"><svg class="ic text-lg"><use href="#fa-play"/></svg><span class="min-w-0 text-left leading-tight"><span class="block">${cnt ? 'Продолжить тренировку' : T('start_workout')}</span><small class="block truncate">${plan ? `${U.esc(plan.name)} · ${plan.exercises.length} упр.` : 'свободная'}${cnt ? ' · засчитана' : calm ? '' : ` · +${CONFIG.TROPHY.WORKOUT} кубков`}</small></span></button>
       <button class="hm-quick" data-action="open-log-set"><svg class="ic"><use href="#fa-plus"/></svg> ${T('quick_set')}</button>`;
   },
-  homeTile({ attrs, c, icon, ic = '', title, val = '', sub = '', dash = false, badge = 0, lock = 0, raw = false }) {
-    return `<button class="hm-tile ${dash ? 'dash' : ''} ${lock ? 'tile-locked' : ''}" style="--c:${c}" ${attrs}><span class="hm-ti">${ic || `<svg class="ic"><use href="#${icon}"/></svg>`}</span>
-      <span class="min-w-0 w-full"><span class="hm-tt" ${raw ? 'data-no-mt' : ''}>${title}</span>${val ? `<span class="hm-tv num">${val}</span>` : ''}</span>
+  homeTile({ attrs, c, icon, ic = '', title, val = '', sub = '', dash = false, badge = 0, lock = 0, raw = false, cls = '' }) {
+    return `<button class="hm-tile ${dash ? 'dash' : ''} ${lock ? 'tile-locked' : ''} ${cls}" style="--c:${c}" ${attrs}><span class="hm-ti">${ic || `<svg class="ic"><use href="#${icon}"/></svg>`}</span>
+      <span class="hm-tx"><span class="hm-tt" ${raw ? 'data-no-mt' : ''}>${title}</span><span class="hm-ts">${val ? `<b class="num">${val}</b>` : ''}${val && sub ? ' ' : ''}${sub}</span></span>
       ${badge ? `<span class="bell-dot">${badge}</span>` : lock ? '<svg class="ic hm-lock"><use href="#fa-lock"/></svg>' : ''}</button>`;
   },
   homeTiles() {
     const calm = !!S.profile.calm, today = U.today(), g = S.nutrition.goals || Calc.defaultGoals(), nt = Calc.nutritionToday(today).total, kl = Math.round(g.cals + Calc.burnedOn(today) - nt.cals), prs = S.lifts.filter(l => l.isPR && !l.flagged).length;
     const t = [];
-    t.push(this.homeTile({ attrs: 'data-action="go-tab" data-tab="lifts"', c: '#3B82F6', icon: 'fa-dumbbell', title: T('lifts'), val: prs ? `${prs} <small>${U.plural(prs, 'рекорд', 'рекорда', 'рекордов')}</small>` : '', sub: prs ? '' : 'рекорды и графики' }));
-    t.push(this.homeTile({ attrs: 'data-action="go-tab" data-tab="nutrition"', c: '#10B981', icon: 'fa-apple', title: T('health'), val: `${Math.abs(kl)} <small>ккал</small>`, sub: kl < 0 ? 'сверх цели сегодня' : 'осталось на сегодня' }));
+    t.push(this.homeTile({ attrs: 'data-action="go-tab" data-tab="lifts"', c: '#0A84FF', icon: 'sx-lift', title: T('lifts'), val: prs ? `${prs}` : '', sub: prs ? U.plural(prs, 'рекорд', 'рекорда', 'рекордов') : 'рекорды и графики' }));
+    t.push(this.homeTile({ attrs: 'data-action="go-tab" data-tab="nutrition"', c: '#30D158', icon: 'sx-health', title: T('health'), val: `${Math.abs(kl)}`, sub: kl < 0 ? 'ккал сверх' : 'ккал осталось' }));
     if (calm) {
       const ws = (S.health.weights || []).slice().sort((a, b) => a.date.localeCompare(b.date) || a.ts - b.ts), w1 = ws[ws.length - 1];
-      t.push(this.homeTile({ attrs: 'data-action="open-weight"', c: '#14B8A6', icon: 'fa-weight-scale', title: 'Вес', val: w1 ? `${U.w(w1.kg)} <small>${U.wUnit()}</small>` : '', sub: w1 ? '' : 'записать', dash: !w1 }));
-      t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="guide"', c: '#F59E0B', icon: 'fa-person-running', title: 'Упражнения', sub: 'техника и гайды', dash: true }));
+      t.push(this.homeTile({ attrs: 'data-action="open-weight"', c: '#00C7BE', icon: 'sx-weight', title: 'Вес', val: w1 ? `${U.w(w1.kg)}` : '', sub: w1 ? U.wUnit() : 'записать' }));
+      t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="guide"', c: '#BF5AF2', icon: 'sx-guide', title: 'Упражнения', sub: 'техника' }));
       return `<div class="hm-sec"><span>Разделы</span></div><div class="hm-grid">${t.join('')}</div><div class="mb-4"></div>`;
     }
-    const clan = S.clan, list = clan ? ClanService.list() : [], ci = clan ? list.findIndex(c => c.id === clan.id) : -1, cm = ci >= 0 ? list[ci] : null;
-    t.push(clan ? this.homeTile({ attrs: 'data-action="open-page" data-kind="clan"', c: (String(clan.emblem || '').split('|')[1]) || '#8B5CF6', ic: this.emblem(cm || clan, ''), title: U.esc(clan.name), raw: true, sub: `${cm ? cm.members.length : 1} ${U.plural(cm ? cm.members.length : 1, 'игрок', 'игрока', 'игроков')}${ci >= 0 ? ` · ${ci + 1}-е место` : ''}` })
-      : this.homeTile({ attrs: 'data-action="open-page" data-kind="feed"', c: '#EC4899', icon: 'fa-image', title: 'Лента', sub: 'рекорды и посты', dash: true }));
+    const clan = S.clan, list = clan ? ClanService.list() : [], ci = clan ? list.findIndex(c => c.id === clan.id) : -1, cm = ci >= 0 ? list[ci] : null, cn = cm ? cm.members.length : 1;
+    t.push(clan ? this.homeTile({ attrs: 'data-action="open-page" data-kind="clan"', c: (String(clan.emblem || '').split('|')[1]) || '#8B5CF6', ic: this.emblem(cm || clan, ''), title: U.esc(clan.name), raw: true, sub: `<span class="hm-kind">Клан</span> ${cn} ${U.plural(cn, 'игрок', 'игрока', 'игроков')}${ci >= 0 ? ` · ${ci + 1}-е место` : ''}` })
+      : this.homeTile({ attrs: 'data-action="go-tab" data-tab="clans"', c: '#FF9F0A', icon: 'sx-clan', title: 'Кланы', sub: 'вступи в клан' }));
     const d = ClanService.duel(), dLock = !Unlock.on('duels');
-    t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="challenges"', c: '#EF4444', icon: 'fa-khanda', title: 'Дуэль', val: d ? `${d.myScore} : ${d.oppScore}` : '', sub: dLock ? `откроется через ${Unlock.left('duels')} трен.` : d ? `<span data-no-mt>${U.esc(d.opponent.nick)}</span>` : 'вызови соперника', dash: !d, lock: dLock }));
+    t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="challenges"', c: '#FF453A', icon: 'sx-duel', title: 'Дуэль', val: d ? `${d.myScore} : ${d.oppScore}` : '', sub: dLock ? `через ${Unlock.left('duels')} трен.` : d ? `<span data-no-mt>${U.esc(d.opponent.nick)}</span>` : this._mm ? 'поиск…' : '1 на 1', lock: dLock, badge: !dLock && !d && !this._mm ? ClanService.queueCount() : 0, cls: this._mm ? 'mm-on' : '' }));
     const fr = (S.friends || []).length, inc = ClanService.incoming().length;
-    t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="friends"', c: '#0EA5E9', icon: 'fa-users', title: T('friends'), val: fr ? `${fr}` : '', sub: fr ? 'неделя с друзьями' : 'добавь по нику', dash: !fr, badge: inc }));
-    t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="guide"', c: '#F59E0B', icon: 'fa-person-running', title: 'Упражнения', sub: 'техника и гайды', dash: true }));
+    t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="friends"', c: '#5E5CE6', icon: 'sx-friends', title: T('friends'), val: fr ? `${fr}` : '', sub: fr ? U.plural(fr, 'друг', 'друга', 'друзей') : 'добавь по нику', badge: inc }));
+    t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="feed"', c: '#FF375F', icon: 'sx-feed', title: 'Лента', sub: 'посты игроков' }));
+    t.push(this.homeTile({ attrs: 'data-action="open-page" data-kind="guide"', c: '#BF5AF2', icon: 'sx-guide', title: 'Упражнения', sub: 'техника' }));
     return `<div class="hm-sec"><span>Разделы</span></div><div class="hm-grid">${t.join('')}</div>`;
   },
   clanBanner() {
@@ -4662,7 +4794,7 @@ const UI = {
           ${cur ? `<div class="relative flex items-center gap-3 py-2 pl-1" id="road-cur"><div class="w-12 h-12 rounded-full overflow-hidden border-2 flex-none" style="border-color:${ar.color};box-shadow:0 0 14px ${ar.color}88">${this.avatarSVG(S.profile.avatar, 48)}</div><div><div class="text-sm font-bold">${U.esc(S.profile.nickname)}</div><div class="num text-amber-400 font-black">${g.trophies} ${this.trophyIcon}</div></div></div>` : ''}
           <div class="relative flex items-center gap-3 py-2 ${locked ? 'road-locked' : ''}">
             <div class="road-dot absolute -left-6 top-1/2 -translate-y-1/2" style="${!locked ? `background:${ar.color};border-color:${ar.color};box-shadow:0 0 10px ${ar.color}` : ''}"></div>
-            ${this.medal(i, { size: 52, stars: locked ? 0 : cur ? Calc.rank(g.trophies, i).stars : 5, anim: cur })}
+            ${this.medal(i, { size: 64, stars: locked ? 0 : cur ? Calc.rank(g.trophies, i).stars : 5, anim: cur })}
             <div class="flex-1 min-w-0"><div class="text-sm font-bold flex items-center gap-2">${TN(ar.name)} ${cur ? `<span class="chip text-em">${T('you_here')}</span>` : ''}</div><div class="text-[11px] muted num">${ar.min} ${this.trophyIcon}${ar.boss ? ' · <svg class="ic text-or"><use href="#fa-dragon"/></svg> босс' : ''}</div></div>
             <div class="text-[11px] text-right muted">${r.coins ? `+${r.coins} ${this.coinIcon}` : ''}${r.item ? `<br><svg class="ic text-pu"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}` : ''}</div>
           </div>${ar.league && !(CONFIG.ARENAS[ar.id - 2] || {}).league ? `<div class="relative flex items-center gap-2 py-2 text-[11px] font-black uppercase tracking-widest" style="color:#FB7185"><svg class="ic"><use href="#fa-gem"/></svg> Лиги · после «${TN('Зал славы')}»<span class="flex-1 h-px" style="background:#FB718555"></span></div>` : ''}`; }).join('')}
@@ -4870,25 +5002,49 @@ const UI = {
         <div class="bar mt-2" style="background:#F9731644"><div style="width:${pct}%;background:linear-gradient(90deg,#10B981,#3B82F6)"></div></div>
         <div class="flex justify-between text-[11px] muted mt-1"><span>${d.myScore >= d.oppScore ? 'ты ведёшь' : 'соперник впереди'} · с <span data-no-mt>${U.fmtDate(d.weekKey)}</span></span><span data-countdown="${d.endsAt}">${U.fmtTime(d.endsAt - Date.now())}</span></div>
         <div class="flex gap-2 mt-3"><button class="btn btn-ghost btn-sm flex-1" data-action="duel-cancel">Сдаться</button></div>`;
-    } else {
-      duelHtml = `<div class="text-xs muted mb-3">Дуэль 1 на 1 на 7 дней с сегодняшнего дня, счёт с нуля: кто активнее. Победа: +${CONFIG.TROPHY.DUEL_WIN_COINS} монет, +${CONFIG.TROPHY.DUEL_WIN} кубков.</div>
-        <div class="grid grid-cols-2 gap-2"><button class="btn btn-or" data-action="duel-random" ${S.battleOpen === false ? 'disabled' : ''}><svg class="ic"><use href="#fa-khanda"/></svg> Случайный соперник</button><button class="btn btn-ghost" data-action="duel-friend" ${(S.friends || []).length ? '' : 'disabled'}><svg class="ic"><use href="#fa-users"/></svg> Вызвать друга</button></div>`;
-    }
+    } else duelHtml = this.mmHtml();
     const cb = clan && clan.battle ? ClanService.battle() : null;
     const clanHtml = clan ? `<div class="border-t line mt-3 pt-3"><div class="text-sm font-bold mb-1"><svg class="ic text-pu"><use href="#fa-shield-halved"/></svg> Клановая битва</div>
         ${cb ? `<div class="text-xs muted mb-2">Сейчас: <b>${U.esc(clan.name)}</b> vs <b>${U.esc(cb.opponent.name)}</b>${clan.battle.challenged ? ' (по вызову)' : ' (случайный)'} · <span class="num">${cb.myScore} : ${cb.oppScore}</span> · <span data-countdown="${cb.endsAt}">${U.fmtTime(cb.endsAt - Date.now())}</span></div>` : '<div class="text-xs muted mb-2">Соперник на эту неделю ещё не выбран.</div>'}
         ${clan.role !== 'member' ? `<div class="grid grid-cols-2 gap-2"><button class="btn btn-pu" data-action="clan-challenge-random" ${clan.battleOpen === false ? 'disabled' : ''}><svg class="ic"><use href="#fa-shuffle"/></svg> Случайный клан</button><button class="btn btn-ghost" data-action="clan-challenge-pick"><svg class="ic"><use href="#fa-list"/></svg> Выбрать клан</button></div>` : '<div class="text-xs muted">Бросить вызов другому клану может лидер или заместитель.</div>'}</div>` : '';
     const sw = (id, on, title, sub, dis = false) => `<label class="sw-row ${dis ? 'opacity-50' : ''}"><div class="flex-1 min-w-0"><div class="text-sm font-semibold">${title}</div><div class="text-[11px] muted">${sub}</div></div><input type="checkbox" class="sw" data-action="${id}" ${on ? 'checked' : ''} ${dis ? 'disabled' : ''}></label>`;
-    const opt = `<div class="card p-4 mb-4"><div class="font-bold mb-1"><svg class="ic text-or"><use href="#fa-shuffle"/></svg> Случайные бои</div>
-        <div class="text-[11px] muted mb-2">Случайным соперником система выбирает только тех, кто включил участие. Без галочки тебя можно вызвать только напрямую.</div>
-        ${sw('battle-open', S.battleOpen !== false, 'Участвую в случайных дуэлях', 'Меня могут выбрать случайным соперником')}
+    const opt = `<div class="card p-4 mb-4"><div class="font-bold mb-1"><svg class="ic"><use href="#fa-gear"/></svg> Настройки боёв</div>
+        ${sw('battle-open', S.battleOpen !== false, 'Открыт к дуэлям', 'Друзья и игроки могут вызвать тебя')}
         ${clan ? sw('clan-battle-open', clan.battleOpen !== false, 'Клан участвует в случайных битвах', clan.role === 'member' ? 'Меняет лидер или заместитель' : 'Другие кланы могут получить нас случайно', clan.role === 'member') : ''}
       </div>`;
     return `
       <div class="card p-4 mb-4" style="border-color:#F9731655;background:radial-gradient(100% 80% at 50% 0%,#F9731622,transparent 60%),var(--card)">
         <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-or"><use href="#fa-khanda"/></svg> Вызовы</div><div class="text-[11px] muted">7 дней · с нуля</div></div>
         ${duelHtml}${clanHtml}
-      </div>${opt}`;
+      </div>${this.duelHistHtml()}${opt}`;
+  },
+  // v41: поиск соперника — радар, сколько людей ищут, отмена
+  mmHtml() {
+    const m = this._mm, n = m ? m.waiting : ClanService.queueCount(), me = this.av({ photo: S.profile.avatar.photo, sex: S.profile.sex }, 64);
+    const radar = `<div class="mm-radar ${m ? 'on' : ''}"><i></i><i></i><i></i>${m ? '<b class="mm-sweep"></b><s style="--x:18%;--y:30%"></s><s style="--x:76%;--y:24%;animation-delay:.9s"></s><s style="--x:70%;--y:78%;animation-delay:1.7s"></s>' : ''}<span class="mm-me">${me}</span></div>`;
+    const live = `<div class="mm-live ${n > 0 ? 'hot' : ''}"><span class="mm-dot"></span><span>Сейчас ищут</span> <b class="num" data-mm-wait data-no-mt>${n}</b></div>`;
+    if (m) return `<div class="mm-box">${radar}<div class="mm-t">Ищем соперника…</div><div class="mm-time num" data-mm-time data-no-mt>${U.fmtTime ? this.mmClock() : ''}</div>${live}
+      <button class="btn btn-ghost w-full mt-3" data-action="mm-stop"><svg class="ic"><use href="#fa-xmark"/></svg> Отменить поиск</button>
+      <div class="text-[11px] muted text-center mt-2">Дуэль начнётся, как только кто-то ещё нажмёт «Найти соперника»</div></div>`;
+    return `<div class="mm-box">${radar}${live}
+      <button class="btn btn-primary w-full mt-3 mm-go" data-action="mm-start"><svg class="ic"><use href="#fa-magnifying-glass"/></svg> Найти соперника</button>
+      <button class="btn btn-ghost w-full mt-2" data-action="duel-friend" ${(S.friends || []).length ? '' : 'disabled'}><svg class="ic"><use href="#fa-users"/></svg> Вызвать друга</button>
+      <div class="text-[11px] muted text-center mt-2">7 дней, счёт с нуля · победа +${CONFIG.TROPHY.DUEL_WIN_COINS} <svg class="ic" style="color:#FFCC00"><use href="#fa-coins"/></svg> +${CONFIG.TROPHY.DUEL_WIN} <svg class="ic" style="color:#FFCC00"><use href="#fa-trophy"/></svg></div></div>`;
+  },
+  mmClock() { const m = this._mm; if (!m) return ''; const t = Math.floor((Date.now() - m.since) / 1000); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); },
+  duelHistHtml() {
+    const h = S.duelHist || [], lab = { win: ['Победа', 'w'], loss: ['Поражение', 'l'], draw: ['Ничья', 'd'], gave: ['Сдался', 'l'] };
+    return `<div class="card p-4 mb-4"><div class="font-bold mb-2"><svg class="ic"><use href="#fa-clock-rotate-left"/></svg> История дуэлей</div>
+      ${h.length ? h.slice(0, 10).map(x => { const p = x.oppId ? ClanService.player(x.oppId) : null, l = lab[x.res] || lab.draw; return `<div class="dh-row">${this.av(p || { sex: 'm' }, 34)}
+        <div class="flex-1 min-w-0"><div class="text-sm font-bold truncate" data-no-mt>${U.esc(x.nick)}</div><div class="text-[11px] muted" data-no-mt>${U.fmtDate(new Date(x.ts).toISOString().slice(0, 10))}</div></div>
+        <div class="num font-black text-sm" data-no-mt>${x.me} : ${x.opp}</div><span class="dh-tag ${l[1]}">${l[0]}</span></div>`; }).join('') : '<div class="text-xs muted py-2">Здесь появятся твои прошедшие дуэли</div>'}</div>`;
+  },
+  openDuelFound(d) {
+    if (!d) return;
+    this.modal(`<div class="df-box"><div class="df-k">Соперник найден</div>
+      <div class="df-vs"><div class="df-p">${this.av({ photo: S.profile.avatar.photo, sex: S.profile.sex }, 76)}<b data-no-mt>${U.esc(S.profile.nickname)}</b></div><span class="df-x">VS</span><div class="df-p">${this.av(ClanService.player(d.opponent.id) || d.opponent, 76)}<b data-no-mt>${U.esc(d.opponent.nick)}</b></div></div>
+      <div class="text-sm muted text-center mt-3">7 дней. Кто больше натренирует, тот и победил.</div>
+      <button class="btn btn-primary w-full mt-4" data-action="close-modal">В бой</button></div>`, { center: true });
   },
   emblem(e, cls = 'w-10 h-10 text-lg') {
     if (e && typeof e === 'object') { if (e.photo) return `<img class="emb ${cls}" src="${U.esc(e.photo)}" alt="" style="object-fit:cover;padding:0">`; e = e.emblem; }
@@ -4969,7 +5125,7 @@ const UI = {
   },
   // системная «назад»: модалка → страница → меню плюса → вкладка Арена → выход
   back() {
-    { const fs = document.querySelector('.vp.fs'); if (fs) { fs.classList.remove('fs'); document.body.classList.remove('vp-fs-on'); App.vpPaint(fs); return true; } }
+    { const fs = document.querySelector('.vp.fs'); if (fs) { App.vpFs(fs, false); return true; } }
     const md = this.$('#modal');
     if (md && md.dataset.lock) { // v23: экран входа/регистрации и другие обязательные окна кнопкой «Назад» не закрываются
       if (this._authOpen && this._authMode && this._authMode !== 'welcome') { this.openAuth('welcome'); return true; }
@@ -5010,7 +5166,7 @@ const UI = {
         <div class="font-bold text-sm truncate">${title}</div><div class="text-[10px] muted mt-0.5 truncate">${sub}</div>
         ${badge ? `<span class="bell-dot" style="top:.5rem;right:.5rem">${badge}</span>` : ''}<svg class="ic muted absolute" style="top:.85rem;right:.7rem"><use href="#${lk ? 'fa-lock' : 'fa-chevron-right'}"/></svg></button>`; };
     const tiles = `<div class="grid grid-cols-3 gap-2 mb-4">
-        ${tile('challenges', '#F97316', 'fa-khanda', T('challenges'), d ? `${d.myScore} : ${d.oppScore}` : T('no_duel'))}
+        ${tile('challenges', '#F97316', 'fa-khanda', T('challenges'), d ? `${d.myScore} : ${d.oppScore}` : this._mm ? 'поиск…' : T('no_duel'), !d && !this._mm ? ClanService.queueCount() : 0)}
         ${tile('friends', '#3B82F6', 'fa-users', T('friends'), friends.length ? `${friends.length}` : T('add_friend'), inc)}
         ${tile('feed', '#EC4899', 'fa-image', 'Лента', 'рекорды и посты')}
       </div>`;
@@ -5042,7 +5198,7 @@ const UI = {
     const pth = U.ptheme(p.ptheme), pacc = pth ? pth.accent : ar.color;
     this.modal(`
       <div class="mp-cover" style="${this.coverStyle(p.ptheme, ar.color)}">${pth ? this.pfx(pth.fx, 10, String(id).length + 3) : ''}</div>
-      <div class="flex items-end gap-3 mb-3 mp-head">${this.avFrame(this.av(p, 64), p.pframe, pacc)}<div class="flex-1 min-w-0">
+      <div class="flex items-end gap-3 mb-3 mp-head">${this.avFrame(this.av(p, 64), p.pframe, pacc, p.arenaIdx || 0, 64)}<div class="flex-1 min-w-0">
         <div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nick)}</div>
         ${p.title ? (() => { const ts = U.tstyle(p.titleStyle); return `<div class="text-xs font-bold truncate ${ts.style ? '' : 'text-pu'}"><span class="${ts.cls}" style="${ts.style}">« ${U.esc(p.title)} »</span></div>`; })() : ''}
         <div class="flex items-center gap-1.5 mt-1">${this.rankMedal(p, 30)}<div class="min-w-0"><div class="text-xs font-bold truncate" style="color:${ar.color}">${TN(ar.name)}</div><div class="flex items-center gap-1.5">${this.starsHtml(Calc.rank(p.trophies || 0, p.arenaIdx || 0).stars)}<span class="text-[11px] muted num">${p.trophies || 0} ${this.trophyIcon}</span></div></div></div>
@@ -5051,6 +5207,7 @@ const UI = {
       ${p.lifts && p.lifts.some(l => l.value) ? `<div class="top3 mb-3">${p.lifts.filter(l => l.value).map(l => `<div><div class="font-black num text-lg leading-none">${U.w(l.value, 0)}</div><div class="text-[10px] muted">${unit}</div><div class="text-[10px] font-semibold mt-1 leading-tight line-clamp-2">${U.esc(U.exRu(l.ex))}</div></div>`).join('')}</div>` : '<div class="text-xs muted mb-3">Рекордов пока нет.</div>'}
       <div class="grid grid-cols-2 gap-2">${btn}<button class="btn btn-or" data-action="duel-start" data-id="${U.esc(id)}" ${S.duel ? 'disabled' : ''}><svg class="ic"><use href="#fa-khanda"/></svg> Дуэль</button></div>
       <button class="btn btn-ghost w-full mt-2" data-action="user-posts" data-id="${U.esc(id)}"><svg class="ic"><use href="#fa-image"/></svg> Посты игрока</button>
+      ${S.clan && S.clan.role === 'leader' && ClanService.clanOthers().some(m => m.id === id) ? `<button class="btn btn-ghost w-full mt-2" data-action="clan-member-menu" data-id="${U.esc(id)}" data-role="${(ClanService.clanOthers().find(m => m.id === id) || {}).role || 'member'}"><svg class="ic"><use href="#fa-crown"/></svg> Управление в клане</button>` : ''}
       <button class="rep-link mt-3" data-action="report-open" data-id="${U.esc(id)}" data-kind="user"><svg class="ic"><use href="#fa-flag-report"/></svg> Пожаловаться или заблокировать</button>`, { center: true });
   },
   /* ---- уведомления (колокольчик) ---- */
@@ -5115,8 +5272,8 @@ const UI = {
           ${th ? `<span class="pf-cname">${th.name}</span>` : ''}<button class="pf-cb" data-action="open-shop" data-tab="look"><svg class="ic"><use href="#fa-palette"/></svg> ${th ? 'Сменить' : 'Оформить'}</button></div>
         <div class="pf-body">
           <div class="pf-avrow">
-            <button class="pf-av" data-action="open-shop" data-tab="look">${this.avFrame(this.avatarSVG(p.avatar, 92), p.avatar.pframe, acc)}<span class="pf-cam"><svg class="ic"><use href="#fa-camera"/></svg></span></button>
-            <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 44, anim: false })}<span class="min-w-0"><span class="block text-sm font-black truncate" style="color:${this._mix(a.color, '#ffffff', .35)}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
+            <button class="pf-av" data-action="open-shop" data-tab="look">${this.avFrame(this.avatarSVG(p.avatar, 92), p.avatar.pframe, acc, S.game.arenaIdx, 92)}<span class="pf-cam"><svg class="ic"><use href="#fa-camera"/></svg></span></button>
+            <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 56, anim: false })}<span class="min-w-0"><span class="block text-sm font-black truncate" style="color:${this._mix(a.color, '#ffffff', .35)}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
           </div>
           <div class="pf-nick" data-no-mt>${U.esc(p.nickname)}</div>${tt}
           <div class="pf-lvl"><b class="num">${lvl}</b><div class="flex-1">${this.bar(xpCur / xpNeed * 100, 'var(--text)')}</div><span class="muted num">${xpCur}/${xpNeed} XP</span></div>
@@ -5432,7 +5589,7 @@ const UI = {
     if (t === 'look') {
       const th = U.ptheme(p.avatar.ptheme), acc = th ? th.accent : a.color, title = U.shopItem(p.avatar.title), ts = U.tstyle(p.avatar.tstyle);
       body = `<div class="shop-prev" style="--ac:${acc}"><div class="pf-cover" style="${this.coverStyle(p.avatar.ptheme, a.color)}">${th ? this.pfx(th.fx, 10, 3) : ''}</div>
-          <div class="pf-body"><div class="flex items-end gap-3"><span id="shop-avatar">${this.avFrame(this.avatarSVG(p.avatar, 64), p.avatar.pframe, acc)}</span><div class="min-w-0 pb-1"><div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nickname || '')}</div>${title ? `<div class="text-xs font-bold"><span class="${ts.cls || 'text-pu'}" style="${ts.style}" ${title.custom ? 'data-no-mt' : ''}>« ${U.esc(title.custom ? (p.customTitle || 'Свой титул') : title.name)} »</span></div>` : ''}</div></div></div></div>
+          <div class="pf-body"><div class="flex items-end gap-3"><span id="shop-avatar">${this.avFrame(this.avatarSVG(p.avatar, 64), p.avatar.pframe, acc, S.game.arenaIdx, 64)}</span><div class="min-w-0 pb-1"><div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nickname || '')}</div>${title ? `<div class="text-xs font-bold"><span class="${ts.cls || 'text-pu'}" style="${ts.style}" ${title.custom ? 'data-no-mt' : ''}>« ${U.esc(title.custom ? (p.customTitle || 'Свой титул') : title.name)} »</span></div>` : ''}</div></div></div></div>
         <div class="flex gap-2 items-center text-xs muted mb-1"><label class="btn btn-ghost btn-sm cursor-pointer"><svg class="ic"><use href="#fa-camera"/></svg> ${p.avatar.photo ? 'Другое фото' : 'Своё фото'}<input type="file" accept="image/*" class="hidden" data-action="avatar-photo"></label>${p.avatar.photo ? '<button class="btn btn-ghost btn-sm text-red-400" data-action="avatar-photo-remove"><svg class="ic"><use href="#fa-xmark"/></svg></button>' : ''}<span class="flex-1">Так тебя видят друзья и соперники</span></div>
         <div class="shop-h"><span><svg class="ic text-pu"><use href="#fa-mountain-sun"/></svg> Обложка профиля</span>${p.avatar.ptheme ? '<button class="chip" data-action="look-off" data-val="ptheme">снять</button>' : ''}</div>
         <div class="grid grid-cols-2 gap-2">${U.styleList('ptheme').map((i, k) => { const it = U.ptheme(i.id), owned = p.owned.includes(i.id), on = p.avatar.ptheme === i.id; return `<button class="pt-tile ${on ? 'on' : ''} ${it.art === 'storm' ? 'th-storm' : ''}" style="background:${it.bg};--acc:${it.accent}" data-action="shop-item" data-id="${i.id}" data-key="pt-${i.id}"><span class="pt-name">${i.name}</span><span class="pt-foot">${cost(i, owned, on)}</span>${i.price >= 1000 ? '<span class="pt-badge">ЛЕГЕНДА</span>' : i.price >= 650 ? '<span class="pt-badge">ЭПИК</span>' : ''}</button>`; }).join('')}</div>
@@ -5569,6 +5726,7 @@ const UI = {
   openMemberMenu(id, role) {
     this.modal(`<div class="font-bold mb-3">Участник</div><div class="grid gap-2">
       ${role !== 'deputy' ? `<button class="btn btn-ghost" data-action="clan-set-role" data-id="${id}" data-role="deputy"><svg class="ic text-bl"><use href="#fa-star"/></svg> Сделать заместителем</button>` : `<button class="btn btn-ghost" data-action="clan-set-role" data-id="${id}" data-role="member"><svg class="ic "><use href="#fa-user"/></svg> Снять заместителя</button>`}
+      <button class="btn btn-ghost" data-action="clan-give-lead" data-id="${id}"><svg class="ic" style="color:#FFCC00"><use href="#fa-crown"/></svg> Передать лидерство</button>
       <button class="btn btn-ghost text-red-400" data-action="clan-kick" data-id="${id}"><svg class="ic "><use href="#fa-user-minus"/></svg> Исключить</button>
       <button class="btn btn-ghost" data-action="close-modal">Отмена</button></div>`, { center: true });
   },
@@ -5997,18 +6155,24 @@ const UI = {
 
 /* ======================= v19: СООБЩЕСТВО, КЛАНЫ, BODY PROGRESS ======================= */
 Object.assign(UI, {
+  // v41: переключатель «Перевод» у чужих постов: вкл — текст на языке приложения, выкл — оригинал
+  trSw(p, sm) {
+    if (!p || p.self || !p.body || p.kind === 'pr' || !/\p{L}{2}/u.test(p.body)) return '';
+    const on = !!(this._trOn && this._trOn[p.id]), busy = this._trBusy === p.id;
+    return `<button class="tr-sw ${sm ? 'sm' : ''} ${on ? 'on' : ''} ${busy ? 'busy' : ''}" data-action="post-tr" data-id="${U.esc(p.id)}" role="switch" aria-checked="${on}"><svg class="ic"><use href="#fa-language"/></svg><span>${busy ? 'Перевожу…' : 'Перевод'}</span><i class="tr-k"></i></button>`;
+  },
   postText(p) { const on = this._trOn && this._trOn[p.id], tr = Social.tr && Social.tr[(S.profile.lang || 'ru') + '|' + p.id]; return on && tr ? tr : p.body; },
   postBody(t) { return U.esc(t).replace(/#([\p{L}\p{N}_]{2,30})/gu, (m, tag) => `<button class="tag-link" data-action="feed-tag" data-tag="${tag.toLowerCase()}">#${tag}</button>`).replace(/\n/g, '<br>'); },
   prBlock(p, big) { return `<div class="pr-block ${big ? 'big' : ''}"><div class="text-[10px] font-black uppercase tracking-wider text-amber-400"><svg class="ic"><use href="#fa-crown"/></svg> Новый рекорд</div><div class="text-[11px] muted truncate">${U.esc(U.exRu(p.ex))}</div><div class="font-black num ${big ? 'text-3xl' : 'text-xl'} leading-tight">${U.wEx(p.ex, p.weight)} <span class="text-xs muted font-semibold">${U.wUnit()} × ${U.reps(p.reps)}</span></div></div>`; },
   // свёрнутая карусель последних постов на вкладке «Сообщество»
   postsCarousel() {
     const hide = Social.hiddenUsers(), xs = Social.recent(12).filter(p => !hide.has(p.uid)).slice(0, 8);
-    const card = p => `<button class="pc-card" data-action="feed-open" data-id="${U.esc(p.id)}" data-key="pc${U.esc(p.id)}">
+    const card = p => `<div class="pc-card" role="button" tabindex="0" data-action="feed-open" data-id="${U.esc(p.id)}" data-key="pc${U.esc(p.id)}">
         <div class="flex items-center gap-2 mb-1.5 min-w-0">${this.av(p, 26)}<div class="min-w-0 flex-1"><div class="text-xs font-bold truncate" data-no-mt>${U.esc(p.nick)}</div><div class="text-[10px] muted">${U.ago(p.ts)}</div></div></div>
         ${p.img ? `<div class="pc-img" style="background-image:url('${p.img}')"></div>` : p.video || p.vkey ? `<div class="pc-img pc-vid" data-morph-keep="class"><video muted playsinline preload="metadata" poster="${this.BLANK}" ${p.video ? `src="${U.esc(p.video)}#t=0.5"` : `data-vkey="${U.esc(p.vkey)}"`} data-morph-keep="src"></video><svg class="ic"><use href="#fa-play"/></svg></div>` : ''}
-        ${p.kind === 'pr' ? this.prBlock(p) : `<div class="pc-text" data-no-mt>${U.esc(p.body)}</div>`}
+        ${p.kind === 'pr' ? this.prBlock(p) : `<div class="pc-text" data-no-mt>${U.esc(this.postText(p))}</div>${this.trSw(p, true)}`}
         <div class="pc-foot"><span class="${p.liked ? 'text-rose-400' : ''}"><svg class="ic"><use href="#${p.liked ? 'fa-heart-solid' : 'fa-heart'}"/></svg> ${p.likes}</span><span><svg class="ic"><use href="#fa-comment"/></svg> ${p.comments}</span>${p.video || p.vkey ? `<span><svg class="ic"><use href="#fa-eye"/></svg> ${U.short ? U.short(p.views || 0) : p.views || 0}</span>` : ''}</div>
-      </button>`;
+      </div>`;
     return `<div class="flex items-center justify-between mb-2 px-0.5"><div class="font-bold text-sm"><svg class="ic text-amber-400"><use href="#fa-bolt"/></svg> Лента</div><button class="chip" data-action="open-page" data-kind="feed"><svg class="ic"><use href="#fa-expand"/></svg> Развернуть</button></div>
       ${xs.length ? `<div class="feed">${xs.map(card).join('')}<button class="pc-card pc-more" data-action="open-page" data-kind="feed"><svg class="ic text-2xl"><use href="#fa-expand"/></svg><div class="text-xs font-bold mt-2">Вся лента</div></button></div>`
         : `<button class="card p-3 mb-4 text-xs muted text-center w-full" data-action="open-page" data-kind="feed">${Social.loading || (Net.online() && !Social.at) ? 'Загружаю ленту…' : 'Пока тихо. Нажми, чтобы написать первый пост.'}</button>`}`;
@@ -6023,7 +6187,7 @@ Object.assign(UI, {
         <button class="muted px-1" data-action="post-menu" data-id="${U.esc(p.id)}" aria-label="Ещё"><svg class="ic"><use href="#fa-ellipsis-vertical"/></svg></button>
       </div>
       ${p.kind === 'pr' ? this.prBlock(p, true) : ''}
-      ${p.body ? `<div class="text-sm leading-relaxed mb-2 break-words" data-no-mt>${this.postBody(this.postText(p))}</div>${p.self ? '' : `<button class="post-tr ${this._trOn && this._trOn[p.id] ? 'on' : ''}" data-action="post-tr" data-id="${U.esc(p.id)}"><svg class="ic ${this._trBusy === p.id ? 'spin' : ''}"><use href="#${this._trBusy === p.id ? 'fa-circle-notch' : 'fa-language'}"/></svg> ${this._trOn && this._trOn[p.id] ? 'Показать оригинал' : 'Перевести'}</button>`}` : ''}
+      ${p.body ? `<div class="text-sm leading-relaxed mb-2 break-words" data-no-mt>${this.postBody(this.postText(p))}</div>${this.trSw(p)}` : ''}
       ${p.img ? `<img class="post-img" src="${p.img}" alt="" loading="lazy">` : ''}
       ${p.video || p.vkey ? this.vplayer(p) : ''}
       ${p.tags.length && p.kind === 'pr' ? `<div class="flex flex-wrap gap-x-2 gap-y-1 mb-1 text-xs">${p.tags.map(t => `<button class="tag-link" data-action="feed-tag" data-tag="${U.esc(t)}">#${U.esc(t)}</button>`).join('')}</div>` : ''}
@@ -6069,10 +6233,13 @@ Object.assign(UI, {
   /* v23: свой видеоплеер — без серой заставки и стандартных кнопок системы */
   BLANK: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
   vplayer(p) {
-    return `<div class="vp" data-vp="${U.esc(p.id)}" data-key="vp${U.esc(p.id)}" data-action="vp-tap" data-morph-keep="class" data-morph-skip>
+    const ar = UI._vpAR && UI._vpAR[p.id];
+    return `<div class="vp" data-vp="${U.esc(p.id)}" data-key="vp${U.esc(p.id)}" data-action="vp-tap" data-morph-keep="class" data-morph-skip ${ar ? `style="aspect-ratio:${ar}"` : ''}>
       <video playsinline preload="metadata" poster="${this.BLANK}" ${p.video ? `src="${U.esc(p.video)}#t=0.1"` : `data-vkey="${U.esc(p.vkey)}"`} data-morph-keep="src" disableremoteplayback x-webkit-airplay="deny"></video>
       <div class="vp-load"><i></i></div>
       <button class="vp-big" data-action="vp-toggle" aria-label="Смотреть"><svg class="ic"><use href="#fa-play"/></svg></button>
+      <div class="vp-top" data-action="vp-noop"><button data-action="vp-fs" aria-label="Свернуть"><svg class="ic"><use href="#fa-chevron-down"/></svg></button><span class="vp-ttl" data-no-mt>${U.esc(p.nick || '')}</span><button class="vp-spd" data-action="vp-speed" data-no-mt>1×</button></div>
+      <div class="vp-mid"><button data-action="vp-skip" data-s="-10" aria-label="-10 с"><svg class="ic"><use href="#fa-rotate-left"/></svg><b>10</b></button><button class="vp-pp" data-action="vp-toggle" aria-label="Пауза"><svg class="ic"><use href="#fa-play"/></svg></button><button class="vp-fwd" data-action="vp-skip" data-s="10" aria-label="+10 с"><svg class="ic"><use href="#fa-rotate-left"/></svg><b>10</b></button></div>
       <div class="vp-bar" data-action="vp-noop">
         <button data-action="vp-toggle" aria-label="Пауза"><svg class="ic"><use href="#fa-play"/></svg></button>
         <div class="vp-track" data-vp-seek><div class="vp-buf"></div><div class="vp-fill"></div><div class="vp-knob"></div></div>
@@ -6121,7 +6288,7 @@ Object.assign(UI, {
       <div class="grid grid-cols-2 gap-2"><button class="btn btn-ghost" data-action="clan-settings"><svg class="ic"><use href="#fa-chevron-left"/></svg> Настройки</button><button class="btn btn-primary" data-action="close-modal">Готово</button></div>`;
     const m = this.$('#modal .modal'); if (m && this._clanShop) this.morph(m, html); else { this.modal(html); this._clanShop = true; }
   },
-  refreshSocial() { if (this._page === 'feed') this.renderPage(); if (this._page === 'user') { const u = this._userPage; this.renderPage(); Social.loadUser(u).then(() => this._page === 'user' && this._userPage === u && this.renderPage()); } if (this.tab === 'clans') this.renderClans(); },
+  refreshSocial() { if (this._page === 'feed' || this._page === 'clan' || this._page === 'clanview') this.renderPage(); if (this._page === 'user') { const u = this._userPage; this.renderPage(); Social.loadUser(u).then(() => this._page === 'user' && this._userPage === u && this.renderPage()); } if (this.tab === 'clans') this.renderClans(); },
   openPost(id) { this._feedFocus = id; this.openPage('feed'); },
   openComposer() {
     this._postImg = this._postImg || null;
@@ -6293,6 +6460,9 @@ Object.assign(UI, {
       <div class="set-sec"><div class="set-h">Битвы и места</div>
         <label class="sw-row"><div class="flex-1 min-w-0"><div class="text-sm font-semibold">Случайные клановые битвы</div><div class="text-[11px] muted">Другие кланы могут получить нас случайно</div></div><input type="checkbox" class="sw" data-action="clan-battle-open" ${c.battleOpen !== false ? 'checked' : ''}></label>
         <div class="flex items-center gap-3 mt-2"><svg class="ic text-bl text-xl"><use href="#fa-users"/></svg><div class="flex-1"><div class="text-sm font-semibold num">${cap} мест</div><div class="text-[11px] muted">${cap >= sl.max ? 'Это максимум' : `Можно расширить до ${sl.max}`}</div></div>${cap < sl.max ? `<button class="btn btn-ghost btn-sm" data-action="clan-slots">+${sl.add} · <span class="num">${sl.price}</span> ${this.coinIcon}</button>` : ''}</div></div>
+      <div class="set-sec"><div class="set-h">Участие</div>
+        <button class="btn btn-ghost w-full text-red-400" data-action="clan-leave"><svg class="ic"><use href="#fa-right-from-bracket"/></svg> Выйти из клана</button>
+        ${c.role === 'leader' ? `<div class="text-[11px] muted mt-1.5">${ClanService.clanOthers().length ? 'Перед выходом выберешь, кому передать лидерство.' : 'Ты один в клане: при выходе клан будет удалён.'}</div>` : ''}</div>
       <button class="btn btn-ghost w-full" data-action="close-modal">Готово</button>`;
     const m = this.$('#modal .modal'); if (m && this._clanSet) this.morph(m, html); else { this.modal(html); this._clanSet = true; }
   },
@@ -6374,31 +6544,65 @@ Object.assign(UI, {
       d += `M${x0} ${y0 + k * 2.2}L${(tip[0]).toFixed(1)} ${(tip[1]).toFixed(1)}L${(x0 + side * Math.cos(a) * L * .5 + nx).toFixed(1)} ${(y0 + Math.sin(a) * L * .5 + ny + k * 2.2).toFixed(1)}Z`; }
     return d;
   },
+  // v41: у каждого ранга свой силуэт и свой знак в центре (гантель, гиря, штанга, огонь, молния, гора…),
+  // лиги — крылья, лавры, корона и лента с номером. Стиль тот же: светлая левая и тёмная правая половины
+  _gl: {
+    chev: 'M-12-3L0 3.5 12-3V2.6L0 9-12 2.6Z',
+    db: 'M-16-5.5h3.6v11h-3.6zM-12-9h4.6v18h-4.6zM7.4-9H12v18H7.4zM12.4-5.5H16v11h-3.6zM-7.4-2.1H7.4v4.2H-7.4z',
+    bar: 'M-21-2h42v4h-42zM-17-10h4v20h-4zM-12.5-7.5h3v15h-3zM13-10h4v20h-4zM9.5-7.5h3v15h-3z',
+    kb: ['M-8.5-1V-9a4.5 4.5 0 0 1 4.5-4.5h8A4.5 4.5 0 0 1 8.5-9V-1H4.6V-9.6H-4.6V-1z', 'M0-4.5A10.5 10.5 0 1 1 0 16.5 10.5 10.5 0 0 1 0-4.5z'],
+    flame: 'M1-17C6-10 13-6 13 4A13 12 0 0 1-13 4C-13-3-8-7-5.5-11-4.5-5-1.5-4 0-6.5-2.5-10-1-14 1-17Z',
+    bolt: 'M4-17-10 2.5h8.5L-5 17 11-4H2.5Z',
+    mount: 'M-19 12-6-9-.5-1 4.5-6 19 12ZM-6-9-2.4-3.2-6-1.5-9-3.5Z',
+    swords: 'M12.0 -12.0L11.1 -8.7L-2.3 4.7L-4.7 2.3L8.7 -11.1ZM-8.1 -1.1L1.1 8.1L-0.8 10.0L-10.0 0.8ZM-6.3 4.5L-4.5 6.3L-8.3 10.1L-10.1 8.3ZM-10.9 7.5L-7.5 10.9L-9.3 12.7L-12.7 9.3ZM-12.0 -12.0L-8.7 -11.1L4.7 2.3L2.3 4.7L-11.1 -8.7ZM-1.1 8.1L8.1 -1.1L10.0 0.8L0.8 10.0ZM4.5 6.3L6.3 4.5L10.1 8.3L8.3 10.1ZM7.5 10.9L10.9 7.5L12.7 9.3L9.3 12.7Z',
+    inf: 'M-6.5-7C-12-7-16-3.5-16 0S-12 7-6.5 7C-1 7 1-7 6.5-7 12-7 16-3.5 16 0S12 7 6.5 7C1 7-1-7-6.5-7Z',
+  },
   rankArt(i) {
-    const a = CONFIG.ARENAS[i], c = a.color, lt = this._mix(c, '#ffffff', .3), dk = this._mix(c, '#000000', .3), dd = this._mix(c, '#000000', .58), W = '#FFFFFF', Wd = '#E6E6EA', n = a.name, F = (d, l = lt, k = dk, e = '') => this._fx(d, l, k, e);
-    const R = (pts, r) => this._rpoly(pts, r), shield = (s = 1, y = 0) => R([[0, -36], [30, -27], [30, 4], [0, 38], [-30, 4], [-30, -27]].map(([x, yy]) => [x * s, yy * s + y]), 4);
+    const a = CONFIG.ARENAS[i], c = a.color, lt = this._mix(c, '#ffffff', .32), dk = this._mix(c, '#000000', .28), dd = this._mix(c, '#000000', .6), W = '#FFFFFF', Wd = '#E2E2E8', n = a.name, F = (d, l = lt, k = dk, e = '') => this._fx(d, l, k, e);
+    const G = this._gl, R = (pts, r) => this._rpoly(pts, r), tr = (d, x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})">${d}</g>`;
+    const gl = (k, s = 1, y = 0, l = W, d = Wd) => tr([].concat(G[k]).map(x => F(x, l, d, k === 'mount' ? ' fill-rule="evenodd"' : '')).join(''), 0, y, s);
+    const shield = (s = 1, y = 0) => R([[0, -36], [30, -27], [30, 4], [0, 38], [-30, 4], [-30, -27]].map(([x, yy]) => [x * s, yy * s + y]), 4);
     const gem = (s, y = 0) => R([[0, -40], [30, -12], [0, 40], [-30, -12]].map(([x, yy]) => [x * s, yy * s + y]), 3);
-    const wings = (n2, len, y = -6, x0 = 22) => F(this._blades(n2, x0, y, len, 16, 1) + this._blades(n2, -x0, y, len, 16, -1), lt, dk) ;
+    const wings = (n2, len, y = -6, x0 = 22) => F(this._blades(n2, x0, y, len, 16, 1) + this._blades(n2, -x0, y, len, 16, -1));
     const crown = (y, s = 1, col = '#F5C04A', colD = '#C98A14') => F(R([[-14, 0], [-17, -13], [-7, -6], [0, -17], [7, -6], [17, -13], [14, 0]].map(([x, yy]) => [x * s, yy * s + y]), 1.2), col, colD);
-    const pip = (x, y, r = 4) => F(`M${x} ${y - r}L${x + r} ${y}L${x} ${y + r}L${x - r} ${y}Z`, W, Wd);
-    if (i === 0) return F(R(this._ring(3, 32, 32, 0), 4)) + `<path d="${R(this._ring(3, 15, 15, 0), 2)}" fill="${dd}"/>` + F(this._chev(-2, 9, 4, 3), W, Wd);
-    if (i === 1) return F(shield(.95)) + F(shield(.62), c, dd) + F(this._chev(-4, 13, 6, 4.5), W, Wd);
-    if (i === 2) return F(shield(1)) + F(shield(.66), c, dd) + F(this._chev(-11, 13, 6, 4.2), W, Wd) + F(this._chev(0, 13, 6, 4.2), W, Wd);
-    if (i === 3) return F(R([[0, -38], [22, -30], [38, -36], [32, -6], [0, 40], [-32, -6], [-38, -36], [-22, -30]], 3)) + F(shield(.62, 1), c, dd) + [-14, -4, 6].map(y => F(this._chev(y, 12, 5, 3.6), W, Wd)).join('');
-    if (i === 4) return F(R([[0, -46], [8, -34], [16, -42], [18, -26], [34, -6], [0, 42], [-34, -6], [-18, -26], [-16, -42], [-8, -34]], 2.5)) + F(gem(.6, 4), c, dd) + F(gem(.28, 4), W, Wd);
-    if (i === 5) return F(R(this._ring(4, 46, 15, 0), 2)) + F(R(this._ring(4, 30, 11, Math.PI / 4), 1.5), c, dd) + F(gem(.36, 0), W, Wd);
-    if (i === 6) return wings(3, 30, -10, 20) + F(shield(1.02, 4)) + F(shield(.66, 5), c, dd) + crown(-26, 1) + F(R(this._ring(5, 10, 4.2, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 6)"');
-    if (i === 7) return wings(4, 34, -2, 18) + F(R([[0, -44], [26, -22], [26, 14], [0, 44], [-26, 14], [-26, -22]], 3)) + F(R([[0, -28], [15, -12], [0, 28], [-15, -12]], 2), c, dd) + `<path d="M-26-22L0-8 26-22M0-8V44" fill="none" stroke="${dd}" stroke-width="1.6" opacity=".55"/>` + F(gem(.2, -12), W, Wd);
-    if (i === 8) return F(R(this._ring(8, 48, 26, Math.PI / 8), 2)) + F(R(this._ring(8, 30, 20, 0), 2), c, dd) + F(gem(.42, 0), W, Wd) + crown(-30, .75);
-    if (i === 9) return F(`M-30-20C-40-34-36-46-26-50-28-38-22-30-14-28L0-34 14-28C22-30 28-38 26-50 36-46 40-34 30-20L30 6 0 40-30 6Z`) + F(shield(.6, 2), c, dd) + F(R(this._ring(2, 9, 4, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 2)"');
+    const rivets = pts => pts.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.2" fill="${dd}"/><circle cx="${x - .5}" cy="${y - .5}" r="1.6" fill="${W}" opacity=".85"/>`).join('');
+    const laurel = (r = 40, cy = 6, k = 6, col = '#F5C04A', colD = '#C98A14') => { let o = ''; for (let j = 0; j < k; j++) { const an = (108 + j * 19) * Math.PI / 180, x = Math.cos(an) * r, y = Math.sin(an) * r + cy, rot = an * 180 / Math.PI + 70; o += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="6.4" ry="2.7" transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${col}"/><ellipse cx="${(-x).toFixed(1)}" cy="${y.toFixed(1)}" rx="6.4" ry="2.7" transform="rotate(${(180 - rot).toFixed(0)} ${(-x).toFixed(1)} ${y.toFixed(1)})" fill="${colD}"/>`; } return o; };
+    const ribbon = (y, txt, col = dd) => F(`M-26 ${y}H26L32 ${y + 5}L26 ${y + 10}H-26L-32 ${y + 5}Z`, col, this._mix(col, '#000000', .35)) + (txt ? `<text y="${y + 8.4}" text-anchor="middle" font-size="9" font-weight="900" fill="${W}" font-family="var(--disp),sans-serif" letter-spacing=".5">${txt}</text>` : '');
+    const disc = (r, y = 0, l = dd, d = this._mix(dd, '#000000', .35)) => F(`M${-r} ${y}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`, l, d);
+    if (i === 0) return F(R(this._ring(3, 34, 34, 0), 5)) + F(R(this._ring(3, 24, 24, 0), 3), dd, this._mix(dd, '#000000', .3)) + rivets([[-25, -14.5], [25, -14.5], [-25, 14.5], [25, 14.5]]) + gl('chev', .95, -2);
+    if (i === 1) return F(R([[-30, -30], [30, -30], [30, 6], [0, 38], [-30, 6]], 6)) + F(R([[-22, -22], [22, -22], [22, 3], [0, 28], [-22, 3]], 4), dd, this._mix(dd, '#000000', .3)) + rivets([[-25, -25], [25, -25]]) + gl('db', 1, 0);
+    if (i === 2) return F(R([[-32, -24], [-32, -36], [-20, -36], [-20, -30], [-6, -30], [-6, -36], [6, -36], [6, -30], [20, -30], [20, -36], [32, -36], [32, -24], [32, 4], [0, 40], [-32, 4]], 2)) + F(shield(.7, 0), c, dd) + gl('bar', .78, -1);
+    if (i === 3) return F(R([[0, -38], [22, -30], [40, -38], [33, -6], [0, 42], [-33, -6], [-40, -38], [-22, -30]], 3)) + F(shield(.66, 2), dd, this._mix(dd, '#000000', .3)) + gl('kb', .95, -1) + F(this._chev(26, 9, 4, 2.6), W, Wd);
+    if (i === 4) return F(R([[0, -50], [9, -36], [20, -44], [20, -26], [36, -8], [0, 44], [-36, -8], [-20, -26], [-20, -44], [-9, -36]], 2.5)) + F(gem(.62, 6), dd, this._mix(dd, '#000000', .35)) + gl('flame', 1, 4, '#FFE7B0', '#FFC56B');
+    if (i === 5) return F(R(this._ring(4, 50, 16, 0), 2)) + F(R(this._ring(4, 32, 13, Math.PI / 4), 1.5), dk, dd) + disc(15) + gl('bolt', .85, 0, '#FFF4C2', '#FFD966');
+    if (i === 6) return wings(3, 30, -12, 20) + F(shield(1.02, 4)) + F(shield(.68, 5), dd, this._mix(dd, '#000000', .3)) + crown(-28, 1) + F(R(this._ring(5, 11, 4.6, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 4)"');
+    if (i === 7) return wings(4, 34, -2, 18) + F(R([[0, -46], [28, -24], [28, 14], [0, 46], [-28, 14], [-28, -24]], 3)) + F(R([[0, -30], [18, -16], [18, 10], [0, 30], [-18, 10], [-18, -16]], 2), dd, this._mix(dd, '#000000', .35)) + gl('mount', .82, 2) + `<path d="M-28-24L0-34 28-24" fill="none" stroke="${W}" stroke-width="1.4" opacity=".45"/>`;
+    if (i === 8) return laurel(41, 4, 7) + F(R(this._ring(8, 46, 27, Math.PI / 8), 2)) + F(R(this._ring(8, 30, 21, 0), 2), dk, dd) + disc(16) + F(R(this._ring(5, 12, 5, 0), 1), W, Wd) + crown(-32, .8);
+    if (i === 9) return F(`M-30-20C-40-34-36-46-26-50-28-38-22-30-14-28L0-34 14-28C22-30 28-38 26-50 36-46 40-34 30-20L30 6 0 42-30 6Z`) + F(shield(.62, 2), dd, this._mix(dd, '#000000', .35)) + gl('swords', .95, 1);
     if (/Мастер/.test(n)) { const lvl = (/(I{1,3})$/.exec(n) || [, 'I'])[1].length;
-      return wings(1 + lvl, 30 + lvl * 2, -2, 20) + F(R([[0, -42], [28, -24], [28, 18], [0, 42], [-28, 18], [-28, -24]], 4)) + F(R([[0, -26], [17, -14], [17, 10], [0, 26], [-17, 10], [-17, -14]], 2.5), c, dd) + F(gem(.3, 0), W, Wd)
-        + Array.from({ length: lvl }, (_, k) => pip((k - (lvl - 1) / 2) * 11, -48, 4.2)).join(''); }
-    if (n === 'Чемпион лиги') return wings(4, 36, -8, 20) + F(R([[-26, -8], [-30, -38], [-13, -24], [0, -44], [13, -24], [30, -38], [26, -8], [24, 26], [0, 42], [-24, 26]], 3), '#F7CB4D', '#C98F17') + F(shield(.6, 6), c, dd) + F(R(this._ring(5, 10, 4.2, 0), 1).replace(/^/, ''), W, Wd).replace(/<path/g, '<path transform="translate(0 6)"');
-    if (n === 'Великий чемпион') return F(`M0 40C-14 30-46 22-48-16-36-6-28-6-24-10-34-22-34-36-28-46-22-30-12-26 0-30 12-26 22-30 28-46 34-36 34-22 24-10 28-6 36-6 48-16 46 22 14 30 0 40Z`) + F(gem(.58, 2), c, dd) + F(R(this._ring(3, 11, 5.5, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 2)"');
-    if (n === 'Абсолют') return F(`M0-24 10-40 30-50 24-30 36-16 26-4 30 18 0 44-30 18-26-4-36-16-24-30-30-50-10-40Z`, lt, dk) + F(R([[0, -22], [18, -6], [14, 16], [0, 30], [-14, 16], [-18, -6]], 3), dd, '#1a0006') + `<circle r="8.5" cy="2" fill="${W}"/><circle r="4.5" cy="2" fill="${c}"/>`;
+      return (lvl >= 3 ? F(R(this._ring(10, 50, 42, 0), 1.5), dk, dd) : '') + wings(1 + lvl, 28 + lvl * 4, -4, 20) + F(R([[0, -44], [30, -24], [30, 18], [0, 42], [-30, 18], [-30, -24]], 4)) + F(R([[0, -28], [18, -15], [18, 10], [0, 26], [-18, 10], [-18, -15]], 2.5), dd, this._mix(dd, '#000000', .35)) + F(gem(.36, -2), W, Wd) + ribbon(26, 'I'.repeat(lvl), dk); }
+    if (n === 'Чемпион лиги') return wings(4, 38, -8, 20) + F(R([[-26, -8], [-30, -40], [-13, -26], [0, -46], [13, -26], [30, -40], [26, -8], [24, 26], [0, 42], [-24, 26]], 3), '#F7CB4D', '#C98F17') + F(shield(.62, 6), c, dd) + F(R(this._ring(5, 11, 4.6, 0), 1), W, Wd).replace(/<path/g, '<path transform="translate(0 6)"') + ribbon(30, 'CHAMP', '#9A6B0E');
+    if (n === 'Великий чемпион') return F(`M0 40C-14 30-48 22-50-18-38-6-28-6-24-10-34-22-34-38-28-48-22-30-12-26 0-30 12-26 22-30 28-48 34-38 34-22 24-10 28-6 38-6 50-18 48 22 14 30 0 40Z`) + F(gem(.58, 2), dd, this._mix(dd, '#000000', .35)) + gl('flame', .72, 4, '#FFE7B0', '#FFC56B') + crown(-34, .8);
+    if (n === 'Абсолют') return F(`M0-24 10-40 32-52 24-30 38-16 26-4 30 18 0 46-30 18-26-4-38-16-24-30-32-52-10-40Z`) + F(R([[0, -22], [18, -6], [14, 16], [0, 30], [-14, 16], [-18, -6]], 3), dd, '#1a0006') + `<path d="${G.inf}" transform="translate(0 4) scale(.82)" fill="none" stroke="${W}" stroke-width="4"/>`;
     // Легенда Flexo: сияние, корона, знак приложения
-    return F(R(this._ring(12, 52, 34, 0), 1.6), '#FFE07A', '#E0A92A') + F(R(this._ring(6, 36, 28, Math.PI / 6), 2), lt, dk) + `<circle r="22" fill="${dd}"/>` + crown(-30, 1.05) + `<g transform="translate(-15 -8) scale(.3)"><path fill-rule="evenodd" d="${typeof LOGO_PATH !== 'undefined' ? LOGO_PATH : ''}" fill="#FFE07A"/></g>`;
+    return F(R(this._ring(14, 56, 38, 0), 1.6), '#FFE07A', '#E0A92A') + F(R(this._ring(6, 40, 30, Math.PI / 6), 2), lt, dk) + `<circle r="24" fill="${dd}"/><circle r="24" fill="none" stroke="#FFE07A" stroke-width="1.6"/>` + crown(-34, 1.1) + `<g transform="translate(-16 -9) scale(.32)"><path fill-rule="evenodd" d="${typeof LOGO_PATH !== 'undefined' ? LOGO_PATH : ''}" fill="#FFE07A"/></g>`;
+  },
+  // v41: рамка аватара в стиле ранга (ставится сама, если в магазине не выбрана другая)
+  rankFrame(inner, idx, size) {
+    this.medalDefs();
+    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), c = CONFIG.ARENAS[i].color, lt = this._mix(c, '#ffffff', .32), dk = this._mix(c, '#000000', .28), t = this.medalTier(i), F = (d, l = lt, k = dk, e = '') => this._fx(d, l, k, e);
+    const ring = (r1, r2) => `M${-r1} 0a${r1} ${r1} 0 1 0 ${2 * r1} 0a${r1} ${r1} 0 1 0 ${-2 * r1} 0ZM${-r2} 0a${r2} ${r2} 0 1 1 ${2 * r2} 0a${r2} ${r2} 0 1 1 ${-2 * r2} 0Z`, ev = ' fill-rule="evenodd"';
+    const stud = (an, r = 44, s = 3.4) => { const x = Math.cos(an) * r, y = Math.sin(an) * r; return F(`M${x.toFixed(1)} ${(y - s).toFixed(1)}L${(x + s).toFixed(1)} ${y.toFixed(1)}L${x.toFixed(1)} ${(y + s).toFixed(1)}L${(x - s).toFixed(1)} ${y.toFixed(1)}Z`, '#fff', '#E2E2E8'); };
+    let s = '';
+    if (t >= 6) s += F(this._rpoly(this._ring(18, 58, 47, 0), 1) + ring(41, 41).replace(/^.*Z(M)/, '$1'), '#FFE07A', '#E0A92A', ev);
+    if (t >= 3) { const nb = t >= 5 ? 3 : 2; s += F(this._blades(nb, 36, -8, 22 + nb * 2, 18, 1) + this._blades(nb, -36, -8, 22 + nb * 2, 18, -1)); }
+    s += F(ring(47, 41.5), lt, dk, ev);
+    if (t >= 5) s += F(ring(51, 49.4), lt, dk, ev);
+    if (t >= 1) s += [-Math.PI / 4, -3 * Math.PI / 4, Math.PI / 4 - .05, 3 * Math.PI / 4 + .05].map(a => stud(a)).join('');
+    if (t >= 2) s += F(this._rpoly([[-12, -44], [-15, -56], [-6, -49], [0, -59], [6, -49], [15, -56], [12, -44]], 1.2), t >= 4 ? '#F5C04A' : lt, t >= 4 ? '#C98A14' : dk);
+    s += `<g transform="translate(0 47) scale(.34)">${this.rankArt(i)}</g>`;
+    const O = Math.round(size * 120 / 83);
+    return `<span class="pfr rfr">${inner}<svg class="rfr-o" viewBox="-60 -60 120 120" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px" aria-hidden="true">${s}</svg></span>`;
   },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
   medal(idx, o = {}) {
@@ -7174,7 +7378,20 @@ const App = {
       UI.askBuy(name, CONFIG.CLAN_PRICE, async () => { if (this._clanBusy) return; this._clanBusy = true; try { await this['clan-create-go'](name); } finally { this._clanBusy = false; } }, { icon: 'fa-shield-halved', kind: 'Новый клан', raw: true }); },
     async 'clan-create-go'(name) { const em = UI._emb ? `${UI._emb.icon}|${UI._emb.color}` : 'fa-shield-halved|#8B5CF6'; const r = await ClanService.create(name, em); if (!r || r.error) { UI.toast((r && r.error) || 'Не удалось создать клан', 'red'); return; } Game.addCoins(-CONFIG.CLAN_PRICE, 'Создание клана'); UI.closeModal(); App.clearDraft('clan-name'); UI._clanNameDraft = ''; UI.toast(`Клан создан за ${CONFIG.CLAN_PRICE} монет! Код приглашения: ` + S.clan.code, 'pu'); App.afterChange(); UI.openPage('clan'); },
     async 'clan-join'() { const r = await ClanService.join(document.getElementById('clan-code').value); if (r.error) { UI.toast(r.error, 'red'); return; } UI.closeModal(); UI.toast('Ты в клане ' + r.clan.name, 'pu'); App.afterChange(); },
-    'clan-leave'() { UI.confirm('Выйти из клана? Кланбитва этой недели для тебя закончится.', async () => { const r = await ClanService.leave(); if (r && r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Ты вышел из клана'); App.afterChange(); }, { danger: true, yes: 'Выйти' }); },
+    'clan-leave'() {
+      const done = async () => { const r = await ClanService.leave(); if (r && r.error) { UI.toast(r.error, 'red'); return; } UI.closeModal(); if (UI._page === 'clan') UI.closePage(); UI.toast('Ты вышел из клана'); App.afterChange(); };
+      if (!S.clan) return;
+      if (S.clan.role !== 'leader') return UI.confirm('Выйти из клана? Кланбитва этой недели для тебя закончится.', done, { danger: true, yes: 'Выйти' });
+      const others = ClanService.clanOthers();
+      if (!others.length) return UI.confirm(`<b data-no-mt>${U.esc(S.clan.name)}</b><br>Ты последний в клане. Если выйдешь, клан будет удалён навсегда вместе с кубками и оформлением.`, done, { danger: true, yes: 'Удалить клан и выйти' });
+      UI.modal(`<div class="font-bold text-lg mb-1"><svg class="ic" style="color:#FFCC00"><use href="#fa-crown"/></svg> Ты лидер клана</div><div class="text-sm muted mb-3">Перед выходом передай лидерство. Новый лидер получит все права.</div>
+        <div class="grid gap-2 mb-3" style="max-height:46vh;overflow:auto">${others.slice().sort((a, b) => (b.role === 'deputy') - (a.role === 'deputy') || (b.trophies || 0) - (a.trophies || 0)).map(m => `<button class="lead-pick" data-action="clan-leave-heir" data-id="${U.esc(m.id)}">${UI.av(ClanService.player(m.id) || m, 36)}<span class="flex-1 min-w-0 text-left"><b class="block truncate" data-no-mt>${U.esc(m.nick)}</b><small class="muted">${m.role === 'deputy' ? 'заместитель' : 'участник'} · <span class="num">${m.trophies || 0}</span> кубков</small></span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>`).join('')}</div>
+        <button class="btn btn-ghost w-full" data-action="close-modal">Отмена</button>`, { center: true });
+    },
+    'clan-leave-heir'(el) { const m = ClanService.clanOthers().find(x => x.id === el.dataset.id); if (!m) return;
+      UI.confirm(`Передать лидерство игроку <b data-no-mt>${U.esc(m.nick)}</b> и выйти из клана?`, async () => { const r = await ClanService.transferLeader(m.id); if (r && r.error) { UI.toast(r.error, 'red'); return; } const l = await ClanService.leave(); if (l && l.error) { UI.toast(l.error, 'red'); return; } UI.closeModal(); if (UI._page === 'clan') UI.closePage(); UI.toast('Лидерство передано, ты вышел из клана'); App.afterChange(); }, { danger: true, yes: 'Передать и выйти' }); },
+    'clan-give-lead'(el) { const m = ClanService.clanOthers().find(x => x.id === el.dataset.id); if (!m) return;
+      UI.confirm(`Передать лидерство игроку <b data-no-mt>${U.esc(m.nick)}</b>?<br>Ты станешь заместителем.`, async () => { const r = await ClanService.transferLeader(m.id); if (r && r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Лидерство передано'); App.afterChange(); if (UI._page) UI.renderPage(); }, { yes: 'Передать' }); },
     'confirm-yes'() { const fn = UI._onConfirm; UI._onConfirm = null; UI.closeModal(); if (fn) fn(); },
     async 'clan-challenge'(el) { const r = await ClanService.challengeClan(el.dataset.id); if (r.error) { UI.toast(r.error, 'red'); return; } UI.closeModal(); UI.toast(`Вызов брошен: ${r.opponent.name}! Битва 7 дней, счёт с нуля.`, 'or'); UI.renderClans(); },
     'clan-challenge-pick'() { if (!S.clan || S.clan.role === 'member') { UI.toast('Вызов может бросить лидер или заместитель', 'red'); return; } UI.openClanPick(); },
@@ -7182,6 +7399,8 @@ const App = {
     async 'duel-random'(el) { el.disabled = true; const d = await ClanService.startDuel(); el.disabled = false; if (!d) return; if (d.error) { UI.toast(d.error, 'red'); return; } UI.toast('Дуэль началась: ' + d.nick, 'or'); UI.renderClans(); },
     'duel-friend'() { const f = S.friends || []; if (!f.length) { UI.toast('Сначала добавь друзей', 'red'); return; } UI.modal(`<div class="font-bold mb-3">Кого вызвать?</div><div class="grid gap-2">${f.map(x => `<button class="btn btn-ghost" data-action="duel-start" data-id="${x.id}">${U.esc(x.nick)}</button>`).join('')}<button class="btn btn-ghost muted" data-action="close-modal">Отмена</button></div>`, { center: true }); },
     async 'duel-start'(el) { const d = await ClanService.startDuel(el.dataset.id); UI.closeModal(); if (d && d.error) { UI.toast(d.error, 'red'); return; } if (d) UI.toast('Дуэль началась: ' + d.nick, 'or'); UI.renderClans(); },
+    async 'mm-start'(el) { if (el) el.disabled = true; await App.mmStart(); if (el) el.disabled = false; },
+    'mm-stop'() { App.mmStop(); },
     'duel-cancel'() { UI.confirm('Сдаться в дуэли? Награды не будет.', async () => { await ClanService.cancelDuel(); UI.renderClans(); }, { danger: true, yes: 'Сдаться' }); },
     'clan-member-menu'(el) { UI.openMemberMenu(el.dataset.id, el.dataset.role); },
     async 'clan-set-role'(el) { const r = await ClanService.setRole(el.dataset.id, el.dataset.role); UI.closeModal(); if (r && r.error) UI.toast(r.error, 'red'); App.afterChange(); },
@@ -7332,15 +7551,13 @@ const App = {
     'vp-toggle'(el) { App.vpToggle(el.closest('.vp')); },
     'vp-noop'() {},
     'vp-mute'(el) { const vp = el.closest('.vp'), v = vp && vp.querySelector('video'); if (!v) return; v.muted = !v.muted; App.vpPaint(vp); App.vpIdle(vp); },
-    'vp-fs'(el) { const vp = el.closest('.vp'); if (!vp) return; const on = document.fullscreenElement === vp || vp.classList.contains('fs');
-      if (on) { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); vp.classList.remove('fs'); document.body.classList.remove('vp-fs-on'); }
-      else if (vp.requestFullscreen && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) vp.requestFullscreen().catch(() => vp.classList.add('fs')); else vp.classList.add('fs'); // v40: на телефоне — свой полноэкранный режим с отступами от системных кнопок
-      document.body.classList.toggle('vp-fs-on', !!document.querySelector('.vp.fs'));
-      setTimeout(() => App.vpPaint(vp), 60); },
+    'vp-fs'(el) { const vp = el.closest('.vp'); if (vp) App.vpFs(vp, !vp.classList.contains('fs')); },
+    'vp-skip'(el) { const vp = el.closest('.vp'), v = vp && vp.querySelector('video'); if (!v || !v.duration) return; v.currentTime = U.clamp(v.currentTime + +el.dataset.s, 0, v.duration - .1); App.vpPaint(vp); vp.classList.remove('idle'); App.vpIdle(vp); },
+    'vp-speed'(el) { const vp = el.closest('.vp'), v = vp && vp.querySelector('video'); if (!v) return; const L = [1, 1.25, 1.5, 2, .5], n = L[(L.indexOf(v.playbackRate) + 1) % L.length] || 1; v.playbackRate = n; el.textContent = String(n).replace('.', ',') + '×'; vp.classList.remove('idle'); App.vpIdle(vp); },
     'feed-sort'(el) { const k = el.dataset.val; if (Social.sort === k) return; Social.sort = k; Social.cache = []; Social.done = false; UI.renderPage(); Social.load(true).then(() => UI._page === 'feed' && UI.renderPage()); },
     'post-comments'(el) { UI.openComments(el.dataset.id); },
     // v40: перевод поста и обратно к оригиналу
-    async 'post-tr'(el) { const id = el.dataset.id, p = Social.find(id); if (!p || !p.body) return; UI._trOn = UI._trOn || {}; Social.tr = Social.tr || {};
+    async 'post-tr'(el, e) { if (e && e.stopPropagation) e.stopPropagation(); const id = el.dataset.id, p = Social.find(id); if (!p || !p.body || UI._trBusy === id) return; UI._trOn = UI._trOn || {}; Social.tr = Social.tr || {};
       if (UI._trOn[id]) { UI._trOn[id] = false; UI.refreshSocial(); return; }
       const key = (S.profile.lang || 'ru') + '|' + id;
       if (!Social.tr[key]) { UI._trBusy = id; UI.refreshSocial();
@@ -7533,6 +7750,9 @@ const App = {
       if (Net.online()) Net.refresh(true).then(ok => { if (ok) { Game.boot(); UI.renderHeader(); if (!busy()) UI.keepInputs(() => { if (UI.tab !== 'lifts') UI.renderTab(UI.tab); if (UI._page) UI.renderPage(); }); UI.flushEvents(); App.restoreFocus(true); } });
     });
     document.addEventListener('visibilitychange', () => { if (document.hidden) UI.closeDD(); });
+    // v41: свежий счётчик «ищут дуэль» на главной, в сообществе и на странице дуэлей
+    setInterval(() => { if (document.hidden || UI._mm || !Net.online() || document.getElementById('modal')) return; const pg = UI._page; if (!(pg === 'challenges' || (!pg && (UI.tab === 'arena' || UI.tab === 'clans')))) return;
+      Net.refresh().then(ok => { if (!ok || document.getElementById('modal')) return; UI.keepInputs(() => { if (UI._page === 'challenges') UI.renderPage(); else if (!UI._page) UI.renderTab(UI.tab); }); }); }, 20000);
     // v22: ползунок масштаба графика ведём сами (pointer events): на Android нативный range иногда «залипает», если палец чуть ушёл вверх/вниз
     document.addEventListener('pointerdown', e => {
       const z = e.target && e.target.closest && e.target.closest('#lift-zoom'); if (!z) return;
@@ -7619,6 +7839,37 @@ const App = {
       UI.openAuth(wipe ? 'welcome' : undefined);
     } finally { this._outBusy = false; }
   },
+  /* ---- v41: поиск дуэли ---- */
+  async mmStart() {
+    if (UI._mm) return;
+    const r = await ClanService.mmJoin();
+    if (r.error) { UI.toast(r.error, 'red'); return; }
+    if (r.matched) return this.mmFound();
+    UI._mm = { since: Date.now(), simAt: 5000 + Math.random() * 7000, waiting: r.waiting || 0 };
+    clearInterval(this._mmClock); this._mmClock = setInterval(() => this.mmPaint(), 1000);
+    this.mmTick(); this.mmRender();
+  },
+  mmTick() {
+    clearTimeout(this._mmT);
+    this._mmT = setTimeout(async () => {
+      const m = UI._mm; if (!m) return;
+      let r = await ClanService.mmPoll(m); if (UI._mm !== m) return;
+      if (r && r.gone) r = await ClanService.mmJoin();
+      if (UI._mm !== m) return;
+      if (r && r.error) { this.mmStop(true); UI.toast(r.error, 'red'); return; }
+      if (r && r.matched) return this.mmFound();
+      m.waiting = (r && r.waiting) || 0; this.mmPaint(); this.mmTick();
+    }, ClanService.online() ? 2500 : 1500);
+  },
+  async mmFound() {
+    UI._mm = null; clearTimeout(this._mmT); clearInterval(this._mmClock);
+    if (ClanService.online()) await Net.refresh(true);
+    try { navigator.vibrate && navigator.vibrate([60, 40, 120]); } catch (_) {}
+    this.mmRender(); UI.openDuelFound(ClanService.duel());
+  },
+  mmStop(silent) { if (!UI._mm) return; UI._mm = null; clearTimeout(this._mmT); clearInterval(this._mmClock); ClanService.mmLeave(); this.mmRender(); },
+  mmRender() { this.afterChange(); if (UI._page) UI.renderPage(); },
+  mmPaint() { const m = UI._mm; if (!m) return; document.querySelectorAll('[data-mm-time]').forEach(e => { e.textContent = UI.mmClock(); }); document.querySelectorAll('[data-mm-wait]').forEach(e => { e.textContent = m.waiting; e.closest('.mm-live') && e.closest('.mm-live').classList.toggle('hot', m.waiting > 0); }); },
   /* ---- v23: видеоплеер ---- */
   vpFmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); },
   vpPaint(vp) {
@@ -7628,9 +7879,25 @@ const App = {
     q('.vp-fill').style.width = f + '%'; q('.vp-knob').style.left = f + '%'; q('.vp-buf').style.width = b + '%';
     q('.vp-time').textContent = `${this.vpFmt(v.currentTime)} / ${this.vpFmt(d)}`;
     const pl = !v.paused && !v.ended; vp.classList.toggle('play', pl);
-    q('.vp-bar [data-action=vp-toggle] use').setAttribute('href', pl ? '#fa-pause' : '#fa-play');
+    vp.querySelectorAll('.vp-bar [data-action=vp-toggle] use, .vp-pp use').forEach(u => u.setAttribute('href', pl ? '#fa-pause' : '#fa-play'));
     q('[data-action=vp-mute] use').setAttribute('href', v.muted ? '#fa-volume-xmark' : '#fa-volume-high');
-    q('[data-action=vp-fs] use').setAttribute('href', document.fullscreenElement === vp || vp.classList.contains('fs') ? '#fa-compress' : '#fa-expand');
+    q('.vp-bar [data-action=vp-fs] use').setAttribute('href', document.fullscreenElement === vp || vp.classList.contains('fs') ? '#fa-compress' : '#fa-expand');
+  },
+  // v41: свой полноэкранный режим: плеер переносится в body (поверх всего), видео на весь экран, меню поверх
+  vpFs(vp, on) {
+    const v = vp.querySelector('video'), playing = v && !v.paused && !v.ended;
+    if (on) {
+      if (document.querySelector('.vp.fs')) return;
+      const ph = document.createElement('div'); ph.className = 'vp-ph'; ph.style.height = vp.offsetHeight + 'px'; vp._ph = ph; vp.parentNode.insertBefore(ph, vp);
+      document.body.appendChild(vp); vp.classList.add('fs'); document.body.classList.add('vp-fs-on');
+    } else {
+      vp.classList.remove('fs'); const ph = vp._ph; vp._ph = null;
+      if (ph && ph.isConnected) ph.replaceWith(vp);
+      else { const tw = document.querySelector(`.vp[data-vp="${CSS.escape(vp.dataset.vp || '')}"]:not(.fs)`); if (tw && tw !== vp) tw.replaceWith(vp); else vp.remove(); }
+      document.body.classList.toggle('vp-fs-on', !!document.querySelector('.vp.fs'));
+    }
+    if (playing && v.paused) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
+    vp.classList.remove('idle'); this.vpIdle(vp); setTimeout(() => this.vpPaint(vp), 60);
   },
   vpIdle(vp) { clearTimeout(vp._idle); if (!vp.classList.contains('idle')) vp._idle = setTimeout(() => { if (vp.classList.contains('play')) vp.classList.add('idle'); }, 2600); },
   vpToggle(vp) {
@@ -7658,7 +7925,7 @@ const App = {
     const box = e => e.target && e.target.closest && (e.target.closest('.vp') || e.target.closest('.pc-vid'));
     const on = (ev, fn) => document.addEventListener(ev, e => { if (e.target && e.target.nodeName === 'VIDEO') { const b = box(e); if (b) fn(b, e.target); } }, true);
     on('loadeddata', b => { b.classList.add('ready'); if (b.classList.contains('vp')) this.vpPaint(b); });
-    on('loadedmetadata', b => { if (b.classList.contains('vp')) this.vpPaint(b); });
+    on('loadedmetadata', (b, v) => { if (!b.classList.contains('vp')) return; if (v.videoWidth && v.videoHeight) { const r = +U.clamp(v.videoWidth / v.videoHeight, .56, 2.2).toFixed(3); (UI._vpAR || (UI._vpAR = {}))[b.dataset.vp] = r; b.style.aspectRatio = r; } this.vpPaint(b); });
     on('waiting', b => b.classList.add('wait')); on('playing', b => { b.classList.remove('wait'); b.classList.add('ready'); });
     on('timeupdate', b => b.classList.contains('vp') && this.vpPaint(b)); on('progress', b => b.classList.contains('vp') && this.vpPaint(b));
     on('play', b => b.classList.contains('vp') && this.vpPaint(b)); on('pause', b => b.classList.contains('vp') && this.vpPaint(b)); on('ended', b => { if (b.classList.contains('vp')) { b.classList.remove('idle'); this.vpPaint(b); } });
