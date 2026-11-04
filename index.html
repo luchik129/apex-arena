@@ -1306,6 +1306,36 @@ body.vp-fs-on .fab,body.vp-fs-on #fab{visibility:hidden}
 .pfr>svg.rfr-o{position:absolute;left:50%;top:50%;border-radius:0;overflow:visible;pointer-events:none;z-index:1}
 .pf-av .rfr{margin-bottom:.5rem}
 /*V41CSS*/
+/* v44: значок серии, переключатель кольца, фото профиля, обновление */
+.stk{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;flex:none;background:var(--card)!important;box-shadow:inset 0 0 0 1px var(--line)!important;color:var(--muted)}
+.stk svg{width:100%;height:100%;display:block;overflow:visible}
+.stk-s{stroke:currentColor;stroke-opacity:.16;transition:stroke .3s}
+.stk-s.on{stroke:#FF9500;stroke-opacity:1}.stk-s.ice{stroke:#64D2FF;stroke-opacity:1}
+.stk-s.wait{stroke:#FF9500;stroke-opacity:.55;animation:stkWait 1.4s ease-in-out infinite}
+@keyframes stkWait{50%{stroke-opacity:.15}}
+.stk-f1{fill:currentColor;opacity:.18}.stk-f2{fill:currentColor;opacity:.12}
+.stk-n{font-family:var(--disp),sans-serif;font-weight:900;letter-spacing:-.04em;fill:var(--muted)}
+.stk.on .stk-f1{fill:#FF9500;opacity:1}.stk.on .stk-f2{fill:#FFD60A;opacity:1}.stk.on .stk-n{fill:#5A2100}
+.stk.on{box-shadow:inset 0 0 0 1px #FF950055,0 6px 18px -6px #FF950088!important}
+.stk.on .stk-fl{transform-origin:50% 80%;animation:stkFl 2.4s ease-in-out infinite}
+@keyframes stkFl{0%,100%{transform:scale(1)}50%{transform:scale(1.035,.98) skewX(-1.5deg)}}
+.stk.risk .stk-f1{fill:#FF9500;opacity:.16}.stk.risk .stk-f2{opacity:0}.stk.risk .stk-n{fill:#FF9500}
+.stk.risk .stk-f1{stroke:#FF9500;stroke-width:2.5;stroke-linejoin:round}
+html.reduce-motion .stk-fl,html.reduce-motion .stk-s.wait{animation:none}
+.kr-btn{display:block;flex:none;border-radius:50%;transition:transform .15s;-webkit-tap-highlight-color:transparent}.kr-btn:active{transform:scale(.97)}
+.av-ph{display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:50%}
+.av-ph img{width:90%;height:90%;border-radius:50%;object-fit:cover;display:block;background:var(--sub);box-shadow:0 0 0 1px rgba(255,255,255,.08),0 2px 10px rgba(0,0,0,.25);-webkit-user-drag:none}
+.pfr>.av-ph{display:flex}
+.ph-ed{display:flex;flex-direction:column;align-items:center;text-align:center}
+.ph-vp{position:relative;width:260px;max-width:72vw;aspect-ratio:1;border-radius:50%;overflow:hidden;background:#1C1C1E;touch-action:none;cursor:grab;user-select:none}
+.ph-vp img{position:absolute;left:50%;top:50%;max-width:none;transform-origin:50% 50%;pointer-events:none;will-change:transform}
+.ph-ring{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(255,255,255,.85),inset 0 0 0 999px rgba(0,0,0,0);pointer-events:none}
+.ph-tools{display:flex;align-items:center;gap:.6rem;width:100%;margin-top:1rem}
+.ph-tools input[type=range]{flex:1;accent-color:var(--text)}
+.upd{display:flex;flex-direction:column;align-items:center;text-align:center}
+.upd-ic{width:3.6rem;height:3.6rem;border-radius:1.2rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:var(--text);color:var(--bg);margin-bottom:.9rem}
+.upd-v{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-top:.9rem;padding:.55rem .9rem;border-radius:999px;background:var(--sub);border:1px solid var(--line);font-size:.78rem}
+.upd-v b{font-weight:900}.upd-v .ic{color:var(--muted)}
 /* v43: кольцо калорий, блюда, подтверждение удаления */
 .kring{display:block;overflow:visible;flex:none}
 .kring .kr-f{transition:stroke-dasharray .7s cubic-bezier(.2,.8,.2,1),stroke-dashoffset .7s cubic-bezier(.2,.8,.2,1);animation:krin 1.1s cubic-bezier(.2,.8,.2,1) both}
@@ -1557,7 +1587,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '43',
+  APP_VERSION: '44',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1829,6 +1859,9 @@ Object.keys(MT.SEED_V42).forEach(l => Object.keys(MT.SEED_V42[l]).forEach(k => {
 // v43: кольцо калорий и блюда
 MT.SEED_V43 = {"en": {"ккал осталось": "kcal left", "ккал сверх": "kcal over", "+{0} активность": "+{0} activity", "г · ещё {0}": "g · {0} to go", "г · норма": "g · on target", "Цели по питанию выполнены · +{0} кубка": "Nutrition goals met · +{0} trophies", "прибавлено к кольцу калорий": "added to the calorie ring", "Название блюда": "Dish name", "Добавить продукт": "Add item", "Порция": "Portion", "Записать блюдо": "Log dish", "Записано": "Logged", "Изменить": "Edit", "Удалить блюдо?": "Delete this dish?", "Убрать продукт из блюда?": "Remove item from the dish?", "Удалить запись?": "Delete this entry?", "Удалить активность?": "Delete this activity?", "Удалить взвешивание?": "Delete this weigh-in?", "в блюдо": "to dish", "Добавить еду": "Add food", "{0} продукт": "{0} item", "{0} продукта": "{0} items", "{0} продуктов": "{0} items", "Еда": "Food", "Б, г": "P, g", "У, г": "C, g", "Ж, г": "F, g"}, "uk": {"ккал осталось": "ккал залишилось", "ккал сверх": "ккал понад норму", "+{0} активность": "+{0} активність", "г · ещё {0}": "г · ще {0}", "г · норма": "г · норма", "Цели по питанию выполнены · +{0} кубка": "Цілі харчування виконано · +{0} кубки", "прибавлено к кольцу калорий": "додано до кільця калорій", "Название блюда": "Назва страви", "Добавить продукт": "Додати продукт", "Порция": "Порція", "Записать блюдо": "Записати страву", "Записано": "Записано", "Изменить": "Змінити", "Удалить блюдо?": "Видалити страву?", "Убрать продукт из блюда?": "Прибрати продукт зі страви?", "Удалить запись?": "Видалити запис?", "Удалить активность?": "Видалити активність?", "Удалить взвешивание?": "Видалити зважування?", "в блюдо": "у страву", "Добавить еду": "Додати їжу", "{0} продукт": "{0} продукт", "{0} продукта": "{0} продукти", "{0} продуктов": "{0} продуктів", "Еда": "Їжа", "Б, г": "Б, г", "У, г": "В, г", "Ж, г": "Ж, г"}, "kk": {"ккал осталось": "ккал қалды", "ккал сверх": "ккал артық", "+{0} активность": "+{0} белсенділік", "г · ещё {0}": "г · тағы {0}", "г · норма": "г · норма", "Цели по питанию выполнены · +{0} кубка": "Тамақтану мақсаттары орындалды · +{0} кубок", "прибавлено к кольцу калорий": "калория сақинасына қосылды", "Название блюда": "Тағам атауы", "Добавить продукт": "Өнім қосу", "Порция": "Порция", "Записать блюдо": "Тағамды жазу", "Записано": "Жазылды", "Изменить": "Өзгерту", "Удалить блюдо?": "Тағамды жою керек пе?", "Убрать продукт из блюда?": "Өнімді тағамнан алып тастау керек пе?", "Удалить запись?": "Жазбаны жою керек пе?", "Удалить активность?": "Белсенділікті жою керек пе?", "Удалить взвешивание?": "Өлшеуді жою керек пе?", "в блюдо": "тағамға", "Добавить еду": "Тамақ қосу", "{0} продукт": "{0} өнім", "{0} продукта": "{0} өнім", "{0} продуктов": "{0} өнім", "Еда": "Тамақ", "Б, г": "А, г", "У, г": "К, г", "Ж, г": "М, г"}, "de": {"ккал осталось": "kcal übrig", "ккал сверх": "kcal drüber", "+{0} активность": "+{0} Aktivität", "г · ещё {0}": "g · noch {0}", "г · норма": "g · Ziel erreicht", "Цели по питанию выполнены · +{0} кубка": "Ernährungsziele erreicht · +{0} Pokale", "прибавлено к кольцу калорий": "zum Kalorienring addiert", "Название блюда": "Name des Gerichts", "Добавить продукт": "Zutat hinzufügen", "Порция": "Portion", "Записать блюдо": "Gericht eintragen", "Записано": "Eingetragen", "Изменить": "Bearbeiten", "Удалить блюдо?": "Gericht löschen?", "Убрать продукт из блюда?": "Zutat aus dem Gericht entfernen?", "Удалить запись?": "Eintrag löschen?", "Удалить активность?": "Aktivität löschen?", "Удалить взвешивание?": "Wiegen löschen?", "в блюдо": "zum Gericht", "Добавить еду": "Essen hinzufügen", "{0} продукт": "{0} Zutat", "{0} продукта": "{0} Zutaten", "{0} продуктов": "{0} Zutaten", "Еда": "Essen", "Б, г": "E, g", "У, г": "K, g", "Ж, г": "F, g"}, "es": {"ккал осталось": "kcal restantes", "ккал сверх": "kcal de más", "+{0} активность": "+{0} actividad", "г · ещё {0}": "g · faltan {0}", "г · норма": "g · objetivo", "Цели по питанию выполнены · +{0} кубка": "Metas de nutrición cumplidas · +{0} trofeos", "прибавлено к кольцу калорий": "sumado al anillo de calorías", "Название блюда": "Nombre del plato", "Добавить продукт": "Añadir alimento", "Порция": "Porción", "Записать блюдо": "Registrar plato", "Записано": "Registrado", "Изменить": "Editar", "Удалить блюдо?": "¿Eliminar el plato?", "Убрать продукт из блюда?": "¿Quitar el alimento del plato?", "Удалить запись?": "¿Eliminar el registro?", "Удалить активность?": "¿Eliminar la actividad?", "Удалить взвешивание?": "¿Eliminar el pesaje?", "в блюдо": "al plato", "Добавить еду": "Añadir comida", "{0} продукт": "{0} alimento", "{0} продукта": "{0} alimentos", "{0} продуктов": "{0} alimentos", "Еда": "Comida", "Б, г": "P, g", "У, г": "C, g", "Ж, г": "G, g"}, "fr": {"ккал осталось": "kcal restantes", "ккал сверх": "kcal en trop", "+{0} активность": "+{0} activité", "г · ещё {0}": "g · encore {0}", "г · норма": "g · objectif", "Цели по питанию выполнены · +{0} кубка": "Objectifs nutrition atteints · +{0} trophées", "прибавлено к кольцу калорий": "ajouté à l'anneau de calories", "Название блюда": "Nom du plat", "Добавить продукт": "Ajouter un aliment", "Порция": "Portion", "Записать блюдо": "Enregistrer le plat", "Записано": "Enregistré", "Изменить": "Modifier", "Удалить блюдо?": "Supprimer le plat ?", "Убрать продукт из блюда?": "Retirer l'aliment du plat ?", "Удалить запись?": "Supprimer l'entrée ?", "Удалить активность?": "Supprimer l'activité ?", "Удалить взвешивание?": "Supprimer la pesée ?", "в блюдо": "au plat", "Добавить еду": "Ajouter un repas", "{0} продукт": "{0} aliment", "{0} продукта": "{0} aliments", "{0} продуктов": "{0} aliments", "Еда": "Repas", "Б, г": "P, g", "У, г": "G, g", "Ж, г": "L, g"}, "tr": {"ккал осталось": "kcal kaldı", "ккал сверх": "kcal fazla", "+{0} активность": "+{0} aktivite", "г · ещё {0}": "g · {0} kaldı", "г · норма": "g · hedefte", "Цели по питанию выполнены · +{0} кубка": "Beslenme hedefleri tamam · +{0} kupa", "прибавлено к кольцу калорий": "kalori halkasına eklendi", "Название блюда": "Yemek adı", "Добавить продукт": "Ürün ekle", "Порция": "Porsiyon", "Записать блюдо": "Yemeği kaydet", "Записано": "Kaydedildi", "Изменить": "Düzenle", "Удалить блюдо?": "Yemek silinsin mi?", "Убрать продукт из блюда?": "Ürün yemekten çıkarılsın mı?", "Удалить запись?": "Kayıt silinsin mi?", "Удалить активность?": "Aktivite silinsin mi?", "Удалить взвешивание?": "Tartım silinsin mi?", "в блюдо": "yemeğe", "Добавить еду": "Yemek ekle", "{0} продукт": "{0} ürün", "{0} продукта": "{0} ürün", "{0} продуктов": "{0} ürün", "Еда": "Yemek", "Б, г": "P, g", "У, г": "K, g", "Ж, г": "Y, g"}};
 Object.keys(MT.SEED_V43).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V43[l]));
+// v44: серия, фото, обновление
+MT.SEED_V44 = {"en": {"ккал съедено": "kcal eaten", "Осталось или съедено": "Left or eaten", "Фото профиля": "Profile photo", "Перетащи и приблизь, чтобы лицо было в круге": "Drag and zoom so your face fits the circle", "Вышло обновление": "Update available", "Обнови приложение, чтобы получить новые функции и исправления.": "Update the app to get new features and fixes.", "Сейчас {0}": "Now {0}", "Новая {0}": "New {0}", "· {0} МБ": "· {0} MB", "Скачается файл APK. Открой его и нажми «Установить». Данные останутся.": "An APK file will download. Open it and tap “Install”. Your data stays.", "Позже": "Later", "Обновить": "Update"}, "uk": {"ккал съедено": "ккал з'їдено", "Осталось или съедено": "Залишилось чи з'їдено", "Фото профиля": "Фото профілю", "Перетащи и приблизь, чтобы лицо было в круге": "Перетягни й наблизь, щоб обличчя було в колі", "Вышло обновление": "Вийшло оновлення", "Обнови приложение, чтобы получить новые функции и исправления.": "Онови застосунок, щоб отримати нові функції та виправлення.", "Сейчас {0}": "Зараз {0}", "Новая {0}": "Нова {0}", "· {0} МБ": "· {0} МБ", "Скачается файл APK. Открой его и нажми «Установить». Данные останутся.": "Завантажиться файл APK. Відкрий його й натисни «Встановити». Дані залишаться.", "Позже": "Пізніше", "Обновить": "Оновити"}, "kk": {"ккал съедено": "ккал жейілді", "Осталось или съедено": "Қалды ма, жейілді ме", "Фото профиля": "Профиль суреті", "Перетащи и приблизь, чтобы лицо было в круге": "Бетің шеңберде болуы үшін жылжытып, үлкейт", "Вышло обновление": "Жаңарту шықты", "Обнови приложение, чтобы получить новые функции и исправления.": "Жаңа мүмкіндіктер мен түзетулер үшін қолданбаны жаңарт.", "Сейчас {0}": "Қазір {0}", "Новая {0}": "Жаңа {0}", "· {0} МБ": "· {0} МБ", "Скачается файл APK. Открой его и нажми «Установить». Данные останутся.": "APK файлы жүктеледі. Оны ашып, «Орнату» түймесін бас. Деректер сақталады.", "Позже": "Кейінірек", "Обновить": "Жаңарту"}, "de": {"ккал съедено": "kcal gegessen", "Осталось или съедено": "Übrig oder gegessen", "Фото профиля": "Profilfoto", "Перетащи и приблизь, чтобы лицо было в круге": "Ziehen und zoomen, bis dein Gesicht im Kreis ist", "Вышло обновление": "Update verfügbar", "Обнови приложение, чтобы получить новые функции и исправления.": "Aktualisiere die App für neue Funktionen und Fehlerbehebungen.", "Сейчас {0}": "Jetzt {0}", "Новая {0}": "Neu {0}", "· {0} МБ": "· {0} MB", "Скачается файл APK. Открой его и нажми «Установить». Данные останутся.": "Eine APK-Datei wird heruntergeladen. Öffne sie und tippe auf „Installieren“. Deine Daten bleiben erhalten.", "Позже": "Später", "Обновить": "Aktualisieren"}, "es": {"ккал съедено": "kcal comidas", "Осталось или съедено": "Restantes o comidas", "Фото профиля": "Foto de perfil", "Перетащи и приблизь, чтобы лицо было в круге": "Arrastra y acerca para que tu cara quede en el círculo", "Вышло обновление": "Hay una actualización", "Обнови приложение, чтобы получить новые функции и исправления.": "Actualiza la app para tener nuevas funciones y correcciones.", "Сейчас {0}": "Ahora {0}", "Новая {0}": "Nueva {0}", "· {0} МБ": "· {0} MB", "Скачается файл APK. Открой его и нажми «Установить». Данные останутся.": "Se descargará un archivo APK. Ábrelo y toca «Instalar». Tus datos se conservan.", "Позже": "Más tarde", "Обновить": "Actualizar"}, "fr": {"ккал съедено": "kcal mangées", "Осталось или съедено": "Restantes ou mangées", "Фото профиля": "Photo de profil", "Перетащи и приблизь, чтобы лицо было в круге": "Fais glisser et zoome pour centrer ton visage", "Вышло обновление": "Mise à jour disponible", "Обнови приложение, чтобы получить новые функции и исправления.": "Mets l'app à jour pour profiter des nouveautés et corrections.", "Сейчас {0}": "Actuelle {0}", "Новая {0}": "Nouvelle {0}", "· {0} МБ": "· {0} Mo", "Скачается файл APK. Открой его и нажми «Установить». Данные останутся.": "Un fichier APK va se télécharger. Ouvre-le et touche « Installer ». Tes données restent.", "Позже": "Plus tard", "Обновить": "Mettre à jour"}, "tr": {"ккал съедено": "kcal yenildi", "Осталось или съедено": "Kalan veya yenilen", "Фото профиля": "Profil fotoğrafı", "Перетащи и приблизь, чтобы лицо было в круге": "Yüzün dairede olsun diye sürükle ve yakınlaştır", "Вышло обновление": "Güncelleme var", "Обнови приложение, чтобы получить новые функции и исправления.": "Yeni özellikler ve düzeltmeler için uygulamayı güncelle.", "Сейчас {0}": "Şu an {0}", "Новая {0}": "Yeni {0}", "· {0} МБ": "· {0} MB", "Скачается файл APK. Открой его и нажми «Установить». Данные останутся.": "Bir APK dosyası inecek. Aç ve «Yükle»ye dokun. Verilerin kalır.", "Позже": "Sonra", "Обновить": "Güncelle"}};
+Object.keys(MT.SEED_V44).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V44[l]));
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -4055,6 +4088,36 @@ const Social = {
 
 /* ---------------------- v22: ПОСТЕПЕННОЕ ОТКРЫТИЕ ФУНКЦИЙ ----------------------
    Ядро с первой секунды: тренировка → кубки → арена. Остальное открывается тренировками. */
+// v44: новая версия APK. Номер сборки (versionCode) = номер запуска сборки в GitHub = тег релиза build-N.
+// Проверяем при запуске и при возврате в приложение (не чаще раза в 3 часа). «Позже» — не напоминаем об этой версии сутки.
+const Updater = {
+  REPO: 'luchik129/apex-arena', KEY: 'FLX_UPDATE', EVERY: 3 * 3600e3, SNOOZE: 24 * 3600e3,
+  st() { try { return JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (_) { return {}; } },
+  put(o) { try { localStorage.setItem(this.KEY, JSON.stringify({ ...this.st(), ...o })); } catch (_) {} },
+  native() { const C = window.Capacitor; return !!(C && C.isNativePlatform && C.isNativePlatform() && C.getPlatform && C.getPlatform() === 'android' && C.Plugins && C.Plugins.App && C.Plugins.App.getInfo); },
+  start() {
+    if (!this.native()) return;
+    setTimeout(() => this.check(), 6000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(() => this.check(), 1500); });
+  },
+  async check(force) {
+    if (this._busy || !this.native()) return; this._busy = true;
+    try {
+      const info = await window.Capacitor.Plugins.App.getInfo(), cur = parseInt(info && info.build) || 0; if (!cur) return;
+      let st = this.st();
+      if (force || !st.at || Date.now() - st.at > this.EVERY || !st.build) {
+        const r = await fetch(`https://api.github.com/repos/${this.REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) return;
+        const j = await r.json(), n = parseInt(String(j.tag_name || '').replace(/\D+/g, '')) || 0, apk = (j.assets || []).find(a => /\.apk$/i.test(a.name || ''));
+        if (!n || !apk) return; this.put({ at: Date.now(), build: n, url: apk.browser_download_url, page: j.html_url, size: apk.size || 0 }); st = this.st();
+      }
+      if (!(st.build > cur)) return;
+      if (!force && st.snooze && st.snooze.build === st.build && Date.now() < st.snooze.until) return;
+      if (document.getElementById('modal') || UI._tour != null || document.getElementById('tour')) return; // не перебиваем открытое окно, спросим при следующем входе
+      UI.openUpdate(st, cur);
+    } catch (_) {} finally { this._busy = false; }
+  },
+};
+
 const Unlock = {
   LIST: [
     { id: 'feed', name: 'Лента и друзья', icon: 'fa-earth', need: 0, color: '#3B82F6', desc: 'Делись прогрессом, добавляй друзей' },
@@ -4605,7 +4668,8 @@ const UI = {
     const hat = '';
     const ring = frame ? `<circle cx="50" cy="50" r="47" fill="none" stroke="${frame.anim ? 'url(#rainbow)' : frame.color}" stroke-width="4" ${frame.id === 'frame_neon' ? 'style="filter:drop-shadow(0 0 4px ' + frame.color + ')"' : ''} ${frame.anim ? 'class="frame-anim"' : ''}/>${frame.id === 'frame_gold' ? '<circle cx="50" cy="50" r="43" fill="none" stroke="#FDE68A" stroke-width="1.5" stroke-dasharray="4 3"/>' : ''}` : '';
     const rainbowDef = `<linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F472B6"/><stop offset=".5" stop-color="#8B5CF6"/><stop offset="1" stop-color="#10B981"/></linearGradient>`;
-    if (av.photo) return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="clp"><circle cx="50" cy="50" r="45"/></clipPath>${rainbowDef}</defs><circle cx="50" cy="50" r="45" fill="#1E293B"/><image href="${av.photo}" x="5" y="5" width="90" height="90" clip-path="url(#clp)" preserveAspectRatio="xMidYMid slice"/>${ring}</svg>`;
+    // v44: фото — обычной картинкой в круге. Раньше был SVG с общим clipPath id="clp": если первый такой SVG на странице скрыт, фото рисовалось квадратом
+    if (av.photo) return `<span class="av-ph" style="width:${size}px;height:${size}px"><img src="${U.esc(av.photo)}" alt="" draggable="false"></span>`;
     // v40: аватар по умолчанию — простой силуэт парня или девушки (как в контактах телефона)
     const hairF = fem ? '<path d="M27 66C27 52 29 40 31 33 34 22 41 17 50 17S66 22 69 33C71 40 73 52 73 66 66 62 60 61 50 61S34 62 27 66Z" fill="var(--avfg)" opacity=".72"/>' : '';
     return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="avc"><circle cx="50" cy="50" r="45"/></clipPath></defs>
@@ -4698,11 +4762,22 @@ const UI = {
   renderTab(name) { ({ arena: this.renderArena, lifts: this.renderLifts, clans: this.renderClans, nutrition: this.renderNutrition, profile: this.renderProfile })[name].call(this); },
   /* ========================= ARENA ========================= */
   // v40: значок серии — кружок с огнём и числом, как в других приложениях
+  // v44: значок серии — огонёк с числом внутри, вокруг 7 делений: последние 7 дней (сегодня — последнее, справа от верха)
   streakCircle(size = 76) {
-    const st = Calc.streak(), n = st.count, mode = st.today ? 'on' : n > 0 ? 'risk' : 'off';
-    return `<span class="stk ${mode}" style="width:${size}px;height:${size}px;font-size:${(size / 46).toFixed(2)}rem" title="${T('streak')}"><svg class="ic"><use href="#fa-fire"/></svg><b class="num">${n}</b></span>`;
+    const st = Calc.streak(), n = st.count, mode = st.today ? 'on' : n > 0 ? 'risk' : 'off', act = Calc.activeDays(), fr = new Set(S.game.frozenDays || []), today = U.today();
+    const R = 45, C = 2 * Math.PI * R, gap = 0.045, segL = 1 / 7;
+    const segs = [6, 5, 4, 3, 2, 1, 0].map((b, i) => {
+      const d = U.addDays(today, -b), on = act.has(d), ice = !on && fr.has(d), now = b === 0;
+      const a = i * segL + gap / 2, len = (segL - gap) * C;
+      const cls = on ? 'on' : ice ? 'ice' : now && mode === 'risk' ? 'wait' : '';
+      return `<circle class="stk-s ${cls}" r="${R}" cx="50" cy="50" fill="none" stroke-width="5" stroke-linecap="round" transform="rotate(-90 50 50)" style="stroke-dasharray:${(len - 5).toFixed(2)} ${C.toFixed(2)};stroke-dashoffset:${(-(a * C + 2.5)).toFixed(2)}"/>`;
+    }).join('');
+    const fs = n >= 1000 ? 17 : n >= 100 ? 21 : 26;
+    return `<span class="stk ${mode}" style="width:${size}px;height:${size}px" title="${T('streak')}"><svg viewBox="0 0 100 100" aria-hidden="true">${segs}
+      <g class="stk-fl"><path class="stk-f1" d="M50 14C54 26 66 33 70 46C74 59 70 74 58 80C54 82 46 82 42 80C30 74 26 60 31 48C33 43 37 40 39 35C40 41 43 45 47 46C44 36 45 24 50 14Z"/>
+      <path class="stk-f2" d="M50 44C55 52 61 56 61 65C61 72 56 78 50 78C44 78 39 72 39 66C39 59 45 55 50 44Z"/></g>
+      <text class="stk-n" x="50" y="${fs >= 26 ? 74 : 72}" text-anchor="middle" font-size="${fs}">${n}</text></svg></span>`;
   },
-
 
   renderArena() {
     if (S.profile.calm) { this.morph(this.$('#tab-arena'), this.calmHome()); this.bindRemDots(); return; } // v29: спокойный режим
@@ -5421,7 +5496,7 @@ const UI = {
     const macro = (name, v, goal, color) => { const rest = Math.round(goal - v); return `<div class="mbar"><div class="mbar-h"><span>${name}</span><span><b class="num">${Math.round(v)}</b> <em class="num">${rest > goal * 0.05 ? `г · ещё ${rest}` : rest < -goal * 0.05 ? `г · +${-rest}` : 'г · норма'}</em></span></div>${this.bar(v / goal * 100, color)}</div>`; };
     const html = `
       <div class="flex items-center justify-between gap-2 mb-3"><div class="font-bold text-lg min-w-0 truncate"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')} · <span>${day === U.today() ? T('today') : `<span data-no-mt>${U.fmtDate(day)}</span>`}</span></div><div class="flex items-center gap-1 flex-none"><button class="btn btn-ghost btn-sm" data-action="open-goals"><svg class="ic"><use href="#fa-bullseye"/></svg> ${T('goals')}</button><button data-action="close-modal" class="muted px-1"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div></div>
-      <div class="flex items-center gap-4 mb-3">${this.macroDonut(132, day)}<div class="flex-1 min-w-0">${macro(T('protein'), total.protein, g.protein, '#3B82F6')}${macro(T('carbs'), total.carbs, g.carbs, '#F97316')}${macro(T('fat'), total.fat, g.fat, '#8B5CF6')}</div></div>
+      <div class="flex items-center gap-4 mb-3"><button class="kr-btn" data-action="kring-flip" aria-label="Осталось или съедено">${this.macroDonut(132, day, S.profile.kView === 'eaten' ? 'eaten' : 'left')}</button><div class="flex-1 min-w-0">${macro(T('protein'), total.protein, g.protein, '#3B82F6')}${macro(T('carbs'), total.carbs, g.carbs, '#F97316')}${macro(T('fat'), total.fat, g.fat, '#8B5CF6')}</div></div>
       <div class="nut-budget"><div><b class="num">${g.cals}</b><small>цель</small></div><i>+</i><div><b class="num ${burned ? 'text-yl' : 'muted'}">${burned}</b><small>активность</small></div><i>−</i><div><b class="num">${Math.round(total.cals)}</b><small>съедено</small></div><i>=</i><div><b class="num ${left < 0 ? 'text-red-400' : 'text-em'}">${left}</b><small>осталось</small></div></div>
       ${Calc.nutritionGoalMet(day) ? '<div class="nut-met"><svg class="ic"><use href="#fa-check"/></svg> Цели по питанию выполнены · +3 кубка</div>' : ''}
       <div class="grid grid-cols-2 gap-2 mt-3 mb-2">
@@ -5433,6 +5508,41 @@ const UI = {
       ${meals.length ? meals.map(d => this.mealRow(d)).join('') : `<div class="muted text-sm py-3 text-center">${T('empty_food')}</div>`}`;
     const m = this.$('#modal .modal'); if (m && this._nutModal) this.morph(m, html); else this.modal(html);
     this._nutModal = true;
+  },
+  // v44: редактор фото профиля: перетащи, приблизь (ползунок или двумя пальцами), поверни
+  async openPhotoEditor(src) {
+    const img = new Image(); await new Promise((res, rej) => { img.onload = res; img.onerror = () => rej(new Error('decode')); img.src = src; });
+    this._ph = { img, src, w: img.naturalWidth, h: img.naturalHeight, rot: 0, zoom: 1, x: 0, y: 0, vp: 260 };
+    this.modal(`<div class="ph-ed">
+      <div class="font-black text-lg mb-1">Фото профиля</div><div class="text-xs muted mb-4">Перетащи и приблизь, чтобы лицо было в круге</div>
+      <div class="ph-vp" id="ph-vp"><img id="ph-img" src="${src}" alt="" draggable="false"><i class="ph-ring"></i></div>
+      <div class="ph-tools"><svg class="ic muted"><use href="#fa-image"/></svg><input type="range" id="ph-zoom" min="1" max="4" step="0.01" value="1" aria-label="Масштаб"><svg class="ic"><use href="#fa-magnifying-glass"/></svg>
+        <button class="icon-btn" data-action="ph-rot" aria-label="Повернуть"><svg class="ic"><use href="#fa-rotate"/></svg></button></div>
+      <div class="grid grid-cols-2 gap-2 mt-4 w-full"><button class="btn btn-ghost" data-action="ph-cancel">Отмена</button><button class="btn btn-primary" data-action="ph-save"><svg class="ic"><use href="#fa-check"/></svg> Готово</button></div>
+    </div>`, { center: true });
+    const vp = document.getElementById('ph-vp'), z = document.getElementById('ph-zoom'), pts = new Map(); let pinch = null;
+    this._ph.vp = vp.clientWidth || 260;
+    z.addEventListener('input', () => { this._ph.zoom = +z.value; this.phApply(); });
+    vp.addEventListener('pointerdown', e => { vp.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), z: this._ph.zoom }; } });
+    vp.addEventListener('pointermove', e => {
+      const p = this._ph, q = pts.get(e.pointerId); if (!p || !q) return;
+      if (pts.size === 2 && pinch) { pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); const [a, b] = [...pts.values()]; p.zoom = U.clamp(pinch.z * Math.hypot(a.x - b.x, a.y - b.y) / (pinch.d || 1), 1, 4); z.value = p.zoom; }
+      else { p.x += e.clientX - q.x; p.y += e.clientY - q.y; pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); }
+      this.phApply();
+    });
+    const up = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; };
+    vp.addEventListener('pointerup', up); vp.addEventListener('pointercancel', up);
+    vp.addEventListener('wheel', e => { e.preventDefault(); const p = this._ph; p.zoom = U.clamp(p.zoom * (e.deltaY < 0 ? 1.08 : 0.93), 1, 4); z.value = p.zoom; this.phApply(); }, { passive: false });
+    this.phApply(true);
+  },
+  phScale() { const p = this._ph; return p.vp / Math.min(p.w, p.h) * p.zoom; }, // фото всегда закрывает круг целиком
+  phApply(anim) {
+    const p = this._ph, im = document.getElementById('ph-img'); if (!p || !im) return;
+    const s = this.phScale(), odd = p.rot % 2, dw = (odd ? p.h : p.w) * s, dh = (odd ? p.w : p.h) * s, mx = Math.max(0, (dw - p.vp) / 2), my = Math.max(0, (dh - p.vp) / 2);
+    p.x = U.clamp(p.x, -mx, mx); p.y = U.clamp(p.y, -my, my);
+    im.style.transition = anim ? 'transform .25s cubic-bezier(.2,.8,.2,1)' : 'none';
+    im.style.width = p.w + 'px'; im.style.height = p.h + 'px';
+    im.style.transform = `translate(-50%,-50%) translate(${p.x}px,${p.y}px) rotate(${p.rot * 90}deg) scale(${s})`;
   },
   // v43: блюдо в истории — одна плашка; по нажатию открывается состав
   mealRow(d) {
@@ -6215,7 +6325,7 @@ const UI = {
   },
   // v43: два кольца. Снаружи — калории дня: зелёным съеденное в пределах нормы, жёлтым — калории, «заработанные» активностью
   // (кольцо растёт на сожжённое), красным — второй круг, если съедено больше. Внутри — белки, углеводы, жиры. В центре — сколько осталось.
-  macroDonut(size = 150, day = U.today()) {
+  macroDonut(size = 150, day = U.today(), view = 'left') {
     const g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(day), burned = Calc.burnedOn(day), budget = Math.max(1, g.cals + burned), eaten = Math.round(total.cals), left = Math.round(budget - eaten);
     const KC = '#34C759', BC = '#FFD60A', OC = '#FF453A', R = 54, W = 7, r = 43, w = 5;
     const arc = (rad, wd, a, b, col, { op = 1, round = true, fill = false } = {}) => { // дуга от доли a до доли b; круглые концы не вылезают за свой отрезок
@@ -6233,10 +6343,11 @@ const UI = {
     let at = 0, inner = '';
     parts.forEach(([k, col, kc]) => { const sh = g[k] * kc / gk, a = at + gap / 2, b = at + sh - gap / 2, p = U.clamp(total[k] / (g[k] || 1), 0, 1); at += sh;
       inner += arc(r, w, a, b, col, { op: .2 }); if (p > 0) inner += arc(r, w, a, a + Math.max(0.0005, (b - a) * p), col, { fill: true }); });
-    const over = left < 0, y0 = burned ? 57 : 61;
-    const mid = `<text x="60" y="${y0}" text-anchor="middle" font-size="${Math.abs(left) >= 10000 ? 18 : 22}" class="kr-big num" fill="${over ? OC : 'currentColor'}">${Math.abs(left)}</text>
-      <text x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="600" fill="var(--muted)">${over ? 'ккал сверх' : 'ккал осталось'}</text>
-      ${burned ? `<text x="60" y="${y0 + 22}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}`;
+    const over = left < 0, ate = view === 'eaten', flip = view !== 'none', y0 = (burned ? 57 : 61) - (flip ? 2 : 0), big = ate ? eaten : Math.abs(left);
+    const mid = `<g class="kr-mid"><text x="60" y="${y0}" text-anchor="middle" font-size="${big >= 10000 ? 18 : 22}" class="kr-big num" fill="${!ate && over ? OC : 'currentColor'}">${big}</text>
+      <text x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="600" fill="var(--muted)">${ate ? 'ккал съедено' : over ? 'ккал сверх' : 'ккал осталось'}</text>
+      ${burned ? `<text x="60" y="${y0 + 22}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}</g>
+      ${flip ? `<circle cx="${ate ? 63 : 57}" cy="${y0 + (burned ? 30 : 21)}" r="1.6" fill="currentColor" opacity=".25"/><rect x="${ate ? 53 : 59}" y="${y0 + (burned ? 28.4 : 19.4)}" width="8" height="3.2" rx="1.6" fill="currentColor" opacity=".7"/>` : ''}`;
     return `<svg class="kring" viewBox="0 0 120 120" width="${size}" height="${size}" role="img" aria-label="${eaten} ккал">${out}${inner}${mid}</svg>`;
   },
   macroCard(k) {
@@ -6245,7 +6356,7 @@ const UI = {
     return `<div class="card p-3 flex flex-col items-center">
       <button class="w-full flex flex-col items-center text-left" data-action="open-nutrition">
       <div class="text-xs font-bold muted self-start mb-1"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')}</div>
-      ${this.macroDonut(150, k)}
+      ${this.macroDonut(150, k, 'none')}
       <div class="mlg">${leg.map(([key, n, c]) => `<div style="--c:${c};--p:${Math.round(U.clamp(total[key] / (g[key] || 1), 0, 1) * 100)}%"><small>${n}</small><b class="num">${Math.round(total[key])}<span>г</span></b><i></i></div>`).join('')}</div>
       </button>
     </div>`;
@@ -7050,6 +7161,17 @@ Object.assign(UI, {
     </div>${this.newbieCard()}${this.communityBoard()}`;
   },
   /* ---------- серия и монеты (кружок и чип в верхней панели) ---------- */
+  openUpdate(st, cur) {
+    this._upd = st;
+    this.modal(`<div class="upd">
+      <div class="upd-ic"><svg class="ic"><use href="#fa-arrow-up"/></svg></div>
+      <div class="font-black text-xl leading-tight">Вышло обновление</div>
+      <div class="text-sm muted mt-1">Обнови приложение, чтобы получить новые функции и исправления.</div>
+      <div class="upd-v"><span>Сейчас <b class="num">${cur}</b></span><svg class="ic"><use href="#fa-arrow-right"/></svg><span>Новая <b class="num">${st.build}</b></span>${st.size ? `<span class="muted">· ${(st.size / 1048576).toFixed(1)} МБ</span>` : ''}</div>
+      <div class="text-[11px] muted mt-3">Скачается файл APK. Открой его и нажми «Установить». Данные останутся.</div>
+      <div class="grid grid-cols-2 gap-2 mt-4 w-full"><button class="btn btn-ghost" data-action="upd-later">Позже</button><button class="btn btn-primary" data-action="upd-go"><svg class="ic"><use href="#fa-download"/></svg> Обновить</button></div>
+    </div>`, { center: true, closable: false });
+  },
   openStreakInfo() {
     const st = Calc.streak(), ms = Object.keys(CONFIG.COINS.STREAK).map(Number).sort((a, b) => a - b), nx = ms.find(n => n > st.count), fr = Game.boosts().freeze || 0;
     this.modal(`<div class="text-center">
@@ -7347,10 +7469,12 @@ const App = {
   // Загрузка фото: читаем через FileReader (работает в любых WebView), декодируем через createImageBitmap
   // (учитывает поворот EXIF) с запасным вариантом через <img>; если декодировать нельзя (например HEIC),
   // сохраняем исходный файл как есть, если он небольшой.
-  async imageToDataUrl(file, max) {
+  async imageToDataUrl(file, max, o = {}) {
     if (!file) throw new Error('no file');
     const dataUrl = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.onerror = () => rej(new Error('read')); fr.readAsDataURL(file); });
-    const draw = (src, w, h) => { const side = Math.min(w, h), out = Math.min(max, side), c = document.createElement('canvas'); c.width = c.height = out; c.getContext('2d').drawImage(src, (w - side) / 2, (h - side) / 2, side, side, 0, 0, out, out); return c.toDataURL('image/jpeg', 0.82); };
+    const draw = (src, w, h) => {
+      if (o.keep) { const k = Math.min(1, max / Math.max(w, h)), c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k); c.getContext('2d').drawImage(src, 0, 0, c.width, c.height); return c.toDataURL('image/jpeg', 0.9); }
+      const side = Math.min(w, h), out = Math.min(max, side), c = document.createElement('canvas'); c.width = c.height = out; c.getContext('2d').drawImage(src, (w - side) / 2, (h - side) / 2, side, side, 0, 0, out, out); return c.toDataURL('image/jpeg', 0.82); };
     try {
       if (window.createImageBitmap) { const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => createImageBitmap(file)); const r = draw(bmp, bmp.width, bmp.height); bmp.close && bmp.close(); if (r.length > 50) return r; }
     } catch (_) {}
@@ -7666,6 +7790,8 @@ const App = {
     'sleep-toggle'() { if (S.health.sleepStart) { App.endSleep(); return; } Game.startSleep(); UI.toast('Таймер сна запущен. Спокойной ночи!', 'pu'); App.afterChange(); if (UI._slModal && document.getElementById('modal')) UI.openSleep(); },
     'open-sleep'() { UI.openSleep(); },
     'streak-info'() { UI.openStreakInfo(); },
+    'upd-later'() { const st = UI._upd || {}; Updater.put({ snooze: { build: st.build, until: Date.now() + Updater.SNOOZE } }); UI.closeModal(); },
+    'upd-go'() { const st = UI._upd || {}; UI.closeModal(); if (st.url) location.href = st.url; }, // в APK Capacitor откроет системный браузер, он скачает файл
     'sleep-del'(el) { Game.deleteSleep(el.dataset.date); App.afterChange(); UI.openSleep(); },
     'set-lang'(el) { S.profile.lang = el.dataset.val; save(); UI.applyLang(); UI.openSettings(); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
     async 'friend-add'() { const r = await ClanService.addFriend(document.getElementById('friend-nick').value); if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('friend-nick'); UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Добавлен: ' + U.esc(r.friend.nick), 'bl'); UI.renderClans(); },
@@ -7703,6 +7829,7 @@ const App = {
     },
     'fm-meal'(el) { UI._fmMeal = el.dataset.val; document.querySelectorAll('#fm-meal button').forEach(b => b.classList.toggle('on', b.dataset.val === UI._fmMeal)); },
     'delete-food'(el) { const id = el.dataset.id, f = S.nutrition.log.find(x => x.id === id); UI.askDel('Удалить запись?', { name: f ? f.name : '', yes: () => Game.deleteFood(id), back: () => UI.openNutrition() }); },
+    'kring-flip'() { S.profile.kView = S.profile.kView === 'eaten' ? 'left' : 'eaten'; save(); UI.openNutrition(); const g = document.querySelector('#modal .kr-btn .kr-mid'); if (g && g.animate) g.animate([{ opacity: 0, transform: 'translateY(3px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.2,.8,.2,1)' }); },
     /* v43: блюда */
     'dish-open'(el) { UI.openDish(el.dataset.id); },
     'dish-meal'(el) { Game.setDishMeal(UI._dish, el.dataset.val); UI.openDish(UI._dish); if (UI.tab === 'nutrition') UI.renderNutrition(); },
@@ -7752,7 +7879,7 @@ const App = {
     'custom-title-save'() { const v = document.getElementById('custom-title').value; if (Profanity.bad(v)) { UI.toast('В титуле есть мат или оскорбление', 'red'); return; } if (!Game.setCustomTitle(v)) { UI.toast('Введи титул', 'red'); return; } UI.toast('Титул надет: ' + S.profile.customTitle, 'pu'); UI.openShop(); UI.renderTab(UI.tab); },
     async 'avatar-photo'(el) {
       const file = el.files && el.files[0]; if (!file) return;
-      try { S.profile.avatar.photo = await App.imageToDataUrl(file, 160); save(); UI.openShop(); UI.renderHeader(); UI.renderTab(UI.tab); UI.toast('Фото установлено', 'pu'); }
+      try { const src = await App.imageToDataUrl(file, 1280, { keep: true }); UI.openPhotoEditor(src); } // v44: сначала редактор: подвинуть, приблизить, повернуть
       catch (e) { UI.toast('Не удалось загрузить фото: ' + (e && e.message || 'ошибка'), 'red'); } finally { try { el.value = ''; } catch (_) {} }
     },
     /* ---- v19: лента ---- */
@@ -7882,6 +8009,14 @@ const App = {
       UI._bpNew = null; UI.closeModal(); UI.toast('Фото добавлено в Body Progress', 'pu'); UI.renderPage(); App.afterChange(); },
     'bp-view'(el) { UI.openViewer(el.dataset.id); },
     'bp-delete'(el) { const id = el.dataset.id; UI.confirm('Удалить это фото? Его нельзя будет вернуть.', async () => { await Photos.remove(id); UI.toast('Фото удалено'); UI.renderPage(); if (UI.tab === 'nutrition') UI.renderNutrition(); }, { danger: true, yes: 'Удалить' }); },
+    'ph-rot'() { const p = UI._ph; if (!p) return; p.rot = (p.rot + 1) % 4; p.x = p.y = 0; UI.phApply(true); },
+    'ph-cancel'() { UI._ph = null; UI.openShop(); },
+    'ph-save'() {
+      const p = UI._ph; if (!p) return; const OUT = 360, k = OUT / p.vp, c = document.createElement('canvas'); c.width = c.height = OUT; const x = c.getContext('2d');
+      x.fillStyle = '#1C1C1E'; x.fillRect(0, 0, OUT, OUT); x.imageSmoothingQuality = 'high';
+      x.translate(OUT / 2 + p.x * k, OUT / 2 + p.y * k); x.rotate(p.rot * Math.PI / 2); const sc = UI.phScale() * k; x.scale(sc, sc); x.drawImage(p.img, -p.w / 2, -p.h / 2);
+      S.profile.avatar.photo = c.toDataURL('image/jpeg', 0.86); UI._ph = null; save(); UI.openShop(); UI.renderHeader(); UI.renderTab(UI.tab); UI.toast('Фото установлено', 'pu');
+    },
     'avatar-photo-remove'() { S.profile.avatar.photo = null; save(); UI.openShop(); UI.renderHeader(); UI.renderTab(UI.tab); },
     /* ---- v22 ---- */
     'wc-key'(el) { UI.wcF = el.dataset.val; UI.renderLifts(); },
@@ -8087,7 +8222,7 @@ const App = {
     UI.openProfileWizard({ nick: (UI._authEmail || '').split('@')[0].slice(0, 16), from: '' });
   },
   // фото из Google / Bitmoji как аватар (если браузер разрешит скачать)
-  async avatarFrom(user) { const m = (user && user.user_metadata) || {}, url = m.avatar_url || m.picture; if (!url || S.profile.avatar.photo) return; try { const r = await fetch(url); if (!r.ok) return; const b = await r.blob(); const d = await new Promise(res => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(b); }); S.profile.avatar.photo = await U.shrinkImage(d, 160); save(); UI.renderHeader(); } catch (_) {} },
+  async avatarFrom(user) { const m = (user && user.user_metadata) || {}, url = m.avatar_url || m.picture; if (!url || S.profile.avatar.photo) return; try { const r = await fetch(url); if (!r.ok) return; const b = await r.blob(); const d = await new Promise(res => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(b); }); S.profile.avatar.photo = await U.shrinkImage(d, 320); save(); UI.renderHeader(); } catch (_) {} },
   async finishWizard() {
     const w = UI._wz, p = S.profile, err = document.getElementById('ob-err'); if (!w) return;
     Object.assign(p, { nickname: w.nick, age: parseInt(w.age), sex: w.sex, height: +w.h, fitGoal: w.goal, activity: w.act, weekTarget: w.week, calm: !!w.calm, createdAt: p.createdAt || Date.now() });
@@ -8245,6 +8380,7 @@ const App = {
     this.applyTheme(); this.bind(); this.bindVideo(); this.bindAI(); UI.applyLang(); MT.load(); MT.observe();
     if (S.profile.blocked) { UI.openBlocked(); return; }
     UI.tab = 'arena'; UI.hDay = UI._dayKey = U.today(); UI._exToChart = n => { UI.closeModal(); if (n) UI.liftEx = n; App.afterChange(); }; Game.boot(); UI.goTab('arena'); UI.renderHeader();
+    Updater.start();
     const online = await Net.init();
     // v22: вернулись по ссылке (подтверждение почты / Google / Snapchat)
     const CapA = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
