@@ -1574,6 +1574,104 @@ html.light .hm-hero:after{opacity:.55}
 .card[data-action],.rm-card .rm-main,.hm-banner,.rk-show{transition:transform .15s}
 .card[data-action]:active,.rm-card .rm-main:active,.rk-show:active{transform:scale(.98)}
 @media (prefers-reduced-motion:reduce){.tab.enter>*,.nav-btn.active .ic,.hm-ticks i.cur{animation:none}}
+/* ===== v54: новые эмблемы и рамки, «Путь рангов», переключатель темы, контраст светлой темы ===== */
+.pfr>img.rfr-o{position:absolute;left:50%;top:50%;border-radius:0;max-width:none;pointer-events:none;z-index:1;-webkit-user-select:none;user-select:none}
+.md-st{fill:rgba(255,255,255,.2)}.md-st.on{fill:#fff}
+html.light .md-st{fill:rgba(15,23,42,.16)}html.light .md-st.on{fill:#F5B82E}
+html.light .has-bg .md-st,html.light .rk-show .md-st{fill:rgba(255,255,255,.25)}html.light .has-bg .md-st.on,html.light .rk-show .md-st.on{fill:#fff}
+/* эмблемы нарисованы для тёмного фона: в светлой теме даём им тень, чтобы серебро не сливалось с белым */
+html.light .medal{filter:drop-shadow(0 1px 1px rgba(15,23,42,.55)) drop-shadow(0 3px 6px rgba(15,23,42,.22))}
+html.light .rfr-o{filter:drop-shadow(0 1px 1px rgba(15,23,42,.5)) drop-shadow(0 2px 4px rgba(15,23,42,.18))}
+/* переключатель темы в шапке */
+.hdr-th{position:relative;width:3rem;height:2.4rem;border-radius:999px;background:var(--card);border:1px solid var(--line);flex:none;padding:0;-webkit-tap-highlight-color:transparent}
+.hdr-th:before{content:'';position:absolute;inset:.42rem .5rem;border-radius:999px;background:linear-gradient(90deg,#1E293B,#334155)}
+html.light .hdr-th:before{background:linear-gradient(90deg,#FDE68A,#FBBF24)}
+.hdr-th-k{position:absolute;top:50%;left:.3rem;width:1.75rem;height:1.75rem;margin-top:-.875rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#0B0E14;color:#C7D2FE;box-shadow:0 2px 6px rgba(0,0,0,.45);transition:transform .3s cubic-bezier(.3,1.4,.5,1),background .3s,color .3s}
+html.light .hdr-th-k{transform:translateX(.95rem);background:#fff;color:#D97706;box-shadow:0 2px 6px rgba(15,23,42,.25)}
+.hdr-th-k .ic{width:.85rem;height:.85rem}.th-sun{display:none}html.light .th-sun{display:block}html.light .th-moon{display:none}
+.hdr-th:active .hdr-th-k{width:2rem}
+html.theme-anim body,html.theme-anim body *{transition:background-color .35s ease,color .35s ease,border-color .35s ease!important}
+/* «Путь рангов» */
+.modal.rd-modal{padding-top:1rem;background:#09090B;border-color:#1F1F23}
+html.light .modal.rd-modal{background:#F4F4F5;border-color:#E4E4E7}
+.rd{--rdc:#141417;--rdl:#26262B;--rdt:#FAFAFA;--rdm:#A1A1AA}
+html.light .rd{--rdc:#FFFFFF;--rdl:#E4E4E7;--rdt:#09090B;--rdm:#52525B}
+.rd{color:var(--rdt)}
+.rd-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.9rem}
+.rd-brand{font-size:.6rem;letter-spacing:.42em;font-weight:700;font-style:italic;color:var(--rdm)}
+.rd-title{font-family:var(--disp);font-size:2rem;line-height:1.05;font-weight:900;font-style:italic;letter-spacing:-.02em;margin-top:.15rem}
+.rd-x{width:2.4rem;height:2.4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--rdc);border:1px solid var(--rdl);color:var(--rdt);flex:none}
+.rd-hero{position:relative;overflow:hidden;border-radius:1.25rem;padding:1rem;background:var(--rdc);border:1px solid color-mix(in srgb,var(--rc) 38%,var(--rdl));margin-bottom:1.2rem}
+.rd-glow{position:absolute;inset:-40% -20% auto auto;width:75%;height:120%;background:radial-gradient(closest-side,color-mix(in srgb,var(--rc) 38%,transparent),transparent);pointer-events:none}
+html.light .rd-glow{opacity:.55}
+.rd-hero.lock .rd-hero-md{filter:grayscale(.75) brightness(.8)}
+html.light .rd-hero.lock .rd-hero-md{filter:grayscale(.75) opacity(.75)}
+.rd-hero-top{position:relative;display:flex;align-items:center;gap:.7rem}
+.rd-hero-md{flex:none;margin:-.3rem -.2rem -.3rem -.4rem}
+.rd-hero-txt{min-width:0;flex:1}
+.rd-kick{font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rdm)}
+.rd-kick b{color:var(--ri)}
+.rd-name{font-family:var(--disp);font-size:1.55rem;line-height:1.05;font-weight:900;margin-top:.2rem;color:var(--ri);overflow-wrap:anywhere}
+.rd-sub{font-size:.78rem;color:var(--rdm);margin-top:.15rem}
+.rd-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.55rem}
+.rd-chip{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:700;padding:.22rem .5rem;border-radius:999px;background:color-mix(in srgb,var(--rdt) 7%,transparent);border:1px solid var(--rdl)}
+.rd-chip>i,.rd-cm>i{width:.42rem;height:.42rem;border-radius:50%;display:inline-block;flex:none}
+html.light .rd-chip .text-yellow-300{color:#CA8A04}
+.rd-bar{position:relative;height:.5rem;border-radius:999px;background:color-mix(in srgb,var(--rdt) 10%,transparent);margin-top:.9rem;overflow:hidden}
+.rd-bar>i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;box-shadow:0 0 12px var(--rc)}
+.rd-bar-l{display:flex;justify-content:space-between;gap:.5rem;font-size:.72rem;color:var(--rdm);margin-top:.4rem}
+.rd-bar-l b{color:var(--rdt)}
+.rd-note{position:relative;display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;color:var(--rdm);margin-top:.85rem;padding:.55rem .7rem;border-radius:.8rem;background:color-mix(in srgb,var(--rdt) 5%,transparent)}
+.rd-note b{color:var(--rdt)}.rd-note.ok{color:#10B981}html.light .rd-note.ok{color:#047857}
+.rd-fr{position:relative;display:flex;align-items:center;gap:1.1rem;margin-top:.8rem;padding:.75rem .8rem .75rem 1.3rem;border-radius:.9rem;border:1px dashed var(--rdl)}
+.rd-fr-av{display:flex;flex:none}.rd-fr-av .rfr{margin:0}
+.rd-fr-t{min-width:0;display:flex;flex-direction:column;gap:.1rem;font-size:.82rem}
+.rd-fr-t small{font-size:.68rem;color:var(--rdm);line-height:1.3}
+.rd-boss{position:relative;margin-top:.8rem;padding:.7rem .8rem;border-radius:.9rem;background:color-mix(in srgb,#F97316 9%,transparent);border:1px solid color-mix(in srgb,#F97316 28%,transparent)}
+.rd-boss-h{font-size:.7rem;font-weight:800;color:#FB923C;margin-bottom:.35rem;display:flex;align-items:center;gap:.35rem}
+html.light .rd-boss-h{color:#C2410C}
+.rd-boss-r{position:relative;display:flex;justify-content:space-between;gap:.5rem;font-size:.75rem;padding:.3rem 0 .45rem}
+.rd-boss-r small{color:var(--rdm)}
+.rd-boss-r>i{position:absolute;left:0;bottom:0;height:2px;border-radius:2px;background:#F97316}
+.rd-boss-r.ok b{color:#10B981}.rd-boss-r.ok>i{background:#10B981}html.light .rd-boss-r.ok b{color:#047857}
+.rd-sec{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:0 0 .65rem}
+.rd-sec>i{flex:1;height:1px;background:linear-gradient(90deg,var(--rdl),transparent)}
+.rd-sec small{font-size:.66rem;letter-spacing:0;text-transform:none;font-weight:600;color:var(--rdm)}
+.rd-spark{width:.8rem;height:.8rem;fill:var(--rdt);flex:none}
+.rd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin-bottom:1.3rem}
+.rd-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:.7rem .3rem .6rem;border-radius:1rem;background:var(--rdc);border:1px solid var(--rdl);color:var(--rdt);transition:transform .15s,border-color .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.rd-card:active{transform:scale(.96)}
+.rd-card.cur{border-color:var(--rc);box-shadow:0 0 0 1px var(--rc),0 8px 24px -10px var(--rc)}
+.rd-card.sel:not(.cur){border-color:color-mix(in srgb,var(--rc) 70%,var(--rdl));box-shadow:0 0 0 1px color-mix(in srgb,var(--rc) 55%,transparent)}
+.rd-card.lock .rd-md{filter:grayscale(.85) brightness(.55)}
+html.light .rd-card.lock .rd-md{filter:grayscale(.85) opacity(.55)}
+.rd-card.lock .rd-cn{color:var(--rdm)}
+.rd-md{display:flex;height:64px;align-items:center}
+.rd-md .medal{margin:0}
+.rd-cn{font-size:.74rem;font-weight:800;line-height:1.15;margin-top:.45rem;min-height:1.7em;display:flex;align-items:center}
+.rd-cs{font-size:.6rem;color:var(--rdm);margin-top:.1rem;line-height:1.2}
+.rd-cm{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:700;color:var(--rdm);margin-top:.4rem;font-variant-numeric:tabular-nums}
+.rd-st{position:absolute;top:.45rem;right:.45rem;width:.7rem;height:.7rem;color:var(--rdm);opacity:.7}
+.rd-card.done .rd-st{color:#10B981;opacity:1}
+.rd-you{position:absolute;top:-.5rem;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.55rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;padding:.12rem .45rem;border-radius:999px;background:var(--rc);color:#09090B}
+.rd-foot{text-align:center;font-size:.72rem;font-style:italic;color:var(--rdm);padding:.2rem 0 .4rem}
+/* светлая тема: светлые tailwind-цвета текста и белые надписи на белом */
+html.light .text-yellow-300,html.light .text-yellow-200{color:#D49B0A}
+html.light .text-amber-300,html.light .text-amber-400{color:#B45309}
+html.light .text-orange-300,html.light .text-orange-400{color:#C2410C}
+html.light .text-emerald-300,html.light .text-emerald-400,html.light .text-green-300,html.light .text-green-400{color:#047857}
+html.light .text-sky-300,html.light .text-sky-400,html.light .text-cyan-300,html.light .text-cyan-400{color:#0369A1}
+html.light .text-blue-300,html.light .text-blue-400{color:#1D4ED8}
+html.light .text-violet-300,html.light .text-purple-300,html.light .text-purple-400,html.light .text-violet-400,html.light .text-indigo-300{color:#6D28D9}
+html.light .text-pink-300,html.light .text-pink-400,html.light .text-rose-300,html.light .text-rose-400,html.light .text-red-300,html.light .text-red-400{color:#BE123C}
+html.light .text-slate-300,html.light .text-slate-400,html.light .text-gray-300,html.light .text-gray-400,html.light .text-zinc-400{color:#52525B}
+html.light .text-em{color:#047857}html.light .text-bl{color:#1D4ED8}html.light .text-or{color:#C2410C}html.light .text-pu{color:#6D28D9}
+html.light .has-bg .text-yellow-300,html.light .has-bg .text-amber-400,html.light .rk-show .text-yellow-300,html.light .rk-show .text-amber-400{color:#FCD34D}
+.hdr-h.hdr-long{font-size:1.3rem}
+.pf-av .rfr{margin:.7rem .8rem 1.2rem .7rem}
+/* светлая тема: карточки отделены от фона, плитки и линии чуть темнее */
+html.light{--bg:#ECECEF;--card:#FFFFFF;--sub:#F4F4F6;--line:#DCDCE1;--muted:#5F5F66;--bdskin:#B9BEC8}
+html.light .card{box-shadow:0 1px 2px rgba(15,23,42,.06),0 4px 14px -8px rgba(15,23,42,.12)}
 </style>
 </head>
 <body>
@@ -1719,6 +1817,7 @@ html.light .hm-hero:after{opacity:.55}
       <div class="hdr-ttl"><div id="hdr-title" class="hdr-h">Главная</div><div id="hdr-sub" class="hdr-s"></div></div>
       <div class="flex items-center gap-2 flex-none">
         <button class="hdr-coin num" title="Монеты" data-action="coins-info"><svg class="ic text-yellow-300"><use href="#fa-coins"/></svg><span id="hdr-coins">0</span></button>
+        <button class="hdr-th" data-action="toggle-theme" aria-label="Светлая или тёмная тема"><span class="hdr-th-k"><svg class="ic th-moon"><use href="#fa-moon"/></svg><svg class="ic th-sun"><use href="#fa-sun"/></svg></span></button>
         <button class="hdr-rb" data-action="open-notifs" aria-label="Уведомления"><svg class="ic"><use href="#fa-bell"/></svg><span id="hdr-bell" class="bell-dot hidden"></span></button>
         <button class="hdr-rb" data-action="open-settings" aria-label="Настройки"><svg class="ic"><use href="#fa-gear"/></svg></button>
       </div>
@@ -1787,24 +1886,24 @@ const CONFIG = {
   // Арены. Пороги откалиброваны: при 3-4 тренировках в неделю ≈ 160-180 кубков/нед →
   // арена 3 (800) ≈ через месяц, арена 5 (2500) ≈ через 4 месяца.
   ARENAS: [
-    { id: 1, name: 'Подвал',        min: 0,     color: '#64748B', icon: 'fa-dungeon',        reward: { coins: 50 } },
-    { id: 2, name: 'Гараж',         min: 300,   color: '#10B981', icon: 'fa-warehouse',      reward: { coins: 150 } },
-    { id: 3, name: 'Качалка',       min: 800,   color: '#3B82F6', icon: 'fa-dumbbell',       reward: { coins: 200 } },
-    { id: 4, name: 'Тренажёрка',    min: 1500,  color: '#8B5CF6', icon: 'fa-person-running', reward: { coins: 250, item: 'title_iron' },  boss: { bench: 0.75, squat: 1.0,  deadlift: 1.25 } },
-    { id: 5, name: 'Железный рай',  min: 2500,  color: '#F97316', icon: 'fa-fire',           reward: { coins: 400 }, boss: { bench: 1.0,  squat: 1.25, deadlift: 1.5 } },
-    { id: 6, name: 'Арена силы',    min: 4000,  color: '#EF4444', icon: 'fa-bolt',           reward: { coins: 500 }, boss: { bench: 1.25, squat: 1.5,  deadlift: 1.75 } },
-    { id: 7, name: 'Зал чемпионов', min: 6000,  color: '#EAB308', icon: 'fa-medal',          reward: { coins: 500, item: 'title_champion' }, boss: { bench: 1.5,  squat: 1.75, deadlift: 2.0 } },
-    { id: 8, name: 'Титан',         min: 9000,  color: '#06B6D4', icon: 'fa-mountain',       reward: { coins: 900, item: 'title_titan' }, boss: { bench: 1.75, squat: 2.0,  deadlift: 2.25 } },
-    { id: 9, name: 'Зал славы',     min: 12000, color: '#F0ABFC', icon: 'fa-crown',          reward: { coins: 1200 } },
+    { id: 1, name: 'Подвал',        min: 0,     color: '#71717A', sub: 'ржавый новичок', icon: 'fa-dungeon',        reward: { coins: 50 } },
+    { id: 2, name: 'Гараж',         min: 300,   color: '#84CC16', sub: 'новичок', icon: 'fa-warehouse',      reward: { coins: 150 } },
+    { id: 3, name: 'Качалка',       min: 800,   color: '#3B82F6', sub: 'любитель', icon: 'fa-dumbbell',       reward: { coins: 200 } },
+    { id: 4, name: 'Тренажёрка',    min: 1500,  color: '#8B5CF6', sub: 'энтузиаст', icon: 'fa-person-running', reward: { coins: 250, item: 'title_iron' },  boss: { bench: 0.75, squat: 1.0,  deadlift: 1.25 } },
+    { id: 5, name: 'Железный рай',  min: 2500,  color: '#F97316', sub: 'атлет', icon: 'fa-fire',           reward: { coins: 400 }, boss: { bench: 1.0,  squat: 1.25, deadlift: 1.5 } },
+    { id: 6, name: 'Арена силы',    min: 4000,  color: '#E11D48', sub: 'борец', icon: 'fa-bolt',           reward: { coins: 500 }, boss: { bench: 1.25, squat: 1.5,  deadlift: 1.75 } },
+    { id: 7, name: 'Зал чемпионов', min: 6000,  color: '#EAB308', sub: 'ветеран', icon: 'fa-medal',          reward: { coins: 500, item: 'title_champion' }, boss: { bench: 1.5,  squat: 1.75, deadlift: 2.0 } },
+    { id: 8, name: 'Титан',         min: 9000,  color: '#22D3EE', sub: 'мастер', icon: 'fa-mountain',       reward: { coins: 900, item: 'title_titan' }, boss: { bench: 1.75, squat: 2.0,  deadlift: 2.25 } },
+    { id: 9, name: 'Зал славы',     min: 12000, color: '#F5B82E', sub: 'легенда', icon: 'fa-crown',          reward: { coins: 1200 } },
     // v19: лиги после последней арены
-    { id: 10, name: 'Лига претендентов', min: 14000, color: '#FB7185', icon: 'fa-hand-fist',  reward: { coins: 1300 }, league: true },
-    { id: 11, name: 'Мастер I',          min: 16500, color: '#C084FC', icon: 'fa-gem',        reward: { coins: 1500 }, league: true },
-    { id: 12, name: 'Мастер II',         min: 19000, color: '#A78BFA', icon: 'fa-gem',        reward: { coins: 1700 }, league: true },
-    { id: 13, name: 'Мастер III',        min: 22000, color: '#818CF8', icon: 'fa-gem',        reward: { coins: 2000, item: 'title_master' }, league: true },
-    { id: 14, name: 'Чемпион лиги',      min: 25000, color: '#FACC15', icon: 'fa-chess-king', reward: { coins: 2500 }, league: true },
-    { id: 15, name: 'Великий чемпион',   min: 28500, color: '#FB923C', icon: 'fa-dragon',     reward: { coins: 3000, item: 'title_grand' }, league: true },
-    { id: 16, name: 'Абсолют',           min: 32000, color: '#F43F5E', icon: 'fa-infinity',   reward: { coins: 4000 }, league: true },
-    { id: 17, name: 'Легенда Flexo',      min: 36000, color: '#FDE047', icon: 'fa-crown',      reward: { coins: 5000, item: 'title_legend' }, league: true },
+    { id: 10, name: 'Лига претендентов', min: 14000, color: '#F43F5E', sub: 'претендент', icon: 'fa-hand-fist',  reward: { coins: 1300 }, league: true },
+    { id: 11, name: 'Мастер I',          min: 16500, color: '#CBD5E1', sub: 'мастер', icon: 'fa-gem',        reward: { coins: 1500 }, league: true },
+    { id: 12, name: 'Мастер II',         min: 19000, color: '#60A5FA', sub: 'элита', icon: 'fa-gem',        reward: { coins: 1700 }, league: true },
+    { id: 13, name: 'Мастер III',        min: 22000, color: '#A855F7', sub: 'эксперт', icon: 'fa-gem',        reward: { coins: 2000, item: 'title_master' }, league: true },
+    { id: 14, name: 'Чемпион лиги',      min: 25000, color: '#FACC15', sub: 'чемпион', icon: 'fa-chess-king', reward: { coins: 2500 }, league: true },
+    { id: 15, name: 'Великий чемпион',   min: 28500, color: '#EF4444', sub: 'легенда лиги', icon: 'fa-dragon',     reward: { coins: 3000, item: 'title_grand' }, league: true },
+    { id: 16, name: 'Абсолют',           min: 32000, color: '#E9D5FF', sub: 'абсолютный', icon: 'fa-infinity',   reward: { coins: 4000 }, league: true },
+    { id: 17, name: 'Легенда Flexo',      min: 36000, color: '#FDE047', sub: 'первый среди лучших', icon: 'fa-crown',      reward: { coins: 5000, item: 'title_legend' }, league: true },
   ],
   FEMALE_BOSS_FACTOR: 0.65,
   TROPHY: { WORKOUT: 20, PR: 25, WEEKLY_BONUS: 30, QUEST_WEEKLY: 10, CLAN_WIN_COINS: 150, DUEL_WIN_COINS: 100, DUEL_WIN: 10, NUTRITION_DAY: 3, DECAY_PER_WEEK: 10, DECAY_AFTER_DAYS: 14,
@@ -5294,9 +5393,10 @@ const UI = {
     { const cb = this.$('.nav-btn[data-tab=clans]'); if (cb) { const on = ClanService.incoming().length > 0; let d = cb.querySelector('.nav-dot'); if (on && !d) { d = document.createElement('i'); d.className = 'nav-dot'; cb.appendChild(d); } else if (!on && d) d.remove(); } }
     if (ht && t === 'arena') { if (!ht.querySelector('.flx-logo')) ht.innerHTML = LOGO_SVG('hdr-logo'); }
     else if (ht && ht.textContent !== ttl) { ht.textContent = ttl; if (ht._mtSrc != null) ht._mtSrc = null; }
+    if (ht) ht.classList.toggle('hdr-long', t !== 'arena' && String(ttl).length > 7);
     if (hs) { hs.textContent = sub; hs.toggleAttribute('data-no-mt', t === 'profile'); }
     if (typeof MT !== 'undefined' && MT.active && MT.active()) { MT.done.delete(ht && ht.firstChild); MT.done.delete(hs && hs.firstChild); MT.apply(this.$('#header')); }
-    document.querySelector('meta[name=theme-color]').setAttribute('content', S.profile.theme === 'light' ? '#F1F5F9' : '#0B0E14');
+    document.querySelector('meta[name=theme-color]').setAttribute('content', S.profile.theme === 'light' ? '#ECECEF' : '#0B0E14');
   },
   goTab(name) {
     this.closeDD(); this.hideTip(); this.tab = name; this.togglePlus(false);
@@ -5346,7 +5446,7 @@ const UI = {
           <div class="flex items-center gap-3 mt-1">
             <button class="flex-none ar-medal" data-action="open-road" data-key="hero-medal-${g.arenaIdx}-${rk.stars}-${place || 0}">${this.medal(g.arenaIdx, { size: 92, stars: rk.stars, place })}</button>
             <div class="min-w-0 flex-1">
-              <div class="text-2xl font-black leading-tight truncate" style="color:${this._mix(a.color, '#ffffff', .3)};text-shadow:0 0 24px ${a.color}66">${TN(a.name)}</div>
+              <div class="text-2xl font-black leading-tight truncate" style="color:${this.ink(a.color)};text-shadow:0 0 24px ${a.color}66">${TN(a.name)}</div>
               <div class="mt-1 flex items-center gap-2">${this.starsHtml(rk.stars)}<span class="text-[11px] muted">${next ? T('star_n', { n: rk.stars }) : place ? `#${place}` : ''}</span></div>
               <div class="flex items-end gap-1.5 mt-1.5"><span class="text-3xl font-black num leading-none">${g.trophies}</span><span class="text-amber-400 text-lg leading-none"><svg class="ic"><use href="#fa-trophy"/></svg></span></div>
             </div>
@@ -5600,22 +5700,50 @@ const UI = {
       ${this.homeTiles()}
       <div class="text-[11px] muted text-center mb-4">Спокойный режим: без арен, кланов и рейтингов. Вернуть игру можно в Настройки → Оформление.</div>`;
   },
-  openRoad() {
-    const g = S.game;
-    this.modal(`
-      <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg"><svg class="ic text-bl"><use href="#fa-road"/></svg> ${T('trophy_road')}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
-      <div class="relative pl-6">
-        <div class="absolute left-[6px] top-2 bottom-2 w-[2px]" style="background:linear-gradient(${[...CONFIG.ARENAS].reverse().map(x => x.color).join(',')})"></div>
-        ${[...CONFIG.ARENAS].reverse().map(ar => { const i = ar.id - 1, locked = i > g.arenaIdx, cur = i === g.arenaIdx, r = ar.reward || {}; return `
-          ${cur ? `<div class="relative flex items-center gap-3 py-2 pl-1" id="road-cur"><div class="w-12 h-12 rounded-full overflow-hidden border-2 flex-none" style="border-color:${ar.color};box-shadow:0 0 14px ${ar.color}88">${this.avatarSVG(S.profile.avatar, 48)}</div><div><div class="text-sm font-bold">${U.esc(S.profile.nickname)}</div><div class="num text-amber-400 font-black">${g.trophies} ${this.trophyIcon}</div></div></div>` : ''}
-          <div class="relative flex items-center gap-3 py-2 ${locked ? 'road-locked' : ''}">
-            <div class="road-dot absolute -left-6 top-1/2 -translate-y-1/2" style="${!locked ? `background:${ar.color};border-color:${ar.color};box-shadow:0 0 10px ${ar.color}` : ''}"></div>
-            ${this.medal(i, { size: 64, stars: locked ? 0 : cur ? Calc.rank(g.trophies, i).stars : 5, anim: cur })}
-            <div class="flex-1 min-w-0"><div class="text-sm font-bold flex items-center gap-2">${TN(ar.name)} ${cur ? `<span class="chip text-em">${T('you_here')}</span>` : ''}</div><div class="text-[11px] muted num">${ar.min} ${this.trophyIcon}${ar.boss ? ' · <svg class="ic text-or"><use href="#fa-dragon"/></svg> босс' : ''}</div></div>
-            <div class="text-[11px] text-right muted">${r.coins ? `+${r.coins} ${this.coinIcon}` : ''}${r.item ? `<br><svg class="ic text-pu"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}` : ''}</div>
-          </div>${ar.league && !(CONFIG.ARENAS[ar.id - 2] || {}).league ? `<div class="relative flex items-center gap-2 py-2 text-[11px] font-black uppercase tracking-widest" style="color:#FB7185"><svg class="ic"><use href="#fa-gem"/></svg> Лиги · после «${TN('Зал славы')}»<span class="flex-1 h-px" style="background:#FB718555"></span></div>` : ''}`; }).join('')}
-      </div>`);
-    setTimeout(() => { const c = document.getElementById('road-cur'); if (c) c.scrollIntoView({ block: 'center' }); }, 60);
+  // v54: «Путь рангов» — карточка выбранного ранга сверху (эмблема, рамка аватара, награда, босс) и сетка арен и лиг
+  _nf(n) { return (+n || 0).toLocaleString(U.locale()); },
+  roadHero(i) {
+    const g = S.game, a = CONFIG.ARENAS[i], cur = i === g.arenaIdx, locked = i > g.arenaIdx, nx = CONFIG.ARENAS[i + 1], rk = Calc.rank(g.trophies, g.arenaIdx), r = a.reward || {}, nf = n => this._nf(n);
+    const nAr = CONFIG.ARENAS.filter(x => !x.league).length, kick = a.league ? `Лига ${a.id - nAr} из ${CONFIG.ARENAS.length - nAr}` : `Арена ${a.id} из ${nAr}`;
+    let prog;
+    if (cur && nx) { const pct = U.clamp((g.trophies - a.min) / (nx.min - a.min) * 100, 0, 100), gate = g.trophies >= nx.min && !Calc.bossMet(i);
+      prog = `<div class="rd-bar"><i style="width:${Math.max(3, pct)}%;background:linear-gradient(90deg,${a.color},${nx.color})"></i></div>
+        <div class="rd-bar-l"><span class="num"><b>${nf(g.trophies)}</b> ${this.trophyIcon}</span><span>${gate ? 'победи босса, чтобы пройти' : `до «${TN(nx.name)}» <b class="num">${nf(nx.min - g.trophies)}</b>`}</span></div>`; }
+    else if (cur) { const pl = Calc.legendPlace(); prog = `<div class="rd-note"><svg class="ic"><use href="#fa-crown"/></svg> Вершина пути${pl ? ` · место #${pl}` : ''}</div>`; }
+    else if (locked) prog = `<div class="rd-note"><svg class="ic"><use href="#fa-lock"/></svg> Откроется с ${nf(a.min)} кубков · осталось <b class="num">${nf(a.min - g.trophies)}</b></div>`;
+    else prog = `<div class="rd-note ok"><svg class="ic"><use href="#fa-check"/></svg> Ранг пройден</div>`;
+    const b = a.boss ? Calc.bossReq(i) : null;
+    const boss = b ? `<div class="rd-boss"><div class="rd-boss-h"><svg class="ic"><use href="#fa-dragon"/></svg> Босс ранга — чтобы пройти дальше</div>${b.items.map(x => `<div class="rd-boss-r ${x.ok ? 'ok' : ''}"><span>${x.name} <small>×${x.ratio} веса</small></span><b class="num">${U.w(x.have, 0)} / ${U.w(x.need, 0)} ${U.wUnit()}</b><i style="width:${Math.round(x.pct * 100)}%"></i></div>`).join('')}</div>` : '';
+    return `<div class="rd-hero ${locked ? 'lock' : ''}" style="--rc:${a.color};--ri:${this.ink(a.color, .25)}">
+      <div class="rd-glow"></div>
+      <div class="rd-hero-top">
+        <div class="rd-hero-md">${this.medal(i, { size: 112, stars: cur ? rk.stars : locked ? 0 : 5, anim: false })}</div>
+        <div class="rd-hero-txt"><div class="rd-kick">${kick}${cur ? ' · <b>ты здесь</b>' : ''}</div><div class="rd-name">${TN(a.name)}</div><div class="rd-sub">${a.sub || ''}</div>
+          <div class="rd-chips"><span class="rd-chip"><i style="background:${a.color}"></i>от ${nf(a.min)}</span>${r.coins ? `<span class="rd-chip">+${nf(r.coins)} ${this.coinIcon}</span>` : ''}${r.item ? `<span class="rd-chip"><svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}</span>` : ''}</div></div>
+      </div>
+      ${prog}
+      <div class="rd-fr"><span class="rd-fr-av">${this.rankFrame(this.avatarSVG(S.profile.avatar, 46), i, 46)}</span><span class="rd-fr-t"><b>Рамка аватара</b><small>${locked ? 'Получишь вместе с рангом' : 'Ставится сама, если в магазине не выбрана другая'}</small></span></div>
+      ${boss}</div>`;
+  },
+  roadCard(ar) {
+    const g = S.game, i = ar.id - 1, locked = i > g.arenaIdx, cur = i === g.arenaIdx;
+    return `<button class="rd-card ${cur ? 'cur' : ''} ${locked ? 'lock' : 'done'} ${i === this._roadSel ? 'sel' : ''}" style="--rc:${ar.color}" data-action="road-pick" data-i="${i}" aria-label="${U.esc(TN(ar.name))}">
+      ${cur ? '<span class="rd-you">ты здесь</span>' : `<svg class="ic rd-st"><use href="#${locked ? 'fa-lock' : 'fa-check'}"/></svg>`}
+      <span class="rd-md">${this.medal(i, { size: 64, anim: false })}</span>
+      <span class="rd-cn">${TN(ar.name)}</span><span class="rd-cs">${ar.sub || ''}</span>
+      <span class="rd-cm"><i style="background:${ar.color}"></i>от ${this._nf(ar.min)}</span></button>`;
+  },
+  openRoad(sel) {
+    const g = S.game; this._roadSel = sel != null ? sel : g.arenaIdx;
+    const ars = CONFIG.ARENAS.filter(x => !x.league), lgs = CONFIG.ARENAS.filter(x => x.league), nf = n => this._nf(n);
+    const sec = (title, range, list) => `<div class="rd-sec"><svg viewBox="-6 -6 12 12" class="rd-spark"><path d="M0-6C.6-1.2 1.2-.6 6 0 1.2.6.6 1.2 0 6-.6 1.2-1.2.6-6 0-1.2-.6-.6-1.2 0-6Z"/></svg><span>${title}</span><i></i><small class="num">${range}</small></div><div class="rd-grid">${list.map(x => this.roadCard(x)).join('')}</div>`;
+    this.modal(`<div class="rd">
+      <div class="rd-head"><div><div class="rd-brand">FLEXO LEAGUE</div><div class="rd-title">Путь рангов</div></div><button data-action="close-modal" class="rd-x" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
+      <div id="road-hero">${this.roadHero(this._roadSel)}</div>
+      ${sec('Арены', `${nf(ars[0].min)} – ${nf(ars[ars.length - 1].min)} кубков`, ars)}
+      ${sec('Лиги', `${nf(lgs[0].min)}+ кубков`, lgs)}
+      <div class="rd-foot">Тренируйся. Развивайся. Достигай большего.</div></div>`);
+    const m = document.querySelector('#modal .modal'); if (m) m.classList.add('rd-modal');
   },
   /* ========================= LIFTS ========================= */
   liftExercises() {
@@ -5998,7 +6126,7 @@ const UI = {
   userPageHtml() {
     const uid = this._userPage, self = uid === 'me', p = self ? { nick: S.profile.nickname || 'Ты', photo: S.profile.avatar.photo, sex: S.profile.sex, trophies: S.game.trophies, arenaIdx: S.game.arenaIdx } : (ClanService.player(uid) || Social.author(uid));
     const ar = Calc.arena(p.arenaIdx || 0), xs = Social.userPosts, likes = xs.reduce((a, x) => a + (x.likes || 0), 0);
-    const head = `<div class="card p-4 mb-4"><div class="flex items-center gap-3">${this.av(self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : p, 60)}<div class="flex-1 min-w-0"><div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nick || '?')}</div><div class="text-xs font-bold" style="color:${ar.color}">${TN(ar.name)} · <span class="num">${p.trophies || 0}</span> ${this.trophyIcon}</div></div></div>
+    const head = `<div class="card p-4 mb-4"><div class="flex items-center gap-3">${this.av(self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : p, 60)}<div class="flex-1 min-w-0"><div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nick || '?')}</div><div class="text-xs font-bold" style="color:${this.ink(ar.color, 0)}">${TN(ar.name)} · <span class="num">${p.trophies || 0}</span> ${this.trophyIcon}</div></div></div>
       <div class="grid grid-cols-4 gap-2 mt-3 text-center"><div class="sub p-2"><div class="font-black num">${xs.length}</div><div class="text-[10px] muted">посты</div></div><div class="sub p-2"><div class="font-black num">${likes}</div><div class="text-[10px] muted">лайки</div></div><div class="sub p-2"><div class="font-black num" data-fcn="fers|${U.esc(uid)}">${(Follow.cnt[uid] || {}).fers ?? '…'}</div><div class="text-[10px] muted">подписчики</div></div><div class="sub p-2"><div class="font-black num" data-fcn="fing|${U.esc(uid)}">${(Follow.cnt[uid] || {}).fing ?? '…'}</div><div class="text-[10px] muted">подписки</div></div></div>
       ${self ? '' : `<div class="grid grid-cols-2 gap-2 mt-3">${this.followBtn(uid)}<button class="btn btn-ghost" data-action="mini-profile" data-id="${U.esc(uid)}"><svg class="ic"><use href="#fa-user"/></svg> Профиль</button></div>`}
       ${self ? `<button class="btn btn-primary w-full mt-3" data-action="post-new"><svg class="ic"><use href="#fa-plus"/></svg> Новый пост</button>` : ''}</div>`;
@@ -6020,7 +6148,7 @@ const UI = {
       <div class="flex items-end gap-3 mb-3 mp-head">${this.avFrame(this.av(p, 64), p.pframe, pacc, p.arenaIdx || 0, 64)}<div class="flex-1 min-w-0">
         <div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nick)}</div>
         ${p.title ? (() => { const ts = U.tstyle(p.titleStyle); return `<div class="text-xs font-bold truncate ${ts.style ? '' : 'text-pu'}"><span class="${ts.cls}" style="${ts.style}">« ${U.esc(p.title)} »</span></div>`; })() : ''}
-        <div class="flex items-center gap-1.5 mt-1">${this.rankMedal(p, 30)}<div class="min-w-0"><div class="text-xs font-bold truncate" style="color:${ar.color}">${TN(ar.name)}</div><div class="flex items-center gap-1.5">${this.starsHtml(Calc.rank(p.trophies || 0, p.arenaIdx || 0).stars)}<span class="text-[11px] muted num">${p.trophies || 0} ${this.trophyIcon}</span></div></div></div>
+        <div class="flex items-center gap-1.5 mt-1">${this.rankMedal(p, 30)}<div class="min-w-0"><div class="text-xs font-bold truncate" style="color:${this.ink(ar.color, 0)}">${TN(ar.name)}</div><div class="flex items-center gap-1.5">${this.starsHtml(Calc.rank(p.trophies || 0, p.arenaIdx || 0).stars)}<span class="text-[11px] muted num">${p.trophies || 0} ${this.trophyIcon}</span></div></div></div>
         <div class="text-[11px] muted mt-1" data-fc="${U.esc(id)}">${Follow.cnt[id] ? this.fcHtml(Follow.cnt[id]) : '&nbsp;'}</div>
         ${p.clan ? `<button class="clan-pill mt-1.5" data-action="clan-view" data-id="${U.esc(p.clan.id || '')}">${this.emblem(p.clan, 'w-5 h-5 text-[10px] rounded-md')}<span class="truncate">${U.esc(p.clan.name)}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>` : ''}</div>
         <button data-action="close-modal" class="muted self-start"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
@@ -6192,7 +6320,7 @@ const UI = {
         <div class="pf-body">
           <div class="pf-avrow">
             <button class="pf-av" data-action="open-shop" data-tab="look">${this.avFrame(this.avatarSVG(p.avatar, 92), p.avatar.pframe, acc, S.game.arenaIdx, 92)}<span class="pf-cam"><svg class="ic"><use href="#fa-camera"/></svg></span></button>
-            <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 56, anim: false })}<span class="min-w-0"><span class="block text-sm font-black truncate" style="color:${this._mix(a.color, '#ffffff', .35)}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
+            <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 56, anim: false })}<span class="min-w-0"><span class="block text-sm font-black truncate" style="color:${this.ink(a.color, .35)}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
           </div>
           <div class="pf-nick" data-no-mt>${U.esc(p.nickname)}</div>${tt}
           <div class="pf-lvl"><b class="num">${lvl}</b><div class="flex-1">${this.bar(xpCur / xpNeed * 100, 'var(--text)')}</div><span class="muted num">${xpCur}/${xpNeed} XP</span></div>
@@ -7608,32 +7736,25 @@ Object.assign(UI, {
   },
   // v41: рамка аватара в стиле ранга (ставится сама, если в магазине не выбрана другая)
   rankFrame(inner, idx, size) {
-    this.medalDefs();
-    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), c = CONFIG.ARENAS[i].color, lt = this._mix(c, '#ffffff', .32), dk = this._mix(c, '#000000', .28), t = this.medalTier(i), F = (d, l = lt, k = dk, e = '') => this._fx(d, l, k, e);
-    const ring = (r1, r2) => `M${-r1} 0a${r1} ${r1} 0 1 0 ${2 * r1} 0a${r1} ${r1} 0 1 0 ${-2 * r1} 0ZM${-r2} 0a${r2} ${r2} 0 1 1 ${2 * r2} 0a${r2} ${r2} 0 1 1 ${-2 * r2} 0Z`, ev = ' fill-rule="evenodd"';
-    const stud = (an, r = 44, s = 3.4) => { const x = Math.cos(an) * r, y = Math.sin(an) * r; return F(`M${x.toFixed(1)} ${(y - s).toFixed(1)}L${(x + s).toFixed(1)} ${y.toFixed(1)}L${x.toFixed(1)} ${(y + s).toFixed(1)}L${(x - s).toFixed(1)} ${y.toFixed(1)}Z`, '#fff', '#E2E2E8'); };
-    let s = '';
-    if (t >= 6) s += F(this._rpoly(this._ring(18, 58, 47, 0), 1) + ring(41, 41).replace(/^.*Z(M)/, '$1'), '#FFE07A', '#E0A92A', ev);
-    if (t >= 3) { const nb = t >= 5 ? 3 : 2; s += F(this._blades(nb, 36, -8, 22 + nb * 2, 18, 1) + this._blades(nb, -36, -8, 22 + nb * 2, 18, -1)); }
-    s += F(ring(47, 41.5), lt, dk, ev);
-    if (t >= 5) s += F(ring(51, 49.4), lt, dk, ev);
-    if (t >= 1) s += [-Math.PI / 4, -3 * Math.PI / 4, Math.PI / 4 - .05, 3 * Math.PI / 4 + .05].map(a => stud(a)).join('');
-    if (t >= 2) s += F(this._rpoly([[-12, -44], [-15, -56], [-6, -49], [0, -59], [6, -49], [15, -56], [12, -44]], 1.2), t >= 4 ? '#F5C04A' : lt, t >= 4 ? '#C98A14' : dk);
-    s += `<image href="${this.medalSrc(i)}" x="-19" y="28" width="38" height="38" preserveAspectRatio="xMidYMid meet"/>`;
-    const O = Math.round(size * 120 / 83);
-    return `<span class="pfr rfr">${inner}<svg class="rfr-o" viewBox="-60 -60 120 120" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px" aria-hidden="true">${s}</svg></span>`;
+    // v54: рамка — картинка ранга; отверстие в центре (радиус 43 из 180) совпадает с краем аватара
+    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), O = Math.round(size * 180 / 83);
+    return `<span class="pfr rfr">${inner}<img class="rfr-o" src="${this.frameSrc(i)}" alt="" aria-hidden="true" draggable="false" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px"></span>`;
   },
   // v46: эмблемы рангов — готовые картинки ranks/rank_NN.webp (NN = номер арены, 01…17)
   // v47: фон арены для карточки ранга (картинки arenas/aNN.webp; у всех лиг общий a10)
   arenaBg(i) { const n = U.clamp((i || 0) + 1, 1, CONFIG.ARENAS.length); return `arenas/a${String(Math.min(n, 10)).padStart(2, '0')}.webp`; },
-  medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp`; },
+  medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=54`; },
+  // v54: рамки аватаров — готовые картинки frames/frame_NN.webp (NN = номер ранга, 01…17), центр прозрачный
+  frameSrc(i) { return `frames/frame_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=54`; },
+  // v54: цвет ранга для текста: в светлой теме темнее, в тёмной — светлее
+  ink(c, t = .3) { return S.profile.theme === 'light' ? this._mix(c, '#000000', .45) : this._mix(c, '#ffffff', t); },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
   medal(idx, o = {}) {
     const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), a = CONFIG.ARENAS[i], size = o.size || 64, small = size < 40, c = a.color;
     const below = !small && (o.place || o.stars != null), w = below ? 104 : 120, y = below ? -62 : -60;
     let s = `<image href="${this.medalSrc(i)}" x="${-w / 2}" y="${y}" width="${w}" height="${w}" preserveAspectRatio="xMidYMid meet"/>`;
     if (o.place) s += `<g transform="translate(0 47)"><rect x="-15" y="-7" width="30" height="13" rx="6.5" fill="#0b0b0c" stroke="#F5C04A" stroke-width="1.4"/><text y="3.6" text-anchor="middle" font-size="10" font-weight="900" fill="#FFE07A" font-family="var(--disp),sans-serif">#${o.place}</text></g>`;
-    else if (o.stars != null && !small) s += [-16, -8, 0, 8, 16].map((x, k) => { const on = k < o.stars; return `<path class="${k === o.stars - 1 && o.pop ? 'md-pop' : ''}" d="M${x} 47l3.6 4.6-3.6 4.6-3.6-4.6Z" fill="${on ? '#FFFFFF' : 'rgba(255,255,255,.18)'}" stroke="${on ? c : 'none'}" stroke-width=".8"/>`; }).join('');
+    else if (o.stars != null && !small) s += [-16, -8, 0, 8, 16].map((x, k) => { const on = k < o.stars; return `<path class="md-st ${on ? 'on' : ''} ${k === o.stars - 1 && o.pop ? 'md-pop' : ''}" d="M${x} 47l3.6 4.6-3.6 4.6-3.6-4.6Z" stroke="${on ? c : 'none'}" stroke-width=".8"/>`; }).join('');
     return `<svg class="medal ${o.cls || ''}" viewBox="-60 -62 120 122" width="${size}" height="${size}" role="img" aria-label="${U.esc(TN(a.name))}${o.stars ? ` ${o.stars}/5` : ''}">${s}</svg>`;
   },
   rankDot(a) { return `<span class="rank-dot">${this.medal(CONFIG.ARENAS.indexOf(a), { size: 18, anim: false })}</span>`; },
@@ -8438,6 +8559,11 @@ const App = {
     'set-tab'(el) { UI.openSettings(el.dataset.val); },
     /* v12 */
     'open-road'() { UI.openRoad(); },
+    'road-pick'(el) { const i = +el.dataset.i; UI._roadSel = i; const h = document.getElementById('road-hero'); if (h) h.innerHTML = UI.roadHero(i);
+      document.querySelectorAll('#modal .rd-card').forEach(c => c.classList.toggle('sel', +c.dataset.i === i)); const m = document.querySelector('#modal .modal'); if (m && m.scrollTo) m.scrollTo({ top: 0, behavior: 'smooth' }); },
+    // v54: быстрый переключатель темы в шапке
+    'toggle-theme'() { const h = document.documentElement; h.classList.add('theme-anim'); clearTimeout(UI._thT); UI._thT = setTimeout(() => h.classList.remove('theme-anim'), 450);
+      S.profile.theme = S.profile.theme === 'light' ? 'dark' : 'light'; App.applyTheme(); save(); UI.renderHeader(); UI.renderTab(UI.tab); },
     'lift-ex-pick'(el) { UI.liftEx = el.dataset.val; UI.renderLifts(); },
     'lift-ex-add'() { UI._planDraft = null; UI.openExerciseEditor(''); },
     'lift-rm-toggle'(el) { const c = el.dataset.rm; if (UI.liftRMs.has(c)) { if (UI.liftRMs.size > 1) UI.liftRMs.delete(c); } else UI.liftRMs.add(c); UI.renderLifts(); },
