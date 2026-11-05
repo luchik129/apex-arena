@@ -1073,15 +1073,81 @@ body.modal-on #main .pfx,body.modal-on #main .pfx *{animation-play-state:paused!
 .ld-scale{display:flex;align-items:center;gap:.4rem;font-size:.66rem;color:var(--muted);margin:.35rem 0 .7rem}
 .ld-scale i{width:1.1rem;height:.5rem;border-radius:.2rem;display:inline-block}
 .ld-bar{display:block;height:3px;border-radius:3px;background:var(--line);margin-top:.3rem;overflow:hidden}.ld-bar i{display:block;height:100%;border-radius:3px;background:var(--text)}
+/* ===== v51: сообщество — подписки, рекорды, посты, уведомления ===== */
+.sec-h{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:0 .1rem .55rem}
+.sec-h>b{font-size:.875rem;font-weight:700;display:flex;align-items:center;gap:.4rem;min-width:0}
+.ppl-row{display:flex;gap:.55rem;overflow-x:auto;margin:0 -1rem 1.15rem;padding:.2rem 1rem .25rem;scrollbar-width:none;scroll-snap-type:x proximity}.ppl-row::-webkit-scrollbar{display:none}
+.ppl{position:relative;flex:0 0 4.2rem;display:flex;flex-direction:column;align-items:center;gap:.32rem;scroll-snap-align:start;min-width:0}
+.ppl small{font-size:.66rem;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ppl.sug small{color:var(--muted)}
+.ppl-av{position:relative;width:3.75rem;height:3.75rem;border-radius:50%;padding:2.5px;background:var(--line);display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.ppl-av:active{transform:scale(.93)}
+.ppl-av>.av{width:100%!important;height:100%!important;box-shadow:0 0 0 2.5px var(--bg)}
+.ppl-av.ring{background:conic-gradient(from 200deg,#F59E0B,#EF4444,#EC4899,#8B5CF6,#3B82F6,#F59E0B)}
+.ppl-av.add{background:transparent;border:1.5px dashed var(--line)}
+.ppl-av.add i,.ppl-f{position:absolute;width:1.4rem;height:1.4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2.5px solid var(--bg)}
+.ppl-av.add i{right:-2px;bottom:-2px;background:var(--em);color:#fff}
+.ppl-f{top:2.6rem;right:.15rem;background:var(--text);color:var(--bg);transition:transform .15s}
+.ppl-f:active{transform:scale(.85)}
+.ppl-f .ic,.ppl-av.add i .ic{width:.72rem;height:.72rem;stroke-width:3}
+.ppl-sep{flex:0 0 1px;align-self:stretch;margin:.5rem .1rem 1.5rem;background:var(--line)}
+.rc-row{margin-bottom:1.15rem}
+/* «Сообщество» — самая длинная подпись в меню: даём ей чуть больше места */
+#nav .nav-pill{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr)}
+.feed,.ppl-row{scroll-padding-inline:1rem}
+.rc-card{position:relative;flex:0 0 9.8rem;scroll-snap-align:start;padding:.7rem .75rem .75rem;border-radius:1rem;border:1px solid var(--line);overflow:hidden;cursor:pointer;text-align:left;transition:transform .15s}
+.rc-card:active{transform:scale(.97)}
+.rc-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.6rem;min-width:0}
+.rc-ex{font-size:.7rem;color:var(--muted);font-weight:600;padding-right:2.2rem}
+.rc-w{font-size:1.4rem;font-weight:900;line-height:1.1;margin-top:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc-w small{font-size:.66rem;font-weight:600;color:var(--muted)}
+.rc-badge{position:absolute;right:.6rem;top:3.05rem;font-size:.6rem;font-weight:900;letter-spacing:.06em;display:flex;align-items:center;gap:.2rem}
+.rc-f{width:1.6rem;height:1.6rem;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--text);color:var(--bg)}
+.rc-f .ic{width:.75rem;height:.75rem;stroke-width:3}
+.post.flash{animation:postFlash 1.6s ease}
+@keyframes postFlash{0%,40%{box-shadow:0 0 0 2px #10B981aa}100%{box-shadow:0 0 0 0 transparent}}
+.nt-sec{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:.85rem 0 .1rem}
+.nt-sec+.nt-row{border-top:0}
+.nt-row{display:flex;align-items:center;gap:.7rem;padding:.65rem 0;border-top:1px solid var(--line);max-height:14rem;overflow:hidden;transition:opacity .2s ease,transform .24s ease,max-height .26s ease .08s,padding .26s ease .08s}
+.nt-row.gone{opacity:0;transform:translateX(35%);max-height:0;padding-top:0;padding-bottom:0}
+.nt-body{flex:1;min-width:0;font-size:.875rem;line-height:1.35}
+.nt-body[data-action]{cursor:pointer}
+.nt-t{font-size:.66rem;color:var(--muted);margin-top:.2rem}
+.nt-row.new .nt-t{color:var(--em);font-weight:700}
+.nt-row.new .nt-t::before{content:'';display:inline-block;width:.4rem;height:.4rem;border-radius:50%;background:var(--em);margin-right:.3rem;vertical-align:.05rem}
+.nt-q{color:var(--muted)}
+.nt-cm{margin-top:.3rem;padding:.4rem .6rem;border-radius:.7rem;background:var(--sub);border:1px solid var(--line);font-size:.8rem;color:var(--text);word-break:break-word}
+.nt-av{position:relative;flex:none;align-self:flex-start}
+.nt-av i{position:absolute;right:-3px;bottom:-3px;width:1.2rem;height:1.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;border:2px solid var(--card)}
+.nt-av i .ic{width:.6rem;height:.6rem}
+.nt-ic{width:2.5rem;height:2.5rem;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;align-self:flex-start}
+.nt-x{width:1.9rem;height:1.9rem;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background .15s}
+.nt-x:active{background:var(--sub)}
+.nt-fb{flex:none;padding:.4rem .75rem;border-radius:999px;background:var(--text);color:var(--bg);font-size:.72rem;font-weight:800}
+.nt-fb.on{background:var(--sub);color:var(--em);border:1px solid var(--line);padding:.4rem .55rem}
+.nt-clr{font-size:.72rem;font-weight:700;color:var(--muted);padding:.35rem .65rem;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;gap:.3rem;white-space:nowrap}
+.nt-clr:active{background:var(--sub)}
+.nt-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.3rem;padding:1.6rem .5rem 1rem}
+.nt-empty span{width:3.2rem;height:3.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--sub);border:1px solid var(--line);color:var(--muted);margin-bottom:.4rem}
+.nt-empty span .ic{width:1.3rem;height:1.3rem}
+.nt-empty small{font-size:.75rem;color:var(--muted);max-width:17rem}
 /* загрузочный экран */
-#boot{position:fixed;inset:0;z-index:200;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .3s ease}
+#boot{position:fixed;inset:0;z-index:200;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .28s ease .06s}
 #boot.out{opacity:0;pointer-events:none}
-.boot-in{position:relative;width:88px;height:88px}
-.boot-in video{position:absolute;inset:0;width:100%;height:100%;opacity:0;background:#000}
+#boot.in{opacity:0;transition:opacity .16s ease}
+/* v51: логотип уходит чуть раньше фона — без «логотипа поверх приложения» */
+.boot-in{position:relative;width:88px;height:88px;transition:opacity .18s ease,transform .24s cubic-bezier(.4,0,.2,1)}
+#boot.out .boot-in{opacity:0;transform:scale(.86)}
+.boot-in video{position:absolute;inset:0;width:100%;height:100%;opacity:0;background:#000;transition:opacity .2s ease}
 #boot.vid video{opacity:1}
-.boot-in svg{position:absolute;left:2.5%;top:18.5%;width:95%;height:auto;fill:#fff;animation:bootP 1.6s ease-in-out infinite}
+/* запасной логотип показываем, только если видео не стартовало за полсекунды */
+.boot-in svg{position:absolute;left:2.5%;top:18.5%;width:95%;height:auto;fill:#fff;opacity:0;animation:bootP 1.6s ease-in-out .5s infinite}
 #boot.vid svg{display:none}
+/* быстрый перезапуск (смена языка): один и тот же логотип до и после перезагрузки, без повтора анимации */
+#boot.fast video{display:none}
+#boot.fast svg{opacity:1;animation:bootF 1.3s ease-in-out infinite}
 @keyframes bootP{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes bootF{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.05);opacity:.82}}
 /* ===== v33: без увеличения шрифтов системой, ничего не вылезает за край; ранги крупно и ярко ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html{overflow-x:hidden;overscroll-behavior:none}body{overflow-x:clip;max-width:100%}
@@ -1458,7 +1524,7 @@ html.light .hm-hero:after{opacity:.55}
 </head>
 <body>
 <div id="boot" aria-hidden="true"><div class="boot-in"><svg viewBox="0 16.8 100 66.4"><path d="M50.1 67.3 48.2 65.2 45.3 62.6 42.0 60.6 39.4 59.7 37.9 59.5 37.4 59.3 34.6 59.3 34.2 59.5 32.8 59.7 30.2 60.8 27.9 62.5 15.7 74.9 9.2 80.9 8.7 81.7 8.8 82.3 9.3 82.7 9.8 83.0 10.7 83.2 22.8 83.2 25.0 83.1 25.4 82.9 26.9 82.7 29.4 82.0 31.9 80.8 35.2 78.4 43.4 70.3 44.9 69.2 46.9 68.1 48.4 67.7 50.0 67.6ZM100.0 20.5 99.7 19.8 98.8 19.0 97.8 18.7 97.2 18.7 96.9 18.5 95.6 18.5 95.0 18.3 92.3 18.3 91.9 18.1 89.3 18.1 87.9 17.9 82.3 17.9 81.9 17.7 75.4 17.7 75.0 17.9 72.2 17.9 71.8 18.1 70.9 18.1 70.5 18.3 69.8 18.3 69.4 18.5 68.0 18.7 65.0 19.6 63.8 20.0 60.6 21.7 57.0 24.2 53.5 27.6 45.7 36.5 44.5 37.7 43.2 38.7 41.2 39.7 39.0 40.3 38.2 40.3 37.9 40.5 34.3 40.5 33.9 40.3 32.5 40.3 32.1 40.1 30.8 40.1 29.9 39.9 26.8 39.9 26.3 40.1 25.3 40.1 22.6 40.8 19.9 42.1 18.3 43.2 17.0 44.4 15.2 46.3 12.7 49.7 12.4 49.5 12.4 47.3 11.8 45.7 11.1 44.4 9.7 42.9 9.1 41.5 9.0 39.6 9.3 38.3 9.6 37.8 10.1 37.8 11.1 38.2 12.6 38.2 13.9 37.6 14.8 36.7 14.9 36.1 14.8 34.2 13.9 32.5 13.4 31.9 12.6 31.3 11.8 30.9 10.6 30.8 8.5 31.1 6.7 32.2 5.3 33.6 3.4 36.5 2.4 38.5 1.5 40.9 0.7 43.3 0.5 44.8 0.4 45.1 0.4 45.6 0.2 46.0 0.2 46.9 0.0 47.3 0.0 50.8 0.2 51.2 0.2 51.9 0.7 53.6 0.7 53.9 1.7 55.6 2.8 56.6 3.8 57.2 5.6 58.0 8.8 58.5 12.9 58.5 13.6 58.3 16.0 58.2 16.5 58.0 18.0 57.8 19.1 57.4 19.5 57.4 20.4 57.1 21.0 57.1 23.2 56.3 25.8 55.8 27.7 55.2 29.3 55.0 29.8 54.9 30.8 54.9 31.3 54.7 32.8 54.7 33.2 54.5 37.0 54.7 37.7 54.9 38.5 54.9 38.9 55.0 40.8 55.4 43.4 56.3 45.8 57.6 47.3 58.5 50.0 60.6 54.8 65.4 60.6 71.7 66.2 77.4 68.7 79.5 71.1 81.0 73.2 82.0 75.9 82.7 77.9 83.1 93.1 83.1 95.0 82.5 95.8 82.1 96.2 81.7 96.4 81.0 96.2 80.1 92.9 77.3 91.8 76.6 76.4 64.3 76.0 63.7 75.6 62.8 75.9 61.7 83.3 54.3 84.7 52.7 85.5 51.4 86.1 50.0 86.1 48.5 85.6 47.6 84.7 46.7 83.5 46.1 81.6 45.4 81.1 45.4 80.8 45.2 79.9 45.2 79.6 45.1 76.2 45.1 74.6 45.5 73.1 46.3 66.7 51.6 64.5 52.6 63.4 52.6 62.7 52.4 61.1 51.6 57.7 49.0 57.0 48.4 56.6 47.4 56.6 46.8 56.8 46.2 57.9 44.7 59.6 42.8 62.5 39.7 66.2 36.7 68.0 35.5 70.6 34.1 73.1 33.0 74.4 32.7 75.7 32.1 78.0 31.8 80.0 31.2 80.8 31.2 81.1 31.0 82.2 31.0 82.6 30.8 83.9 30.8 84.4 30.7 86.0 30.7 86.4 30.5 88.1 30.5 88.5 30.3 90.7 30.1 91.7 29.7 92.8 29.6 95.1 28.4 96.3 27.5 98.1 25.8 98.6 25.1 99.8 22.8 99.8 22.3 100.0 22.0ZM18.2 21.4 17.1 22.8 17.0 23.1 17.0 23.5 18.5 23.1 20.5 23.1 21.9 23.5 22.9 24.0 24.2 24.9 25.8 26.7 26.9 28.7 27.5 31.0 27.5 34.1 27.1 35.4 27.4 35.8 30.1 36.9 30.8 37.1 31.7 37.1 32.1 37.3 33.1 37.3 33.5 37.1 34.3 37.1 35.0 36.9 37.0 36.0 38.3 35.1 39.5 33.7 40.4 32.1 40.8 31.3 41.0 30.0 41.2 29.7 41.2 27.0 41.0 26.6 40.8 25.3 40.3 24.2 39.2 22.2 38.3 21.0 37.2 19.9 35.8 18.9 33.7 17.8 31.9 17.2 31.4 17.2 31.1 17.0 30.0 17.0 29.5 16.8 27.5 16.8 25.2 17.2 23.6 17.7 21.7 18.6 19.6 20.0Z"/></svg><video src="vendor/loader.mp4" muted autoplay loop playsinline preload="auto" disablepictureinpicture></video></div></div>
-<script>(function () { var b = document.getElementById('boot'), v = b.querySelector('video'); window.__bootHTML = b.outerHTML; b._t0 = Date.now(); v.addEventListener('playing', function () { b.classList.add('vid'); }); v.addEventListener('error', function () { v.remove(); }); try { var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} })();</script>
+<script>(function () { var b = document.getElementById('boot'), v = b.querySelector('video'); window.__bootHTML = b.outerHTML; b._t0 = Date.now(); var f = null; try { f = sessionStorage.getItem('flFast'); sessionStorage.removeItem('flFast'); } catch (e) {} if (f) { b.classList.add('fast'); b._fast = true; v.remove(); var s = b.querySelector('svg'), el = Date.now() - (+f || 0); if (s && el > 0 && el < 10000) s.style.animationDelay = (-el) + 'ms'; return; } v.addEventListener('playing', function () { b.classList.add('vid'); }); v.addEventListener('error', function () { v.remove(); }); try { var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} })();</script>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
 <symbol id="fa-xmark" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 <symbol id="fa-trophy" viewBox="0 0 24 24"><path d="M7 3.5h10V9a5 5 0 0 1-10 0z" fill="currentColor"/><path d="M7 5.5H5a2.4 2.4 0 0 0 .6 4.7H7.6M17 5.5h2a2.4 2.4 0 0 1-.6 4.7h-2M12 14v3.6M8 21h8M9.6 17.6h4.8l.7 3.4H8.9z"/></symbol>
@@ -1618,7 +1684,7 @@ html.light .hm-hero:after{opacity:.55}
       <div class="nav-pill">
         <button class="nav-btn active" data-action="go-tab" data-tab="arena" aria-label="Главная"><svg class="ic"><use href="#fa-house"/></svg><span>Главная</span></button>
         <button class="nav-btn" data-action="go-tab" data-tab="lifts" aria-label="Силовые"><svg class="ic"><use href="#fa-dumbbell"/></svg><span data-i18n="lifts">Силовые</span></button>
-        <button class="nav-btn" data-action="go-tab" data-tab="clans" aria-label="Кланы"><svg class="ic"><use href="#fa-shield-halved"/></svg><span>Кланы</span></button>
+        <button class="nav-btn" data-action="go-tab" data-tab="clans" aria-label="Сообщество"><svg class="ic"><use href="#fa-earth"/></svg><span data-i18n="clans">Сообщество</span></button>
         <button class="nav-btn" data-action="go-tab" data-tab="nutrition" aria-label="Здоровье"><svg class="ic"><use href="#fa-apple"/></svg><span data-i18n="health">Здоровье</span></button>
         <button class="nav-btn" data-action="go-tab" data-tab="profile" aria-label="Профиль"><svg class="ic"><use href="#fa-user"/></svg><span data-i18n="profile">Профиль</span></button>
       </div>
@@ -1631,6 +1697,7 @@ html.light .hm-hero:after{opacity:.55}
 <button class="plus-item v2" style="--i:2" data-action="plus-do" data-do="open-log-set"><span class="pc" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><svg class="ic"><use href="#fa-bolt"/></svg></span><span>Быстрый подход</span></button>
 <button class="plus-item v2" style="--i:3" data-action="plus-do" data-do="food-ai"><span class="pc" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)"><svg class="ic"><use href="#fa-utensils"/></svg></span><span>Что съел?</span></button>
 <button class="plus-item v2" style="--i:4" data-action="plus-do" data-do="rem-water"><span class="pc" style="background:linear-gradient(135deg,#38BDF8,#0284C7)"><svg class="ic"><use href="#fa-droplet"/></svg></span><span>Стакан воды</span></button>
+<button class="plus-item v2" style="--i:6" data-action="plus-feed"><span class="pc" style="background:linear-gradient(135deg,#EC4899,#BE185D)"><svg class="ic"><use href="#fa-image"/></svg></span><span>Лента</span></button>
 <button class="plus-item v2" style="--i:5" data-action="plus-guide"><span class="pc" style="background:linear-gradient(135deg,#F59E0B,#EA580C)"><svg class="ic"><use href="#fa-person-running"/></svg></span><span>Упражнения</span></button>
 <div id="ptr"><svg class="ic"><use href="#fa-rotate"/></svg></div>
 <div id="page-root"></div>
@@ -1655,7 +1722,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '50',
+  APP_VERSION: '51',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1940,6 +2007,9 @@ Object.keys(MT.SEED_V44).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_A
 // v45
 MT.SEED_V45 = {"en": {"Осталось": "Left", "Съедено": "Eaten", "г съедено": "g eaten", "г осталось": "g left", "г сверх": "g over"}, "uk": {"Осталось": "Залишилось", "Съедено": "З'їдено", "г съедено": "г з'їдено", "г осталось": "г залишилось", "г сверх": "г понад"}, "kk": {"Осталось": "Қалды", "Съедено": "Жейілді", "г съедено": "г жейілді", "г осталось": "г қалды", "г сверх": "г артық"}, "de": {"Осталось": "Übrig", "Съедено": "Gegessen", "г съедено": "g gegessen", "г осталось": "g übrig", "г сверх": "g drüber"}, "es": {"Осталось": "Restan", "Съедено": "Comido", "г съедено": "g comidos", "г осталось": "g restantes", "г сверх": "g de más"}, "fr": {"Осталось": "Restant", "Съедено": "Mangé", "г съедено": "g mangés", "г осталось": "g restants", "г сверх": "g en trop"}, "tr": {"Осталось": "Kalan", "Съедено": "Yenen", "г съедено": "g yenildi", "г осталось": "g kaldı", "г сверх": "g fazla"}};
 Object.keys(MT.SEED_V45).forEach(l => Object.assign(MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}), MT.SEED_V45[l]));
+// v51: подписки, уведомления об активности, вкладка «Сообщество»
+MT.SEED_V51 = {"en": {"лента, дуэли, друзья и кланы": "feed, duels, friends and clans", "Подписки": "Following", "подпишись на сильных": "follow the strongest", "Новый пост": "New post", "{0} подписка": "{0} following", "{0} подписки": "{0} following", "{0} подписок": "{0} following", "Новые рекорды": "New records", "за {0} дней": "last {0} days", "Посты": "Posts", "Вся лента": "Full feed", "Все посты": "All posts", "Загружаю посты…": "Loading posts…", "Пока тихо. Напиши первый пост!": "Quiet for now. Write the first post!", "подписчик": "follower", "подписчика": "followers", "подписчиков": "followers", "подписка": "following", "подписки": "following", "подписок": "following", "В подписках": "Following", "Подписаться": "Follow", "посты": "posts", "лайки": "likes", "подписчики": "followers", "Ты пока ни на кого не подписан": "You're not following anyone yet", "Подпишись на игроков, и их посты соберутся здесь.": "Follow players and their posts will gather here.", "Очистить всё": "Clear all", "Новые": "New", "Ранее": "Earlier", "и ещё": "and", "оценили": "more liked", "оценил(а)": "liked", "твой рекорд": "your record", "твой пост": "your post", "прокомментировал(а)": "commented on", "подписан(а) на тебя": "followed you", "В ответ": "Follow back", "Всё прочитано": "You're all caught up", "Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.": "Likes and comments on your posts, new followers, friend requests and duel challenges will appear here.", "ты": "you", "Лента": "Feed", "Сообщество": "Community"}, "uk": {"лента, дуэли, друзья и кланы": "стрічка, дуелі, друзі та клани", "Подписки": "Підписки", "подпишись на сильных": "підпишися на сильних", "Новый пост": "Новий пост", "{0} подписка": "{0} підписка", "{0} подписки": "{0} підписки", "{0} подписок": "{0} підписок", "Новые рекорды": "Нові рекорди", "за {0} дней": "за {0} днів", "Посты": "Пости", "Вся лента": "Уся стрічка", "Все посты": "Усі пости", "Загружаю посты…": "Завантажую пости…", "Пока тихо. Напиши первый пост!": "Поки тихо. Напиши перший пост!", "подписчик": "підписник", "подписчика": "підписники", "подписчиков": "підписників", "подписка": "підписка", "подписки": "підписки", "подписок": "підписок", "В подписках": "У підписках", "Подписаться": "Підписатися", "посты": "пости", "лайки": "вподобання", "подписчики": "підписники", "Ты пока ни на кого не подписан": "Ти поки ні на кого не підписаний", "Подпишись на игроков, и их посты соберутся здесь.": "Підпишися на гравців, і їхні пости зберуться тут.", "Очистить всё": "Очистити все", "Новые": "Нові", "Ранее": "Раніше", "и ещё": "і ще", "оценили": "оцінили", "оценил(а)": "оцінив(ла)", "твой рекорд": "твій рекорд", "твой пост": "твій пост", "прокомментировал(а)": "прокоментував(ла)", "подписан(а) на тебя": "підписаний(а) на тебе", "В ответ": "У відповідь", "Всё прочитано": "Усе прочитано", "Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.": "Тут з’являться вподобання й коментарі до твоїх постів, нові підписники, заявки в друзі та виклики на дуель.", "ты": "ти", "Лента": "Стрічка", "Сообщество": "Спільнота"}, "kk": {"лента, дуэли, друзья и кланы": "лента, дуэльдер, достар және кландар", "Подписки": "Жазылымдар", "подпишись на сильных": "мықтыларға жазыл", "Новый пост": "Жаңа пост", "{0} подписка": "{0} жазылым", "{0} подписки": "{0} жазылым", "{0} подписок": "{0} жазылым", "Новые рекорды": "Жаңа рекордтар", "за {0} дней": "соңғы {0} күн", "Посты": "Посттар", "Вся лента": "Бүкіл лента", "Все посты": "Барлық посттар", "Загружаю посты…": "Посттар жүктелуде…", "Пока тихо. Напиши первый пост!": "Әзірге тыныш. Алғашқы постты жаз!", "подписчик": "жазылушы", "подписчика": "жазылушы", "подписчиков": "жазылушы", "подписка": "жазылым", "подписки": "жазылым", "подписок": "жазылым", "В подписках": "Жазылымдарда", "Подписаться": "Жазылу", "посты": "посттар", "лайки": "лайктар", "подписчики": "жазылушылар", "Ты пока ни на кого не подписан": "Сен әзірге ешкімге жазылмағансың", "Подпишись на игроков, и их посты соберутся здесь.": "Ойыншыларға жазыл, олардың посттары осында жиналады.", "Очистить всё": "Барлығын тазалау", "Новые": "Жаңа", "Ранее": "Бұрын", "и ещё": "және тағы", "оценили": "бағалады", "оценил(а)": "бағалады", "твой рекорд": "сенің рекордыңды", "твой пост": "сенің постыңды", "прокомментировал(а)": "пікір қалдырды", "подписан(а) на тебя": "саған жазылды", "В ответ": "Жауап ретінде", "Всё прочитано": "Бәрі оқылды", "Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.": "Мұнда посттарыңа лайктар мен пікірлер, жаңа жазылушылар, достық өтінімдері және дуэльге шақырулар пайда болады.", "ты": "сен", "Лента": "Лента", "Сообщество": "Қауымдастық"}, "de": {"лента, дуэли, друзья и кланы": "Feed, Duelle, Freunde und Clans", "Подписки": "Abos", "подпишись на сильных": "folge den Stärksten", "Новый пост": "Neuer Beitrag", "{0} подписка": "{0} Abo", "{0} подписки": "{0} Abos", "{0} подписок": "{0} Abos", "Новые рекорды": "Neue Rekorde", "за {0} дней": "letzte {0} Tage", "Посты": "Beiträge", "Вся лента": "Ganzer Feed", "Все посты": "Alle Beiträge", "Загружаю посты…": "Lade Beiträge…", "Пока тихо. Напиши первый пост!": "Noch ruhig. Schreib den ersten Beitrag!", "подписчик": "Follower", "подписчика": "Follower", "подписчиков": "Follower", "подписка": "Abo", "подписки": "Abos", "подписок": "Abos", "В подписках": "Abonniert", "Подписаться": "Folgen", "посты": "Beiträge", "лайки": "Likes", "подписчики": "Follower", "Ты пока ни на кого не подписан": "Du folgst noch niemandem", "Подпишись на игроков, и их посты соберутся здесь.": "Folge Spielern, und ihre Beiträge erscheinen hier.", "Очистить всё": "Alle löschen", "Новые": "Neu", "Ранее": "Früher", "и ещё": "und", "оценили": "weiteren gefällt", "оценил(а)": "gefällt", "твой рекорд": "dein Rekord", "твой пост": "dein Beitrag", "прокомментировал(а)": "kommentierte", "подписан(а) на тебя": "folgt dir", "В ответ": "Zurückfolgen", "Всё прочитано": "Alles gelesen", "Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.": "Hier erscheinen Likes und Kommentare zu deinen Beiträgen, neue Follower, Freundschaftsanfragen und Duell-Herausforderungen.", "ты": "du", "Лента": "Feed", "Сообщество": "Community"}, "es": {"лента, дуэли, друзья и кланы": "feed, duelos, amigos y clanes", "Подписки": "Siguiendo", "подпишись на сильных": "sigue a los más fuertes", "Новый пост": "Nueva publicación", "{0} подписка": "{0} seguido", "{0} подписки": "{0} seguidos", "{0} подписок": "{0} seguidos", "Новые рекорды": "Nuevos récords", "за {0} дней": "últimos {0} días", "Посты": "Publicaciones", "Вся лента": "Todo el feed", "Все посты": "Todas las publicaciones", "Загружаю посты…": "Cargando publicaciones…", "Пока тихо. Напиши первый пост!": "Todo tranquilo. ¡Escribe la primera publicación!", "подписчик": "seguidor", "подписчика": "seguidores", "подписчиков": "seguidores", "подписка": "seguido", "подписки": "seguidos", "подписок": "seguidos", "В подписках": "Siguiendo", "Подписаться": "Seguir", "посты": "publicaciones", "лайки": "me gusta", "подписчики": "seguidores", "Ты пока ни на кого не подписан": "Aún no sigues a nadie", "Подпишись на игроков, и их посты соберутся здесь.": "Sigue a jugadores y sus publicaciones aparecerán aquí.", "Очистить всё": "Borrar todo", "Новые": "Nuevas", "Ранее": "Antes", "и ещё": "y", "оценили": "más dieron me gusta a", "оценил(а)": "dio me gusta a", "твой рекорд": "tu récord", "твой пост": "tu publicación", "прокомментировал(а)": "comentó", "подписан(а) на тебя": "te sigue", "В ответ": "Seguir también", "Всё прочитано": "Todo leído", "Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.": "Aquí aparecerán los me gusta y comentarios en tus publicaciones, nuevos seguidores, solicitudes de amistad y retos de duelo.", "ты": "tú", "Лента": "Feed", "Сообщество": "Comunidad"}, "fr": {"лента, дуэли, друзья и кланы": "fil, duels, amis et clans", "Подписки": "Abonnements", "подпишись на сильных": "suis les plus forts", "Новый пост": "Nouvelle publication", "{0} подписка": "{0} abonnement", "{0} подписки": "{0} abonnements", "{0} подписок": "{0} abonnements", "Новые рекорды": "Nouveaux records", "за {0} дней": "{0} derniers jours", "Посты": "Publications", "Вся лента": "Tout le fil", "Все посты": "Toutes les publications", "Загружаю посты…": "Chargement des publications…", "Пока тихо. Напиши первый пост!": "C'est calme. Écris la première publication !", "подписчик": "abonné", "подписчика": "abonnés", "подписчиков": "abonnés", "подписка": "abonnement", "подписки": "abonnements", "подписок": "abonnements", "В подписках": "Abonné", "Подписаться": "S'abonner", "посты": "publications", "лайки": "j'aime", "подписчики": "abonnés", "Ты пока ни на кого не подписан": "Tu ne suis encore personne", "Подпишись на игроков, и их посты соберутся здесь.": "Abonne-toi à des joueurs et leurs publications apparaîtront ici.", "Очистить всё": "Tout effacer", "Новые": "Nouvelles", "Ранее": "Plus tôt", "и ещё": "et", "оценили": "autres ont aimé", "оценил(а)": "a aimé", "твой рекорд": "ton record", "твой пост": "ta publication", "прокомментировал(а)": "a commenté", "подписан(а) на тебя": "s'est abonné(e) à toi", "В ответ": "S'abonner aussi", "Всё прочитано": "Tout est lu", "Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.": "Ici apparaîtront les j'aime et commentaires sur tes publications, les nouveaux abonnés, les demandes d'amis et les défis en duel.", "ты": "toi", "Лента": "Fil", "Сообщество": "Communauté"}, "tr": {"лента, дуэли, друзья и кланы": "akış, düellolar, arkadaşlar ve klanlar", "Подписки": "Takip", "подпишись на сильных": "en güçlüleri takip et", "Новый пост": "Yeni gönderi", "{0} подписка": "{0} takip", "{0} подписки": "{0} takip", "{0} подписок": "{0} takip", "Новые рекорды": "Yeni rekorlar", "за {0} дней": "son {0} gün", "Посты": "Gönderiler", "Вся лента": "Tüm akış", "Все посты": "Tüm gönderiler", "Загружаю посты…": "Gönderiler yükleniyor…", "Пока тихо. Напиши первый пост!": "Şimdilik sessiz. İlk gönderiyi yaz!", "подписчик": "takipçi", "подписчика": "takipçi", "подписчиков": "takipçi", "подписка": "takip", "подписки": "takip", "подписок": "takip", "В подписках": "Takip ediliyor", "Подписаться": "Takip et", "посты": "gönderi", "лайки": "beğeni", "подписчики": "takipçi", "Ты пока ни на кого не подписан": "Henüz kimseyi takip etmiyorsun", "Подпишись на игроков, и их посты соберутся здесь.": "Oyuncuları takip et, gönderileri burada toplanır.", "Очистить всё": "Tümünü temizle", "Новые": "Yeni", "Ранее": "Daha önce", "и ещё": "ve", "оценили": "kişi daha beğendi", "оценил(а)": "beğendi", "твой рекорд": "rekorunu", "твой пост": "gönderini", "прокомментировал(а)": "yorum yaptı", "подписан(а) на тебя": "seni takip ediyor", "В ответ": "Geri takip et", "Всё прочитано": "Hepsi okundu", "Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.": "Gönderilerine gelen beğeniler ve yorumlar, yeni takipçiler, arkadaşlık istekleri ve düello davetleri burada görünür.", "ты": "sen", "Лента": "Akış", "Сообщество": "Topluluk"}};
+Object.keys(MT.SEED_V51).forEach(l => Object.keys(MT.SEED_V51[l]).forEach(k => { const force = ["Подписки", "Новые рекорды", "Посты", "В подписках", "Подписаться", "Очистить всё", "Сообщество"].includes(k); if (force || (!(MT.SEED_ADD[l] || {})[k] && !(MT.SEED[l] || {})[k])) (MT.SEED_ADD[l] || (MT.SEED_ADD[l] = {}))[k] = MT.SEED_V51[l][k]; }));
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -3662,19 +3732,31 @@ const ClanService = {
     return out.sort((a, b) => b.ts - a.ts).slice(0, 20);
   },
   /* --- уведомления (собираются из заявок, вызовов и ленты друзей) --- */
-  notifications() {
-    const out = [], fr = new Set((S.friends || []).map(f => f.id));
+  // v51: + лайки и комментарии к твоим постам, новые подписчики; у каждого уведомления свой ключ, чтобы его можно было убрать
+  allNotifs() {
+    const out = [], fr = new Set((S.friends || []).map(f => f.id)), fol = new Set(Follow.ids());
     if (this.online()) {
       (Net.d.requests || []).forEach(r => {
-        if (r.status === 'pending' && r.to_id === Net.uid && Net.d.byId[r.from_id]) out.push({ kind: 'req', id: r.id, uid: r.from_id, ts: new Date(r.created_at).getTime() });
-        if (r.status === 'accepted' && r.from_id === Net.uid && Net.d.byId[r.to_id]) out.push({ kind: 'acc', uid: r.to_id, ts: new Date(r.updated_at || r.created_at).getTime() });
+        if (r.status === 'pending' && r.to_id === Net.uid && Net.d.byId[r.from_id]) out.push({ kind: 'req', key: 'req:' + r.id, id: r.id, uid: r.from_id, ts: new Date(r.created_at).getTime() });
+        if (r.status === 'accepted' && r.from_id === Net.uid && Net.d.byId[r.to_id]) out.push({ kind: 'acc', key: 'acc:' + r.to_id, uid: r.to_id, ts: new Date(r.updated_at || r.created_at).getTime() });
       });
-      (Net.d.duels || []).forEach(d => { if (d.b_id === Net.uid && d.status === 'active' && Net.d.byId[d.a_id]) out.push({ kind: 'duel', uid: d.a_id, ts: new Date(d.created_at).getTime() }); });
+      (Net.d.duels || []).forEach(d => { if (d.b_id === Net.uid && d.status === 'active' && Net.d.byId[d.a_id]) out.push({ kind: 'duel', key: 'duel:' + (d.id || d.a_id), uid: d.a_id, ts: new Date(d.created_at).getTime() }); });
     }
-    this.feed().filter(f => !f.self && fr.has(f.uid)).forEach(f => out.push({ kind: 'pr', uid: f.uid, ex: f.ex, weight: f.weight, reps: f.reps, ts: f.ts }));
-    (S.modNotes || []).forEach(m => out.push({ kind: 'mod', text: m.text, ok: m.ok, ts: m.ts }));
-    return out.sort((a, b) => b.ts - a.ts).slice(0, 40);
+    this.feed().filter(f => !f.self && (fr.has(f.uid) || fol.has(f.uid))).forEach(f => out.push({ kind: 'pr', key: 'pr:' + f.id, uid: f.uid, ex: f.ex, weight: f.weight, reps: f.reps, ts: f.ts }));
+    (S.modNotes || []).forEach(m => out.push({ kind: 'mod', key: 'mod:' + m.ts, text: m.text, ok: m.ok, ts: m.ts }));
+    if (typeof Activity !== 'undefined') Activity.list().forEach(n => out.push(n));
+    return out;
   },
+  notifications() {
+    const clr = S.notifClr || 0, hid = S.notifHide || {};
+    return this.allNotifs().map(n => {
+      if (n.kind !== 'like') return n;
+      const cut = Math.max(clr, hid[n.key] || 0), xs = n.likers.filter(l => l.ts > cut); // после удаления показываем только новые лайки
+      return xs.length ? { ...n, likers: xs, uid: xs[0].uid, ts: xs[0].ts } : null;
+    }).filter(n => n && n.ts > clr && !((hid[n.key] || 0) >= n.ts)).sort((a, b) => b.ts - a.ts).slice(0, 60);
+  },
+  notifHide(key) { const h = S.notifHide || (S.notifHide = {}); h[key] = Date.now(); const ks = Object.keys(h); if (ks.length > 400) ks.sort((a, b) => h[a] - h[b]).slice(0, ks.length - 400).forEach(k => delete h[k]); save(); },
+  notifClear() { S.notifClr = Date.now(); S.notifHide = {}; save(); },
   unread() { const seen = S.notifSeen || 0; return this.notifications().filter(n => n.kind === 'req' || n.ts > seen).length; },
   // лучший e1RM друга по упражнению. Онлайн: из профиля; офлайн: детерминированный мок
   friendRecord(friend, exName) {
@@ -4034,8 +4116,8 @@ const Referral = {
 const Social = {
   cache: [], at: 0, done: false, tag: null, q: '', loading: false, missing: false, tagsCache: [], liked: new Set(),
   // v23: сортировка ленты
-  sort: 'new', SORTS: [['new', 'fa-clock', 'Новые'], ['top', 'fa-fire', 'Популярные'], ['talk', 'fa-comments', 'Обсуждаемые'], ['video', 'fa-video', 'С видео']],
-  sortLocal(xs) { const k = this.sort; if (k === 'video') xs = xs.filter(p => p.video || p.vkey); if (k === 'top') xs = xs.slice().sort((a, b) => (b.likes * 3 + (b.views || 0) * .2) - (a.likes * 3 + (a.views || 0) * .2) || b.ts - a.ts); if (k === 'talk') xs = xs.slice().sort((a, b) => b.comments - a.comments || b.ts - a.ts); return xs; },
+  sort: 'new', SORTS: [['new', 'fa-clock', 'Новые'], ['follow', 'fa-user-check', 'Подписки'], ['top', 'fa-fire', 'Популярные'], ['talk', 'fa-comments', 'Обсуждаемые'], ['video', 'fa-video', 'С видео']],
+  sortLocal(xs) { const k = this.sort; if (k === 'follow') { const f = new Set(Follow.ids()); xs = xs.filter(p => f.has(p.uid)); } if (k === 'video') xs = xs.filter(p => p.video || p.vkey); if (k === 'top') xs = xs.slice().sort((a, b) => (b.likes * 3 + (b.views || 0) * .2) - (a.likes * 3 + (a.views || 0) * .2) || b.ts - a.ts); if (k === 'talk') xs = xs.slice().sort((a, b) => b.comments - a.comments || b.ts - a.ts); return xs; },
   // v23: просмотр видео (один раз на человека); вернёт новое число просмотров
   async view(id) {
     const p = this.find(id); if (!p) return null;
@@ -4047,7 +4129,7 @@ const Social = {
   local() { return S.social || (S.social = { posts: [], likes: {}, comments: {}, tags: {}, reports: [] }); },
   parseTags(text) { const out = []; String(text || '').replace(/#([\p{L}\p{N}_]{2,30})/gu, (_, t) => { t = t.toLowerCase(); if (!out.includes(t)) out.push(t); }); return out.slice(0, 10); },
   exTag(ex) { return String(U.exRu(ex) || ex).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_|_$/g, '').slice(0, 30); },
-  author(uid) { const p = ClanService.player(uid) || {}; return { nick: p.nick || '?', photo: p.photo || null, sex: p.sex || 'm', arenaIdx: p.arenaIdx || 0 }; },
+  author(uid) { const p = ClanService.player(uid) || (typeof Activity !== 'undefined' && Activity.people[uid]) || {}; return { nick: p.nick || '?', photo: p.photo || null, sex: p.sex || 'm', arenaIdx: p.arenaIdx || 0 }; },
   norm(r) { // строка posts → пост для интерфейса
     const self = r.user_id === Net.uid, uid = self ? 'me' : r.user_id, a = this.author(uid);
     return { id: r.id, uid, self, ...a, kind: r.kind || 'post', body: r.body || '', tags: r.tags || [], img: r.photo || null, video: r.video || null, ex: r.ex, weight: r.weight != null ? +r.weight : null, reps: r.reps || 1, likes: r.like_count || 0, liked: this.liked.has(r.id), comments: r.comment_count || 0, views: r.view_count || 0, ts: new Date(r.created_at).getTime() };
@@ -4063,7 +4145,7 @@ const Social = {
     out.forEach(p => { p.views = (p.views || (!p.self && (p.video || p.vkey) ? 7 + (p.likes || 0) * 4 : 0)) + (L.views && L.views[p.id] ? 1 : 0); const lk = L.likes[p.id]; if (lk) { p.liked = true; p.likes += p.self ? 0 : 1; } if (p.self) p.likes = lk ? 1 : 0; p.comments = (p.comments || 0) + (L.comments[p.id] || []).length; });
     return out.sort((a, b) => b.ts - a.ts);
   },
-  filterLocal(xs) { const t = this.tag, q = this.q.toLowerCase(); return xs.filter(p => (!t || p.tags.includes(t)) && (!q || (p.body + ' ' + p.nick + ' ' + (p.ex ? U.exRu(p.ex) : '')).toLowerCase().includes(q))); },
+  filterLocal(xs) { const t = this.tag, q = this.q.toLowerCase(); return xs.filter(p => (t ? p.tags.includes(t) : p.kind !== 'pr') && (!q || (p.body + ' ' + p.nick + ' ' + (p.ex ? U.exRu(p.ex) : '')).toLowerCase().includes(q))); },
   recent(n = 8) { return (this.cache.length ? this.cache : this.online() ? [] : this.demo()).slice(0, n); },
   stale() { return Date.now() - this.at > 30000; },
   // первая страница (reset) или следующая (более старые посты)
@@ -4074,9 +4156,11 @@ const Social = {
       const srt = this.sort || 'new'; let q = Net.client.from('posts').select('*');
       if (srt === 'top') q = q.gte('created_at', new Date(Date.now() - 30 * 864e5).toISOString()).order('like_count', { ascending: false }).order('created_at', { ascending: false });
       else if (srt === 'talk') q = q.gte('created_at', new Date(Date.now() - 30 * 864e5).toISOString()).order('comment_count', { ascending: false }).order('created_at', { ascending: false });
+      else if (srt === 'follow') { const ids = Follow.ids(); if (!ids.length) { this.cache = []; this.done = true; this.at = Date.now(); return true; } q = q.in('user_id', ids.slice(0, 300)).order('created_at', { ascending: false }); }
       else q = q.order('created_at', { ascending: false });
       if (srt === 'video') q = q.not('video', 'is', null);
-      if (srt === 'new' || srt === 'video') { q = q.limit(12); if (!reset && this.cache.length) q = q.lt('created_at', new Date(this.cache[this.cache.length - 1].ts).toISOString()); }
+      if (!this.tag) q = q.or('kind.is.null,kind.neq.pr'); // v51: рекорды идут отдельной горизонтальной полосой
+      if (srt === 'new' || srt === 'video' || srt === 'follow') { q = q.limit(12); if (!reset && this.cache.length) q = q.lt('created_at', new Date(this.cache[this.cache.length - 1].ts).toISOString()); }
       else { const from = reset ? 0 : this.cache.length; q = q.range(from, from + 11); }
       if (this.tag) q = q.contains('tags', [this.tag]);
       if (this.q) q = q.ilike('body', `%${this.q.replace(/[%_]/g, '')}%`);
@@ -4206,6 +4290,87 @@ const Social = {
 // v44: новая версия. Номер сборки (versionCode) = номер запуска сборки в GitHub = тег релиза build-N.
 // v48: обновляемся через Google Play (внутреннее тестирование): кнопка «Обновить» открывает страницу теста в Play.
 // Проверяем при запуске и при возврате в приложение (не чаще раза в 30 минут). «Позже» — не напоминаем сутки, после «Обновить» — 6 часов.
+/* ---------------------- v51: ПОДПИСКИ ---------------------- */
+const Follow = {
+  set: new Set(), fers: new Set(), at: 0, missing: false, cnt: {},
+  online() { return typeof Net !== 'undefined' && Net.online() && !this.missing; },
+  local() { return S.follows || (S.follows = []); },
+  has(uid) { if (!uid || uid === 'me') return false; return this.online() ? this.set.has(uid) : this.local().includes(uid); },
+  ids() { return this.online() ? [...this.set] : this.local().slice(); },
+  async load() {
+    if (!this.online()) return false;
+    try {
+      const [a, b] = await Promise.all([Net.client.from('follows').select('followee_id').eq('follower_id', Net.uid).limit(2000), Net.client.from('follows').select('follower_id').eq('followee_id', Net.uid).limit(5000)]);
+      if (a.error) { if (/follows|does not exist|schema cache|PGRST20/i.test((a.error.message || '') + ' ' + (a.error.code || ''))) this.missing = true; return false; }
+      this.set = new Set((a.data || []).map(x => x.followee_id)); this.fers = new Set(b.error ? [] : (b.data || []).map(x => x.follower_id)); this.at = Date.now();
+      S.follows = [...this.set]; this.cnt.me = { fers: this.fers.size, fing: this.set.size, at: Date.now() }; return true;
+    } catch (e) { console.warn('Follow.load', e); return false; }
+  },
+  async toggle(uid) {
+    if (!uid || uid === 'me') return { error: 'Это ты' };
+    const on = !this.has(uid), c = this.cnt[uid], bump = d => { if (c) c.fers = Math.max(0, c.fers + d); };
+    bump(on ? 1 : -1);
+    if (this.online()) {
+      on ? this.set.add(uid) : this.set.delete(uid); S.follows = [...this.set];
+      const res = on ? await Net.client.from('follows').insert({ follower_id: Net.uid, followee_id: uid }) : await Net.client.from('follows').delete().eq('follower_id', Net.uid).eq('followee_id', uid);
+      if (res.error && res.error.code !== '23505') {
+        on ? this.set.delete(uid) : this.set.add(uid); S.follows = [...this.set]; bump(on ? -1 : 1);
+        return { error: /follows|schema cache|does not exist|PGRST20/i.test((res.error.message || '') + ' ' + (res.error.code || '')) ? 'Подписки пока не работают: запусти update_v51.sql в Supabase' : Net.err(res.error) };
+      }
+    } else { const L = this.local(), i = L.indexOf(uid); if (on && i < 0) L.push(uid); if (!on && i >= 0) L.splice(i, 1); }
+    if (this.cnt.me) this.cnt.me.fing = this.ids().length;
+    save(); return { ok: true, on };
+  },
+  // число подписчиков и подписок
+  async counts(uid) {
+    const c0 = this.cnt[uid]; if (c0 && Date.now() - (c0.at || 0) < 60000) return c0;
+    let c;
+    if (uid === 'me') c = this.online() ? { fers: this.fers.size, fing: this.set.size } : { fers: 0, fing: this.local().length };
+    else if (this.online()) {
+      try { const [a, b] = await Promise.all([Net.client.from('follows').select('follower_id', { count: 'exact', head: true }).eq('followee_id', uid), Net.client.from('follows').select('followee_id', { count: 'exact', head: true }).eq('follower_id', uid)]); c = { fers: a.count || 0, fing: b.count || 0 }; } catch (_) { c = { fers: 0, fing: 0 }; }
+    } else { const h = String(uid).split('').reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) % 9973, 7); c = { fers: h % 140 + (this.has(uid) ? 1 : 0), fing: h % 37 }; }
+    c.at = Date.now(); this.cnt[uid] = c; return c;
+  },
+  // рекомендации: друзья, потом сильные игроки, на кого ещё не подписан
+  suggest(n = 8) {
+    const hide = Social.hiddenUsers(), mine = new Set(this.ids()), fr = new Set((S.friends || []).map(f => f.id));
+    return ClanService.allPlayers().filter(p => !mine.has(p.id) && !hide.has(p.id)).map(p => ({ ...p, sc: (fr.has(p.id) ? 1e7 : 0) + ((ClanService.player(p.id) || {}).trophies || 0) })).sort((a, b) => b.sc - a.sc).slice(0, n);
+  },
+};
+
+/* ---------------------- v51: АКТИВНОСТЬ — лайки, комментарии и подписки на тебя (для уведомлений) ---------------------- */
+const Activity = {
+  items: [], people: {}, at: 0, missing: false, _p: null,
+  online() { return typeof Net !== 'undefined' && Net.online() && !this.missing; },
+  load(force) {
+    if (!this.online()) return Promise.resolve(false);
+    if (!force && Date.now() - this.at < 45000) return Promise.resolve(true);
+    if (this._p) return this._p;
+    this._p = (async () => {
+      try {
+        const { data, error } = await Net.client.rpc('my_activity', { p_limit: 60 });
+        if (error) { if (/my_activity|PGRST202|schema cache|does not exist/i.test((error.message || '') + ' ' + (error.code || ''))) this.missing = true; return false; }
+        const rows = Array.isArray(data) ? data : [];
+        rows.forEach(x => { if (x.uid) this.people[x.uid] = { nick: x.nick || '?', photo: x.avatar || null, sex: x.sex || 'm', arenaIdx: x.arena_idx || 0 }; });
+        this.items = rows.map(x => ({ kind: x.kind, uid: x.uid, post: x.post, ref: x.ref, text: x.text || '', prev: x.prev || '', pkind: x.pkind, ts: new Date(x.ts).getTime() })).filter(x => x.uid && x.ts && x.uid !== Net.uid);
+        this.at = Date.now(); return true;
+      } catch (e) { console.warn('Activity', e); return false; } finally { this._p = null; }
+    })();
+    return this._p;
+  },
+  // лайки одного поста — одним уведомлением «Аня и ещё 3 оценили…»
+  list() {
+    const hide = Social.hiddenUsers(), out = [], likes = {};
+    this.items.slice().sort((a, b) => b.ts - a.ts).forEach(x => {
+      if (hide.has(x.uid)) return;
+      if (x.kind === 'like') { const g = likes[x.post] || (likes[x.post] = { kind: 'like', key: 'like:' + x.post, post: x.post, prev: x.prev, pkind: x.pkind, likers: [] }); if (!g.likers.some(l => l.uid === x.uid)) g.likers.push({ uid: x.uid, ts: x.ts }); return; }
+      out.push({ ...x, key: x.kind + ':' + (x.ref || x.uid) });
+    });
+    Object.values(likes).forEach(g => { g.uid = g.likers[0].uid; g.ts = g.likers[0].ts; out.push(g); });
+    return out;
+  },
+};
+
 const Updater = {
   REPO: 'luchik129/apex-arena', KEY: 'FLX_UPDATE', EVERY: 30 * 60e3, cur: 0, SNOOZE: 24 * 3600e3, SNOOZE_GO: 6 * 3600e3,
   PLAY: 'https://play.google.com/apps/internaltest/4701513163843446186',
@@ -4542,6 +4707,7 @@ const Net = {
         if (typeof Referral !== 'undefined') Referral.sync();
         if (typeof Mod !== 'undefined') Mod.sync();
         if (typeof League !== 'undefined') League.settle();
+        if (typeof Follow !== 'undefined') { Follow.load().then(ok => { if (ok && typeof UI !== 'undefined' && UI.tab === 'clans' && !document.getElementById('modal')) UI.keepInputs(() => UI.renderClans()); }); Activity.load().then(ok => { if (ok && typeof UI !== 'undefined') UI.renderHeader(); }); }
         save(); return true;
       } catch (e) { console.warn('Net.refresh', e); return false; }
       finally { this._refreshing = null; }
@@ -4857,14 +5023,16 @@ const UI = {
     ind.style.setProperty('--w', b.offsetWidth + 'px'); ind.style.transform = `translateX(${b.offsetLeft}px)`;
   },
 
-  applyLang() { document.documentElement.lang = S.profile.lang || 'ru'; this.$$('[data-i18n]').forEach(el => el.textContent = T(el.dataset.i18n)); },
+  applyLang() { document.documentElement.lang = S.profile.lang || 'ru'; this.$$('[data-i18n]').forEach(el => el.textContent = T(el.dataset.i18n)); this.fitNav(); },
+  // v51: длинные подписи в нижнем меню («Сообщество», «Қауымдастық») чуть уменьшаем, чтобы не обрезались
+  fitNav() { if (!this._fitNavOn) { this._fitNavOn = true; window.addEventListener('resize', () => this.fitNav()); try { document.fonts && document.fonts.ready.then(() => this.fitNav()); document.fonts && document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', () => this.fitNav()); } catch (_) {} } requestAnimationFrame(() => this.$$('#nav .nav-btn span').forEach(s => { const btn = s.parentElement, cs = getComputedStyle(btn), avail = btn.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 3; s.style.fontSize = ''; s.style.letterSpacing = ''; s.style.maxWidth = 'none'; let f = 0.62; while (s.getBoundingClientRect().width > avail && f > 0.5) { f = Math.round((f - 0.02) * 100) / 100; s.style.fontSize = f + 'rem'; s.style.letterSpacing = '-.02em'; } s.style.maxWidth = ''; })); },
   renderHeader() {
     const bell = this.$('#hdr-bell'); if (bell) { const n = ClanService.unread(); bell.textContent = n > 9 ? '9+' : n; bell.classList.toggle('hidden', !n); }
     const hc = this.$('#hdr-coins'); if (hc) hc.textContent = S.game.coins;
     // v30: заголовок вкладки как в референсе: крупное название и подпись
     const t = this.tab, d = new Date(), date = d.toLocaleDateString(U.locale(), { weekday: 'long', day: 'numeric', month: 'long' });
     const wk = Calc.workoutsInWeek(U.weekKey()), tg = U.clamp(S.profile.weekTarget || 3, 2, 6);
-    const [ttl, sub] = { arena: ['Главная', date.charAt(0).toUpperCase() + date.slice(1)], lifts: [T('lifts'), `${wk} из ${tg} тренировок на этой неделе`], clans: ['Кланы', S.clan ? 'клан, друзья, дуэли и лента' : 'найди команду и друзей'], nutrition: [T('health'), 'еда, вода, сон и вес'], profile: [T('profile'), S.profile.nickname || ''] }[t] || ['', ''];
+    const [ttl, sub] = { arena: ['Главная', date.charAt(0).toUpperCase() + date.slice(1)], lifts: [T('lifts'), `${wk} из ${tg} тренировок на этой неделе`], clans: [T('clans'), 'лента, дуэли, друзья и кланы'], nutrition: [T('health'), 'еда, вода, сон и вес'], profile: [T('profile'), S.profile.nickname || ''] }[t] || ['', ''];
     const ht = this.$('#hdr-title'), hs = this.$('#hdr-sub');
     { const cb = this.$('.nav-btn[data-tab=clans]'); if (cb) { const on = ClanService.incoming().length > 0; let d = cb.querySelector('.nav-dot'); if (on && !d) { d = document.createElement('i'); d.className = 'nav-dot'; cb.appendChild(d); } else if (!on && d) d.remove(); } }
     if (ht && t === 'arena') { if (!ht.querySelector('.flx-logo')) ht.innerHTML = LOGO_SVG('hdr-logo'); }
@@ -5490,6 +5658,7 @@ const UI = {
     this.morph(pg, `<div class="pg-hd"><button class="back-btn" data-action="page-back" aria-label="Назад"><svg class="ic"><use href="#fa-arrow-left"/></svg></button><div class="font-black text-lg truncate">${U.esc(title)}</div></div><div class="pg-body">${body}</div>`);
     App.restoreDrafts(pg); if (typeof MT !== 'undefined' && MT.active && MT.active()) MT.apply(pg); if (typeof FIG !== 'undefined') FIG.scan();
     this.hydrateVideos(pg); pg.classList.toggle('themed', !!pg.querySelector('.clan-bd'));
+    if (k === 'user') { this.fillCounts(pg, this._userPage); if (this._userFocus) { const el = pg.querySelector(`[data-key="p${CSS.escape(this._userFocus)}"]`); if (el) { const fid = this._userFocus, cm = this._userFocusCm; this._userFocus = null; this._userFocusCm = false; el.classList.add('flash'); setTimeout(() => { el.scrollIntoView({ block: 'start', behavior: 'smooth' }); if (cm) setTimeout(() => this.openComments(fid), 350); }, 80); } } }
     if (k === 'feed') { this.bindFeedScroll(pg); if (!Social.cache.length && !Social.loading && !Social.done) Social.load(true).then(() => this._page === 'feed' && this.renderPage()); if (this._feedFocus) { const el = pg.querySelector(`[data-key="p${CSS.escape(this._feedFocus)}"]`); if (el) { this._feedFocus = null; setTimeout(() => el.scrollIntoView({ block: 'start' }), 60); } } }
   },
   closePage(fromPop = false) {
@@ -5547,13 +5716,13 @@ const UI = {
         <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-2" style="background:${color}22;color:${color}"><svg class="ic text-lg"><use href="#${icon}"/></svg></div>
         <div class="font-bold text-sm truncate">${title}</div><div class="text-[10px] muted mt-0.5 truncate">${sub}</div>
         ${badge ? `<span class="bell-dot" style="top:.5rem;right:.5rem">${badge}</span>` : ''}<svg class="ic muted absolute" style="top:.85rem;right:.7rem"><use href="#${lk ? 'fa-lock' : 'fa-chevron-right'}"/></svg></button>`; };
-    const tiles = `<div class="grid grid-cols-3 gap-2 mb-4">
+    const tiles = `<div class="grid grid-cols-2 gap-2 mb-4">
         ${tile('challenges', '#F97316', 'fa-khanda', T('challenges'), d ? `${d.myScore} : ${d.oppScore}` : this._mm ? 'поиск…' : T('no_duel'), !d && !this._mm ? ClanService.queueCount() : 0)}
         ${tile('friends', '#3B82F6', 'fa-users', T('friends'), friends.length ? `${friends.length}` : T('add_friend'), inc)}
-        ${tile('feed', '#EC4899', 'fa-image', 'Лента', 'рекорды и посты')}
       </div>`;
     const lb = this.communityBoard();
-    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента и рейтинги показывают примеры</div>') + this.clanHero() + this.friendsWeekCard() + this.postsCarousel() + tiles + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
+    // v51: сначала люди и лента (подписки → рекорды горизонтально → посты вертикально), потом дуэли, друзья, клан и рейтинги
+    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента и рейтинги показывают примеры</div>') + this.peopleRow() + this.recordsStrip() + this.postsList() + tiles + this.clanHero() + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
     if (this._page) this.renderPage();
     this.renderHeader();
   },
@@ -5563,14 +5732,16 @@ const UI = {
   userPageHtml() {
     const uid = this._userPage, self = uid === 'me', p = self ? { nick: S.profile.nickname || 'Ты', photo: S.profile.avatar.photo, sex: S.profile.sex, trophies: S.game.trophies, arenaIdx: S.game.arenaIdx } : (ClanService.player(uid) || Social.author(uid));
     const ar = Calc.arena(p.arenaIdx || 0), xs = Social.userPosts, likes = xs.reduce((a, x) => a + (x.likes || 0), 0);
-    const head = `<div class="card p-4 mb-4"><div class="flex items-center gap-3">${this.av(self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : p, 60)}<div class="flex-1 min-w-0"><div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nick || '?')}</div><div class="text-xs font-bold" style="color:${ar.color}">${TN(ar.name)} · <span class="num">${p.trophies || 0}</span> ${this.trophyIcon}</div></div>${self ? '' : `<button class="btn btn-ghost btn-sm" data-action="mini-profile" data-id="${U.esc(uid)}">Профиль</button>`}</div>
-      <div class="grid grid-cols-2 gap-2 mt-3 text-center"><div class="sub p-2"><div class="font-black num">${xs.length}</div><div class="text-[10px] muted">постов</div></div><div class="sub p-2"><div class="font-black num">${likes}</div><div class="text-[10px] muted">лайков</div></div></div>
+    const head = `<div class="card p-4 mb-4"><div class="flex items-center gap-3">${this.av(self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : p, 60)}<div class="flex-1 min-w-0"><div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nick || '?')}</div><div class="text-xs font-bold" style="color:${ar.color}">${TN(ar.name)} · <span class="num">${p.trophies || 0}</span> ${this.trophyIcon}</div></div></div>
+      <div class="grid grid-cols-4 gap-2 mt-3 text-center"><div class="sub p-2"><div class="font-black num">${xs.length}</div><div class="text-[10px] muted">посты</div></div><div class="sub p-2"><div class="font-black num">${likes}</div><div class="text-[10px] muted">лайки</div></div><div class="sub p-2"><div class="font-black num" data-fcn="fers|${U.esc(uid)}">${(Follow.cnt[uid] || {}).fers ?? '…'}</div><div class="text-[10px] muted">подписчики</div></div><div class="sub p-2"><div class="font-black num" data-fcn="fing|${U.esc(uid)}">${(Follow.cnt[uid] || {}).fing ?? '…'}</div><div class="text-[10px] muted">подписки</div></div></div>
+      ${self ? '' : `<div class="grid grid-cols-2 gap-2 mt-3">${this.followBtn(uid)}<button class="btn btn-ghost" data-action="mini-profile" data-id="${U.esc(uid)}"><svg class="ic"><use href="#fa-user"/></svg> Профиль</button></div>`}
       ${self ? `<button class="btn btn-primary w-full mt-3" data-action="post-new"><svg class="ic"><use href="#fa-plus"/></svg> Новый пост</button>` : ''}</div>`;
     const body = Social.userLoading && !xs.length ? '<div class="muted text-sm text-center py-8"><svg class="ic spin"><use href="#fa-circle-notch"/></svg></div>' : xs.length ? xs.map(x => this.postCard(x)).join('') : `<div class="muted text-sm text-center py-8">${self ? 'У тебя пока нет постов' : 'Постов пока нет'}</div>`;
     return head + body;
   },
   openMiniProfile(id) {
-    const p = ClanService.player(id); if (!p) { this.toast('Игрок не найден', 'red'); return; }
+    const p = ClanService.player(id); if (!p) { if (typeof Activity !== 'undefined' && Activity.people[id]) { this.openUserPage(id); return; } this.toast('Игрок не найден', 'red'); return; }
+    setTimeout(() => this.fillCounts(document.getElementById('modal'), id), 0);
     if (p.self) { this.closeModal(); this.closePage(); this.goTab('profile'); return; }
     const ar = Calc.arena(p.arenaIdx || 0), st = ClanService.friendState(id), unit = U.wUnit();
     const btn = st === 'friend' ? `<button class="btn btn-ghost" disabled><svg class="ic text-em"><use href="#fa-user-check"/></svg> В друзьях</button>`
@@ -5584,26 +5755,48 @@ const UI = {
         <div class="font-black text-lg truncate" data-no-mt>${U.esc(p.nick)}</div>
         ${p.title ? (() => { const ts = U.tstyle(p.titleStyle); return `<div class="text-xs font-bold truncate ${ts.style ? '' : 'text-pu'}"><span class="${ts.cls}" style="${ts.style}">« ${U.esc(p.title)} »</span></div>`; })() : ''}
         <div class="flex items-center gap-1.5 mt-1">${this.rankMedal(p, 30)}<div class="min-w-0"><div class="text-xs font-bold truncate" style="color:${ar.color}">${TN(ar.name)}</div><div class="flex items-center gap-1.5">${this.starsHtml(Calc.rank(p.trophies || 0, p.arenaIdx || 0).stars)}<span class="text-[11px] muted num">${p.trophies || 0} ${this.trophyIcon}</span></div></div></div>
+        <div class="text-[11px] muted mt-1" data-fc="${U.esc(id)}">${Follow.cnt[id] ? this.fcHtml(Follow.cnt[id]) : '&nbsp;'}</div>
         ${p.clan ? `<button class="clan-pill mt-1.5" data-action="clan-view" data-id="${U.esc(p.clan.id || '')}">${this.emblem(p.clan, 'w-5 h-5 text-[10px] rounded-md')}<span class="truncate">${U.esc(p.clan.name)}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>` : ''}</div>
         <button data-action="close-modal" class="muted self-start"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
       ${p.lifts && p.lifts.some(l => l.value) ? `<div class="top3 mb-3">${p.lifts.filter(l => l.value).map(l => `<div><div class="font-black num text-lg leading-none">${U.w(l.value, 0)}</div><div class="text-[10px] muted">${unit}</div><div class="text-[10px] font-semibold mt-1 leading-tight line-clamp-2">${U.esc(U.exRu(l.ex))}</div></div>`).join('')}</div>` : '<div class="text-xs muted mb-3">Рекордов пока нет.</div>'}
       <div class="grid grid-cols-2 gap-2">${btn}<button class="btn btn-or" data-action="duel-start" data-id="${U.esc(id)}" ${S.duel ? 'disabled' : ''}><svg class="ic"><use href="#fa-khanda"/></svg> Дуэль</button></div>
-      <button class="btn btn-ghost w-full mt-2" data-action="user-posts" data-id="${U.esc(id)}"><svg class="ic"><use href="#fa-image"/></svg> Посты игрока</button>
+      <div class="grid grid-cols-2 gap-2 mt-2">${this.followBtn(id)}<button class="btn btn-ghost" data-action="user-posts" data-id="${U.esc(id)}"><svg class="ic"><use href="#fa-image"/></svg> Посты</button></div>
       ${S.clan && S.clan.role === 'leader' && ClanService.clanOthers().some(m => m.id === id) ? `<button class="btn btn-ghost w-full mt-2" data-action="clan-member-menu" data-id="${U.esc(id)}" data-role="${(ClanService.clanOthers().find(m => m.id === id) || {}).role || 'member'}"><svg class="ic"><use href="#fa-crown"/></svg> Управление в клане</button>` : ''}
       <button class="rep-link mt-3" data-action="report-open" data-id="${U.esc(id)}" data-kind="user"><svg class="ic"><use href="#fa-flag-report"/></svg> Пожаловаться или заблокировать</button>`, { center: true });
   },
   /* ---- уведомления (колокольчик) ---- */
   openNotifs() {
-    const list = ClanService.notifications(), unit = U.wUnit();
-    const row = n => { if (n.kind === 'mod') return `<div class="flex items-center gap-3 py-2.5 border-t line ${n.ts > (S.notifSeen || 0) ? '' : 'opacity-80'}"><div class="w-9 h-9 rounded-full flex items-center justify-center" style="flex-shrink:0;background:${n.ok ? '#10B98122' : '#F9731622'}"><svg class="ic ${n.ok ? 'text-em' : 'text-or'}"><use href="#fa-shield-halved"/></svg></div><div class="flex-1 min-w-0 text-sm leading-snug"><b>Модерация</b>: ${U.esc(n.text)}<div class="text-[10px] muted mt-0.5">${U.ago(n.ts)}</div></div></div>`;
-      const p = ClanService.player(n.uid) || { nick: '?', sex: 'm' }, who = this.nick(n.uid, p.nick, 'font-bold');
-      const text = n.kind === 'req' ? `${who} хочет добавить тебя в друзья` : n.kind === 'acc' ? `${who} принял(а) твою заявку в друзья` : n.kind === 'duel' ? `${who} вызвал(а) тебя на дуэль` : `${who}: новый рекорд · ${U.esc(U.exRu(n.ex))} <b class="num">${U.wEx(n.ex, n.weight)} ${unit}</b> × ${U.reps(n.reps)}`;
-      return `<div class="flex items-center gap-3 py-2.5 border-t line ${n.ts > (S.notifSeen || 0) ? '' : 'opacity-80'}">${this.av(p, 36)}<div class="flex-1 min-w-0 text-sm leading-snug">${text}<div class="text-[10px] muted mt-0.5">${U.ago(n.ts)}</div></div>
-        ${n.kind === 'req' ? `<button class="btn btn-primary btn-sm" data-action="friend-accept" data-id="${n.id}"><svg class="ic"><use href="#fa-check"/></svg></button><button class="btn btn-ghost btn-sm" data-action="friend-decline" data-id="${n.id}"><svg class="ic"><use href="#fa-xmark"/></svg></button>` : ''}</div>`; };
-    this.modal(`
-      <div class="flex items-center justify-between mb-2"><div class="font-bold text-lg"><svg class="ic text-amber-400"><use href="#fa-bell"/></svg> Уведомления</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
-      ${list.length ? list.map(row).join('') : '<div class="muted text-sm py-6 text-center">Пока нет уведомлений. Здесь будут заявки в друзья, вызовы и рекорды друзей.</div>'}`);
+    this._ntSeen = S.notifSeen || 0;
+    this.modal(`<div id="nt-box">${this.notifsInner()}</div>`);
     S.notifSeen = Date.now(); save(); this.renderHeader();
+    if (typeof Activity !== 'undefined') Promise.all([Activity.load(true), Follow.load()]).then(() => { if (document.getElementById('nt-box')) { this.refreshNotifs(); S.notifSeen = Date.now(); save(); this.renderHeader(); } });
+  },
+  refreshNotifs() { const box = document.getElementById('nt-box'); if (box) this.morph(box, this.notifsInner()); },
+  notifsInner() {
+    const list = ClanService.notifications(), unit = U.wUnit(), seen = this._ntSeen || 0;
+    const who = uid => this.nick(uid, (this.personOf(uid) || {}).nick || '?', 'font-bold');
+    const IC = { like: ['fa-heart-solid', '#FB7185'], comment: ['fa-comment', '#60A5FA'], follow: ['fa-user-plus', '#34D399'], req: ['fa-user-plus', '#3B82F6'], acc: ['fa-user-check', '#10B981'], duel: ['fa-khanda', '#F97316'], pr: ['fa-crown', '#F59E0B'] };
+    const what = n => n.pkind === 'pr' ? 'твой рекорд' : n.prev ? `<span class="nt-q">«<span data-no-mt>${U.esc(this.cut(n.prev, 34))}</span>»</span>` : 'твой пост';
+    const row = n => {
+      let av, text, act = '', open = '';
+      if (n.kind === 'mod') { av = `<div class="nt-ic" style="background:${n.ok ? '#10B98122' : '#F9731622'}"><svg class="ic ${n.ok ? 'text-em' : 'text-or'}"><use href="#fa-shield-halved"/></svg></div>`; text = `<b>Модерация</b>: ${U.esc(n.text)}`; }
+      else {
+        const [i, c] = IC[n.kind] || ['fa-bell', '#A1A1AA'];
+        av = `<button class="nt-av" data-action="notif-user" data-id="${U.esc(n.uid)}">${this.av(this.personOf(n.uid), 40)}<i style="background:${c}"><svg class="ic"><use href="#${i}"/></svg></i></button>`;
+        if (n.kind === 'like') { const k = n.likers.length; text = k > 1 ? `${who(n.uid)} и ещё <b class="num">${k - 1}</b> оценили ${what(n)}` : `${who(n.uid)} оценил(а) ${what(n)}`; open = `data-action="notif-post" data-id="${U.esc(n.post || '')}"`; }
+        else if (n.kind === 'comment') { text = `${who(n.uid)} прокомментировал(а) ${what(n)}<div class="nt-cm" data-no-mt>${U.esc(this.cut(n.text, 110))}</div>`; open = `data-action="notif-post" data-id="${U.esc(n.post || '')}" data-cm="1"`; }
+        else if (n.kind === 'follow') { text = `${who(n.uid)} подписан(а) на тебя`; act = Follow.has(n.uid) ? `<span class="nt-fb on"><svg class="ic"><use href="#fa-user-check"/></svg></span>` : `<button class="nt-fb" data-action="follow-toggle" data-id="${U.esc(n.uid)}">В ответ</button>`; }
+        else if (n.kind === 'req') { text = `${who(n.uid)} хочет добавить тебя в друзья`; act = `<button class="btn btn-primary btn-sm" data-action="friend-accept" data-id="${n.id}"><svg class="ic"><use href="#fa-check"/></svg></button><button class="btn btn-ghost btn-sm" data-action="friend-decline" data-id="${n.id}"><svg class="ic"><use href="#fa-xmark"/></svg></button>`; }
+        else if (n.kind === 'acc') text = `${who(n.uid)} принял(а) твою заявку в друзья`;
+        else if (n.kind === 'duel') text = `${who(n.uid)} вызвал(а) тебя на дуэль`;
+        else text = `${who(n.uid)}: новый рекорд · ${U.esc(U.exRu(n.ex))} <b class="num">${U.wEx(n.ex, n.weight)} ${unit}</b> × ${U.reps(n.reps)}`;
+      }
+      return `<div class="nt-row ${n.ts > seen ? 'new' : ''}" data-key="nt${U.esc(n.key)}">${av}<div class="nt-body" ${open}>${text}<div class="nt-t">${U.ago(n.ts)}</div></div>${act}${n.kind === 'req' ? '' : `<button class="nt-x" data-action="notif-del" data-key="${U.esc(n.key)}" aria-label="Убрать"><svg class="ic"><use href="#fa-xmark"/></svg></button>`}</div>`;
+    };
+    const fresh = list.filter(n => n.ts > seen), old = list.filter(n => n.ts <= seen);
+    return `<div class="flex items-center justify-between gap-2 mb-1"><div class="font-bold text-lg"><svg class="ic text-amber-400"><use href="#fa-bell"/></svg> Уведомления</div><div class="flex items-center gap-1">${list.length ? '<button class="nt-clr" data-action="notif-clear"><svg class="ic"><use href="#fa-check-double"/></svg> Очистить всё</button>' : ''}<button data-action="close-modal" class="muted px-1" aria-label="Закрыть"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div></div>
+      ${list.length ? (fresh.length ? `<div class="nt-sec">Новые</div>${fresh.map(row).join('')}` : '') + (old.length ? `<div class="nt-sec">Ранее</div>${old.map(row).join('')}` : '')
+        : '<div class="nt-empty"><span><svg class="ic"><use href="#fa-bell"/></svg></span><b>Всё прочитано</b><small>Здесь появятся лайки и комментарии к твоим постам, новые подписчики, заявки в друзья и вызовы на дуэль.</small></div>'}`;
   },
   /* ======================= NUTRITION ======================= */
   renderNutrition() {
@@ -6656,6 +6849,49 @@ Object.assign(UI, {
   postBody(t) { return U.esc(t).replace(/#([\p{L}\p{N}_]{2,30})/gu, (m, tag) => `<button class="tag-link" data-action="feed-tag" data-tag="${tag.toLowerCase()}">#${tag}</button>`).replace(/\n/g, '<br>'); },
   prBlock(p, big) { return `<div class="pr-block ${big ? 'big' : ''}"><div class="text-[10px] font-black uppercase tracking-wider text-amber-400"><svg class="ic"><use href="#fa-crown"/></svg> Новый рекорд</div><div class="text-[11px] muted truncate">${U.esc(U.exRu(p.ex))}</div><div class="font-black num ${big ? 'text-3xl' : 'text-xl'} leading-tight">${U.wEx(p.ex, p.weight)} <span class="text-xs muted font-semibold">${U.wUnit()} × ${U.reps(p.reps)}</span></div></div>`; },
   // свёрнутая карусель последних постов на вкладке «Сообщество»
+  /* ---- v51: блоки «Сообщества» ---- */
+  personOf(uid) { return ClanService.player(uid) || (typeof Activity !== 'undefined' && Activity.people[uid]) || Social.author(uid); },
+  cut(s, n) { s = String(s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; },
+  activeUids() { const out = {}, d = Date.now() - 48 * 36e5, put = (u, ts) => { if (ts > d) out[u] = Math.max(out[u] || 0, ts); }; ClanService.feed().forEach(f => put(f.uid, f.ts)); Social.recent(30).forEach(p => put(p.uid, p.ts)); return out; },
+  // кружки «Подписки»: на кого подписан (цветное кольцо — есть что-то новое за 2 дня), дальше рекомендации с кнопкой +
+  peopleRow() {
+    const hide = Social.hiddenUsers(), act = this.activeUids();
+    const fol = Follow.ids().filter(id => !hide.has(id)).map(id => ({ id, ...this.personOf(id) })).filter(p => p.nick && p.nick !== '?').sort((a, b) => (act[b.id] || 0) - (act[a.id] || 0));
+    const sug = fol.length < 10 ? Follow.suggest(Math.min(8, 10 - fol.length)) : [];
+    const one = (p, sg) => `<div class="ppl ${sg ? 'sug' : ''}" data-key="pp${U.esc(p.id)}"><button class="ppl-av ${act[p.id] ? 'ring' : ''}" data-action="notif-user" data-id="${U.esc(p.id)}" aria-label="${U.esc(p.nick || '')}">${this.av(this.personOf(p.id), 52)}</button>${sg ? `<button class="ppl-f" data-action="follow-toggle" data-id="${U.esc(p.id)}" aria-label="Подписаться"><svg class="ic"><use href="#fa-plus"/></svg></button>` : ''}<small data-no-mt>${U.esc(p.nick || '?')}</small></div>`;
+    return `<div class="sec-h"><b><svg class="ic" style="color:#34D399"><use href="#fa-user-check"/></svg> Подписки</b><span class="text-[10px] muted">${fol.length ? `${fol.length} ${this.fcWord(fol.length, 'fing')}` : 'подпишись на сильных'}</span></div>
+      <div class="ppl-row"><div class="ppl"><button class="ppl-av add" data-action="post-new" aria-label="Новый пост">${this.av({ photo: S.profile.avatar.photo, sex: S.profile.sex }, 52)}<i><svg class="ic"><use href="#fa-plus"/></svg></i></button><small>Новый пост</small></div>${fol.map(p => one(p, false)).join('')}${sug.length ? (fol.length ? '<span class="ppl-sep"></span>' : '') + sug.map(p => one(p, true)).join('') : ''}</div>`;
+  },
+  // новые рекорды — горизонтальная полоса
+  recordsStrip() {
+    const hide = Social.hiddenUsers(), xs = ClanService.feed().filter(f => !hide.has(f.uid)).slice(0, 14), unit = U.wUnit();
+    if (!xs.length) return '';
+    const card = f => { const p = ClanService.player(f.uid) || {}, ar = Calc.arena(p.arenaIdx || 0), c = ar.color || '#F59E0B';
+      return `<div class="rc-card" data-key="rc${U.esc(f.id)}" style="border-color:${c}55;background:radial-gradient(120% 90% at 100% 0%,${c}2E,transparent 62%),var(--card)" role="button" tabindex="0" data-action="mini-profile" data-id="${U.esc(f.uid)}">
+        <div class="rc-top">${this.av(f, 28)}<div class="min-w-0 flex-1"><div class="text-xs font-bold truncate" data-no-mt>${U.esc(f.nick)}</div><div class="text-[10px] muted">${f.self ? 'ты · ' : ''}${U.ago(f.ts)}</div></div>${f.self || Follow.has(f.uid) ? '' : `<button class="rc-f" data-action="follow-toggle" data-id="${U.esc(f.uid)}" aria-label="Подписаться"><svg class="ic"><use href="#fa-plus"/></svg></button>`}</div>
+        <div class="rc-ex truncate">${U.esc(U.exRu(f.ex))}</div>
+        <div class="rc-w num">${U.wEx(f.ex, f.weight)}<small> ${unit} × ${U.reps(f.reps)}</small></div>
+        <div class="rc-badge" style="color:${c}"><svg class="ic"><use href="#fa-crown"/></svg> PR</div></div>`; };
+    return `<div class="sec-h"><b><svg class="ic text-amber-400"><use href="#fa-bolt"/></svg> Новые рекорды</b><span class="text-[10px] muted">за 7 дней</span></div><div class="feed rc-row">${xs.map(card).join('')}</div>`;
+  },
+  // посты — вертикально, три последних
+  postsList() {
+    const hide = Social.hiddenUsers(), xs = Social.recent(14).filter(p => p.kind !== 'pr' && !hide.has(p.uid)).slice(0, 3);
+    return `<div class="sec-h"><b><svg class="ic" style="color:#F472B6"><use href="#fa-image"/></svg> Посты</b><button class="chip" data-action="open-page" data-kind="feed">Вся лента <svg class="ic"><use href="#fa-chevron-right"/></svg></button></div>
+      <button class="compose-btn mb-3" data-action="post-new">${this.av({ photo: S.profile.avatar.photo, sex: S.profile.sex }, 34)}<span class="flex-1 text-left muted text-sm">Чем поделишься? Добавь #хэштеги</span><svg class="ic text-em"><use href="#fa-image"/></svg></button>
+      ${xs.length ? xs.map(p => this.postCard(p)).join('') + `<button class="btn btn-ghost w-full mb-4" data-action="open-page" data-kind="feed"><svg class="ic"><use href="#fa-image"/></svg> Все посты</button>`
+        : `<div class="card p-4 mb-4 text-xs muted text-center">${Social.loading || (Net.online() && !Social.at) ? 'Загружаю посты…' : 'Пока тихо. Напиши первый пост!'}</div>`}`;
+  },
+  fcWord(n, k) { return k === 'fers' ? U.plural(n, 'подписчик', 'подписчика', 'подписчиков') : U.plural(n, 'подписка', 'подписки', 'подписок'); },
+  fcHtml(c) { return `<b class="num">${c.fers}</b> <span>${this.fcWord(c.fers, 'fers')}</span> · <b class="num">${c.fing}</b> <span>${this.fcWord(c.fing, 'fing')}</span>`; },
+  followBtn(id, sz = '') { const on = Follow.has(id); return `<button class="btn ${on ? 'btn-ghost' : 'btn-primary'} ${sz === 'sm' ? 'btn-sm' : ''} fol-btn" data-action="follow-toggle" data-id="${U.esc(id)}" data-sz="${sz}"><svg class="ic ${on ? 'text-em' : ''}"><use href="#${on ? 'fa-user-check' : 'fa-user-plus'}"/></svg> ${on ? 'В подписках' : 'Подписаться'}</button>`; },
+  fillCounts(root, uid) { Follow.counts(uid).then(c => { (root || document).querySelectorAll(`[data-fc="${CSS.escape(uid)}"]`).forEach(el => { el.innerHTML = this.fcHtml(c); }); (root || document).querySelectorAll(`[data-fcn]`).forEach(el => { const [k, u] = el.dataset.fcn.split('|'); if (u === uid) el.textContent = c[k]; }); }); },
+  afterFollow(id) {
+    document.querySelectorAll('.fol-btn').forEach(b => { if (b.dataset.id === id) b.outerHTML = this.followBtn(id, b.dataset.sz); });
+    if (Follow.cnt[id]) this.fillCounts(document, id);
+    if (document.getElementById('nt-box')) this.refreshNotifs();
+    if (this._page) this.renderPage(); if (this.tab === 'clans') this.keepInputs(() => this.renderClans());
+  },
   postsCarousel() {
     const hide = Social.hiddenUsers(), xs = Social.recent(12).filter(p => !hide.has(p.uid)).slice(0, 8);
     const card = p => `<div class="pc-card" role="button" tabindex="0" data-action="feed-open" data-id="${U.esc(p.id)}" data-key="pc${U.esc(p.id)}">
@@ -6674,7 +6910,7 @@ Object.assign(UI, {
       <div class="flex items-center gap-2.5 mb-2">
         <button data-action="mini-profile" data-id="${U.esc(p.uid)}">${this.av(p, 40)}</button>
         <div class="flex-1 min-w-0"><button class="font-bold text-sm truncate block max-w-full text-left" data-action="mini-profile" data-id="${U.esc(p.uid)}" data-no-mt>${U.esc(p.nick)}${p.self ? ' <span class="muted font-normal">(ты)</span>' : ''}</button><div class="text-[10px] muted">${this.rankDot(ar)} <span>${TN(ar.name)}</span> · <span>${U.ago(p.ts)}</span></div></div>
-        ${st === 'none' ? `<button class="chip text-bl" data-action="friend-add-id" data-id="${U.esc(p.uid)}"><svg class="ic"><use href="#fa-user-plus"/></svg> В друзья</button>` : st === 'out' ? '<span class="chip muted"><svg class="ic"><use href="#fa-hourglass"/></svg></span>' : ''}
+        ${p.self || st === 'self' || Follow.has(p.uid) ? '' : `<button class="chip text-bl" data-action="follow-toggle" data-id="${U.esc(p.uid)}"><svg class="ic"><use href="#fa-user-plus"/></svg> Подписаться</button>`}
         <button class="muted px-1" data-action="post-menu" data-id="${U.esc(p.id)}" aria-label="Ещё"><svg class="ic"><use href="#fa-ellipsis-vertical"/></svg></button>
       </div>
       ${p.kind === 'pr' ? this.prBlock(p, true) : ''}
@@ -6748,8 +6984,10 @@ Object.assign(UI, {
         </div>
         ${Social.tag || Social.q ? `<div class="flex items-center gap-2 mt-2">${Social.tag ? `<span class="chip text-pu"><svg class="ic"><use href="#fa-hashtag"/></svg>${U.esc(Social.tag)}</span>` : ''}${Social.q ? `<span class="chip">«${U.esc(Social.q)}»</span>` : ''}<button class="chip" data-action="feed-clear"><svg class="ic"><use href="#fa-xmark"/></svg> Сбросить</button></div>` : ''}
       </div>
+      ${Social.tag || Social.q ? '' : this.recordsStrip()}
       <div class="feed-sort mb-3" id="feed-sort">${Social.SORTS.map(([k, ic, t]) => `<button class="${Social.sort === k ? 'on' : ''}" data-action="feed-sort" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>
       <button class="compose-btn mb-3" data-action="post-new">${this.av({ photo: S.profile.avatar.photo, sex: S.profile.sex }, 34)}<span class="flex-1 text-left muted text-sm">Чем поделишься? Добавь #хэштеги</span><svg class="ic text-em"><use href="#fa-image"/></svg></button>
+      ${Social.sort === 'follow' && !Follow.ids().length ? `<div class="card p-4 mb-3"><div class="font-bold text-sm mb-1">Ты пока ни на кого не подписан</div><div class="text-[11px] muted mb-3">Подпишись на игроков, и их посты соберутся здесь.</div>${this.peopleRow()}</div>` : ''}
       ${Social.missing ? '<div class="text-[11px] text-or mb-2">Сервер ещё без ленты постов: запусти update_v19.sql в Supabase. Пока показываю демо.</div>' : ''}
       ${xs.map(p => this.postCard(p)).join('')}
       <div class="text-center text-xs muted py-4" id="feed-end">${Social.loading ? '<svg class="ic spin"><use href="#fa-circle-notch"/></svg> Загружаю…' : Social.done ? (xs.length ? 'Это все посты' : 'Ничего не найдено') : ''}</div>`;
@@ -7755,7 +7993,7 @@ const App = {
     'workout-resume'() { UI.openWorkout(); },
     'wk-guide'(el) { const ex = el.dataset.ex, g = UI.guideFor(ex); UI.wkKeep(); UI.modal(`<div class="flex items-center justify-between mb-2"><button class="btn btn-ghost btn-sm" data-action="workout-resume"><svg class="ic"><use href="#fa-chevron-left"/></svg> К тренировке</button><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div><div class="font-black text-xl mb-2">${U.esc(U.exRu(ex))}</div>${UI.guideDetail(ex, g)}<button class="btn btn-primary w-full mt-3" data-action="workout-resume">Понятно, к тренировке</button>`); UI._inWorkout = true; },
     async 'ban-recheck'() { await Mod.sync(true); if (!S.ban) UI.toast('Блокировка снята', 'mod'); },
-    async 'ban-logout'() { UI.closeModal(); S.ban = null; await Game.signOut(); appReload({ tab: 'arena', auth: 'login' }); },
+    async 'ban-logout'() { UI.closeModal(); S.ban = null; await Game.signOut(); UI.openAuth('login'); },
     'lift-confirm'(el) { const r = Game.confirmLift(el.dataset.id); UI.toast(r === 'review' ? 'Вес слишком большой для самоподтверждения: подход отправлен модератору' : 'Подход подтверждён: он в рекордах и на графике (без кубков за рекорд)', r === 'review' ? 'mod' : 'bl'); if (el.dataset.reopen === 'workout') UI.openWorkout('free'); else UI.closeModal(); App.afterChange(); },
     'chest-open'() { const c = document.getElementById('chest'); if (!c || c.classList.contains('open')) return; c.classList.add('open'); if (!S.profile.reduceMotion) UI.confetti(70); },
     'chest-take'(el) { const st = el.dataset.starter; UI.closeModal(); App.afterChange(); if (st) App.maybeOnboard(true); },
@@ -7812,6 +8050,12 @@ const App = {
     'plus-workout'() { UI.togglePlus(false); UI.openWorkout(); },
     'guide-pause'() { UI._gdPaused = !UI._gdPaused; FIG.speed = UI._gdPaused ? 0 : UI._gdSlow ? .5 : 1; UI.renderPage(); },
     'guide-slow'() { UI._gdSlow = !UI._gdSlow; FIG.speed = UI._gdPaused ? 0 : UI._gdSlow ? .5 : 1; UI.renderPage(); },
+    'plus-feed'() { UI.togglePlus(false); UI.openPage('feed'); },
+    async 'follow-toggle'(el) { const id = el.dataset.id; if (!id || el.disabled) return; el.disabled = true; const r = await Follow.toggle(id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.afterFollow(id); },
+    'notif-del'(el) { ClanService.notifHide(el.dataset.key); const row = el.closest('.nt-row'); if (row) row.classList.add('gone'); setTimeout(() => UI.refreshNotifs(), 260); UI.renderHeader(); },
+    'notif-clear'() { ClanService.notifClear(); UI.$$('#nt-box .nt-row').forEach((r, i) => setTimeout(() => r.classList.add('gone'), Math.min(i, 8) * 30)); setTimeout(() => UI.refreshNotifs(), 320); UI.renderHeader(); },
+    'notif-user'(el) { const id = el.dataset.id; if (!id) return; if (id === 'me') { UI.closeModal(); UI.closePage(); UI.goTab('profile'); return; } if (ClanService.player(id)) UI.openMiniProfile(id); else UI.openUserPage(id); },
+    'notif-post'(el) { const id = el.dataset.id; if (!id) return; UI._userFocus = id; UI._userFocusCm = !!el.dataset.cm; UI.openUserPage('me'); },
     'plus-guide'() { UI.togglePlus(false); UI._guideOpen = null; UI.openPage('guide'); },
     'guide-toggle'(el) {
       const ex = el.dataset.ex; UI._guideOpen = UI._guideOpen === ex ? null : ex; UI.renderPage();
@@ -7977,7 +8221,7 @@ const App = {
     },
     'dq-open'() { UI.openDayQ(); },
     'sleep-del'(el) { Game.deleteSleep(el.dataset.date); App.afterChange(); UI.openSleep(); },
-    'set-lang'(el) { if (el.dataset.val === (S.profile.lang || 'ru')) { UI.openSettings(); return; } S.profile.lang = el.dataset.val; save(); UI.applyLang(); appReload({ settings: true }); },
+    'set-lang'(el) { if (el.dataset.val === (S.profile.lang || 'ru')) { UI.openSettings(); return; } S.profile.lang = el.dataset.val; save(); appReload({ settings: true }); },
     async 'friend-add'() { const r = await ClanService.addFriend(document.getElementById('friend-nick').value); if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('friend-nick'); UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Добавлен: ' + U.esc(r.friend.nick), 'bl'); UI.renderClans(); },
     async 'friend-add-id'(el) { el.disabled = true; const r = await ClanService.addFriendById(el.dataset.id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Теперь вы друзья: ' + U.esc(r.friend.nick), 'bl'); if (UI.$('#modal')) UI.openMiniProfile(el.dataset.id); UI.renderClans(); },
     async 'friend-accept'(el) { const r = await ClanService.respondRequest(el.dataset.id, true); if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Заявка принята', 'bl'); if (UI.$('#modal')) UI.openNotifs(); UI.renderClans(); },
@@ -8041,8 +8285,8 @@ const App = {
     'avatar-color'(el) { S.profile.avatar[el.dataset.key] = el.value; save(); UI.openShop(); UI.renderHeader(); },
     /* settings */
     'open-settings'() { UI.openSettings(''); },
-    'set-theme'(el) { if (el.dataset.val === S.profile.theme) { UI.openSettings(); return; } S.profile.theme = el.dataset.val; App.applyTheme(); save(); appReload({ settings: true }); },
-    'set-units'(el) { if (el.dataset.val === S.profile.units) { UI.openSettings(); return; } S.profile.units = el.dataset.val; save(); appReload({ settings: true }); },
+    'set-theme'(el) { S.profile.theme = el.dataset.val; App.applyTheme(); save(); UI.openSettings(); UI.renderHeader(); UI.renderTab(UI.tab); },
+    'set-units'(el) { S.profile.units = el.dataset.val; save(); UI.openSettings(); UI.renderTab(UI.tab); },
     'settings-save'() {
       const el = id => document.getElementById(id), p = S.profile;
       if (el('st-nick')) { const nn = el('st-nick').value.trim().slice(0, 16); if (nn && Profanity.bad(nn)) { UI.toast('В нике есть мат или оскорбление', 'red'); return; } if (nn && nn !== p.nickname && Net.online()) { Net.nickAvailable(nn).then(ok => { if (!ok) { UI.toast('Ник «' + U.esc(nn) + '» уже занят', 'red'); return; } p.nickname = nn; save(); UI.renderHeader(); }).catch(() => {}); } else if (nn) p.nickname = nn; }
@@ -8058,7 +8302,7 @@ const App = {
     'export-data'() { const blob = new Blob([Store.export(S)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `apex-arena-${U.today()}.json`; a.click(); },
     'reset-data'() { UI.confirm('Удалить все данные приложения на этом устройстве? Это нельзя отменить.', () => { Store.reset(); localStorage.removeItem(MT.KEY); appReload({ freeze: true, tab: 'arena' }); }, { danger: true, yes: 'Удалить' }); },
 
-    'auth-logout'() { UI.confirm(Net.online() ? 'Выйти из аккаунта? Прогресс сохранён в облаке, для входа нужен пароль.' : 'Выйти из аккаунта? Данные останутся на устройстве, для входа нужен пароль.', async () => { UI.closeModal(); await Game.signOut(); appReload({ tab: 'arena', auth: 'login' }); }, { yes: 'Выйти' }); },
+    'auth-logout'() { UI.confirm(Net.online() ? 'Выйти из аккаунта? Прогресс сохранён в облаке, для входа нужен пароль.' : 'Выйти из аккаунта? Данные останутся на устройстве, для входа нужен пароль.', async () => { await Game.signOut(); UI.closeModal(); UI.openAuth('login'); }, { yes: 'Выйти' }); },
     'buy-boost'(el) { const id = el.dataset.id, it = U.shopItem(id); UI.askBuy(it.name, it.price, () => { const r = Game.buyBoost(id); if (r.error) { UI.toast(r.error, 'red'); UI.openShop(); return; } UI.openShop(); UI.renderHeader(); }, { icon: it.icon || 'fa-bolt', color: '#F97316', back: () => UI.openShop() }); },
     'custom-title-save'() { const v = document.getElementById('custom-title').value; if (Profanity.bad(v)) { UI.toast('В титуле есть мат или оскорбление', 'red'); return; } if (!Game.setCustomTitle(v)) { UI.toast('Введи титул', 'red'); return; } UI.toast('Титул надет: ' + S.profile.customTitle, 'pu'); UI.openShop(); UI.renderTab(UI.tab); },
     async 'avatar-photo'(el) {
@@ -8227,7 +8471,7 @@ const App = {
     'auth-mode'(el) { App.stopConfirmWait(); UI.openAuth(el.dataset.val); },
     // v30: язык прямо на экране входа
     'auth-lang-toggle'() { UI._auLang = !UI._auLang; UI.openAuth(UI._authMode); },
-    'auth-lang'(el) { const same = el.dataset.val === (S.profile.lang || 'ru'); S.profile.lang = el.dataset.val; S.profile.langSet = true; save(); UI._auLang = false; UI.applyLang(); if (!same) { appReload({ auth: UI._authMode }); return; } const m = document.getElementById('modal'); if (m) m.remove(); UI._authOpen = false; UI.openAuth(UI._authMode); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
+    'auth-lang'(el) { const same = el.dataset.val === (S.profile.lang || 'ru'); S.profile.lang = el.dataset.val; S.profile.langSet = true; save(); UI._auLang = false; if (!same) { appReload({ auth: UI._authMode }); return; } UI.applyLang(); const m = document.getElementById('modal'); if (m) m.remove(); UI._authOpen = false; UI.openAuth(UI._authMode); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
     // v30: главная — напоминания и быстрые действия
     'rem-hide'(el) { UI.remHide(el.dataset.id); UI.renderTab(UI.tab); },
     'rem-water'() { const cup = S.profile.cupMl || 500; if (!Game.logWater(cup, U.today())) { UI.toast('Проверь объём', 'red'); return; } App.afterChange(); },
@@ -8381,7 +8625,6 @@ const App = {
     window.addEventListener('touchend', end, { passive: true }); window.addEventListener('touchcancel', end, { passive: true });
   },
   async refresh() {
-    if (!document.getElementById('modal') && !document.getElementById('page')) { appReload(); return; } // v49: на главных вкладках — полный перезапуск с логотипом
     const ptr = document.getElementById('ptr'); ptr.classList.add('spin'); ptr.style.transition = 'opacity .2s, transform .2s'; ptr.style.opacity = '1'; ptr.style.transform = 'translateY(16px)';
     try { if (Net.online()) { await Net.pull(); await Net.refresh(true); Net.loadConfig && Net.loadConfig(); Photos.resetMissing(); } Game.boot(); if (UI.hDay && UI.hDay > U.today()) UI.hDay = U.today(); UI.renderAll(); UI.flushEvents(); MT.kick(); Game.translateExercises(); }
     catch (e) { UI.toast(Net.err ? Net.err(e) : 'Ошибка сети', 'red'); }
@@ -8395,7 +8638,7 @@ const App = {
       UI.openAuthBusy('Входим…');
       try {
         const prof = await Net.profileExists();
-        if (prof) { if (!S.profile.nickname || src !== 'register') S.profile.nickname = prof.nickname; await Net.pull(); await Net.ensureProfile(); await Net.refresh(true); if (src !== 'boot') { save(); appReload({ tab: 'arena' }); return; } Net.loadConfig && Net.loadConfig(); this.applyTheme(); UI.applyLang(); UI.closeModal(); Game.boot(); UI.renderAll(); UI.flushEvents(); this.maybeOnboard(); return; }
+        if (prof) { if (!S.profile.nickname || src !== 'register') S.profile.nickname = prof.nickname; await Net.pull(); await Net.ensureProfile(); await Net.refresh(true); Net.loadConfig && Net.loadConfig(); this.applyTheme(); UI.applyLang(); UI.closeModal(); Game.boot(); UI.renderAll(); UI.flushEvents(); this.maybeOnboard(); return; }
       } catch (e) { UI._authErr = Net.err(e); UI.openAuth('login'); return; }
       const user = Net.user || {}, prov = Net.provider, from = prov === 'google' ? 'Google' : prov === 'custom:snapchat' ? 'Snapchat' : '';
       // v23: новый аккаунт начинает с нуля, прогресс прошлого аккаунта на телефоне его не трогает
@@ -8429,7 +8672,8 @@ const App = {
     if (this._outBusy) return; this._outBusy = true;
     try {
       if (wipe) Net.resetFor(null); else { S.session = { loggedIn: false }; save(); }
-      appReload({ tab: 'arena', auth: wipe ? 'welcome' : null }); return;
+      UI.closePage && UI._page && UI.closePage(true); UI.goTab('arena'); Game.boot(); UI.renderAll();
+      UI.openAuth(wipe ? 'welcome' : undefined);
     } finally { this._outBusy = false; }
   },
   /* ---- v41: поиск дуэли ---- */
@@ -8594,29 +8838,37 @@ const App = {
 };
 
 // v32: загрузочный экран держим, пока приложение запускается (не меньше одного захода анимации, не дольше 5 с)
-// v49: полный перезапуск приложения с загрузочным экраном (логотип) — там, где после изменения всё должно точно прогрузиться заново:
-// язык, тема, единицы, вход и выход из аккаунта, удаление данных, «потянуть вниз, чтобы обновить».
+// v51: полный перезапуск — только при смене языка (и после «Удалить все данные»). Быстрый: короткое затемнение со статичным
+// логотипом, после перезагрузки тот же логотип продолжает пульсировать с того же места и сразу уходит, без повтора анимации.
 // o: { tab, settings, auth, freeze } — freeze: данные уже стёрты, ничего не сохраняем и не отправляем
 async function appReload(o) {
   o = o || {}; if (appReload._on) return; appReload._on = true;
   if (o.freeze) { try { Store.save = () => {}; if (typeof Net !== 'undefined') { clearTimeout(Net._t); Net.schedule = () => {}; Net.push = async () => {}; } } catch (_) {} }
-  try { sessionStorage.setItem('flRelang', JSON.stringify({ tab: o.tab || UI.tab, settings: !!o.settings, auth: o.auth || null })); } catch (_) {}
+  const t0 = Date.now();
+  try { sessionStorage.setItem('flRelang', JSON.stringify({ tab: o.tab || UI.tab, settings: !!o.settings, auth: o.auth || null })); sessionStorage.setItem('flFast', String(t0)); } catch (_) {}
   try {
     if (window.__bootHTML) {
       const old = document.getElementById('boot'); if (old) old.remove();
-      const w = document.createElement('div'); w.innerHTML = window.__bootHTML; const b = w.firstElementChild;
-      b.classList.remove('vid', 'out'); b.style.zIndex = '10000'; b.style.opacity = '0'; document.body.appendChild(b); void b.offsetWidth; b.style.opacity = '';
-      const v = b.querySelector('video');
-      if (v) { v.addEventListener('playing', () => b.classList.add('vid')); v.addEventListener('error', () => v.remove()); try { const p = v.play(); if (p && p.catch) p.catch(() => {}); } catch (_) {} }
+      const w = document.createElement('div'); w.innerHTML = window.__bootHTML; const b = w.firstElementChild, v = b.querySelector('video'); if (v) v.remove();
+      b.className = 'fast in'; b.style.zIndex = '10000'; document.body.appendChild(b); void b.offsetWidth; b.classList.remove('in');
     }
   } catch (_) {}
-  const t0 = Date.now();
   // успеваем отправить изменения на сервер, чтобы после перезапуска они не откатились
-  try { if (!o.freeze && typeof Net !== 'undefined' && Net.online()) { clearTimeout(Net._t); await Promise.race([Net.push(), new Promise(r => setTimeout(r, 2500))]); } } catch (_) {}
-  await new Promise(r => setTimeout(r, Math.max(0, 700 - (Date.now() - t0))));
+  try { if (!o.freeze && typeof Net !== 'undefined' && Net.online()) { clearTimeout(Net._t); await Promise.race([Net.push(), new Promise(r => setTimeout(r, 1500))]); } } catch (_) {}
+  await new Promise(r => setTimeout(r, Math.max(0, 200 - (Date.now() - t0))));
   location.reload();
 }
-function bootHide() { const b = document.getElementById('boot'); if (!b || b._done) return; b._done = true; setTimeout(() => { b.classList.add('out'); setTimeout(() => { const v = b.querySelector('video'); if (v) { try { v.pause(); v.removeAttribute('src'); v.load(); } catch (_) {} } b.remove(); }, 320); }, Math.max(0, 1500 - (Date.now() - (b._t0 || 0)))); }
+// v51: приложение готово → анимацию логотипа не обрываем посреди превращения, а ускоренно доводим до конца (≤ 0,7 с), потом плавно убираем экран
+function bootHide() {
+  const b = document.getElementById('boot'); if (!b || b._done) return; b._done = true;
+  const out = () => { if (b._gone) return; b._gone = true; b.classList.add('out'); setTimeout(() => { const v = b.querySelector('video'); if (v) { try { v.pause(); v.removeAttribute('src'); v.load(); } catch (_) {} } b.remove(); }, 380); };
+  const v = b.querySelector('video');
+  if (!b._fast && v && b.classList.contains('vid') && !v.paused && v.duration > 0) {
+    const left = v.duration - v.currentTime;
+    if (left > 0.15) { v.loop = false; try { v.playbackRate = Math.min(4, Math.max(1, left / 0.7)); } catch (_) {} v.addEventListener('ended', out, { once: true }); setTimeout(out, 1100); return; }
+  }
+  out();
+}
 document.addEventListener('DOMContentLoaded', () => { const cap = setTimeout(bootHide, 5000); Promise.resolve().then(() => App.init()).catch(e => console.warn('init', e)).finally(() => { clearTimeout(cap); bootHide(); }); setTimeout(() => Game.translateExercises(), 4000); });
 </script>
 </body>
