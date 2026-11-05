@@ -4205,15 +4205,16 @@ const Social = {
    Ядро с первой секунды: тренировка → кубки → арена. Остальное открывается тренировками. */
 // v44: новая версия. Номер сборки (versionCode) = номер запуска сборки в GitHub = тег релиза build-N.
 // v48: обновляемся через Google Play (внутреннее тестирование): кнопка «Обновить» открывает страницу теста в Play.
-// Проверяем при запуске и при возврате в приложение (не чаще раза в 3 часа). «Позже» — не напоминаем сутки, после «Обновить» — 6 часов.
+// Проверяем при запуске и при возврате в приложение (не чаще раза в 30 минут). «Позже» — не напоминаем сутки, после «Обновить» — 6 часов.
 const Updater = {
-  REPO: 'luchik129/apex-arena', KEY: 'FLX_UPDATE', EVERY: 3 * 3600e3, SNOOZE: 24 * 3600e3, SNOOZE_GO: 6 * 3600e3,
+  REPO: 'luchik129/apex-arena', KEY: 'FLX_UPDATE', EVERY: 30 * 60e3, cur: 0, SNOOZE: 24 * 3600e3, SNOOZE_GO: 6 * 3600e3,
   PLAY: 'https://play.google.com/apps/internaltest/4701513163843446186',
   st() { try { return JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (_) { return {}; } },
   put(o) { try { localStorage.setItem(this.KEY, JSON.stringify({ ...this.st(), ...o })); } catch (_) {} },
   native() { const C = window.Capacitor; return !!(C && C.isNativePlatform && C.isNativePlatform() && C.getPlatform && C.getPlatform() === 'android' && C.Plugins && C.Plugins.App && C.Plugins.App.getInfo); },
   start() {
     if (!this.native()) return;
+    window.Capacitor.Plugins.App.getInfo().then(i => { this.cur = parseInt(i && i.build) || 0; }).catch(() => {}); // номер сборки — в «О приложении»
     setTimeout(() => this.check(), 6000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(() => this.check(), 1500); });
   },
@@ -4222,7 +4223,7 @@ const Updater = {
   async check(force) {
     if (this._busy || !this.native()) return 'fail'; this._busy = true;
     try {
-      const info = await window.Capacitor.Plugins.App.getInfo(), cur = parseInt(info && info.build) || 0; if (!cur) return 'fail';
+      const info = await window.Capacitor.Plugins.App.getInfo(), cur = parseInt(info && info.build) || 0; if (!cur) return 'fail'; this.cur = cur;
       let st = this.st();
       if (force || !st.at || Date.now() - st.at > this.EVERY || !st.build) {
         const r = await fetch(`https://api.github.com/repos/${this.REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) return 'fail';
@@ -4231,7 +4232,7 @@ const Updater = {
       }
       if (!(st.build > cur)) return 'latest';
       if (!force && st.snooze && st.snooze.build === st.build && Date.now() < st.snooze.until) return 'new';
-      if (!force && (document.getElementById('modal') || UI._tour != null || document.getElementById('tour'))) return 'new'; // не перебиваем открытое окно, спросим при следующем входе
+      if (!force && (document.getElementById('modal') || UI._tour != null || document.getElementById('tour'))) { clearTimeout(this._retry); this._retry = setTimeout(() => this.check(), 20000); return 'new'; } // не перебиваем открытое окно — спросим, когда его закроют
       UI.openUpdate(st, cur); return 'new';
     } catch (_) { return 'fail'; } finally { this._busy = false; }
   },
@@ -7553,7 +7554,7 @@ Object.assign(UI, {
       ['Ты', [['profile', 'fa-user', '#10B981', 'Профиль и тело', `${p.nickname || '—'} · ${U.w(p.bodyweight, 1)} ${U.wUnit()}`], ['account', 'fa-user-shield', '#3B82F6', 'Аккаунт и вход', acc || prov || (Net.online() ? 'облако' : 'на этом телефоне')], ['invite', 'fa-gift', '#F97316', 'Пригласить друзей', `+${Referral.FRIEND_COINS} монет за друга`]]],
       ['Приложение', [['look', 'fa-paintbrush', '#8B5CF6', 'Оформление', `${p.theme === 'light' ? 'Светлая' : 'Тёмная'} тема · ${p.units}`], ['lang', 'fa-earth', '#06B6D4', T('language'), I18N.langs[p.lang || 'ru']], ['notify', 'fa-bell', '#F97316', 'Уведомления', (p.remind && p.remind.on) || p.remindStreak ? 'включены' : 'выключены'], ['goal', 'fa-bullseye', '#EF4444', 'Цель и активность', `${(this.GOALS.find(x => x[0] === (p.fitGoal || 'keep')) || [])[2] || ''} · ${p.weekTarget || 3} трен./нед`], ['food', 'fa-utensils', '#EAB308', 'Питание и вода', `${g.cals} ккал · ${Calc.waterGoal()} мл`]]],
       ['Сообщество', [['privacy', 'fa-ban', '#F43F5E', 'Приватность и блокировки', bl ? `заблокировано: ${bl}` : 'никто не заблокирован'], ['rules', 'fa-file-lines', '#14B8A6', 'Правила сообщества', this.rulesOk() ? 'приняты' : 'прочитать']]],
-      ['Ещё', [['stats', 'fa-chart-line', '#6366F1', T('stats'), 'тренировки, кубки, монеты'], ['data', 'fa-download', '#64748B', 'Данные', 'экспорт и сброс'], ['about', 'fa-circle-info', '#94A3B8', 'О приложении', `версия ${CONFIG.APP_VERSION}`]]],
+      ['Ещё', [['stats', 'fa-chart-line', '#6366F1', T('stats'), 'тренировки, кубки, монеты'], ['data', 'fa-download', '#64748B', 'Данные', 'экспорт и сброс'], ['about', 'fa-circle-info', '#94A3B8', 'О приложении', `версия ${CONFIG.APP_VERSION}${Updater.cur ? ` · сборка ${Updater.cur}` : ''}`]]],
     ];
   },
   openSettings(tab) {
@@ -7627,7 +7628,7 @@ Object.assign(UI, {
     else if (t === 'data') body = `<div class="set-grp mb-2"><button class="set-row" data-action="export-data"><span class="set-ic" style="--c:#10B981"><svg class="ic"><use href="#fa-download"/></svg></span><span class="flex-1 text-left text-sm font-semibold">${T('export')}<span class="block text-[11px] muted font-normal">файл JSON со всеми данными</span></span></button>
         <button class="set-row" data-action="reset-data"><span class="set-ic" style="--c:#EF4444"><svg class="ic"><use href="#fa-trash"/></svg></span><span class="flex-1 text-left text-sm font-semibold text-red-400">${T('reset')}<span class="block text-[11px] muted font-normal">стереть данные на этом телефоне</span></span></button></div>`;
     else if (t === 'invite') body = this.inviteHtml();
-    else if (t === 'about') body = `<div class="text-center mb-3"><div class="mx-auto" style="width:84px;color:var(--text)">${LOGO_SVG()}</div><div class="font-black text-lg mt-1">Flexo League</div><div class="text-[11px] muted">версия ${CONFIG.APP_VERSION}</div></div>
+    else if (t === 'about') body = `<div class="text-center mb-3"><div class="mx-auto" style="width:84px;color:var(--text)">${LOGO_SVG()}</div><div class="font-black text-lg mt-1">Flexo League</div><div class="text-[11px] muted">версия ${CONFIG.APP_VERSION}${Updater.cur ? ` · сборка <b class="num">${Updater.cur}</b>` : ''}</div></div>
       <div class="set-grp">${[['open-rules', 'fa-file-lines', 'Правила сообщества'], ['legal-privacy', 'fa-user-shield', 'Политика конфиденциальности'], ['legal-terms', 'fa-scale', 'Условия использования'], ['ob-replay', 'fa-sparkles', 'Показать обучение ещё раз'], ...(Updater.native() ? [['upd-check', 'fa-arrow-up', 'Проверить обновления']] : [])].map(([a, ic, l]) => `<button class="set-row" data-action="${a}"><svg class="ic muted"><use href="#${ic}"/></svg><span class="flex-1 text-left text-sm font-semibold">${l}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>`).join('')}</div>
       ${CONFIG.SUPPORT_EMAIL ? `<div class="text-[11px] muted mt-3 text-center">Поддержка: <b data-no-mt>${U.esc(CONFIG.SUPPORT_EMAIL)}</b></div>` : ''}`;
     else body = this.statsHtml();
