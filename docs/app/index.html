@@ -1702,6 +1702,37 @@ html.light .rr-info{box-shadow:0 -10px 34px -14px rgba(15,23,42,.35)}
 /* v56: аватар по умолчанию ровно по центру и на весь круг */
 span.av{display:inline-flex;align-items:center;justify-content:center;background:transparent}
 span.av>svg{display:block;flex:none;width:111.2%!important;height:111.2%!important}
+/* ===== v58 ===== */
+html.tour-lock,html.tour-lock body{overflow:hidden!important;overscroll-behavior:none;touch-action:none}
+#tour{touch-action:none}
+/* трофейная дорожка на главной в светлой теме: насыщенный тёмный тон цвета ранга вместо яркого */
+html.light .hm-ticks i{background:color-mix(in srgb,var(--muted) 28%,transparent)}
+html.light .hm-ticks i.on{background:color-mix(in srgb,var(--rc) 52%,#1C1917)}
+html.light .hm-ticks i.cur{background:color-mix(in srgb,var(--rc) 42%,#0C0A09);box-shadow:0 0 0 3px color-mix(in srgb,var(--rc) 22%,transparent)}
+html.light .hm-ticks i.end{background:#3F3F46}
+/* рейтинг друзей */
+.fl-h{display:flex;align-items:center;gap:.5rem}.fl-h>.font-bold{flex:1;min-width:0}
+.fl-seg{display:flex;padding:2px;border-radius:999px;background:var(--sub);border:1px solid var(--line)}
+.fl-seg button{font-size:.68rem;font-weight:800;padding:.28rem .65rem;border-radius:999px;color:var(--muted)}
+.fl-seg button.on{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.fl-rf{width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);background:var(--sub);border:1px solid var(--line);flex:none}
+.fl-rf.spin .ic{animation:flSpin .8s linear infinite}@keyframes flSpin{to{transform:rotate(360deg)}}
+.fl-sub{font-size:.64rem;color:var(--muted);margin:.35rem 0 .7rem}
+.fl-list{display:flex;flex-direction:column;gap:.35rem}.fl-mine{margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--line)}
+.fl-row{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;padding:.5rem .6rem;border-radius:.9rem;background:var(--sub);border:1px solid transparent;color:var(--text)}
+.fl-row.me{border-color:color-mix(in srgb,var(--rc) 55%,transparent);background:color-mix(in srgb,var(--rc) 10%,var(--sub))}
+.fl-pl{width:1.45rem;height:1.45rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;color:var(--muted);flex:none}
+.fl-pl.p1{background:linear-gradient(135deg,#FDE68A,#F59E0B);color:#422006}.fl-pl.p2{background:linear-gradient(135deg,#F1F5F9,#94A3B8);color:#1E293B}.fl-pl.p3{background:linear-gradient(135deg,#FDBA74,#C2410C);color:#431407}
+.fl-av{flex:none;display:flex}.fl-av .av{border-radius:50%}
+.fl-mid{flex:1;min-width:0;display:flex;flex-direction:column}
+.fl-n{display:flex;align-items:center;gap:.35rem;min-width:0}.fl-n b{font-size:.84rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fl-you{font-size:.55rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding:.06rem .35rem;border-radius:999px;background:var(--rc);color:#09090B;flex:none}
+.fl-rk{display:flex;align-items:center;gap:.25rem;font-size:.64rem;color:var(--muted);margin-top:.05rem}.fl-rk .medal{margin:0;filter:none}
+.fl-bar{position:relative;height:4px;border-radius:4px;background:color-mix(in srgb,var(--text) 8%,transparent);margin-top:.35rem;overflow:hidden}
+.fl-bar>i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--rc)}
+html.light .fl-bar>i{background:color-mix(in srgb,var(--rc) 70%,#1C1917)}
+.fl-v{display:flex;flex-direction:column;align-items:flex-end;flex:none}.fl-v b{font-size:1rem;line-height:1.1}.fl-v small{font-size:.6rem;color:var(--muted)}
+.fl-foot{font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem}.fl-foot b{color:var(--text)}
 </style>
 </head>
 <body>
@@ -1917,23 +1948,23 @@ const CONFIG = {
   // арена 3 (800) ≈ через месяц, арена 5 (2500) ≈ через 4 месяца.
   ARENAS: [
     { id: 1, name: 'Подвал',        min: 0,     color: '#71717A', sub: 'ржавый новичок', icon: 'fa-dungeon',        reward: { coins: 50 } },
-    { id: 2, name: 'Гараж',         min: 300,   color: '#84CC16', sub: 'новичок', icon: 'fa-warehouse',      reward: { coins: 150 } },
-    { id: 3, name: 'Качалка',       min: 800,   color: '#3B82F6', sub: 'любитель', icon: 'fa-dumbbell',       reward: { coins: 200 } },
-    { id: 4, name: 'Тренажёрка',    min: 1500,  color: '#8B5CF6', sub: 'энтузиаст', icon: 'fa-person-running', reward: { coins: 250, item: 'title_iron' },  boss: { bench: 0.75, squat: 1.0,  deadlift: 1.25 } },
+    { id: 2, name: 'Гараж',         min: 300,   color: '#B07A55', sub: 'новичок', icon: 'fa-warehouse',      reward: { coins: 150 } },
+    { id: 3, name: 'Качалка',       min: 800,   color: '#A1A1AA', sub: 'любитель', icon: 'fa-dumbbell',       reward: { coins: 200 } },
+    { id: 4, name: 'Тренажёрка',    min: 1500,  color: '#CBD5E1', sub: 'энтузиаст', icon: 'fa-person-running', reward: { coins: 250, item: 'title_iron' },  boss: { bench: 0.75, squat: 1.0,  deadlift: 1.25 } },
     { id: 5, name: 'Железный рай',  min: 2500,  color: '#F97316', sub: 'атлет', icon: 'fa-fire',           reward: { coins: 400 }, boss: { bench: 1.0,  squat: 1.25, deadlift: 1.5 } },
     { id: 6, name: 'Арена силы',    min: 4000,  color: '#EF4444', sub: 'борец', icon: 'fa-bolt',           reward: { coins: 500 }, boss: { bench: 1.25, squat: 1.5,  deadlift: 1.75 } },
-    { id: 7, name: 'Зал чемпионов', min: 6000,  color: '#CBD5E1', sub: 'ветеран', icon: 'fa-medal',          reward: { coins: 500, item: 'title_champion' }, boss: { bench: 1.5,  squat: 1.75, deadlift: 2.0 } },
+    { id: 7, name: 'Зал чемпионов', min: 6000,  color: '#E2E8F0', sub: 'ветеран', icon: 'fa-medal',          reward: { coins: 500, item: 'title_champion' }, boss: { bench: 1.5,  squat: 1.75, deadlift: 2.0 } },
     { id: 8, name: 'Титан',         min: 9000,  color: '#3B82F6', sub: 'мастер', icon: 'fa-mountain',       reward: { coins: 900, item: 'title_titan' }, boss: { bench: 1.75, squat: 2.0,  deadlift: 2.25 } },
     { id: 9, name: 'Зал славы',     min: 12000, color: '#F5B82E', sub: 'легенда', icon: 'fa-crown',          reward: { coins: 1200 } },
     // v19: лиги после последней арены
-    { id: 10, name: 'Лига претендентов', min: 14000, color: '#F43F5E', sub: 'претендент', icon: 'fa-hand-fist',  reward: { coins: 1300 }, league: true },
+    { id: 10, name: 'Лига претендентов', min: 14000, color: '#EF4444', sub: 'претендент', icon: 'fa-hand-fist',  reward: { coins: 1300 }, league: true },
     { id: 11, name: 'Мастер I',          min: 16500, color: '#CBD5E1', sub: 'мастер', icon: 'fa-gem',        reward: { coins: 1500 }, league: true },
-    { id: 12, name: 'Мастер II',         min: 19000, color: '#60A5FA', sub: 'элита', icon: 'fa-gem',        reward: { coins: 1700 }, league: true },
+    { id: 12, name: 'Мастер II',         min: 19000, color: '#22D3EE', sub: 'элита', icon: 'fa-gem',        reward: { coins: 1700 }, league: true },
     { id: 13, name: 'Мастер III',        min: 22000, color: '#A855F7', sub: 'эксперт', icon: 'fa-gem',        reward: { coins: 2000, item: 'title_master' }, league: true },
-    { id: 14, name: 'Чемпион лиги',      min: 25000, color: '#FACC15', sub: 'чемпион', icon: 'fa-chess-king', reward: { coins: 2500 }, league: true },
-    { id: 15, name: 'Великий чемпион',   min: 28500, color: '#EF4444', sub: 'легенда лиги', icon: 'fa-dragon',     reward: { coins: 3000, item: 'title_grand' }, league: true },
-    { id: 16, name: 'Абсолют',           min: 32000, color: '#C084FC', sub: 'абсолютный', icon: 'fa-infinity',   reward: { coins: 4000 }, league: true },
-    { id: 17, name: 'Легенда Flexo',      min: 36000, color: '#FDE047', sub: 'первый среди лучших', icon: 'fa-crown',      reward: { coins: 5000, item: 'title_legend' }, league: true },
+    { id: 14, name: 'Чемпион лиги',      min: 25000, color: '#F5B82E', sub: 'чемпион', icon: 'fa-chess-king', reward: { coins: 2500 }, league: true },
+    { id: 15, name: 'Великий чемпион',   min: 28500, color: '#F97316', sub: 'легенда лиги', icon: 'fa-dragon',     reward: { coins: 3000, item: 'title_grand' }, league: true },
+    { id: 16, name: 'Абсолют',           min: 32000, color: '#A855F7', sub: 'абсолютный', icon: 'fa-infinity',   reward: { coins: 4000 }, league: true },
+    { id: 17, name: 'Легенда Flexo',      min: 36000, color: '#FACC15', sub: 'первый среди лучших', icon: 'fa-crown',      reward: { coins: 5000, item: 'title_legend' }, league: true },
   ],
   FEMALE_BOSS_FACTOR: 0.65,
   TROPHY: { WORKOUT: 20, PR: 25, WEEKLY_BONUS: 30, QUEST_WEEKLY: 10, CLAN_WIN_COINS: 150, DUEL_WIN_COINS: 100, DUEL_WIN: 10, NUTRITION_DAY: 3, DECAY_PER_WEEK: 10, DECAY_AFTER_DAYS: 14,
@@ -5533,7 +5564,7 @@ const UI = {
       </div>`; };
     // v30: сверху профиль и кубки, ниже напоминания, кнопка тренировки и плитки разделов; игра (лига, босс, квесты) — дальше
     const capNote = capped ? `<div class="mb-4 text-xs rounded-lg px-3 py-2" style="background:#F9731622;border:1px solid #F9731655"><svg class="ic text-or"><use href="#fa-lock"/></svg> Кубки на паузе: победи Босса арены (ниже), чтобы пройти дальше</div>` : '';
-    this.morph(this.$('#tab-arena'), this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + (S.profile.showCore === true ? this.coreLoop() : '') + this.newbieCard() + (capped || boss ? bossCard : '') + this.leagueCard() + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
+    this.morph(this.$('#tab-arena'), this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + this.newbieCard() + (capped || boss ? bossCard : '') + this.leagueCard() + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
     this.bindRemDots();
     // v47: при первом открытии кубки «набегают» от нуля
     if (!this._cu) { this._cu = 1; const el = this.$('#tab-arena .hm-big'), tn = el && el.firstChild, to = S.game.trophies;
@@ -5550,7 +5581,7 @@ const UI = {
     const P = { embers: [1, 2, 5, 3, 6], bubbles: [.6, 4, 11, 5, 9], petals: [.7, 6, 10, 6, 10], snow: [1, 2, 4, 6, 11], fireflies: [.6, 3, 5, 2.5, 4], meteors: [.25, 0, 0, 6, 11], sparkle: [.6, 6, 12, 2, 3.5], rain: [1.5, 0, 0, .6, 1.1] };
     return fx.map(k => { const c = P[k]; if (!c) return `<div class="pfx pfx-${k}"></div>`; let h = ''; for (let i = 0, m = Math.max(2, Math.round(n * c[0])); i < m; i++) h += `<i style="--x:${(r() * 100).toFixed(1)}%;--y:${(r() * 80).toFixed(1)}%;--s:${(c[1] + r() * (c[2] - c[1])).toFixed(1)}px;--t:${(c[3] + r() * (c[4] - c[3])).toFixed(2)}s;--d:${(-r() * c[4]).toFixed(2)}s;--dx:${((r() - .5) * 60).toFixed(0)}px"></i>`; return `<div class="pfx pfx-${k}">${h}</div>`; }).join('');
   },
-  avFrame(inner, frame, col, idx, size) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; if (!f && idx != null && size && !S.profile.calm) return this.rankFrame(inner, idx, size); return `<span class="pfr ${f}" style="--ring:${f ? col : 'var(--line)'}">${inner}</span>`; },
+  avFrame(inner, frame, col, idx, size) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; return `<span class="pfr ${f}" style="--ring:${f ? col : 'var(--line)'}">${inner}</span>`; },
   // v40: жим, присед, тяга с рисунком; остальные рекорды — в раскрывающемся списке
   // v53: три лифта на выбор (жим, присед, тяга, жим стоя, подтягивания, брусья…) — нажми, чтобы поменять
   liftVal(ex, b) { if (!b) return '<b class="muted">—</b><span class="b3-r">&nbsp;</span>'; const bwx = U.exInfo(ex).bodyweight; if (bwx && !(+b.weight > 0)) return `<b class="num">${b.reps || 1}<small>повт.</small></b><span class="b3-r">свой вес</span>`; return `<b class="num">${bwx ? '+' + U.w(b.weight) : U.wEx(ex, b.weight)}<small>${U.wUnit()}</small></b><span class="b3-r num">×${b.reps || 1}${bwx ? ' · с весом' : ''}</span>`; },
@@ -5746,8 +5777,8 @@ const UI = {
       <button class="rr-info-x" data-action="road-pick" data-i="-1" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button>
       <div class="rr-info-top"><span class="rr-info-md ${locked ? 'lock' : ''}">${this.medal(i, { size: 72, stars: cur ? rk.stars : locked ? 0 : 5, anim: false })}</span>
         <div class="min-w-0"><div class="rd-kick">${kick}${cur ? ' · <b>ты здесь</b>' : ''}</div><div class="rr-info-n">${TN(a.name)}</div><div class="rd-sub">${a.sub || ''}</div></div>
-        <span class="rr-info-fr">${this.rankFrame(this.avatarSVG(S.profile.avatar, 58), i, 58)}</span></div>
-      <div class="rd-chips"><span class="rd-chip"><i style="background:${a.color}"></i>от ${nf(a.min)}</span>${r.coins ? `<span class="rd-chip">+${nf(r.coins)} ${this.coinIcon}</span>` : ''}${r.item ? `<span class="rd-chip"><svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}</span>` : ''}<span class="rd-chip"><svg class="ic"><use href="#fa-user"/></svg> рамка аватара</span></div>
+</div>
+      <div class="rd-chips"><span class="rd-chip"><i style="background:${a.color}"></i>от ${nf(a.min)}</span>${r.coins ? `<span class="rd-chip">+${nf(r.coins)} ${this.coinIcon}</span>` : ''}${r.item ? `<span class="rd-chip"><svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}</span>` : ''}</div>
       <div class="rr-info-st ${!cur && !locked ? 'ok' : ''}">${st}</div>${boss}</div>`;
   },
   openRoad(sel) {
@@ -6177,7 +6208,7 @@ const UI = {
       </div>`;
     const lb = this.communityBoard();
     // v51: сначала люди и лента (подписки → рекорды горизонтально → посты вертикально), потом дуэли, друзья, клан и рейтинги
-    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт</div>') + this.peopleRow() + this.recordsStrip() + this.postsList() + tiles + this.clanHero() + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
+    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт</div>') + this.recordsStrip() + this.postsList() + tiles + this.clanHero() + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
     if (this._page) this.renderPage();
     this.renderHeader();
   },
@@ -7408,14 +7439,34 @@ Object.assign(UI, {
   wcFilter(rows) { const f = this.wcF || 'all'; return f === 'all' ? rows : rows.filter(r => r.self || r.wclass === f); },
   /* v23: приглашения */
   // v29: закрытый рейтинг своей компании — первым экраном «Сообщества»
+  // v58: рейтинг друзей — неделя или кубки, полоска относительно лидера, ранг, кнопка обновления
   friendsWeekCard() {
-    const fr = S.friends || [], start = League.weekStart();
+    const fr = S.friends || [], start = League.weekStart(), mode = this.flMode === 'trophies' ? 'trophies' : 'week', on = ClanService.online();
     if (!fr.length) return `<button class="card p-4 mb-4 text-left w-full fw-empty" data-action="open-page" data-kind="friends"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> Соревнуйтесь с друзьями</div><div class="text-[11px] muted mt-1">Добавь друзей по нику или коду, и здесь появится ваш общий рейтинг недели.</div><span class="btn btn-primary btn-sm mt-3"><svg class="ic"><use href="#fa-user-plus"/></svg> Добавить друга</span></button>`;
-    const rows = fr.map(f => { const p = ClanService.player(f.id) || {}; return { ...p, id: f.id, nick: p.nick || f.nick, pts: League.ptsOf({ id: f.id }, start) }; });
-    rows.push({ id: 'me', self: true, nick: S.profile.nickname || 'Ты', arenaIdx: S.game.arenaIdx, pts: Calc.myWindow(start) });
-    rows.sort((a, b) => b.pts - a.pts);
-    return `<div class="card p-4 mb-4"><div class="flex items-center justify-between mb-3"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> Неделя среди друзей</div><span class="text-[10px] muted">тренировка +${CONFIG.TROPHY.WORKOUT} · рекорд +${CONFIG.TROPHY.PR}</span></div>
-      ${this.lbBoard(rows.map(p => this.lbPlayer(p, p.pts, `${p.pts} очк.`, p.arenaIdx != null ? TN(Calc.arena(p.arenaIdx).name) : '')), { limit: 6, podium: rows.length >= 3 })}
+    const rows = fr.map(f => { const p = ClanService.player(f.id) || {}; return { ...p, id: f.id, nick: p.nick || f.nick, arenaIdx: p.arenaIdx || 0, trophies: p.trophies || 0, pts: League.ptsOf({ id: f.id }, start) }; });
+    rows.push({ id: 'me', self: true, nick: S.profile.nickname || 'Ты', arenaIdx: S.game.arenaIdx, trophies: S.game.trophies, pts: Calc.myWindow(start) });
+    const val = r => mode === 'week' ? r.pts : r.trophies;
+    rows.sort((x, y) => val(y) - val(x) || y.trophies - x.trophies);
+    const max = Math.max(1, ...rows.map(val)), me = rows.findIndex(r => r.self), nf = n => this._nf(n);
+    const ago = on && Net.d && Net.d.at ? Math.max(0, Math.round((Date.now() - Net.d.at) / 60000)) : null;
+    const row = (r, i) => { const ar = Calc.arena(r.arenaIdx), v = val(r);
+      return `<button class="fl-row ${r.self ? 'me' : ''}" style="--rc:${ar.color}" data-action="notif-user" data-id="${U.esc(r.self ? 'me' : r.id)}">
+        <span class="fl-pl p${i + 1}">${i + 1}</span>
+        <span class="fl-av">${this.av(r.self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : (ClanService.player(r.id) || r), 40)}</span>
+        <span class="fl-mid"><span class="fl-n"><b data-no-mt>${U.esc(r.nick || '?')}</b>${r.self ? '<small class="fl-you">ты</small>' : ''}</span>
+          <span class="fl-rk">${this.medal(r.arenaIdx, { size: 18, anim: false })}${TN(ar.name)}</span>
+          <span class="fl-bar"><i style="width:${Math.max(3, v / max * 100)}%"></i></span></span>
+        <span class="fl-v"><b class="num">${nf(v)}</b><small>${mode === 'week' ? 'очк.' : this.trophyIcon}</small></span></button>`; };
+    let foot = '';
+    if (mode === 'week') { if (me > 0) { const gap = rows[me - 1].pts - rows[me].pts + 1, w = Math.max(1, Math.ceil(gap / CONFIG.TROPHY.WORKOUT)); foot = `До ${me}-го места <b class="num">${gap}</b> очк. — это ${w} ${U.plural(w, 'тренировка', 'тренировки', 'тренировок')}`; } else if (rows.length > 1) foot = 'Ты лидер недели среди друзей'; }
+    return `<div class="card p-4 mb-4 fl-card">
+      <div class="fl-h"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> Друзья</div>
+        <div class="fl-seg"><button class="${mode === 'week' ? 'on' : ''}" data-action="fl-mode" data-val="week">Неделя</button><button class="${mode === 'trophies' ? 'on' : ''}" data-action="fl-mode" data-val="trophies">Кубки</button></div>
+        <button class="fl-rf ${this._flBusy ? 'spin' : ''}" data-action="fl-refresh" aria-label="Обновить"><svg class="ic"><use href="#fa-rotate"/></svg></button></div>
+      <div class="fl-sub">${mode === 'week' ? `тренировка +${CONFIG.TROPHY.WORKOUT} · рекорд +${CONFIG.TROPHY.PR} · до конца недели ${League.daysLeft()} ${U.plural(League.daysLeft(), 'день', 'дня', 'дней')}` : 'всего кубков'}${ago != null ? ` · обновлено ${ago ? ago + ' мин назад' : 'только что'}` : on ? '' : ' · без сети'}</div>
+      <div class="fl-list">${rows.slice(0, 8).map(row).join('')}</div>
+      ${me >= 8 ? `<div class="fl-list fl-mine">${row(rows[me], me)}</div>` : ''}
+      ${foot ? `<div class="fl-foot">${foot}</div>` : ''}
       <button class="btn btn-ghost btn-sm w-full mt-3" data-action="open-page" data-kind="friends"><svg class="ic"><use href="#fa-user-plus"/></svg> Друзья и заявки</button></div>`;
   },
   inviteCard() {
@@ -7796,20 +7847,12 @@ Object.assign(UI, {
     return F(R(this._ring(14, 56, 38, 0), 1.6), '#FFE07A', '#E0A92A') + F(R(this._ring(6, 40, 30, Math.PI / 6), 2), lt, dk) + `<circle r="24" fill="${dd}"/><circle r="24" fill="none" stroke="#FFE07A" stroke-width="1.6"/>` + crown(-34, 1.1) + `<g transform="translate(-16 -9) scale(.32)"><path fill-rule="evenodd" d="${typeof LOGO_PATH !== 'undefined' ? LOGO_PATH : ''}" fill="#FFE07A"/></g>`;
   },
   // v41: рамка аватара в стиле ранга (ставится сама, если в магазине не выбрана другая)
-  rankFrame(inner, idx, size) {
-    // v55: рамка — лёгкий бонус. Маленькие аватары — тонкое кольцо цвета ранга; от 56px — рамка-картинка
-    // не больше ~1.5 аватара, сам аватар чуть уменьшается и садится в отверстие рамки
-    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), c = CONFIG.ARENAS[i].color;
-    if (size < 56) return `<span class="pfr rfr-thin" style="--ring:linear-gradient(140deg,${this._mix(c, '#ffffff', .45)},${c} 55%,${this._mix(c, '#000000', .35)})">${inner}</span>`;
-    const k = .78, O = Math.round(size * k / 1.05 / (72 / 180)), box = size + 8;
-    return `<span class="pfr rfr" style="width:${box}px;height:${box}px"><span class="rfr-av" style="transform:scale(${k})">${inner}</span><img class="rfr-o" src="${this.frameSrc(i)}" alt="" aria-hidden="true" draggable="false" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px"></span>`;
-  },
+  // v58: рамки рангов убраны — аватар без рамки (рамки из магазина остаются)
+  rankFrame(inner) { return inner; },
   // v46: эмблемы рангов — готовые картинки ranks/rank_NN.webp (NN = номер арены, 01…17)
   // v47: фон арены для карточки ранга (картинки arenas/aNN.webp; у всех лиг общий a10)
   arenaBg(i) { const n = U.clamp((i || 0) + 1, 1, CONFIG.ARENAS.length); return `arenas/a${String(Math.min(n, 10)).padStart(2, '0')}.webp`; },
-  medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=57`; },
-  // v54: рамки аватаров — готовые картинки frames/frame_NN.webp (NN = номер ранга, 01…17), центр прозрачный
-  frameSrc(i) { return `frames/frame_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=57`; },
+  medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=58`; },
   // v54: цвет ранга для текста: в светлой теме темнее, в тёмной — светлее
   ink(c, t = .3) { return S.profile.theme === 'light' ? this._mix(c, '#000000', .45) : this._mix(c, '#ffffff', t); },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
@@ -8110,14 +8153,18 @@ Object.assign(UI, {
     { sel: '.nav-btn[data-tab=clans]', ic: 'fa-shield-halved', t: 'Кланы', d: 'Вступай в клан и побеждайте в битвах недели. Здесь же друзья, дуэли и лента.' },
   ],
   startTour() { this.closeModal(); this._tour = 0; this.goTab('arena'); setTimeout(() => this.renderTour(), 250); },
-  endTour() { const t = document.getElementById('tour'); if (t) t.remove(); this._tour = null; S.profile.onboarded = true; save(); },
+  endTour() { const t = document.getElementById('tour'); if (t) t.remove(); document.documentElement.classList.remove('tour-lock'); this._tour = null; S.profile.onboarded = true; save(); },
   renderTour() {
     const i = this._tour; if (i == null) return; const st = this.TOUR[i]; if (!st) return this.endTour();
     if (st.tab && this.tab !== st.tab) this.goTab(st.tab);
     const el = document.querySelector(st.sel); if (!el || !el.getClientRects().length) { this._tour++; return this.renderTour(); }
-    if (st.tab) el.scrollIntoView({ block: 'center' });
+    document.documentElement.classList.add('tour-lock');
+    if (st.tab) el.scrollIntoView({ block: 'center', behavior: 'instant' });
     const r = el.getBoundingClientRect(), pad = 6, last = i === this.TOUR.length - 1, below = r.top + r.height / 2 < innerHeight / 2;
-    let t = document.getElementById('tour'); if (!t) { t = document.createElement('div'); t.id = 'tour'; document.body.appendChild(t); }
+    let t = document.getElementById('tour'); if (!t) { t = document.createElement('div'); t.id = 'tour'; document.body.appendChild(t);
+      // v58: пока идёт обучение, приложение не листается — только кнопки подсказки
+      const stop = e => { if (!(e.target.closest && e.target.closest('.tour-tip button'))) e.preventDefault(); };
+      t.addEventListener('touchmove', stop, { passive: false }); t.addEventListener('wheel', stop, { passive: false }); }
     t.innerHTML = `<div class="tour-hole" style="left:${r.left - pad}px;top:${r.top - pad}px;width:${r.width + pad * 2}px;height:${r.height + pad * 2}px;border-radius:${Math.min(28, (r.height + pad * 2) / 2)}px"></div>
       <div class="tour-tip ${below ? 'below' : 'above'}" style="${below ? `top:${r.bottom + pad + 12}px` : `bottom:${innerHeight - r.top + pad + 12}px`}">
         <div class="flex items-center gap-2 mb-1"><span class="tour-ic"><svg class="ic"><use href="#${st.ic}"/></svg></span><b class="flex-1">${st.t}</b><span class="text-[10px] muted num">${i + 1}/${this.TOUR.length}</span></div>
@@ -8306,7 +8353,7 @@ Object.assign(UI, {
     else if (t === 'look') body = `
       <div class="set-grp mb-3"><div class="set-row static"><span class="flex-1 text-sm font-semibold">${T('theme')}</span><div class="seg" style="width:8rem"><button class="${p.theme !== 'light' ? 'on' : ''}" data-action="set-theme" data-val="dark"><svg class="ic "><use href="#fa-moon"/></svg></button><button class="${p.theme === 'light' ? 'on' : ''}" data-action="set-theme" data-val="light"><svg class="ic "><use href="#fa-sun"/></svg></button></div></div>
         <div class="set-row static"><span class="flex-1 text-sm font-semibold">${T('units')}</span><div class="seg" style="width:8rem"><button class="${p.units === 'kg' ? 'on' : ''}" data-action="set-units" data-val="kg">kg</button><button class="${p.units === 'lbs' ? 'on' : ''}" data-action="set-units" data-val="lbs">lbs</button></div></div></div>
-      <div class="set-grp">${sw('set-motion', !!p.reduceMotion, 'Меньше анимаций', 'без конфетти, вспышек и движущегося фона')}${sw('set-calm', !!p.calm, 'Спокойный режим', 'главная без арен, кланов и рейтингов')}${sw('set-core', p.showCore === true, 'Схема «тренировка → кубки → арена»', 'подсказка над рангом на главном экране')}</div>`;
+      <div class="set-grp">${sw('set-motion', !!p.reduceMotion, 'Меньше анимаций', 'без конфетти, вспышек и движущегося фона')}${sw('set-calm', !!p.calm, 'Спокойный режим', 'главная без арен, кланов и рейтингов')}</div>`;
     else if (t === 'lang') body = `<div class="grid grid-cols-2 gap-2">${Object.keys(I18N.langs).map(l => `<button class="sub p-3 text-left text-sm font-semibold flex items-center justify-between ${(p.lang || 'ru') === l ? 'text-em' : ''}" style="${(p.lang || 'ru') === l ? 'border-color:#10B981' : ''}" data-action="set-lang" data-val="${l}" data-no-mt>${I18N.langs[l]}${(p.lang || 'ru') === l ? '<svg class="ic"><use href="#fa-check"/></svg>' : ''}</button>`).join('')}</div>`;
     else if (t === 'notify') { const r = p.remind || {};
       body = `<div class="set-grp mb-2">${sw('set-remind', !!r.on, 'Напоминание о тренировке', 'каждый день в выбранное время')}
@@ -8964,6 +9011,9 @@ const App = {
     'ob-start'() { S.profile.onboarded = true; save(); UI.closeModal(); UI.renderAll(); setTimeout(() => UI.openWorkout(), 120); },
     'ob-replay'() { UI.closeModal(); UI.closePage && UI.closePage(); UI.startTour(); },
     'tour-next'() { UI._tour++; UI.renderTour(); },
+    'fl-mode'(el) { UI.flMode = el.dataset.val; UI.keepInputs(() => UI.renderClans()); },
+    'fl-refresh'() { if (!ClanService.online()) { UI.toast('Нет связи с сервером', 'or'); return; } if (UI._flBusy) return; UI._flBusy = true; UI.keepInputs(() => UI.renderClans());
+      Net.refresh(true).finally(() => { UI._flBusy = false; if (UI.tab === 'clans') UI.keepInputs(() => UI.renderClans()); }); },
     'tour-skip'() { UI.endTour(); },
     /* вход / регистрация */
     'auth-mode'(el) { App.stopConfirmWait(); UI.openAuth(el.dataset.val); },
