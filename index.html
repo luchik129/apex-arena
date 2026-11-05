@@ -1073,6 +1073,20 @@ body.modal-on #main .pfx,body.modal-on #main .pfx *{animation-play-state:paused!
 .ld-scale{display:flex;align-items:center;gap:.4rem;font-size:.66rem;color:var(--muted);margin:.35rem 0 .7rem}
 .ld-scale i{width:1.1rem;height:.5rem;border-radius:.2rem;display:inline-block}
 .ld-bar{display:block;height:3px;border-radius:3px;background:var(--line);margin-top:.3rem;overflow:hidden}.ld-bar i{display:block;height:100%;border-radius:3px;background:var(--text)}
+/* ===== v52: окно рекорда — публикация с превью; подсказка про честные нормы ===== */
+.prp{border-radius:1.1rem;background:var(--sub);border:1px solid var(--line);padding:.8rem}
+.prp-h{display:flex;flex-direction:column;gap:.1rem;margin-bottom:.6rem}
+.prp-h b{font-size:.95rem}.prp-h small{font-size:.72rem;color:var(--muted)}
+.prp-prev{pointer-events:none;user-select:none;max-height:17rem;overflow:hidden;border-radius:1.1rem;-webkit-mask-image:linear-gradient(#000 85%,transparent);mask-image:linear-gradient(#000 85%,transparent)}
+.prp-prev .post{margin:0;box-shadow:0 10px 28px rgba(0,0,0,.25)}
+.prp-cap{margin-top:.6rem;resize:none;min-height:2.8rem;font-size:.9rem}
+.prp-done{display:flex;align-items:center;gap:.7rem}
+.prp-done>.ic{width:2.2rem;height:2.2rem;padding:.5rem;border-radius:50%;background:#10B98122;color:#10B981;flex:none}
+.prp-done b{display:block;font-size:.9rem}.prp-done small{font-size:.72rem;color:var(--muted)}
+.prp-share{display:flex;align-items:center;justify-content:center;gap:.35rem;width:100%;margin-top:.7rem;font-size:.75rem;font-weight:600;color:var(--muted)}
+.fair-note{display:flex;gap:.55rem;align-items:flex-start;padding:.6rem .7rem;border-radius:.9rem;background:#F59E0B14;border:1px solid #F59E0B33;font-size:.72rem;line-height:1.4;color:var(--muted)}
+.fair-note>.ic{color:#F59E0B;flex:none;margin-top:.1rem}
+.fair-note b{color:var(--text)}
 /* ===== v51: сообщество — подписки, рекорды, посты, уведомления ===== */
 .sec-h{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:0 .1rem .55rem}
 .sec-h>b{font-size:.875rem;font-weight:700;display:flex;align-items:center;gap:.4rem;min-width:0}
@@ -1722,7 +1736,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '51',
+  APP_VERSION: '52',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1960,14 +1974,17 @@ const MT = {
     if (this.pending.size) { clearTimeout(this.timer); this.timer = setTimeout(() => this.flush(), 350); }
   },
   async flush() {
-    if (this.busy || !this.active() || !this.pending.size || !Gemini.available() || (this._batches = (this._batches || 0)) >= 4) return; // v29: ИИ через сервер, не больше 4 пачек за запуск, чтобы не тратить дневной лимит
+    // v52: строки переводит обычный машинный перевод (Translator), ИИ — только запасной и не больше 2 пачек за запуск
+    if (this.busy || !this.active() || !this.pending.size || (this._batches = (this._batches || 0)) >= 15) return;
     this._batches++;
-    const lang = this.lang(), batch = [...this.pending].slice(0, 60); this.busy = true;
+    const lang = this.lang(), batch = [...this.pending].slice(0, 40); this.busy = true;
     try {
-      const out = await Gemini.translate(batch, I18N.langs[lang] || lang);
+      const ph = s => (String(s).match(/\{\d+\}/g) || []).sort().join(','), ok = (s, d) => !!d && ph(s) === ph(d);
+      const ai = (this._aiN || 0) < 2 && Gemini.available() ? async rest => { this._aiN = (this._aiN || 0) + 1; const r = await Gemini.translate(rest, I18N.langs[lang] || lang); return rest.map(s => { const x = (r || []).find(p => p && p.src === s); return x ? x.dst : null; }); } : null;
+      const out = await Translator.many(batch, lang, { ok, ai });
       if (this.lang() !== lang) return;
       const c = this.cache[lang] || (this.cache[lang] = {});
-      (out || []).forEach(p => { if (p && p.src && p.dst && batch.includes(p.src)) { c[p.src] = p.dst; this.dstSet().add(p.dst); } });
+      batch.forEach((s, i) => { const d = out[i]; if (d) { c[s] = d; this.dstSet().add(d); } });
       batch.forEach(k => this.pending.delete(k)); // не зацикливаться на непереведённых
       this.save(); this.apply(document.body);
     } catch (e) { console.warn('MT', e.message); batch.forEach(k => this.pending.delete(k)); }
@@ -2281,7 +2298,7 @@ const Calc = {
   // счёт вызова: 7 дней с дня старта, с нуля. getDay(day) → {w, p}
   windowScore(getDay, start) { let t = 0; for (let i = 0; i < 7; i++) { const d = U.addDays(start, i); if (d > U.today()) break; const x = getDay(d) || {}; t += (x.w || 0) * CONFIG.TROPHY.WORKOUT + (x.p || 0) * CONFIG.TROPHY.PR; } return t; },
   myWindow(start) { return Calc.windowScore(d => Calc.dayStats(d), start); },
-  distinctExercises(day) { return new Set(Calc.liftsOn(day).filter(l => !l.warmup).map(l => l.exerciseName)).size; },
+  distinctExercises(day) { return new Set(Calc.liftsOn(day).filter(l => !l.warmup && !l.flagged && (+l.weight >= 5 || U.exInfo(l.exerciseName).bodyweight)).map(l => l.exerciseName)).size; }, // v52: «1 кг × 3 упражнения» тренировкой не считается
   isWorkoutDay(day) { return Calc.distinctExercises(day) >= CONFIG.WORKOUT_MIN_EXERCISES; },
   workoutsInWeek(weekKey) { return S.game.countedWorkoutDays.filter(d => U.weekKey(U.parseDay(d)) === weekKey).length; },
   // активный день = любой ввод: тренировка/подход, еда или сон (+ дни, закрытые заморозкой)
@@ -2373,7 +2390,7 @@ const Calc = {
     return { cals, protein, carbs, fat };
   },
   nutritionGoalMet(day = U.today()) {
-    const g = S.nutrition.goals || Calc.defaultGoals(), { items, total } = Calc.nutritionToday(day);
+    const g = Calc.fairGoals(), { items, total } = Calc.nutritionToday(day); // v52: кубки — по общей норме, заниженная цель их не даёт
     return items.length > 0 && total.cals >= g.cals * 0.85 && total.cals <= g.cals * 1.1 && total.protein >= g.protein * 0.8;
   },
   weekLedger(weekKey = U.weekKey()) { return S.ledger.filter(e => e.type === 'trophy' && U.weekKey(new Date(e.ts)) === weekKey).reduce((a, e) => a + e.delta, 0); },
@@ -2620,6 +2637,7 @@ const Game = {
   deleteBurn(id) { S.nutrition.burn = S.nutrition.burn.filter(x => x.id !== id); save(); },
   evaluateNutrition(day = U.today()) {
     if (S.game.nutritionDays.includes(day) || !Calc.nutritionGoalMet(day)) return;
+    if (!Clock.ok()) return; // v52: проверим ещё раз, когда часы сверятся с сервером
     S.game.nutritionDays.push(day);
     if (day < U.addDays(U.today(), -1)) return; // задним числом кубков нет
     this.addTrophies(CONFIG.TROPHY.NUTRITION_DAY, 'Цели по питанию', true);
@@ -2683,11 +2701,12 @@ const Game = {
   async translateExercises() {
     const lang = S.profile.lang || 'ru', tried = this._exTried || (this._exTried = {});
     const names = Calc.exerciseNames().filter(n => !CONFIG.EXERCISES[n] && !(S.exTr && S.exTr[n] && S.exTr[n][lang]) && !tried[lang + '|' + n]);
-    if (!names.length || this._exBusy || !Gemini.available()) return false;
+    if (!names.length || this._exBusy) return false;
     this._exBusy = true; names.forEach(n => tried[lang + '|' + n] = 1);
-    try {
-      const res = await Gemini.translateNames(names, I18N.langs[lang] || lang); if (!S.exTr) S.exTr = {};
-      (Array.isArray(res) ? res : []).forEach(r => { if (r && names.includes(r.src) && r.dst) (S.exTr[r.src] || (S.exTr[r.src] = {}))[lang] = String(r.dst).slice(0, 40); });
+    try { // v52: обычный машинный перевод, ИИ — запасной
+      const ai = Gemini.available() ? async rest => { const r = await Gemini.translateNames(rest, I18N.langs[lang] || lang); return rest.map(s => { const x = (Array.isArray(r) ? r : []).find(p => p && p.src === s); return x ? x.dst : null; }); } : null;
+      const res = await Translator.many(names, lang, { ai }); if (!S.exTr) S.exTr = {};
+      names.forEach((n, i) => { if (res[i]) (S.exTr[n] || (S.exTr[n] = {}))[lang] = String(res[i]).slice(0, 40); });
       save(); if (typeof UI !== 'undefined') { UI.renderTab(UI.tab); } return true;
     } catch (_) { return false; } finally { this._exBusy = false; }
   },
@@ -2782,6 +2801,7 @@ const Game = {
   paid(key) { return !!(S.game.awards && S.game.awards[key]); },
   award(key, trophies, note, { coins = 0, xp = 0, toast = null, daily = true } = {}) {
     const aw = S.game.awards || (S.game.awards = {}); if (aw[key]) return 0;
+    if ((trophies || coins) && Clock.daily(key) && !Clock.ok()) { Clock.defer(key, trophies, note, { coins, xp, toast, daily }); return 0; } // v52: часы телефона не сверены с сервером — награда подождёт
     aw[key] = Date.now(); const ks = Object.keys(aw); if (ks.length > 4000) ks.sort((a, b) => aw[a] - aw[b]).slice(0, ks.length - 4000).forEach(k => delete aw[k]);
     const d = trophies ? this.addTrophies(trophies, note, daily) : 0;
     if (coins) this.addCoins(coins, note); if (xp) this.addXP(xp, note);
@@ -2801,20 +2821,81 @@ const Game = {
   boot() { if (!S.v41bo) { S.v41bo = 1; S.battleOpen = true; } { const s = S.game.season; if (s && !s.v29) { s.v29 = 1; s.enabled = true; } } if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); this.settleDays(); save(); },
 };
 
+/* ------------------- v52: честные нормы для кубков ------------------- */
+Object.assign(Calc, {
+  // личные цели можно ставить любые, но кубки считаются по общей норме: заниженная цель их не даёт, у всех правила одни
+  fairGoals() {
+    const p = S.profile, bw = U.clamp(+p.bodyweight || 70, 40, 180);
+    const d = Calc.defaultGoals({ bodyweight: bw, height: U.clamp(+p.height || 175, 140, 215), age: U.clamp(+p.age || 25, 14, 90) }), g = S.nutrition.goals || d;
+    const floor = Math.max(p.sex === 'f' ? 1300 : 1600, Math.round(d.cals * 0.85 / 10) * 10), ceil = Math.max(floor, Math.round(d.cals * 1.25 / 10) * 10);
+    return { cals: U.clamp(+g.cals || d.cals, floor, ceil), protein: Math.max(+g.protein || 0, Math.round(bw * 1.4)), water: Math.max(Calc.waterGoal(), 1500, Math.round(Math.min(bw * 30, 3500) / 250) * 250), floor };
+  },
+  // вода в зачёт кубков: не больше 1 л за час (выпить норму можно только за день, а не одной кнопкой)
+  waterCounted(day = U.today()) {
+    const live = ts => !!ts && U.dayKey(new Date(ts)) <= U.addDays(day, 1), per = {};
+    return (S.health.water || []).filter(x => x.date === day && live(x.ts)).sort((a, b) => a.ts - b.ts).reduce((sum, x) => { const h = Math.floor(x.ts / 36e5), add = Math.max(0, Math.min(+x.ml || 0, 1000 - (per[h] || 0))); per[h] = (per[h] || 0) + add; return sum + add; }, 0);
+  },
+  goalFair(g) {
+    const created = g.created ? U.parseDay(g.created).getTime() : Date.now(), age = (U.parseDay(U.today()).getTime() - created) / 864e5;
+    const pays = (S.game.goalPays || []).filter(x => x.ts > Date.now() - 14 * 864e5);
+    return g.base > 0 && g.target >= Math.max(g.base * 1.05, g.base + 2.5) && age >= 3 && !pays.some(x => x.ex === g.ex) && pays.filter(x => x.ts > Date.now() - 7 * 864e5).length < 2;
+  },
+});
+
+/* ------------------- v52: сверка часов с сервером ------------------- */
+// Награды «за день» (итоги дня, вода, сон, взвешивание, план, пост) выдаются, только когда часы телефона совпадают с часами сервера.
+// Перевели часы вперёд или назад — награды ждут, пока время снова станет честным. Без аккаунта проверять не с чем — кубки только на телефоне.
+const Clock = {
+  skew: null, at: 0, missing: false, _p: null, _t: 0,
+  need() { return typeof Net !== 'undefined' && !!(Net.uid || (S.account && S.account.email)); },
+  daily(key) { return /^(dayq|water|sleep|weight|plan|post|photo|streak):/.test(key); },
+  ok() {
+    const g = S.game, now = Date.now();
+    if (g.maxNow && now < g.maxNow - 30 * 60000) return false; // часы отмотали назад
+    if (!this.need() || this.missing) return true;
+    return this.at > 0 && this.skew != null && Math.abs(this.skew) < 15 * 60000 && now - this.at < 6 * 36e5 && now >= this.at - 60000;
+  },
+  sync(force) {
+    if (typeof Net === 'undefined' || !Net.online() || this.missing) return Promise.resolve(false);
+    if (!force && Date.now() - this._t < 5 * 60000) return Promise.resolve(this.ok());
+    if (this._p) return this._p;
+    this._p = (async () => {
+      try {
+        const t0 = Date.now(), { data, error } = await Net.client.rpc('flx_now'), t1 = Date.now();
+        if (error) { if (/flx_now|PGRST202|schema cache|does not exist/i.test((error.message || '') + ' ' + (error.code || ''))) { this.missing = true; this.release(); } return false; }
+        const srv = new Date(data).getTime(); if (!srv) return false;
+        this.skew = srv - (t0 + t1) / 2; this.at = t1; this._t = t1;
+        if (Math.abs(this.skew) < 15 * 60000) S.game.maxNow = Math.max(t1, (S.game.maxNow || 0) > t1 + 30 * 60000 ? t1 : (S.game.maxNow || 0)); // часы честные — снимаем блок после старого перевода часов
+        if (this.ok()) this.release();
+        return this.ok();
+      } catch (_) { return false; } finally { this._p = null; }
+    })();
+    return this._p;
+  },
+  defer(key, t, note, o) { const p = S.game.pendAw || (S.game.pendAw = {}); if (!p[key]) p[key] = { t, note, o, at: Date.now() }; const ks = Object.keys(p); if (ks.length > 40) ks.sort((a, b) => p[a].at - p[b].at).slice(0, ks.length - 40).forEach(k => delete p[k]); save(); },
+  // часы сверились: выдаём отложенное (только за сегодня и вчера по серверному времени)
+  release() {
+    const p = S.game.pendAw || {}, keep = U.addDays(U.today(), -1);
+    Object.keys(p).forEach(k => { const x = p[k], m = k.match(/\d{4}-\d{2}-\d{2}/); delete p[k]; if (Date.now() - (x.at || 0) > 2 * 864e5 || (m && m[0] < keep && !k.startsWith('streak:'))) return; Game.award(k, x.t, x.note, x.o || {}); });
+    Game.settleDays(); Game.evaluateNutrition(U.today()); Game.evaluateNutrition(U.addDays(U.today(), -1));
+    save(); if (typeof UI !== 'undefined' && Game.events.length) { UI.renderHeader(); UI.flushEvents(); }
+  },
+};
+
 /* ------------------- v48: кубки дня ------------------- */
 // Оценка дня 0..100 = среднее по питанию, сну и воде (+ активность, если была или стояла в плане).
 // Нет записи — 0% по этому пункту. Считаются только записи, сделанные в тот же день или на следующий (задним числом не накрутить).
 Object.assign(Calc, {
   dayQuality(k = U.today()) {
     const live = ts => !!ts && U.dayKey(new Date(ts)) <= U.addDays(k, 1), L = v => (v / 1000).toFixed(1).replace(/\.0$/, '');
-    const g = S.nutrition.goals || Calc.defaultGoals(), parts = [];
+    const g = Calc.fairGoals(), parts = []; // v52: одинаковые нормы для всех
     const food = S.nutrition.log.filter(f => f.date === k && live(f.ts)), cals = food.reduce((a, f) => a + (+f.cals || 0), 0), prot = food.reduce((a, f) => a + (+f.protein || 0), 0);
     let fp = 0;
     if (food.length) { const r = cals / (g.cals || 1), cs = r >= .85 && r <= 1.1 ? 100 : r < .85 ? r / .85 * 100 : Math.max(0, 100 - (r - 1.1) * 250); fp = Math.round(cs * .6 + Math.min(100, prot / (g.protein || 1) * 100) * .4); }
     parts.push({ id: 'food', name: 'Питание', icon: 'fa-utensils', color: '#F97316', pct: U.clamp(fp, 0, 100), sub: food.length ? `${Math.round(cals)} из ${g.cals} ккал · белок ${Math.round(prot)} из ${g.protein} г` : 'еда не записана', tip: 'Запиши еду и попади в цель по калориям и белку' });
     const sl = S.health.sleep.find(x => x.date === k && live(x.ts)), [lo, hi] = Calc.sleepNorm();
     parts.push({ id: 'sleep', name: 'Сон', icon: 'fa-moon', color: '#8B5CF6', pct: sl ? Calc.sleepScore(sl.hours) : 0, sub: sl ? `${sl.hours} ч · норма ${lo}–${hi} ч` : 'сон не записан', tip: `Запиши сон: ${lo}–${hi} ч дают 100%` });
-    const wml = (S.health.water || []).filter(x => x.date === k && live(x.ts)).reduce((a, x) => a + (+x.ml || 0), 0), wg = Calc.waterGoal();
+    const wml = Calc.waterCounted(k), wg = g.water; // v52: в зачёт не больше 1 л воды в час — «10 стаканов разом» не считаются
     parts.push({ id: 'water', name: 'Вода', icon: 'fa-droplet', color: '#38BDF8', pct: U.clamp(Math.round(wml / wg * 100), 0, 100), sub: `${L(wml)} из ${L(wg)} л`, tip: `Допей воду: осталось ${L(Math.max(0, wg - wml))} л` });
     const done = S.game.countedWorkoutDays.includes(k), lifts = S.lifts.some(l => l.date === k && !l.flagged && live(l.ts)), burn = (S.nutrition.burn || []).some(x => x.date === k && live(x.ts)), planned = !!S.program.days[Calc.weekday(k)];
     if (done || lifts || burn || planned) parts.push({ id: 'move', name: 'Активность', icon: 'fa-dumbbell', color: '#10B981', pct: done ? 100 : lifts || burn ? 70 : 0, sub: done ? 'тренировка засчитана' : lifts ? 'были подходы' : burn ? 'активность записана' : 'по плану тренировка', tip: 'Сделай тренировку по плану' });
@@ -2826,6 +2907,7 @@ Object.assign(Calc, {
 Object.assign(Game, {
   // после полуночи (при первом открытии или возврате в приложение) платим за вчера и позавчера, по разу за день
   settleDays() {
+    if (typeof Clock !== 'undefined' && !Clock.ok()) return; // v52: итоги дня — только по сверенным часам (перевод часов не даёт лишних дней)
     const today = U.today(), start = Calc.startDay(), q = S.game.dayQ || (S.game.dayQ = {});
     for (let i = CONFIG.DAY_Q.BACK; i >= 1; i--) {
       const k = U.addDays(today, -i); if (k < start || this.paid('dayq:' + k)) continue;
@@ -2872,7 +2954,7 @@ Object.assign(Calc, {
 });
 Object.assign(Game, {
   logWater(ml, date = U.today()) { ml = Math.round(+ml); if (!(ml > 0 && ml <= 3000)) return false; if (!S.health.water) S.health.water = []; S.health.water.push({ id: U.uid(), date, ml, ts: Date.now() }); if (S.health.water.length > 4000) S.health.water.splice(0, S.health.water.length - 4000);
-    if (date === U.today() && Calc.waterOn(date) >= Calc.waterGoal()) this.award('water:' + date, CONFIG.TROPHY.WATER_GOAL, 'Норма воды', { toast: 'Норма воды выполнена: +{n} кубка' });
+    if (date === U.today() && Calc.waterCounted(date) >= Calc.fairGoals().water) this.award('water:' + date, CONFIG.TROPHY.WATER_GOAL, 'Норма воды', { toast: 'Норма воды выполнена: +{n} кубка' });
     save(); return true; },
   undoWater(date = U.today()) { const xs = S.health.water || []; for (let i = xs.length - 1; i >= 0; i--) if (xs[i].date === date) { xs.splice(i, 1); save(); return true; } return false; },
   logWeight(kg, date = U.today()) {
@@ -2889,9 +2971,10 @@ Object.assign(Game, {
   checkGoals(silent = false) {
     (S.goals || []).forEach(g => { if (g.doneAt || Calc.goalBest(g) < g.target) return; g.doneAt = U.today(); g.doneTs = Date.now(); if (silent) return;
       // кубки за цель: один раз на упражнение+повторы+вес; цель должна быть выше результата на момент постановки хотя бы на 2.5%
-      const real = g.base == null || g.target >= (g.base || 0) * 1.025, key = `goal:${g.ex}:${g.rm}:${g.target}`;
+      const real = Calc.goalFair(g), key = `goal:${g.ex}:${g.rm}:${g.target}`; // v52: цель ≥ +5% к прошлому результату, поставлена ≥ 3 дней назад, не чаще 1 раза в 2 недели на упражнение и 2 раз в неделю
+      if (real) (S.game.goalPays || (S.game.goalPays = [])).push({ ex: g.ex, ts: Date.now() });
       const d = real ? this.award(key, CONFIG.TROPHY.GOAL, 'Цель: ' + U.exRu(g.ex), { xp: 40, coins: CONFIG.COINS.GOAL }) : 0; if (!real) { (S.game.awards || (S.game.awards = {}))[key] = S.game.awards[key] || Date.now(); }
-      this.events.push({ type: 'toast', data: { msg: `<svg class="ic text-amber-400"><use href="#fa-flag"/></svg> Цель достигнута: ${U.exRu(g.ex)} ${U.w(g.target)} ${U.wUnit()} · ${g.rm}${d > 0 ? ` · +${d} <svg class="ic text-amber-400"><use href="#fa-trophy"/></svg>` : ''}`, cls: 'pu' } }); });
+      this.events.push({ type: 'toast', data: { msg: `<svg class="ic text-amber-400"><use href="#fa-flag"/></svg> Цель достигнута: ${U.exRu(g.ex)} ${U.w(g.target)} ${U.wUnit()} · ${g.rm}${d > 0 ? ` · +${d} <svg class="ic text-amber-400"><use href="#fa-trophy"/></svg>` : real ? '' : ' · без кубков: цель была слишком близко к прошлому результату или поставлена меньше 3 дней назад'}`, cls: 'pu' } }); });
   },
 });
 
@@ -3530,6 +3613,74 @@ const AIFood = {
     return t.charAt(0).toUpperCase() + t.slice(1);
   },
   chat(day = U.today()) { const c = S.nutrition.aiChat || (S.nutrition.aiChat = {}); Object.keys(c).forEach(k => { if (k < U.addDays(U.today(), -3)) delete c[k]; }); return c[day] || (c[day] = []); },
+};
+
+/* ---------------------- v52: ПЕРЕВОДЧИК без ИИ ----------------------
+   Посты, строки интерфейса и свои упражнения переводятся обычным машинным переводом, без лимита ИИ и без входа в аккаунт:
+   кэш на телефоне → Google Translate (бесплатный адрес, без ключа) → наша функция translate на сервере (тот же Google) →
+   MyMemory (бесплатно, около 5000 символов в день на телефон) → Gemini, только если ничто другое не ответило. */
+const Translator = {
+  KEY: 'APEX_TR_CACHE_V1', cache: null, off: { g: 0, e: 0, m: 0 },
+  load() { if (!this.cache) { try { this.cache = JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (_) { this.cache = {}; } } return this.cache; },
+  save() { try { const c = this.load(), ks = Object.keys(c); if (ks.length > 800) ks.slice(0, ks.length - 800).forEach(k => delete c[k]); localStorage.setItem(this.KEY, JSON.stringify(c)); } catch (_) {} },
+  guess(t) { t = String(t || ''); if (/[әғқңөұүһ]/i.test(t)) return 'kk'; if (/[іїєґ]/i.test(t)) return 'uk'; if (/[а-яё]/i.test(t)) return 'ru'; if (/[äöüß]/i.test(t)) return 'de'; if (/[ñ¿¡]/i.test(t)) return 'es'; if (/[çàâèêëîïôœùû]/i.test(t)) return 'fr'; if (/[ğışİ]/.test(t)) return 'tr'; return 'en'; },
+  wait(p, ms) { let t; return Promise.race([p, new Promise((_, rej) => { t = setTimeout(() => rej(new Error('timeout')), ms); })]).finally(() => clearTimeout(t)); },
+  async google(text, tl) {
+    const r = await this.wait(fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(tl)}&dt=t&q=${encodeURIComponent(text)}`), 9000);
+    if (!r.ok) throw new Error('google ' + r.status);
+    const j = await r.json(), out = ((j && j[0]) || []).map(x => (x && x[0]) || '').join('');
+    if (!out) throw new Error('google empty'); return out;
+  },
+  async edge(list, tl) {
+    let token = null; try { const { data } = await Net.client.auth.getSession(); token = data && data.session ? data.session.access_token : null; } catch (_) {}
+    const r = await this.wait(fetch(`${CONFIG.SUPABASE_URL}/functions/v1/translate`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: CONFIG.SUPABASE_KEY, ...(token ? { Authorization: 'Bearer ' + token } : {}) }, body: JSON.stringify({ q: list, tl }) }), 15000);
+    let j = null; try { j = await r.json(); } catch (_) {}
+    if (!j || !j.apex || !Array.isArray(j.items)) throw new Error('edge ' + r.status);
+    return j.items;
+  },
+  chunks(text, max) { // куски не длиннее max байт UTF-8, по предложениям
+    const enc = s => new TextEncoder().encode(s).length, out = []; let cur = '';
+    (String(text).match(/[^.!?…\n]*[.!?…\n]+|[^.!?…\n]+$/g) || []).forEach(seg => { if (enc(cur + seg) <= max) { cur += seg; return; } if (cur) out.push(cur); cur = ''; if (enc(seg) <= max) { cur = seg; return; } (seg.match(/\S+\s*|\s+/g) || []).forEach(w => { if (enc(cur + w) > max && cur) { out.push(cur); cur = ''; } cur += w; }); });
+    if (cur) out.push(cur); return out;
+  },
+  async mymemory(text, tl) {
+    const sl = this.guess(text); if (sl === tl) return text;
+    const out = [];
+    for (const part of this.chunks(text, 450)) {
+      if (!part.trim()) { out.push(part); continue; }
+      const r = await this.wait(fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(part)}&langpair=${sl}|${encodeURIComponent(tl)}`), 10000);
+      const j = await r.json(), t = j && j.responseData && j.responseData.translatedText;
+      if (!t || +j.responseStatus !== 200 || /MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(t)) throw new Error('mymemory');
+      out.push((/^\s/.test(part) ? ' ' : '') + t);
+    }
+    return out.join('');
+  },
+  async pool(items, n, fn) { let i = 0; await Promise.all(Array.from({ length: Math.min(n, items.length) }, async () => { while (i < items.length) { const x = items[i++]; try { await fn(x); } catch (_) {} } })); },
+  // список строк → список переводов (null, если перевести не удалось). o.ok(src, dst) — проверка перевода, o.ai(rest) — запасной ИИ
+  async many(list, tl, o = {}) {
+    const c = this.load(), ok = o.ok || ((s, d) => !!d), res = list.map(s => { const h = c[tl + '|' + s]; return h && ok(s, h) ? h : null; });
+    const todo = () => [...new Set(list.filter((s, i) => !res[i] && String(s).trim()))];
+    const put = (s, d) => { if (!d || !ok(s, d)) return; d = String(d).slice(0, 4000); c[tl + '|' + s] = d; list.forEach((x, i) => { if (x === s) res[i] = d; }); };
+    let rest = todo();
+    if (rest.length && Date.now() - this.off.g > 15 * 60000) { // 1. Google прямо из приложения
+      try { put(rest[0], await this.google(rest[0], tl)); await this.pool(rest.slice(1), 4, async s => put(s, await this.google(s, tl))); } catch (_) { this.off.g = Date.now(); }
+    }
+    rest = todo();
+    if (rest.length && Date.now() - this.off.e > 15 * 60000) { // 2. то же через наш сервер
+      try { for (let i = 0; i < rest.length; i += 40) { const part = rest.slice(i, i + 40), items = await this.edge(part, tl); part.forEach((s, j) => put(s, items[j])); } } catch (_) { this.off.e = Date.now(); }
+    }
+    rest = todo();
+    if (rest.length && Date.now() - this.off.m > 60 * 60000) { // 3. MyMemory
+      try { for (const s of rest.slice(0, 15)) put(s, await this.mymemory(s, tl)); } catch (_) { this.off.m = Date.now(); }
+    }
+    rest = todo();
+    if (rest.length && o.ai) { try { const a = await o.ai(rest); rest.forEach((s, i) => put(s, a && a[i])); } catch (_) {} } // 4. ИИ — в последнюю очередь
+    this.save(); return res;
+  },
+  async text(t, lang) {
+    const [x] = await this.many([t], lang, { ai: Gemini.available() ? async ([s]) => { const r = await Gemini.translatePost(s, I18N.langs[lang] || lang); return [r && r.text]; } : null });
+    return x;
+  },
 };
 
 const Gemini = {
@@ -4212,7 +4363,19 @@ const Social = {
     Game.award('post:' + U.today(), CONFIG.TROPHY.POST_DAY, 'Пост в сообществе'); save();
     await this.load(true); return { ok: true };
   },
-  postPR(lift) { // рекорд автоматически появляется в ленте
+  // v52: рекорд постом в ленту — только если человек сам нажал «Опубликовать» (с подписью по желанию)
+  async postRecord(lift, caption) {
+    if (!lift) return { error: 'Рекорд не найден' }; if (lift.posted) return { ok: true };
+    caption = String(caption || '').trim().slice(0, 300); const bad = caption ? this.check(caption) : null; if (bad) return { error: bad };
+    const tags = ['pr', this.exTag(lift.exerciseName), ...this.parseTags(caption)].filter((t, i, a) => t && a.indexOf(t) === i).slice(0, 10);
+    if (this.online()) {
+      const { error } = await Net.client.from('posts').insert({ user_id: Net.uid, kind: 'post', body: caption, tags, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 });
+      if (error) return { error: Net.err(error) };
+    } else this.local().posts.push({ id: 'lp_' + U.uid(), kind: 'post', body: caption, tags, img: null, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1, likes: 0, comments: 0, ts: Date.now() });
+    lift.posted = Date.now(); tags.forEach(t => this.rememberTag(t));
+    Game.award('post:' + U.today(), CONFIG.TROPHY.POST_DAY, 'Пост в сообществе'); save(); this.load(true); return { ok: true };
+  },
+  postPR(lift) { // (не используется с v52) рекорд автоматически появляется в ленте
     if (!this.online()) return; const tags = ['pr', this.exTag(lift.exerciseName)];
     Net.client.from('posts').insert({ user_id: Net.uid, kind: 'pr', body: '', tags, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 }).then(() => {}, () => {});
   },
@@ -4707,6 +4870,7 @@ const Net = {
         if (typeof Referral !== 'undefined') Referral.sync();
         if (typeof Mod !== 'undefined') Mod.sync();
         if (typeof League !== 'undefined') League.settle();
+        if (typeof Clock !== 'undefined') Clock.sync();
         if (typeof Follow !== 'undefined') { Follow.load().then(ok => { if (ok && typeof UI !== 'undefined' && UI.tab === 'clans' && !document.getElementById('modal')) UI.keepInputs(() => UI.renderClans()); }); Activity.load().then(ok => { if (ok && typeof UI !== 'undefined') UI.renderHeader(); }); }
         save(); return true;
       } catch (e) { console.warn('Net.refresh', e); return false; }
@@ -4726,7 +4890,7 @@ const Net = {
   },
   async setClanFields(clanId, fields) { const { error } = await this.client.from('clans').update(fields).eq('id', clanId); if (error) throw new Error(/battle_open|description/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v19.sql в Supabase' : /theme|photo|capacity/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v20.sql в Supabase' : /about|showcases/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v21.sql в Supabase' : this.err(error)); },
   async cancelDuel(id) { await this.client.from('duels').update({ status: 'cancelled' }).eq('id', id); },
-  postFeed(lift) { this.client.from('feed').insert({ user_id: this.uid, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 }).then(() => {}, () => {}); Social.postPR(lift); },
+  postFeed(lift) { this.client.from('feed').insert({ user_id: this.uid, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 }).then(() => {}, () => {}); }, // v52: постом рекорд становится только по согласию (окно рекорда)
 };
 /* ------------------------------- UI --------------------------------- */
 /* ======================= v29: ЛИГА АРЕНЫ — недельный рейтинг игроков своей арены =======================
@@ -6193,26 +6357,38 @@ const UI = {
       ${this.topRecordsRows()}
 `);
   },
-  openPR(lift) {
-    const bw = S.profile.bodyweight || 70, ps = Math.round(Calc.powerScore(lift.e1rm, bw, U.exInfo(lift.exerciseName).mult));
-    this.confetti();
+  openPR(lift, quiet) {
+    if (!lift || !S.lifts.some(l => l.id === lift.id)) return false; // подход успели удалить
+    const bw = S.profile.bodyweight || 70, ps = Math.round(Calc.powerScore(lift.e1rm, bw, U.exInfo(lift.exerciseName).mult)), posted = !!lift.posted;
+    if (!quiet) this.confetti();
+    const share = `🏆 Новый PR: ${U.exRu(lift.exerciseName)} ${U.w(lift.weight)} ${U.wUnit()} (${U.rmLabel(lift)}) · ${Calc.arena().name} · ${S.game.trophies} кубков · Flexo League`;
     this.modal(`
-      <div class="text-center relative overflow-hidden py-2"><div class="rays"></div>
-        <div class="relative pop">
-          <div class="text-6xl mb-2">🏆</div>
+      <div class="text-center relative overflow-hidden py-1"><div class="rays"></div>
+        <div class="relative ${quiet ? '' : 'pop'}">
+          <div class="text-5xl mb-1">🏆</div>
           <div class="text-[11px] uppercase tracking-[.3em] text-amber-400 font-bold">${T('new_record')}</div>
           <div class="text-2xl font-black mt-1">${U.esc(U.exRu(lift.exerciseName))}</div>
-          <div class="text-5xl font-black num mt-2 title-gold">${U.w(lift.weight)} <span class="text-xl">${U.wUnit()}</span></div>
+          <div class="text-5xl font-black num mt-1 title-gold">${U.w(lift.weight)} <span class="text-xl">${U.wUnit()}</span></div>
           <div class="muted text-sm mt-1 num">${U.rmLabel(lift)} · <span>e1RM ${U.w(lift.e1rm, 0)} ${U.wUnit()}</span> · индекс ${ps}</div>
-          <div class="chip mt-3 text-amber-400">+${CONFIG.TROPHY.PR} ${this.trophyIcon} · +${CONFIG.XP.PR} XP</div>
+          ${lift.paid ? `<div class="chip mt-3 text-amber-400">+${CONFIG.TROPHY.PR} ${this.trophyIcon} · +${CONFIG.XP.PR} XP</div>` : ''}
         </div>
       </div>
-      <div id="share-card" class="mt-4 rounded-2xl p-4 text-white" style="background:linear-gradient(135deg,#0B0E14,#1E1B4B 60%,#312E81);border:1px solid #8B5CF6">
-        <div class="flex items-center gap-3">${this.avatarSVG(S.profile.avatar, 48)}<div><div class="font-black">${U.esc(S.profile.nickname)}</div><div class="text-[11px] opacity-70">${Calc.arena().name} · ${S.game.trophies} 🏆</div></div><div class="ml-auto text-right"><div class="text-[10px] opacity-70">PR</div><div class="font-black num">${U.w(lift.weight)} ${U.wUnit()}</div></div></div>
-        <div class="text-[11px] opacity-70 mt-2">${U.exRu(lift.exerciseName)} · ${U.rmLabel(lift)} · Flexo League</div>
+      <div class="prp mt-4" id="prp">
+        ${posted ? `<div class="prp-done"><svg class="ic"><use href="#fa-check"/></svg><div><b>Рекорд в ленте</b><small>Его видят подписчики и все в «Сообществе»</small></div></div>`
+        : `<div class="prp-h"><b>Опубликовать рекорд в ленте?</b><small>Вот как его увидят другие</small></div>
+        <div class="prp-prev" id="prp-prev" inert aria-hidden="true">${this.prPreview(lift, '')}</div>
+        <textarea class="input prp-cap" id="pr-cap" maxlength="300" rows="2" placeholder="Подпись по желанию: как дался вес, #хэштеги"></textarea>`}
       </div>
-      <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-ghost" data-action="close-modal">Закрыть</button><button class="btn btn-pu" data-action="share-pr" data-text="${U.esc(`🏆 Новый PR: ${U.exRu(lift.exerciseName)} ${U.w(lift.weight)} ${U.wUnit()} (${U.rmLabel(lift)}) · ${Calc.arena().name} · ${S.game.trophies} кубков · Flexo League`)}"><svg class="ic "><use href="#fa-share-nodes"/></svg> ${T('share')}</button></div>`, { center: true });
+      <div class="grid grid-cols-2 gap-2 mt-3">${posted ? `<button class="btn btn-ghost" data-action="close-modal">Закрыть</button><button class="btn btn-primary" data-action="pr-open-feed"><svg class="ic"><use href="#fa-image"/></svg> В ленту</button>`
+        : `<button class="btn btn-ghost" data-action="close-modal">Не сейчас</button><button class="btn btn-primary" data-action="pr-post" data-id="${U.esc(lift.id)}"><svg class="ic"><use href="#fa-paper-plane"/></svg> Опубликовать</button>`}</div>
+      <button class="prp-share" data-action="share-pr" data-text="${U.esc(share)}"><svg class="ic"><use href="#fa-share-nodes"/></svg> ${T('share')} вне приложения</button>`, { center: true });
+    const ta = document.getElementById('pr-cap'), pv = document.getElementById('prp-prev');
+    if (ta && pv) { const d = (this._prCap || {})[lift.id]; if (d) ta.value = d; const upd = () => { (this._prCap || (this._prCap = {}))[lift.id] = ta.value; pv.innerHTML = this.prPreview(lift, ta.value); }; if (d) upd(); ta.addEventListener('input', upd); }
+    return true;
   },
+  // как будет выглядеть пост с рекордом (та же карточка, что в ленте)
+  fairNote() { const f = Calc.fairGoals(), L = v => (v / 1000).toFixed(1).replace(/\.0$/, ''); return `<div class="fair-note mb-3"><svg class="ic"><use href="#fa-trophy"/></svg><span>Кубки дня у всех считаются по одной норме: еда около <b class="num">${f.cals}</b> ккал, белок от <b class="num">${f.protein}</b> г, вода от <b class="num">${L(f.water)}</b> л (не больше 1 л в час). Цель ниже нормы можно ставить для себя, но кубков она не прибавит.</span></div>`; },
+  prPreview(lift, cap) { return this.postCard({ id: 'preview', uid: 'me', self: true, nick: S.profile.nickname || 'Ты', photo: S.profile.avatar.photo, sex: S.profile.sex, arenaIdx: S.game.arenaIdx, kind: 'post', body: String(cap || '').slice(0, 300), tags: [], ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1, likes: 0, comments: 0, views: 0, ts: Date.now() }); },
   openArenaUp(arena, reward) {
     const nAr = CONFIG.ARENAS.filter(x => !x.league).length, nx = CONFIG.ARENAS[arena.id];
     this.rankUp({ idx: arena.id - 1, kick: arena.league ? 'Новая лига' : T('new_arena'), stars: 1, big: true,
@@ -6284,6 +6460,7 @@ const UI = {
     this.modal(`
       <div class="font-bold text-lg mb-1"><svg class="ic text-or"><use href="#fa-bullseye"/></svg> Цели по питанию</div>
       <div class="text-xs muted mb-3">Рекомендация по твоим данным (поддержание): ${d.cals} ккал, Б ${d.protein} / У ${d.carbs} / Ж ${d.fat}.${teen ? ' Для младше 18 дефицит не предлагаем.' : ''}</div>
+      ${this.fairNote()}
       <div class="grid grid-cols-2 gap-3">
         <div><label class="text-xs muted">Калории</label><input class="input num" id="g-cals" type="number" value="${g.cals}" ${teen ? `min="${Math.round(d.cals * 0.95)}"` : ''}></div>
         <div><label class="text-xs muted">Белки, г</label><input class="input num" id="g-protein" type="number" value="${g.protein}"></div>
@@ -6424,7 +6601,8 @@ const UI = {
         <div><label class="text-[10px] muted">${T('carbs')}, г</label><input class="input num" id="g-carbs" type="number" value="${goals.carbs}"></div>
         <div><label class="text-[10px] muted">${T('fat')}, г</label><input class="input num" id="g-fat" type="number" value="${goals.fat}"></div>
       </div>
-      <div class="text-[11px] muted mb-4">Рекомендация: ${dg.cals} ккал · Б ${dg.protein} / У ${dg.carbs} / Ж ${dg.fat}.</div>
+      <div class="text-[11px] muted mb-2">Рекомендация: ${dg.cals} ккал · Б ${dg.protein} / У ${dg.carbs} / Ж ${dg.fat}.</div>
+      <div class="mb-4">${this.fairNote()}</div>
       <div class="text-xs font-bold muted mb-1"><svg class="ic text-sky-400"><use href="#fa-droplet"/></svg> ${T('water')}</div>
       <div class="grid grid-cols-2 gap-2 mb-4">
         <div><label class="text-[10px] muted">В день, мл</label><input class="input num" id="st-water" type="number" step="100" value="${Calc.waterGoal()}"></div>
@@ -6819,7 +6997,7 @@ const UI = {
   flushEvents() {
     const ev = Game.events.splice(0);
     if (this._inWorkout) { // v29: во время тренировки большие окна не перекрывают подходы, а ждут её конца
-      ev.slice().forEach(e => { if (e.type === 'toast') return; if (e.type === 'pr') ev.push({ type: 'toast', data: { msg: `<svg class="ic text-amber-400"><use href="#fa-crown"/></svg> Новый рекорд: ${U.exRu(e.data.lift.exerciseName)} ${U.w(e.data.lift.weight)} ${U.wUnit()}`, cls: 'or' } }); else (this._held || (this._held = [])).push(e); });
+      ev.slice().forEach(e => { if (e.type === 'toast') return; if (e.type === 'pr') ev.push({ type: 'toast', data: { msg: `<svg class="ic text-amber-400"><use href="#fa-crown"/></svg> Новый рекорд: ${U.exRu(e.data.lift.exerciseName)} ${U.w(e.data.lift.weight)} ${U.wUnit()}`, cls: 'or' } }); (this._held || (this._held = [])).push(e); }); // v52: окно рекорда с публикацией — после тренировки
       for (let k = ev.length - 1; k >= 0; k--) if (ev[k].type !== 'toast') ev.splice(k, 1);
     }
     const toasts = ev.filter(e => e.type === 'toast'), big = ev.filter(e => e.type !== 'toast');
@@ -6828,7 +7006,7 @@ const UI = {
     if (big.some(e => e.type === 'arena')) for (let k = big.length - 1; k >= 0; k--) if (big[k].type === 'star') big.splice(k, 1); // новая арена важнее звезды
     big.sort((a, b) => order[a.type] - order[b.type]);
     this._bigQueue = big;
-    const showNext = () => { const e = big.shift(); if (!e) return; if (e.type === 'chest') this.openChest(e.data); else if (e.type === 'pr') this.openPR(e.data.lift); else if (e.type === 'arena') this.openArenaUp(e.data.arena, e.data.reward); else if (e.type === 'unlock') this.openUnlock(e.data.id); else if (e.type === 'referral') this.openRefReward(e.data.n, e.data.coins); else if (e.type === 'level') this.openLevelUp(e.data.level, e.data.coins); else if (e.type === 'star') this.openStarUp(e.data.idx, e.data.star, e.data.coins); const m = this.$('#modal'); if (m && big.length) { const obs = new MutationObserver(() => { if (!document.body.contains(m)) { obs.disconnect(); setTimeout(showNext, 250); } }); obs.observe(this.$('#modal-root'), { childList: true }); } };
+    const showNext = () => { const e = big.shift(); if (!e) return; if (e.type === 'chest') this.openChest(e.data); else if (e.type === 'pr') { if (!this.openPR(e.data.lift)) return showNext(); } else if (e.type === 'arena') this.openArenaUp(e.data.arena, e.data.reward); else if (e.type === 'unlock') this.openUnlock(e.data.id); else if (e.type === 'referral') this.openRefReward(e.data.n, e.data.coins); else if (e.type === 'level') this.openLevelUp(e.data.level, e.data.coins); else if (e.type === 'star') this.openStarUp(e.data.idx, e.data.star, e.data.coins); const m = this.$('#modal'); if (m && big.length) { const obs = new MutationObserver(() => { if (!document.body.contains(m)) { obs.disconnect(); setTimeout(showNext, 250); } }); obs.observe(this.$('#modal-root'), { childList: true }); } };
     if (big.length) setTimeout(showNext, 250);
   },
   elapsedHtml(ms, sm) { const t = U.fmtClock(ms); return sm ? `${t.slice(0, -3)}<span class="text-[10px] opacity-70">${t.slice(-3)}</span>` : t; },
@@ -6913,11 +7091,11 @@ Object.assign(UI, {
         ${p.self || st === 'self' || Follow.has(p.uid) ? '' : `<button class="chip text-bl" data-action="follow-toggle" data-id="${U.esc(p.uid)}"><svg class="ic"><use href="#fa-user-plus"/></svg> Подписаться</button>`}
         <button class="muted px-1" data-action="post-menu" data-id="${U.esc(p.id)}" aria-label="Ещё"><svg class="ic"><use href="#fa-ellipsis-vertical"/></svg></button>
       </div>
-      ${p.kind === 'pr' ? this.prBlock(p, true) : ''}
+      ${p.kind === 'pr' || (p.ex && p.weight) ? this.prBlock(p, true) : ''}
       ${p.body ? `<div class="text-sm leading-relaxed mb-2 break-words" data-no-mt>${this.postBody(this.postText(p))}</div>${this.trSw(p)}` : ''}
       ${p.img ? `<img class="post-img" src="${p.img}" alt="" loading="lazy">` : ''}
       ${p.video || p.vkey ? this.vplayer(p) : ''}
-      ${p.tags.length && p.kind === 'pr' ? `<div class="flex flex-wrap gap-x-2 gap-y-1 mb-1 text-xs">${p.tags.map(t => `<button class="tag-link" data-action="feed-tag" data-tag="${U.esc(t)}">#${U.esc(t)}</button>`).join('')}</div>` : ''}
+      ${p.tags.length && (p.kind === 'pr' || (p.ex && !p.body)) ? `<div class="flex flex-wrap gap-x-2 gap-y-1 mb-1 text-xs">${p.tags.map(t => `<button class="tag-link" data-action="feed-tag" data-tag="${U.esc(t)}">#${U.esc(t)}</button>`).join('')}</div>` : ''}
       <div class="post-actions"><button class="${p.liked ? 'on' : ''}" data-action="post-like" data-id="${U.esc(p.id)}"><svg class="ic"><use href="#${p.liked ? 'fa-heart-solid' : 'fa-heart'}"/></svg> <span class="num">${p.likes}</span></button><button data-action="post-comments" data-id="${U.esc(p.id)}"><svg class="ic"><use href="#fa-comment"/></svg> <span class="num">${p.comments}</span></button>${p.video || p.vkey ? `<span class="post-views" title="Просмотры"><svg class="ic"><use href="#fa-eye"/></svg> <span class="num" data-views="${U.esc(p.id)}">${U.short(p.views || 0)}</span></span>` : ''}</div>
     </div>`;
   },
@@ -7850,7 +8028,8 @@ Object.assign(UI, {
         <div><label class="text-[10px] muted">${T('carbs')}, г</label><input class="input num" id="g-carbs" type="number" value="${goals.carbs}"></div>
         <div><label class="text-[10px] muted">${T('fat')}, г</label><input class="input num" id="g-fat" type="number" value="${goals.fat}"></div>
       </div>
-      <div class="text-[11px] muted mb-4">Рекомендация: ${dg.cals} ккал · Б ${dg.protein} / У ${dg.carbs} / Ж ${dg.fat}.</div>
+      <div class="text-[11px] muted mb-2">Рекомендация: ${dg.cals} ккал · Б ${dg.protein} / У ${dg.carbs} / Ж ${dg.fat}.</div>
+      <div class="mb-4">${this.fairNote()}</div>
       <div class="text-xs font-bold muted mb-1"><svg class="ic text-sky-400"><use href="#fa-droplet"/></svg> ${T('water')}</div>
       <div class="grid grid-cols-2 gap-2 mb-4">
         <div><label class="text-[10px] muted">В день, мл</label><input class="input num" id="st-water" type="number" step="100" value="${Calc.waterGoal()}"></div>
@@ -8050,6 +8229,14 @@ const App = {
     'plus-workout'() { UI.togglePlus(false); UI.openWorkout(); },
     'guide-pause'() { UI._gdPaused = !UI._gdPaused; FIG.speed = UI._gdPaused ? 0 : UI._gdSlow ? .5 : 1; UI.renderPage(); },
     'guide-slow'() { UI._gdSlow = !UI._gdSlow; FIG.speed = UI._gdPaused ? 0 : UI._gdSlow ? .5 : 1; UI.renderPage(); },
+    async 'pr-post'(el) {
+      const lift = S.lifts.find(l => l.id === el.dataset.id); if (!lift) { UI.closeModal(); return; }
+      const cap = (document.getElementById('pr-cap') || {}).value || '';
+      const go = async () => { const r = await Social.postRecord(lift, cap); if (r.error) { UI.toast(r.error, 'red'); UI.openPR(lift, true); return; } if (UI._prCap) delete UI._prCap[lift.id]; UI.openPR(lift, true); if (UI.tab === 'clans') UI.renderClans(); };
+      if (!UI.rulesOk()) { (UI._prCap || (UI._prCap = {}))[lift.id] = cap; UI.needRules(go); return; }
+      el.disabled = true; el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg> Публикую…'; await go();
+    },
+    'pr-open-feed'() { UI.closeModal(); UI.openPage('feed'); },
     'plus-feed'() { UI.togglePlus(false); UI.openPage('feed'); },
     async 'follow-toggle'(el) { const id = el.dataset.id; if (!id || el.disabled) return; el.disabled = true; const r = await Follow.toggle(id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.afterFollow(id); },
     'notif-del'(el) { ClanService.notifHide(el.dataset.key); const row = el.closest('.nt-row'); if (row) row.classList.add('gone'); setTimeout(() => UI.refreshNotifs(), 260); UI.renderHeader(); },
@@ -8390,7 +8577,9 @@ const App = {
       if (UI._trOn[id]) { UI._trOn[id] = false; UI.refreshSocial(); return; }
       const key = (S.profile.lang || 'ru') + '|' + id;
       if (!Social.tr[key]) { UI._trBusy = id; UI.refreshSocial();
-        try { const r = await Gemini.translatePost(p.body, I18N.langs[S.profile.lang || 'ru'] || 'Русский'); Social.tr[key] = String((r && r.text) || '').slice(0, 2000) || p.body; } catch (e) { UI._trBusy = null; UI.toast(e.message || 'Перевод недоступен', 'red'); UI.refreshSocial(); return; }
+        let tr = null; try { tr = await Translator.text(p.body, S.profile.lang || 'ru'); } catch (_) {}
+        if (!tr) { UI._trBusy = null; UI.toast('Перевод сейчас недоступен: проверь интернет и попробуй ещё раз', 'red'); UI.refreshSocial(); return; }
+        Social.tr[key] = String(tr).slice(0, 2000);
         UI._trBusy = null; }
       UI._trOn[id] = true; UI.refreshSocial(); },
     async 'comment-send'() { const t = document.getElementById('cm-text'); if (!t || !t.value.trim()) return; if (!UI.rulesOk()) { const id = UI._cmId; App.saveDraft('cm-text', t.value); UI.needRules(() => UI.openComments(id)); return; } const v = t.value; t.value = ''; App.clearDraft('cm-text'); const r = await Social.comment(UI._cmId, v); if (r.error) { t.value = v; UI.toast(r.error, 'red'); return; } const c = await Social.comments(UI._cmId); UI._cmItems = c.items || UI._cmItems; UI._renderComments && UI._renderComments(); UI.refreshSocial(); const l = document.querySelector('#modal .cm-list'); if (l && l.lastElementChild) l.lastElementChild.scrollIntoView({ block: 'end' }); },
