@@ -1345,6 +1345,47 @@ html.reduce-motion .stk-fl,html.reduce-motion .stk-s.wait{animation:none}
 .upd-ic{width:3.6rem;height:3.6rem;border-radius:1.2rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:var(--text);color:var(--bg);margin-bottom:.9rem}
 .upd-v{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-top:.9rem;padding:.55rem .9rem;border-radius:999px;background:var(--sub);border:1px solid var(--line);font-size:.78rem}
 .upd-v b{font-weight:900}.upd-v .ic{color:var(--muted)}
+/* v48: кубки дня */
+.dq{display:flex;align-items:center;gap:.7rem;width:100%;padding:.7rem .8rem;text-align:left;position:relative;overflow:hidden;color:var(--text)}
+.dq::before{content:"";position:absolute;inset:0;background:radial-gradient(90% 160% at 0% 50%,color-mix(in srgb,var(--dq) 14%,transparent),transparent 65%);pointer-events:none}
+.dq>*{position:relative}
+.dq:active{transform:scale(.985)}
+.dq-ic{flex:none;width:2.4rem;height:2.4rem;border-radius:.8rem;display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--dq);background:color-mix(in srgb,var(--dq) 15%,transparent);border:1px solid color-mix(in srgb,var(--dq) 40%,transparent)}
+.dq-ic.lg{width:3.2rem;height:3.2rem;border-radius:1rem;font-size:1.4rem}
+.dq-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:.42rem}
+.dq-h{display:flex;align-items:baseline;gap:.45rem;font-size:.82rem;min-width:0}
+.dq-h b{font-weight:800;white-space:nowrap}
+.dq-h em{font-style:normal;font-size:.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.dq-bars{display:flex;gap:.5rem}
+.dq-bars i{flex:1;display:flex;align-items:center;gap:.28rem;font-style:normal;font-size:.6rem;color:var(--c);min-width:0}
+.dq-t{display:block;flex:1;height:.3rem;border-radius:999px;background:var(--line);overflow:hidden}
+.dq-t>span{display:block;height:100%;border-radius:inherit;background:var(--c);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.dq-r{flex:none;display:flex;flex-direction:column;align-items:flex-end;line-height:1.15;text-align:right}
+.dq-r b{font-weight:900;font-size:1.05rem;display:flex;align-items:center;gap:.22rem}
+.dq-r b .ic{color:#FBBF24;font-size:.85rem}
+.dq-r small{font-size:.6rem;color:var(--muted);white-space:nowrap}
+.dq-big{display:flex;align-items:center;gap:.8rem;padding:.8rem;border-radius:1rem;background:var(--sub);border:1px solid var(--line)}
+.dq-bt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.15}
+.dq-bt b{font-size:1.6rem;font-weight:900}
+.dq-bt em{font-style:normal;font-weight:800;font-size:.85rem}
+.dq-bt small{font-size:.65rem;color:var(--muted);margin-top:.1rem}
+.dq-big .dq-r b{font-size:1.35rem}
+.dq-rows{display:flex;flex-direction:column;gap:.55rem;margin-top:.8rem}
+.dq-row{display:flex;align-items:center;gap:.65rem}
+.dq-ric{flex:none;width:2rem;height:2rem;border-radius:.7rem;display:flex;align-items:center;justify-content:center;color:var(--c);background:color-mix(in srgb,var(--c) 15%,transparent)}
+.dq-rm{flex:1;min-width:0;display:flex;flex-direction:column;gap:.25rem}
+.dq-rh{display:flex;justify-content:space-between;gap:.5rem;font-size:.8rem}
+.dq-rh b{font-weight:700}
+.dq-rm small{font-size:.66rem;color:var(--muted)}
+.dq-tip{display:flex;align-items:flex-start;gap:.45rem;margin-top:.8rem;padding:.6rem .7rem;border-radius:.8rem;font-size:.75rem;background:color-mix(in srgb,var(--dq) 10%,transparent);border:1px solid color-mix(in srgb,var(--dq) 30%,transparent)}
+.dq-tip .ic{color:var(--dq);margin-top:.15rem;flex:none}
+.dq-y{display:flex;align-items:center;gap:.45rem;margin-top:.8rem;font-size:.75rem;color:var(--muted)}
+.dq-y>span{flex:1;min-width:0}.dq-y b{color:var(--text);font-weight:800}.dq-y>b{display:flex;align-items:center;gap:.2rem}.dq-y>b .ic{color:#FBBF24}
+.dq-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;margin-top:.8rem}
+.dq-tiers span{display:flex;flex-direction:column;align-items:center;text-align:center;padding:.45rem .2rem;border-radius:.7rem;border:1px solid var(--line);background:var(--sub);line-height:1.15}
+.dq-tiers b{font-size:.66rem;font-weight:800;color:var(--c)}
+.dq-tiers small{font-size:.56rem;color:var(--muted);margin-top:.1rem}
+.dq-tiers .on{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
 /* v43: кольцо калорий, блюда, подтверждение удаления */
 .kring{display:block;overflow:visible;flex:none}
 .kring .kr-f{transition:stroke-dasharray .7s cubic-bezier(.2,.8,.2,1),stroke-dashoffset .7s cubic-bezier(.2,.8,.2,1);animation:krin 1.1s cubic-bezier(.2,.8,.2,1) both}
@@ -1614,7 +1655,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '47',
+  APP_VERSION: '48',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -1683,6 +1724,13 @@ const CONFIG = {
   // античит: предел e1RM (кг) — абсолютный (около мирового рекорда) и в долях веса тела
   LIFT_CAPS: { bench: [355, 3.2], squat: [490, 4.2], deadlift: [505, 4.5], other: [400, 4.5] },
   DAY_TROPHY_CAP: 100,
+  // v48: кубки дня — оценка дня (питание, сон, вода, активность) превращается в кубки после полуночи
+  DAY_Q: { BACK: 2, TIERS: [
+    { min: 95, cups: 10, name: 'Идеальный день', color: '#10B981' },
+    { min: 80, cups: 6, name: 'Золото', color: '#F59E0B' },
+    { min: 60, cups: 4, name: 'Серебро', color: '#94A3B8' },
+    { min: 35, cups: 2, name: 'Бронза', color: '#C2783F' },
+  ] },
   // v21: монеты за активность (раньше монеты давали почти только новые арены). Каждая выплата — один раз за событие.
   COINS: { WORKOUT: 10, WEEKLY_BONUS: 30, PR: 5, GOAL: 25, PLAN_DONE: 5, STAR: [10, 5], LEVEL: [20, 5], STREAK: { 3: 10, 7: 25, 14: 50, 30: 100, 60: 150, 100: 250 } },
   PR_DAY_CAP: 3, PR_MIN_GAIN: 0.01, // v27: за рекорды платим не больше 3 раз в день и только за рост e1RM от 1% (антифарм «50 → 50.5 → 51 кг»)
@@ -2680,8 +2728,43 @@ const Game = {
     Object.entries(CONFIG.TROPHY.STREAK).forEach(([m, t]) => { if (n >= +m) this.award(`streak:${m}:${start}`, t, `Серия ${m} дн.`, { coins: CONFIG.COINS.STREAK[m] || 0, toast: `Серия ${m} дней: +{n} кубков` }); });
   },
   /* --- старт --- */
-  boot() { if (!S.v41bo) { S.v41bo = 1; S.battleOpen = true; } { const s = S.game.season; if (s && !s.v29) { s.v29 = 1; s.enabled = true; } } if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); save(); },
+  boot() { if (!S.v41bo) { S.v41bo = 1; S.battleOpen = true; } { const s = S.game.season; if (s && !s.v29) { s.v29 = 1; s.enabled = true; } } if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); this.settleDays(); save(); },
 };
+
+/* ------------------- v48: кубки дня ------------------- */
+// Оценка дня 0..100 = среднее по питанию, сну и воде (+ активность, если была или стояла в плане).
+// Нет записи — 0% по этому пункту. Считаются только записи, сделанные в тот же день или на следующий (задним числом не накрутить).
+Object.assign(Calc, {
+  dayQuality(k = U.today()) {
+    const live = ts => !!ts && U.dayKey(new Date(ts)) <= U.addDays(k, 1), L = v => (v / 1000).toFixed(1).replace(/\.0$/, '');
+    const g = S.nutrition.goals || Calc.defaultGoals(), parts = [];
+    const food = S.nutrition.log.filter(f => f.date === k && live(f.ts)), cals = food.reduce((a, f) => a + (+f.cals || 0), 0), prot = food.reduce((a, f) => a + (+f.protein || 0), 0);
+    let fp = 0;
+    if (food.length) { const r = cals / (g.cals || 1), cs = r >= .85 && r <= 1.1 ? 100 : r < .85 ? r / .85 * 100 : Math.max(0, 100 - (r - 1.1) * 250); fp = Math.round(cs * .6 + Math.min(100, prot / (g.protein || 1) * 100) * .4); }
+    parts.push({ id: 'food', name: 'Питание', icon: 'fa-utensils', color: '#F97316', pct: U.clamp(fp, 0, 100), sub: food.length ? `${Math.round(cals)} из ${g.cals} ккал · белок ${Math.round(prot)} из ${g.protein} г` : 'еда не записана', tip: 'Запиши еду и попади в цель по калориям и белку' });
+    const sl = S.health.sleep.find(x => x.date === k && live(x.ts)), [lo, hi] = Calc.sleepNorm();
+    parts.push({ id: 'sleep', name: 'Сон', icon: 'fa-moon', color: '#8B5CF6', pct: sl ? Calc.sleepScore(sl.hours) : 0, sub: sl ? `${sl.hours} ч · норма ${lo}–${hi} ч` : 'сон не записан', tip: `Запиши сон: ${lo}–${hi} ч дают 100%` });
+    const wml = (S.health.water || []).filter(x => x.date === k && live(x.ts)).reduce((a, x) => a + (+x.ml || 0), 0), wg = Calc.waterGoal();
+    parts.push({ id: 'water', name: 'Вода', icon: 'fa-droplet', color: '#38BDF8', pct: U.clamp(Math.round(wml / wg * 100), 0, 100), sub: `${L(wml)} из ${L(wg)} л`, tip: `Допей воду: осталось ${L(Math.max(0, wg - wml))} л` });
+    const done = S.game.countedWorkoutDays.includes(k), lifts = S.lifts.some(l => l.date === k && !l.flagged && live(l.ts)), burn = (S.nutrition.burn || []).some(x => x.date === k && live(x.ts)), planned = !!S.program.days[Calc.weekday(k)];
+    if (done || lifts || burn || planned) parts.push({ id: 'move', name: 'Активность', icon: 'fa-dumbbell', color: '#10B981', pct: done ? 100 : lifts || burn ? 70 : 0, sub: done ? 'тренировка засчитана' : lifts ? 'были подходы' : burn ? 'активность записана' : 'по плану тренировка', tip: 'Сделай тренировку по плану' });
+    const score = Math.round(parts.reduce((a, p) => a + p.pct, 0) / parts.length), TS = CONFIG.DAY_Q.TIERS;
+    const tier = TS.find(t => score >= t.min) || null, next = TS.slice().reverse().find(t => t.min > score) || null;
+    return { score, parts, tier, next, cups: tier ? tier.cups : 0 };
+  },
+});
+Object.assign(Game, {
+  // после полуночи (при первом открытии или возврате в приложение) платим за вчера и позавчера, по разу за день
+  settleDays() {
+    const today = U.today(), start = Calc.startDay(), q = S.game.dayQ || (S.game.dayQ = {});
+    for (let i = CONFIG.DAY_Q.BACK; i >= 1; i--) {
+      const k = U.addDays(today, -i); if (k < start || this.paid('dayq:' + k)) continue;
+      const r = Calc.dayQuality(k), got = this.award('dayq:' + k, r.cups, r.tier ? `Кубки дня · ${r.tier.name}` : 'Кубки дня', { daily: false });
+      q[k] = { s: r.score, c: got, t: r.tier ? r.tier.name : '' };
+    }
+    const ks = Object.keys(q).sort(); if (ks.length > 90) ks.slice(0, ks.length - 90).forEach(x => delete q[x]);
+  },
+});
 
 /* ------------------- v13: вода, вес, цели, оценка дня ------------------- */
 Object.assign(Calc, {
@@ -2698,7 +2781,9 @@ Object.assign(Calc, {
     const planned = !!S.program.days[Calc.weekday(k)], done = S.game.countedWorkoutDays.includes(k), any = Calc.liftsOn(k).length > 0;
     if (done) parts.push(100); else if (any) parts.push(70); else if (planned && k < U.today() && k >= Calc.startDay()) parts.push(0);
     const w = Calc.waterOn(k); if (w > 0) parts.push(Math.min(100, w / Calc.waterGoal() * 100));
-    return parts.length ? Math.round(parts.reduce((a, b) => a + b, 0) / parts.length) : null;
+    if (!parts.length) return null;
+    if (k >= U.addDays(U.today(), -CONFIG.DAY_Q.BACK)) return Calc.dayQuality(k).score; // v48: свежие дни — та же оценка, что у кубков дня
+    return Math.round(parts.reduce((a, b) => a + b, 0) / parts.length);
   },
   startDay() { // с какого дня считать пропуски: регистрация или первая запись
     if (S.profile.createdAt) return U.dayKey(new Date(S.profile.createdAt));
@@ -4118,10 +4203,12 @@ const Social = {
 
 /* ---------------------- v22: ПОСТЕПЕННОЕ ОТКРЫТИЕ ФУНКЦИЙ ----------------------
    Ядро с первой секунды: тренировка → кубки → арена. Остальное открывается тренировками. */
-// v44: новая версия APK. Номер сборки (versionCode) = номер запуска сборки в GitHub = тег релиза build-N.
-// Проверяем при запуске и при возврате в приложение (не чаще раза в 3 часа). «Позже» — не напоминаем об этой версии сутки.
+// v44: новая версия. Номер сборки (versionCode) = номер запуска сборки в GitHub = тег релиза build-N.
+// v48: обновляемся через Google Play (внутреннее тестирование): кнопка «Обновить» открывает страницу теста в Play.
+// Проверяем при запуске и при возврате в приложение (не чаще раза в 3 часа). «Позже» — не напоминаем сутки, после «Обновить» — 6 часов.
 const Updater = {
-  REPO: 'luchik129/apex-arena', KEY: 'FLX_UPDATE', EVERY: 3 * 3600e3, SNOOZE: 24 * 3600e3,
+  REPO: 'luchik129/apex-arena', KEY: 'FLX_UPDATE', EVERY: 3 * 3600e3, SNOOZE: 24 * 3600e3, SNOOZE_GO: 6 * 3600e3,
+  PLAY: 'https://play.google.com/apps/internaltest/4701513163843446186',
   st() { try { return JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (_) { return {}; } },
   put(o) { try { localStorage.setItem(this.KEY, JSON.stringify({ ...this.st(), ...o })); } catch (_) {} },
   native() { const C = window.Capacitor; return !!(C && C.isNativePlatform && C.isNativePlatform() && C.getPlatform && C.getPlatform() === 'android' && C.Plugins && C.Plugins.App && C.Plugins.App.getInfo); },
@@ -4130,21 +4217,23 @@ const Updater = {
     setTimeout(() => this.check(), 6000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(() => this.check(), 1500); });
   },
+  open() { location.href = this.PLAY; }, // Capacitor отдаёт внешнюю ссылку системе — откроется Google Play
+  // force — ручная проверка из «О приложении»: без кэша и паузы. Ответ: 'new' | 'latest' | 'fail'
   async check(force) {
-    if (this._busy || !this.native()) return; this._busy = true;
+    if (this._busy || !this.native()) return 'fail'; this._busy = true;
     try {
-      const info = await window.Capacitor.Plugins.App.getInfo(), cur = parseInt(info && info.build) || 0; if (!cur) return;
+      const info = await window.Capacitor.Plugins.App.getInfo(), cur = parseInt(info && info.build) || 0; if (!cur) return 'fail';
       let st = this.st();
       if (force || !st.at || Date.now() - st.at > this.EVERY || !st.build) {
-        const r = await fetch(`https://api.github.com/repos/${this.REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) return;
-        const j = await r.json(), n = parseInt(String(j.tag_name || '').replace(/\D+/g, '')) || 0, apk = (j.assets || []).find(a => /\.apk$/i.test(a.name || ''));
-        if (!n || !apk) return; this.put({ at: Date.now(), build: n, url: apk.browser_download_url, page: j.html_url, size: apk.size || 0 }); st = this.st();
+        const r = await fetch(`https://api.github.com/repos/${this.REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) return 'fail';
+        const j = await r.json(), n = parseInt(String(j.tag_name || '').replace(/\D+/g, '')) || 0;
+        if (!n) return 'fail'; this.put({ at: Date.now(), build: n }); st = this.st();
       }
-      if (!(st.build > cur)) return;
-      if (!force && st.snooze && st.snooze.build === st.build && Date.now() < st.snooze.until) return;
-      if (document.getElementById('modal') || UI._tour != null || document.getElementById('tour')) return; // не перебиваем открытое окно, спросим при следующем входе
-      UI.openUpdate(st, cur);
-    } catch (_) {} finally { this._busy = false; }
+      if (!(st.build > cur)) return 'latest';
+      if (!force && st.snooze && st.snooze.build === st.build && Date.now() < st.snooze.until) return 'new';
+      if (!force && (document.getElementById('modal') || UI._tour != null || document.getElementById('tour'))) return 'new'; // не перебиваем открытое окно, спросим при следующем входе
+      UI.openUpdate(st, cur); return 'new';
+    } catch (_) { return 'fail'; } finally { this._busy = false; }
   },
 };
 
@@ -5521,6 +5610,7 @@ const UI = {
     const k = this.hDay;
     this.morph(this.$('#tab-nutrition'), `
       ${this.dayStrip()}
+      ${this.dqCard(k)}
       <div class="grid gap-3 mb-3" style="grid-template-columns:2fr 3fr">${this.sleepCard(k)}${this.macroCard(k)}</div>
       <div class="grid grid-cols-2 gap-3 mb-4"><div class="grid gap-3" style="grid-template-rows:auto 1fr">${this.scaleCard(k)}${this.bodyCard()}</div>${this.waterCard(k)}</div>
       ${this.dayHistory(k)}`);
@@ -7211,10 +7301,52 @@ Object.assign(UI, {
       <div class="upd-ic"><svg class="ic"><use href="#fa-arrow-up"/></svg></div>
       <div class="font-black text-xl leading-tight">Вышло обновление</div>
       <div class="text-sm muted mt-1">Обнови приложение, чтобы получить новые функции и исправления.</div>
-      <div class="upd-v"><span>Сейчас <b class="num">${cur}</b></span><svg class="ic"><use href="#fa-arrow-right"/></svg><span>Новая <b class="num">${st.build}</b></span>${st.size ? `<span class="muted">· ${(st.size / 1048576).toFixed(1)} МБ</span>` : ''}</div>
-      <div class="text-[11px] muted mt-3">Скачается файл APK. Открой его и нажми «Установить». Данные останутся.</div>
-      <div class="grid grid-cols-2 gap-2 mt-4 w-full"><button class="btn btn-ghost" data-action="upd-later">Позже</button><button class="btn btn-primary" data-action="upd-go"><svg class="ic"><use href="#fa-download"/></svg> Обновить</button></div>
+      <div class="upd-v"><span>Сейчас <b class="num">${cur}</b></span><svg class="ic"><use href="#fa-arrow-right"/></svg><span>Новая <b class="num">${st.build}</b></span></div>
+      <div class="text-[11px] muted mt-3">Откроется Google Play. Нажми «Обновить» — прогресс и данные останутся. Если кнопки ещё нет, загляни чуть позже: новая сборка появляется в Play через некоторое время.</div>
+      <div class="grid grid-cols-2 gap-2 mt-4 w-full"><button class="btn btn-ghost" data-action="upd-later">Позже</button><button class="btn btn-primary" data-action="upd-go"><svg class="ic"><use href="#fa-arrow-up"/></svg> Обновить</button></div>
     </div>`, { center: true, closable: false });
+  },
+  openUpdLatest(build) {
+    this.modal(`<div class="upd">
+      <div class="upd-ic"><svg class="ic"><use href="#fa-check"/></svg></div>
+      <div class="font-black text-xl leading-tight">Последняя версия</div>
+      <div class="text-sm muted mt-1">У тебя уже установлена самая свежая сборка${build ? ` <b class="num">${build}</b>` : ''}.</div>
+      <div class="grid grid-cols-2 gap-2 mt-4 w-full"><button class="btn btn-ghost" data-action="upd-play">Открыть Play</button><button class="btn btn-primary" data-action="close-modal">Хорошо</button></div>
+    </div>`, { center: true });
+  },
+  /* ---------- v48: кубки дня (вкладка «Здоровье») ---------- */
+  dqCard(k) {
+    const today = U.today(), r = Calc.dayQuality(k), col = r.tier ? r.tier.color : 'var(--muted)';
+    let val, cap;
+    if (k === today) { val = `+${r.cups}`; cap = r.cups ? 'после полуночи' : r.next ? `до «${r.next.name}» ${r.next.min - r.score}%` : ''; }
+    else if (Game.paid('dayq:' + k)) { const st = (S.game.dayQ || {})[k]; val = `+${st ? st.c : r.cups}`; cap = 'начислено'; }
+    else { val = '—'; cap = 'не оценивался'; }
+    return `<button class="card dq mb-3" data-action="dq-open" style="--dq:${col}">
+      <span class="dq-ic"><svg class="ic"><use href="#fa-trophy"/></svg></span>
+      <span class="dq-mid">
+        <span class="dq-h"><b>Кубки дня</b><em>${r.tier ? r.tier.name : 'пока без награды'} · <span class="num">${r.score}%</span></em></span>
+        <span class="dq-bars">${r.parts.map(p => `<i style="--c:${p.color}"><svg class="ic"><use href="#${p.icon}"/></svg><span class="dq-t"><span style="width:${p.pct}%"></span></span></i>`).join('')}</span>
+      </span>
+      <span class="dq-r"><b class="num">${val}${val !== '—' ? ' <svg class="ic"><use href="#fa-trophy"/></svg>' : ''}</b><small>${cap}</small></span>
+    </button>`;
+  },
+  openDayQ(k = this.hDay || U.today()) {
+    const today = U.today(), r = Calc.dayQuality(k), col = r.tier ? r.tier.color : 'var(--muted)', paid = Game.paid('dayq:' + k), st = (S.game.dayQ || {})[k];
+    const cups = k === today ? r.cups : paid ? (st ? st.c : r.cups) : 0;
+    const status = k === today ? 'начислятся после полуночи' : paid ? 'начислено' : 'этот день не оценивался';
+    const weak = k === today ? r.parts.filter(p => p.pct < 100).sort((a, b) => a.pct - b.pct)[0] : null, yk = U.addDays(today, -1), y = k === today && Game.paid('dayq:' + yk) && (S.game.dayQ || {})[yk];
+    const html = `<div class="dq-m" style="--dq:${col}">
+      <div class="flex items-center justify-between mb-3"><div class="font-black text-xl"><svg class="ic" style="color:${col}"><use href="#fa-trophy"/></svg> Кубки дня</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <div class="dq-big"><span class="dq-ic lg"><svg class="ic"><use href="#fa-trophy"/></svg></span>
+        <span class="dq-bt"><b class="num">${r.score}%</b><em style="color:${col}">${r.tier ? r.tier.name : 'Без награды'}</em><small>${k === today ? T('today') : `<span data-no-mt>${U.fmtDate(k)}</span>`}</small></span>
+        <span class="dq-r"><b class="num">+${cups} <svg class="ic"><use href="#fa-trophy"/></svg></b><small>${status}</small></span></div>
+      <div class="dq-rows">${r.parts.map(p => `<div class="dq-row" style="--c:${p.color}"><span class="dq-ric"><svg class="ic"><use href="#${p.icon}"/></svg></span><span class="dq-rm"><span class="dq-rh"><b>${p.name}</b><b class="num">${p.pct}%</b></span><span class="dq-t"><span style="width:${p.pct}%"></span></span><small>${p.sub}</small></span></div>`).join('')}</div>
+      ${weak ? `<div class="dq-tip"><svg class="ic"><use href="#fa-bolt"/></svg><span>${r.next ? `До «${r.next.name}» не хватает <b class="num">${r.next.min - r.score}%</b>. ` : ''}${weak.tip}</span></div>` : ''}
+      ${y ? `<div class="dq-y"><svg class="ic"><use href="#fa-calendar-check"/></svg><span>Вчера: ${y.t ? `<b>${y.t}</b> · ` : ''}<span class="num">${y.s}%</span></span><b class="num">${y.c ? `+${y.c} <svg class="ic"><use href="#fa-trophy"/></svg>` : '0'}</b></div>` : ''}
+      <div class="dq-tiers">${CONFIG.DAY_Q.TIERS.slice().reverse().map(t => `<span class="${r.tier === t ? 'on' : ''}" style="--c:${t.color}"><b>${t.name}</b><small>от ${t.min}% · +${t.cups}</small></span>`).join('')}</div>
+      <div class="text-[11px] muted mt-3">Оценка дня — среднее по питанию, сну, воде и тренировке (если она была или стояла в плане). Кубки начисляются один раз после полуночи. Считаются записи, сделанные в тот же день или на следующий.</div>
+    </div>`;
+    this.modal(html);
   },
   openStreakInfo() {
     const st = Calc.streak(), ms = Object.keys(CONFIG.COINS.STREAK).map(Number).sort((a, b) => a - b), nx = ms.find(n => n > st.count), fr = Game.boosts().freeze || 0;
@@ -7496,7 +7628,7 @@ Object.assign(UI, {
         <button class="set-row" data-action="reset-data"><span class="set-ic" style="--c:#EF4444"><svg class="ic"><use href="#fa-trash"/></svg></span><span class="flex-1 text-left text-sm font-semibold text-red-400">${T('reset')}<span class="block text-[11px] muted font-normal">стереть данные на этом телефоне</span></span></button></div>`;
     else if (t === 'invite') body = this.inviteHtml();
     else if (t === 'about') body = `<div class="text-center mb-3"><div class="mx-auto" style="width:84px;color:var(--text)">${LOGO_SVG()}</div><div class="font-black text-lg mt-1">Flexo League</div><div class="text-[11px] muted">версия ${CONFIG.APP_VERSION}</div></div>
-      <div class="set-grp">${[['open-rules', 'fa-file-lines', 'Правила сообщества'], ['legal-privacy', 'fa-user-shield', 'Политика конфиденциальности'], ['legal-terms', 'fa-scale', 'Условия использования'], ['ob-replay', 'fa-sparkles', 'Показать обучение ещё раз']].map(([a, ic, l]) => `<button class="set-row" data-action="${a}"><svg class="ic muted"><use href="#${ic}"/></svg><span class="flex-1 text-left text-sm font-semibold">${l}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>`).join('')}</div>
+      <div class="set-grp">${[['open-rules', 'fa-file-lines', 'Правила сообщества'], ['legal-privacy', 'fa-user-shield', 'Политика конфиденциальности'], ['legal-terms', 'fa-scale', 'Условия использования'], ['ob-replay', 'fa-sparkles', 'Показать обучение ещё раз'], ...(Updater.native() ? [['upd-check', 'fa-arrow-up', 'Проверить обновления']] : [])].map(([a, ic, l]) => `<button class="set-row" data-action="${a}"><svg class="ic muted"><use href="#${ic}"/></svg><span class="flex-1 text-left text-sm font-semibold">${l}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>`).join('')}</div>
       ${CONFIG.SUPPORT_EMAIL ? `<div class="text-[11px] muted mt-3 text-center">Поддержка: <b data-no-mt>${U.esc(CONFIG.SUPPORT_EMAIL)}</b></div>` : ''}`;
     else body = this.statsHtml();
     const html = `<div class="flex items-center gap-2 mb-3"><button class="back-btn" data-action="set-tab" data-val="" aria-label="Назад"><svg class="ic"><use href="#fa-arrow-left"/></svg></button><span class="set-ic sm" style="--c:${item[2]}"><svg class="ic"><use href="#${item[1]}"/></svg></span><div class="font-black text-lg flex-1 truncate">${item[3]}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
@@ -7835,7 +7967,14 @@ const App = {
     'open-sleep'() { UI.openSleep(); },
     'streak-info'() { UI.openStreakInfo(); },
     'upd-later'() { const st = UI._upd || {}; Updater.put({ snooze: { build: st.build, until: Date.now() + Updater.SNOOZE } }); UI.closeModal(); },
-    'upd-go'() { const st = UI._upd || {}; UI.closeModal(); if (st.url) location.href = st.url; }, // в APK Capacitor откроет системный браузер, он скачает файл
+    'upd-go'() { const st = UI._upd || {}; Updater.put({ snooze: { build: st.build, until: Date.now() + Updater.SNOOZE_GO } }); UI.closeModal(); Updater.open(); }, // v48: обновление через Google Play
+    'upd-play'() { UI.closeModal(); Updater.open(); },
+    async 'upd-check'(el) {
+      if (el.disabled) return; const h = el.innerHTML; el.disabled = true; el.innerHTML = '<svg class="ic muted"><use href="#fa-rotate"/></svg><span class="flex-1 text-left text-sm font-semibold">Проверяю…</span>';
+      const r = await Updater.check(true); el.disabled = false; el.innerHTML = h;
+      if (r === 'latest') UI.openUpdLatest(Updater.st().build); else if (r === 'fail') UI.toast('Не получилось проверить обновления. Проверь интернет', 'red');
+    },
+    'dq-open'() { UI.openDayQ(); },
     'sleep-del'(el) { Game.deleteSleep(el.dataset.date); App.afterChange(); UI.openSleep(); },
     'set-lang'(el) { S.profile.lang = el.dataset.val; save(); UI.applyLang(); UI.openSettings(); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
     async 'friend-add'() { const r = await ClanService.addFriend(document.getElementById('friend-nick').value); if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('friend-nick'); UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Добавлен: ' + U.esc(r.friend.nick), 'bl'); UI.renderClans(); },
@@ -8425,6 +8564,9 @@ const App = {
     if (S.profile.blocked) { UI.openBlocked(); return; }
     UI.tab = 'arena'; UI.hDay = UI._dayKey = U.today(); UI._exToChart = n => { UI.closeModal(); if (n) UI.liftEx = n; App.afterChange(); }; Game.boot(); UI.goTab('arena'); UI.renderHeader();
     Updater.start();
+    // v48: приложение открыто через полночь — подводим итоги дня (кубки дня) и переключаемся на новый день
+    setInterval(() => { if (document.hidden || UI._dayKey === U.today()) return; const was = UI._dayKey; UI._dayKey = U.today(); if (UI.hDay === was) UI.hDay = U.today(); UI._stripLeft = null; Game.boot(); UI.renderHeader();
+      if (!document.getElementById('modal') && !(document.activeElement && /INPUT|TEXTAREA/.test(document.activeElement.tagName))) UI.keepInputs(() => UI.renderTab(UI.tab)); UI.flushEvents(); }, 60000);
     const online = await Net.init();
     // v22: вернулись по ссылке (подтверждение почты / Google / Snapchat)
     const CapA = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
