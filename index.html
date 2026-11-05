@@ -1655,7 +1655,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '49',
+  APP_VERSION: '50',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -7755,7 +7755,7 @@ const App = {
     'workout-resume'() { UI.openWorkout(); },
     'wk-guide'(el) { const ex = el.dataset.ex, g = UI.guideFor(ex); UI.wkKeep(); UI.modal(`<div class="flex items-center justify-between mb-2"><button class="btn btn-ghost btn-sm" data-action="workout-resume"><svg class="ic"><use href="#fa-chevron-left"/></svg> К тренировке</button><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div><div class="font-black text-xl mb-2">${U.esc(U.exRu(ex))}</div>${UI.guideDetail(ex, g)}<button class="btn btn-primary w-full mt-3" data-action="workout-resume">Понятно, к тренировке</button>`); UI._inWorkout = true; },
     async 'ban-recheck'() { await Mod.sync(true); if (!S.ban) UI.toast('Блокировка снята', 'mod'); },
-    async 'ban-logout'() { UI.closeModal(); S.ban = null; await Game.signOut(); UI.openAuth('login'); },
+    async 'ban-logout'() { UI.closeModal(); S.ban = null; await Game.signOut(); appReload({ tab: 'arena', auth: 'login' }); },
     'lift-confirm'(el) { const r = Game.confirmLift(el.dataset.id); UI.toast(r === 'review' ? 'Вес слишком большой для самоподтверждения: подход отправлен модератору' : 'Подход подтверждён: он в рекордах и на графике (без кубков за рекорд)', r === 'review' ? 'mod' : 'bl'); if (el.dataset.reopen === 'workout') UI.openWorkout('free'); else UI.closeModal(); App.afterChange(); },
     'chest-open'() { const c = document.getElementById('chest'); if (!c || c.classList.contains('open')) return; c.classList.add('open'); if (!S.profile.reduceMotion) UI.confetti(70); },
     'chest-take'(el) { const st = el.dataset.starter; UI.closeModal(); App.afterChange(); if (st) App.maybeOnboard(true); },
@@ -7977,7 +7977,7 @@ const App = {
     },
     'dq-open'() { UI.openDayQ(); },
     'sleep-del'(el) { Game.deleteSleep(el.dataset.date); App.afterChange(); UI.openSleep(); },
-    'set-lang'(el) { if (el.dataset.val === (S.profile.lang || 'ru')) { UI.openSettings(); return; } S.profile.lang = el.dataset.val; save(); UI.applyLang(); relangReload({ settings: true }); },
+    'set-lang'(el) { if (el.dataset.val === (S.profile.lang || 'ru')) { UI.openSettings(); return; } S.profile.lang = el.dataset.val; save(); UI.applyLang(); appReload({ settings: true }); },
     async 'friend-add'() { const r = await ClanService.addFriend(document.getElementById('friend-nick').value); if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('friend-nick'); UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Добавлен: ' + U.esc(r.friend.nick), 'bl'); UI.renderClans(); },
     async 'friend-add-id'(el) { el.disabled = true; const r = await ClanService.addFriendById(el.dataset.id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Теперь вы друзья: ' + U.esc(r.friend.nick), 'bl'); if (UI.$('#modal')) UI.openMiniProfile(el.dataset.id); UI.renderClans(); },
     async 'friend-accept'(el) { const r = await ClanService.respondRequest(el.dataset.id, true); if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Заявка принята', 'bl'); if (UI.$('#modal')) UI.openNotifs(); UI.renderClans(); },
@@ -8041,8 +8041,8 @@ const App = {
     'avatar-color'(el) { S.profile.avatar[el.dataset.key] = el.value; save(); UI.openShop(); UI.renderHeader(); },
     /* settings */
     'open-settings'() { UI.openSettings(''); },
-    'set-theme'(el) { S.profile.theme = el.dataset.val; App.applyTheme(); save(); UI.openSettings(); UI.renderHeader(); UI.renderTab(UI.tab); },
-    'set-units'(el) { S.profile.units = el.dataset.val; save(); UI.openSettings(); UI.renderTab(UI.tab); },
+    'set-theme'(el) { if (el.dataset.val === S.profile.theme) { UI.openSettings(); return; } S.profile.theme = el.dataset.val; App.applyTheme(); save(); appReload({ settings: true }); },
+    'set-units'(el) { if (el.dataset.val === S.profile.units) { UI.openSettings(); return; } S.profile.units = el.dataset.val; save(); appReload({ settings: true }); },
     'settings-save'() {
       const el = id => document.getElementById(id), p = S.profile;
       if (el('st-nick')) { const nn = el('st-nick').value.trim().slice(0, 16); if (nn && Profanity.bad(nn)) { UI.toast('В нике есть мат или оскорбление', 'red'); return; } if (nn && nn !== p.nickname && Net.online()) { Net.nickAvailable(nn).then(ok => { if (!ok) { UI.toast('Ник «' + U.esc(nn) + '» уже занят', 'red'); return; } p.nickname = nn; save(); UI.renderHeader(); }).catch(() => {}); } else if (nn) p.nickname = nn; }
@@ -8056,9 +8056,9 @@ const App = {
       save(); UI.closeModal(); UI.toast(T('save') + ' ✓'); Game.checkArenaUp(); App.afterChange();
     },
     'export-data'() { const blob = new Blob([Store.export(S)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `apex-arena-${U.today()}.json`; a.click(); },
-    'reset-data'() { UI.confirm('Удалить все данные приложения на этом устройстве? Это нельзя отменить.', () => { Store.reset(); localStorage.removeItem(MT.KEY); location.reload(); }, { danger: true, yes: 'Удалить' }); },
+    'reset-data'() { UI.confirm('Удалить все данные приложения на этом устройстве? Это нельзя отменить.', () => { Store.reset(); localStorage.removeItem(MT.KEY); appReload({ freeze: true, tab: 'arena' }); }, { danger: true, yes: 'Удалить' }); },
 
-    'auth-logout'() { UI.confirm(Net.online() ? 'Выйти из аккаунта? Прогресс сохранён в облаке, для входа нужен пароль.' : 'Выйти из аккаунта? Данные останутся на устройстве, для входа нужен пароль.', async () => { await Game.signOut(); UI.closeModal(); UI.openAuth('login'); }, { yes: 'Выйти' }); },
+    'auth-logout'() { UI.confirm(Net.online() ? 'Выйти из аккаунта? Прогресс сохранён в облаке, для входа нужен пароль.' : 'Выйти из аккаунта? Данные останутся на устройстве, для входа нужен пароль.', async () => { UI.closeModal(); await Game.signOut(); appReload({ tab: 'arena', auth: 'login' }); }, { yes: 'Выйти' }); },
     'buy-boost'(el) { const id = el.dataset.id, it = U.shopItem(id); UI.askBuy(it.name, it.price, () => { const r = Game.buyBoost(id); if (r.error) { UI.toast(r.error, 'red'); UI.openShop(); return; } UI.openShop(); UI.renderHeader(); }, { icon: it.icon || 'fa-bolt', color: '#F97316', back: () => UI.openShop() }); },
     'custom-title-save'() { const v = document.getElementById('custom-title').value; if (Profanity.bad(v)) { UI.toast('В титуле есть мат или оскорбление', 'red'); return; } if (!Game.setCustomTitle(v)) { UI.toast('Введи титул', 'red'); return; } UI.toast('Титул надет: ' + S.profile.customTitle, 'pu'); UI.openShop(); UI.renderTab(UI.tab); },
     async 'avatar-photo'(el) {
@@ -8227,7 +8227,7 @@ const App = {
     'auth-mode'(el) { App.stopConfirmWait(); UI.openAuth(el.dataset.val); },
     // v30: язык прямо на экране входа
     'auth-lang-toggle'() { UI._auLang = !UI._auLang; UI.openAuth(UI._authMode); },
-    'auth-lang'(el) { const same = el.dataset.val === (S.profile.lang || 'ru'); S.profile.lang = el.dataset.val; S.profile.langSet = true; save(); UI._auLang = false; UI.applyLang(); if (!same) { relangReload({ auth: UI._authMode }); return; } const m = document.getElementById('modal'); if (m) m.remove(); UI._authOpen = false; UI.openAuth(UI._authMode); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
+    'auth-lang'(el) { const same = el.dataset.val === (S.profile.lang || 'ru'); S.profile.lang = el.dataset.val; S.profile.langSet = true; save(); UI._auLang = false; UI.applyLang(); if (!same) { appReload({ auth: UI._authMode }); return; } const m = document.getElementById('modal'); if (m) m.remove(); UI._authOpen = false; UI.openAuth(UI._authMode); UI.renderHeader(); UI.renderTab(UI.tab); MT.kick(); Game.translateExercises(); },
     // v30: главная — напоминания и быстрые действия
     'rem-hide'(el) { UI.remHide(el.dataset.id); UI.renderTab(UI.tab); },
     'rem-water'() { const cup = S.profile.cupMl || 500; if (!Game.logWater(cup, U.today())) { UI.toast('Проверь объём', 'red'); return; } App.afterChange(); },
@@ -8381,6 +8381,7 @@ const App = {
     window.addEventListener('touchend', end, { passive: true }); window.addEventListener('touchcancel', end, { passive: true });
   },
   async refresh() {
+    if (!document.getElementById('modal') && !document.getElementById('page')) { appReload(); return; } // v49: на главных вкладках — полный перезапуск с логотипом
     const ptr = document.getElementById('ptr'); ptr.classList.add('spin'); ptr.style.transition = 'opacity .2s, transform .2s'; ptr.style.opacity = '1'; ptr.style.transform = 'translateY(16px)';
     try { if (Net.online()) { await Net.pull(); await Net.refresh(true); Net.loadConfig && Net.loadConfig(); Photos.resetMissing(); } Game.boot(); if (UI.hDay && UI.hDay > U.today()) UI.hDay = U.today(); UI.renderAll(); UI.flushEvents(); MT.kick(); Game.translateExercises(); }
     catch (e) { UI.toast(Net.err ? Net.err(e) : 'Ошибка сети', 'red'); }
@@ -8394,7 +8395,7 @@ const App = {
       UI.openAuthBusy('Входим…');
       try {
         const prof = await Net.profileExists();
-        if (prof) { if (!S.profile.nickname || src !== 'register') S.profile.nickname = prof.nickname; await Net.pull(); await Net.ensureProfile(); await Net.refresh(true); Net.loadConfig && Net.loadConfig(); this.applyTheme(); UI.applyLang(); UI.closeModal(); Game.boot(); UI.renderAll(); UI.flushEvents(); this.maybeOnboard(); return; }
+        if (prof) { if (!S.profile.nickname || src !== 'register') S.profile.nickname = prof.nickname; await Net.pull(); await Net.ensureProfile(); await Net.refresh(true); if (src !== 'boot') { save(); appReload({ tab: 'arena' }); return; } Net.loadConfig && Net.loadConfig(); this.applyTheme(); UI.applyLang(); UI.closeModal(); Game.boot(); UI.renderAll(); UI.flushEvents(); this.maybeOnboard(); return; }
       } catch (e) { UI._authErr = Net.err(e); UI.openAuth('login'); return; }
       const user = Net.user || {}, prov = Net.provider, from = prov === 'google' ? 'Google' : prov === 'custom:snapchat' ? 'Snapchat' : '';
       // v23: новый аккаунт начинает с нуля, прогресс прошлого аккаунта на телефоне его не трогает
@@ -8428,8 +8429,7 @@ const App = {
     if (this._outBusy) return; this._outBusy = true;
     try {
       if (wipe) Net.resetFor(null); else { S.session = { loggedIn: false }; save(); }
-      UI.closePage && UI._page && UI.closePage(true); UI.goTab('arena'); Game.boot(); UI.renderAll();
-      UI.openAuth(wipe ? 'welcome' : undefined);
+      appReload({ tab: 'arena', auth: wipe ? 'welcome' : null }); return;
     } finally { this._outBusy = false; }
   },
   /* ---- v41: поиск дуэли ---- */
@@ -8594,10 +8594,13 @@ const App = {
 };
 
 // v32: загрузочный экран держим, пока приложение запускается (не меньше одного захода анимации, не дольше 5 с)
-// v49: смена языка — показываем загрузочный экран с логотипом и перезапускаем приложение целиком, чтобы весь текст точно сменился
-async function relangReload(o) {
-  if (relangReload._on) return; relangReload._on = true;
-  try { sessionStorage.setItem('flRelang', JSON.stringify(Object.assign({ tab: UI.tab }, o || {}))); } catch (_) {}
+// v49: полный перезапуск приложения с загрузочным экраном (логотип) — там, где после изменения всё должно точно прогрузиться заново:
+// язык, тема, единицы, вход и выход из аккаунта, удаление данных, «потянуть вниз, чтобы обновить».
+// o: { tab, settings, auth, freeze } — freeze: данные уже стёрты, ничего не сохраняем и не отправляем
+async function appReload(o) {
+  o = o || {}; if (appReload._on) return; appReload._on = true;
+  if (o.freeze) { try { Store.save = () => {}; if (typeof Net !== 'undefined') { clearTimeout(Net._t); Net.schedule = () => {}; Net.push = async () => {}; } } catch (_) {} }
+  try { sessionStorage.setItem('flRelang', JSON.stringify({ tab: o.tab || UI.tab, settings: !!o.settings, auth: o.auth || null })); } catch (_) {}
   try {
     if (window.__bootHTML) {
       const old = document.getElementById('boot'); if (old) old.remove();
@@ -8608,8 +8611,8 @@ async function relangReload(o) {
     }
   } catch (_) {}
   const t0 = Date.now();
-  // успеваем отправить новый язык на сервер, чтобы после перезапуска он не откатился
-  try { if (typeof Net !== 'undefined' && Net.online()) { clearTimeout(Net._t); await Promise.race([Net.push(), new Promise(r => setTimeout(r, 2500))]); } } catch (_) {}
+  // успеваем отправить изменения на сервер, чтобы после перезапуска они не откатились
+  try { if (!o.freeze && typeof Net !== 'undefined' && Net.online()) { clearTimeout(Net._t); await Promise.race([Net.push(), new Promise(r => setTimeout(r, 2500))]); } } catch (_) {}
   await new Promise(r => setTimeout(r, Math.max(0, 700 - (Date.now() - t0))));
   location.reload();
 }
