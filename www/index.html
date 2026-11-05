@@ -1601,32 +1601,10 @@ html.light .rd{--rdc:#FFFFFF;--rdl:#E4E4E7;--rdt:#09090B;--rdm:#52525B}
 .rd-brand{font-size:.6rem;letter-spacing:.42em;font-weight:700;font-style:italic;color:var(--rdm)}
 .rd-title{font-family:var(--disp);font-size:2rem;line-height:1.05;font-weight:900;font-style:italic;letter-spacing:-.02em;margin-top:.15rem}
 .rd-x{width:2.4rem;height:2.4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--rdc);border:1px solid var(--rdl);color:var(--rdt);flex:none}
-.rd-hero{position:relative;overflow:hidden;border-radius:1.25rem;padding:1rem;background:var(--rdc);border:1px solid color-mix(in srgb,var(--rc) 38%,var(--rdl));margin-bottom:1.2rem}
-.rd-glow{position:absolute;inset:-40% -20% auto auto;width:75%;height:120%;background:radial-gradient(closest-side,color-mix(in srgb,var(--rc) 38%,transparent),transparent);pointer-events:none}
-html.light .rd-glow{opacity:.55}
-.rd-hero.lock .rd-hero-md{filter:grayscale(.75) brightness(.8)}
-html.light .rd-hero.lock .rd-hero-md{filter:grayscale(.75) opacity(.75)}
-.rd-hero-top{position:relative;display:flex;align-items:center;gap:.7rem}
-.rd-hero-md{flex:none;margin:-.3rem -.2rem -.3rem -.4rem}
-.rd-hero-txt{min-width:0;flex:1}
-.rd-kick{font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rdm)}
-.rd-kick b{color:var(--ri)}
-.rd-name{font-family:var(--disp);font-size:1.55rem;line-height:1.05;font-weight:900;margin-top:.2rem;color:var(--ri);overflow-wrap:anywhere}
-.rd-sub{font-size:.78rem;color:var(--rdm);margin-top:.15rem}
 .rd-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.55rem}
 .rd-chip{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:700;padding:.22rem .5rem;border-radius:999px;background:color-mix(in srgb,var(--rdt) 7%,transparent);border:1px solid var(--rdl)}
 .rd-chip>i,.rd-cm>i{width:.42rem;height:.42rem;border-radius:50%;display:inline-block;flex:none}
 html.light .rd-chip .text-yellow-300{color:#CA8A04}
-.rd-bar{position:relative;height:.5rem;border-radius:999px;background:color-mix(in srgb,var(--rdt) 10%,transparent);margin-top:.9rem;overflow:hidden}
-.rd-bar>i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;box-shadow:0 0 12px var(--rc)}
-.rd-bar-l{display:flex;justify-content:space-between;gap:.5rem;font-size:.72rem;color:var(--rdm);margin-top:.4rem}
-.rd-bar-l b{color:var(--rdt)}
-.rd-note{position:relative;display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;color:var(--rdm);margin-top:.85rem;padding:.55rem .7rem;border-radius:.8rem;background:color-mix(in srgb,var(--rdt) 5%,transparent)}
-.rd-note b{color:var(--rdt)}.rd-note.ok{color:#10B981}html.light .rd-note.ok{color:#047857}
-.rd-fr{position:relative;display:flex;align-items:center;gap:1.1rem;margin-top:.8rem;padding:.75rem .8rem .75rem 1.3rem;border-radius:.9rem;border:1px dashed var(--rdl)}
-.rd-fr-av{display:flex;flex:none}.rd-fr-av .rfr{margin:0}
-.rd-fr-t{min-width:0;display:flex;flex-direction:column;gap:.1rem;font-size:.82rem}
-.rd-fr-t small{font-size:.68rem;color:var(--rdm);line-height:1.3}
 .rd-boss{position:relative;margin-top:.8rem;padding:.7rem .8rem;border-radius:.9rem;background:color-mix(in srgb,#F97316 9%,transparent);border:1px solid color-mix(in srgb,#F97316 28%,transparent)}
 .rd-boss-h{font-size:.7rem;font-weight:800;color:#FB923C;margin-bottom:.35rem;display:flex;align-items:center;gap:.35rem}
 html.light .rd-boss-h{color:#C2410C}
@@ -1634,26 +1612,6 @@ html.light .rd-boss-h{color:#C2410C}
 .rd-boss-r small{color:var(--rdm)}
 .rd-boss-r>i{position:absolute;left:0;bottom:0;height:2px;border-radius:2px;background:#F97316}
 .rd-boss-r.ok b{color:#10B981}.rd-boss-r.ok>i{background:#10B981}html.light .rd-boss-r.ok b{color:#047857}
-.rd-sec{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin:0 0 .65rem}
-.rd-sec>i{flex:1;height:1px;background:linear-gradient(90deg,var(--rdl),transparent)}
-.rd-sec small{font-size:.66rem;letter-spacing:0;text-transform:none;font-weight:600;color:var(--rdm)}
-.rd-spark{width:.8rem;height:.8rem;fill:var(--rdt);flex:none}
-.rd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin-bottom:1.3rem}
-.rd-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:.7rem .3rem .6rem;border-radius:1rem;background:var(--rdc);border:1px solid var(--rdl);color:var(--rdt);transition:transform .15s,border-color .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
-.rd-card:active{transform:scale(.96)}
-.rd-card.cur{border-color:var(--rc);box-shadow:0 0 0 1px var(--rc),0 8px 24px -10px var(--rc)}
-.rd-card.sel:not(.cur){border-color:color-mix(in srgb,var(--rc) 70%,var(--rdl));box-shadow:0 0 0 1px color-mix(in srgb,var(--rc) 55%,transparent)}
-.rd-card.lock .rd-md{filter:grayscale(.85) brightness(.55)}
-html.light .rd-card.lock .rd-md{filter:grayscale(.85) opacity(.55)}
-.rd-card.lock .rd-cn{color:var(--rdm)}
-.rd-md{display:flex;height:64px;align-items:center}
-.rd-md .medal{margin:0}
-.rd-cn{font-size:.74rem;font-weight:800;line-height:1.15;margin-top:.45rem;min-height:1.7em;display:flex;align-items:center}
-.rd-cs{font-size:.6rem;color:var(--rdm);margin-top:.1rem;line-height:1.2}
-.rd-cm{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;font-weight:700;color:var(--rdm);margin-top:.4rem;font-variant-numeric:tabular-nums}
-.rd-st{position:absolute;top:.45rem;right:.45rem;width:.7rem;height:.7rem;color:var(--rdm);opacity:.7}
-.rd-card.done .rd-st{color:#10B981;opacity:1}
-.rd-you{position:absolute;top:-.5rem;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.55rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;padding:.12rem .45rem;border-radius:999px;background:var(--rc);color:#09090B}
 .rd-foot{text-align:center;font-size:.72rem;font-style:italic;color:var(--rdm);padding:.2rem 0 .4rem}
 /* светлая тема: светлые tailwind-цвета текста и белые надписи на белом */
 html.light .text-yellow-300,html.light .text-yellow-200{color:#D49B0A}
@@ -1672,6 +1630,75 @@ html.light .has-bg .text-yellow-300,html.light .has-bg .text-amber-400,html.ligh
 /* светлая тема: карточки отделены от фона, плитки и линии чуть темнее */
 html.light{--bg:#ECECEF;--card:#FFFFFF;--sub:#F4F4F6;--line:#DCDCE1;--muted:#5F5F66;--bdskin:#B9BEC8}
 html.light .card{box-shadow:0 1px 2px rgba(15,23,42,.06),0 4px 14px -8px rgba(15,23,42,.12)}
+/* ===== v55: «Путь рангов» — извилистая дорога ===== */
+.rd-kick{font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rdm)}
+.rd-kick b{color:var(--ri)}
+.rd-sub{font-size:.76rem;color:var(--rdm);margin-top:.1rem}
+.rd-bar{position:relative;display:block;height:.42rem;border-radius:999px;background:color-mix(in srgb,var(--rdt) 10%,transparent);overflow:hidden;margin-top:.45rem}
+.rd-bar>i{position:absolute;left:0;top:0;bottom:0;border-radius:999px}
+.rd-spark{width:.75rem;height:.75rem;fill:currentColor;flex:none}
+.rr{--road:#18181C;--roade:#26262D;--dash:rgba(255,255,255,.16)}
+html.light .rr{--road:#DFDFE5;--roade:#CFCFD7;--dash:rgba(9,9,11,.18)}
+.rr-now{display:flex;align-items:center;gap:.75rem;width:100%;text-align:left;padding:.7rem .9rem .75rem .6rem;border-radius:1.1rem;background:var(--rdc);border:1px solid color-mix(in srgb,var(--rc) 35%,var(--rdl));color:var(--rdt);margin-bottom:.4rem}
+.rr-now .medal{flex:none}
+.rr-now-t{flex:1;min-width:0;display:block}
+.rr-now-t small{display:block;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rdm)}
+.rr-now-t b{display:block;font-family:var(--disp);font-size:1.15rem;font-weight:900;color:var(--ri);line-height:1.15}
+.rr-now-s{display:flex;justify-content:space-between;gap:.5rem;font-size:.68rem;color:var(--rdm);margin-top:.3rem}
+.rr-map{position:relative;margin:0 -.4rem}
+.rr-svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.rr-road{fill:none;stroke:var(--road);stroke-width:30;stroke-linecap:round;stroke-linejoin:round}
+.rr-edge{fill:none;stroke:var(--roade);stroke-width:30;stroke-linecap:round;stroke-linejoin:round;opacity:0;stroke-dasharray:none}
+.rr-dash{fill:none;stroke:var(--dash);stroke-width:2;stroke-dasharray:7 9;stroke-linecap:round}
+.rr-lit{fill:none;stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 6px rgba(255,255,255,.18))}
+.rr-node{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;border-radius:50%;-webkit-tap-highlight-color:transparent;transition:transform .2s;z-index:2}
+.rr-node:active{transform:translate(-50%,-50%) scale(.94)}
+.rr-node .medal{margin:0;position:relative;z-index:1}
+.rr-node.lock .medal{filter:grayscale(.85) brightness(.6)}
+html.light .rr-node.lock .medal{filter:grayscale(.85) opacity(.5)}
+.rr-node.done .medal{filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+html.light .rr-node.done .medal{filter:drop-shadow(0 1px 1px rgba(15,23,42,.5)) drop-shadow(0 4px 8px rgba(15,23,42,.18))}
+.rr-node.sel:after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--rc);opacity:.8}
+.rr-halo{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--rc) 45%,transparent),transparent 72%);animation:rrPulse 2.4s ease-in-out infinite}
+@keyframes rrPulse{0%,100%{transform:scale(.9);opacity:.75}50%{transform:scale(1.08);opacity:1}}
+.reduce-motion .rr-halo{animation:none}
+.rr-you{position:absolute;top:-1.15rem;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.55rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:.14rem .5rem;border-radius:999px;background:var(--rc);color:#09090B;z-index:2;box-shadow:0 4px 12px -4px var(--rc)}
+.rr-lock{position:absolute;right:-2px;bottom:2px;width:1.3rem;height:1.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--rdc);border:1px solid var(--rdl);color:var(--rdm);z-index:2}
+.rr-lock .ic{width:.6rem;height:.6rem}
+.rr-lab{position:absolute;transform:translateY(-50%);display:flex;flex-direction:column;max-width:44%;pointer-events:none;z-index:1}
+.rr-lab.r{align-items:flex-end;text-align:right}
+.rr-lab b{font-size:.84rem;font-weight:800;line-height:1.15;color:var(--rdt)}
+.rr-lab.cur b{font-family:var(--disp);font-size:1.02rem;font-weight:900;color:var(--ri)}
+.rr-lab.lock b{color:var(--rdm)}
+.rr-lab small{font-size:.64rem;color:var(--rdm);margin-top:.1rem}
+.rr-min{display:inline-flex;align-items:center;gap:.3rem;font-size:.64rem;font-weight:700;color:var(--rdm);margin-top:.3rem;font-variant-numeric:tabular-nums}
+.rr-min>i{width:.4rem;height:.4rem;border-radius:50%;background:var(--rc);flex:none}
+.rr-lab.lock .rr-min>i{background:var(--rdm);opacity:.5}
+.rr-ban{position:absolute;left:0;right:0;display:flex;align-items:center;gap:.5rem;z-index:3;pointer-events:none}
+.rr-ban>i{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--rdl))}.rr-ban>i:last-child{background:linear-gradient(90deg,var(--rdl),transparent)}
+.rr-ban>span{display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .8rem;border-radius:999px;background:var(--rdc);border:1px solid var(--rdl);font-size:.68rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--rdt);box-shadow:0 6px 18px -10px rgba(0,0,0,.5)}
+.rr-ban small{font-size:.62rem;letter-spacing:0;text-transform:none;font-weight:600;color:var(--rdm)}
+.rr-start{position:absolute;left:30%;transform:translateX(-50%);font-size:.6rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--rdm);background:var(--rdc);border:1px solid var(--rdl);padding:.22rem .6rem;border-radius:999px;z-index:2}
+.rr-pop{position:sticky;bottom:0;margin:0 -.3rem;z-index:5;transform:translateY(110%);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.3,1),opacity .2s;pointer-events:none;height:0;overflow:visible}
+.rr-pop.on{transform:none;opacity:1;pointer-events:auto;height:auto}
+.rr-info{position:relative;padding:.9rem .9rem .85rem;border-radius:1.25rem;background:var(--rdc);border:1px solid color-mix(in srgb,var(--rc) 40%,var(--rdl));box-shadow:0 -10px 40px -12px rgba(0,0,0,.6)}
+html.light .rr-info{box-shadow:0 -10px 34px -14px rgba(15,23,42,.35)}
+.rr-info-x{position:absolute;top:.55rem;right:.55rem;width:1.9rem;height:1.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--rdm);background:color-mix(in srgb,var(--rdt) 6%,transparent);z-index:2}
+.rr-info-top{display:flex;align-items:center;gap:.6rem;padding-right:1.8rem}
+.rr-info-md{flex:none;margin:-.3rem -.1rem -.3rem -.3rem}.rr-info-md.lock .medal{filter:grayscale(.8) opacity(.7)}
+.rr-info-n{font-family:var(--disp);font-size:1.25rem;font-weight:900;line-height:1.1;color:var(--ri);margin-top:.1rem}
+.rr-info-fr{margin-left:auto;flex:none;display:flex}.rr-info-fr .rfr{margin:0}
+.rr-info .rd-chips{margin-top:.6rem}
+.rr-info-st{font-size:.74rem;color:var(--rdm);margin-top:.6rem}.rr-info-st b{color:var(--rdt)}.rr-info-st.ok{color:#10B981}html.light .rr-info-st.ok{color:#047857}
+.rr .rd-boss{margin-top:.6rem}
+/* v55: рамки — аккуратнее */
+.rfr{display:inline-flex;align-items:center;justify-content:center;padding:0}
+.rfr-av{display:block;transform-origin:center;flex:none}
+.rfr-av>svg,.rfr-av>img{display:block;border-radius:50%}
+.rfr-av>.av-ph{display:flex}
+.rfr-thin{padding:2.5px}.rfr-thin:after{inset:2.5px}
+.pf-av .rfr{margin:.3rem .5rem .6rem .3rem}
+.rr-info-fr .rfr,.rd-fr-av .rfr{margin:0}
 </style>
 </head>
 <body>
@@ -5702,48 +5729,79 @@ const UI = {
   },
   // v54: «Путь рангов» — карточка выбранного ранга сверху (эмблема, рамка аватара, награда, босс) и сетка арен и лиг
   _nf(n) { return (+n || 0).toLocaleString(U.locale()); },
-  roadHero(i) {
+  roadInfo(i) {
     const g = S.game, a = CONFIG.ARENAS[i], cur = i === g.arenaIdx, locked = i > g.arenaIdx, nx = CONFIG.ARENAS[i + 1], rk = Calc.rank(g.trophies, g.arenaIdx), r = a.reward || {}, nf = n => this._nf(n);
     const nAr = CONFIG.ARENAS.filter(x => !x.league).length, kick = a.league ? `Лига ${a.id - nAr} из ${CONFIG.ARENAS.length - nAr}` : `Арена ${a.id} из ${nAr}`;
-    let prog;
-    if (cur && nx) { const pct = U.clamp((g.trophies - a.min) / (nx.min - a.min) * 100, 0, 100), gate = g.trophies >= nx.min && !Calc.bossMet(i);
-      prog = `<div class="rd-bar"><i style="width:${Math.max(3, pct)}%;background:linear-gradient(90deg,${a.color},${nx.color})"></i></div>
-        <div class="rd-bar-l"><span class="num"><b>${nf(g.trophies)}</b> ${this.trophyIcon}</span><span>${gate ? 'победи босса, чтобы пройти' : `до «${TN(nx.name)}» <b class="num">${nf(nx.min - g.trophies)}</b>`}</span></div>`; }
-    else if (cur) { const pl = Calc.legendPlace(); prog = `<div class="rd-note"><svg class="ic"><use href="#fa-crown"/></svg> Вершина пути${pl ? ` · место #${pl}` : ''}</div>`; }
-    else if (locked) prog = `<div class="rd-note"><svg class="ic"><use href="#fa-lock"/></svg> Откроется с ${nf(a.min)} кубков · осталось <b class="num">${nf(a.min - g.trophies)}</b></div>`;
-    else prog = `<div class="rd-note ok"><svg class="ic"><use href="#fa-check"/></svg> Ранг пройден</div>`;
+    let st;
+    if (cur && nx) st = g.trophies >= nx.min && !Calc.bossMet(i) ? 'Победи босса, чтобы пройти дальше' : `До «${TN(nx.name)}» — <b class="num">${nf(nx.min - g.trophies)}</b> кубков`;
+    else if (cur) { const pl = Calc.legendPlace(); st = `Вершина пути${pl ? ` · место #${pl}` : ''}`; }
+    else if (locked) st = `Откроется с ${nf(a.min)} · осталось <b class="num">${nf(a.min - g.trophies)}</b>`;
+    else st = 'Ранг пройден';
     const b = a.boss ? Calc.bossReq(i) : null;
-    const boss = b ? `<div class="rd-boss"><div class="rd-boss-h"><svg class="ic"><use href="#fa-dragon"/></svg> Босс ранга — чтобы пройти дальше</div>${b.items.map(x => `<div class="rd-boss-r ${x.ok ? 'ok' : ''}"><span>${x.name} <small>×${x.ratio} веса</small></span><b class="num">${U.w(x.have, 0)} / ${U.w(x.need, 0)} ${U.wUnit()}</b><i style="width:${Math.round(x.pct * 100)}%"></i></div>`).join('')}</div>` : '';
-    return `<div class="rd-hero ${locked ? 'lock' : ''}" style="--rc:${a.color};--ri:${this.ink(a.color, .25)}">
-      <div class="rd-glow"></div>
-      <div class="rd-hero-top">
-        <div class="rd-hero-md">${this.medal(i, { size: 112, stars: cur ? rk.stars : locked ? 0 : 5, anim: false })}</div>
-        <div class="rd-hero-txt"><div class="rd-kick">${kick}${cur ? ' · <b>ты здесь</b>' : ''}</div><div class="rd-name">${TN(a.name)}</div><div class="rd-sub">${a.sub || ''}</div>
-          <div class="rd-chips"><span class="rd-chip"><i style="background:${a.color}"></i>от ${nf(a.min)}</span>${r.coins ? `<span class="rd-chip">+${nf(r.coins)} ${this.coinIcon}</span>` : ''}${r.item ? `<span class="rd-chip"><svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}</span>` : ''}</div></div>
-      </div>
-      ${prog}
-      <div class="rd-fr"><span class="rd-fr-av">${this.rankFrame(this.avatarSVG(S.profile.avatar, 46), i, 46)}</span><span class="rd-fr-t"><b>Рамка аватара</b><small>${locked ? 'Получишь вместе с рангом' : 'Ставится сама, если в магазине не выбрана другая'}</small></span></div>
-      ${boss}</div>`;
-  },
-  roadCard(ar) {
-    const g = S.game, i = ar.id - 1, locked = i > g.arenaIdx, cur = i === g.arenaIdx;
-    return `<button class="rd-card ${cur ? 'cur' : ''} ${locked ? 'lock' : 'done'} ${i === this._roadSel ? 'sel' : ''}" style="--rc:${ar.color}" data-action="road-pick" data-i="${i}" aria-label="${U.esc(TN(ar.name))}">
-      ${cur ? '<span class="rd-you">ты здесь</span>' : `<svg class="ic rd-st"><use href="#${locked ? 'fa-lock' : 'fa-check'}"/></svg>`}
-      <span class="rd-md">${this.medal(i, { size: 64, anim: false })}</span>
-      <span class="rd-cn">${TN(ar.name)}</span><span class="rd-cs">${ar.sub || ''}</span>
-      <span class="rd-cm"><i style="background:${ar.color}"></i>от ${this._nf(ar.min)}</span></button>`;
+    const boss = b ? `<div class="rd-boss"><div class="rd-boss-h"><svg class="ic"><use href="#fa-dragon"/></svg> Босс — чтобы пройти дальше</div>${b.items.map(x => `<div class="rd-boss-r ${x.ok ? 'ok' : ''}"><span>${x.name} <small>×${x.ratio} веса</small></span><b class="num">${U.w(x.have, 0)} / ${U.w(x.need, 0)} ${U.wUnit()}</b><i style="width:${Math.round(x.pct * 100)}%"></i></div>`).join('')}</div>` : '';
+    return `<div class="rr-info" style="--rc:${a.color};--ri:${this.ink(a.color, .25)}">
+      <button class="rr-info-x" data-action="road-pick" data-i="-1" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button>
+      <div class="rr-info-top"><span class="rr-info-md ${locked ? 'lock' : ''}">${this.medal(i, { size: 72, stars: cur ? rk.stars : locked ? 0 : 5, anim: false })}</span>
+        <div class="min-w-0"><div class="rd-kick">${kick}${cur ? ' · <b>ты здесь</b>' : ''}</div><div class="rr-info-n">${TN(a.name)}</div><div class="rd-sub">${a.sub || ''}</div></div>
+        <span class="rr-info-fr">${this.rankFrame(this.avatarSVG(S.profile.avatar, 58), i, 58)}</span></div>
+      <div class="rd-chips"><span class="rd-chip"><i style="background:${a.color}"></i>от ${nf(a.min)}</span>${r.coins ? `<span class="rd-chip">+${nf(r.coins)} ${this.coinIcon}</span>` : ''}${r.item ? `<span class="rd-chip"><svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}</span>` : ''}<span class="rd-chip"><svg class="ic"><use href="#fa-user"/></svg> рамка аватара</span></div>
+      <div class="rr-info-st ${!cur && !locked ? 'ok' : ''}">${st}</div>${boss}</div>`;
   },
   openRoad(sel) {
-    const g = S.game; this._roadSel = sel != null ? sel : g.arenaIdx;
-    const ars = CONFIG.ARENAS.filter(x => !x.league), lgs = CONFIG.ARENAS.filter(x => x.league), nf = n => this._nf(n);
-    const sec = (title, range, list) => `<div class="rd-sec"><svg viewBox="-6 -6 12 12" class="rd-spark"><path d="M0-6C.6-1.2 1.2-.6 6 0 1.2.6.6 1.2 0 6-.6 1.2-1.2.6-6 0-1.2-.6-.6-1.2 0-6Z"/></svg><span>${title}</span><i></i><small class="num">${range}</small></div><div class="rd-grid">${list.map(x => this.roadCard(x)).join('')}</div>`;
-    this.modal(`<div class="rd">
+    const g = S.game, A = CONFIG.ARENAS, n = A.length, cur = g.arenaIdx, nx = A[cur + 1], nf = x => this._nf(x), rk = Calc.rank(g.trophies, cur);
+    const ROW = 124, BAN = 70, pos = [], bans = []; let y = 26;
+    for (let i = n - 1; i >= 0; i--) {
+      if (i === n - 1) { bans.push({ y, t: 'Лиги', r: `${nf(A.find(x => x.league).min)}+ кубков` }); y += BAN; }
+      if (!A[i].league && A[i + 1] && A[i + 1].league) { bans.push({ y: y + 6, t: 'Арены', r: `0 – ${nf(A[i].min)} кубков` }); y += BAN + 8; }
+      pos[i] = { x: i % 2 ? 70 : 30, y: y + ROW / 2 }; y += ROW;
+    }
+    const H = y + 70; this._roadPos = pos;
+    const node = (a, i) => { const p = pos[i], st = i < cur ? 'done' : i === cur ? 'cur' : 'lock', sz = st === 'cur' ? 84 : st === 'done' ? 64 : 58, side = p.x < 50 ? 'l' : 'r', r = a.reward || {};
+      return `<button class="rr-node ${st}" style="left:${p.x}%;top:${p.y}px;--rc:${a.color}" data-action="road-pick" data-i="${i}" aria-label="${U.esc(TN(a.name))}">
+          ${st === 'cur' ? '<span class="rr-halo"></span><span class="rr-you">ты здесь</span>' : ''}${this.medal(i, { size: sz, anim: false })}${st === 'lock' ? '<span class="rr-lock"><svg class="ic"><use href="#fa-lock"/></svg></span>' : ''}</button>
+        <div class="rr-lab ${side} ${st}" style="${side === 'l' ? `left:calc(${p.x}% + ${sz / 2 + 10}px)` : `right:calc(${100 - p.x}% + ${sz / 2 + 10}px)`};top:${p.y}px;--rc:${a.color};--ri:${this.ink(a.color, .3)}">
+          <b>${TN(a.name)}</b><small>${a.sub || ''}</small><span class="rr-min"><i></i>${nf(a.min)}${r.coins ? ` · +${nf(r.coins)} ${this.coinIcon}` : ''}</span></div>`; };
+    const pct = nx ? U.clamp((g.trophies - A[cur].min) / (nx.min - A[cur].min) * 100, 0, 100) : 100;
+    this.modal(`<div class="rd rr">
       <div class="rd-head"><div><div class="rd-brand">FLEXO LEAGUE</div><div class="rd-title">Путь рангов</div></div><button data-action="close-modal" class="rd-x" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
-      <div id="road-hero">${this.roadHero(this._roadSel)}</div>
-      ${sec('Арены', `${nf(ars[0].min)} – ${nf(ars[ars.length - 1].min)} кубков`, ars)}
-      ${sec('Лиги', `${nf(lgs[0].min)}+ кубков`, lgs)}
-      <div class="rd-foot">Тренируйся. Развивайся. Достигай большего.</div></div>`);
+      <button class="rr-now" data-action="road-pick" data-i="${cur}" style="--rc:${A[cur].color};--ri:${this.ink(A[cur].color, .25)}">
+        ${this.medal(cur, { size: 54, anim: false })}<span class="rr-now-t"><small>Твой ранг</small><b>${TN(A[cur].name)}</b>
+        <span class="rd-bar"><i style="width:${Math.max(3, pct)}%;background:linear-gradient(90deg,${A[cur].color},${(nx || A[cur]).color})"></i></span>
+        <span class="rr-now-s"><span class="num">${nf(g.trophies)} ${this.trophyIcon}</span><span>${nx ? `до «${TN(nx.name)}» ${nf(Math.max(0, nx.min - g.trophies))}` : 'вершина'}</span></span></span></button>
+      <div class="rr-map" style="height:${H}px">
+        <svg class="rr-svg" aria-hidden="true"></svg>
+        ${bans.map(b => `<div class="rr-ban" style="top:${b.y}px"><i></i><span><svg viewBox="-6 -6 12 12" class="rd-spark"><path d="M0-6C.6-1.2 1.2-.6 6 0 1.2.6.6 1.2 0 6-.6 1.2-1.2.6-6 0-1.2-.6-.6-1.2 0-6Z"/></svg>${b.t}<small>${b.r}</small></span><i></i></div>`).join('')}
+        ${A.map(node).join('')}
+        <div class="rr-start" style="top:${H - 34}px">старт</div>
+      </div>
+      <div class="rd-foot">Тренируйся. Развивайся. Достигай большего.</div>
+      <div class="rr-pop" id="road-pop"></div></div>`);
     const m = document.querySelector('#modal .modal'); if (m) m.classList.add('rd-modal');
+    requestAnimationFrame(() => { this.roadDraw(); const map = document.querySelector('#modal .rr-map'); if (m && map) m.scrollTop = Math.max(0, map.offsetTop + pos[cur].y - m.clientHeight / 2); });
+    if (sel != null) this.roadPick(sel);
+  },
+  // дорога рисуется в пикселях, когда известна ширина
+  roadDraw() {
+    const map = document.querySelector('#modal .rr-map'), svg = map && map.querySelector('.rr-svg'); if (!svg) return;
+    const W = map.clientWidth, H = map.clientHeight, A = CONFIG.ARENAS, cur = S.game.arenaIdx, pos = this._roadPos.map(p => ({ x: p.x / 100 * W, y: p.y }));
+    const seg = i => { const a = pos[i], b = pos[i + 1], my = (a.y + b.y) / 2; return `M${a.x.toFixed(1)} ${a.y}C${a.x.toFixed(1)} ${my} ${b.x.toFixed(1)} ${my} ${b.x.toFixed(1)} ${b.y}`; };
+    const st = pos[0], start = `M${st.x.toFixed(1)} ${H - 30}L${st.x.toFixed(1)} ${st.y}`;
+    const full = start + pos.slice(0, -1).map((_, i) => seg(i).replace(/^M[^C]*/, 'L' + pos[i].x.toFixed(1) + ' ' + pos[i].y)).join('');
+    const nx = A[cur + 1], pct = nx ? U.clamp((S.game.trophies - A[cur].min) / (nx.min - A[cur].min), 0, 1) : 0;
+    let defs = '', lit = `<path d="${start}" class="rr-lit" stroke="${A[0].color}"/>`;
+    for (let i = 0; i < A.length - 1; i++) {
+      if (i > cur) break;
+      defs += `<linearGradient id="rrg${i}" gradientUnits="userSpaceOnUse" x1="0" y1="${pos[i].y}" x2="0" y2="${pos[i + 1].y}"><stop offset="0" stop-color="${A[i].color}"/><stop offset="1" stop-color="${A[i + 1].color}"/></linearGradient>`;
+      lit += i < cur ? `<path d="${seg(i)}" class="rr-lit" stroke="url(#rrg${i})"/>` : pct > 0 ? `<path d="${seg(i)}" class="rr-lit" stroke="url(#rrg${i})" pathLength="100" stroke-dasharray="${(pct * 100).toFixed(1)} 200"/>` : '';
+    }
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
+    svg.innerHTML = `<defs>${defs}</defs><path d="${full}" class="rr-road"/><path d="${full}" class="rr-edge"/><path d="${full}" class="rr-dash"/>${lit}`;
+  },
+  roadPick(i) {
+    const pop = document.getElementById('road-pop'); if (!pop) return;
+    document.querySelectorAll('#modal .rr-node').forEach(c => c.classList.toggle('sel', +c.dataset.i === i));
+    if (i < 0) { pop.classList.remove('on'); return; }
+    pop.innerHTML = this.roadInfo(i); pop.classList.add('on');
   },
   /* ========================= LIFTS ========================= */
   liftExercises() {
@@ -7736,16 +7794,19 @@ Object.assign(UI, {
   },
   // v41: рамка аватара в стиле ранга (ставится сама, если в магазине не выбрана другая)
   rankFrame(inner, idx, size) {
-    // v54: рамка — картинка ранга; отверстие в центре (радиус 43 из 180) совпадает с краем аватара
-    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), O = Math.round(size * 180 / 83);
-    return `<span class="pfr rfr">${inner}<img class="rfr-o" src="${this.frameSrc(i)}" alt="" aria-hidden="true" draggable="false" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px"></span>`;
+    // v55: рамка — лёгкий бонус. Маленькие аватары — тонкое кольцо цвета ранга; от 56px — рамка-картинка
+    // не больше ~1.5 аватара, сам аватар чуть уменьшается и садится в отверстие рамки
+    const i = U.clamp(idx || 0, 0, CONFIG.ARENAS.length - 1), c = CONFIG.ARENAS[i].color;
+    if (size < 56) return `<span class="pfr rfr-thin" style="--ring:linear-gradient(140deg,${this._mix(c, '#ffffff', .45)},${c} 55%,${this._mix(c, '#000000', .35)})">${inner}</span>`;
+    const k = .76, O = Math.round(size * k / 1.04 / (86 / 180)), box = size + 8;
+    return `<span class="pfr rfr" style="width:${box}px;height:${box}px"><span class="rfr-av" style="transform:scale(${k})">${inner}</span><img class="rfr-o" src="${this.frameSrc(i)}" alt="" aria-hidden="true" draggable="false" style="width:${O}px;height:${O}px;margin:${-O / 2}px 0 0 ${-O / 2}px"></span>`;
   },
   // v46: эмблемы рангов — готовые картинки ranks/rank_NN.webp (NN = номер арены, 01…17)
   // v47: фон арены для карточки ранга (картинки arenas/aNN.webp; у всех лиг общий a10)
   arenaBg(i) { const n = U.clamp((i || 0) + 1, 1, CONFIG.ARENAS.length); return `arenas/a${String(Math.min(n, 10)).padStart(2, '0')}.webp`; },
-  medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=54`; },
+  medalSrc(i) { return `ranks/rank_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=55`; },
   // v54: рамки аватаров — готовые картинки frames/frame_NN.webp (NN = номер ранга, 01…17), центр прозрачный
-  frameSrc(i) { return `frames/frame_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=54`; },
+  frameSrc(i) { return `frames/frame_${String(U.clamp(i || 0, 0, CONFIG.ARENAS.length - 1) + 1).padStart(2, '0')}.webp?v=55`; },
   // v54: цвет ранга для текста: в светлой теме темнее, в тёмной — светлее
   ink(c, t = .3) { return S.profile.theme === 'light' ? this._mix(c, '#000000', .45) : this._mix(c, '#ffffff', t); },
   // idx — индекс арены; o.stars — 0..5 (null = не рисовать), o.place — место для последнего ранга
@@ -8559,8 +8620,7 @@ const App = {
     'set-tab'(el) { UI.openSettings(el.dataset.val); },
     /* v12 */
     'open-road'() { UI.openRoad(); },
-    'road-pick'(el) { const i = +el.dataset.i; UI._roadSel = i; const h = document.getElementById('road-hero'); if (h) h.innerHTML = UI.roadHero(i);
-      document.querySelectorAll('#modal .rd-card').forEach(c => c.classList.toggle('sel', +c.dataset.i === i)); const m = document.querySelector('#modal .modal'); if (m && m.scrollTo) m.scrollTo({ top: 0, behavior: 'smooth' }); },
+    'road-pick'(el) { UI.roadPick(+el.dataset.i); },
     // v54: быстрый переключатель темы в шапке
     'toggle-theme'() { const h = document.documentElement; h.classList.add('theme-anim'); clearTimeout(UI._thT); UI._thT = setTimeout(() => h.classList.remove('theme-anim'), 450);
       S.profile.theme = S.profile.theme === 'light' ? 'dark' : 'light'; App.applyTheme(); save(); UI.renderHeader(); UI.renderTab(UI.tab); },
