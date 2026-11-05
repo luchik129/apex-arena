@@ -1073,6 +1073,43 @@ body.modal-on #main .pfx,body.modal-on #main .pfx *{animation-play-state:paused!
 .ld-scale{display:flex;align-items:center;gap:.4rem;font-size:.66rem;color:var(--muted);margin:.35rem 0 .7rem}
 .ld-scale i{width:1.1rem;height:.5rem;border-radius:.2rem;display:inline-block}
 .ld-bar{display:block;height:3px;border-radius:3px;background:var(--line);margin-top:.3rem;overflow:hidden}.ld-bar i{display:block;height:100%;border-radius:3px;background:var(--text)}
+/* ===== v53: уровни рекордов, рейтинг из окна рекорда, силовые в мастере, выбор лифтов профиля ===== */
+.prt-chip{display:inline-flex;align-items:center;gap:.25rem;padding:.12rem .5rem;border-radius:999px;font-size:.6rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);border:1px solid color-mix(in srgb,var(--c) 45%,transparent);white-space:nowrap}
+.prt-chip.big{font-size:.7rem;padding:.3rem .75rem}
+.prt-chip.prt-c5{color:#fff;border-color:transparent;background:linear-gradient(90deg,#F43F5E,#F59E0B,#FDE047,#F43F5E);background-size:300% 100%;animation:prtShine 3s linear infinite}
+.post.prt-1{border-color:#C98A4B55}
+.post.prt-2{border-color:#B4C0CF66;background:linear-gradient(165deg,#B4C0CF12,transparent 40%),var(--card)}
+.post.prt-3{border-color:#F5B83D77;background:linear-gradient(165deg,#F5B83D1C,transparent 45%),var(--card);box-shadow:0 10px 30px -14px #F5B83D66}
+.post.prt-4{border-color:#A78BFA88;background:radial-gradient(120% 70% at 100% 0%,#A78BFA2A,transparent 55%),var(--card);box-shadow:0 12px 34px -14px #A78BFA88}
+.post.prt-5{border:1.5px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(110deg,#F43F5E,#F59E0B,#FDE047,#F43F5E) border-box;background-size:auto,300% 100%;animation:prtBorder 4s linear infinite;box-shadow:0 14px 40px -14px #F43F5E99}
+.pr-block.prb-t5{position:relative;overflow:hidden}
+.pr-block.prb-t5::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,#ffffff22 50%,transparent 65%);background-size:250% 100%;animation:prtShine 2.6s linear infinite;pointer-events:none}
+@keyframes prtShine{from{background-position:100% 0}to{background-position:-200% 0}}
+@keyframes prtBorder{to{background-position:0 0,-300% 0}}
+.pr-rank{display:inline-flex;align-items:center;gap:.5rem;margin-top:.7rem;padding:.45rem .8rem;border-radius:999px;background:var(--sub);border:1px solid var(--line);font-size:.78rem;font-weight:600}
+.pr-rank .pr-up{color:#10B981;font-weight:800;display:inline-flex;align-items:center;gap:.2rem}
+.pr-rank>.ic{color:var(--muted)}
+.wz-lift{display:flex;align-items:center;gap:.7rem;padding:.65rem;border-radius:1rem;background:var(--sub);border:1px solid var(--line);margin-bottom:.5rem;transition:opacity .2s}
+.wz-lift.off{opacity:.55}
+.wz-lift b{font-size:.85rem}
+.wz-lic{width:2.4rem;height:2.4rem;border-radius:.8rem;display:flex;align-items:center;justify-content:center;flex:none}
+.wz-lic .ic{width:1.35rem;height:1.35rem}
+.wz-lic.sm{width:1.9rem;height:1.9rem;border-radius:.6rem}.wz-lic.sm .ic{width:1.05rem;height:1.05rem}
+.wz-lin{display:flex;align-items:center;gap:.35rem;margin-top:.35rem}
+.wz-lin .input{padding:.4rem .5rem;font-size:.9rem;min-width:0}
+.wz-lin .input:first-child{flex:1.4}.wz-lin .input:nth-child(3){flex:1}
+.wz-lin span,.wz-lin small{color:var(--muted);font-size:.72rem}
+.wz-skip{flex:none;align-self:stretch;padding:0 .65rem;border-radius:.8rem;border:1px dashed var(--line);font-size:.72rem;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:.25rem}
+.wz-skip.on{border-style:solid;color:var(--text);background:var(--card)}
+.b3-edit{font-size:.7rem;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .55rem;border-radius:999px;border:1px solid var(--line)}
+.t3-list{display:flex;flex-direction:column;gap:.4rem;max-height:56vh;overflow-y:auto}
+.t3-row{display:flex;align-items:center;gap:.7rem;padding:.55rem .65rem;border-radius:1rem;border:1px solid var(--line);background:var(--sub);transition:border-color .2s,background .2s}
+.t3-row.on{border-color:#10B981;background:color-mix(in srgb,#10B981 10%,var(--sub))}
+.t3-n{width:1.6rem;height:1.6rem;border-radius:50%;flex:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900}
+.t3-row.on .t3-n{background:#10B981;border-color:#10B981;color:#fff}
+.t3-row.shake{animation:t3Shake .35s ease}
+@keyframes t3Shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.t3-ic{width:1.1rem;height:1.1rem;margin-bottom:.25rem}
 /* ===== v52: окно рекорда — публикация с превью; подсказка про честные нормы ===== */
 .prp{border-radius:1.1rem;background:var(--sub);border:1px solid var(--line);padding:.8rem}
 .prp-h{display:flex;flex-direction:column;gap:.1rem;margin-bottom:.6rem}
@@ -1160,6 +1197,9 @@ body.modal-on #main .pfx,body.modal-on #main .pfx *{animation-play-state:paused!
 /* быстрый перезапуск (смена языка): один и тот же логотип до и после перезагрузки, без повтора анимации */
 #boot.fast video{display:none}
 #boot.fast svg{opacity:1;animation:bootF 1.3s ease-in-out infinite}
+/* v53: смена языка — настоящая анимация логотипа, после перезагрузки продолжается с того же кадра */
+#boot.cont svg{display:none}
+#boot.cont.novid svg{display:block;opacity:1;animation:bootP 1.6s ease-in-out infinite}
 @keyframes bootP{0%,100%{opacity:.35}50%{opacity:1}}
 @keyframes bootF{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.05);opacity:.82}}
 /* ===== v33: без увеличения шрифтов системой, ничего не вылезает за край; ранги крупно и ярко ===== */
@@ -1538,7 +1578,7 @@ html.light .hm-hero:after{opacity:.55}
 </head>
 <body>
 <div id="boot" aria-hidden="true"><div class="boot-in"><svg viewBox="0 16.8 100 66.4"><path d="M50.1 67.3 48.2 65.2 45.3 62.6 42.0 60.6 39.4 59.7 37.9 59.5 37.4 59.3 34.6 59.3 34.2 59.5 32.8 59.7 30.2 60.8 27.9 62.5 15.7 74.9 9.2 80.9 8.7 81.7 8.8 82.3 9.3 82.7 9.8 83.0 10.7 83.2 22.8 83.2 25.0 83.1 25.4 82.9 26.9 82.7 29.4 82.0 31.9 80.8 35.2 78.4 43.4 70.3 44.9 69.2 46.9 68.1 48.4 67.7 50.0 67.6ZM100.0 20.5 99.7 19.8 98.8 19.0 97.8 18.7 97.2 18.7 96.9 18.5 95.6 18.5 95.0 18.3 92.3 18.3 91.9 18.1 89.3 18.1 87.9 17.9 82.3 17.9 81.9 17.7 75.4 17.7 75.0 17.9 72.2 17.9 71.8 18.1 70.9 18.1 70.5 18.3 69.8 18.3 69.4 18.5 68.0 18.7 65.0 19.6 63.8 20.0 60.6 21.7 57.0 24.2 53.5 27.6 45.7 36.5 44.5 37.7 43.2 38.7 41.2 39.7 39.0 40.3 38.2 40.3 37.9 40.5 34.3 40.5 33.9 40.3 32.5 40.3 32.1 40.1 30.8 40.1 29.9 39.9 26.8 39.9 26.3 40.1 25.3 40.1 22.6 40.8 19.9 42.1 18.3 43.2 17.0 44.4 15.2 46.3 12.7 49.7 12.4 49.5 12.4 47.3 11.8 45.7 11.1 44.4 9.7 42.9 9.1 41.5 9.0 39.6 9.3 38.3 9.6 37.8 10.1 37.8 11.1 38.2 12.6 38.2 13.9 37.6 14.8 36.7 14.9 36.1 14.8 34.2 13.9 32.5 13.4 31.9 12.6 31.3 11.8 30.9 10.6 30.8 8.5 31.1 6.7 32.2 5.3 33.6 3.4 36.5 2.4 38.5 1.5 40.9 0.7 43.3 0.5 44.8 0.4 45.1 0.4 45.6 0.2 46.0 0.2 46.9 0.0 47.3 0.0 50.8 0.2 51.2 0.2 51.9 0.7 53.6 0.7 53.9 1.7 55.6 2.8 56.6 3.8 57.2 5.6 58.0 8.8 58.5 12.9 58.5 13.6 58.3 16.0 58.2 16.5 58.0 18.0 57.8 19.1 57.4 19.5 57.4 20.4 57.1 21.0 57.1 23.2 56.3 25.8 55.8 27.7 55.2 29.3 55.0 29.8 54.9 30.8 54.9 31.3 54.7 32.8 54.7 33.2 54.5 37.0 54.7 37.7 54.9 38.5 54.9 38.9 55.0 40.8 55.4 43.4 56.3 45.8 57.6 47.3 58.5 50.0 60.6 54.8 65.4 60.6 71.7 66.2 77.4 68.7 79.5 71.1 81.0 73.2 82.0 75.9 82.7 77.9 83.1 93.1 83.1 95.0 82.5 95.8 82.1 96.2 81.7 96.4 81.0 96.2 80.1 92.9 77.3 91.8 76.6 76.4 64.3 76.0 63.7 75.6 62.8 75.9 61.7 83.3 54.3 84.7 52.7 85.5 51.4 86.1 50.0 86.1 48.5 85.6 47.6 84.7 46.7 83.5 46.1 81.6 45.4 81.1 45.4 80.8 45.2 79.9 45.2 79.6 45.1 76.2 45.1 74.6 45.5 73.1 46.3 66.7 51.6 64.5 52.6 63.4 52.6 62.7 52.4 61.1 51.6 57.7 49.0 57.0 48.4 56.6 47.4 56.6 46.8 56.8 46.2 57.9 44.7 59.6 42.8 62.5 39.7 66.2 36.7 68.0 35.5 70.6 34.1 73.1 33.0 74.4 32.7 75.7 32.1 78.0 31.8 80.0 31.2 80.8 31.2 81.1 31.0 82.2 31.0 82.6 30.8 83.9 30.8 84.4 30.7 86.0 30.7 86.4 30.5 88.1 30.5 88.5 30.3 90.7 30.1 91.7 29.7 92.8 29.6 95.1 28.4 96.3 27.5 98.1 25.8 98.6 25.1 99.8 22.8 99.8 22.3 100.0 22.0ZM18.2 21.4 17.1 22.8 17.0 23.1 17.0 23.5 18.5 23.1 20.5 23.1 21.9 23.5 22.9 24.0 24.2 24.9 25.8 26.7 26.9 28.7 27.5 31.0 27.5 34.1 27.1 35.4 27.4 35.8 30.1 36.9 30.8 37.1 31.7 37.1 32.1 37.3 33.1 37.3 33.5 37.1 34.3 37.1 35.0 36.9 37.0 36.0 38.3 35.1 39.5 33.7 40.4 32.1 40.8 31.3 41.0 30.0 41.2 29.7 41.2 27.0 41.0 26.6 40.8 25.3 40.3 24.2 39.2 22.2 38.3 21.0 37.2 19.9 35.8 18.9 33.7 17.8 31.9 17.2 31.4 17.2 31.1 17.0 30.0 17.0 29.5 16.8 27.5 16.8 25.2 17.2 23.6 17.7 21.7 18.6 19.6 20.0Z"/></svg><video src="vendor/loader.mp4" muted autoplay loop playsinline preload="auto" disablepictureinpicture></video></div></div>
-<script>(function () { var b = document.getElementById('boot'), v = b.querySelector('video'); window.__bootHTML = b.outerHTML; b._t0 = Date.now(); var f = null; try { f = sessionStorage.getItem('flFast'); sessionStorage.removeItem('flFast'); } catch (e) {} if (f) { b.classList.add('fast'); b._fast = true; v.remove(); var s = b.querySelector('svg'), el = Date.now() - (+f || 0); if (s && el > 0 && el < 10000) s.style.animationDelay = (-el) + 'ms'; return; } v.addEventListener('playing', function () { b.classList.add('vid'); }); v.addEventListener('error', function () { v.remove(); }); try { var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} })();</script>
+<script>(function () { var b = document.getElementById('boot'), v = b.querySelector('video'); window.__bootHTML = b.outerHTML; b._t0 = Date.now(); var f = null; try { f = sessionStorage.getItem('flFast'); sessionStorage.removeItem('flFast'); } catch (e) {} var o = null; try { o = f && f.charAt(0) === '{' ? JSON.parse(f) : null; } catch (e) {} if (o && o.vt != null) { b.classList.add('cont'); b._cont = true; try { v.autoplay = false; v.pause(); } catch (e) {} var go = function () { if (b._sk) return; b._sk = 1; try { v.currentTime = Math.min(Math.max(0, (v.duration || 3.2) - 0.15), o.vt + Math.max(0, Math.min(3, (Date.now() - o.at) / 1000))); } catch (e) {} }; v.addEventListener('seeked', function () { try { var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} }, { once: true }); v.addEventListener('playing', function () { b.classList.add('vid'); }); v.addEventListener('error', function () { b.classList.add('novid'); v.remove(); }); if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true }); return; } if (f) { b.classList.add('fast'); b._fast = true; v.remove(); var s = b.querySelector('svg'), el = Date.now() - (+f || 0); if (s && el > 0 && el < 10000) s.style.animationDelay = (-el) + 'ms'; return; } v.addEventListener('playing', function () { b.classList.add('vid'); }); v.addEventListener('error', function () { v.remove(); }); try { var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} })();</script>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
 <symbol id="fa-xmark" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 <symbol id="fa-trophy" viewBox="0 0 24 24"><path d="M7 3.5h10V9a5 5 0 0 1-10 0z" fill="currentColor"/><path d="M7 5.5H5a2.4 2.4 0 0 0 .6 4.7H7.6M17 5.5h2a2.4 2.4 0 0 1-.6 4.7h-2M12 14v3.6M8 21h8M9.6 17.6h4.8l.7 3.4H8.9z"/></symbol>
@@ -1667,7 +1707,7 @@ html.light .hm-hero:after{opacity:.55}
 <symbol id="fa-user-xmark" viewBox="0 0 24 24"><path d="M15 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M12.5 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM17 8l5 5M22 8l-5 5"/></symbol>
 <symbol id="fa-check-double" viewBox="0 0 24 24"><path d="m2 12 5 5L18 6M12 16l1 1L22 8"/></symbol>
 <symbol id="fa-lift-bench" viewBox="0 0 24 24"><circle cx="8" cy="5.6" r="3.6"/><circle cx="8" cy="5.6" r=".9" fill="currentColor" stroke="none"/><path d="M8 9.2v4.4" stroke-width="2.2"/><circle cx="4" cy="13.4" r="1.9" fill="currentColor" stroke="none"/><path d="M6.6 13.8h6.6l3.9-1.1.5 7.8" stroke-width="2.4"/><path d="M2.2 16.4h13.6M4.6 16.4V21M13.4 16.4V21"/></symbol>
-<symbol id="fa-lift-squat" viewBox="0 0 24 24"><circle cx="12.4" cy="4.4" r="1.8" fill="currentColor"/><path d="M4 8h16" stroke-width="1.6"/><rect x="3.2" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><rect x="18.6" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><path d="M12.2 8.4 10.8 13.6l4.8 1.4-1.2 5.6M10.8 13.6l-2.4 2 .6 4.6M10 8.6 8.6 8" stroke-width="2.2"/></symbol>
+<symbol id="fa-lift-ohp" viewBox="0 0 24 24"><path d="M3 3.2h18" stroke-width="1.6"/><rect x="2.2" y="1" width="2" height="4.4" rx=".6" fill="currentColor"/><rect x="19.8" y="1" width="2" height="4.4" rx=".6" fill="currentColor"/><circle cx="12" cy="8" r="1.8" fill="currentColor"/><path d="M7.2 3.4 9 10.2h6l1.8-6.8M12 10.2v5.2l-2.8 5.6M12 15.4l2.8 5.6" stroke-width="2.2"/></symbol><symbol id="fa-lift-pull" viewBox="0 0 24 24"><path d="M2.4 2.8h19.2" stroke-width="2"/><circle cx="12" cy="7" r="1.8" fill="currentColor"/><path d="M7.4 3 8.6 7.6l1.4 2.2h4l1.4-2.2 1.2-4.6M12 9.8v5.4l-1.8 5.6M12 15.2l1.8 5.6" stroke-width="2.2"/></symbol><symbol id="fa-lift-dip" viewBox="0 0 24 24"><path d="M4.4 10.4V21M19.6 10.4V21M2.8 10.4h3.4M17.8 10.4h3.4" stroke-width="1.8"/><circle cx="12" cy="4.4" r="1.8" fill="currentColor"/><path d="M4.8 10.4 9.2 8h5.6l4.4 2.4M12 7.8v6.6l-2.2 3.4 3 2.8" stroke-width="2.2"/></symbol><symbol id="fa-lift-row" viewBox="0 0 24 24"><circle cx="5.6" cy="6.4" r="1.8" fill="currentColor"/><path d="M7.4 8.2 15.6 10.8l-.6 4.8.8 5M15.6 10.8l2.6 4.4-.4 5.4M9.2 9 9.8 14.4" stroke-width="2.2"/><path d="M2.6 15.6h12.6" stroke-width="1.6"/><circle cx="3.8" cy="15.6" r="2.3" fill="currentColor" stroke="none"/><circle cx="13.6" cy="15.6" r="2.3" fill="currentColor" stroke="none"/></symbol><symbol id="fa-lift-incline" viewBox="0 0 24 24"><g transform="rotate(-22 11 13)"><circle cx="8" cy="5.6" r="3.6"/><circle cx="8" cy="5.6" r=".9" fill="currentColor" stroke="none"/><path d="M8 9.2v4.4" stroke-width="2.2"/><circle cx="4" cy="13.4" r="1.9" fill="currentColor" stroke="none"/><path d="M6.6 13.8h6.6l3.9-1.1" stroke-width="2.4"/></g><path d="M5 20.6h14M8 20.6l2-4.6M16 20.6V12" stroke-width="1.8"/></symbol><symbol id="fa-lift-squat" viewBox="0 0 24 24"><circle cx="12.4" cy="4.4" r="1.8" fill="currentColor"/><path d="M4 8h16" stroke-width="1.6"/><rect x="3.2" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><rect x="18.6" y="5.2" width="2.2" height="5.6" rx=".7" fill="currentColor"/><path d="M12.2 8.4 10.8 13.6l4.8 1.4-1.2 5.6M10.8 13.6l-2.4 2 .6 4.6M10 8.6 8.6 8" stroke-width="2.2"/></symbol>
 <symbol id="fa-lift-dead" viewBox="0 0 24 24"><circle cx="7.6" cy="6" r="1.8" fill="currentColor"/><path d="M9.2 7.8 15.6 11.4 15 15.6l.6 4.8M15.6 11.4l2.4 4 -.6 4.8M10.4 8.6v7" stroke-width="2.2"/><path d="M3 16.4h15" stroke-width="1.6"/><circle cx="4.6" cy="16.4" r="3" fill="currentColor" stroke="none" opacity=".9"/><circle cx="16.6" cy="16.4" r="3" fill="currentColor" stroke="none" opacity=".9"/></symbol>
 <symbol id="fa-language" viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c.8 3.5 3 6 6 7.5M11 5c-.8 3.5-3.4 6.4-7 8"/><path d="M12.5 21 16.5 11l4 10M13.8 18h5.4"/></symbol>
 <symbol id="fa-house" viewBox="0 0 24 24"><path d="M3 10a2 2 0 0 1 .7-1.53l7-6a2 2 0 0 1 2.6 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M15 21v-7a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v7"/></symbol>
@@ -1736,7 +1776,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '52',
+  APP_VERSION: '53',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -2284,7 +2324,7 @@ const Calc = {
     const best = Calc.bestE1rm(lift.exerciseName, Calc.validLifts().filter(l => l.id !== lift.id && l.date < lift.date));
     return best > 0 && lift.e1rm > best * (1 + CONFIG.CHEAT_JUMP);
   },
-  liftsOn(day) { return S.lifts.filter(l => l.date === day); },
+  liftsOn(day) { return S.lifts.filter(l => l.date === day && !l.baseline); }, // v53: стартовые силовые — не подходы тренировки
   liftCapError(exName, weightKg, e1rm) { // античит: нереальные веса не принимаем
     const info = U.exInfo(exName), bw = S.profile.bodyweight || 70;
     if (info.bodyweight) return weightKg > 200 || e1rm > bw * 3.5 ? 'Нереальный вес для этого упражнения' : null;
@@ -2458,6 +2498,15 @@ const Game = {
     }
   },
   /* --- тренировки --- */
+  // v53: стартовые силовые после регистрации — точка отсчёта для рекордов: не тренировка, не рекорд, без кубков; античит как у обычного подхода
+  logBaseline({ exerciseName, weight, reps }) {
+    exerciseName = U.normalizeExercise(exerciseName); weight = +weight; reps = U.clamp(parseInt(reps) || 1, 1, 30); if (!(weight > 0)) return null;
+    const rmCategory = Calc.rmByReps(reps), lift = { id: U.uid(), exerciseName, weight, rmCategory, reps, e1rm: +Calc.e1rm(weight + (U.exInfo(exerciseName).bodyweight ? (S.profile.bodyweight || 70) : 0), rmCategory, reps).toFixed(1), date: U.today(), ts: Date.now(), isPR: false, flagged: false, verified: true, baseline: true };
+    if (Calc.liftCapError(exerciseName, weight, lift.e1rm)) return null;
+    const why = Calc.reviewReasons(lift); if (why.length) { lift.review = 'pending'; lift.reviewWhy = why; lift.flagged = true; lift.verified = false; }
+    S.lifts.push(lift); if (!lift.flagged) { const pb = S.game.paidBest || (S.game.paidBest = {}); pb[exerciseName] = Math.max(pb[exerciseName] || 0, lift.e1rm); }
+    return lift;
+  },
   logLift({ exerciseName, weight, rmCategory, date, reps, warmup }) {
     exerciseName = U.normalizeExercise(exerciseName);
     rmCategory = CONFIG.RM_CATS.includes(rmCategory) ? rmCategory : '1RM';
@@ -2821,6 +2870,30 @@ const Game = {
   boot() { if (!S.v41bo) { S.v41bo = 1; S.battleOpen = true; } { const s = S.game.season; if (s && !s.v29) { s.v29 = 1; s.enabled = true; } } if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); this.settleDays(); save(); },
 };
 
+/* ------------------- v53: базовые лифты профиля и уровни рекордов ------------------- */
+Object.assign(Calc, {
+  TOP_LIFTS: [
+    { k: 'bench', ex: 'Bench Press', ic: 'fa-lift-bench', c: '#0A84FF', name: 'Жим лёжа' },
+    { k: 'squat', ex: 'Squat', ic: 'fa-lift-squat', c: '#34C759', name: 'Присед' },
+    { k: 'deadlift', ex: 'Deadlift', ic: 'fa-lift-dead', c: '#FF9F0A', name: 'Становая тяга' },
+    { k: 'ohp', ex: 'Overhead Press', ic: 'fa-lift-ohp', c: '#FF375F', name: 'Жим стоя' },
+    { k: 'pull', ex: 'Pull-ups', ic: 'fa-lift-pull', c: '#64D2FF', name: 'Подтягивания' },
+    { k: 'dip', ex: 'Dips', ic: 'fa-lift-dip', c: '#BF5AF2', name: 'Брусья' },
+    { k: 'row', ex: 'Barbell Row', ic: 'fa-lift-row', c: '#FFD60A', name: 'Тяга в наклоне' },
+    { k: 'incline', ex: 'Incline Bench', ic: 'fa-lift-incline', c: '#5E5CE6', name: 'Жим на наклонной' },
+    { k: 'rdl', ex: 'Romanian Deadlift', ic: 'fa-lift-dead', c: '#FF6B35', name: 'Румынская тяга' },
+  ],
+  topLiftInfo(ex) { return Calc.TOP_LIFTS.find(t => t.ex === ex) || { ex, ic: 'fa-dumbbell', c: '#94A3B8', name: U.exRu(ex) }; },
+  top3() { const ok = ex => Calc.TOP_LIFTS.some(t => t.ex === ex); const xs = (Array.isArray(S.profile.top3) ? S.profile.top3 : []).filter(ok); return (xs.length ? xs : ['Bench Press', 'Squat', 'Deadlift']).slice(0, 3); },
+  // уровень рекорда по силе относительно веса тела (индекс силы): 0 обычный, 1 бронза … 5 легенда
+  PR_TIERS: [null, ['Бронза', '#C98A4B'], ['Серебро', '#B4C0CF'], ['Золото', '#F5B83D'], ['Платина', '#A78BFA'], ['Легенда', '#F43F5E']],
+  prTier(e1rm, bw, ex, sex) {
+    if (!(bw > 0) || !(e1rm > 0)) return 0; const info = U.exInfo(ex);
+    let ps = Calc.powerScore(e1rm, bw, info.mult || CONFIG.DEFAULT_MULT); if (info.bodyweight) ps *= 0.8; if (sex === 'f') ps /= CONFIG.FEMALE_BOSS_FACTOR || 0.65;
+    return ps >= 300 ? 5 : ps >= 250 ? 4 : ps >= 200 ? 3 : ps >= 150 ? 2 : ps >= 100 ? 1 : 0;
+  },
+});
+
 /* ------------------- v52: честные нормы для кубков ------------------- */
 Object.assign(Calc, {
   // личные цели можно ставить любые, но кубки считаются по общей норме: заниженная цель их не даёт, у всех правила одни
@@ -2897,7 +2970,7 @@ Object.assign(Calc, {
     parts.push({ id: 'sleep', name: 'Сон', icon: 'fa-moon', color: '#8B5CF6', pct: sl ? Calc.sleepScore(sl.hours) : 0, sub: sl ? `${sl.hours} ч · норма ${lo}–${hi} ч` : 'сон не записан', tip: `Запиши сон: ${lo}–${hi} ч дают 100%` });
     const wml = Calc.waterCounted(k), wg = g.water; // v52: в зачёт не больше 1 л воды в час — «10 стаканов разом» не считаются
     parts.push({ id: 'water', name: 'Вода', icon: 'fa-droplet', color: '#38BDF8', pct: U.clamp(Math.round(wml / wg * 100), 0, 100), sub: `${L(wml)} из ${L(wg)} л`, tip: `Допей воду: осталось ${L(Math.max(0, wg - wml))} л` });
-    const done = S.game.countedWorkoutDays.includes(k), lifts = S.lifts.some(l => l.date === k && !l.flagged && live(l.ts)), burn = (S.nutrition.burn || []).some(x => x.date === k && live(x.ts)), planned = !!S.program.days[Calc.weekday(k)];
+    const done = S.game.countedWorkoutDays.includes(k), lifts = S.lifts.some(l => l.date === k && !l.flagged && !l.baseline && live(l.ts)), burn = (S.nutrition.burn || []).some(x => x.date === k && live(x.ts)), planned = !!S.program.days[Calc.weekday(k)];
     if (done || lifts || burn || planned) parts.push({ id: 'move', name: 'Активность', icon: 'fa-dumbbell', color: '#10B981', pct: done ? 100 : lifts || burn ? 70 : 0, sub: done ? 'тренировка засчитана' : lifts ? 'были подходы' : burn ? 'активность записана' : 'по плану тренировка', tip: 'Сделай тренировку по плану' });
     const score = Math.round(parts.reduce((a, p) => a + p.pct, 0) / parts.length), TS = CONFIG.DAY_Q.TIERS;
     const tier = TS.find(t => score >= t.min) || null, next = TS.slice().reverse().find(t => t.min > score) || null;
@@ -3786,6 +3859,7 @@ const ClanService = {
   online() { return typeof Net !== 'undefined' && Net.online(); },
   clans() { return this.online() ? Net.d.clans : this.mock(); },
   mock() {
+    return []; // v53: никаких выдуманных игроков и кланов — без сервера просто пусто
     if (this.MOCK) return this.MOCK;
     const names = ['Iron Wolves', 'Night Lifters', 'Barbell Bros', 'Titan Squad', 'Apex Hunters', 'Deadlift Cult', 'Steel Phoenix'];
     const emblems = ['fa-dragon|#8B5CF6', 'fa-moon|#3B82F6', 'fa-mountain|#10B981', 'fa-bolt|#F59E0B', 'fa-crown|#F97316', 'fa-khanda|#EF4444', 'fa-fire|#F97316'];
@@ -3863,10 +3937,11 @@ const ClanService = {
   incoming() { return this.online() ? (Net.d.requests || []).filter(r => r.status === 'pending' && r.to_id === Net.uid && Net.d.byId[r.from_id]) : []; },
   // данные игрока для мини-профиля: онлайн из profiles, офлайн из демо
   player(id) {
-    if (id === 'me' || (this.online() && id === Net.uid)) return { id: 'me', self: true, nick: S.profile.nickname || 'Ты', arenaIdx: S.game.arenaIdx, trophies: S.game.trophies, sex: S.profile.sex, photo: S.profile.avatar.photo, title: (U.shopItem(S.profile.avatar.title) || {}).name, titleStyle: S.profile.avatar.tstyle, ptheme: S.profile.avatar.ptheme, pframe: S.profile.avatar.pframe, clan: S.clan ? { id: S.clan.id, name: S.clan.name, emblem: S.clan.emblem, photo: S.clan.photo } : null, lifts: Calc.topLifts(3).map(t => ({ ex: t.ex, value: t.weight, reps: t.reps })) };
+    if (id === 'me' || (this.online() && id === Net.uid)) return { id: 'me', self: true, nick: S.profile.nickname || 'Ты', arenaIdx: S.game.arenaIdx, trophies: S.game.trophies, sex: S.profile.sex, photo: S.profile.avatar.photo, title: (U.shopItem(S.profile.avatar.title) || {}).name, titleStyle: S.profile.avatar.tstyle, ptheme: S.profile.avatar.ptheme, pframe: S.profile.avatar.pframe, clan: S.clan ? { id: S.clan.id, name: S.clan.name, emblem: S.clan.emblem, photo: S.clan.photo } : null, lifts: Calc.top3().map(ex => { const b = Calc.bestLift(ex); return b ? { ex, value: b.weight, reps: b.reps } : null; }).filter(Boolean) };
     if (this.online()) {
       const p = Net.d.byId && Net.d.byId[id]; if (!p) return null; const c = Net.d.clans.find(x => x.id === p.clanId);
-      const lifts = Object.entries(p.bests || {}).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([ex, v]) => ({ ex, value: v, reps: 0 }));
+      const pinned = [1, 2, 3].map(i => Calc.TOP_LIFTS[(+(p.boss || {})['t' + i] || 0) - 1]).filter(Boolean).map(t => t.ex).filter(ex => (p.bests || {})[ex] > 0); // v53: лифты, которые игрок выбрал сам
+      const lifts = (pinned.length ? pinned.map(ex => [ex, p.bests[ex]]) : Object.entries(p.bests || {}).sort((a, b) => b[1] - a[1]).slice(0, 3)).map(([ex, v]) => ({ ex, value: v, reps: 0 }));
       return { id, nick: p.nick, arenaIdx: p.arenaIdx, trophies: p.trophies, sex: p.sex, photo: p.avatar, title: p.title, clan: c ? { id: c.id, name: c.name, emblem: c.emblem, photo: c.photo } : null, titleStyle: p.titleStyle, ptheme: U.styleById(p.boss && p.boss.pt, 'ptheme'), pframe: U.styleById(p.boss && p.boss.pf, 'pframe'), lifts };
     }
     let found = null; this.mock().forEach((c, ci) => c.members.forEach((m, mi) => { if (m.id === id) found = { m, c, seed: ci * 100 + mi }; })); if (!found) return null;
@@ -3878,7 +3953,7 @@ const ClanService = {
     if (this.online()) return (Net.d.feed || []).map(f => { const p = Net.d.byId[f.user_id]; return p ? { id: f.id, uid: f.user_id === Net.uid ? 'me' : f.user_id, self: f.user_id === Net.uid, nick: p.nick, photo: p.avatar, sex: p.sex, ex: f.ex, weight: +f.weight, reps: f.reps || 1, ts: new Date(f.created_at).getTime() } : null; }).filter(Boolean);
     const bucket = Math.floor(Date.now() / 216e5), base = bucket * 216e5; // демо-лента меняется раз в 6 часов
     const out = [], r = this._seed(bucket % 100000), exs = ['Bench Press', 'Squat', 'Deadlift', 'Overhead Press', 'Barbell Row'];
-    const players = this.allPlayers(); for (let i = 0; i < 9; i++) { const p = players[Math.floor(r() * players.length)], ex = exs[Math.floor(r() * exs.length)]; const pl = this.player(p.id); out.push({ id: 'mf' + i, uid: p.id, nick: p.nick, photo: null, sex: pl ? pl.sex : 'm', ex, weight: Math.round((this.friendRecord({ id: p.id }, ex) || 80) / 2.5) * 2.5, reps: 1 + Math.floor(r() * 3), ts: base - Math.round((i * 3 + r() * 3) * 36e5) }); }
+    const players = []; for (let i = 0; i < 0; i++) { const p = players[Math.floor(r() * players.length)], ex = exs[Math.floor(r() * exs.length)]; const pl = this.player(p.id); out.push({ id: 'mf' + i, uid: p.id, nick: p.nick, photo: null, sex: pl ? pl.sex : 'm', ex, weight: Math.round((this.friendRecord({ id: p.id }, ex) || 80) / 2.5) * 2.5, reps: 1 + Math.floor(r() * 3), ts: base - Math.round((i * 3 + r() * 3) * 36e5) }); }
     S.lifts.filter(l => l.isPR && !l.flagged && l.ts > Date.now() - 7 * 864e5).forEach(l => out.push({ id: l.id, uid: 'me', self: true, nick: S.profile.nickname || 'Ты', photo: S.profile.avatar.photo, sex: S.profile.sex, ex: l.exerciseName, weight: l.weight, reps: l.reps, ts: l.ts }));
     return out.sort((a, b) => b.ts - a.ts).slice(0, 20);
   },
@@ -4069,9 +4144,24 @@ const ClanService = {
   },
   async mmLeave() { if (this.online()) { try { await Net.rpc('duel_queue_leave'); } catch (_) {} } },
   // сколько людей (кроме меня) сейчас ищут дуэль
+  // v53: место в рейтинге по упражнению до и после рекорда (жим/присед/тяга — как в «Рекордах», остальные — по лучшим подходам игроков)
+  liftRankChange(lift) {
+    if (!this.online() || !lift) return null;
+    const ex = lift.exerciseName, kind = U.exInfo(ex).boss, exs = kind ? Calc.exerciseNames().filter(e => U.exInfo(e).boss === kind) : [ex];
+    const prev = Math.max(0, ...exs.map(e => Calc.bestE1rm(e, Calc.validLifts().filter(l => l.id !== lift.id)))), now = Math.max(prev, +lift.e1rm || 0);
+    const vals = (Net.d.players || []).filter(p => !p.self && p.id !== Net.uid).map(p => kind ? +(p.boss || {})[kind] || 0 : +(p.bests || {})[ex] || 0).filter(v => v > 0);
+    const rank = v => 1 + vals.filter(x => x > v).length, before = prev > 0 ? rank(prev) : null, after = rank(now);
+    return { before, after, up: before ? Math.max(0, before - after) : 0, total: vals.length + 1, name: kind ? { bench: 'Жим лёжа', squat: 'Присед', deadlift: 'Становая тяга' }[kind] : U.exRu(ex), ex, kind };
+  },
+  liftBoardRows(ex) {
+    const kind = U.exInfo(ex).boss, exs = kind ? Calc.exerciseNames().filter(e => U.exInfo(e).boss === kind) : [ex], rows = [];
+    if (this.online()) (Net.d.players || []).filter(p => !p.self && p.id !== Net.uid).forEach(p => { const v = kind ? +(p.boss || {})[kind] || 0 : +(p.bests || {})[ex] || 0; if (v > 0) rows.push({ id: p.id, nick: p.nick, photo: p.avatar, sex: p.sex, arenaIdx: p.arenaIdx || 0, v }); });
+    rows.push({ id: 'me', self: true, nick: S.profile.nickname || 'Ты', arenaIdx: S.game.arenaIdx, v: Math.round(Math.max(0, ...exs.map(e => Calc.bestE1rm(e)))) });
+    return rows.sort((a, b) => b.v - a.v);
+  },
   queueCount() {
     if (this.online()) return (Net.d.queue || []).filter(q => q.user_id !== Net.uid && Date.now() - new Date(q.updated_at).getTime() < 60000).length;
-    const r = this._seed(Math.floor(Date.now() / 180000)); const x = r(); return x < .45 ? 0 : x < .8 ? 1 : x < .95 ? 2 : 3;
+    return 0; // v53: без сервера никто не ищет соперника
   },
   histPush(r, kind) {
     const h = S.duelHist || (S.duelHist = []), o = r.opponent || {};
@@ -4283,14 +4373,14 @@ const Social = {
   author(uid) { const p = ClanService.player(uid) || (typeof Activity !== 'undefined' && Activity.people[uid]) || {}; return { nick: p.nick || '?', photo: p.photo || null, sex: p.sex || 'm', arenaIdx: p.arenaIdx || 0 }; },
   norm(r) { // строка posts → пост для интерфейса
     const self = r.user_id === Net.uid, uid = self ? 'me' : r.user_id, a = this.author(uid);
-    return { id: r.id, uid, self, ...a, kind: r.kind || 'post', body: r.body || '', tags: r.tags || [], img: r.photo || null, video: r.video || null, ex: r.ex, weight: r.weight != null ? +r.weight : null, reps: r.reps || 1, likes: r.like_count || 0, liked: this.liked.has(r.id), comments: r.comment_count || 0, views: r.view_count || 0, ts: new Date(r.created_at).getTime() };
+    return { id: r.id, uid, self, ...a, prTier: r.pr_tier != null ? r.pr_tier : null, kind: r.kind || 'post', body: r.body || '', tags: r.tags || [], img: r.photo || null, video: r.video || null, ex: r.ex, weight: r.weight != null ? +r.weight : null, reps: r.reps || 1, likes: r.like_count || 0, liked: this.liked.has(r.id), comments: r.comment_count || 0, views: r.view_count || 0, ts: new Date(r.created_at).getTime() };
   },
   // демо-лента: рекорды демо-игроков + несколько текстовых постов + свои локальные посты
   demo() {
     const L = this.local(), out = [];
-    ClanService.feed().forEach(f => { if (f.self) return; out.push({ id: 'd_' + f.id, uid: f.uid, self: false, ...this.author(f.uid), kind: 'pr', body: '', tags: ['pr', this.exTag(f.ex)], img: null, ex: f.ex, weight: f.weight, reps: f.reps, likes: 3 + (f.weight | 0) % 17, comments: (f.weight | 0) % 4, ts: f.ts }); });
+    [].forEach(f => { if (f.self) return; out.push({ id: 'd_' + f.id, uid: f.uid, self: false, ...this.author(f.uid), kind: 'pr', body: '', tags: ['pr', this.exTag(f.ex)], img: null, ex: f.ex, weight: f.weight, reps: f.reps, likes: 3 + (f.weight | 0) % 17, comments: (f.weight | 0) % 4, ts: f.ts }); });
     const texts = ['Утренняя тренировка ног закрыта 🔥 #ноги #утро', 'Кто ещё сушится к лету? Делюсь: 2400 ккал, 180 г белка #сушка #питание', 'Первый раз 3 тренировки за неделю! #прогресс #мотивация', 'Совет дня: спите 8 часов, рост силы заметнее #сон #восстановление', 'Новый рекорд в тяге скоро, чувствую 💪 #становая #мотивация'];
-    const ps = ClanService.allPlayers(), r = ClanService._seed(Math.floor(Date.now() / 864e5) % 1000);
+    const ps = [], r = ClanService._seed(Math.floor(Date.now() / 864e5) % 1000); // v53: без постов от выдуманных игроков
     texts.forEach((t, i) => { const p = ps[Math.floor(r() * ps.length)]; if (!p) return; const pl = ClanService.player(p.id) || {}; out.push({ id: 'dt' + i, uid: p.id, self: false, ...this.author(p.id), kind: 'post', body: t, tags: this.parseTags(t), img: null, likes: 5 + i * 3, comments: i % 3, ts: Date.now() - (i * 5 + 2) * 36e5 }); });
     L.posts.forEach(p => out.push({ ...p, uid: 'me', self: true, nick: S.profile.nickname || 'Ты', photo: S.profile.avatar.photo, sex: S.profile.sex }));
     out.forEach(p => { p.views = (p.views || (!p.self && (p.video || p.vkey) ? 7 + (p.likes || 0) * 4 : 0)) + (L.views && L.views[p.id] ? 1 : 0); const lk = L.likes[p.id]; if (lk) { p.liked = true; p.likes += p.self ? 0 : 1; } if (p.self) p.likes = lk ? 1 : 0; p.comments = (p.comments || 0) + (L.comments[p.id] || []).length; });
@@ -4369,9 +4459,11 @@ const Social = {
     caption = String(caption || '').trim().slice(0, 300); const bad = caption ? this.check(caption) : null; if (bad) return { error: bad };
     const tags = ['pr', this.exTag(lift.exerciseName), ...this.parseTags(caption)].filter((t, i, a) => t && a.indexOf(t) === i).slice(0, 10);
     if (this.online()) {
-      const { error } = await Net.client.from('posts').insert({ user_id: Net.uid, kind: 'post', body: caption, tags, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 });
+      const tier = Calc.prTier(lift.e1rm, S.profile.bodyweight, lift.exerciseName, S.profile.sex), row = { user_id: Net.uid, kind: 'post', body: caption, tags, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1, pr_tier: tier };
+      let { error } = await Net.client.from('posts').insert(row);
+      if (error && /pr_tier/.test(error.message || '')) { delete row.pr_tier; ({ error } = await Net.client.from('posts').insert(row)); } // сервер без update_v53.sql
       if (error) return { error: Net.err(error) };
-    } else this.local().posts.push({ id: 'lp_' + U.uid(), kind: 'post', body: caption, tags, img: null, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1, likes: 0, comments: 0, ts: Date.now() });
+    } else this.local().posts.push({ id: 'lp_' + U.uid(), kind: 'post', body: caption, tags, img: null, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1, prTier: Calc.prTier(lift.e1rm, S.profile.bodyweight, lift.exerciseName, S.profile.sex), likes: 0, comments: 0, ts: Date.now() });
     lift.posted = Date.now(); tags.forEach(t => this.rememberTag(t));
     Game.award('post:' + U.today(), CONFIG.TROPHY.POST_DAY, 'Пост в сообществе'); save(); this.load(true); return { ok: true };
   },
@@ -4401,7 +4493,7 @@ const Social = {
       return { items: (data || []).filter(c => !c.hidden).map(c => { const self = c.user_id === Net.uid, uid = self ? 'me' : c.user_id; return { id: c.id, uid, self, ...this.author(uid), body: c.body, ts: new Date(c.created_at).getTime() }; }) };
     }
     const L = this.local(), p = this.find(id) || {}, demo = [];
-    if (!p.self && !String(id).startsWith('lp_')) { const ps = ClanService.allPlayers(), r = ClanService._seed(String(id).split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 7) % 9999), lines = ['Мощно! 🔥', 'Красава, так держать', 'Сколько весишь сам?', 'Вот это прогресс 💪', 'Скоро догоню 😅'];
+    if (false) { const ps = ClanService.allPlayers(), r = ClanService._seed(String(id).split('').reduce((a, c) => a * 31 + c.charCodeAt(0), 7) % 9999), lines = ['Мощно! 🔥', 'Красава, так держать', 'Сколько весишь сам?', 'Вот это прогресс 💪', 'Скоро догоню 😅'];
       for (let i = 0; i < Math.max(0, (p.comments || 0) - (L.comments[id] || []).length); i++) { const pl = ps[Math.floor(r() * ps.length)]; if (pl) demo.push({ id: 'dc' + i, uid: pl.id, self: false, ...this.author(pl.id), body: lines[Math.floor(r() * lines.length)], ts: (p.ts || Date.now()) + (i + 1) * 9e5 }); } }
     return { items: demo.concat((L.comments[id] || []).map(c => ({ ...c, uid: 'me', self: true, nick: S.profile.nickname || 'Ты', photo: S.profile.avatar.photo, sex: S.profile.sex }))) };
   },
@@ -4491,7 +4583,7 @@ const Follow = {
     if (uid === 'me') c = this.online() ? { fers: this.fers.size, fing: this.set.size } : { fers: 0, fing: this.local().length };
     else if (this.online()) {
       try { const [a, b] = await Promise.all([Net.client.from('follows').select('follower_id', { count: 'exact', head: true }).eq('followee_id', uid), Net.client.from('follows').select('followee_id', { count: 'exact', head: true }).eq('follower_id', uid)]); c = { fers: a.count || 0, fing: b.count || 0 }; } catch (_) { c = { fers: 0, fing: 0 }; }
-    } else { const h = String(uid).split('').reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) % 9973, 7); c = { fers: h % 140 + (this.has(uid) ? 1 : 0), fing: h % 37 }; }
+    } else c = { fers: 0, fing: 0 }; // v53: без сервера счётчиков нет — никаких выдуманных цифр
     c.at = Date.now(); this.cnt[uid] = c; return c;
   },
   // рекомендации: друзья, потом сильные игроки, на кого ещё не подписан
@@ -4776,6 +4868,7 @@ const Net = {
     const bests = {}; Calc.exerciseNames().forEach(e => { const v = Math.round(Calc.bestE1rm(e)); if (v > 0) bests[e] = v; });
     const boss = {}; ['bench', 'squat', 'deadlift'].forEach(k => { const exs = Calc.exerciseNames().filter(e => U.exInfo(e).boss === k); boss[k] = Math.round(Math.max(0, ...exs.map(e => Calc.bestE1rm(e)))); });
     { const pt = U.styleNum(S.profile.avatar.ptheme, 'ptheme'), pf = U.styleNum(S.profile.avatar.pframe, 'pframe'); if (pt) boss.pt = pt; if (pf) boss.pf = pf; } // v31: оформление профиля для других игроков
+    Calc.top3().forEach((ex, i) => { const k = Calc.TOP_LIFTS.findIndex(t => t.ex === ex); if (k >= 0) boss['t' + (i + 1)] = k + 1; }); // v53: выбранные лифты профиля
     const wk = U.weekKey(), prev = U.weekKey(U.parseDay(U.addDays(U.today(), -7)));
     const title = U.shopItem(S.profile.avatar.title);
     const days = {}; for (let i = 0; i < 35; i++) { const d = U.addDays(U.today(), -i), x = Calc.dayStats(d); if (x.w || x.p) days[d] = x; }
@@ -5329,14 +5422,23 @@ const UI = {
   },
   avFrame(inner, frame, col, idx, size) { const f = frame && U.shopItem(frame) && U.shopItem(frame).type === 'pframe' ? frame : ''; if (!f && idx != null && size && !S.profile.calm) return this.rankFrame(inner, idx, size); return `<span class="pfr ${f}" style="--ring:${f ? col : 'var(--line)'}">${inner}</span>`; },
   // v40: жим, присед, тяга с рисунком; остальные рекорды — в раскрывающемся списке
+  // v53: три лифта на выбор (жим, присед, тяга, жим стоя, подтягивания, брусья…) — нажми, чтобы поменять
+  liftVal(ex, b) { if (!b) return '<b class="muted">—</b><span class="b3-r">&nbsp;</span>'; const bwx = U.exInfo(ex).bodyweight; if (bwx && !(+b.weight > 0)) return `<b class="num">${b.reps || 1}<small>повт.</small></b><span class="b3-r">свой вес</span>`; return `<b class="num">${bwx ? '+' + U.w(b.weight) : U.wEx(ex, b.weight)}<small>${U.wUnit()}</small></b><span class="b3-r num">×${b.reps || 1}${bwx ? ' · с весом' : ''}</span>`; },
   bigThree() {
-    const all = Calc.topLifts(99), kinds = [['bench', 'fa-lift-bench', '#0A84FF', 'Жим лёжа'], ['squat', 'fa-lift-squat', '#34C759', 'Присед'], ['deadlift', 'fa-lift-dead', '#FF9F0A', 'Становая тяга']];
-    const best = k => all.filter(t => U.exInfo(t.ex).boss === k).sort((a, b) => (b.e1rm || 0) - (a.e1rm || 0))[0];
-    const cell = ([k, ic, col, name]) => { const t = best(k); return `<button class="b3" data-action="tip" data-tip="${t ? `${U.exRu(t.ex)} · ${U.fmtDate(t.date)}` : `${name}: пока нет записи`}"><svg class="ic" style="color:${col}"><use href="#${ic}"/></svg>
-      ${t ? `<b class="num">${U.wEx(t.ex, t.weight)}<small>${U.wUnit()}</small></b><span class="b3-r num">×${t.reps}</span>` : '<b class="muted">—</b><span class="b3-r">&nbsp;</span>'}<span class="b3-n">${name}</span></button>`; };
-    const rest = all.filter(t => !['bench', 'squat', 'deadlift'].includes(U.exInfo(t.ex).boss));
-    return `<div class="pf-sec"><svg class="ic text-amber-400"><use href="#fa-crown"/></svg> Лучшие лифты</div><div class="b3-row">${kinds.map(cell).join('')}</div>
+    const all = Calc.topLifts(99), pick = Calc.top3();
+    const cell = ex => { const t = Calc.topLiftInfo(ex), b = Calc.bestLift(ex); return `<button class="b3" data-action="top3-open"><svg class="ic" style="color:${t.c}"><use href="#${t.ic}"/></svg>${this.liftVal(ex, b)}<span class="b3-n">${t.name}</span></button>`; };
+    const rest = all.filter(t => !pick.includes(t.ex));
+    return `<div class="pf-sec flex items-center justify-between"><span><svg class="ic text-amber-400"><use href="#fa-crown"/></svg> Лучшие лифты</span><button class="b3-edit" data-action="top3-open"><svg class="ic"><use href="#fa-pen"/></svg> Выбрать</button></div><div class="b3-row">${pick.map(cell).join('')}</div>
       ${rest.length ? `<details class="b3-more"><summary><span>Другие рекорды</span><b class="num">${rest.length}</b><svg class="ic"><use href="#fa-chevron-down"/></svg></summary>${rest.map(t => `<div class="b3-li"><span class="truncate">${U.esc(U.exRu(t.ex))}</span><b class="num">${U.wEx(t.ex, t.weight)} <small>${U.wUnit()} × ${t.reps}</small></b></div>`).join('')}</details>` : ''}`;
+  },
+  openTop3() {
+    const sel = this._t3 = (this._t3 || Calc.top3()).slice(0, 3);
+    const row = t => { const b = Calc.bestLift(t.ex), i = sel.indexOf(t.ex); return `<button class="t3-row ${i >= 0 ? 'on' : ''}" data-action="top3-toggle" data-ex="${U.esc(t.ex)}" data-key="t3${t.k}"><span class="wz-lic" style="color:${t.c};background:${t.c}1F"><svg class="ic"><use href="#${t.ic}"/></svg></span><span class="flex-1 min-w-0 text-left"><b class="block text-sm truncate">${t.name}</b><small class="muted text-[11px]">${b ? (U.exInfo(t.ex).bodyweight && !(+b.weight > 0) ? `${b.reps} повт. со своим весом` : (U.exInfo(t.ex).bodyweight ? `+${U.w(b.weight)} ${U.wUnit()} доп. веса × ${b.reps || 1}` : `${U.wEx(t.ex, b.weight)} ${U.wUnit()} × ${b.reps || 1}`)) : 'пока нет записи'}</small></span><span class="t3-n">${i >= 0 ? i + 1 : ''}</span></button>`; };
+    const html = `<div class="flex items-center justify-between mb-1"><div class="font-bold text-lg"><svg class="ic text-amber-400"><use href="#fa-crown"/></svg> Лифты в профиле</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <div class="text-xs muted mb-3">Выбери 3 — их увидят другие игроки в твоём профиле. Выбрано: <b class="num">${sel.length}</b> из 3</div>
+      <div class="t3-list">${Calc.TOP_LIFTS.map(row).join('')}</div>
+      <div class="grid grid-cols-2 gap-2 mt-4"><button class="btn btn-ghost" data-action="close-modal">Отмена</button><button class="btn btn-primary" data-action="top3-save" ${sel.length ? '' : 'disabled'}><svg class="ic"><use href="#fa-check"/></svg> Сохранить</button></div>`;
+    const m = this.$('#modal .modal'); if (m && this._t3Open) this.morph(m, html); else { this.modal(html); this._t3Open = true; }
   },
   // v40: подсказка по нажатию вместо мелких подписей
   tip(el, text) {
@@ -5673,7 +5775,7 @@ const UI = {
       <div class="card p-4 mb-4">
         <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-user-plus"/></svg> ${T('add_friend')}</div><div class="text-[11px] muted">твой код: <b class="text-bl" data-action="copy" data-text="${ClanService.myFriendCode()}">${ClanService.myFriendCode()}</b></div></div>
         <div class="flex gap-2"><input class="input" id="friend-nick" data-draft placeholder="Ник или код друга" maxlength="24"><button class="btn btn-primary flex-none" data-action="friend-add"><svg class="ic"><use href="#fa-plus"/></svg></button></div>
-        ${ClanService.online() ? '<div class="text-[11px] muted mt-2">Игрок получит заявку и сможет её принять.</div>' : `<div class="text-xs muted mt-2">Демо-ники: ${ClanService.mock().slice(0, 2).map(c => c.members.slice(0, 2).map(m => `<b class="text-bl" data-action="fill-friend" data-val="${U.esc(m.nick)}">${U.esc(m.nick)}</b>`).join(', ')).join(', ')}.</div>`}
+        ${ClanService.online() ? '<div class="text-[11px] muted mt-2">Игрок получит заявку и сможет её принять.</div>' : '<div class="text-xs muted mt-2">Друзей можно добавить, когда будет связь с сервером.</div>'}
       </div>
       ${inc.length ? `<div class="card p-4 mb-4" style="border-color:#10B98166"><div class="font-bold mb-1"><svg class="ic text-em"><use href="#fa-bell"/></svg> Заявки в друзья <span class="muted text-xs">(${inc.length})</span></div>
         ${inc.map(r => { const p = pl(r.from_id); return `<div class="flex items-center gap-3 py-2 border-t line">${this.av(p, 36)}<div class="flex-1 min-w-0">${this.nick(r.from_id, p.nick, 'text-sm font-semibold block')}<div class="text-[11px] muted">${U.ago(new Date(r.created_at).getTime())}</div></div>
@@ -5886,7 +5988,7 @@ const UI = {
       </div>`;
     const lb = this.communityBoard();
     // v51: сначала люди и лента (подписки → рекорды горизонтально → посты вертикально), потом дуэли, друзья, клан и рейтинги
-    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента и рейтинги показывают примеры</div>') + this.peopleRow() + this.recordsStrip() + this.postsList() + tiles + this.clanHero() + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
+    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт</div>') + this.peopleRow() + this.recordsStrip() + this.postsList() + tiles + this.clanHero() + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
     if (this._page) this.renderPage();
     this.renderHeader();
   },
@@ -5922,7 +6024,7 @@ const UI = {
         <div class="text-[11px] muted mt-1" data-fc="${U.esc(id)}">${Follow.cnt[id] ? this.fcHtml(Follow.cnt[id]) : '&nbsp;'}</div>
         ${p.clan ? `<button class="clan-pill mt-1.5" data-action="clan-view" data-id="${U.esc(p.clan.id || '')}">${this.emblem(p.clan, 'w-5 h-5 text-[10px] rounded-md')}<span class="truncate">${U.esc(p.clan.name)}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>` : ''}</div>
         <button data-action="close-modal" class="muted self-start"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
-      ${p.lifts && p.lifts.some(l => l.value) ? `<div class="top3 mb-3">${p.lifts.filter(l => l.value).map(l => `<div><div class="font-black num text-lg leading-none">${U.w(l.value, 0)}</div><div class="text-[10px] muted">${unit}</div><div class="text-[10px] font-semibold mt-1 leading-tight line-clamp-2">${U.esc(U.exRu(l.ex))}</div></div>`).join('')}</div>` : '<div class="text-xs muted mb-3">Рекордов пока нет.</div>'}
+      ${p.lifts && p.lifts.some(l => l.value) ? `<div class="top3 mb-3">${p.lifts.filter(l => l.value).map(l => `<div>${(() => { const t = Calc.topLiftInfo(l.ex); return `<svg class="ic t3-ic" style="color:${t.c}"><use href="#${t.ic}"/></svg>`; })()}<div class="font-black num text-lg leading-none">${U.w(l.value, 0)}</div><div class="text-[10px] muted">${unit}</div><div class="text-[10px] font-semibold mt-1 leading-tight line-clamp-2">${U.esc(U.exRu(l.ex))}</div></div>`).join('')}</div>` : '<div class="text-xs muted mb-3">Рекордов пока нет.</div>'}
       <div class="grid grid-cols-2 gap-2">${btn}<button class="btn btn-or" data-action="duel-start" data-id="${U.esc(id)}" ${S.duel ? 'disabled' : ''}><svg class="ic"><use href="#fa-khanda"/></svg> Дуэль</button></div>
       <div class="grid grid-cols-2 gap-2 mt-2">${this.followBtn(id)}<button class="btn btn-ghost" data-action="user-posts" data-id="${U.esc(id)}"><svg class="ic"><use href="#fa-image"/></svg> Посты</button></div>
       ${S.clan && S.clan.role === 'leader' && ClanService.clanOthers().some(m => m.id === id) ? `<button class="btn btn-ghost w-full mt-2" data-action="clan-member-menu" data-id="${U.esc(id)}" data-role="${(ClanService.clanOthers().find(m => m.id === id) || {}).role || 'member'}"><svg class="ic"><use href="#fa-crown"/></svg> Управление в клане</button>` : ''}
@@ -6370,7 +6472,8 @@ const UI = {
           <div class="text-2xl font-black mt-1">${U.esc(U.exRu(lift.exerciseName))}</div>
           <div class="text-5xl font-black num mt-1 title-gold">${U.w(lift.weight)} <span class="text-xl">${U.wUnit()}</span></div>
           <div class="muted text-sm mt-1 num">${U.rmLabel(lift)} · <span>e1RM ${U.w(lift.e1rm, 0)} ${U.wUnit()}</span> · индекс ${ps}</div>
-          ${lift.paid ? `<div class="chip mt-3 text-amber-400">+${CONFIG.TROPHY.PR} ${this.trophyIcon} · +${CONFIG.XP.PR} XP</div>` : ''}
+          ${(() => { const t = Calc.prTier(lift.e1rm, S.profile.bodyweight, lift.exerciseName, S.profile.sex), TT = Calc.PR_TIERS[t]; return `<div class="flex flex-wrap justify-center gap-2 mt-3">${TT ? `<span class="prt-chip big prt-c${t}" style="--c:${TT[1]}"><svg class="ic"><use href="#fa-crown"/></svg> ${TT[0]}</span>` : ''}${lift.paid ? `<span class="chip text-amber-400">+${CONFIG.TROPHY.PR} ${this.trophyIcon} · +${CONFIG.XP.PR} XP</span>` : ''}</div>`; })()}
+          ${(() => { const rk = ClanService.liftRankChange(lift); if (!rk) return ''; return `<button class="pr-rank" data-action="pr-board" data-ex="${U.esc(lift.exerciseName)}">${rk.up > 0 ? `<span class="pr-up"><svg class="ic"><use href="#fa-arrow-up"/></svg> <b class="num">${rk.up}</b> ${U.plural(rk.up, 'место', 'места', 'мест')}</span>` : ''}<span>#<b class="num">${rk.after}</b> из <span class="num">${rk.total}</span> · ${U.esc(rk.name)}</span><svg class="ic"><use href="#fa-chevron-right"/></svg></button>`; })()}
         </div>
       </div>
       <div class="prp mt-4" id="prp">
@@ -6385,6 +6488,13 @@ const UI = {
     const ta = document.getElementById('pr-cap'), pv = document.getElementById('prp-prev');
     if (ta && pv) { const d = (this._prCap || {})[lift.id]; if (d) ta.value = d; const upd = () => { (this._prCap || (this._prCap = {}))[lift.id] = ta.value; pv.innerHTML = this.prPreview(lift, ta.value); }; if (d) upd(); ta.addEventListener('input', upd); }
     return true;
+  },
+  // v53: рейтинг по упражнению (из окна рекорда)
+  openLiftBoard(ex) {
+    const rows = ClanService.liftBoardRows(ex), info = Calc.topLiftInfo(ex), kind = U.exInfo(ex).boss, name = kind ? { bench: 'Жим лёжа', squat: 'Присед', deadlift: 'Становая тяга' }[kind] : U.exRu(ex);
+    this.modal(`<div class="flex items-center justify-between mb-3"><div class="font-bold text-lg flex items-center gap-2"><span class="wz-lic sm" style="color:${info.c};background:${info.c}1F"><svg class="ic"><use href="#${info.ic}"/></svg></span> ${U.esc(name)}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <div class="text-[11px] muted mb-3">Лучший результат, пересчитанный на 1 повтор · ${U.wUnit()}</div>
+      ${this.lbBoard(rows.map(r => this.lbPlayer(r, r.v, r.v ? `${U.w(r.v, 0)} <span class="text-[10px] muted">${U.wUnit()}</span>` : '–', r.arenaIdx != null ? TN(Calc.arena(r.arenaIdx).name) : '')), { limit: 50 })}`);
   },
   // как будет выглядеть пост с рекордом (та же карточка, что в ленте)
   fairNote() { const f = Calc.fairGoals(), L = v => (v / 1000).toFixed(1).replace(/\.0$/, ''); return `<div class="fair-note mb-3"><svg class="ic"><use href="#fa-trophy"/></svg><span>Кубки дня у всех считаются по одной норме: еда около <b class="num">${f.cals}</b> ккал, белок от <b class="num">${f.protein}</b> г, вода от <b class="num">${L(f.water)}</b> л (не больше 1 л в час). Цель ниже нормы можно ставить для себя, но кубков она не прибавит.</span></div>`; },
@@ -6567,7 +6677,7 @@ const UI = {
     this.modal(`
       <div class="font-bold text-lg mb-3"><svg class="ic text-bl"><use href="#fa-key"/></svg> Вступить по коду</div>
       <input class="input mb-2 uppercase" id="clan-code" placeholder="FLX100" autocapitalize="characters">
-      ${ClanService.online() ? '<div class="text-[11px] muted mb-4">Код даёт лидер или заместитель клана.</div>' : `<div class="text-[11px] muted mb-4">Демо-коды: ${ClanService.mock().slice(0, 4).map(c => `<b class="text-bl" data-action="fill-code" data-val="${c.code}">${c.code}</b>`).join(', ')}</div>`}
+      ${ClanService.online() ? '<div class="text-[11px] muted mb-4">Код даёт лидер или заместитель клана.</div>' : '<div class="text-[11px] muted mb-4">Вступить в клан можно, когда будет связь с сервером.</div>'}
       <button class="btn btn-primary w-full" data-action="clan-join">Вступить</button>`);
   },
   openMemberMenu(id, role) {
@@ -7020,12 +7130,14 @@ Object.assign(UI, {
   // v41: переключатель «Перевод» у чужих постов: вкл — текст на языке приложения, выкл — оригинал
   trSw(p, sm) {
     if (!p || p.self || !p.body || p.kind === 'pr' || !/\p{L}{2}/u.test(p.body)) return '';
+    if (Translator.guess(p.body.replace(/#[\p{L}\p{N}_]+/gu, '')) === (S.profile.lang || 'ru')) return ''; // v53: пост уже на твоём языке — переводить нечего
     const on = !!(this._trOn && this._trOn[p.id]), busy = this._trBusy === p.id;
     return `<button class="tr-sw ${sm ? 'sm' : ''} ${on ? 'on' : ''} ${busy ? 'busy' : ''}" data-action="post-tr" data-id="${U.esc(p.id)}" role="switch" aria-checked="${on}"><svg class="ic"><use href="#fa-language"/></svg><span>${busy ? 'Перевожу…' : 'Перевод'}</span><i class="tr-k"></i></button>`;
   },
   postText(p) { const on = this._trOn && this._trOn[p.id], tr = Social.tr && Social.tr[(S.profile.lang || 'ru') + '|' + p.id]; return on && tr ? tr : p.body; },
   postBody(t) { return U.esc(t).replace(/#([\p{L}\p{N}_]{2,30})/gu, (m, tag) => `<button class="tag-link" data-action="feed-tag" data-tag="${tag.toLowerCase()}">#${tag}</button>`).replace(/\n/g, '<br>'); },
-  prBlock(p, big) { return `<div class="pr-block ${big ? 'big' : ''}"><div class="text-[10px] font-black uppercase tracking-wider text-amber-400"><svg class="ic"><use href="#fa-crown"/></svg> Новый рекорд</div><div class="text-[11px] muted truncate">${U.esc(U.exRu(p.ex))}</div><div class="font-black num ${big ? 'text-3xl' : 'text-xl'} leading-tight">${U.wEx(p.ex, p.weight)} <span class="text-xs muted font-semibold">${U.wUnit()} × ${U.reps(p.reps)}</span></div></div>`; },
+  prTierOf(p) { if (p.prTier != null) return +p.prTier || 0; if (!p.self || !p.weight || !p.ex) return 0; const reps = p.reps || 1, bwx = U.exInfo(p.ex).bodyweight ? (S.profile.bodyweight || 70) : 0; return Calc.prTier(Calc.e1rm(+p.weight + bwx, Calc.rmByReps(reps), reps), S.profile.bodyweight, p.ex, S.profile.sex); },
+  prBlock(p, big) { const t = this.prTierOf(p), TT = Calc.PR_TIERS[t], c = TT ? TT[1] : ''; return `<div class="pr-block ${big ? 'big' : ''} ${t ? 'prb-t' + t : ''}" ${TT ? `style="border-color:${c}77;background:linear-gradient(135deg,${c}30,transparent 72%)"` : ''}><div class="flex items-center justify-between gap-2"><div class="text-[10px] font-black uppercase tracking-wider ${TT ? '' : 'text-amber-400'}" ${TT ? `style="color:${c}"` : ''}><svg class="ic"><use href="#fa-crown"/></svg> Новый рекорд</div>${TT ? `<span class="prt-chip prt-c${t}" style="--c:${c}">${TT[0]}</span>` : ''}</div><div class="text-[11px] muted truncate">${U.esc(U.exRu(p.ex))}</div><div class="font-black num ${big ? 'text-3xl' : 'text-xl'} leading-tight">${U.wEx(p.ex, p.weight)} <span class="text-xs muted font-semibold">${U.wUnit()} × ${U.reps(p.reps)}</span></div></div>`; },
   // свёрнутая карусель последних постов на вкладке «Сообщество»
   /* ---- v51: блоки «Сообщества» ---- */
   personOf(uid) { return ClanService.player(uid) || (typeof Activity !== 'undefined' && Activity.people[uid]) || Social.author(uid); },
@@ -7084,7 +7196,7 @@ Object.assign(UI, {
   },
   postCard(p) {
     const st = p.self ? 'self' : ClanService.friendState(p.uid), ar = Calc.arena(p.arenaIdx || 0);
-    return `<div class="post" data-key="p${U.esc(p.id)}">
+    return `<div class="post ${p.ex && p.weight ? `prt prt-${this.prTierOf(p)}` : ''}" data-key="p${U.esc(p.id)}">
       <div class="flex items-center gap-2.5 mb-2">
         <button data-action="mini-profile" data-id="${U.esc(p.uid)}">${this.av(p, 40)}</button>
         <div class="flex-1 min-w-0"><button class="font-bold text-sm truncate block max-w-full text-left" data-action="mini-profile" data-id="${U.esc(p.uid)}" data-no-mt>${U.esc(p.nick)}${p.self ? ' <span class="muted font-normal">(ты)</span>' : ''}</button><div class="text-[10px] muted">${this.rankDot(ar)} <span>${TN(ar.name)}</span> · <span>${U.ago(p.ts)}</span></div></div>
@@ -7926,7 +8038,7 @@ Object.assign(UI, {
   ACTS: [['low', 'Мало двигаюсь'], ['mid', 'Средне'], ['high', 'Много']],
   openProfileWizard(o) {
     if (o) this._wz = { step: 0, nick: '', age: '', sex: '', bw: '', h: '', goal: 'keep', act: 'mid', week: 3, prog: 'auto', ref: Referral.pending(), ...o };
-    const w = this._wz; if (!w) return; const st = w.step, steps = 4;
+    const w = this._wz; if (!w) return; const st = w.step, steps = 5;
     const head = `<div class="wz-head"><div class="wz-bar">${Array.from({ length: steps }, (_, k) => `<i class="${k <= st ? 'on' : ''}"></i>`).join('')}</div><div class="text-[11px] muted mt-1">Шаг ${st + 1} из ${steps}</div></div>`;
     let body;
     if (st === 0) body = `<div class="text-2xl font-black">Как тебя зовут?</div><div class="text-xs muted mb-3">${w.from ? `Имя взяли из ${w.from}. Можешь стереть и написать своё.` : 'Этот ник увидят в рейтингах и ленте.'}</div>
@@ -7950,6 +8062,10 @@ Object.assign(UI, {
       <div class="text-xs font-bold muted mt-4 mb-1">Стиль приложения</div>
       <div class="seg" id="wz-style"><button class="${!w.calm ? 'on' : ''}" data-action="seg" data-val="game">Игровой</button><button class="${w.calm ? 'on' : ''}" data-action="seg" data-val="calm">Спокойный</button></div>
       <div class="text-[10px] muted mt-1">Игровой: арены, кубки, лиги и кланы. Спокойный: только твой прогресс, без рейтингов. Поменять можно в настройках.</div>`; }
+    else if (st === 4) { const L = w.lifts || (w.lifts = {});
+      body = `<div class="text-2xl font-black">Твои силовые</div><div class="text-xs muted mb-3">Сколько поднимаешь сейчас? Это точка отсчёта: следующие рекорды будут считаться от неё. За эти цифры кубков нет.</div>
+      ${Calc.TOP_LIFTS.slice(0, 3).map(t => { const k = t.k, x = L[k] || {}; return `<div class="wz-lift ${x.skip ? 'off' : ''}" data-key="wzl${k}"><span class="wz-lic" style="color:${t.c};background:${t.c}1F"><svg class="ic"><use href="#${t.ic}"/></svg></span><div class="flex-1 min-w-0"><b>${t.name}</b><div class="wz-lin"><input class="input num" id="wzl-${k}-w" type="number" inputmode="decimal" step="0.5" placeholder="${U.wUnit()}" value="${U.esc(x.w || '')}" ${x.skip ? 'disabled' : ''}><span>×</span><input class="input num" id="wzl-${k}-r" type="number" inputmode="numeric" placeholder="1" value="${U.esc(x.r || '')}" ${x.skip ? 'disabled' : ''}><small>повт.</small></div></div><button class="wz-skip ${x.skip ? 'on' : ''}" data-action="wz-lskip" data-k="${k}">${x.skip ? '<svg class="ic"><use href="#fa-check"/></svg> ' : ''}Не знаю</button></div>`; }).join('')}
+      <div class="text-[11px] muted mt-2">Никогда не делал или не помнишь — нажми «Не знаю» или оставь пустым.</div>`; }
     else { const g = Calc.defaultGoals({ fitGoal: w.goal, activity: w.act, bodyweight: U.toKg(w.bw) || 70, height: +w.h || 175, age: +w.age || 25, sex: w.sex });
       body = `<div class="text-2xl font-black">Твоя цель</div><div class="text-xs muted mb-3">Под неё посчитаем калории и белок. Поменять можно в настройках.</div>
       <div class="grid grid-cols-2 gap-2">${this.GOALS.map(([k, ic, t, d]) => `<button class="wz-goal ${w.goal === k ? 'on' : ''}" data-action="wz-goal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg><b>${t}</b><small>${d}</small></button>`).join('')}</div>
@@ -7961,7 +8077,7 @@ Object.assign(UI, {
       <div class="grid grid-cols-3 gap-2 mt-4">${st ? '<button class="btn btn-ghost" data-action="wz-back"><svg class="ic"><use href="#fa-chevron-left"/></svg></button>' : '<div></div>'}<button class="btn btn-primary col-span-2 py-3" data-action="wz-next">${st === steps - 1 ? '<svg class="ic"><use href="#fa-check"/></svg> Готово' : 'Дальше <svg class="ic"><use href="#fa-arrow-right"/></svg>'}</button></div></div>`;
     const m = this.$('#modal .modal'); if (m && this._wzOpen) this.morph(m, html); else { this.modal(html, { center: true, closable: false }); this._wzOpen = true; }
   },
-  wzRead() { const w = this._wz, v = id => (document.getElementById(id) || {}).value; if (!w) return; if (w.step === 0) { w.nick = (v('wz-nick') || '').trim().slice(0, 16); if (document.getElementById('wz-ref')) w.ref = (v('wz-ref') || '').trim().toUpperCase(); w.age = v('wz-age') || ''; w.sex = App.segVal('wz-sex') || w.sex; } else if (w.step === 1) { w.bw = v('wz-bw') || ''; w.h = v('wz-h') || ''; w.act = App.segVal('wz-act') || w.act; } else if (w.step === 3 && document.getElementById('wz-style')) w.calm = App.segVal('wz-style') === 'calm'; },
+  wzRead() { const w = this._wz, v = id => (document.getElementById(id) || {}).value; if (!w) return; if (w.step === 0) { w.nick = (v('wz-nick') || '').trim().slice(0, 16); if (document.getElementById('wz-ref')) w.ref = (v('wz-ref') || '').trim().toUpperCase(); w.age = v('wz-age') || ''; w.sex = App.segVal('wz-sex') || w.sex; } else if (w.step === 1) { w.bw = v('wz-bw') || ''; w.h = v('wz-h') || ''; w.act = App.segVal('wz-act') || w.act; } else if (w.step === 3 && document.getElementById('wz-style')) w.calm = App.segVal('wz-style') === 'calm'; else if (w.step === 4) { const L = w.lifts || (w.lifts = {}); ['bench', 'squat', 'deadlift'].forEach(k => { const x = L[k] || (L[k] = {}); if (document.getElementById(`wzl-${k}-w`)) { x.w = v(`wzl-${k}-w`) || ''; x.r = v(`wzl-${k}-r`) || ''; } }); } },
   /* ---------- настройки: список разделов, каждый открывается отдельной страницей ---------- */
   SET_MENU() {
     const p = S.profile, acc = (Net.online() && Net.emailAddr) || (S.account && S.account.email) || '', g = S.nutrition.goals || Calc.defaultGoals(), bl = Social.blocked().length;
@@ -8236,6 +8352,10 @@ const App = {
       if (!UI.rulesOk()) { (UI._prCap || (UI._prCap = {}))[lift.id] = cap; UI.needRules(go); return; }
       el.disabled = true; el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg> Публикую…'; await go();
     },
+    'top3-open'() { UI._t3 = null; UI._t3Open = false; UI.openTop3(); },
+    'top3-toggle'(el) { const ex = el.dataset.ex, s = UI._t3 || (UI._t3 = Calc.top3()), i = s.indexOf(ex); if (i >= 0) s.splice(i, 1); else if (s.length < 3) s.push(ex); else { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); UI.toast('Можно выбрать только 3 лифта: сначала убери один', 'red'); return; } UI.openTop3(); },
+    'top3-save'() { const s = (UI._t3 || []).slice(0, 3); if (!s.length) return; S.profile.top3 = s; save(); UI._t3 = null; UI._t3Open = false; UI.closeModal(); UI.renderTab(UI.tab); },
+    'pr-board'(el) { UI.openLiftBoard(el.dataset.ex); },
     'pr-open-feed'() { UI.closeModal(); UI.openPage('feed'); },
     'plus-feed'() { UI.togglePlus(false); UI.openPage('feed'); },
     async 'follow-toggle'(el) { const id = el.dataset.id; if (!id || el.disabled) return; el.disabled = true; const r = await Follow.toggle(id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.afterFollow(id); },
@@ -8718,6 +8838,7 @@ const App = {
     'wz-prog'(el) { UI.wzRead(); UI._wz.prog = el.dataset.val; UI.openProfileWizard(); },
     'wz-goal'(el) { UI.wzRead(); UI._wz.goal = el.dataset.val; UI.openProfileWizard(); },
     'wz-week'(el) { UI.wzRead(); UI._wz.week = +el.dataset.val; UI.openProfileWizard(); },
+    'wz-lskip'(el) { UI.wzRead(); const L = UI._wz.lifts || (UI._wz.lifts = {}), x = L[el.dataset.k] || (L[el.dataset.k] = {}); x.skip = !x.skip; UI.openProfileWizard(); },
     'wz-back'() { UI.wzRead(); UI._wz.step = Math.max(0, UI._wz.step - 1); UI.openProfileWizard(); },
     async 'wz-next'(el) {
       UI.wzRead(); const w = UI._wz, err = document.getElementById('ob-err');
@@ -8730,7 +8851,10 @@ const App = {
         if (Net.online()) { el.disabled = true; try { if (!(await Net.nickAvailable(w.nick))) { el.disabled = false; err.textContent = 'Этот ник уже занят, придумай другой'; return; } } catch (_) {} el.disabled = false; }
       } else if (w.step === 1) {
         const bw = U.toKg(w.bw), h = +w.h; if (!(bw > 25 && bw < 300)) { err.textContent = 'Проверь вес'; return; } if (!(h > 100 && h < 250)) { err.textContent = 'Проверь рост'; return; }
-      } else if (w.step === 3) { el.disabled = true; el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg>'; return App.finishWizard(); }
+      } else if (w.step === 4) {
+        const L = w.lifts || {}; for (const t of Calc.TOP_LIFTS.slice(0, 3)) { const x = L[t.k] || {}; if (x.skip || !x.w) continue; const kg = U.toKg(x.w), reps = parseInt(x.r) || 1; if (!(kg > 0) || reps < 1 || reps > 30) { err.textContent = `Проверь «${t.name}»: вес и повторы`; return; } const e = Calc.e1rm(kg, Calc.rmByReps(reps), reps), bad = Calc.liftCapError(t.ex, kg, e); if (bad) { err.textContent = `${t.name}: ${bad}`; return; } }
+        el.disabled = true; el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg>'; return App.finishWizard();
+      }
       w.step++; UI.openProfileWizard();
     },
     /* настройки v22 */
@@ -8851,6 +8975,7 @@ const App = {
       catch (e) { if (err) err.textContent = Net.err(e); UI._wz.step = 0; p.nickname = ''; save(); setTimeout(() => { UI.openProfileWizard(); const e2 = document.getElementById('ob-err'); if (e2) e2.textContent = Net.err(e); }, 50); return; }
     }
     let refOk = null; if (Net.online() && w.ref) { const r = await Referral.claim(w.ref); if (r.ok) refOk = r.coins; }
+    { const L = w.lifts || {}; Calc.TOP_LIFTS.slice(0, 3).forEach(t => { const x = L[t.k] || {}; if (!x.skip && x.w) Game.logBaseline({ exerciseName: t.ex, weight: U.toKg(x.w), reps: parseInt(x.r) || 1 }); }); save(); } // v53: стартовые силовые
     UI._wz = null; UI.closeModal(); Game.boot(); UI.renderAll();
     const aw = S.game.awards || (S.game.awards = {}); if (!aw.starter) { aw.starter = Date.now(); Game.events.push({ type: 'chest', data: Game.rollChest('starter') }); App.afterChange(); } else { App.afterChange(); this.maybeOnboard(true); } // v29: первая награда ещё дома
     if (refOk) UI.toast(`Код друга принят: +${refOk} монет`, 'red');
@@ -9034,17 +9159,19 @@ async function appReload(o) {
   o = o || {}; if (appReload._on) return; appReload._on = true;
   if (o.freeze) { try { Store.save = () => {}; if (typeof Net !== 'undefined') { clearTimeout(Net._t); Net.schedule = () => {}; Net.push = async () => {}; } } catch (_) {} }
   const t0 = Date.now();
-  try { sessionStorage.setItem('flRelang', JSON.stringify({ tab: o.tab || UI.tab, settings: !!o.settings, auth: o.auth || null })); sessionStorage.setItem('flFast', String(t0)); } catch (_) {}
+  try { sessionStorage.setItem('flRelang', JSON.stringify({ tab: o.tab || UI.tab, settings: !!o.settings, auth: o.auth || null })); } catch (_) {}
   try {
     if (window.__bootHTML) {
       const old = document.getElementById('boot'); if (old) old.remove();
-      const w = document.createElement('div'); w.innerHTML = window.__bootHTML; const b = w.firstElementChild, v = b.querySelector('video'); if (v) v.remove();
-      b.className = 'fast in'; b.style.zIndex = '10000'; document.body.appendChild(b); void b.offsetWidth; b.classList.remove('in');
+      const w = document.createElement('div'); w.innerHTML = window.__bootHTML; const b = w.firstElementChild, v = b.querySelector('video');
+      b.className = 'cont in'; b.style.zIndex = '10000'; document.body.appendChild(b); void b.offsetWidth; b.classList.remove('in'); appReload._b = b;
+      if (v) { v.addEventListener('playing', () => b.classList.add('vid')); v.addEventListener('error', () => { b.classList.add('novid'); v.remove(); }); try { v.currentTime = 0; const p = v.play(); if (p && p.catch) p.catch(() => b.classList.add('novid')); } catch (_) { b.classList.add('novid'); } } else b.classList.add('novid');
     }
   } catch (_) {}
   // успеваем отправить изменения на сервер, чтобы после перезапуска они не откатились
   try { if (!o.freeze && typeof Net !== 'undefined' && Net.online()) { clearTimeout(Net._t); await Promise.race([Net.push(), new Promise(r => setTimeout(r, 1500))]); } } catch (_) {}
-  await new Promise(r => setTimeout(r, Math.max(0, 200 - (Date.now() - t0))));
+  await new Promise(r => setTimeout(r, Math.max(0, 450 - (Date.now() - t0))));
+  try { const v = appReload._b && appReload._b.querySelector('video'); sessionStorage.setItem('flFast', JSON.stringify({ at: Date.now(), vt: v && !v.paused ? v.currentTime : 0 })); } catch (_) {}
   location.reload();
 }
 // v51: приложение готово → анимацию логотипа не обрываем посреди превращения, а ускоренно доводим до конца (≤ 0,7 с), потом плавно убираем экран
