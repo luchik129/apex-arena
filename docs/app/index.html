@@ -1741,40 +1741,40 @@ html.light .hm-ticks i.end{background:#3F3F46}
 html.light .fl-bar>i{background:color-mix(in srgb,var(--rc) 70%,#1C1917)}
 .fl-v{display:flex;flex-direction:column;align-items:flex-end;flex:none}.fl-v b{font-size:1rem;line-height:1.1}.fl-v small{font-size:.6rem;color:var(--muted)}
 .fl-foot{font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem}.fl-foot b{color:var(--text)}
-/* v60: трофейная дорожка на главной */
-.tt{display:block;margin-top:1.15rem;text-align:left;-webkit-tap-highlight-color:transparent}
-.tt-row{display:flex;align-items:center;gap:.55rem}
-.tt-track{--gap:12px;--h:14px;position:relative;flex:1;min-width:0;display:flex;gap:var(--gap);height:30px;align-items:center}
-.tt-seg{position:relative;flex:1;height:var(--h);border-radius:999px;overflow:hidden;background:color-mix(in srgb,var(--muted) 16%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--muted) 14%,transparent),inset 0 2px 3px rgba(0,0,0,.35)}
-.tt-seg>i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--f)*100%);border-radius:inherit;
-  background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,0) 55%),linear-gradient(90deg,color-mix(in srgb,var(--rc) 70%,#000),var(--rc) 55%,var(--rh));
-  box-shadow:0 0 12px -2px var(--rc);transform-origin:left;animation:ttGrow .9s cubic-bezier(.2,.8,.2,1) both}
-.tt-seg:nth-child(2)>i{animation-delay:.08s}.tt-seg:nth-child(3)>i{animation-delay:.16s}.tt-seg:nth-child(4)>i{animation-delay:.24s}.tt-seg:nth-child(5)>i{animation-delay:.32s}
-.tt-seg.cur>i:after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);background-size:220% 100%;animation:ttShine 2.6s 1s ease-in-out infinite}
-.tt-gem{position:absolute;top:50%;left:calc(var(--i)*(100% - 4*var(--gap))/5 + (var(--i) - .5)*var(--gap));width:9px;height:9px;margin:-4.5px 0 0 -4.5px;transform:rotate(45deg);border-radius:2px;
-  background:var(--bg);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--muted) 45%,transparent)}
-.tt-gem.on{background:linear-gradient(135deg,#fff,var(--rh) 45%,var(--rc));box-shadow:0 0 8px var(--rc),0 0 0 1.5px color-mix(in srgb,var(--rc) 60%,transparent)}
-.tt-knob{position:absolute;top:50%;left:clamp(11px,calc((var(--k) + var(--kf))*(100% - 4*var(--gap))/5 + var(--k)*var(--gap)),calc(100% - 11px));width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;
-  background:radial-gradient(circle at 38% 34%,#fff 0 18%,var(--rh) 42%,var(--rc) 78%);border:2.5px solid var(--bg);box-shadow:0 0 0 1.5px var(--rc),0 0 18px 2px var(--rc);
-  animation:ttKnob .9s cubic-bezier(.2,.8,.2,1) both,ttPulse 2.2s 1s ease-in-out infinite}
-.tt-goal{flex:none;position:relative;width:46px;height:46px;display:flex;align-items:center;justify-content:center;filter:grayscale(.75) brightness(.8);opacity:.75;transition:filter .3s,opacity .3s}
-.tt-goal:before{content:'';position:absolute;inset:4px;border-radius:50%;border:1.5px dashed color-mix(in srgb,var(--muted) 40%,transparent);animation:ttSpin 14s linear infinite}
-.tt-goal.near{filter:none;opacity:1}.tt-goal.near:before{border-color:color-mix(in srgb,var(--rc) 70%,transparent)}
-.tt-goal.top{filter:none;opacity:1;color:#F5C04A;font-size:1.5rem}.tt-goal.top:before{border-style:solid;border-color:#F5C04A80;box-shadow:0 0 14px #F5C04A55}
-.tt-cap{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-top:.55rem;padding-right:calc(46px + .55rem);font-size:.78rem;font-weight:600;color:var(--muted)}
-.tt-cap b{color:var(--text);font-weight:800}
-.tt-cap .ic{color:#F5C04A}
-.tt-st{display:inline-flex;align-items:center;gap:.3rem}.tt-st b{font-size:.9rem}.tt-st small{opacity:.6;font-weight:700}
-@keyframes ttGrow{from{transform:scaleX(0)}}
-@keyframes ttKnob{from{left:0;opacity:0}}
-@keyframes ttShine{0%{background-position:120% 0}60%,100%{background-position:-120% 0}}
-@keyframes ttPulse{0%,100%{box-shadow:0 0 0 1.5px var(--rc),0 0 12px 1px var(--rc)}50%{box-shadow:0 0 0 1.5px var(--rc),0 0 24px 5px var(--rc)}}
-@keyframes ttSpin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){.tt-seg>i,.tt-knob,.tt-seg.cur>i:after,.tt-goal:before{animation:none}}
-html.light .tt-seg{background:color-mix(in srgb,var(--muted) 18%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--muted) 12%,transparent)}
-html.light .tt-seg>i{background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,0) 55%),linear-gradient(90deg,color-mix(in srgb,var(--rc) 45%,#0C0A09),color-mix(in srgb,var(--rc) 70%,#1C1917));box-shadow:none}
-html.light .tt-gem.on{background:linear-gradient(135deg,color-mix(in srgb,var(--rc) 55%,#fff),color-mix(in srgb,var(--rc) 55%,#1C1917));box-shadow:none}
-html.light .tt-knob{background:radial-gradient(circle at 38% 34%,#fff 0 18%,color-mix(in srgb,var(--rc) 60%,#1C1917) 60%);box-shadow:0 0 0 1.5px color-mix(in srgb,var(--rc) 50%,#1C1917),0 0 0 6px color-mix(in srgb,var(--rc) 18%,transparent);animation:ttKnob .9s cubic-bezier(.2,.8,.2,1) both}
+/* v60: кольцо кубков на главной */
+.trw{display:flex;align-items:center;gap:.75rem;margin-top:1.1rem}
+.trw-l{flex:1;min-width:0}
+.trw .hm-lbl{margin-top:0;flex-wrap:wrap;row-gap:.2rem}
+.trw .hm-big{margin-top:.35rem}
+.trc{display:flex;flex-direction:column;gap:.3rem;margin-top:.7rem;text-align:left;max-width:100%;font-size:.8rem;font-weight:600;color:var(--muted)}
+.trc-r{display:flex;align-items:center;gap:.3rem;min-width:0;white-space:nowrap}
+.trc b{color:var(--text);font-weight:800}
+.trc .ic{color:#F5C04A}
+.trg{position:relative;flex:none;width:128px;height:128px;-webkit-tap-highlight-color:transparent}
+.trg-svg{position:absolute;inset:0;overflow:visible}
+.trg-svg path{fill:none;stroke-linecap:round}
+.trg-b{stroke:color-mix(in srgb,var(--muted) 18%,transparent);stroke-width:8}
+.trg-f,.trg-g{stroke-dasharray:1;stroke-dashoffset:0;animation:trgDraw .8s var(--d,0s) cubic-bezier(.3,.7,.2,1) both}
+.trg-f{stroke:var(--rc);stroke-width:7}
+.trg-f.cur{stroke:var(--rh)}
+.trg-g{stroke:var(--rc);stroke-width:10;opacity:.55;filter:blur(3.5px)}
+.trg-k{fill:#fff;stroke:var(--rc);stroke-width:2.5;animation:trgPop .4s var(--d,0s) cubic-bezier(.2,1.6,.4,1) both,trgPulse 2.2s calc(var(--d,0s) + .4s) ease-in-out infinite}
+.trg-md{position:absolute;inset:22px;display:flex;align-items:center;justify-content:center;filter:grayscale(.6) brightness(.82);transition:filter .3s}
+.trg-md .medal{width:84px;height:84px}
+.trg.near .trg-md,.trg.top .trg-md{filter:drop-shadow(0 0 10px color-mix(in srgb,var(--rc) 60%,transparent))}
+.trg.near .trg-md{animation:trgNear 2.4s ease-in-out infinite}
+@keyframes trgDraw{from{stroke-dashoffset:1}}
+@keyframes trgPop{from{transform:scale(0);opacity:0}}
+.trg-k{transform-box:fill-box;transform-origin:center}
+@keyframes trgPulse{0%,100%{filter:drop-shadow(0 0 3px var(--rc))}50%{filter:drop-shadow(0 0 9px var(--rc))}}
+@keyframes trgNear{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@media (prefers-reduced-motion:reduce){.trg-f,.trg-g,.trg-k,.trg.near .trg-md{animation:none}}
+@media (max-width:350px){.trg{width:112px;height:112px}.trg-md{inset:19px}.trg-md .medal{width:74px;height:74px}}
+html.light .trg-b{stroke:color-mix(in srgb,var(--muted) 20%,transparent)}
+html.light .trg-f{stroke:color-mix(in srgb,var(--rc) 70%,#1C1917)}
+html.light .trg-f.cur{stroke:color-mix(in srgb,var(--rc) 50%,#0C0A09)}
+html.light .trg-g{opacity:.18}
+html.light .trg-k{stroke:color-mix(in srgb,var(--rc) 55%,#1C1917)}
 </style>
 </head>
 <body>
@@ -5655,28 +5655,35 @@ const UI = {
   // v32: эффекты обложек замирают, когда обложка не видна или поверх открыто окно
   watchFx(root) { if (!('IntersectionObserver' in window) || !root) return; const io = this._fxIO || (this._fxIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('fx-off', !e.isIntersecting)))); root.querySelectorAll('.pf-cover,.mp-cover').forEach(el => { if (!el._fxw) { el._fxw = 1; io.observe(el); } }); },
   /* ===================== v30: ГЛАВНАЯ ===================== */
-  // v60: трофейная дорожка — 5 сегментов (по звезде ранга), камни на стыках, ползунок и медаль следующей арены
-  trophyTrack(pct, rk, next, left, place) {
-    const k = next ? rk.stars - 1 : 4, f = next ? rk.starPct : 1, ti = this.trophyIcon;
-    const segs = [0, 1, 2, 3, 4].map(i => { const v = i < k ? 1 : i === k ? f : 0; return `<span class="tt-seg ${v >= 1 ? 'full' : v > 0 ? 'cur' : ''}" style="--f:${v.toFixed(3)}"><i></i></span>`; }).join('');
-    const gems = [1, 2, 3, 4].map(i => `<span class="tt-gem ${i <= k ? 'on' : ''}" style="--i:${i}"></span>`).join('');
-    const goal = next ? `<span class="tt-goal ${pct >= .8 ? 'near' : ''}">${this.medal(S.game.arenaIdx + 1, { size: 46, anim: false })}</span>`
-      : `<span class="tt-goal top"><svg class="ic"><use href="#fa-crown"/></svg></span>`;
-    const capL = next ? `<span class="tt-st"><svg class="ic"><use href="#fa-star"/></svg><b class="num">${rk.stars}</b><small>/5</small></span>` : `<span class="tt-st"><svg class="ic"><use href="#fa-crown"/></svg><span>${T('max_arena')}</span></span>`;
-    const capR = !next ? (place ? `<span><b class="num">#${place}</b></span>` : '')
-      : rk.stars < 5 ? `<span>${T('to_star')} · <b class="num">${rk.toStar}</b> ${ti}</span>`
-      : `<span>${TN(next.name)} · <b class="num">${left}</b> ${ti}</span>`;
-    return `<button class="tt w-full" data-action="open-road" aria-label="${T('trophy_road')}">
-        <span class="tt-row"><span class="tt-track" style="--k:${k};--kf:${f.toFixed(3)}">${segs}${gems}<span class="tt-knob"></span></span>${goal}</span>
-        <span class="tt-cap">${capL}${capR}</span>
-      </button>`;
+  // v60: кольцо кубков вокруг медали следующей арены — 5 дуг, по одной на звезду ранга
+  trophyRing(rk, next, left, place) {
+    const k = next ? rk.stars - 1 : 4, f = next ? rk.starPct : 1, ti = this.trophyIcon, S0 = 128, c = 64, r = 56, gap = .1, TAU = Math.PI * 2;
+    const pt = a => [(c + r * Math.sin(a)).toFixed(2), (c - r * Math.cos(a)).toFixed(2)];
+    const arc = (a0, a1) => { const [x0, y0] = pt(a0), [x1, y1] = pt(a1); return `M${x0} ${y0}A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${x1} ${y1}`; };
+    let base = '', fill = '', knob = '';
+    for (let i = 0; i < 5; i++) {
+      const a0 = i * TAU / 5 + gap, a1 = (i + 1) * TAU / 5 - gap, v = i < k ? 1 : i === k ? f : 0;
+      base += `<path class="trg-b" d="${arc(a0, a1)}"/>`;
+      const e = a0 + (a1 - a0) * v, cur = i === k && next;
+      if (v > 0.001) { const d = arc(a0, e); fill += `<path class="trg-g" d="${d}" pathLength="1" style="--d:${i * .12}s"/><path class="trg-f ${cur ? 'cur' : ''}" d="${d}" pathLength="1" style="--d:${i * .12}s"/>`; }
+      if (cur) { const [x, y] = pt(e); knob = `<circle class="trg-k" cx="${x}" cy="${y}" r="5.5" style="--d:${i * .12 + .5}s"/>`; }
+    }
+    const pct = next ? U.clamp((S.game.trophies - rk.arena.min) / (next.min - rk.arena.min), 0, 1) : 1;
+    const md = next ? this.medal(S.game.arenaIdx + 1, { size: 84, anim: false }) : this.medal(S.game.arenaIdx, { size: 84, anim: false, place });
+    const ring = `<button class="trg ${!next ? 'top' : pct >= .8 ? 'near' : ''}" data-action="open-road" aria-label="${T('trophy_road')}">
+        <svg class="trg-svg" viewBox="0 0 ${S0} ${S0}" width="${S0}" height="${S0}" aria-hidden="true">${base}${fill}${knob}</svg>
+        <span class="trg-md">${md}</span></button>`;
+    const row = (html) => `<span class="trc-r">${html}</span>`;
+    const caps = !next ? row(`<svg class="ic"><use href="#fa-crown"/></svg><span>${T('max_arena')}</span>`) + (place ? row(`<b class="num">#${place}</b>`) : '')
+      : (rk.stars < 5 ? row(`<span>${T('to_star')} · <b class="num">${rk.toStar}</b> ${ti}</span>`) : '') + row(`<span class="truncate">${TN(next.name)} ·</span><b class="num flex-none">${left}</b>${ti}`);
+    return { ring, caps: `<button class="trc" data-action="open-road">${caps}</button>` };
   },
   homeHero() {
     const p = S.profile, g = S.game, a = Calc.arena(), next = Calc.nextArena(), rk = Calc.rank(g.trophies, g.arenaIdx), lvl = Calc.level(g.xp), wk = Calc.weekLedger(), place = !next ? Calc.legendPlace() : null;
     const pct = next ? U.clamp((g.trophies - a.min) / (next.min - a.min), 0, 1) : 1, left = next ? Math.max(0, next.min - g.trophies) : 0;
-    const road = this.trophyTrack(pct, rk, next, left, place);
+    const tring = this.trophyRing(rk, next, left, place);
     const wDone = Calc.workoutsInWeek(U.weekKey()), wT = U.clamp(p.weekTarget || 3, 2, 6), prs = S.lifts.filter(l => l.isPR && !l.flagged).length;
-    const big = String(g.trophies) + (next ? '/' + next.min : ''), fs = big.length <= 6 ? 3.4 : big.length <= 8 ? 2.9 : big.length <= 10 ? 2.4 : 2.05; // v33: длинное число не вылезает за край
+    const big = String(g.trophies) + (next ? '/' + next.min : ''), fs = big.length <= 5 ? 2.9 : big.length <= 7 ? 2.5 : big.length <= 9 ? 2.15 : big.length <= 11 ? 1.8 : 1.55; // v33: длинное число не вылезает за край
     const hi = this._mix(a.color, '#ffffff', .4), nAr = CONFIG.ARENAS.filter(x => !x.league).length;
     const st = (attrs, icon, color, val, label) => `<button class="hm-st" data-action="tip" data-tip="${label}"><b class="num"><svg class="ic" style="color:${color}"><use href="#${icon}"/></svg>${val}</b></button>`;
     return `<div class="hm-hero" style="--rc:${a.color};--rh:${hi}">
@@ -5689,9 +5696,14 @@ const UI = {
         <span class="rk-medal">${this.medal(g.arenaIdx, { size: 112, stars: rk.stars, place, anim: false })}</span>
         <span class="rk-info"><span class="rk-kick">${a.league ? `Лига ${a.id - nAr}` : `Арена ${a.id} из ${nAr}`}</span><span class="rk-name">${TN(a.name)}</span>${this.starsHtml(rk.stars)}<span class="rk-next">${next ? `<span>${TN(next.name)}</span> · <b class="num">${left}</b> ${this.trophyIcon}` : place ? `#${place}` : T('max_arena')}</span></span>
       </button>
+      <div class="trw">
+        <div class="trw-l">
       <div class="hm-lbl"><span>Кубки</span>${wk ? `<span class="hm-delta ${wk < 0 ? 'neg' : ''}"><i><svg class="ic"><use href="#fa-arrow-up"/></svg></i><span class="num">${wk > 0 ? '+' : ''}${wk}</span> <span>за неделю</span></span>` : ''}</div>
       <button class="hm-big num" style="--bigfs:${fs}rem" data-action="open-road">${g.trophies}${next ? `<small>/${next.min}</small>` : ''}</button>
-      ${road}
+          ${tring.caps}
+        </div>
+        ${tring.ring}
+      </div>
       <div class="hm-stats">
         ${st('data-action="go-tab" data-tab="lifts"', 'fa-dumbbell', '#34C759', `${Math.min(wDone, 99)}/${wT}`, 'Тренировки на этой неделе из твоей цели')}
         ${st('data-action="coins-info"', 'fa-coins', '#F5C04A', g.coins, 'Монеты: за тренировки и арены, тратятся в магазине')}
