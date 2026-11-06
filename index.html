@@ -134,6 +134,14 @@ body.plus-open .plus-item.c{transform:translate(-50%,-6rem) scale(1)}
 .gd-frame{position:relative;background:var(--sub);border-radius:.9rem;display:flex;justify-content:center;padding:.4rem 0 1.5rem;color:var(--text)}
 .gd-frame svg{max-width:100%;height:auto}
 .gd-frame span{position:absolute;bottom:.35rem;left:0;right:0;text-align:center;font-size:.7rem;font-weight:800;color:var(--muted)}
+/* v59: гайды — анатомические видео из Higgsfield (guide/NN.mp4) */
+.gd-thumb.gd-img{background:#0E1420}.gd-thumb.gd-img img{width:100%;height:100%;object-fit:cover}
+.gd-vid{position:relative;width:100%;max-width:340px;aspect-ratio:3/4;border-radius:.9rem;overflow:hidden;background:#0E1420}
+.gd-vid video,.gd-vid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gd-stage.gd-media{background:#0E1420;padding:.5rem .5rem .6rem}
+.gd-ph{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem .5rem;margin-top:.45rem;font-size:.75rem;font-weight:800;color:#34D399}
+.gd-frame.gd-img{background:#0E1420;padding:0 0 1.5rem;overflow:hidden}.gd-frame.gd-img img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.gd-frame.gd-img span{color:#8C9AB3}
 .gd-h{display:flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:800;margin-bottom:.35rem}
 .gd-steps{counter-reset:st;font-size:.86rem;line-height:1.45}
 .gd-steps li{counter-increment:st;position:relative;padding-left:2rem;margin-bottom:.55rem}
@@ -1936,7 +1944,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '53',
+  APP_VERSION: '59',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -3432,6 +3440,8 @@ const GUIDE = {
    Скелет с постоянной длиной костей; колени и локти считаются через IK и гнутся только в свою сторону.
    Мир: y вверх, пол y=0, фигура смотрит вправо (+x), лёжа — головой влево. В SVG y = −y.
    Поза u=0 — «Старт», u=1 — «Финиш». Анимация на JS (requestAnimationFrame), без SMIL. */
+/* v59: анатомия из Higgsfield. NN = файл guide/NN.*; v = есть видео-петля (иначе одна картинка) */
+const GUIDE_MEDIA = { 'Squat': ['00', 1], 'Deadlift': ['01', 1], 'Romanian Deadlift': ['02', 1], 'Bench Press': ['03', 0], 'Incline Bench': ['04', 1], 'Overhead Press': ['05', 1], 'Barbell Row': ['06', 1], 'Pull-ups': ['07', 1], 'Dips': ['08', 1], 'Leg Press': ['09', 1], 'Lunges': ['10', 1], 'Hip Thrust': ['11', 1], 'Bicep Curl': ['12', 1], 'Lateral Raise': ['13', 1], 'Calf Raise': ['14', 0], 'Plank / Abs': ['15', 0] };
 const FIG = (() => {
   const R = Math.PI / 180, cl = (v, a, b) => Math.max(a, Math.min(b, v)), lerp = (a, b, t) => a + (b - a) * t;
   const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * cl(t, 0, 1)), sm = (t, a, b) => ease((t - a) / (b - a));
@@ -6107,17 +6117,26 @@ const UI = {
     const g = this.guideFor(e), open = this._guideOpen === e;
     return `<div class="gd-item ${open ? 'open' : ''}">
       <button class="gd-hd" data-action="guide-toggle" data-ex="${U.esc(e)}">
-        <span class="gd-thumb">${g && g.anim ? this.figSVG(g.anim, 'anim', 64) : '<svg class="ic text-2xl muted"><use href="#fa-dumbbell"/></svg>'}</span>
+        ${g && g.anim && GUIDE_MEDIA[g.anim] ? `<span class="gd-thumb gd-img"><img src="guide/${GUIDE_MEDIA[g.anim][0]}_t.webp" alt="" loading="lazy"></span>` : `<span class="gd-thumb">${g && g.anim ? this.figSVG(g.anim, 'anim', 64) : '<svg class="ic text-2xl muted"><use href="#fa-dumbbell"/></svg>'}</span>`}
         <span class="flex-1 min-w-0 text-left"><span class="block font-bold truncate">${U.esc(U.exRu(e))}</span><span class="block text-[11px] muted leading-snug" ${g && !g.builtin ? 'data-no-mt' : ''}>${g ? U.esc(g.muscles) : 'Своё упражнение · гайд от AI'}</span></span>
         <svg class="ic gd-chev muted"><use href="#fa-chevron-down"/></svg></button>
       ${open ? this.guideDetail(e, g) : ''}</div>`;
   },
+  guideMedia(g) {
+    const [k, v] = GUIDE_MEDIA[g.anim], ph = (g.ph || GUIDE[g.anim].ph || []).map(s => `<span>${U.esc(s)}</span>`).join('');
+    const stage = v ? `<video src="guide/${k}.mp4" poster="guide/${k}.webp" data-gdvid data-morph-skip autoplay muted loop playsinline preload="auto"></video>` : `<img src="guide/${k}.webp" alt="">`;
+    return `<div class="gd-stage gd-media"><div class="gd-vid">${stage}</div><div class="gd-ph">${ph}</div>
+        ${v ? `<div class="gd-ctl"><button class="chip ${this._gdPaused ? 'chip-on' : ''}" data-action="guide-pause"><svg class="ic"><use href="#${this._gdPaused ? 'fa-play' : 'fa-stop'}"/></svg> ${this._gdPaused ? 'Играть' : 'Пауза'}</button><button class="chip ${this._gdSlow ? 'chip-on' : ''}" data-action="guide-slow"><svg class="ic"><use href="#fa-hourglass"/></svg> Медленно</button></div>` : ''}</div>
+      <div class="gd-legend"><span><i style="background:#F97316"></i>светятся мышцы, которые работают</span></div>
+      ${v ? `<div class="grid grid-cols-2 gap-2 mb-4"><div class="gd-frame gd-img"><img src="guide/${k}.webp" alt="" loading="lazy"><span>1 · Старт</span></div><div class="gd-frame gd-img"><img src="guide/${k}_b.webp" alt="" loading="lazy"><span>2 · Финиш</span></div></div>` : '<div class="mb-4"></div>'}`;
+  },
+  gdVid(root) { (root || document).querySelectorAll('video[data-gdvid]').forEach(v => { v.playbackRate = this._gdSlow ? .5 : 1; if (this._gdPaused) v.pause(); else v.play().catch(() => {}); }); },
   guideDetail(e, g) {
     if (!g) { const busy = this._guideBusy === e; return `<div class="gd-body"><div class="text-sm muted mb-3">Для своего упражнения гайд составит AI: техника по шагам, частые ошибки и совет.</div>
       <button class="btn btn-primary w-full" data-action="guide-ai" data-ex="${U.esc(e)}" ${busy ? 'disabled' : ''}><svg class="ic ${busy ? 'spin' : ''}"><use href="#${busy ? 'fa-circle-notch' : 'fa-wand-magic-sparkles'}"/></svg> ${busy ? 'AI пишет гайд…' : 'Создать гайд с AI'}</button></div>`; }
     const nm = g.builtin ? '' : 'data-no-mt', li = a => (a || []).map(s => `<li>${U.esc(s)}</li>`).join('');
     return `<div class="gd-body">
-      ${g.anim ? `<div class="gd-stage">${this.figSVG(g.anim, 'anim', 300, { path: true, captions: true })}
+      ${g.anim && GUIDE_MEDIA[g.anim] ? this.guideMedia(g) : ''}${g.anim && !GUIDE_MEDIA[g.anim] ? `<div class="gd-stage">${this.figSVG(g.anim, 'anim', 300, { path: true, captions: true })}
         <div class="gd-ctl"><button class="chip ${this._gdPaused ? 'chip-on' : ''}" data-action="guide-pause"><svg class="ic"><use href="#${this._gdPaused ? 'fa-play' : 'fa-stop'}"/></svg> ${this._gdPaused ? 'Играть' : 'Пауза'}</button><button class="chip ${this._gdSlow ? 'chip-on' : ''}" data-action="guide-slow"><svg class="ic"><use href="#fa-hourglass"/></svg> Медленно</button></div></div>
       <div class="gd-legend"><span><i style="background:#F97316"></i>работают</span><span><i style="background:#10B981"></i>траектория</span></div>
       <div class="grid grid-cols-2 gap-2 mb-4"><div class="gd-frame">${this.figSVG(g.anim, 'a', 130)}<span>1 · Старт</span></div><div class="gd-frame">${this.figSVG(g.anim, 'b', 130)}<span>2 · Финиш</span></div></div>` : ''}
@@ -6143,7 +6162,7 @@ const UI = {
     const top = pg.scrollTop;
     this.morph(pg, `<div class="pg-hd"><button class="back-btn" data-action="page-back" aria-label="Назад"><svg class="ic"><use href="#fa-arrow-left"/></svg></button><div class="font-black text-lg truncate">${U.esc(title)}</div></div><div class="pg-body">${body}</div>`);
     App.restoreDrafts(pg); if (typeof MT !== 'undefined' && MT.active && MT.active()) MT.apply(pg); if (typeof FIG !== 'undefined') FIG.scan();
-    this.hydrateVideos(pg); pg.classList.toggle('themed', !!pg.querySelector('.clan-bd'));
+    this.gdVid(pg); this.hydrateVideos(pg); pg.classList.toggle('themed', !!pg.querySelector('.clan-bd'));
     if (k === 'user') { this.fillCounts(pg, this._userPage); if (this._userFocus) { const el = pg.querySelector(`[data-key="p${CSS.escape(this._userFocus)}"]`); if (el) { const fid = this._userFocus, cm = this._userFocusCm; this._userFocus = null; this._userFocusCm = false; el.classList.add('flash'); setTimeout(() => { el.scrollIntoView({ block: 'start', behavior: 'smooth' }); if (cm) setTimeout(() => this.openComments(fid), 350); }, 80); } } }
     if (k === 'feed') { this.bindFeedScroll(pg); if (!Social.cache.length && !Social.loading && !Social.done) Social.load(true).then(() => this._page === 'feed' && this.renderPage()); if (this._feedFocus) { const el = pg.querySelector(`[data-key="p${CSS.escape(this._feedFocus)}"]`); if (el) { this._feedFocus = null; setTimeout(() => el.scrollIntoView({ block: 'start' }), 60); } } }
   },
