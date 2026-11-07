@@ -48,7 +48,6 @@ jobs:
           KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           if [ -z "$TEAM" ] || [ -z "$KEY_ID" ] || [ -z "$ISSUER" ] || [ -z "$KEY_P8" ]; then echo "Нет ключей Apple в Secrets — TestFlight пропускаем"; exit 0; fi
-          # Archive сразу под Apple Distribution: для Development-профиля Apple требует зарегистрированный iPhone
           # Секреты часто вставляют с пробелами/переносами — чистим
           TEAM=$(printf '%s' "$TEAM" | tr -d '[:space:]')
           KEY_ID=$(printf '%s' "$KEY_ID" | tr -d '[:space:]')
@@ -69,11 +68,30 @@ jobs:
           PY
           openssl pkey -in "$KEY" -noout 2>/dev/null && echo "p8: ключ читается ✓" || { echo "::error::ASC_KEY_P8 не похож на ключ .p8 — вставь заново весь файл AuthKey_….p8 (от BEGIN до END)"; exit 1; }
           echo "Key ID length: ${#KEY_ID}, Issuer length: ${#ISSUER}, Team length: ${#TEAM}"
+          # Для архива Xcode делает Development-профиль, а Apple не даёт его без хотя бы одного устройства в команде.
+          # Если устройств нет — регистрируем одно служебное через App Store Connect API (export потом подписывает Distribution).
+          python3 -m pip install -q --disable-pip-version-check pyjwt cryptography >/dev/null 2>&1 || pip3 install -q --break-system-packages pyjwt cryptography
+          KEY_ID="$KEY_ID" ISSUER="$ISSUER" python3 - "$KEY" <<'PY'
+          import os, sys, time, json, urllib.request, jwt
+          tok = jwt.encode({"iss": os.environ["ISSUER"], "iat": int(time.time()), "exp": int(time.time()) + 600, "aud": "appstoreconnect-v1"},
+                           open(sys.argv[1]).read(), algorithm="ES256", headers={"kid": os.environ["KEY_ID"], "typ": "JWT"})
+          H = {"Authorization": "Bearer " + tok, "Content-Type": "application/json"}
+          def call(method, path, body=None):
+              r = urllib.request.Request("https://api.appstoreconnect.apple.com" + path, method=method, headers=H,
+                                         data=json.dumps(body).encode() if body else None)
+              return json.load(urllib.request.urlopen(r))
+          devs = call("GET", "/v1/devices?filter[platform]=IOS&filter[status]=ENABLED&limit=1")["data"]
+          if devs:
+              print("devices: есть", len(devs))
+          else:
+              call("POST", "/v1/devices", {"data": {"type": "devices", "attributes": {"name": "CI build device", "platform": "IOS", "udid": "00008110-001A2B3C4D5E6F70"}}})
+              print("devices: зарегистрировано служебное устройство")
+          PY
           AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $KEY_ID -authenticationKeyIssuerID $ISSUER"
           set -o pipefail
           xcodebuild -project App.xcodeproj -scheme App -configuration Release \
             -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
-            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic CODE_SIGN_IDENTITY="Apple Distribution" \
+            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic \
             MARKETING_VERSION=1.0 CURRENT_PROJECT_VERSION=${{ github.run_number }} \
             $AUTH archive 2>&1 | tee ../../ios-archive.log | grep -E "error:|ARCHIVE (SUCCEEDED|FAILED)" || true
           grep -q "ARCHIVE SUCCEEDED" ../../ios-archive.log || { echo "::error::$(grep -n 'error:' ../../ios-archive.log | head -20 | tr '\n' ' ')"; exit 1; }
