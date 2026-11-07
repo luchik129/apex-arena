@@ -1599,6 +1599,19 @@ html.light .hdr-th-k{transform:translateX(.95rem);background:#fff;color:#D97706;
 .hdr-th-k .ic{width:.85rem;height:.85rem}.th-sun{display:none}html.light .th-sun{display:block}html.light .th-moon{display:none}
 .hdr-th:active .hdr-th-k{width:2rem}
 html.theme-anim body,html.theme-anim body *{transition:background-color .35s ease,color .35s ease,border-color .35s ease!important}
+/* v62: шапка «Пути рангов» прилипает при прокрутке — крестик всегда под рукой */
+.modal.rd-modal .rr>.rd-head{position:sticky;top:-1rem;z-index:20;margin:-1rem -1.25rem .9rem;padding:1rem 1.25rem .7rem;background:color-mix(in srgb,#09090B 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid #1F1F23}
+html.light .modal.rd-modal .rr>.rd-head{background:color-mix(in srgb,#F4F4F5 88%,transparent);border-color:#E4E4E7}
+.rr-min .ic,.rd-chip .ic,.rr-now-s .ic,.rr-info-st .ic{width:.85em;height:.85em}
+/* v62: окно рейтинга кубков */
+.tlb-head{position:sticky;top:-1.25rem;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:-1.25rem -1.25rem .75rem;padding:1.1rem 1.25rem .6rem;background:var(--card)}
+.tlb-x{width:2.3rem;height:2.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--sub);border:1px solid var(--line);flex:none}
+.tlb .seg button{display:inline-flex;align-items:center;justify-content:center;gap:.35rem}
+/* v62: серия — что уже сделано сегодня */
+.stk-todo{display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem}
+.stk-todo span{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;padding:.3rem .6rem;border-radius:999px;background:var(--sub);border:1px solid var(--line);color:var(--muted)}
+.stk-todo span.on{color:#10B981;border-color:#10B98155;background:#10B9811A}
+.aif-all{margin-top:.1rem}
 /* «Путь рангов» */
 .modal.rd-modal{padding-top:1rem;background:#09090B;border-color:#1F1F23}
 html.light .modal.rd-modal{background:#F4F4F5;border-color:#E4E4E7}
@@ -1997,7 +2010,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '61',
+  APP_VERSION: '62',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -2065,7 +2078,7 @@ const CONFIG = {
   AC_RULES: { enabled: true, ratio: { 'Bench Press': 2.0, 'Incline Bench': 1.8, 'Overhead Press': 1.4, 'Squat': 2.7, 'Deadlift': 3.0, 'Romanian Deadlift': 2.6, 'Barbell Row': 1.8, 'Pull-ups': 2.2, 'Dips': 2.4, 'Leg Press': 6.0, 'Lunges': 2.0, 'Hip Thrust': 4.0, 'Bicep Curl': 1.0, 'Lateral Raise': 0.6, 'Calf Raise': 4.0, bench: 2.0, squat: 2.7, deadlift: 3.0, other: 3.0 }, record: { bench: 355, squat: 490, deadlift: 505 }, female: 0.72, jump: 0.25, min_kg: 60 },
   // античит: предел e1RM (кг) — абсолютный (около мирового рекорда) и в долях веса тела
   LIFT_CAPS: { bench: [355, 3.2], squat: [490, 4.2], deadlift: [505, 4.5], other: [400, 4.5] },
-  DAY_TROPHY_CAP: 100,
+  DAY_TROPHY_CAP: 100, SERVER_DAY_TROPHY_CAP: 150, // v62: тот же лимит, что у сервера (profiles_guard)
   // v48: кубки дня — оценка дня (питание, сон, вода, активность) превращается в кубки после полуночи
   DAY_Q: { BACK: 2, TIERS: [
     { min: 95, cups: 10, name: 'Идеальный день', color: '#10B981' },
@@ -2586,10 +2599,25 @@ const Calc = {
   distinctExercises(day) { return new Set(Calc.liftsOn(day).filter(l => !l.warmup && !l.flagged && (+l.weight >= 5 || U.exInfo(l.exerciseName).bodyweight)).map(l => l.exerciseName)).size; }, // v52: «1 кг × 3 упражнения» тренировкой не считается
   isWorkoutDay(day) { return Calc.distinctExercises(day) >= CONFIG.WORKOUT_MIN_EXERCISES; },
   workoutsInWeek(weekKey) { return S.game.countedWorkoutDays.filter(d => U.weekKey(U.parseDay(d)) === weekKey).length; },
-  // активный день = любой ввод: тренировка/подход, еда или сон (+ дни, закрытые заморозкой)
+  // v62: серия чуть сложнее. День засчитан, если сделал 2 разных дела из: еда, вода, сон, вес, подходы —
+  // или засчитанная тренировка (она одна закрывает день). Записи — только в тот же день или на следующий (задним числом не накрутить).
+  // Дни до обновления считаются по старому правилу (любой ввод), чтобы уже набранные серии не сгорели.
+  STREAK_NEED: 2,
+  streakKinds(day) {
+    const ok = ts => !!ts && U.dayKey(new Date(ts)) <= U.addDays(day, 1), k = { lift: false, food: false, water: false, sleep: false, weight: false };
+    k.lift = S.lifts.some(l => l.date === day && !l.flagged && ok(l.ts)); k.food = S.nutrition.log.some(f => f.date === day && ok(f.ts));
+    k.water = (S.health.water || []).some(x => x.date === day && ok(x.ts)); k.sleep = S.health.sleep.some(x => x.date === day && ok(x.ts)); k.weight = (S.health.weights || []).some(x => x.date === day && ok(x.ts));
+    const n = Object.values(k).filter(Boolean).length, workout = S.game.countedWorkoutDays.includes(day);
+    return { k, n, workout, ok: workout || n >= Calc.STREAK_NEED };
+  },
+  streakFrom() { return S.game.stk2 || (S.game.stk2 = U.today()); },
   activeDays() {
-    const set = new Set();
-    S.lifts.forEach(l => { if (!l.flagged) set.add(l.date); }); S.nutrition.log.forEach(f => set.add(f.date)); S.health.sleep.forEach(x => set.add(x.date));
+    const set = new Set(), from = Calc.streakFrom(), cand = new Set();
+    const add = d => { if (d < from) set.add(d); else cand.add(d); };
+    S.lifts.forEach(l => { if (!l.flagged) add(l.date); }); S.nutrition.log.forEach(f => add(f.date)); S.health.sleep.forEach(x => add(x.date));
+    (S.health.water || []).forEach(x => { if (x.date >= from) cand.add(x.date); }); (S.health.weights || []).forEach(x => { if (x.date >= from) cand.add(x.date); });
+    S.game.countedWorkoutDays.forEach(d => add(d));
+    cand.forEach(d => { if (Calc.streakKinds(d).ok) set.add(d); });
     return set;
   },
   activeOn(day = U.today()) { return this.activeDays().has(day); },
@@ -2597,8 +2625,8 @@ const Calc = {
     const real = this.activeDays(), all = new Set([...real, ...(S.game.frozenDays || [])]), today = U.today();
     let d = all.has(today) ? today : U.addDays(today, -1), count = 0;
     while (all.has(d)) { count++; d = U.addDays(d, -1); }
-    const last = [...real].sort().pop() || null;
-    return { count, active: count > 0, today: real.has(today), last };
+    const last = [...real].sort().pop() || null, tk = Calc.streakKinds(today);
+    return { count, active: count > 0, today: real.has(today), last, todayN: tk.workout ? Calc.STREAK_NEED : Math.min(tk.n, Calc.STREAK_NEED), need: Calc.STREAK_NEED, kinds: tk.k };
   },
   nutritionStreak() {
     const days = [...new Set(S.nutrition.log.map(f => f.date))].sort(); if (!days.length) return 0;
@@ -2675,7 +2703,7 @@ const Calc = {
     return { cals, protein, carbs, fat };
   },
   nutritionGoalMet(day = U.today()) {
-    const g = Calc.fairGoals(), { items, total } = Calc.nutritionToday(day); // v52: кубки — по общей норме, заниженная цель их не даёт
+    const g = Calc.fairGoals(day), { items, total } = Calc.nutritionToday(day); // v62: кубки — по своей цели (в разумных пределах, со следующего дня)
     return items.length > 0 && total.cals >= g.cals * 0.85 && total.cals <= g.cals * 1.1 && total.protein >= g.protein * 0.8;
   },
   weekLedger(weekKey = U.weekKey()) { return S.ledger.filter(e => e.type === 'trophy' && U.weekKey(new Date(e.ts)) === weekKey).reduce((a, e) => a + e.delta, 0); },
@@ -2709,12 +2737,17 @@ const Game = {
       const today = U.today(); if (!g.dayGain || g.dayGain.d !== today) g.dayGain = { d: today, n: 0 };
       n = Math.min(n, CONFIG.DAY_TROPHY_CAP - g.dayGain.n); if (n <= 0) return 0;
     }
+    if (n > 0) { // v62: на сервере не больше 150 кубков в день из любых источников — держим тот же лимит и на телефоне, чтобы свой профиль и чужой взгляд совпадали
+      const today = U.today(); if (!g.allGain || g.allGain.d !== today) g.allGain = { d: today, n: 0 };
+      n = Math.min(n, CONFIG.SERVER_DAY_TROPHY_CAP - g.allGain.n); if (n <= 0) { if (!g.capNote || g.capNote !== today) { g.capNote = today; this.events.push({ type: 'toast', data: { msg: `Сегодня уже ${CONFIG.SERVER_DAY_TROPHY_CAP} кубков — это дневной максимум. Завтра снова можно`, cls: 'or' } }); } return 0; }
+    }
     let t = g.trophies + n;
     // босс арены: кубки останавливаются на пороге следующей арены, пока условие не выполнено
     if (n > 0 && next && !Calc.bossMet(g.arenaIdx)) t = Math.min(t, next.min);
     t = Math.max(Calc.arenaFloor(g.arenaIdx), t);
     const delta = t - g.trophies; g.trophies = t;
     if (daily && delta > 0) g.dayGain.n += delta;
+    if (delta > 0) g.allGain.n += delta;
     if (delta !== 0) this.ledger('trophy', delta, note);
     this.checkArenaUp();
     if (delta > 0) this.checkStars();
@@ -2843,8 +2876,8 @@ const Game = {
     if (g.trophies !== before) this.ledger('trophy', g.trophies - before, 'Пауза в тренировках');
   },
   /* --- сезоны (структура, по умолчанию выключено) --- */
-  applySeason() {
-    const s = S.game.season; if (!s.enabled) return;
+  applySeason() { // v62: сезоны убраны — кубки больше не урезаются в конце месяца
+    const s = S.game.season; if (s) s.enabled = false; if (!s || !s.enabled) return;
     const id = U.monthKey(); if (s.id === id) return;
     if (s.id) {
       const floor = Calc.arenaFloor(), g = S.game, before = g.trophies;
@@ -3104,15 +3137,16 @@ const Game = {
   },
   // серия считается только по записям, сделанным в тот же день (или на следующий): задним числом серию не накрутить
   checkStreak() {
-    const live = new Set(), ok = (date, ts) => ts && U.dayKey(new Date(ts)) <= U.addDays(date, 1);
+    const live = new Set(), ok = (date, ts) => ts && U.dayKey(new Date(ts)) <= U.addDays(date, 1), from = Calc.streakFrom();
     S.lifts.forEach(l => { if (!l.flagged && ok(l.date, l.ts)) live.add(l.date); }); S.nutrition.log.forEach(f => { if (ok(f.date, f.ts)) live.add(f.date); }); S.health.sleep.forEach(x => { if (ok(x.date, x.ts)) live.add(x.date); });
+    [...live].forEach(d => { if (d >= from && !Calc.streakKinds(d).ok) live.delete(d); }); [...Calc.activeDays()].forEach(d => { if (d >= from) live.add(d); }); // v62: 2 дела в день
     (S.game.frozenDays || []).forEach(d => live.add(d));
     const today = U.today(); if (!live.has(today)) return; let n = 0, d = today; while (live.has(d)) { n++; d = U.addDays(d, -1); }
     const start = U.addDays(today, -(n - 1));
     Object.entries(CONFIG.TROPHY.STREAK).forEach(([m, t]) => { if (n >= +m) this.award(`streak:${m}:${start}`, t, `Серия ${m} дн.`, { coins: CONFIG.COINS.STREAK[m] || 0, toast: `Серия ${m} дней: +{n} кубков` }); });
   },
   /* --- старт --- */
-  boot() { if (!S.v41bo) { S.v41bo = 1; S.battleOpen = true; } { const s = S.game.season; if (s && !s.v29) { s.v29 = 1; s.enabled = true; } } if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); this.settleDays(); save(); },
+  boot() { Calc.streakFrom(); if (!S.v41bo) { S.v41bo = 1; S.battleOpen = true; }  if (typeof Unlock !== 'undefined') Unlock.migrate(); this.ensureQuests(); this.applySeason(); this.applyFreeze(); this.applyDecay(); this.checkArenaUp(); ClanService.resolveBattle(); ClanService.resolveDuel(); this.evaluateQuests(); this.settleDays(); save(); },
 };
 
 /* ------------------- v53: базовые лифты профиля и уровни рекордов ------------------- */
@@ -3141,12 +3175,33 @@ Object.assign(Calc, {
 
 /* ------------------- v52: честные нормы для кубков ------------------- */
 Object.assign(Calc, {
-  // личные цели можно ставить любые, но кубки считаются по общей норме: заниженная цель их не даёт, у всех правила одни
-  fairGoals() {
+  // v62: свои калории можно менять — кубки считаются по ТВОЕЙ цели. Антиабуз другой:
+  //  1) цель в разумных пределах: от 60% до 160% поддержания (и не меньше 1200/1400 ккал), белок от 1,2 г на кг;
+  //  2) новая цель идёт в зачёт кубков со следующего дня, если сегодня уже есть записи еды (нельзя «подогнать» цель под съеденное);
+  //  3) у всех одинаковые условия: попасть в 85–110% калорий и 80% белка.
+  goalRange() {
     const p = S.profile, bw = U.clamp(+p.bodyweight || 70, 40, 180);
-    const d = Calc.defaultGoals({ bodyweight: bw, height: U.clamp(+p.height || 175, 140, 215), age: U.clamp(+p.age || 25, 14, 90) }), g = S.nutrition.goals || d;
-    const floor = Math.max(p.sex === 'f' ? 1300 : 1600, Math.round(d.cals * 0.85 / 10) * 10), ceil = Math.max(floor, Math.round(d.cals * 1.25 / 10) * 10);
-    return { cals: U.clamp(+g.cals || d.cals, floor, ceil), protein: Math.max(+g.protein || 0, Math.round(bw * 1.4)), water: Math.max(Calc.waterGoal(), 1500, Math.round(Math.min(bw * 30, 3500) / 250) * 250), floor };
+    const d = Calc.defaultGoals({ bodyweight: bw, height: U.clamp(+p.height || 175, 140, 215), age: U.clamp(+p.age || 25, 14, 90), fitGoal: 'keep' });
+    const lo = Math.max(p.sex === 'f' ? 1200 : 1400, Math.round(d.cals * 0.6 / 10) * 10), hi = Math.max(lo, Math.round(d.cals * 1.6 / 10) * 10);
+    return { lo, hi, protein: Math.round(bw * 1.2), bw };
+  },
+  // цель, действовавшая в этот день (история целей; до первой правки — то, что стоит сейчас)
+  goalsOn(day = U.today()) {
+    const log = S.nutrition.goalsLog || []; let g;
+    if (!log.length) g = S.nutrition.goals; else { const e = log.filter(x => x.from <= day).pop(); g = e ? e.g : (log[0].prev || null); }
+    return g || Calc.defaultGoals();
+  },
+  setGoals(goals) {
+    const n = S.nutrition, today = U.today(), log = n.goalsLog || (n.goalsLog = []);
+    const from = Calc.nutritionToday(today).items.length ? U.addDays(today, 1) : today;
+    if (!log.length) log.push({ from: '0000-00-00', g: n.goals || null });
+    for (let i = log.length - 1; i >= 0; i--) if (log[i].from >= from) log.splice(i, 1);
+    log.push({ from, g: goals || null }); if (log.length > 30) log.splice(1, log.length - 30);
+    n.goals = goals || null; return from;
+  },
+  fairGoals(day = U.today()) {
+    const r = Calc.goalRange(), g = Calc.goalsOn(day), d = Calc.defaultGoals();
+    return { cals: U.clamp(+g.cals || d.cals, r.lo, r.hi), protein: Math.max(+g.protein || 0, r.protein), water: Math.max(Calc.waterGoal(), 1500, Math.round(Math.min(r.bw * 30, 3500) / 250) * 250), floor: r.lo };
   },
   // вода в зачёт кубков: не больше 1 л за час (выпить норму можно только за день, а не одной кнопкой)
   waterCounted(day = U.today()) {
@@ -3206,7 +3261,7 @@ const Clock = {
 Object.assign(Calc, {
   dayQuality(k = U.today()) {
     const live = ts => !!ts && U.dayKey(new Date(ts)) <= U.addDays(k, 1), L = v => (v / 1000).toFixed(1).replace(/\.0$/, '');
-    const g = Calc.fairGoals(), parts = []; // v52: одинаковые нормы для всех
+    const g = Calc.fairGoals(k), parts = []; // v62: своя цель в разумных пределах
     const food = S.nutrition.log.filter(f => f.date === k && live(f.ts)), cals = food.reduce((a, f) => a + (+f.cals || 0), 0), prot = food.reduce((a, f) => a + (+f.protein || 0), 0);
     let fp = 0;
     if (food.length) { const r = cals / (g.cals || 1), cs = r >= .85 && r <= 1.1 ? 100 : r < .85 ? r / .85 * 100 : Math.max(0, 100 - (r - 1.1) * 250); fp = Math.round(cs * .6 + Math.min(100, prot / (g.protein || 1) * 100) * .4); }
@@ -3273,7 +3328,7 @@ Object.assign(Calc, {
 Object.assign(Game, {
   logWater(ml, date = U.today()) { ml = Math.round(+ml); if (!(ml > 0 && ml <= 3000)) return false; if (!S.health.water) S.health.water = []; S.health.water.push({ id: U.uid(), date, ml, ts: Date.now() }); if (S.health.water.length > 4000) S.health.water.splice(0, S.health.water.length - 4000);
     if (date === U.today() && Calc.waterCounted(date) >= Calc.fairGoals().water) this.award('water:' + date, CONFIG.TROPHY.WATER_GOAL, 'Норма воды', { toast: 'Норма воды выполнена: +{n} кубка' });
-    save(); return true; },
+    this.checkStreak(); save(); return true; },
   undoWater(date = U.today()) { const xs = S.health.water || []; for (let i = xs.length - 1; i >= 0; i--) if (xs[i].date === date) { xs.splice(i, 1); save(); return true; } return false; },
   logWeight(kg, date = U.today()) {
     kg = +(+kg).toFixed(1); if (!(kg > 20 && kg < 400)) return false;
@@ -3281,7 +3336,7 @@ Object.assign(Game, {
     const rec = { id: i >= 0 ? ws[i].id : U.uid(), date, kg, ts: Date.now() }; if (i >= 0) ws[i] = rec; else ws.push(rec);
     const last = Calc.weightLog().slice(-1)[0]; if (last) S.profile.bodyweight = last.kg;
     if (date === U.today()) this.award('weight:' + date, CONFIG.TROPHY.WEIGHT_LOG, 'Взвешивание');
-    save(); return true;
+    this.checkStreak(); save(); return true;
   },
   deleteWeight(id) { S.health.weights = (S.health.weights || []).filter(w => w.id !== id); const last = Calc.weightLog().slice(-1)[0]; if (last) S.profile.bodyweight = last.kg; save(); },
   addGoal({ ex, rm, target, deadline }) { if (!S.goals) S.goals = []; const g = { id: U.uid(), ex, rm, target: +target, deadline, created: U.today(), doneAt: null }; g.base = Calc.goalBest(g); S.goals.push(g); this.checkGoals(true); save(); },
@@ -3920,6 +3975,24 @@ const AIFood = {
     if (j.error === 'limit') return { limit: true, error: kind === 'food' ? `Лимит ИИ на сегодня: ${this.LIMIT.food} раза. Завтра снова можно, а пока добавь вручную.` : `Лимит ИИ на сегодня: ${this.LIMIT.activity} раза. Впиши калории вручную.`, limit: true };
     if (j.error) return { error: j.message || 'Ошибка ИИ' };
     return { items: j.items || [], left: j.left, dish: typeof j.dish === 'string' ? j.dish.slice(0, 40) : '' };
+  },
+  // v62: несколько блюд в одном сообщении → отдельная карточка на каждое блюдо (поле group от ИИ).
+  // Человек сам назвал всё одним блюдом («Сырники от бабушки: …») или сервер старый (без group) — одна карточка, как раньше.
+  groups(items, own) {
+    const xs = items || [];
+    if (own || !xs.some(x => x.group)) return xs.length ? [{ title: own || '', meal: (xs[0] && xs[0].meal) || 'snack', items: xs }] : [];
+    const out = [], by = {};
+    xs.forEach(x => { const t = String(x.group || x.name || '').trim(), k = t.toLowerCase() + '|' + (x.meal || ''); if (!by[k]) { by[k] = { title: t.charAt(0).toUpperCase() + t.slice(1), meal: x.meal || 'snack', items: [] }; out.push(by[k]); } by[k].items.push(x); });
+    return out;
+  },
+  msg(g, batch) { return { role: 'ai', items: g.items, grams: g.items.map(x => x.grams), on: g.items.map(() => true), meal: g.meal, title: g.title || this.mealName(g.meal), auto: !g.title, saved: false, batch: batch || null }; },
+  // записать одну карточку ИИ в дневник (одной плашкой-блюдом)
+  saveMsg(m, day) {
+    if (!m || m.saved) return false;
+    const gid = U.uid(), gname = String(m.title || '').trim() || this.mealName(m.meal);
+    const items = m.items.map((it, i) => m.on[i] && m.grams[i] > 0 ? { ...this.scale(it, m.grams[i]), meal: m.meal, gid, gname } : null).filter(Boolean);
+    if (!items.length) return false;
+    Game.logFood(items, day); m.saved = true; m.gid = gid; m.title = gname; return true;
   },
   // пересчёт продукта под граммы
   scale(it, grams) { const k = (+grams || 0) / 100; return { name: it.name, grams: Math.round(+grams || 0), meal: it.meal, cals: Math.round(it.kcal100 * k), protein: Math.round(it.p100 * k), carbs: Math.round(it.c100 * k), fat: Math.round(it.f100 * k), per: { k: +it.kcal100 || 0, p: +it.p100 || 0, c: +it.c100 || 0, f: +it.f100 || 0 }, src: 'ai' }; },
@@ -4635,12 +4708,15 @@ const Social = {
   },
   filterLocal(xs) { const t = this.tag, q = this.q.toLowerCase(); return xs.filter(p => (t ? p.tags.includes(t) : p.kind !== 'pr') && (!q || (p.body + ' ' + p.nick + ' ' + (p.ex ? U.exRu(p.ex) : '')).toLowerCase().includes(q))); },
   recent(n = 8) { return (this.cache.length ? this.cache : this.online() ? [] : this.demo()).slice(0, n); },
-  stale() { return Date.now() - this.at > 30000; },
+  // v62: лента помнит, откуда она (сервер или телефон). После смены языка приложение перезапускается, и лента успевала
+  // загрузиться до входа в аккаунт: пустой офлайн-кэш висел, пока не перезайдёшь. Теперь при появлении сети грузим заново.
+  mode() { return this.online() ? 'net' : 'local'; },
+  stale() { return this.src !== this.mode() || Date.now() - this.at > 30000; },
   // первая страница (reset) или следующая (более старые посты)
   async load(reset = true) {
     if (this.loading) return false; this.loading = true;
     try {
-      if (!this.online()) { const all = this.sortLocal(this.filterLocal(this.demo())), n = reset ? 10 : this.cache.length + 10; this.cache = all.slice(0, n); this.done = this.cache.length >= all.length; this.at = Date.now(); return true; }
+      if (!this.online()) { const all = this.sortLocal(this.filterLocal(this.demo())), n = reset ? 10 : this.cache.length + 10; this.cache = all.slice(0, n); this.done = this.cache.length >= all.length; this.at = Date.now(); this.src = 'local'; return true; }
       const srt = this.sort || 'new'; let q = Net.client.from('posts').select('*');
       if (srt === 'top') q = q.gte('created_at', new Date(Date.now() - 30 * 864e5).toISOString()).order('like_count', { ascending: false }).order('created_at', { ascending: false });
       else if (srt === 'talk') q = q.gte('created_at', new Date(Date.now() - 30 * 864e5).toISOString()).order('comment_count', { ascending: false }).order('created_at', { ascending: false });
@@ -4657,8 +4733,8 @@ const Social = {
       const ids = (data || []).map(r => r.id);
       if (ids.length) { const { data: lk } = await Net.client.from('post_likes').select('post_id').eq('user_id', Net.uid).in('post_id', ids); (lk || []).forEach(x => this.liked.add(x.post_id)); }
       const rows = (data || []).map(r => this.norm(r));
-      this.cache = reset ? rows : this.cache.concat(rows.filter(r => !this.cache.some(c => c.id === r.id)));
-      this.done = rows.length < 12; this.at = Date.now(); return true;
+      this.cache = reset || this.src !== 'net' ? rows : this.cache.concat(rows.filter(r => !this.cache.some(c => c.id === r.id))); // v62: офлайн-кэш не смешиваем с серверным
+      this.done = rows.length < 12; this.at = Date.now(); this.src = 'net'; return true;
     } catch (e) { console.warn('Social.load', e); return false; } finally { this.loading = false; }
   },
   setFilter(tag, q = '') { this.tag = tag || null; this.q = q || ''; this.cache = []; this.done = false; return this.load(true); },
@@ -5140,12 +5216,23 @@ const Net = {
     if (photo !== this._avSrc) { this._avSrc = photo; this._avSmall = photo ? await U.shrinkImage(photo, 64).catch(() => null) : null; }
     const row = this.profileRow(); delete row.id; row.battle_open = S.battleOpen !== false;
     const miss = this._noCols || (this._noCols = new Set()); miss.forEach(c => delete row[c]);
+    let back = null;
     for (let i = 0; i < 4; i++) { // сервер без новых колонок (update_v19/v20.sql не запущен): убираем неизвестную колонку и пробуем снова
-      const r = await this.client.from('profiles').update(row).eq('id', this.uid); if (!r.error) break;
+      const r = await this.client.from('profiles').update(row).eq('id', this.uid).select().maybeSingle(); if (!r.error) { back = r.data; break; }
       const m = /column "?([a-z_]+)"?|'([a-z_]+)' column/i.exec(r.error.message || ''), col = m && (m[1] || m[2]); if (!col || !(col in row)) break; miss.add(col); delete row[col];
     }
+    if (back) this.syncTrophies(back, row.trophies);
     const data = { ...S, account: null, session: undefined, clan: null, meta: { savedAt: Date.now(), owner: this.uid, device: navigator.userAgent.slice(0, 40) } };
     await this.client.from('app_state').upsert({ user_id: this.uid, data });
+  },
+  // v62: кубки — одна правда на сервере. Сервер даёт не больше 150 кубков в день; если на телефоне больше (насчитано до
+  // лимита на телефоне или с разных устройств), берём серверное число — иначе у себя «Легенда 36 000», а у других «Мастер 22 000».
+  syncTrophies(back, sent) {
+    const srv = +back.trophies, g = S.game; if (!Number.isFinite(srv) || !(sent > srv) || +back.trophy_gain < CONFIG.SERVER_DAY_TROPHY_CAP) return;
+    const cut = sent - srv, before = g.trophies; g.trophies = Math.max(0, g.trophies - cut);
+    while (g.arenaIdx > 0 && Calc.arena(g.arenaIdx).min > g.trophies) g.arenaIdx--;
+    Game.ledger('trophy', g.trophies - before, 'Сервер: больше 150 кубков в день не засчитывается'); save();
+    if (typeof UI !== 'undefined') { UI.toast(`Кубки сверены с сервером: ${g.trophies}. Больше ${CONFIG.SERVER_DAY_TROPHY_CAP} в день не засчитывается`, 'or'); UI.renderHeader(); if (!document.getElementById('modal')) UI.renderTab(UI.tab); }
   },
   // при входе: если на сервере есть более свежее состояние, берём его; иначе отправляем локальное
   async pull() {
@@ -5209,7 +5296,6 @@ const Net = {
         S.duel = myDuel ? { id: myDuel.id, opponentId: myDuel.a_id === this.uid ? myDuel.b_id : myDuel.a_id, nick: (byId[myDuel.a_id === this.uid ? myDuel.b_id : myDuel.a_id] || {}).nick || '?', weekKey: myDuel.week_key, startedAt: new Date(myDuel.created_at).getTime(), byMe: myDuel.a_id === this.uid } : null;
         if (typeof Referral !== 'undefined') Referral.sync();
         if (typeof Mod !== 'undefined') Mod.sync();
-        if (typeof League !== 'undefined') League.settle();
         if (typeof Clock !== 'undefined') Clock.sync();
         if (typeof Follow !== 'undefined') { Follow.load().then(ok => { if (ok && typeof UI !== 'undefined' && UI.tab === 'clans' && !document.getElementById('modal')) UI.keepInputs(() => UI.renderClans()); }); Activity.load().then(ok => { if (ok && typeof UI !== 'undefined') UI.renderHeader(); }); }
         save(); return true;
@@ -5651,7 +5737,7 @@ const UI = {
       </div>`; };
     // v30: сверху профиль и кубки, ниже напоминания, кнопка тренировки и плитки разделов; игра (лига, босс, квесты) — дальше
     const capNote = capped ? `<div class="mb-4 text-xs rounded-lg px-3 py-2" style="background:#F9731622;border:1px solid #F9731655"><svg class="ic text-or"><use href="#fa-lock"/></svg> Кубки на паузе: победи Босса арены (ниже), чтобы пройти дальше</div>` : '';
-    this.morph(this.$('#tab-arena'), this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + this.newbieCard() + (capped || boss ? bossCard : '') + this.leagueCard() + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
+    this.morph(this.$('#tab-arena'), this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + this.newbieCard() + (capped || boss ? bossCard : '') + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
     this.bindRemDots();
     // v47: при первом открытии кубки «набегают» от нуля
     if (!this._cu) { this._cu = 1; const el = this.$('#tab-arena .hm-big'), tn = el && el.firstChild, to = S.game.trophies;
@@ -5721,22 +5807,38 @@ const UI = {
       : (rk.stars < 5 ? row(`<span>${T('to_star')} · <b class="num">${rk.toStar}</b> ${ti}</span>`) : '') + row(`<span class="truncate">${TN(next.name)} ·</span><b class="num flex-none">${left}</b>${ti}`);
     return { ring, caps: `<button class="trc" data-action="open-road">${caps}</button>` };
   },
-  // v61: верхняя карточка главной — мини-лидерборд недельной лиги арены (соседи сверху и снизу), без дубля прогресса кубков
+  // v62: верхняя карточка главной — рейтинг кубков (без недельной лиги): место в мире и в своём ранге, соседи сверху и снизу.
+  // Нажатие открывает окно с двумя рейтингами: глобальный и твоего ранга.
   homeLeague(a, rk, place) {
-    const b = League.board(), me = b.findIndex(p => p.self), n = b.length, dl = League.daysLeft(), nAr = CONFIG.ARENAS.filter(x => !x.league).length;
-    const from = me < 0 ? 0 : U.clamp(me - 1, 0, Math.max(0, n - 3)), rows = b.slice(from, from + 3);
-    const row = (p, k) => { const pos = from + k + 1; return `<span class="hl-r ${p.self ? 'me' : ''}"><b class="hl-pos num">${pos}</b>${this.av(p.self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : p, 26)}<span class="hl-nick" data-no-mt>${U.esc(p.self ? (S.profile.nickname || 'Ты') : p.nick)}</span><span class="hl-pts num">${T('hl_pts', { n: p.pts })}</span></span>`; };
-    const up = me > 0 ? b[me - 1] : null;
-    const foot = n < 2 ? T('hl_alone') : me === 0 ? T('hl_lead') : up ? T('hl_catch', { p: me, n: `<b class="num">${Math.max(1, up.pts - b[me].pts + 1)}</b>` }) : '';
-    return `<button class="rk-show has-bg hl" style="--abg:url(${this.arenaBg(S.game.arenaIdx)})" data-action="home-league" data-key="hl-${S.game.arenaIdx}">
+    const all = ClanService.trophyBoard(), me = all.findIndex(p => p.self), n = all.length, idx = S.game.arenaIdx;
+    const mine = all.filter(p => p.self || (p.arenaIdx || 0) === idx), mr = mine.findIndex(p => p.self), nf = x => this._nf(x), ti = this.trophyIcon;
+    const from = me < 0 ? 0 : U.clamp(me - 1, 0, Math.max(0, n - 3)), rows = all.slice(from, from + 3);
+    const row = (p, k) => `<span class="hl-r ${p.self ? 'me' : ''}"><b class="hl-pos num">${from + k + 1}</b>${this.av(p.self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : p, 26)}<span class="hl-nick" data-no-mt>${U.esc(p.self ? (S.profile.nickname || 'Ты') : p.nick)}</span><span class="hl-pts num">${nf(p.trophies)} ${ti}</span></span>`;
+    const up = me > 0 ? all[me - 1] : null;
+    const foot = n < 2 ? 'Пока ты один в рейтинге — позови друзей' : me === 0 ? 'Ты первый в мире — держи место' : up ? `До ${me}-го места <b class="num">${nf(Math.max(1, up.trophies - all[me].trophies + 1))}</b> ${ti}` : '';
+    return `<button class="rk-show has-bg hl" style="--abg:url(${this.arenaBg(idx)})" data-action="home-league" data-key="hl-${idx}">
         <span class="hl-top">
-          <span class="rk-medal">${this.medal(S.game.arenaIdx, { size: 58, anim: false })}</span>
-          <span class="rk-info"><span class="rk-kick">${T('hl_kick')} · ${T('hl_days', { n: dl })}</span><span class="rk-name">${TN(a.name)}</span>${this.starsHtml(rk.stars)}</span>
-          ${me >= 0 && n > 1 ? `<span class="hl-place"><b class="num">#${me + 1}</b><small>${T('hl_of', { n })}</small></span>` : ''}
+          <span class="rk-medal">${this.medal(idx, { size: 58, anim: false })}</span>
+          <span class="rk-info"><span class="rk-kick">Рейтинг кубков</span><span class="rk-name">${TN(a.name)}</span>${this.starsHtml(rk.stars)}</span>
+          ${me >= 0 && n > 1 ? `<span class="hl-place"><b class="num">#${me + 1}</b><small>в мире${mr >= 0 && mine.length > 1 ? ` · #${mr + 1} в ранге` : ''}</small></span>` : ''}
         </span>
         ${n > 1 ? `<span class="hl-list">${rows.map(row).join('')}</span>` : ''}
         ${foot ? `<span class="hl-foot">${foot}</span>` : ''}
       </button>`;
+  },
+  // v62: окно рейтинга кубков — «Глобальный» и «Твой ранг» (вместо недельной лиги)
+  openTrophyLb(k) {
+    const key = this._tlb = k || this._tlb || 'global', all = ClanService.trophyBoard(), idx = S.game.arenaIdx, a = Calc.arena(idx), on = ClanService.online();
+    const rows = key === 'rank' ? all.filter(p => p.self || (p.arenaIdx || 0) === idx) : all, me = rows.findIndex(p => p.self), nf = x => this._nf(x);
+    const items = rows.map(p => this.lbPlayer(p, p.trophies, `${nf(p.trophies)} ${this.trophyIcon}`, `${this.rankDot(Calc.arena(p.arenaIdx))} <span>${TN(Calc.arena(p.arenaIdx).name)}</span>`));
+    const html = `<div class="tlb">
+      <div class="tlb-head"><div class="font-black text-lg min-w-0 truncate"><svg class="ic text-amber-400"><use href="#fa-ranking-star"/></svg> Рейтинг кубков</div><button data-action="close-modal" class="tlb-x" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
+      <div class="seg mb-3"><button class="${key === 'global' ? 'on' : ''}" data-action="tlb-key" data-val="global"><svg class="ic"><use href="#fa-earth"/></svg> Глобальный</button><button class="${key === 'rank' ? 'on' : ''}" data-action="tlb-key" data-val="rank">${this.medal(idx, { size: 16, anim: false })} Твой ранг</button></div>
+      <div class="text-[11px] muted mb-3">${key === 'rank' ? `Игроки ранга «${TN(a.name)}»` : 'Все игроки по кубкам'}${me >= 0 ? ` · ты <b class="num">#${me + 1}</b> из ${rows.length}` : ''}</div>
+      ${on ? '' : '<div class="demo-note mb-2"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: показаны примеры игроков</div>'}
+      ${this.lbBoard(items, { limit: 100, empty: 'Пока никого' })}
+    </div>`;
+    const m = this.$('#modal .modal'); if (m && m.querySelector('.tlb')) this.morph(m, html); else this.modal(html);
   },
   homeHero() {
     const p = S.profile, g = S.game, a = Calc.arena(), next = Calc.nextArena(), rk = Calc.rank(g.trophies, g.arenaIdx), lvl = Calc.level(g.xp), wk = Calc.weekLedger(), place = !next ? Calc.legendPlace() : null;
@@ -5899,7 +6001,7 @@ const UI = {
     const bn = x => `<b class="num">${nf(x)}</b>`;
     if (cur && nx) st = g.trophies >= nx.min && !Calc.bossMet(i) ? T('rd_boss') : T('rd_to', { a: TN(nx.name), n: bn(nx.min - g.trophies) });
     else if (cur) { const pl = Calc.legendPlace(); st = T('rd_top') + (pl ? ' · ' + T('rd_place', { n: pl }) : ''); }
-    else if (locked) st = T('rd_lock', { a: nf(a.min), n: bn(a.min - g.trophies) });
+    else if (locked) st = T('rd_lock', { a: nf(a.min), n: bn(a.min - g.trophies) }) + ' ' + this.trophyIcon;
     else st = T('rd_done');
     const b = a.boss ? Calc.bossReq(i) : null;
     const boss = b ? `<div class="rd-boss"><div class="rd-boss-h"><svg class="ic"><use href="#fa-dragon"/></svg> Босс — чтобы пройти дальше</div>${b.items.map(x => `<div class="rd-boss-r ${x.ok ? 'ok' : ''}"><span>${x.name} <small>×${x.ratio} веса</small></span><b class="num">${U.w(x.have, 0)} / ${U.w(x.need, 0)} ${U.wUnit()}</b><i style="width:${Math.round(x.pct * 100)}%"></i></div>`).join('')}</div>` : '';
@@ -5908,7 +6010,7 @@ const UI = {
       <div class="rr-info-top"><span class="rr-info-md ${locked ? 'lock' : ''}">${this.medal(i, { size: 72, stars: cur ? rk.stars : locked ? 0 : 5, anim: false })}</span>
         <div class="min-w-0"><div class="rd-kick">${kick}${cur ? ' · <b>ты здесь</b>' : ''}</div><div class="rr-info-n">${TN(a.name)}</div><div class="rd-sub">${a.sub || ''}</div></div>
 </div>
-      <div class="rd-chips"><span class="rd-chip"><i style="background:${a.color}"></i>${T('rd_from', { n: nf(a.min) })}</span>${r.coins ? `<span class="rd-chip">+${nf(r.coins)} ${this.coinIcon}</span>` : ''}${r.item ? `<span class="rd-chip"><svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}</span>` : ''}</div>
+      <div class="rd-chips"><span class="rd-chip"><i style="background:${a.color}"></i>${T('rd_from', { n: nf(a.min) })} ${this.trophyIcon}</span>${r.coins ? `<span class="rd-chip">+${nf(r.coins)} ${this.coinIcon}</span>` : ''}${r.item ? `<span class="rd-chip"><svg class="ic"><use href="#fa-gift"/></svg> ${U.shopItem(r.item)?.name || ''}</span>` : ''}</div>
       <div class="rr-info-st ${!cur && !locked ? 'ok' : ''}">${st}</div>${boss}</div>`;
   },
   openRoad(sel) {
@@ -5924,14 +6026,14 @@ const UI = {
       return `<button class="rr-node ${st}" style="left:${p.x}%;top:${p.y}px;--rc:${a.color}" data-action="road-pick" data-i="${i}" aria-label="${U.esc(TN(a.name))}">
           ${st === 'cur' ? '<span class="rr-halo"></span><span class="rr-you">ты здесь</span>' : ''}${this.medal(i, { size: sz, anim: false })}${st === 'lock' ? '<span class="rr-lock"><svg class="ic"><use href="#fa-lock"/></svg></span>' : ''}</button>
         <div class="rr-lab ${side} ${st}" style="${side === 'l' ? `left:calc(${p.x}% + ${sz / 2 + 10}px)` : `right:calc(${100 - p.x}% + ${sz / 2 + 10}px)`};top:${p.y}px;--rc:${a.color};--ri:${this.ink(a.color, .3)}">
-          <b>${TN(a.name)}</b><small>${a.sub || ''}</small><span class="rr-min"><i></i>${nf(a.min)}${r.coins ? ` · +${nf(r.coins)} ${this.coinIcon}` : ''}</span></div>`; };
+          <b>${TN(a.name)}</b><small>${a.sub || ''}</small><span class="rr-min"><i></i>${nf(a.min)} ${this.trophyIcon}${r.coins ? ` · +${nf(r.coins)} ${this.coinIcon}` : ''}</span></div>`; };
     const pct = nx ? U.clamp((g.trophies - A[cur].min) / (nx.min - A[cur].min) * 100, 0, 100) : 100;
     this.modal(`<div class="rd rr">
       <div class="rd-head"><div><div class="rd-brand">FLEXO LEAGUE</div><div class="rd-title">Путь рангов</div></div><button data-action="close-modal" class="rd-x" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
       <button class="rr-now" data-action="road-pick" data-i="${cur}" style="--rc:${A[cur].color};--ri:${this.ink(A[cur].color, .25)}">
         ${this.medal(cur, { size: 54, anim: false })}<span class="rr-now-t"><small>Твой ранг</small><b>${TN(A[cur].name)}</b>
         <span class="rd-bar"><i style="width:${Math.max(3, pct)}%;background:linear-gradient(90deg,${A[cur].color},${(nx || A[cur]).color})"></i></span>
-        <span class="rr-now-s"><span class="num">${nf(g.trophies)} ${this.trophyIcon}</span><span>${nx ? `до «${TN(nx.name)}» ${nf(Math.max(0, nx.min - g.trophies))}` : 'вершина'}</span></span></span></button>
+        <span class="rr-now-s"><span class="num">${nf(g.trophies)} ${this.trophyIcon}</span><span>${nx ? `до «${TN(nx.name)}» ${nf(Math.max(0, nx.min - g.trophies))} ${this.trophyIcon}` : 'вершина'}</span></span></span></button>
       <div class="rr-map" style="height:${H}px">
         <svg class="rr-svg" aria-hidden="true"></svg>
         ${bans.map(b => `<div class="rr-ban" style="top:${b.y}px"><i></i><span><svg viewBox="-6 -6 12 12" class="rd-spark"><path d="M0-6C.6-1.2 1.2-.6 6 0 1.2.6.6 1.2 0 6-.6 1.2-1.2.6-6 0-1.2-.6-.6-1.2 0-6Z"/></svg>${b.t}<small>${b.r}</small></span><i></i></div>`).join('')}
@@ -6284,7 +6386,7 @@ const UI = {
     App.restoreDrafts(pg); if (typeof MT !== 'undefined' && MT.active && MT.active()) MT.apply(pg); if (typeof FIG !== 'undefined') FIG.scan();
     this.gdVid(pg); this.hydrateVideos(pg); pg.classList.toggle('themed', !!pg.querySelector('.clan-bd'));
     if (k === 'user') { this.fillCounts(pg, this._userPage); if (this._userFocus) { const el = pg.querySelector(`[data-key="p${CSS.escape(this._userFocus)}"]`); if (el) { const fid = this._userFocus, cm = this._userFocusCm; this._userFocus = null; this._userFocusCm = false; el.classList.add('flash'); setTimeout(() => { el.scrollIntoView({ block: 'start', behavior: 'smooth' }); if (cm) setTimeout(() => this.openComments(fid), 350); }, 80); } } }
-    if (k === 'feed') { this.bindFeedScroll(pg); if (!Social.cache.length && !Social.loading && !Social.done) Social.load(true).then(() => this._page === 'feed' && this.renderPage()); if (this._feedFocus) { const el = pg.querySelector(`[data-key="p${CSS.escape(this._feedFocus)}"]`); if (el) { this._feedFocus = null; setTimeout(() => el.scrollIntoView({ block: 'start' }), 60); } } }
+    if (k === 'feed') { this.bindFeedScroll(pg); if (((!Social.cache.length && !Social.done) || Social.src !== Social.mode()) && !Social.loading) Social.load(true).then(() => this._page === 'feed' && this.renderPage()); if (this._feedFocus) { const el = pg.querySelector(`[data-key="p${CSS.escape(this._feedFocus)}"]`); if (el) { this._feedFocus = null; setTimeout(() => el.scrollIntoView({ block: 'start' }), 60); } } }
   },
   closePage(fromPop = false) {
     const pg = this.$('#page'); this._page = null; if (!pg) return;
@@ -6580,7 +6682,7 @@ const UI = {
         <div class="grid grid-cols-2 gap-x-3 gap-y-1 mt-3">${Object.keys(CONFIG.MUSCLES).map(m => { const l = body.lv(m), pw = body.raw[m] / (days / 7); return `<button class="ld-row ${sel === m ? 'sel' : ''}" data-action="muscle-pick" data-m="${m}"><span class="flex justify-between text-[11px]"><span class="${body.raw[m] ? '' : 'muted'}">${TN(CONFIG.MUSCLES[m])}</span><span class="num muted">${body.raw[m] ? Math.round(body.raw[m] * 2) / 2 : '—'}</span></span><span class="ld-bar"><i style="width:${Math.min(1, pw / 20) * 100}%;background:${this.loadColor(body.raw[m], days)}"></i></span></button>`; }).join('')}</div>
         ${body.weak.length ? `<div class="mt-3 text-xs"><span class="text-or font-semibold"><svg class="ic "><use href="#fa-arrow-trend-up"/></svg> Не работали за ${days} дн.:</span> ${body.weak.map(m => TN(CONFIG.MUSCLES[m])).join(', ')}</div>` : '<div class="mt-3 text-xs text-em"><svg class="ic "><use href="#fa-check"/></svg> Все группы в работе</div>'}
       </div>
-      ${S.game.season.history.length ? `<div class="card p-4 mb-4"><div class="font-bold mb-2"><svg class="ic "><use href="#fa-hourglass"/></svg> Сезоны</div>${S.game.season.history.map(s => `<div class="text-xs py-1 border-t line flex justify-between"><span>${s.id}</span><span>${Calc.arena(s.arenaIdx).name} · ${s.trophies} ${this.trophyIcon} · +${s.reward} ${this.coinIcon}</span></div>`).join('')}</div>` : ''}`;
+      `;
     this.morph(this.$('#tab-profile'), html); this.watchFx(this.$('#tab-profile'));
     this.drawRadar(radar);
   },
@@ -6856,7 +6958,7 @@ const UI = {
       ${this.lbBoard(rows.map(r => this.lbPlayer(r, r.v, r.v ? `${U.w(r.v, 0)} <span class="text-[10px] muted">${U.wUnit()}</span>` : '–', r.arenaIdx != null ? TN(Calc.arena(r.arenaIdx).name) : '')), { limit: 50 })}`);
   },
   // как будет выглядеть пост с рекордом (та же карточка, что в ленте)
-  fairNote() { const f = Calc.fairGoals(), L = v => (v / 1000).toFixed(1).replace(/\.0$/, ''); return `<div class="fair-note mb-3"><svg class="ic"><use href="#fa-trophy"/></svg><span>Кубки дня у всех считаются по одной норме: еда около <b class="num">${f.cals}</b> ккал, белок от <b class="num">${f.protein}</b> г, вода от <b class="num">${L(f.water)}</b> л (не больше 1 л в час). Цель ниже нормы можно ставить для себя, но кубков она не прибавит.</span></div>`; },
+  fairNote() { const r = Calc.goalRange(), f = Calc.fairGoals(), g = S.nutrition.goals, cut = g && (+g.cals < r.lo || +g.cals > r.hi), L = v => (v / 1000).toFixed(1).replace(/\.0$/, ''); return `<div class="fair-note mb-3"><svg class="ic"><use href="#fa-trophy"/></svg><span>Кубки дня считаются по твоей цели, если она от <b class="num">${r.lo}</b> до <b class="num">${r.hi}</b> ккал и белок от <b class="num">${r.protein}</b> г. Новая цель идёт в зачёт со следующего дня, если сегодня уже записана еда. Вода — от <b class="num">${L(f.water)}</b> л (не больше 1 л в час).${cut ? ` <b class="text-or">Сейчас для кубков считается ${f.cals} ккал.</b>` : ''}</span></div>`; },
   prPreview(lift, cap) { return this.postCard({ id: 'preview', uid: 'me', self: true, nick: S.profile.nickname || 'Ты', photo: S.profile.avatar.photo, sex: S.profile.sex, arenaIdx: S.game.arenaIdx, kind: 'post', body: String(cap || '').slice(0, 300), tags: [], ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1, likes: 0, comments: 0, views: 0, ts: Date.now() }); },
   openArenaUp(arena, reward) {
     const nAr = CONFIG.ARENAS.filter(x => !x.league).length, nx = CONFIG.ARENAS[arena.id];
@@ -6962,7 +7064,9 @@ const UI = {
   },
   renderFoodAI(fresh) {
     const day = this._aifDay || U.today(), chat = AIFood.chat(day), left = AIFood.left.day === day && AIFood.left.food != null ? AIFood.left.food : null, busy = this._aifBusy;
-    const msgs = chat.map((m, i) => m.role === 'me' ? `<div class="aif-me" data-no-mt>${U.esc(m.text)}</div>` : m.role === 'err' ? `<div class="aif-ai err">${U.esc(m.text)}</div>` : m.items && m.items.length ? `<div class="aif-ai">${this.aifCard(m, i)}</div>` : `<div class="aif-ai">Не нашёл еды в сообщении. Напиши, например: «на обед 200 г гречки и куриная грудка».</div>`).join('');
+    const allBtn = (m, i) => { if (!m.batch || (chat[i + 1] && chat[i + 1].batch === m.batch)) return ''; const open = chat.filter(x => x.batch === m.batch && !x.saved), k = open.reduce((a, x) => a + x.items.reduce((s, it, j) => s + (x.on[j] ? AIFood.scale(it, x.grams[j]).cals : 0), 0), 0);
+      return open.length > 1 ? `<button class="btn btn-primary w-full aif-all" data-action="aif-save-all" data-b="${U.esc(m.batch)}"><svg class="ic"><use href="#fa-check-double"/></svg> Записать все блюда (${open.length}) · <span class="num">${k}</span> ккал</button>` : ''; };
+    const msgs = chat.map((m, i) => m.role === 'me' ? `<div class="aif-me" data-no-mt>${U.esc(m.text)}</div>` : m.role === 'err' ? `<div class="aif-ai err">${U.esc(m.text)}</div>` : m.items && m.items.length ? `<div class="aif-ai">${this.aifCard(m, i)}</div>${allBtn(m, i)}` : `<div class="aif-ai">Не нашёл еды в сообщении. Напиши, например: «на обед 200 г гречки и куриная грудка».</div>`).join('');
     const html = `<div class="aif">
       <div class="flex items-center justify-between mb-2"><div class="font-black text-lg"><svg class="ic text-pu"><use href="#fa-wand-magic-sparkles"/></svg> Что ты съел?</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
       <div class="flex items-center gap-2 mb-2 text-[11px]"><span class="aif-q">${[0, 1, 2].map(i => `<i class="${left != null && i < AIFood.LIMIT.food - left ? 'used' : ''}"></i>`).join('')}</span><span class="muted">${left == null ? `${AIFood.LIMIT.food} запроса в день: завтрак, обед, ужин` : left > 0 ? `Осталось ${left} из ${AIFood.LIMIT.food} на сегодня` : 'На сегодня запросы закончились, добавь вручную'}</span></div>
@@ -7316,10 +7420,13 @@ const UI = {
     let at = 0, inner = '';
     parts.forEach(([k, col, kc]) => { const sh = g[k] * kc / gk, a = at + gap / 2, b = at + sh - gap / 2, p = U.clamp(total[k] / (g[k] || 1), 0, 1); at += sh;
       inner += arc(r, w, a, b, col, { op: .2 }); if (p > 0) inner += arc(r, w, a, a + Math.max(0.0005, (b - a) * p), col, { fill: true }); });
-    const over = left < 0, ate = view === 'eaten', flip = false, y0 = (burned ? 57 : 61) - (flip ? 2 : 0), big = ate ? eaten : Math.abs(left);
+    const over = left < 0, ate = view === 'eaten', flip = false, y0 = (burned ? 54 : 58) - (flip ? 2 : 0), big = ate ? eaten : Math.abs(left);
+    // v62: ненавязчиво — сколько съедено из нормы (в режиме «осталось» мелко под главным числом; в режиме «съедено» — из скольки)
+    const of = `${eaten} / ${budget}`, ofY = y0 + (burned ? 31 : 21);
     const mid = `<g class="kr-mid"><text x="60" y="${y0}" text-anchor="middle" font-size="${big >= 10000 ? 18 : 22}" class="kr-big num" fill="${!ate && over ? OC : 'currentColor'}">${big}</text>
       <text x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="600" fill="var(--muted)">${ate ? 'ккал съедено' : over ? 'ккал сверх' : 'ккал осталось'}</text>
-      ${burned ? `<text x="60" y="${y0 + 22}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}</g>
+      ${burned ? `<text x="60" y="${y0 + 21}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}
+      <text class="kr-of num" x="60" y="${ofY}" text-anchor="middle" font-size="6.6" font-weight="700" fill="var(--muted)" opacity=".75">${ate ? `из ${budget}` : of}</text></g>
       ${flip ? `<circle cx="${ate ? 63 : 57}" cy="${y0 + (burned ? 30 : 21)}" r="1.6" fill="currentColor" opacity=".25"/><rect x="${ate ? 53 : 59}" y="${y0 + (burned ? 28.4 : 19.4)}" width="8" height="3.2" rx="1.6" fill="currentColor" opacity=".7"/>` : ''}`;
     return `<svg class="kring" viewBox="0 0 120 120" width="${size}" height="${size}" role="img" aria-label="${eaten} ккал">${out}${inner}${mid}</svg>`;
   },
@@ -7580,8 +7687,8 @@ Object.assign(UI, {
   // v29: закрытый рейтинг своей компании — первым экраном «Сообщества»
   // v58: рейтинг друзей — неделя или кубки, полоска относительно лидера, ранг, кнопка обновления
   friendsWeekCard() {
-    const fr = S.friends || [], start = League.weekStart(), mode = this.flMode === 'trophies' ? 'trophies' : 'week', on = ClanService.online();
-    if (!fr.length) return `<button class="card p-4 mb-4 text-left w-full fw-empty" data-action="open-page" data-kind="friends"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> Соревнуйтесь с друзьями</div><div class="text-[11px] muted mt-1">Добавь друзей по нику или коду, и здесь появится ваш общий рейтинг недели.</div><span class="btn btn-primary btn-sm mt-3"><svg class="ic"><use href="#fa-user-plus"/></svg> Добавить друга</span></button>`;
+    const fr = S.friends || [], start = League.weekStart(), mode = 'trophies', on = ClanService.online(); // v62: без недельного режима — только кубки
+    if (!fr.length) return `<button class="card p-4 mb-4 text-left w-full fw-empty" data-action="open-page" data-kind="friends"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> Соревнуйтесь с друзьями</div><div class="text-[11px] muted mt-1">Добавь друзей по нику или коду, и здесь появится ваш общий рейтинг по кубкам.</div><span class="btn btn-primary btn-sm mt-3"><svg class="ic"><use href="#fa-user-plus"/></svg> Добавить друга</span></button>`;
     const rows = fr.map(f => { const p = ClanService.player(f.id) || {}; return { ...p, id: f.id, nick: p.nick || f.nick, arenaIdx: p.arenaIdx || 0, trophies: p.trophies || 0, pts: League.ptsOf({ id: f.id }, start) }; });
     rows.push({ id: 'me', self: true, nick: S.profile.nickname || 'Ты', arenaIdx: S.game.arenaIdx, trophies: S.game.trophies, pts: Calc.myWindow(start) });
     const val = r => mode === 'week' ? r.pts : r.trophies;
@@ -7600,7 +7707,6 @@ Object.assign(UI, {
     if (mode === 'week') { if (me > 0) { const gap = rows[me - 1].pts - rows[me].pts + 1, w = Math.max(1, Math.ceil(gap / CONFIG.TROPHY.WORKOUT)); foot = `До ${me}-го места <b class="num">${gap}</b> очк. — это ${w} ${U.plural(w, 'тренировка', 'тренировки', 'тренировок')}`; } else if (rows.length > 1) foot = 'Ты лидер недели среди друзей'; }
     return `<div class="card p-4 mb-4 fl-card">
       <div class="fl-h"><div class="font-bold"><svg class="ic text-bl"><use href="#fa-users"/></svg> Друзья</div>
-        <div class="fl-seg"><button class="${mode === 'week' ? 'on' : ''}" data-action="fl-mode" data-val="week">Неделя</button><button class="${mode === 'trophies' ? 'on' : ''}" data-action="fl-mode" data-val="trophies">Кубки</button></div>
         <button class="fl-rf ${this._flBusy ? 'spin' : ''}" data-action="fl-refresh" aria-label="Обновить"><svg class="ic"><use href="#fa-rotate"/></svg></button></div>
       <div class="fl-sub">${mode === 'week' ? `тренировка +${CONFIG.TROPHY.WORKOUT} · рекорд +${CONFIG.TROPHY.PR} · до конца недели ${League.daysLeft()} ${U.plural(League.daysLeft(), 'день', 'дня', 'дней')}` : 'всего кубков'}${ago != null ? ` · обновлено ${ago ? ago + ' мин назад' : 'только что'}` : on ? '' : ' · без сети'}</div>
       <div class="fl-list">${rows.slice(0, 8).map(row).join('')}</div>
@@ -8043,22 +8149,14 @@ Object.assign(UI, {
     return { id: self ? 'me' : p.id, nick: p.nick, self, value, label, sub, medal: p.arenaIdx != null ? p.arenaIdx : null, av: this.av(self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : (ClanService.player(p.id) || p), size), action: 'mini-profile' };
   },
   // общий рейтинг на вкладке «Сообщество»: кланы / игроки
-  communityBoard() {
-    const k = this.cbKey || 'clans', clan = S.clan;
-    let body;
-    if (k === 'players') {
-      const rows = this.wcFilter(ClanService.trophyBoard());
-      body = this.lbBoard(rows.map(p => this.lbPlayer(p, p.trophies, `${p.trophies} ${this.trophyIcon}`, `${this.rankDot(Calc.arena(p.arenaIdx))} <span>${TN(Calc.arena(p.arenaIdx).name)}</span>`)), { limit: 10 });
-    } else {
-      const list = ClanService.list();
-      body = this.lbBoard(list.map(c => ({ id: c.id, nick: c.name, self: !!(clan && c.id === clan.id), value: c.score, label: `${c.score}`, medal: null, action: 'clan-view',
-        av: this.emblem(c, 'w-10 h-10 text-lg'), sub: `<svg class="ic"><use href="#fa-users"/></svg> ${c.members.length} · ${c.members.filter(m => m.week && m.week.workouts > 0).length} ${T('active')} · ${c.trophies} ${this.trophyIcon}${c.battleOpen === false ? '' : ' <svg class="ic text-or"><use href="#fa-khanda"/></svg>'}` })), { limit: 10 });
-    }
+  communityBoard() { // v62: на вкладке «Сообщество» — только рейтинг кланов (игроки — в окне рейтинга кубков на главной)
+    const clan = S.clan, list = ClanService.list();
+    const body = this.lbBoard(list.map(c => ({ id: c.id, nick: c.name, self: !!(clan && c.id === clan.id), value: c.score, label: `${c.score}`, medal: null, action: 'clan-view',
+        av: this.emblem(c, 'w-10 h-10 text-lg'), sub: `<svg class="ic"><use href="#fa-users"/></svg> ${c.members.length} · ${c.members.filter(m => m.week && m.week.workouts > 0).length} ${T('active')} · ${c.trophies} ${this.trophyIcon}${c.battleOpen === false ? '' : ' <svg class="ic text-or"><use href="#fa-khanda"/></svg>'}` })), { limit: 10, empty: 'Кланов пока нет — создай первый' });
     return `<div class="card p-4 mb-4 lb-card">
-      <div class="flex items-center justify-between mb-3"><div class="font-bold"><svg class="ic text-amber-400"><use href="#fa-ranking-star"/></svg> Рейтинг</div><span class="text-[10px] muted">${k === 'players' ? 'по кубкам' : 'очки за неделю'}</span></div>
-      <div class="seg mb-3"><button class="${k === 'clans' ? 'on' : ''}" data-action="cb-key" data-val="clans"><svg class="ic"><use href="#fa-shield-halved"/></svg> Кланы</button><button class="${k === 'players' ? 'on' : ''}" data-action="cb-key" data-val="players"><svg class="ic"><use href="#fa-user"/></svg> Игроки</button></div>
-      ${k === 'players' ? this.wcRow('wc-key2') : ''}${body}
-      ${k === 'clans' && clan && clan.role !== 'member' ? '<button class="btn btn-ghost btn-sm w-full mt-3" data-action="clan-challenge-pick"><svg class="ic text-or"><use href="#fa-khanda"/></svg> Бросить вызов клану</button>' : ''}
+      <div class="flex items-center justify-between mb-3"><div class="font-bold"><svg class="ic text-amber-400"><use href="#fa-shield-halved"/></svg> Рейтинг кланов</div><span class="text-[10px] muted">очки за неделю</span></div>
+      ${body}
+      ${clan && clan.role !== 'member' ? '<button class="btn btn-ghost btn-sm w-full mt-3" data-action="clan-challenge-pick"><svg class="ic text-or"><use href="#fa-khanda"/></svg> Бросить вызов клану</button>' : ''}
     </div>`;
   },
 });
@@ -8249,8 +8347,9 @@ Object.assign(UI, {
     this.modal(`<div class="text-center">
       <div class="flex justify-center">${this.streakCircle(104)}</div>
       <div class="font-black text-2xl mt-3"><span class="num">${st.count}</span> ${U.plural(st.count, 'день', 'дня', 'дней')} подряд</div>
-      <div class="text-sm mt-1 ${st.today ? 'text-em' : 'text-or'}">${st.today ? 'Сегодня уже засчитан' : 'Сегодня ещё нет активности: успей до полуночи'}</div>
-      <div class="sub p-3 mt-4 text-left text-xs">Серия растёт, когда каждый день есть хоть одна запись: подход, еда, вода, сон или вес.</div>
+      <div class="text-sm mt-1 ${st.today ? 'text-em' : 'text-or'}">${st.today ? 'Сегодня уже засчитан' : st.todayN ? `Сегодня ${st.todayN} из ${st.need}: ещё одно дело до полуночи` : `Сегодня ещё ничего: сделай ${st.need} дела до полуночи`}</div>
+      <div class="stk-todo mt-3">${[['food', 'fa-utensils', 'Еда'], ['water', 'fa-droplet', 'Вода'], ['sleep', 'fa-moon', 'Сон'], ['weight', 'fa-weight-scale', 'Вес'], ['lift', 'fa-dumbbell', 'Подходы']].map(([k, ic, t]) => `<span class="${st.kinds[k] ? 'on' : ''}"><svg class="ic"><use href="#${st.kinds[k] ? 'fa-check' : ic}"/></svg>${t}</span>`).join('')}</div>
+      <div class="sub p-3 mt-3 text-left text-xs">День засчитан, если сделал <b>${st.need} разных дела</b>: записал еду, воду, сон, вес или подходы. Тренировка закрывает день сразу. Пара касаний в день — и серия растёт.</div>
       ${nx ? `<div class="sub p-3 mt-2 flex items-center gap-3 text-left"><div class="w-10 h-10 rounded-xl flex items-center justify-center flex-none" style="background:#F9731622;color:#F97316"><svg class="ic text-lg"><use href="#fa-fire"/></svg></div><div class="flex-1 min-w-0"><div class="text-sm font-bold">${nx} ${U.plural(nx, 'день', 'дня', 'дней')}: награда</div><div class="text-[11px] muted mb-1">ещё ${nx - st.count}</div>${this.bar(st.count / nx * 100, 'linear-gradient(90deg,#F97316,#EF4444)')}</div><div class="text-right text-xs font-bold num whitespace-nowrap">+${CONFIG.COINS.STREAK[nx]} ${this.coinIcon}<br>+${(CONFIG.TROPHY.STREAK || {})[nx] || 0} ${this.trophyIcon}</div></div>` : ''}
       <div class="text-[11px] muted mt-3"><svg class="ic text-sky-400"><use href="#fa-snowflake"/></svg> Заморозок серии: <b class="num">${fr}</b></div>
       <button class="btn btn-primary w-full mt-4" data-action="close-modal">Понятно</button></div>`, { center: true });
@@ -8570,8 +8669,10 @@ const App = {
     const v = id => Math.max(0, Math.round(+document.getElementById(id).value || 0)), d = Calc.defaultGoals(), teen = (S.profile.age || 18) < 18;
     let cals = v('g-cals'); if (teen && cals && cals < d.cals * 0.95) { cals = d.cals; UI.toast('Для младше 18 дефицит не предлагаем: калории оставлены на поддержании', 'bl'); }
     const goals = { cals: cals || d.cals, protein: v('g-protein') || d.protein, carbs: v('g-carbs') || d.carbs, fat: v('g-fat') || d.fat };
-    const isDefault = ['cals', 'protein', 'carbs', 'fat'].every(k => goals[k] === d[k]);
-    S.nutrition.goals = isDefault ? null : goals; save();
+    const isDefault = ['cals', 'protein', 'carbs', 'fat'].every(k => goals[k] === d[k]), old = S.nutrition.goals;
+    if (JSON.stringify(old || null) === JSON.stringify(isDefault ? null : goals)) return;
+    const from = Calc.setGoals(isDefault ? null : goals); save();
+    if (from !== U.today()) UI.toast('Цель сохранена. Для кубков она начнёт считаться завтра: сегодня еда уже записана', 'bl');
   },
   readLift(exId, wId, rmId, dateId, repsId) {
     const ex = document.getElementById(exId).value, kg = U.toKg(document.getElementById(wId).value), rm = this.segVal(rmId) || '1RM', date = dateId ? document.getElementById(dateId).value : U.today();
@@ -8809,7 +8910,8 @@ const App = {
     'set-tab'(el) { UI.openSettings(el.dataset.val); },
     /* v12 */
     'open-road'() { UI.openRoad(); },
-    'home-league'() { const el = document.querySelector('#tab-arena .lg-card'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); else UI.openRoad(); },
+    'home-league'() { UI.openTrophyLb(); },
+    'tlb-key'(el) { UI.openTrophyLb(el.dataset.val); },
     'road-pick'(el) { UI.roadPick(+el.dataset.i); },
     // v54: быстрый переключатель темы в шапке
     'toggle-theme'() { const h = document.documentElement; h.classList.add('theme-anim'); clearTimeout(UI._thT); UI._thT = setTimeout(() => h.classList.remove('theme-anim'), 450);
@@ -8887,9 +8989,9 @@ const App = {
     async 'clan-kick'(el) { const r = await ClanService.kick(el.dataset.id); UI.closeModal(); if (r && r.error) UI.toast(r.error, 'red'); App.afterChange(); },
     /* nutrition */
     'open-goals'() { UI.openGoals(); },
-    'goals-default'() { S.nutrition.goals = null; UI.closeModal(); App.afterChange(); },
+    'goals-default'() { Calc.setGoals(null); UI.closeModal(); App.afterChange(); },
     'goals-save'() { App.saveGoalsFromInputs(); UI.closeModal(); App.afterChange(); },
-    'goals-default-inline'() { S.nutrition.goals = null; save(); UI.openSettings('food'); },
+    'goals-default-inline'() { Calc.setGoals(null); save(); UI.openSettings('food'); },
     'sleep-save'() { const h = parseFloat(document.getElementById('sleep-h').value); if (isNaN(h) || h <= 0) { UI.toast('Укажи часы сна', 'red'); return; } const r = Game.logSleep(h, UI.hDay || U.today()); const g = Calc.sleepGrade(Calc.sleepScore(r.hours), r.hours); UI.toast(`Сон ${r.hours} ч: ${g.label}`, 'pu'); App.afterChange(); UI.openSleep(); },
     'sleep-toggle'() { if (S.health.sleepStart) { App.endSleep(); return; } Game.startSleep(); UI.toast('Таймер сна запущен. Спокойной ночи!', 'pu'); App.afterChange(); if (UI._slModal && document.getElementById('modal')) UI.openSleep(); },
     'open-sleep'() { UI.openSleep(); },
@@ -9017,7 +9119,8 @@ const App = {
       const day = UI._aifDay || U.today(), chat = AIFood.chat(day); chat.push({ role: 'me', text: text.slice(0, 600) }); ta.value = ''; UI._aifBusy = true; save(); UI.renderFoodAI();
       const r = await AIFood.ask('food', text, day); UI._aifBusy = false;
       if (r.error) chat.push({ role: 'err', text: r.error });
-      else { const it = r.items || [], meal = (it[0] && it[0].meal) || 'snack', own = (r.dish || '').trim() || AIFood.userTitle(text); chat.push({ role: 'ai', items: it, grams: it.map(x => x.grams), on: it.map(() => true), meal, title: own || AIFood.mealName(meal), auto: !own, saved: false }); }
+      else { const it = r.items || [], own = (r.dish || '').trim() || AIFood.userTitle(text), gs = AIFood.groups(it, own), batch = gs.length > 1 ? U.uid() : null;
+        if (!gs.length) chat.push({ role: 'ai', items: [], grams: [], on: [], meal: 'snack', title: '', saved: false }); else gs.forEach(g => chat.push(AIFood.msg(g, batch))); }
       if (chat.length > 30) chat.splice(0, chat.length - 30); save(); if (UI._aifOpen) { UI.renderFoodAI(); const t2 = document.getElementById('aif-text'); if (t2 && r.error && !r.limit && !t2.value) t2.value = text; }
     },
     'aif-toggle'(el) { const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return; m.on[+el.dataset.j] = !m.on[+el.dataset.j]; save(); UI.renderFoodAI(); },
@@ -9025,10 +9128,14 @@ const App = {
     'aif-drop'(el) { const c = AIFood.chat(UI._aifDay), i = +el.dataset.i; c.splice(i, 1); save(); UI.renderFoodAI(); },
     'aif-save'(el) {
       const m = AIFood.chat(UI._aifDay)[+el.dataset.i]; if (!m || m.saved) return;
-      const gid = U.uid(), gname = String(m.title || '').trim() || AIFood.mealName(m.meal);
-      const items = m.items.map((it, i) => m.on[i] && m.grams[i] > 0 ? { ...AIFood.scale(it, m.grams[i]), meal: m.meal, gid, gname } : null).filter(Boolean);
-      if (!items.length) { UI.toast('Отметь хотя бы один продукт', 'red'); return; }
-      Game.logFood(items, UI._aifDay); m.saved = true; m.gid = gid; m.title = gname; save(); UI.renderFoodAI(); App.afterChange(); UI.flushEvents();
+      if (!AIFood.saveMsg(m, UI._aifDay)) { UI.toast('Отметь хотя бы один продукт', 'red'); return; }
+      save(); UI.renderFoodAI(); App.afterChange(); UI.flushEvents();
+    },
+    'aif-save-all'(el) { // v62: записать все блюда из одного сообщения
+      const xs = AIFood.chat(UI._aifDay).filter(m => m.batch && m.batch === el.dataset.b && !m.saved); let n = 0;
+      xs.forEach(m => { if (AIFood.saveMsg(m, UI._aifDay)) n++; });
+      if (!n) { UI.toast('Отметь хотя бы один продукт', 'red'); return; }
+      save(); UI.renderFoodAI(); App.afterChange(); UI.flushEvents();
     },
     /* v24: активность */
     'activity-open'() { UI._actRes = null; UI._actErr = ''; UI.openActivity(); },
@@ -9348,7 +9455,7 @@ const App = {
     Object.assign(p, { nickname: w.nick, age: parseInt(w.age), sex: w.sex, height: +w.h, fitGoal: w.goal, activity: w.act, weekTarget: w.week, calm: !!w.calm, createdAt: p.createdAt || Date.now() });
     const bw = U.toKg(w.bw); if (bw > 25) { p.bodyweight = bw; try { Game.logWeight(bw, U.today()); } catch (_) {} }
     if (w.prog === 'auto' && !Object.keys(S.program.days || {}).length) Game.applyProgram(Game.autoProgram(w.week, w.goal));
-    S.nutrition.goals = null; S.session = { loggedIn: true, at: Date.now() }; save();
+    S.nutrition.goals = null; S.nutrition.goalsLog = []; S.session = { loggedIn: true, at: Date.now() }; save();
     if (Net.online()) {
       try { await Net.ensureProfile(); await Net.pull(); await Net.refresh(true); }
       catch (e) { if (err) err.textContent = Net.err(e); UI._wz.step = 0; p.nickname = ''; save(); setTimeout(() => { UI.openProfileWizard(); const e2 = document.getElementById('ob-err'); if (e2) e2.textContent = Net.err(e); }, 50); return; }
