@@ -24,13 +24,13 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Чтобы выбрать фото для аватара, постов и Body Progress.</string>
+	<string>Чтобы выбрать фото для аватара, постов и Body Progress. / To pick photos for your avatar, posts and Body Progress.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Чтобы сохранить фото прогресса в галерею.</string>
+	<string>Чтобы сохранить фото прогресса в галерею. / To save your progress photos to the gallery.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Чтобы сфотографировать прогресс или снять видео подхода для ленты.</string>
+	<string>Чтобы сфотографировать прогресс или снять видео подхода для ленты. / To take progress photos or record a set video for the feed.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Чтобы записать звук в видео подхода для ленты.</string>
+	<string>Чтобы записать звук в видео подхода для ленты. / To record sound in set videos for the feed.</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
 	<key>CFBundleExecutable</key>
