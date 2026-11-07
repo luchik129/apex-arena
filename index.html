@@ -2010,7 +2010,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '63',
+  APP_VERSION: '64',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -4693,7 +4693,7 @@ const Social = {
   author(uid) { const p = ClanService.player(uid) || (typeof Activity !== 'undefined' && Activity.people[uid]) || {}; return { nick: p.nick || '?', photo: p.photo || null, sex: p.sex || 'm', arenaIdx: p.arenaIdx || 0 }; },
   norm(r) { // строка posts → пост для интерфейса
     const self = r.user_id === Net.uid, uid = self ? 'me' : r.user_id, a = this.author(uid);
-    return { id: r.id, uid, self, ...a, prTier: r.pr_tier != null ? r.pr_tier : null, kind: r.kind || 'post', body: r.body || '', tags: r.tags || [], img: r.photo || null, video: r.video || null, ex: r.ex, weight: r.weight != null ? +r.weight : null, reps: r.reps || 1, likes: r.like_count || 0, liked: this.liked.has(r.id), comments: r.comment_count || 0, views: r.view_count || 0, ts: new Date(r.created_at).getTime() };
+    return { id: r.id, uid, self, ...a, prTier: r.pr_tier != null ? r.pr_tier : null, kind: r.kind || 'post', body: r.body || '', tags: r.tags || [], img: r.video ? null : (r.photo || null), poster: r.video ? (r.photo || null) : null, video: r.video || null, ex: r.ex, weight: r.weight != null ? +r.weight : null, reps: r.reps || 1, likes: r.like_count || 0, liked: this.liked.has(r.id), comments: r.comment_count || 0, views: r.view_count || 0, ts: new Date(r.created_at).getTime() };
   },
   // демо-лента: рекорды демо-игроков + несколько текстовых постов + свои локальные посты
   demo() {
@@ -4753,7 +4753,13 @@ const Social = {
       if (this.userUid === uid) this.userPosts = (data || []).map(r => this.norm(r)); return true;
     } catch (e) { console.warn('Social.loadUser', e); return false; } finally { this.userLoading = false; }
   },
-  VIDEO_MAX_MB: 30, VIDEO_MAX_SEC: 90,
+  VIDEO_MAX_MB: 20, VIDEO_MAX_SEC: 60,
+  // v64: маленькая JPEG-обложка из кадра видео (≈20–40 КБ) — хранится в posts.photo
+  posterOf(url) { return new Promise(res => { const v = document.createElement('video'); let done = false; const end = x => { if (done) return; done = true; res(x); };
+    v.muted = true; v.playsInline = true; v.preload = 'auto'; v.src = url;
+    v.onloadeddata = () => { try { v.currentTime = Math.min(0.5, (v.duration || 1) / 2); } catch (_) { end(null); } };
+    v.onseeked = () => { try { const w = Math.min(480, v.videoWidth || 480), h = Math.round(w * (v.videoHeight || 270) / (v.videoWidth || 480)), c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(v, 0, 0, w, h); end(c.toDataURL('image/jpeg', .7)); } catch (_) { end(null); } };
+    v.onerror = () => end(null); setTimeout(() => end(null), 5000); }); },
   async post(body, img, video) {
     body = String(body || '').trim().slice(0, 600); if (!body && !img && !video) return { error: 'Напиши текст или добавь фото/видео' };
     const bad = this.check(body); if (bad) return { error: bad };
@@ -4761,7 +4767,8 @@ const Social = {
     if (this.online()) {
       if (video) { // видео уходит в хранилище Supabase (bucket post-media), в посте — ссылка
         const f = video.file, ext = ((f.name || '').split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5) || 'mp4', path = `${Net.uid}/${Date.now()}_${U.uid()}.${ext}`;
-        const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false });
+        const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false, cacheControl: '31536000' });
+        if (!img) img = await this.posterOf(video.url); // v64: кадр-обложка, чтобы лента не качала само видео
         if (up.error) return { error: /bucket|not found|row-level|policy/i.test(up.error.message || '') ? 'Видео пока нельзя загрузить: запусти update_v20.sql в Supabase' : Net.err(up.error) };
         videoUrl = Net.client.storage.from('post-media').getPublicUrl(path).data.publicUrl;
       }
@@ -7667,7 +7674,7 @@ Object.assign(UI, {
     const hide = Social.hiddenUsers(), xs = Social.recent(12).filter(p => !hide.has(p.uid)).slice(0, 8);
     const card = p => `<div class="pc-card" role="button" tabindex="0" data-action="feed-open" data-id="${U.esc(p.id)}" data-key="pc${U.esc(p.id)}">
         <div class="flex items-center gap-2 mb-1.5 min-w-0">${this.av(p, 26)}<div class="min-w-0 flex-1"><div class="text-xs font-bold truncate" data-no-mt>${U.esc(p.nick)}</div><div class="text-[10px] muted">${U.ago(p.ts)}</div></div></div>
-        ${p.img ? `<div class="pc-img" style="background-image:url('${p.img}')"></div>` : p.video || p.vkey ? `<div class="pc-img pc-vid" data-morph-keep="class"><video muted playsinline preload="metadata" poster="${this.BLANK}" ${p.video ? `src="${U.esc(p.video)}#t=0.5"` : `data-vkey="${U.esc(p.vkey)}"`} data-morph-keep="src"></video><svg class="ic"><use href="#fa-play"/></svg></div>` : ''}
+        ${p.img ? `<div class="pc-img" style="background-image:url('${p.img}')"></div>` : p.video ? `<div class="pc-img pc-vid" ${p.poster ? `style="background:#000 url('${p.poster}') center/cover"` : ''}><svg class="ic"><use href="#fa-play"/></svg></div>` : p.vkey ? `<div class="pc-img pc-vid" data-morph-keep="class"><video muted playsinline preload="metadata" poster="${this.BLANK}" data-vkey="${U.esc(p.vkey)}" data-morph-keep="src"></video><svg class="ic"><use href="#fa-play"/></svg></div>` : ''}
         ${p.kind === 'pr' ? this.prBlock(p) : `<div class="pc-text" data-no-mt>${U.esc(this.postText(p))}</div>${this.trSw(p, true)}`}
         <div class="pc-foot"><span class="${p.liked ? 'text-rose-400' : ''}"><svg class="ic"><use href="#${p.liked ? 'fa-heart-solid' : 'fa-heart'}"/></svg> ${p.likes}</span><span><svg class="ic"><use href="#fa-comment"/></svg> ${p.comments}</span>${p.video || p.vkey ? `<span><svg class="ic"><use href="#fa-eye"/></svg> ${U.short ? U.short(p.views || 0) : p.views || 0}</span>` : ''}</div>
       </div>`;
@@ -7751,8 +7758,8 @@ Object.assign(UI, {
   BLANK: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
   vplayer(p) {
     const ar = UI._vpAR && UI._vpAR[p.id];
-    return `<div class="vp" data-vp="${U.esc(p.id)}" data-key="vp${U.esc(p.id)}" data-action="vp-tap" data-morph-keep="class" data-morph-skip ${ar ? `style="aspect-ratio:${ar}"` : ''}>
-      <video playsinline preload="metadata" poster="${this.BLANK}" ${p.video ? `src="${U.esc(p.video)}#t=0.1"` : `data-vkey="${U.esc(p.vkey)}"`} data-morph-keep="src" disableremoteplayback x-webkit-airplay="deny"></video>
+    return `<div class="vp${p.video ? ' ready' : ''}" data-vp="${U.esc(p.id)}" data-key="vp${U.esc(p.id)}" data-action="vp-tap" data-morph-keep="class" data-morph-skip ${ar ? `style="aspect-ratio:${ar}"` : ''}>
+      <video playsinline ${p.video ? `preload="none" poster="${p.poster || this.BLANK}" src="${U.esc(p.video)}"` : `preload="metadata" poster="${this.BLANK}" data-vkey="${U.esc(p.vkey)}"`} data-morph-keep="src" disableremoteplayback x-webkit-airplay="deny"></video>
       <div class="vp-load"><i></i></div>
       <button class="vp-big" data-action="vp-toggle" aria-label="Смотреть"><svg class="ic"><use href="#fa-play"/></svg></button>
       <div class="vp-top" data-action="vp-noop"><button data-action="vp-fs" aria-label="Свернуть"><svg class="ic"><use href="#fa-chevron-down"/></svg></button><span class="vp-ttl" data-no-mt>${U.esc(p.nick || '')}</span><button class="vp-spd" data-action="vp-speed" data-no-mt>1×</button></div>
