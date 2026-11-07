@@ -2010,7 +2010,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '62',
+  APP_VERSION: '63',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -4951,7 +4951,12 @@ const Activity = {
 
 const Updater = {
   REPO: 'luchik129/apex-arena', KEY: 'FLX_UPDATE', EVERY: 30 * 60e3, cur: 0, SNOOZE: 24 * 3600e3, SNOOZE_GO: 6 * 3600e3,
-  PLAY: 'https://play.google.com/apps/internaltest/4701513163843446186',
+  // v63: страница приложения в Google Play (раньше была ссылка внутреннего теста, у обычных игроков она не открывается)
+  PLAY: 'https://play.google.com/store/apps/details?id=com.flexoleague.app',
+  // v63: номер последней сборки, которая уже доступна в Google Play. Раньше брали последний релиз GitHub, но он появляется
+  // на каждый пуш, задолго до проверки Google, и игроков просили обновиться, когда обновления в Play ещё нет.
+  // Файл docs/version.json: после публикации сборки в Play поменяй "android" на её номер (versionCode).
+  VERSION_URL: 'https://luchik129.github.io/apex-arena/version.json',
   st() { try { return JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (_) { return {}; } },
   put(o) { try { localStorage.setItem(this.KEY, JSON.stringify({ ...this.st(), ...o })); } catch (_) {} },
   native() { const C = window.Capacitor; return !!(C && C.isNativePlatform && C.isNativePlatform() && C.getPlatform && C.getPlatform() === 'android' && C.Plugins && C.Plugins.App && C.Plugins.App.getInfo); },
@@ -4969,9 +4974,9 @@ const Updater = {
       const info = await window.Capacitor.Plugins.App.getInfo(), cur = parseInt(info && info.build) || 0; if (!cur) return 'fail'; this.cur = cur;
       let st = this.st();
       if (force || !st.at || Date.now() - st.at > this.EVERY || !st.build) {
-        const r = await fetch(`https://api.github.com/repos/${this.REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) return 'fail';
-        const j = await r.json(), n = parseInt(String(j.tag_name || '').replace(/\D+/g, '')) || 0;
-        if (!n) return 'fail'; this.put({ at: Date.now(), build: n }); st = this.st();
+        const r = await fetch(`${this.VERSION_URL}?t=${Date.now()}`, { cache: 'no-store' }); if (!r.ok) return 'fail';
+        const j = await r.json(), n = parseInt(j && j.android) || 0;
+        this.put({ at: Date.now(), build: n }); st = this.st(); if (!n) return 'latest';
       }
       if (!(st.build > cur)) return 'latest';
       if (!force && st.snooze && st.snooze.build === st.build && Date.now() < st.snooze.until) return 'new';
@@ -5129,7 +5134,11 @@ const Net = {
     const { data, error } = await this.client.auth.signInWithOAuth({ provider, options: { redirectTo: this.oauthRedirect(), skipBrowserRedirect: true, queryParams: kind === 'google' ? { prompt: 'select_account' } : undefined } });
     if (error || !data || !data.url) return { error: error ? this.err(error) : 'Не удалось открыть вход' };
     try { localStorage.setItem('APEX_OAUTH', kind); } catch (_) {}
-    location.href = data.url; // в APK Capacitor откроет системный браузер, после входа вернёт в приложение по ссылке com.apexarena.app://
+    // v63: вход внутри приложения (iPhone: SFSafariViewController, Android: Custom Tab), а не во внешнем браузере.
+    // App Store отклоняет приложения, которые уводят в Safari для входа (Guideline 4.0). Возврат по ссылке com.apexarena.app:// как раньше.
+    const B = this.native() && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser;
+    if (B && B.open) { try { await B.open({ url: data.url, presentationStyle: 'popover' }); return { ok: true, away: true }; } catch (_) {} }
+    location.href = data.url; // веб и старые сборки без плагина Browser
     return { ok: true, away: true };
   },
   // ссылка возврата: #access_token=…&refresh_token=… (подтверждение почты, OAuth) или ?code=… (PKCE)
@@ -5449,6 +5458,12 @@ const UI = {
     bg.innerHTML = `<div class="modal ${center ? 'center' : ''}">${html}</div>`;
     if (closable) bg.addEventListener('click', e => { if (e.target === bg) this.closeModal(); });
     this.$('#modal-root').appendChild(bg); document.body.classList.add('modal-on'); if (typeof App !== 'undefined') App.restoreDrafts(bg); return bg;
+  },
+  // v63: перед первым запросом к ИИ спрашиваем согласие на передачу данных в Google Gemini (App Store 5.1.2(i))
+  aiGate(after) {
+    if (S.profile.aiOk) return true;
+    this.confirm(`<div class="font-black text-base mb-1">ИИ-помощник</div>Чтобы посчитать калории и активность, текст твоего сообщения и данные профиля (пол, возраст, рост, вес) отправляются в Google Gemini. Имя, email и фото не отправляются. Подробнее в <button class="link" data-action="legal" data-val="privacy">Политике конфиденциальности</button>`, () => { S.profile.aiOk = { at: Date.now() }; save(); after(); }, { yes: 'Разрешить', no: 'Не сейчас' });
+    return false;
   },
   confirm(text, onYes, { danger = false, yes = 'Да', no = 'Отмена' } = {}) {
     this._onConfirm = onYes;
@@ -8216,7 +8231,8 @@ Object.assign(UI, {
       ['Что храним', 'Email или вход через Google, никнейм, возраст, пол, рост, вес, тренировки, питание, сон, фото Body Progress и твои посты.'],
       ['Кто видит', 'Другим игрокам видны только никнейм, аватар, ранг, кубки, рекорды, клан и твои публикации. Вес тела, рост, питание, сон и фото Body Progress видишь только ты.'],
       ['Где хранится', 'На телефоне и в облаке Supabase (зашифрованное соединение). Фото Body Progress лежат в закрытом хранилище, доступ только у тебя.'],
-      ['AI', 'Тексты для разбора еды и гайдов отправляются в Google Gemini без твоего имени и email.'],
+      ['AI', 'Только после твоего согласия: текст для разбора еды и активности и данные профиля (пол, возраст, рост, вес) отправляются в Google Gemini. Имя, email и фото не отправляются.'],
+      ['Вход', 'Email и пароль, Google или Apple (на iPhone). Мы получаем только email и имя, которые даёт сервис входа.'],
       ['Удаление', 'Настройки → Аккаунт и вход → Удалить аккаунт: стираем профиль, прогресс, посты и фото.'],
       ['Реклама и продажа данных', 'Нет рекламы, данные не продаём. Передаём только сервисам, без которых приложение не работает: Supabase (хранение) и Google Gemini (ИИ).'],
     ];
@@ -9116,6 +9132,7 @@ const App = {
     'food-ai'() { UI.openFoodAI(); },
     async 'aif-send'() {
       const ta = document.getElementById('aif-text'), text = (ta && ta.value || '').trim(); if (!text || UI._aifBusy) return;
+      if (!UI.aiGate(() => { UI.openFoodAI(); const t2 = document.getElementById('aif-text'); if (t2) t2.value = text; })) return;
       const day = UI._aifDay || U.today(), chat = AIFood.chat(day); chat.push({ role: 'me', text: text.slice(0, 600) }); ta.value = ''; UI._aifBusy = true; save(); UI.renderFoodAI();
       const r = await AIFood.ask('food', text, day); UI._aifBusy = false;
       if (r.error) chat.push({ role: 'err', text: r.error });
@@ -9142,6 +9159,7 @@ const App = {
     'act-tab'(el) { UI._actTab = el.dataset.val; UI._actErr = ''; UI.renderActivity(); },
     async 'act-ai'() {
       const t = ((document.getElementById('act-text') || {}).value || '').trim(); if (!t) { UI._actErr = 'Опиши, что делал'; UI.renderActivity(); return; }
+      if (!UI.aiGate(() => { UI.openActivity(UI._actTab); const t2 = document.getElementById('act-text'); if (t2) t2.value = t; })) return;
       UI._actBusy = true; UI._actErr = ''; UI._actText = t; UI.renderActivity();
       const r = await AIFood.ask('activity', t, UI._actDay); UI._actBusy = false;
       if (r.error) UI._actErr = r.error; else if (!r.items.length) UI._actErr = 'Не нашёл активности в тексте, напиши подробнее'; else UI._actRes = r.items.map(x => ({ ...x, _min: x.minutes, _on: true }));
@@ -9594,6 +9612,7 @@ const App = {
   stopConfirmWait() { clearInterval(this._cwT); this._cwT = null; if (this._cwVis) document.removeEventListener('visibilitychange', this._cwVis); this._cwVis = null; },
   // ссылка возврата из браузера/почты (deep link com.apexarena.app://auth-callback или адрес веб-версии)
   async onAuthUrl(url) {
+    try { const B = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser; if (B && B.close && url && /auth-callback/.test(url)) B.close().catch(() => {}); } catch (_) {} // v63: закрыть окно входа
     { const kc = /[?&]k=([A-Za-z0-9]{3,12})/.exec(url || ''); if (url && /invite/.test(url) && kc) { try { localStorage.setItem('FLX_CLAN', kc[1].toUpperCase()); } catch (_) {} this.joinPendingClan(); } }
     const inv = /[?&]c=([A-Za-z0-9]{4,12})/.exec(url || ''); if (url && /invite/.test(url) && inv) { const c = Referral.remember(inv[1]); if (Net.uid && S.profile.nickname && !(S.meta && S.meta.refBy)) UI.openSettings('invite'); else if (UI._wz) { UI._wz.ref = c; UI.openProfileWizard(); } return true; }
     if (!url || !/access_token|[?&#]code=|error_description|auth-callback/.test(url)) return false;
