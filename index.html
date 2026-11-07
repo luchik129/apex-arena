@@ -4761,7 +4761,7 @@ const Social = {
     if (this.online()) {
       if (video) { // видео уходит в хранилище Supabase (bucket post-media), в посте — ссылка
         const f = video.file, ext = ((f.name || '').split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5) || 'mp4', path = `${Net.uid}/${Date.now()}_${U.uid()}.${ext}`;
-        const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false });
+        const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false, cacheControl: '31536000' });
         if (up.error) return { error: /bucket|not found|row-level|policy/i.test(up.error.message || '') ? 'Видео пока нельзя загрузить: запусти update_v20.sql в Supabase' : Net.err(up.error) };
         videoUrl = Net.client.storage.from('post-media').getPublicUrl(path).data.publicUrl;
       }
