@@ -4761,9 +4761,14 @@ const Social = {
     if (this.online()) {
       if (video) { // видео уходит в хранилище Supabase (bucket post-media), в посте — ссылка
         const f = await VideoPack.shrink(video.file, video.onProgress), ext = ((f.name || '').split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5) || 'mp4', path = `${Net.uid}/${Date.now()}_${U.uid()}.${ext}`;
-        const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false, cacheControl: '31536000' });
-        if (up.error) return { error: /bucket|not found|row-level|policy/i.test(up.error.message || '') ? 'Видео пока нельзя загрузить: запусти update_v20.sql в Supabase' : Net.err(up.error) };
-        videoUrl = Net.client.storage.from('post-media').getPublicUrl(path).data.publicUrl;
+        const r2 = await VideoPack.toR2(f); // v64: сначала Cloudflare R2 (бесплатный трафик), если не настроен — хранилище Supabase, как раньше
+        if (r2 && r2.error) return { error: r2.error };
+        if (r2 && r2.url) videoUrl = r2.url;
+        else {
+          const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false, cacheControl: '31536000' });
+          if (up.error) return { error: /bucket|not found|row-level|policy/i.test(up.error.message || '') ? 'Видео пока нельзя загрузить: запусти update_v20.sql в Supabase' : Net.err(up.error) };
+          videoUrl = Net.client.storage.from('post-media').getPublicUrl(path).data.publicUrl;
+        }
       }
       const row = { user_id: Net.uid, kind: 'post', body, tags, photo: img || null }; if (videoUrl) row.video = videoUrl;
       const { error } = await Net.client.from('posts').insert(row);
@@ -4795,7 +4800,7 @@ const Social = {
     Net.client.from('posts').insert({ user_id: Net.uid, kind: 'pr', body: '', tags, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 }).then(() => {}, () => {});
   },
   async remove(id) {
-    if (this.online()) { const { error } = await Net.client.from('posts').delete().eq('id', id).eq('user_id', Net.uid); if (error) return { error: Net.err(error) }; }
+    if (this.online()) { const vp = this.cache.concat(this.userPosts || []).find(p => p.id === id), vurl = vp && vp.video; const { error } = await Net.client.from('posts').delete().eq('id', id).eq('user_id', Net.uid); if (error) return { error: Net.err(error) }; if (vurl) VideoPack.drop(vurl); }
     else { const L = this.local(), lp = L.posts.find(p => p.id === id); if (lp && lp.vkey) Photos.delMedia(lp.vkey); L.posts = L.posts.filter(p => p.id !== id); save(); }
     this.cache = this.cache.filter(p => p.id !== id); this.userPosts = this.userPosts.filter(p => p.id !== id); return { ok: true };
   },
@@ -5018,6 +5023,22 @@ const VideoPack = {
     const src = document.querySelector('script[src^="vendor/"]') ? 'vendor/mediabunny.min.js' : 'https://cdn.jsdelivr.net/npm/mediabunny@1.62.1/dist/bundles/mediabunny.min.cjs';
     return this._lib || (this._lib = new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = () => window.Mediabunny ? res(window.Mediabunny) : rej(new Error('mediabunny')); s.onerror = () => { this._lib = null; rej(new Error('mediabunny load')); }; document.head.appendChild(s); }));
   },
+  async api(action, extra) { // Edge Function media (R2). null = не настроена/недоступна
+    try {
+      const { data } = await Net.client.auth.getSession(); const token = data && data.session ? data.session.access_token : null; if (!token) return null;
+      const r = await fetch(`${CONFIG.SUPABASE_URL}/functions/v1/media`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token, apikey: CONFIG.SUPABASE_KEY }, body: JSON.stringify(Object.assign({ action }, extra || {})) });
+      const j = await r.json().catch(() => null); if (r.status === 404 || r.status === 503 || !j) return null; return r.ok ? j : { error: j.error || 'Ошибка сервера видео' };
+    } catch (_) { return null; }
+  },
+  async toR2(f) {
+    const s = await this.api('sign', { size: f.size, type: f.type || 'video/mp4' }); if (!s || s.error) return s;
+    try { const r = await fetch(s.upload, { method: 'PUT', headers: s.headers, body: f }); return r.ok ? { url: s.url } : null; } catch (_) { return null; }
+  },
+  async drop(url) { // удалить файл видео вместе с постом (R2 или хранилище Supabase)
+    if (!url || !Net.uid) return; const m = String(url).split('/storage/v1/object/public/post-media/')[1];
+    if (m) { const k = decodeURIComponent(m.split('?')[0]); if (k.startsWith(Net.uid + '/')) try { await Net.client.storage.from('post-media').remove([k]); } catch (_) {} return; }
+    if (!/^https:\/\//.test(url) || String(url).startsWith(CONFIG.SUPABASE_URL)) return; await this.api('delete', { url });
+  },
   async shrink(file, onProgress) {
     if (!file || file.size < this.MIN_MB * 1048576 || typeof VideoEncoder === 'undefined' || typeof VideoDecoder === 'undefined') return file;
     try {
@@ -5192,6 +5213,7 @@ const Net = {
   async resetPassword(email) { const { error } = await this.client.auth.resetPasswordForEmail(email, { redirectTo: CONFIG.AUTH_CONFIRM_PAGE }); return error ? { error: this.err(error) } : { ok: true }; },
   async deleteAccount() {
     if (!this.online()) return { ok: true };
+    await VideoPack.api('purge');
     for (const b of ['body-photos', 'post-media']) { try { const { data } = await this.client.storage.from(b).list(this.uid, { limit: 1000 }); const xs = (data || []).map(f => `${this.uid}/${f.name}`); if (xs.length) await this.client.storage.from(b).remove(xs); } catch (_) {} }
     const { error } = await this.client.rpc('delete_my_account');
     if (error) return { error: /delete_my_account|PGRST202|schema cache/i.test((error.message || '') + (error.code || '')) ? 'Сервер не обновлён: запусти update_v22.sql в Supabase' : this.err(error) };
