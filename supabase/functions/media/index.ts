@@ -1,8 +1,8 @@
-// Flexo League: видео ленты хранятся в Cloudflare R2 (скачивание бесплатно, в отличие от трафика Supabase).
+// Flexo League: видео и фото ленты хранятся в Cloudflare R2 (скачивание бесплатно, в отличие от трафика Supabase).
 // Ключи R2 только в секретах Edge Functions, в приложении их нет:
 //   R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET (flexo-videos), R2_PUBLIC_URL (https://pub-….r2.dev)
 // Действия (только для вошедших, и только со своей папкой <uid>/):
-//   sign  {size, type}  → ссылка на загрузку на 10 минут (размер зашит в подпись, больше не загрузить)
+//   sign  {size, type}  → ссылка на загрузку видео или фото поста на 10 минут (размер зашит в подпись, больше не загрузить)
 //   delete {url}        → удалить своё видео (когда удаляют пост)
 //   purge               → удалить все свои видео (когда удаляют аккаунт)
 const cors = {
@@ -10,8 +10,8 @@ const cors = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
-const MAX_MB = 30;
-const TYPES = { "video/mp4": "mp4", "video/quicktime": "mov", "video/webm": "webm", "video/x-m4v": "m4v" };
+const MAX_MB = 30, IMG_MAX_MB = 3;
+const TYPES = { "video/mp4": "mp4", "video/quicktime": "mov", "video/webm": "webm", "video/x-m4v": "m4v", "image/jpeg": "jpg", "image/webp": "webp", "image/png": "png" };
 
 const enc = new TextEncoder();
 const hex = (b) => [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, "0")).join("");
@@ -54,8 +54,9 @@ Deno.serve(async (req) => {
   try {
     if (body.action === "sign") {
       const size = Math.floor(Number(body.size)), type = String(body.type || "video/mp4").toLowerCase(), ext = TYPES[type];
-      if (!ext) return reply(400, { error: "Этот формат видео не поддерживается. Попробуй MP4." });
-      if (!(size > 0) || size > MAX_MB * 1048576) return reply(413, { error: `Видео больше ${MAX_MB} МБ` });
+      if (!ext) return reply(400, { error: "Этот формат не поддерживается. Попробуй MP4 или JPEG." });
+      const lim = type.startsWith("image/") ? IMG_MAX_MB : MAX_MB;
+      if (!(size > 0) || size > lim * 1048576) return reply(413, { error: `Файл больше ${lim} МБ` });
       const key = `${u.id}/${Date.now()}_${crypto.randomUUID().slice(0, 12)}.${ext}`, cache = "public, max-age=31536000, immutable";
       const s = await sigv4({ method: "PUT", host, path: base + key, headers: { host, "content-length": String(size), "content-type": type, "cache-control": cache }, secret, akid, presign: 600 });
       return reply(200, { upload: s.url, headers: { "Content-Type": type, "Cache-Control": cache }, url: `${pub}/${key}` });
