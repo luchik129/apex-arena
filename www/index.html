@@ -5380,9 +5380,9 @@ const Net = {
 /* v64: экономия трафика рейтинга. Раньше каждые 20 с качались все игроки (до 1000, с фото-аватарками) и все кланы
    (с картинками). Теперь: список хранится на телефоне (IndexedDB), с сервера приходят только изменённые с прошлого раза
    строки (updated_at), аватарки и картинки кланов — только если поменялись (avatar_v / photo_v = md5, update_v64.sql).
-   Раз в час и при удалении игрока/клана — полная перезагрузка (без картинок). Без update_v64.sql работает по-старому. */
+   Раз в час и при удалении/создании клана — полная перезагрузка (без картинок). Без update_v64.sql работает по-старому. */
 const NetCache = {
-  FULL_MS: 3600000, OVERLAP_MS: 120000, LIMIT: 1000,
+  FULL_MS: 3600000, OVERLAP_MS: 10000, LIMIT: 1000,
   P_COLS: 'id,nickname,friend_code,sex,arena_idx,trophies,level,power_score,bests,boss,week_key,week,prev_week_key,prev_week,clan_id,clan_role,title,updated_at,days,trophy_day,trophy_gain,battle_open,title_style,weight_class,boss_total,avatar_v', // все колонки profiles, кроме avatar (новые колонки добавлять сюда)
   C_COLS: 'id,name,emblem,code,leader_id,battle,created_at,battle_open,description,theme,capacity,about,showcases,updated_at,photo_v', // все колонки clans, кроме photo
   EMPTY: 'd41d8cd98f00b204e9800998ecf8427e', // md5('') — картинки нет
@@ -5409,18 +5409,19 @@ const NetCache = {
     if (this.legacy) return Net.client.from('profiles').select('*').order('trophies', { ascending: false }).limit(this.LIMIT);
     try {
       const s = await this.state(), now = Date.now(); let p = s.p;
-      const n = await this.count('profiles');
-      const full = !p || now - p.fullAt > this.FULL_MS || n == null || (p.n != null && n < p.n);
+      const full = !p || now - p.fullAt > this.FULL_MS; // удалённые аккаунты уходят из списка при полной перезагрузке (раз в час)
       let rows, dirty = full;
       if (full) {
         const r = await Net.client.from('profiles').select(this.P_COLS).order('trophies', { ascending: false }).limit(this.LIMIT); if (r.error) throw r.error;
-        rows = r.data || []; p = { rows, fullAt: now, maxAt: this.maxAt(rows), n };
+        rows = r.data || []; p = { rows, fullAt: now, maxAt: this.maxAt(rows) };
       } else {
-        const r = await Net.client.from('profiles').select(this.P_COLS).gte('updated_at', this.since(p.maxAt)).order('updated_at', { ascending: false }).limit(this.LIMIT); if (r.error) throw r.error;
+        let q = Net.client.from('profiles').select(this.P_COLS).gte('updated_at', this.since(p.maxAt));
+        if (p.rows.length >= this.LIMIT) q = q.gte('trophies', p.rows[p.rows.length - 1].trophies || 0); // ниже топ-1000 изменения не нужны
+        const r = await q.order('updated_at', { ascending: false }).limit(this.LIMIT); if (r.error) throw r.error;
         if ((r.data || []).length >= this.LIMIT) { p.fullAt = 0; s.p = p; return this.players(); }
-        const m = new Map(p.rows.map(x => [x.id, x])); for (const x of r.data || []) m.set(x.id, x); dirty = !!(r.data || []).length || n !== p.n;
+        const m = new Map(p.rows.map(x => [x.id, x])); for (const x of r.data || []) m.set(x.id, x); dirty = !!(r.data || []).length;
         rows = [...m.values()].sort((a, b) => (b.trophies || 0) - (a.trophies || 0)).slice(0, this.LIMIT);
-        p = { rows, fullAt: p.fullAt, maxAt: [p.maxAt, this.maxAt(r.data || [])].sort().pop(), n };
+        p = { rows, fullAt: p.fullAt, maxAt: [p.maxAt, this.maxAt(r.data || [])].sort().pop() };
       }
       const need = rows.filter(x => x.avatar_v && x.avatar_v !== this.EMPTY && (!s.av[x.id] || s.av[x.id].v !== x.avatar_v)).map(x => x.id);
       if (need.length) await this.images('profiles', 'avatar', need, s.av);
