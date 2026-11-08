@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
-<title>Flexo League · почта подтверждена</title>
+<title>Flexo League · Email confirmed</title>
 <style>
 :root{--bg:#000;--card:#0E0E0F;--sub:#161618;--line:#242427;--text:#F5F5F4;--muted:#8E8E93;--em:#34C759;--gold:#F5C04A}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -40,11 +40,11 @@ p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
     <img src="icon.png" width="150" height="150" alt="Flexo League" style="border-radius:34px;display:block;border:1px solid var(--line)">
     <div class="check" id="badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path id="badge-p" d="M5 12l5 5L20 7"/></svg></div>
   </div>
-  <h1 id="title">Почта <span>подтверждена!</span></h1>
-  <p id="sub">Добро пожаловать на Арену. Аккаунт готов, осталось вернуться в приложение.</p>
-  <div class="loop"><b>Тренировка</b><i>›</i><b>Кубки</b><i>›</i><b>Арена</b></div>
-  <a class="btn" id="open" href="#">Открыть Flexo League</a>
-  <div class="note" id="note">Приложение откроется уже с аккаунтом, вводить пароль не нужно.<br>Если подтверждаешь на компьютере, просто вернись в Flexo League на телефоне: вход произойдёт сам.</div>
+  <h1 id="title">Email <span>confirmed!</span></h1>
+  <p id="sub">Welcome to the Arena. Your account is ready, just head back to the app.</p>
+  <div class="loop"><b>Train</b><i>›</i><b>Trophies</b><i>›</i><b>Arena</b></div>
+  <a class="btn" id="open" href="#">Open Flexo League</a>
+  <div class="note" id="note">The app will open already signed in, no password needed.<br>If you confirmed on a computer, just go back to Flexo League on your phone and you’ll be signed in automatically.</div>
 </div>
 <div class="conf" id="conf"></div>
 <script>
@@ -58,18 +58,18 @@ p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
   if (err) {
     document.getElementById('card').classList.add('err');
     document.getElementById('badge-p').setAttribute('d', 'M7 7l10 10M17 7L7 17');
-    document.getElementById('title').innerHTML = 'Ссылка <span>устарела</span>';
-    document.getElementById('sub').textContent = 'Ссылка уже использована или срок её действия истёк. Открой приложение и запроси новое письмо или просто войди.';
-    open.textContent = 'Открыть приложение'; open.href = 'com.apexarena.app://auth-callback';
-    document.getElementById('note').textContent = 'Письма со ссылкой действуют 24 часа и срабатывают один раз.';
+    document.getElementById('title').innerHTML = 'Link <span>expired</span>';
+    document.getElementById('sub').textContent = 'This link has already been used or has expired. Open the app to request a new email, or just sign in.';
+    open.textContent = 'Open the app'; open.href = 'com.apexarena.app://auth-callback';
+    document.getElementById('note').textContent = 'Email links work for 24 hours and can be used once.';
     return;
   }
   if (type === 'recovery') {
-    document.getElementById('title').innerHTML = 'Новый <span>пароль</span>';
-    document.getElementById('sub').textContent = 'Открой приложение: оно войдёт в аккаунт и предложит придумать новый пароль.';
+    document.getElementById('title').innerHTML = 'New <span>password</span>';
+    document.getElementById('sub').textContent = 'Open the app. It will sign you in and ask you to choose a new password.';
   } else if (!h && !q) {
     document.getElementById('title').innerHTML = 'Flexo <span>League</span>';
-    document.getElementById('sub').textContent = 'Тренируйся, собирай кубки и поднимайся по аренам.';
+    document.getElementById('sub').textContent = 'Train, earn trophies and climb the arenas.';
   }
   var cs = ['#F5F5F4', '#8E8E93', '#F5C04A', '#34C759', '#4B4B51'], c = document.getElementById('conf');
   for (var i = 0; i < 80; i++) { var e = document.createElement('i'); e.style.left = Math.random() * 100 + '%'; e.style.background = cs[i % cs.length]; e.style.animationDuration = 2 + Math.random() * 2 + 's'; e.style.animationDelay = Math.random() * .8 + 's'; c.appendChild(e); }
