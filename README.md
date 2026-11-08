@@ -6,7 +6,8 @@
 - `www/` — та же версия с локальными библиотеками для Android/iOS (собирается `./build_www.sh`).
 - `docs/app/` — копия `www/` для веб-эмулятора (`docs/emu.html`).
 - `android/` — проект Capacitor. APK собирается автоматически в GitHub Actions при каждом push в `main`
-  и публикуется в разделе **Releases** (файл `apex-arena.apk`).
+  и публикуется в разделе **Releases** (файл `apex-arena.apk`). В Releases хранятся только 5 последних сборок
+  (и build-52 из закрытого теста Google Play): старые удаляет `cleanup-releases.yml` после каждой сборки.
 - `supabase/schema.sql` — схема базы Supabase (таблицы, RLS, функции кланов).
 
 ## Обновить приложение
