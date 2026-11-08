@@ -5,7 +5,18 @@
     <key>CAPACITOR_DEBUG</key>
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>ru</string>
+	<string>en</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ru</string>
+		<string>uk</string>
+		<string>kk</string>
+		<string>de</string>
+		<string>es</string>
+		<string>fr</string>
+		<string>tr</string>
+	</array>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
 	<key>CFBundleDisplayName</key>
@@ -24,13 +35,13 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Чтобы выбрать фото для аватара, постов и Body Progress. / To pick photos for your avatar, posts and Body Progress.</string>
+	<string>Flexo League uses your photo library so you can pick photos for your avatar, posts and Body Progress.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Чтобы сохранить фото прогресса в галерею. / To save your progress photos to the gallery.</string>
+	<string>Flexo League saves your progress photos to your photo library.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Чтобы сфотографировать прогресс или снять видео подхода для ленты. / To take progress photos or record a set video for the feed.</string>
+	<string>Flexo League uses the camera so you can take progress photos or record a set video for the feed.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Чтобы записать звук в видео подхода для ленты. / To record sound in set videos for the feed.</string>
+	<string>Flexo League uses the microphone to record sound in set videos for the feed.</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
 	<key>CFBundleExecutable</key>
