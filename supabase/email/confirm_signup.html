@@ -1,23 +1,29 @@
-<!-- Supabase → Authentication → Emails → «Confirm signup». Тема письма: «Подтверди почту и выходи на Арену 🏆» -->
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0B0E14;padding:32px 12px;font-family:Arial,Helvetica,sans-serif">
+<!-- Supabase → Authentication → Emails → «Confirm signup». Subject: «Confirm your email for Flexo League» -->
+<!-- v65: новый лого (docs/email-logo.png на GitHub Pages), чёрно-белый стиль приложения, текст EN + RU -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#000000;padding:32px 12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,Helvetica,sans-serif">
   <tr><td align="center">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background:#121824;border:1px solid #1E293B;border-radius:24px;overflow:hidden">
-      <tr><td style="background:linear-gradient(135deg,#10B981,#3B82F6,#8B5CF6);background-color:#3B82F6;padding:28px 24px;text-align:center">
-        <img src="https://luchik129.github.io/apex-arena/icon.png" width="76" height="76" alt="Flexo League" style="display:block;margin:0 auto;border-radius:18px">
-        <div style="font-size:26px;font-weight:900;color:#ffffff;margin-top:8px;letter-spacing:-0.5px">Flexo League</div>
-        <div style="font-size:13px;color:#E0F2FE;margin-top:4px;font-weight:bold">Тренировка › Кубки › Арена</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background:#0E0E0F;border:1px solid #242427;border-radius:28px">
+      <tr><td style="padding:32px 24px 8px;text-align:center">
+        <img src="https://luchik129.github.io/apex-arena/email-logo.png" width="88" height="88" alt="Flexo League" style="display:block;margin:0 auto;border-radius:22px;border:1px solid #242427">
+        <div style="font-size:26px;font-weight:900;color:#F5F5F4;margin-top:14px;letter-spacing:-0.8px">Flexo League</div>
+        <div style="font-size:12px;color:#8E8E93;margin-top:4px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase">Train · Earn trophies · Climb</div>
       </td></tr>
-      <tr><td style="padding:28px 24px 8px;text-align:center;color:#F1F5F9">
-        <div style="font-size:22px;font-weight:900">Остался один шаг!</div>
-        <div style="font-size:15px;color:#94A3B8;line-height:1.5;margin-top:10px">Подтверди почту, и приложение само откроется уже с аккаунтом. Пароль вводить не нужно.</div>
+      <tr><td style="padding:22px 24px 4px;text-align:center">
+        <div style="font-size:22px;font-weight:900;color:#F5F5F4;letter-spacing:-0.4px">One step left</div>
+        <div style="font-size:15px;color:#8E8E93;line-height:1.5;margin-top:8px">Confirm your email and the app will open already signed in. No password needed.</div>
       </td></tr>
-      <tr><td style="padding:20px 24px 8px" align="center">
-        <a href="{{ .ConfirmationURL }}" style="display:block;background:#10B981;color:#ffffff;text-decoration:none;font-size:17px;font-weight:900;padding:16px 20px;border-radius:14px">Подтвердить почту</a>
+      <tr><td style="padding:22px 24px 6px" align="center">
+        <a href="{{ .ConfirmationURL }}" style="display:block;background:#F5F5F4;color:#000000;text-decoration:none;font-size:17px;font-weight:900;padding:16px 20px;border-radius:999px">Confirm email</a>
       </td></tr>
+      <tr><td style="padding:14px 24px 20px;text-align:center">
+        <div style="font-size:12px;color:#8E8E93;line-height:1.5">Open this link on the phone where Flexo League is installed. If you confirm on a computer, just go back to the app and you'll be signed in automatically.<br><br>The link works for 24 hours. If you didn't sign up, simply delete this email.</div>
+      </td></tr>
+      <tr><td style="padding:0 24px"><div style="height:1px;background:#242427;line-height:1px;font-size:1px">&nbsp;</div></td></tr>
       <tr><td style="padding:16px 24px 24px;text-align:center">
-        <div style="font-size:12px;color:#64748B;line-height:1.5">Открывай ссылку на телефоне, где стоит Flexo League. Если подтверждаешь на компьютере, просто вернись в приложение: вход произойдёт сам.<br><br>Ссылка действует 24 часа. Если ты не регистрировался, просто удали это письмо.</div>
+        <div style="font-size:13px;font-weight:bold;color:#F5F5F4">Остался один шаг</div>
+        <div style="font-size:12px;color:#8E8E93;line-height:1.5;margin-top:4px">Нажми «Confirm email», и приложение откроется уже с аккаунтом. Ссылка действует 24 часа. Если ты не регистрировался, просто удали это письмо.</div>
       </td></tr>
     </table>
-    <div style="font-size:11px;color:#475569;margin-top:16px">Flexo League · {{ .Email }}</div>
+    <div style="font-size:11px;color:#6E6E73;margin-top:16px">Flexo League · {{ .Email }}</div>
   </td></tr>
 </table>
