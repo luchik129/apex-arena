@@ -1,0 +1,34 @@
+name: Clean up old releases
+
+# После каждой сборки Android удаляет старые релизы (и их теги),
+# оставляя 5 последних и сборку из закрытого теста Google Play.
+on:
+  workflow_run:
+    workflows: ['Build Android APK']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: { group: cleanup-releases, cancel-in-progress: false }
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      KEEP_LAST: 5
+      KEEP_TAGS: 'build-52'   # через пробел; build-52 = закрытый тест Google Play
+    steps:
+      - name: Delete old releases
+        run: |
+          gh release list --limit 1000 --json tagName,createdAt \
+            --jq 'sort_by(.createdAt) | reverse | .[].tagName' > tags.txt
+          echo "Releases: $(wc -l < tags.txt)"
+          tail -n +$((KEEP_LAST + 1)) tags.txt | while read -r tag; do
+            case " $KEEP_TAGS " in *" $tag "*) echo "keep $tag"; continue;; esac
+            echo "delete $tag"
+            gh release delete "$tag" --cleanup-tag --yes
+          done
