@@ -4760,12 +4760,18 @@ const Social = {
     const tags = this.parseTags(body); let videoUrl = null, vkey = null;
     if (this.online()) {
       if (video) { // видео уходит в хранилище Supabase (bucket post-media), в посте — ссылка
-        const f = video.file, ext = ((f.name || '').split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5) || 'mp4', path = `${Net.uid}/${Date.now()}_${U.uid()}.${ext}`;
-        const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false });
-        if (up.error) return { error: /bucket|not found|row-level|policy/i.test(up.error.message || '') ? 'Видео пока нельзя загрузить: запусти update_v20.sql в Supabase' : Net.err(up.error) };
-        videoUrl = Net.client.storage.from('post-media').getPublicUrl(path).data.publicUrl;
+        const f = await VideoPack.shrink(video.file, video.onProgress), ext = ((f.name || '').split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5) || 'mp4', path = `${Net.uid}/${Date.now()}_${U.uid()}.${ext}`;
+        const r2 = await VideoPack.toR2(f); // v64: сначала Cloudflare R2 (бесплатный трафик), если не настроен — хранилище Supabase, как раньше
+        if (r2 && r2.url) videoUrl = r2.url; // ошибка R2 — не страшно, грузим в Supabase
+        else {
+          const up = await Net.client.storage.from('post-media').upload(path, f, { contentType: f.type || 'video/mp4', upsert: false, cacheControl: '31536000' });
+          if (up.error) return { error: /bucket|not found|row-level|policy/i.test(up.error.message || '') ? 'Видео пока нельзя загрузить: запусти update_v20.sql в Supabase' : Net.err(up.error) };
+          videoUrl = Net.client.storage.from('post-media').getPublicUrl(path).data.publicUrl;
+        }
       }
-      const row = { user_id: Net.uid, kind: 'post', body, tags, photo: img || null }; if (videoUrl) row.video = videoUrl;
+      let photo = img || null; // v64: фото поста тоже в R2 (бесплатный трафик, телефон кэширует); не вышло — как раньше, в базу
+      if (photo && /^data:image\//.test(photo)) { try { const r2p = await VideoPack.toR2(Photos.dataToBlob(photo)); if (r2p && r2p.url) photo = r2p.url; } catch (_) {} }
+      const row = { user_id: Net.uid, kind: 'post', body, tags, photo }; if (videoUrl) row.video = videoUrl;
       const { error } = await Net.client.from('posts').insert(row);
       if (error && /video/.test(error.message || '')) return { error: 'Видео пока нельзя опубликовать: запусти update_v20.sql в Supabase' };
       if (error && /schema cache|does not exist|PGRST20/i.test((error.message || '') + ' ' + (error.code || ''))) this.missing = true; // сервер без update_v19.sql: сохраняем локально
@@ -4795,7 +4801,7 @@ const Social = {
     Net.client.from('posts').insert({ user_id: Net.uid, kind: 'pr', body: '', tags, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 }).then(() => {}, () => {});
   },
   async remove(id) {
-    if (this.online()) { const { error } = await Net.client.from('posts').delete().eq('id', id).eq('user_id', Net.uid); if (error) return { error: Net.err(error) }; }
+    if (this.online()) { const vp = this.cache.concat(this.userPosts || []).find(p => p.id === id), vurl = vp && vp.video, purl = vp && vp.img; const { error } = await Net.client.from('posts').delete().eq('id', id).eq('user_id', Net.uid); if (error) return { error: Net.err(error) }; if (vurl) VideoPack.drop(vurl); if (purl) VideoPack.drop(purl); }
     else { const L = this.local(), lp = L.posts.find(p => p.id === id); if (lp && lp.vkey) Photos.delMedia(lp.vkey); L.posts = L.posts.filter(p => p.id !== id); save(); }
     this.cache = this.cache.filter(p => p.id !== id); this.userPosts = this.userPosts.filter(p => p.id !== id); return { ok: true };
   },
@@ -5008,6 +5014,49 @@ const Unlock = {
 };
 
 /* ---------------------- v19: BODY PROGRESS — личная галерея (только на этом телефоне) ---------------------- */
+/* v64: сжатие видео перед загрузкой в ленту (меньше трафика Supabase). Mediabunny (MPL-2.0) грузится только когда нужно.
+   Видео уменьшается до 1280 px по длинной стороне и ~1.5 Мбит/с, звук копируется как есть. Если телефон не умеет
+   (нет WebCodecs, ошибка, звук бы потерялся) или файл не стал меньше — загружается оригинал, как раньше. */
+const VideoPack = {
+  MIN_MB: 3, LONG: 1280, BPS: 1500000, _lib: null,
+  lib() {
+    if (window.Mediabunny) return Promise.resolve(window.Mediabunny);
+    const src = document.querySelector('script[src^="vendor/"]') ? 'vendor/mediabunny.min.js' : 'https://cdn.jsdelivr.net/npm/mediabunny@1.62.1/dist/bundles/mediabunny.min.cjs';
+    return this._lib || (this._lib = new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = () => window.Mediabunny ? res(window.Mediabunny) : rej(new Error('mediabunny')); s.onerror = () => { this._lib = null; rej(new Error('mediabunny load')); }; document.head.appendChild(s); }));
+  },
+  async api(action, extra) { // Edge Function media (R2). null = не настроена/недоступна
+    try {
+      const { data } = await Net.client.auth.getSession(); const token = data && data.session ? data.session.access_token : null; if (!token) return null;
+      const r = await fetch(`${CONFIG.SUPABASE_URL}/functions/v1/media`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token, apikey: CONFIG.SUPABASE_KEY }, body: JSON.stringify(Object.assign({ action }, extra || {})) });
+      const j = await r.json().catch(() => null); if (r.status === 404 || r.status === 503 || !j) return null; return r.ok ? j : { error: j.error || 'Ошибка сервера видео' };
+    } catch (_) { return null; }
+  },
+  async toR2(f) {
+    const s = await this.api('sign', { size: f.size, type: f.type || 'video/mp4' }); if (!s || s.error) return s;
+    try { const r = await fetch(s.upload, { method: 'PUT', headers: s.headers, body: f }); return r.ok ? { url: s.url } : null; } catch (_) { return null; }
+  },
+  async drop(url) { // удалить файл видео вместе с постом (R2 или хранилище Supabase)
+    if (!url || !Net.uid) return; const m = String(url).split('/storage/v1/object/public/post-media/')[1];
+    if (m) { const k = decodeURIComponent(m.split('?')[0]); if (k.startsWith(Net.uid + '/')) try { await Net.client.storage.from('post-media').remove([k]); } catch (_) {} return; }
+    if (!/^https:\/\//.test(url) || String(url).startsWith(CONFIG.SUPABASE_URL)) return; await this.api('delete', { url });
+  },
+  async shrink(file, onProgress) {
+    if (!file || file.size < this.MIN_MB * 1048576 || typeof VideoEncoder === 'undefined' || typeof VideoDecoder === 'undefined') return file;
+    try {
+      const M = await this.lib();
+      const input = new M.Input({ source: new M.BlobSource(file), formats: M.ALL_FORMATS });
+      const vt = await input.getPrimaryVideoTrack(); if (!vt) return file;
+      const w = vt.displayWidth, h = vt.displayHeight, big = Math.max(w, h), k = big > this.LONG ? this.LONG / big : 1, ev = n => Math.max(2, Math.round(n * k / 2) * 2);
+      const output = new M.Output({ format: new M.Mp4OutputFormat({ fastStart: 'in-memory' }), target: new M.BufferTarget() });
+      const conv = await M.Conversion.init({ input, output, tracks: 'primary', video: Object.assign(w >= h ? { width: ev(w) } : { height: ev(h) }, { codec: 'avc', bitrate: this.BPS, forceTranscode: true }) });
+      const at = await input.getPrimaryAudioTrack(); if (!conv.isValid || conv.discardedTracks.some(d => d.track === vt || (at && d.track === at))) return file; // звук или картинку не потеряем
+      if (onProgress) conv.onProgress = p => { try { onProgress(p); } catch (_) {} };
+      await conv.execute();
+      const buf = output.target.buffer; if (!buf || buf.byteLength < 1024 || buf.byteLength > file.size * 0.85) return file;
+      return new File([buf], 'video.mp4', { type: 'video/mp4' });
+    } catch (e) { console.warn('VideoPack', e); return file; }
+  },
+};
 const Photos = {
   _db: null, thumbs: {},
   db() {
@@ -5165,6 +5214,7 @@ const Net = {
   async resetPassword(email) { const { error } = await this.client.auth.resetPasswordForEmail(email, { redirectTo: CONFIG.AUTH_CONFIRM_PAGE }); return error ? { error: this.err(error) } : { ok: true }; },
   async deleteAccount() {
     if (!this.online()) return { ok: true };
+    await VideoPack.api('purge');
     for (const b of ['body-photos', 'post-media']) { try { const { data } = await this.client.storage.from(b).list(this.uid, { limit: 1000 }); const xs = (data || []).map(f => `${this.uid}/${f.name}`); if (xs.length) await this.client.storage.from(b).remove(xs); } catch (_) {} }
     const { error } = await this.client.rpc('delete_my_account');
     if (error) return { error: /delete_my_account|PGRST202|schema cache/i.test((error.message || '') + (error.code || '')) ? 'Сервер не обновлён: запусти update_v22.sql в Supabase' : this.err(error) };
@@ -5283,8 +5333,8 @@ const Net = {
         this.loadConfig();
         const wk = U.weekKey(), prev = U.weekKey(U.parseDay(U.addDays(U.today(), -7)));
         const [pr, cl, fr, du, rq, fd, dq] = await Promise.all([
-          this.client.from('profiles').select('*').order('trophies', { ascending: false }).limit(1000),
-          this.client.from('clans').select('*'),
+          NetCache.players(),
+          NetCache.clans(),
           this.client.from('friendships').select('friend_id').eq('user_id', this.uid),
           this.client.from('duels').select('*').gte('week_key', U.addDays(U.today(), -21)).or(`a_id.eq.${this.uid},b_id.eq.${this.uid}`),
           this.client.from('friend_requests').select('*').or(`from_id.eq.${this.uid},to_id.eq.${this.uid}`).order('created_at', { ascending: false }).limit(100),
@@ -5326,6 +5376,87 @@ const Net = {
   async setClanFields(clanId, fields) { const { error } = await this.client.from('clans').update(fields).eq('id', clanId); if (error) throw new Error(/battle_open|description/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v19.sql в Supabase' : /theme|photo|capacity/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v20.sql в Supabase' : /about|showcases/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v21.sql в Supabase' : this.err(error)); },
   async cancelDuel(id) { await this.client.from('duels').update({ status: 'cancelled' }).eq('id', id); },
   postFeed(lift) { this.client.from('feed').insert({ user_id: this.uid, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 }).then(() => {}, () => {}); }, // v52: постом рекорд становится только по согласию (окно рекорда)
+};
+/* v64: экономия трафика рейтинга. Раньше каждые 20 с качались все игроки (до 1000, с фото-аватарками) и все кланы
+   (с картинками). Теперь: список хранится на телефоне (IndexedDB), с сервера приходят только изменённые с прошлого раза
+   строки (updated_at), аватарки и картинки кланов — только если поменялись (avatar_v / photo_v = md5, update_v64.sql).
+   Раз в час и при удалении/создании клана — полная перезагрузка (без картинок). Без update_v64.sql работает по-старому. */
+const NetCache = {
+  FULL_MS: 3600000, OVERLAP_MS: 10000, LIMIT: 1000,
+  P_COLS: 'id,nickname,friend_code,sex,arena_idx,trophies,level,power_score,bests,boss,week_key,week,prev_week_key,prev_week,clan_id,clan_role,title,updated_at,days,trophy_day,trophy_gain,battle_open,title_style,weight_class,boss_total,avatar_v', // все колонки profiles, кроме avatar (новые колонки добавлять сюда)
+  C_COLS: 'id,name,emblem,code,leader_id,battle,created_at,battle_open,description,theme,capacity,about,showcases,updated_at,photo_v', // все колонки clans, кроме photo
+  EMPTY: 'd41d8cd98f00b204e9800998ecf8427e', // md5('') — картинки нет
+  _db: null, _st: null, legacy: false,
+  db() { return this._db || (this._db = new Promise(res => { try { const r = indexedDB.open('flx_cache', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => res(null); } catch (_) { res(null); } })); },
+  async get(k) { const db = await this.db(); if (!db) return null; return new Promise(res => { try { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch (_) { res(null); } }); },
+  async put(k, v) { const db = await this.db(); if (!db) return; try { db.transaction('kv', 'readwrite').objectStore('kv').put(v, k); } catch (_) {} },
+  async state() {
+    if (this._st) return this._st;
+    const key = 'v1:' + CONFIG.SUPABASE_URL, s = (await this.get(key)) || {};
+    return (this._st = { key, p: s.p || null, c: s.c || null, av: s.av || {}, ph: s.ph || {} });
+  },
+  save() { const s = this._st; if (s) this.put(s.key, { p: s.p, c: s.c, av: s.av, ph: s.ph }); },
+  maxAt(rows) { let m = ''; for (const r of rows) if (r.updated_at && r.updated_at > m) m = r.updated_at; return m; },
+  since(m) { return new Date((Date.parse(m) || 0) - this.OVERLAP_MS).toISOString(); },
+  async count(table) { const r = await Net.client.from(table).select('id', { count: 'exact', head: true }); return r.error ? null : r.count; },
+  async images(table, col, ids, store) { // догрузить картинки только для изменившихся
+    for (let i = 0; i < ids.length; i += 100) {
+      const r = await Net.client.from(table).select(`id,${col},${col}_v`).in('id', ids.slice(i, i + 100)); if (r.error) throw r.error;
+      for (const x of r.data || []) store[x.id] = { v: x[col + '_v'], d: x[col] };
+    }
+  },
+  async players() {
+    if (this.legacy) return Net.client.from('profiles').select('*').order('trophies', { ascending: false }).limit(this.LIMIT);
+    try {
+      const s = await this.state(), now = Date.now(); let p = s.p;
+      const full = !p || now - p.fullAt > this.FULL_MS; // удалённые аккаунты уходят из списка при полной перезагрузке (раз в час)
+      let rows, dirty = full;
+      if (full) {
+        const r = await Net.client.from('profiles').select(this.P_COLS).order('trophies', { ascending: false }).limit(this.LIMIT); if (r.error) throw r.error;
+        rows = r.data || []; p = { rows, fullAt: now, maxAt: this.maxAt(rows) };
+      } else {
+        let q = Net.client.from('profiles').select(this.P_COLS).gte('updated_at', this.since(p.maxAt));
+        if (p.rows.length >= this.LIMIT) q = q.gte('trophies', p.rows[p.rows.length - 1].trophies || 0); // ниже топ-1000 изменения не нужны
+        const r = await q.order('updated_at', { ascending: false }).limit(this.LIMIT); if (r.error) throw r.error;
+        if ((r.data || []).length >= this.LIMIT) { p.fullAt = 0; s.p = p; return this.players(); }
+        const m = new Map(p.rows.map(x => [x.id, x])); for (const x of r.data || []) m.set(x.id, x); dirty = !!(r.data || []).length;
+        rows = [...m.values()].sort((a, b) => (b.trophies || 0) - (a.trophies || 0)).slice(0, this.LIMIT);
+        p = { rows, fullAt: p.fullAt, maxAt: [p.maxAt, this.maxAt(r.data || [])].sort().pop() };
+      }
+      const need = rows.filter(x => x.avatar_v && x.avatar_v !== this.EMPTY && (!s.av[x.id] || s.av[x.id].v !== x.avatar_v)).map(x => x.id);
+      if (need.length) await this.images('profiles', 'avatar', need, s.av);
+      const keep = new Set(rows.map(x => x.id)); for (const id in s.av) if (!keep.has(id)) delete s.av[id];
+      s.p = p; if (dirty || need.length) this.save();
+      return { data: rows.map(x => { const a = s.av[x.id]; const o = { ...x, avatar: x.avatar_v === this.EMPTY || !a ? null : a.d }; delete o.avatar_v; return o; }), error: null };
+    } catch (e) {
+      if (/avatar_v|photo_v|column|42703|PGRST204|schema cache/i.test(((e && e.message) || '') + ((e && e.code) || ''))) { this.legacy = true; return this.players(); } // update_v64.sql ещё не запущен
+      return { data: null, error: e };
+    }
+  },
+  async clans() {
+    if (this.legacy) return Net.client.from('clans').select('*');
+    try {
+      const s = await this.state(), now = Date.now(); let c = s.c;
+      const n = await this.count('clans');
+      const full = !c || now - c.fullAt > this.FULL_MS || n == null;
+      let rows, dirty = full;
+      if (full) { const r = await Net.client.from('clans').select(this.C_COLS); if (r.error) throw r.error; rows = r.data || []; c = { rows, fullAt: now, maxAt: this.maxAt(rows) }; }
+      else {
+        const r = await Net.client.from('clans').select(this.C_COLS).gte('updated_at', this.since(c.maxAt)); if (r.error) throw r.error;
+        const m = new Map(c.rows.map(x => [x.id, x])); for (const x of r.data || []) m.set(x.id, x); dirty = !!(r.data || []).length;
+        rows = [...m.values()]; c = { rows, fullAt: c.fullAt, maxAt: [c.maxAt, this.maxAt(r.data || [])].sort().pop() };
+        if (rows.length !== n) { c.fullAt = 0; s.c = c; return this.clans(); } // клан удалили или создали — перечитать список
+      }
+      const need = rows.filter(x => x.photo_v && x.photo_v !== this.EMPTY && (!s.ph[x.id] || s.ph[x.id].v !== x.photo_v)).map(x => x.id);
+      if (need.length) await this.images('clans', 'photo', need, s.ph);
+      const keep = new Set(rows.map(x => x.id)); for (const id in s.ph) if (!keep.has(id)) delete s.ph[id];
+      s.c = c; if (dirty || need.length) this.save();
+      return { data: rows.map(x => { const a = s.ph[x.id]; const o = { ...x, photo: x.photo_v === this.EMPTY || !a ? null : a.d }; delete o.photo_v; return o; }), error: null };
+    } catch (e) {
+      if (/avatar_v|photo_v|updated_at|column|42703|PGRST204|schema cache/i.test(((e && e.message) || '') + ((e && e.code) || ''))) { this.legacy = true; return this.clans(); }
+      return { data: null, error: e };
+    }
+  },
 };
 /* ------------------------------- UI --------------------------------- */
 /* ======================= v29: ЛИГА АРЕНЫ — недельный рейтинг игроков своей арены =======================
@@ -9126,7 +9257,7 @@ const App = {
       if (UI._postVideo) URL.revokeObjectURL(UI._postVideo.url); UI._postVideo = { file: f, url, dur }; UI._renderComposer && UI._renderComposer(); },
     'post-video-remove'() { if (UI._postVideo) URL.revokeObjectURL(UI._postVideo.url); UI._postVideo = null; UI._renderComposer && UI._renderComposer(); },
     'post-img-remove'() { UI._postImg = null; UI._renderComposer && UI._renderComposer(); },
-    async 'post-publish'(el) { const t = document.getElementById('post-body'); el.disabled = true; const old = el.innerHTML; if (UI._postVideo) el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg>'; const r = await Social.post(t ? t.value : '', UI._postImg, UI._postVideo); el.disabled = false; el.innerHTML = old; if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('post-body'); UI._postImg = null; UI._postVideo = null; UI.closeModal(); UI.toast('Пост опубликован', 'pu'); UI.refreshSocial(); App.afterChange(false); },
+    async 'post-publish'(el) { const t = document.getElementById('post-body'); el.disabled = true; const old = el.innerHTML; if (UI._postVideo) { el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg>'; UI._postVideo.onProgress = p => { el.innerHTML = `<svg class="ic spin"><use href="#fa-circle-notch"/></svg> <span class="num">${Math.round(p * 100)}%</span>`; }; } const r = await Social.post(t ? t.value : '', UI._postImg, UI._postVideo); el.disabled = false; el.innerHTML = old; if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('post-body'); UI._postImg = null; UI._postVideo = null; UI.closeModal(); UI.toast('Пост опубликован', 'pu'); UI.refreshSocial(); App.afterChange(false); },
     async 'post-like'(el) { const pr = Social.like(el.dataset.id); UI.refreshSocial(); const r = await pr; if (r && r.error) UI.toast(r.error, 'red'); UI.refreshSocial(); },
     /* v24: ИИ-дневник питания */
     'food-ai'() { UI.openFoodAI(); },
