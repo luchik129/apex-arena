@@ -478,6 +478,21 @@ video.post-img{background:#000;object-fit:contain}
 .core-ar i{width:5px;height:5px;border-top:2px solid var(--muted);border-right:2px solid var(--muted);transform:rotate(45deg);opacity:.25;animation:arw 1.4s infinite}
 .core-ar i:nth-child(2){animation-delay:.2s}.core-ar i:nth-child(3){animation-delay:.4s}
 @keyframes arw{0%,100%{opacity:.2}40%{opacity:1;border-color:#10B981}}
+/* v68: путь новичка — тонкая плашка вверху главной */
+.nbx{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;margin:0 0 .75rem;padding:.5rem .55rem .5rem .5rem;border-radius:1.1rem;background:linear-gradient(90deg,color-mix(in srgb,#F59E0B 9%,transparent),transparent 55%),var(--card);border:1px solid var(--line);transition:transform .15s}
+.nbx:active{transform:scale(.985)}
+.nbx-ic{flex:none;width:2rem;height:2rem;border-radius:.7rem;display:flex;align-items:center;justify-content:center;color:#F59E0B;background:color-mix(in srgb,#F59E0B 14%,transparent)}.nbx-ic .ic{width:.95rem;height:.95rem}
+.nbx-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}.nbx-tx b{font-size:.8rem;font-weight:800}
+.nbx-tx small{font-size:.66rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nbx-tx em{font-style:normal;font-weight:700;color:var(--c)}
+.nbx-pips{flex:none;display:flex;gap:.22rem}.nbx-pips i{width:1.3rem;height:1.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);background:var(--sub);border:1px dashed var(--line)}
+.nbx-pips i .ic{width:.6rem;height:.6rem}.nbx-pips i.on{color:var(--c);border:1px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 16%,transparent)}
+.nbx-ch{flex:none;width:.8rem;height:.8rem;color:var(--muted);opacity:.7}
+.nbs{display:grid;gap:.45rem}
+.nbs-it{display:flex;align-items:center;gap:.7rem;width:100%;text-align:left;padding:.6rem .7rem;border-radius:1rem;background:var(--sub);border:1px solid var(--line)}
+.nbs-ic{flex:none;width:2.3rem;height:2.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);border:1.5px dashed var(--line)}.nbs-ic .ic{width:1rem;height:1rem}
+.nbs-it.on .nbs-ic{color:var(--c);border:1.5px solid var(--c);background:color-mix(in srgb,var(--c) 16%,transparent)}
+.nbs-tx{flex:1;min-width:0;display:flex;flex-direction:column}.nbs-tx b{font-size:.85rem;font-weight:800}.nbs-tx small{font-size:.68rem;color:var(--muted);line-height:1.25}
+.nbs-st{flex:none;font-size:.66rem;font-weight:700;color:var(--muted);text-align:right;max-width:5.5rem}.nbs-it.on .nbs-st{color:var(--c)}.nbs-st .ic{width:1rem;height:1rem}
 .newbie{background:radial-gradient(120% 70% at 50% 0%,#F59E0B18,transparent 60%),var(--card);border-color:#F59E0B44}
 .nb-track{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;position:relative}
 .nb-it{display:flex;flex-direction:column;align-items:center;gap:.15rem;text-align:center;min-width:0}
@@ -509,7 +524,7 @@ video.post-img{background:#000;object-fit:contain}
 .auth-g{background:#fff;color:#1F2937;border:1px solid #E5E7EB;font-weight:800;display:flex;align-items:center;justify-content:center;gap:.6rem}
 .auth-apple{background:#000;color:#fff;border:1px solid #3F3F46;font-weight:800;display:flex;align-items:center;justify-content:center;gap:.6rem}
 .auth-s{background:#FFFC00;color:#111;border:1px solid #E6E300;font-weight:800;display:flex;align-items:center;justify-content:center;gap:.6rem}
-.auth-g:disabled,.auth-s:disabled{opacity:.45}
+.auth-g:disabled,.auth-s:disabled,.auth-apple:disabled{opacity:.45}
 .auth-or{display:flex;align-items:center;gap:.6rem;margin:.9rem 0;color:var(--muted);font-size:.7rem}.auth-or:before,.auth-or:after{content:'';flex:1;height:1px;background:var(--line)}
 .pass-eye{position:absolute;right:.35rem;top:50%;transform:translateY(-50%);width:2.2rem;height:2.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted)}
 .pass-meter{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}.pass-meter i{height:4px;border-radius:4px;background:var(--line);transition:background .25s}
@@ -1521,6 +1536,9 @@ html.reduce-motion .stk-fl,html.reduce-motion .stk-s.wait{animation:none}
 @keyframes krin{from{stroke-dasharray:0 1000}}
 html.reduce-motion .kring .kr-f{animation:none;transition:none}
 .kr-big{font-family:var(--disp);font-weight:900;letter-spacing:-.04em}
+.kring .kr-ov{filter:drop-shadow(0 0 1.5px rgba(0,0,0,.7)) drop-shadow(0 0 3.5px rgba(255,69,58,.55))}
+.kring .kr-tip{animation:krtip 1.1s cubic-bezier(.2,.8,.2,1) both}@keyframes krtip{0%,60%{opacity:0}100%{opacity:.9}}
+html.reduce-motion .kring .kr-tip{animation:none}
 .mlg{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;width:100%;margin-top:.6rem}
 .mlg>div{min-width:0}
 .mlg small{display:block;font-size:.6rem;font-weight:800;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -2351,13 +2369,13 @@ Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = 
 // v67: свои переводы для новых строк и исправления: «У» (углеводы) машинный перевод превращал в «At»/«Bei»/«Chez».
 // Эти ключи важнее кэша машинного перевода: при загрузке старые переводы этих строк из кэша удаляются (MT.load)
 MT.FORCE = {
-  en: { 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · F {2}', 'Б': 'P', 'У': 'C', 'Ж': 'F', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'F, g', 'из {0} ккал': 'of {0} kcal', 'цель {0}': 'goal {0}', 'осталось': 'left', 'съедено': 'eaten', '{0} из {1} г': '{0} of {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories by macro', 'факт · цель': 'actual · goal', 'Единицы измерения': 'Units', 'Вес, lbs': 'Weight, lbs', 'Вес, kg': 'Weight, kg', 'Рост, ft/in': 'Height, ft/in', 'Рост, см': 'Height, cm', 'Проверь вес': 'Check your weight', 'Проверь рост': 'Check your height' },
-  uk: { 'Б {0}': 'Б {0}', 'У {0}': 'В {0}', 'Ж {0}': 'Ж {0}', 'Б {0} · У {1} · Ж {2}': 'Б {0} · В {1} · Ж {2}', 'Б': 'Б', 'У': 'В', 'Ж': 'Ж', 'Б, г': 'Б, г', 'У, г': 'В, г', 'Ж, г': 'Ж, г', 'из {0} ккал': 'з {0} ккал', 'цель {0}': 'ціль {0}', 'осталось': 'залишилось', 'съедено': "з'їдено", '{0} из {1} г': '{0} з {1} г', '/{0} г': '/{0} г', 'Откуда калории': 'Звідки калорії', 'факт · цель': 'факт · ціль', 'Единицы измерения': 'Одиниці виміру', 'Вес, lbs': 'Вага, lbs', 'Вес, kg': 'Вага, kg', 'Рост, ft/in': 'Зріст, ft/in', 'Рост, см': 'Зріст, см', 'Проверь вес': 'Перевір вагу', 'Проверь рост': 'Перевір зріст' },
-  kk: { 'Б {0}': 'А {0}', 'У {0}': 'К {0}', 'Ж {0}': 'М {0}', 'Б {0} · У {1} · Ж {2}': 'А {0} · К {1} · М {2}', 'Б': 'А', 'У': 'К', 'Ж': 'М', 'Б, г': 'А, г', 'У, г': 'К, г', 'Ж, г': 'М, г', 'из {0} ккал': '{0} ккал ішінен', 'цель {0}': 'мақсат {0}', 'осталось': 'қалды', 'съедено': 'жеді', '{0} из {1} г': '{1} г ішінен {0}', '/{0} г': '/{0} г', 'Откуда калории': 'Калория неден', 'факт · цель': 'нақты · мақсат', 'Единицы измерения': 'Өлшем бірліктері', 'Вес, lbs': 'Салмақ, lbs', 'Вес, kg': 'Салмақ, kg', 'Рост, ft/in': 'Бой, ft/in', 'Рост, см': 'Бой, см', 'Проверь вес': 'Салмақты тексер', 'Проверь рост': 'Бойды тексер' },
-  de: { 'Б {0}': 'E {0}', 'У {0}': 'K {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'E {0} · K {1} · F {2}', 'Б': 'E', 'У': 'K', 'Ж': 'F', 'Б, г': 'E, g', 'У, г': 'K, g', 'Ж, г': 'F, g', 'из {0} ккал': 'von {0} kcal', 'цель {0}': 'Ziel {0}', 'осталось': 'übrig', 'съедено': 'gegessen', '{0} из {1} г': '{0} von {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Kalorien nach Makros', 'факт · цель': 'Ist · Ziel', 'Единицы измерения': 'Maßeinheiten', 'Вес, lbs': 'Gewicht, lbs', 'Вес, kg': 'Gewicht, kg', 'Рост, ft/in': 'Größe, ft/in', 'Рост, см': 'Größe, cm', 'Проверь вес': 'Prüfe dein Gewicht', 'Проверь рост': 'Prüfe deine Größe' },
-  es: { 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'G {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · G {2}', 'Б': 'P', 'У': 'C', 'Ж': 'G', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'G, g', 'из {0} ккал': 'de {0} kcal', 'цель {0}': 'meta {0}', 'осталось': 'restantes', 'съедено': 'consumidas', '{0} из {1} г': '{0} de {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calorías por macro', 'факт · цель': 'real · meta', 'Единицы измерения': 'Unidades', 'Вес, lbs': 'Peso, lbs', 'Вес, kg': 'Peso, kg', 'Рост, ft/in': 'Estatura, ft/in', 'Рост, см': 'Estatura, cm', 'Проверь вес': 'Revisa tu peso', 'Проверь рост': 'Revisa tu estatura' },
-  fr: { 'Б {0}': 'P {0}', 'У {0}': 'G {0}', 'Ж {0}': 'L {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · G {1} · L {2}', 'Б': 'P', 'У': 'G', 'Ж': 'L', 'Б, г': 'P, g', 'У, г': 'G, g', 'Ж, г': 'L, g', 'из {0} ккал': 'sur {0} kcal', 'цель {0}': 'objectif {0}', 'осталось': 'restantes', 'съедено': 'consommées', '{0} из {1} г': '{0} sur {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories par macro', 'факт · цель': 'réel · objectif', 'Единицы измерения': 'Unités', 'Вес, lbs': 'Poids, lbs', 'Вес, kg': 'Poids, kg', 'Рост, ft/in': 'Taille, ft/in', 'Рост, см': 'Taille, cm', 'Проверь вес': 'Vérifie ton poids', 'Проверь рост': 'Vérifie ta taille' },
-  tr: { 'Б {0}': 'P {0}', 'У {0}': 'K {0}', 'Ж {0}': 'Y {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · K {1} · Y {2}', 'Б': 'P', 'У': 'K', 'Ж': 'Y', 'Б, г': 'P, g', 'У, г': 'K, g', 'Ж, г': 'Y, g', 'из {0} ккал': '{0} kcal içinden', 'цель {0}': 'hedef {0}', 'осталось': 'kaldı', 'съедено': 'yenildi', '{0} из {1} г': '{1} g içinden {0}', '/{0} г': '/{0} g', 'Откуда калории': 'Makrolara göre kalori', 'факт · цель': 'gerçek · hedef', 'Единицы измерения': 'Ölçü birimleri', 'Вес, lbs': 'Ağırlık, lbs', 'Вес, kg': 'Ağırlık, kg', 'Рост, ft/in': 'Boy, ft/in', 'Рост, см': 'Boy, cm', 'Проверь вес': 'Kilonu kontrol et', 'Проверь рост': 'Boyunu kontrol et' }
+  en: { 'Дальше:': 'Next:', 'через {0} тренировку': 'in {0} workout', 'через {0} тренировки': 'in {0} workouts', 'через {0} тренировок': 'in {0} workouts', 'Продолжить с Apple': 'Continue with Apple', 'Вход через Apple и Google работает только с интернетом': 'Signing in with Apple or Google needs internet', 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · F {2}', 'Б': 'P', 'У': 'C', 'Ж': 'F', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'F, g', 'из {0} ккал': 'of {0} kcal', 'цель {0}': 'goal {0}', 'осталось': 'left', 'съедено': 'eaten', '{0} из {1} г': '{0} of {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories by macro', 'факт · цель': 'actual · goal', 'Единицы измерения': 'Units', 'Вес, lbs': 'Weight, lbs', 'Вес, kg': 'Weight, kg', 'Рост, ft/in': 'Height, ft/in', 'Рост, см': 'Height, cm', 'Проверь вес': 'Check your weight', 'Проверь рост': 'Check your height' },
+  uk: { 'Дальше:': 'Далі:', 'через {0} тренировку': 'через {0} тренування', 'через {0} тренировки': 'через {0} тренування', 'через {0} тренировок': 'через {0} тренувань', 'Продолжить с Apple': 'Продовжити з Apple', 'Вход через Apple и Google работает только с интернетом': 'Вхід через Apple і Google працює лише з інтернетом', 'Б {0}': 'Б {0}', 'У {0}': 'В {0}', 'Ж {0}': 'Ж {0}', 'Б {0} · У {1} · Ж {2}': 'Б {0} · В {1} · Ж {2}', 'Б': 'Б', 'У': 'В', 'Ж': 'Ж', 'Б, г': 'Б, г', 'У, г': 'В, г', 'Ж, г': 'Ж, г', 'из {0} ккал': 'з {0} ккал', 'цель {0}': 'ціль {0}', 'осталось': 'залишилось', 'съедено': "з'їдено", '{0} из {1} г': '{0} з {1} г', '/{0} г': '/{0} г', 'Откуда калории': 'Звідки калорії', 'факт · цель': 'факт · ціль', 'Единицы измерения': 'Одиниці виміру', 'Вес, lbs': 'Вага, lbs', 'Вес, kg': 'Вага, kg', 'Рост, ft/in': 'Зріст, ft/in', 'Рост, см': 'Зріст, см', 'Проверь вес': 'Перевір вагу', 'Проверь рост': 'Перевір зріст' },
+  kk: { 'Дальше:': 'Келесі:', 'через {0} тренировку': '{0} жаттығудан кейін', 'через {0} тренировки': '{0} жаттығудан кейін', 'через {0} тренировок': '{0} жаттығудан кейін', 'Продолжить с Apple': 'Apple арқылы жалғастыру', 'Вход через Apple и Google работает только с интернетом': 'Apple және Google арқылы кіру тек интернетпен жұмыс істейді', 'Б {0}': 'А {0}', 'У {0}': 'К {0}', 'Ж {0}': 'М {0}', 'Б {0} · У {1} · Ж {2}': 'А {0} · К {1} · М {2}', 'Б': 'А', 'У': 'К', 'Ж': 'М', 'Б, г': 'А, г', 'У, г': 'К, г', 'Ж, г': 'М, г', 'из {0} ккал': '{0} ккал ішінен', 'цель {0}': 'мақсат {0}', 'осталось': 'қалды', 'съедено': 'жеді', '{0} из {1} г': '{1} г ішінен {0}', '/{0} г': '/{0} г', 'Откуда калории': 'Калория неден', 'факт · цель': 'нақты · мақсат', 'Единицы измерения': 'Өлшем бірліктері', 'Вес, lbs': 'Салмақ, lbs', 'Вес, kg': 'Салмақ, kg', 'Рост, ft/in': 'Бой, ft/in', 'Рост, см': 'Бой, см', 'Проверь вес': 'Салмақты тексер', 'Проверь рост': 'Бойды тексер' },
+  de: { 'Дальше:': 'Als Nächstes:', 'через {0} тренировку': 'in {0} Training', 'через {0} тренировки': 'in {0} Trainings', 'через {0} тренировок': 'in {0} Trainings', 'Продолжить с Apple': 'Weiter mit Apple', 'Вход через Apple и Google работает только с интернетом': 'Anmeldung mit Apple und Google braucht Internet', 'Б {0}': 'E {0}', 'У {0}': 'K {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'E {0} · K {1} · F {2}', 'Б': 'E', 'У': 'K', 'Ж': 'F', 'Б, г': 'E, g', 'У, г': 'K, g', 'Ж, г': 'F, g', 'из {0} ккал': 'von {0} kcal', 'цель {0}': 'Ziel {0}', 'осталось': 'übrig', 'съедено': 'gegessen', '{0} из {1} г': '{0} von {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Kalorien nach Makros', 'факт · цель': 'Ist · Ziel', 'Единицы измерения': 'Maßeinheiten', 'Вес, lbs': 'Gewicht, lbs', 'Вес, kg': 'Gewicht, kg', 'Рост, ft/in': 'Größe, ft/in', 'Рост, см': 'Größe, cm', 'Проверь вес': 'Prüfe dein Gewicht', 'Проверь рост': 'Prüfe deine Größe' },
+  es: { 'Дальше:': 'Siguiente:', 'через {0} тренировку': 'en {0} entreno', 'через {0} тренировки': 'en {0} entrenos', 'через {0} тренировок': 'en {0} entrenos', 'Продолжить с Apple': 'Continuar con Apple', 'Вход через Apple и Google работает только с интернетом': 'El acceso con Apple y Google requiere internet', 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'G {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · G {2}', 'Б': 'P', 'У': 'C', 'Ж': 'G', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'G, g', 'из {0} ккал': 'de {0} kcal', 'цель {0}': 'meta {0}', 'осталось': 'restantes', 'съедено': 'consumidas', '{0} из {1} г': '{0} de {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calorías por macro', 'факт · цель': 'real · meta', 'Единицы измерения': 'Unidades', 'Вес, lbs': 'Peso, lbs', 'Вес, kg': 'Peso, kg', 'Рост, ft/in': 'Estatura, ft/in', 'Рост, см': 'Estatura, cm', 'Проверь вес': 'Revisa tu peso', 'Проверь рост': 'Revisa tu estatura' },
+  fr: { 'Дальше:': 'Ensuite :', 'через {0} тренировку': 'dans {0} séance', 'через {0} тренировки': 'dans {0} séances', 'через {0} тренировок': 'dans {0} séances', 'Продолжить с Apple': 'Continuer avec Apple', 'Вход через Apple и Google работает только с интернетом': 'La connexion Apple et Google nécessite Internet', 'Б {0}': 'P {0}', 'У {0}': 'G {0}', 'Ж {0}': 'L {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · G {1} · L {2}', 'Б': 'P', 'У': 'G', 'Ж': 'L', 'Б, г': 'P, g', 'У, г': 'G, g', 'Ж, г': 'L, g', 'из {0} ккал': 'sur {0} kcal', 'цель {0}': 'objectif {0}', 'осталось': 'restantes', 'съедено': 'consommées', '{0} из {1} г': '{0} sur {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories par macro', 'факт · цель': 'réel · objectif', 'Единицы измерения': 'Unités', 'Вес, lbs': 'Poids, lbs', 'Вес, kg': 'Poids, kg', 'Рост, ft/in': 'Taille, ft/in', 'Рост, см': 'Taille, cm', 'Проверь вес': 'Vérifie ton poids', 'Проверь рост': 'Vérifie ta taille' },
+  tr: { 'Дальше:': 'Sıradaki:', 'через {0} тренировку': '{0} antrenman sonra', 'через {0} тренировки': '{0} antrenman sonra', 'через {0} тренировок': '{0} antrenman sonra', 'Продолжить с Apple': 'Apple ile devam et', 'Вход через Apple и Google работает только с интернетом': 'Apple ve Google ile giriş internet gerektirir', 'Б {0}': 'P {0}', 'У {0}': 'K {0}', 'Ж {0}': 'Y {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · K {1} · Y {2}', 'Б': 'P', 'У': 'K', 'Ж': 'Y', 'Б, г': 'P, g', 'У, г': 'K, g', 'Ж, г': 'Y, g', 'из {0} ккал': '{0} kcal içinden', 'цель {0}': 'hedef {0}', 'осталось': 'kaldı', 'съедено': 'yenildi', '{0} из {1} г': '{1} g içinden {0}', '/{0} г': '/{0} g', 'Откуда калории': 'Makrolara göre kalori', 'факт · цель': 'gerçek · hedef', 'Единицы измерения': 'Ölçü birimleri', 'Вес, lbs': 'Ağırlık, lbs', 'Вес, kg': 'Ağırlık, kg', 'Рост, ft/in': 'Boy, ft/in', 'Рост, см': 'Boy, cm', 'Проверь вес': 'Kilonu kontrol et', 'Проверь рост': 'Boyunu kontrol et' }
 };
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
@@ -5924,7 +5942,7 @@ const UI = {
       </div>`; };
     // v30: сверху профиль и кубки, ниже напоминания, кнопка тренировки и плитки разделов; игра (лига, босс, квесты) — дальше
     const capNote = capped ? `<div class="mb-4 text-xs rounded-lg px-3 py-2" style="background:#F9731622;border:1px solid #F9731655"><svg class="ic text-or"><use href="#fa-lock"/></svg> Кубки на паузе: победи Босса арены (ниже), чтобы пройти дальше</div>` : '';
-    this.morph(this.$('#tab-arena'), this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + this.newbieCard() + (capped || boss ? bossCard : '') + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
+    this.morph(this.$('#tab-arena'), this.newbieCard() + this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + (capped || boss ? bossCard : '') + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
     this.bindRemDots();
     // v47: при первом открытии кубки «набегают» от нуля
     if (!this._cu) { this._cu = 1; const el = this.$('#tab-arena .hm-big'), tn = el && el.firstChild, to = S.game.trophies;
@@ -7609,22 +7627,26 @@ const UI = {
     const base = g.cals / budget;
     let out = arc(R, W, 0, 1, 'currentColor', { op: .08, round: false });
     if (burned) out += arc(R, W, base, 1, BC, { op: .2, round: false });
-    if (eaten > 0) out += arc(R, W, 0, Math.max(0.0005, Math.min(eaten, g.cals) / budget), KC, { fill: true });
-    if (burned && eaten > g.cals) out += arc(R, W, base, Math.min(eaten, budget) / budget, BC, { fill: true });
-    if (eaten > budget) out += arc(R, W, 0, Math.min(1, (eaten - budget) / budget), OC, { fill: true });
+    const ov = eaten > budget, ovF = ov ? Math.min(.985, (eaten - budget) / budget) : 0, dim = ov ? .38 : 1; // v68: перебор — второй круг поверх приглушённого первого
+    if (eaten > 0) out += arc(R, W, 0, Math.max(0.0005, Math.min(eaten, g.cals) / budget), KC, { fill: true, op: dim });
+    if (burned && eaten > g.cals) out += arc(R, W, base, Math.min(eaten, budget) / budget, BC, { fill: true, op: dim });
+    let ovGlow = '';
+    if (ov) { const id = 'kov' + (this._kovId = (this._kovId || 0) + 1), ang = ovF * 2 * Math.PI - Math.PI / 2, tx = (60 + R * Math.cos(ang)).toFixed(2), ty = (60 + R * Math.sin(ang)).toFixed(2);
+      out += `<g class="kr-ov">${arc(R, W, 0, Math.max(.012, ovF), OC, { fill: true })}</g><circle class="kr-tip" cx="${tx}" cy="${ty}" r="1.7" fill="#fff" opacity=".9"/>`;
+      ovGlow = `<defs><radialGradient id="${id}"><stop offset="0" stop-color="${OC}" stop-opacity=".2"/><stop offset="1" stop-color="${OC}" stop-opacity="0"/></radialGradient></defs><circle cx="60" cy="60" r="38" fill="url(#${id})"/>`; }
     const parts = [['protein', '#3B82F6', 4], ['carbs', '#F97316', 4], ['fat', '#8B5CF6', 9]], gk = parts.reduce((s, [k, , kc]) => s + g[k] * kc, 0) || 1, gap = 0.025;
     let at = 0, inner = '';
     parts.forEach(([k, col, kc]) => { const sh = g[k] * kc / gk, a = at + gap / 2, b = at + sh - gap / 2, p = U.clamp(total[k] / (g[k] || 1), 0, 1); at += sh;
       inner += arc(r, w, a, b, col, { op: .2 }); if (p > 0) inner += arc(r, w, a, a + Math.max(0.0005, (b - a) * p), col, { fill: true }); });
-    const over = left < 0, ate = view === 'eaten', flip = false, y0 = (burned ? 54 : 58) - (flip ? 2 : 0), big = ate ? eaten : Math.abs(left);
+    const over = left < 0, ate = view === 'eaten', flip = false, y0 = (burned ? 54 : 58) - (flip ? 2 : 0), big = ate ? eaten : over ? '+' + Math.abs(left) : Math.abs(left);
     // v67: «сколько из скольки»: 1450 / из 2200 ккал / осталось (или съедено). Перебор — «ккал сверх · цель 2200»
     const l1 = over && !ate ? 'ккал сверх' : `из ${budget} ккал`, l2 = over && !ate ? `цель ${budget}` : ate ? 'съедено' : 'осталось';
-    const mid = `<g class="kr-mid"><text x="60" y="${y0}" text-anchor="middle" font-size="${big >= 10000 ? 18 : 22}" class="kr-big num" fill="${!ate && over ? OC : 'currentColor'}">${big}</text>
-      <text class="num" x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--muted)">${l1}</text>
+    const mid = `<g class="kr-mid"><text x="60" y="${y0}" text-anchor="middle" font-size="${String(big).length >= 5 ? 18 : 22}" class="kr-big num" fill="${!ate && over ? '#FF6961' : 'currentColor'}">${big}</text>
+      <text class="num" x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="700" fill="${!ate && over ? '#FF6961' : 'var(--muted)'}"${!ate && over ? ' opacity=".85"' : ''}>${l1}</text>
       <text x="60" y="${y0 + 19.5}" text-anchor="middle" font-size="6.6" font-weight="600" fill="var(--muted)" opacity=".8">${l2}</text>
       ${burned ? `<text x="60" y="${y0 + 29}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}</g>
       ${flip ? `<circle cx="${ate ? 63 : 57}" cy="${y0 + (burned ? 30 : 21)}" r="1.6" fill="currentColor" opacity=".25"/><rect x="${ate ? 53 : 59}" y="${y0 + (burned ? 28.4 : 19.4)}" width="8" height="3.2" rx="1.6" fill="currentColor" opacity=".7"/>` : ''}`;
-    return `<svg class="kring" viewBox="0 0 120 120" width="${size}" height="${size}" role="img" aria-label="${eaten} ккал">${out}${inner}${mid}</svg>`;
+    return `<svg class="kring" viewBox="0 0 120 120" width="${size}" height="${size}" role="img" aria-label="${eaten} ккал">${ovGlow}${out}${inner}${mid}</svg>`;
   },
   macroCard(k) {
     const g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(k);
@@ -8413,7 +8435,7 @@ Object.assign(UI, {
       ['Кто видит', 'Другим игрокам видны только никнейм, аватар, ранг, кубки, рекорды, клан и твои публикации. Вес тела, рост, питание, сон и фото Body Progress видишь только ты.'],
       ['Где хранится', 'На телефоне и в облаке Supabase (зашифрованное соединение). Фото Body Progress лежат в закрытом хранилище, доступ только у тебя.'],
       ['AI', 'Только после твоего согласия: текст для разбора еды и активности и данные профиля (пол, возраст, рост, вес) отправляются в Google Gemini. Имя, email и фото не отправляются.'],
-      ['Вход', 'Email и пароль, Google или Apple (на iPhone). Мы получаем только email и имя, которые даёт сервис входа.'],
+      ['Вход', 'Email и пароль, Google или Apple. Мы получаем только email и имя, которые даёт сервис входа.'],
       ['Удаление', 'Настройки → Аккаунт и вход → Удалить аккаунт: стираем профиль, прогресс, посты и фото.'],
       ['Реклама и продажа данных', 'Нет рекламы, данные не продаём. Передаём только сервисам, без которых приложение не работает: Supabase (хранение) и Google Gemini (ИИ).'],
     ];
@@ -8467,14 +8489,25 @@ Object.assign(UI, {
     </div>`;
   },
   // путь новичка: что откроется следующим
-  newbieCard() {
+  newbieCard() { // v68: тонкая плашка вверху главной вместо большой карточки; подробности по нажатию
     if (Unlock.all()) return '';
-    const done = Unlock.done(), max = Unlock.LIST[Unlock.LIST.length - 1].need;
-    return `<div class="card p-4 mb-4 newbie">
-      <div class="flex items-center justify-between mb-1"><div class="font-bold"><svg class="ic text-amber-400"><use href="#fa-sparkles"/></svg> Путь новичка</div><span class="text-[11px] muted num">${done}/${max} трен.</span></div>
-      <div class="text-[11px] muted mb-3">Каждая тренировка открывает что-то новое</div>
-      <div class="nb-track">${Unlock.LIST.map(x => { const on = Unlock.on(x.id); return `<button class="nb-it ${on ? 'on' : ''}" style="--c:${x.color}" data-action="${on ? 'unlock-go' : 'locked-info'}" data-id="${x.id}"><span class="nb-ic"><svg class="ic"><use href="#${on ? x.icon : 'fa-lock'}"/></svg></span><b>${x.name}</b><small>${on ? 'открыто' : `${x.need} трен.`}</small></button>`; }).join('')}</div>
-    </div>`;
+    const nx = Unlock.next(), left = nx ? Unlock.left(nx.id) : 0;
+    return `<button class="nbx" data-action="newbie-open" aria-label="Путь новичка">
+      <span class="nbx-ic"><svg class="ic"><use href="#fa-sparkles"/></svg></span>
+      <span class="nbx-tx"><b>Путь новичка</b>${nx ? `<small><span>Дальше:</span> <em style="--c:${nx.color}">${nx.name}</em> <span>${left ? `через ${left} ${U.plural(left, 'тренировку', 'тренировки', 'тренировок')}` : ''}</span></small>` : ''}</span>
+      <span class="nbx-pips">${Unlock.LIST.map(x => `<i class="${Unlock.on(x.id) ? 'on' : ''}" style="--c:${x.color}"><svg class="ic"><use href="#${Unlock.on(x.id) ? x.icon : 'fa-lock'}"/></svg></i>`).join('')}</span>
+      <svg class="ic nbx-ch"><use href="#fa-chevron-right"/></svg>
+    </button>`;
+  },
+  openNewbie() {
+    const done = Unlock.done();
+    this.modal(`<div class="flex items-center justify-between mb-1"><div class="font-black text-lg"><svg class="ic text-amber-400"><use href="#fa-sparkles"/></svg> Путь новичка</div><button class="icon-btn" data-action="close-modal" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
+      <div class="text-xs muted mb-3">Каждая тренировка открывает что-то новое</div>
+      <div class="nbs">${Unlock.LIST.map(x => { const on = Unlock.on(x.id), l = Unlock.left(x.id); return `<button class="nbs-it ${on ? 'on' : ''}" style="--c:${x.color}" data-action="${on ? 'unlock-go' : 'locked-info'}" data-id="${x.id}">
+        <span class="nbs-ic"><svg class="ic"><use href="#${on ? x.icon : 'fa-lock'}"/></svg></span>
+        <span class="nbs-tx"><b>${x.name}</b><small>${x.desc}</small></span>
+        <span class="nbs-st">${on ? '<svg class="ic"><use href="#fa-check"/></svg>' : `<span>через ${l} ${U.plural(l, 'тренировку', 'тренировки', 'тренировок')}</span>`}</span></button>`; }).join('')}</div>
+      ${Unlock.next() ? `<button class="btn btn-primary w-full mt-4 py-3" data-action="start-workout-close"><svg class="ic"><use href="#fa-play"/></svg> Начать тренировку</button>` : ''}`);
   },
   communityLocked() {
     const it = Unlock.LIST[0], left = Unlock.left('feed');
@@ -8619,10 +8652,11 @@ Object.assign(UI, {
   },
   oauthBtns(small) {
     const off = !Net.ready ? 'disabled' : '';
+    // v68: Apple на всех платформах (на iPhone первым, как требует Apple; на Android и в вебе после Google)
+    const apple = `<button class="btn auth-apple ${small ? '' : 'py-3.5'}" data-action="auth-oauth" data-val="apple" ${off}><svg viewBox="0 0 17 20" width="17" height="20" aria-hidden="true"><path fill="currentColor" d="M14.06 10.62c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.75 2.2 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.66-2.15.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.34-3.54zM11.87 4.17c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23z"/></svg> <span>Продолжить с Apple</span></button>`, google = `<button class="btn auth-g ${small ? '' : 'py-3.5'}" data-action="auth-oauth" data-val="google" ${off}>${this.googleLogo} <span>Продолжить с Google</span></button>`;
     return `<div class="grid grid-cols-1 gap-2">
-      ${Net.ios() ? `<button class="btn auth-apple ${small ? '' : 'py-3.5'}" data-action="auth-oauth" data-val="apple" ${off}><svg viewBox="0 0 17 20" width="17" height="20" aria-hidden="true"><path fill="currentColor" d="M14.06 10.62c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.75 2.2 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.66-2.15.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.34-3.54zM11.87 4.17c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23z"/></svg> <span>Вход через Apple</span></button>` : ''}
-      <button class="btn auth-g ${small ? '' : 'py-3.5'}" data-action="auth-oauth" data-val="google" ${off}>${this.googleLogo} <span>Продолжить с Google</span></button>
-    </div>${!Net.ready ? `<div class="text-[10px] muted mt-1 text-center">Вход через ${Net.ios() ? 'Apple и ' : ''}Google работает только с интернетом</div>` : ''}`;
+      ${Net.ios() ? apple + google : google + apple}
+    </div>${!Net.ready ? `<div class="text-[10px] muted mt-1 text-center">Вход через Apple и Google работает только с интернетом</div>` : ''}`;
   },
   // v30: экран входа на весь экран в стиле главной + выбор языка сверху
   authTop(back) {
@@ -9454,6 +9488,7 @@ const App = {
     'legal-privacy'() { UI.openLegal('privacy', { a: 'set-tab', v: 'about' }); UI._setModal = false; },
     'legal-terms'() { UI.openLegal('terms', { a: 'set-tab', v: 'about' }); UI._setModal = false; },
     'locked-info'(el) { UI.openLocked(el.dataset.id); },
+    'newbie-open'() { UI.openNewbie(); },
     'unlock-go'(el) { const id = el.dataset.id; UI.closeModal(); setTimeout(() => { if (id === 'shop') UI.openShop(); else if (id === 'duels') { UI.goTab('clans'); UI.openPage('challenges'); } else if (id === 'clans') { UI.goTab('clans'); UI.openPage('clan'); } else UI.goTab('clans'); }, 80); },
     'start-workout-close'() { UI.closeModal(); setTimeout(() => UI.openWorkout(), 80); },
     'coins-info'() { UI.openCoinsInfo(); },
