@@ -532,7 +532,8 @@ video.post-img{background:#000;object-fit:contain}
 .wz-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem}.wz-bar i{height:5px;border-radius:5px;background:var(--line);transition:background .3s}.wz-bar i.on{background:linear-gradient(90deg,#10B981,#3B82F6)}
 .wz-head{margin-bottom:.9rem}
 .wz-body{animation:wzin .3s ease both}@keyframes wzin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
-.wz-big label{font-size:.68rem;color:var(--muted)}.wz-big input{font-size:1.6rem;font-weight:900;text-align:center;padding:.7rem .4rem}
+.wz-big label{font-size:.68rem;color:var(--muted)}
+.h-ftin{display:grid;grid-template-columns:1fr 1fr;gap:.3rem}.h-ftin label{position:relative;display:block;font-size:inherit}.h-ftin i{position:absolute;right:.45rem;bottom:.5rem;font-style:normal;font-size:.62rem;font-weight:700;color:var(--muted);pointer-events:none}.h-ftin .input{padding-right:1.1rem}.wz-big input{font-size:1.6rem;font-weight:900;text-align:center;padding:.7rem .4rem}
 .wz-goal{display:flex;flex-direction:column;align-items:flex-start;gap:.1rem;padding:.75rem;border-radius:1rem;background:var(--sub);border:1.5px solid var(--line);text-align:left}
 .wz-goal .ic{width:1.3rem;height:1.3rem;color:var(--muted);margin-bottom:.2rem}.wz-goal b{font-size:.9rem}.wz-goal small{font-size:.66rem;color:var(--muted)}
 .wz-goal.on{border-color:#10B981;background:linear-gradient(160deg,#10B98122,var(--sub))}.wz-goal.on .ic{color:#10B981}
@@ -1525,9 +1526,15 @@ html.reduce-motion .kring .kr-f{animation:none;transition:none}
 .mlg small{display:block;font-size:.6rem;font-weight:800;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mlg b{display:block;font-size:.85rem;font-weight:800;margin-top:.1rem}
 .mlg b span{font-size:.6rem;color:var(--muted);font-weight:600;margin-left:.1rem}
+.mlg b{white-space:nowrap}.mlg em{display:block;font-style:normal;font-size:.58rem;font-weight:600;color:var(--muted);white-space:nowrap}
 .mlg i{display:block;height:3px;border-radius:99px;background:color-mix(in srgb,var(--c) 20%,transparent);margin-top:.3rem;overflow:hidden}
 .mlg i:after{content:'';display:block;height:100%;width:var(--p);background:var(--c);border-radius:99px;transition:width .6s}
 .mbar+.mbar{margin-top:.65rem}
+.mbar-s{display:flex;justify-content:space-between;gap:.4rem;font-size:.62rem;color:var(--muted);margin-top:.2rem}
+.nut-split{padding:.65rem .75rem;border-radius:1rem;background:var(--sub);border:1px solid var(--line)}
+.nut-split-h{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem;font-size:.75rem;font-weight:700;margin-bottom:.45rem}.nut-split-h small{font-size:.6rem;font-weight:600;color:var(--muted)}
+.nut-split-bar{display:flex;gap:2px;height:8px;border-radius:99px;overflow:hidden;background:color-mix(in srgb,var(--muted) 15%,transparent)}.nut-split-bar i{display:block;height:100%;transition:width .6s}.nut-split-bar.empty i{opacity:.3}
+.nut-split-l{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-top:.5rem}.nut-split-l small{display:block;font-size:.6rem;font-weight:800;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nut-split-l b{display:block;font-size:.85rem;font-weight:800}.nut-split-l b span{font-size:.62rem;color:var(--muted);font-weight:600}
 .mbar-h{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem;font-size:.75rem;margin-bottom:.15rem}
 .mbar-h b{font-weight:800}.mbar-h em{font-style:normal;font-size:.65rem;color:var(--muted)}
 .nut-met{display:flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:700;color:var(--em);margin-top:.5rem}
@@ -2221,6 +2228,16 @@ Object.entries({
   fr: ['Ligue de la semaine', 'sur {n}', '{n} pts', 'Encore {n} pts pour la {p}e place', 'Tu mènes la semaine — tiens bon', 'Personne dans ton arène — invite des amis', '{n} j'],
   tr: ['Haftalık lig', '{n} kişiden', '{n} puan', '{p}. sıraya {n} puan', 'Haftanın lideri sensin — yerini koru', 'Arenanda henüz kimse yok — arkadaşlarını davet et', '{n} gün']
 }).forEach(([l, v]) => { if (I18N[l]) ['hl_kick', 'hl_of', 'hl_pts', 'hl_catch', 'hl_lead', 'hl_alone', 'hl_days'].forEach((k, i) => { I18N[l][k] = v[i]; }); });
+// v67: приёмы пищи в переключателях (они помечены data-no-mt, поэтому перевод свой)
+Object.entries({
+  ru: ['Завтрак', 'Обед', 'Ужин', 'Перекус'], en: ['Breakfast', 'Lunch', 'Dinner', 'Snack'], uk: ['Сніданок', 'Обід', 'Вечеря', 'Перекус'], kk: ['Таңғы ас', 'Түскі ас', 'Кешкі ас', 'Тіскебасар'],
+  de: ['Frühstück', 'Mittag', 'Abend', 'Snack'], es: ['Desayuno', 'Almuerzo', 'Cena', 'Snack'], fr: ['Petit-déj', 'Déjeuner', 'Dîner', 'Collation'], tr: ['Kahvaltı', 'Öğle', 'Akşam', 'Ara öğün']
+}).forEach(([l, v]) => { if (I18N[l]) ['meal_breakfast', 'meal_lunch', 'meal_dinner', 'meal_snack'].forEach((k, i) => { I18N[l][k] = v[i]; }); });
+// v67: весовые категории в рейтингах (ряд кнопок помечен data-no-mt, поэтому машинный перевод его не трогает)
+Object.entries({
+  ru: ['Все', 'до {n}', 'ты'], en: ['All', 'up to {n}', 'you'], uk: ['Усі', 'до {n}', 'ти'], kk: ['Барлығы', '{n} дейін', 'сен'],
+  de: ['Alle', 'bis {n}', 'du'], es: ['Todos', 'hasta {n}', 'tú'], fr: ['Tous', "jusqu'à {n}", 'toi'], tr: ['Tümü', '{n} ve altı', 'sen']
+}).forEach(([l, v]) => { if (I18N[l]) ['wc_all', 'wc_upto', 'wc_you'].forEach((k, i) => { I18N[l][k] = v[i]; }); });
 Object.entries({ en: 'workouts/wk', uk: 'трен./тиж', kk: 'жаттығу/апта', de: 'Trainings/Wo.', es: 'entr./sem', fr: 'séances/sem', tr: 'antr./hafta' }).forEach(([l, v]) => { if (I18N[l]) I18N[l].wk_short = v; });
 function TN(name) { const lang = (S && S.profile && S.profile.lang) || 'ru'; const d = I18N[lang] && I18N[lang].names && I18N[lang].names[name]; if (d) return d; if (lang !== 'ru' && typeof MT !== 'undefined' && MT.SEED[lang] && MT.SEED[lang][name]) return MT.SEED[lang][name]; return name; }
 function T(key, vars) { const lang = (S && S.profile && S.profile.lang) || 'ru'; let s = (I18N[lang] && I18N[lang][key]) || I18N.ru[key] || key; if (vars) for (const k in vars) s = s.replace('{' + k + '}', vars[k]); return s; }
@@ -2232,7 +2249,8 @@ function T(key, vars) { const lang = (S && S.profile && S.profile.lang) || 'ru';
    ----------------------------------------------------------------------- */
 const MT = {
   KEY: 'APEX_MT_CACHE_V2', cache: {}, SEED: {}, pending: new Set(), timer: null, busy: false, done: new WeakSet(),
-  load() { try { this.cache = JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (_) { this.cache = {}; } try { localStorage.removeItem('APEX_MT_CACHE_V1'); } catch (_) {} },
+  load() { try { this.cache = JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (_) { this.cache = {}; } try { localStorage.removeItem('APEX_MT_CACHE_V1'); } catch (_) {}
+    if (this.FORCE) for (const l in this.FORCE) if (this.cache[l]) for (const k in this.FORCE[l]) delete this.cache[l][k]; }, // v67: исправленные переводы важнее старого кэша
   save() { try { localStorage.setItem(this.KEY, JSON.stringify(this.cache)); } catch (_) {} },
   lang() { const l = (S.profile.lang || 'en'); if (l !== this._lang) { this._lang = l; this._dst = null; this.done = new WeakSet(); this.pending.clear(); } return l; },
   active() { return this.lang() !== 'ru'; },
@@ -2330,6 +2348,18 @@ MT.SEED_V66 = {"en": {"Светлая или тёмная тема": "Light or d
 Object.keys(MT.SEED_V66.en).forEach(k => { if (!(MT.SEED_ADD.en || {})[k] && !(MT.SEED.en || {})[k]) (MT.SEED_ADD.en || (MT.SEED_ADD.en = {}))[k] = MT.SEED_V66.en[k]; });
 Object.assign(MT.SEED_ADD.en, {"Щит от потери кубков": "Trophy loss shield", "{0} {1} кубков на всех": "{0} {1} total trophies", "Кубки, монеты и опыт": "Trophies, coins, and XP", "Охотники за кубками": "Trophy hunters", "Вноси реальные результаты. Накрутка кубков и фейковые рекорды ведут к обнулению прогресса или блокировке.": "Log real results. Trophy boosting and fake PRs lead to progress reset or account ban.", "Другим игрокам видны только никнейм, аватар, ранг, кубки, рекорды, клан и твои публикации. Вес тела, рост, питание, сон и фото Body Progress видишь только ты.": "Other players can only see your nickname, avatar, rank, trophies, PRs, clan, and posts. Body weight, height, nutrition, sleep, and Body Progress photos are visible only to you.", "Кубки двигают тебя по рангу: в каждом ранге {0} звёзд, за каждую звезду монеты.": "Trophies advance your rank: each rank has {0} stars, and every star gives coins."});
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
+// v67: свои переводы для новых строк и исправления: «У» (углеводы) машинный перевод превращал в «At»/«Bei»/«Chez».
+// Эти ключи важнее кэша машинного перевода: при загрузке старые переводы этих строк из кэша удаляются (MT.load)
+MT.FORCE = {
+  en: { 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · F {2}', 'Б': 'P', 'У': 'C', 'Ж': 'F', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'F, g', 'из {0} ккал': 'of {0} kcal', 'цель {0}': 'goal {0}', 'осталось': 'left', 'съедено': 'eaten', '{0} из {1} г': '{0} of {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories by macro', 'факт · цель': 'actual · goal', 'Единицы измерения': 'Units', 'Вес, lbs': 'Weight, lbs', 'Вес, kg': 'Weight, kg', 'Рост, ft/in': 'Height, ft/in', 'Рост, см': 'Height, cm', 'Проверь вес': 'Check your weight', 'Проверь рост': 'Check your height' },
+  uk: { 'Б {0}': 'Б {0}', 'У {0}': 'В {0}', 'Ж {0}': 'Ж {0}', 'Б {0} · У {1} · Ж {2}': 'Б {0} · В {1} · Ж {2}', 'Б': 'Б', 'У': 'В', 'Ж': 'Ж', 'Б, г': 'Б, г', 'У, г': 'В, г', 'Ж, г': 'Ж, г', 'из {0} ккал': 'з {0} ккал', 'цель {0}': 'ціль {0}', 'осталось': 'залишилось', 'съедено': "з'їдено", '{0} из {1} г': '{0} з {1} г', '/{0} г': '/{0} г', 'Откуда калории': 'Звідки калорії', 'факт · цель': 'факт · ціль', 'Единицы измерения': 'Одиниці виміру', 'Вес, lbs': 'Вага, lbs', 'Вес, kg': 'Вага, kg', 'Рост, ft/in': 'Зріст, ft/in', 'Рост, см': 'Зріст, см', 'Проверь вес': 'Перевір вагу', 'Проверь рост': 'Перевір зріст' },
+  kk: { 'Б {0}': 'А {0}', 'У {0}': 'К {0}', 'Ж {0}': 'М {0}', 'Б {0} · У {1} · Ж {2}': 'А {0} · К {1} · М {2}', 'Б': 'А', 'У': 'К', 'Ж': 'М', 'Б, г': 'А, г', 'У, г': 'К, г', 'Ж, г': 'М, г', 'из {0} ккал': '{0} ккал ішінен', 'цель {0}': 'мақсат {0}', 'осталось': 'қалды', 'съедено': 'жеді', '{0} из {1} г': '{1} г ішінен {0}', '/{0} г': '/{0} г', 'Откуда калории': 'Калория неден', 'факт · цель': 'нақты · мақсат', 'Единицы измерения': 'Өлшем бірліктері', 'Вес, lbs': 'Салмақ, lbs', 'Вес, kg': 'Салмақ, kg', 'Рост, ft/in': 'Бой, ft/in', 'Рост, см': 'Бой, см', 'Проверь вес': 'Салмақты тексер', 'Проверь рост': 'Бойды тексер' },
+  de: { 'Б {0}': 'E {0}', 'У {0}': 'K {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'E {0} · K {1} · F {2}', 'Б': 'E', 'У': 'K', 'Ж': 'F', 'Б, г': 'E, g', 'У, г': 'K, g', 'Ж, г': 'F, g', 'из {0} ккал': 'von {0} kcal', 'цель {0}': 'Ziel {0}', 'осталось': 'übrig', 'съедено': 'gegessen', '{0} из {1} г': '{0} von {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Kalorien nach Makros', 'факт · цель': 'Ist · Ziel', 'Единицы измерения': 'Maßeinheiten', 'Вес, lbs': 'Gewicht, lbs', 'Вес, kg': 'Gewicht, kg', 'Рост, ft/in': 'Größe, ft/in', 'Рост, см': 'Größe, cm', 'Проверь вес': 'Prüfe dein Gewicht', 'Проверь рост': 'Prüfe deine Größe' },
+  es: { 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'G {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · G {2}', 'Б': 'P', 'У': 'C', 'Ж': 'G', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'G, g', 'из {0} ккал': 'de {0} kcal', 'цель {0}': 'meta {0}', 'осталось': 'restantes', 'съедено': 'consumidas', '{0} из {1} г': '{0} de {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calorías por macro', 'факт · цель': 'real · meta', 'Единицы измерения': 'Unidades', 'Вес, lbs': 'Peso, lbs', 'Вес, kg': 'Peso, kg', 'Рост, ft/in': 'Estatura, ft/in', 'Рост, см': 'Estatura, cm', 'Проверь вес': 'Revisa tu peso', 'Проверь рост': 'Revisa tu estatura' },
+  fr: { 'Б {0}': 'P {0}', 'У {0}': 'G {0}', 'Ж {0}': 'L {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · G {1} · L {2}', 'Б': 'P', 'У': 'G', 'Ж': 'L', 'Б, г': 'P, g', 'У, г': 'G, g', 'Ж, г': 'L, g', 'из {0} ккал': 'sur {0} kcal', 'цель {0}': 'objectif {0}', 'осталось': 'restantes', 'съедено': 'consommées', '{0} из {1} г': '{0} sur {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories par macro', 'факт · цель': 'réel · objectif', 'Единицы измерения': 'Unités', 'Вес, lbs': 'Poids, lbs', 'Вес, kg': 'Poids, kg', 'Рост, ft/in': 'Taille, ft/in', 'Рост, см': 'Taille, cm', 'Проверь вес': 'Vérifie ton poids', 'Проверь рост': 'Vérifie ta taille' },
+  tr: { 'Б {0}': 'P {0}', 'У {0}': 'K {0}', 'Ж {0}': 'Y {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · K {1} · Y {2}', 'Б': 'P', 'У': 'K', 'Ж': 'Y', 'Б, г': 'P, g', 'У, г': 'K, g', 'Ж, г': 'Y, g', 'из {0} ккал': '{0} kcal içinden', 'цель {0}': 'hedef {0}', 'осталось': 'kaldı', 'съедено': 'yenildi', '{0} из {1} г': '{1} g içinden {0}', '/{0} г': '/{0} g', 'Откуда калории': 'Makrolara göre kalori', 'факт · цель': 'gerçek · hedef', 'Единицы измерения': 'Ölçü birimleri', 'Вес, lbs': 'Ağırlık, lbs', 'Вес, kg': 'Ağırlık, kg', 'Рост, ft/in': 'Boy, ft/in', 'Рост, см': 'Boy, cm', 'Проверь вес': 'Kilonu kontrol et', 'Проверь рост': 'Boyunu kontrol et' }
+};
+Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
 /* ------------------------------ STORE ------------------------------- */
 // v30: язык по умолчанию — язык телефона (если он есть в приложении), иначе английский
@@ -2476,6 +2506,11 @@ const U = {
   wEx(exName, kg) { return (U.exInfo(exName).bodyweight ? 'BW+' : '') + U.w(kg); },
   w(kg, digits = 1) { const v = S.profile.units === 'lbs' ? kg * 2.20462 : kg; return Number(v.toFixed(digits)).toString(); },
   toKg(v) { v = parseFloat(v); if (isNaN(v)) return NaN; return S.profile.units === 'lbs' ? v / 2.20462 : v; },
+  // v67: рост в футах и дюймах для тех, у кого фунты (храним всегда в см)
+  imperial: () => S.profile.units === 'lbs',
+  ftIn(cm) { cm = +cm; if (!(cm > 0)) return ['', '']; const t = cm / 2.54; let ft = Math.floor(t / 12), inch = Math.round(t - ft * 12); if (inch >= 12) { ft++; inch -= 12; } return [ft, inch]; },
+  cmFromFtIn(ft, inch) { const f = parseFloat(ft) || 0, i = parseFloat(inch) || 0; if (!(f > 0 || i > 0)) return ''; return Math.round((f * 12 + i) * 2.54); },
+  hInputs(pre, cm, big) { const [f, i] = U.ftIn(cm), c = big ? '' : ' py-2'; return `<div class="h-ftin"><label><input class="input num${c}" id="${pre}-hft" type="number" inputmode="numeric" min="3" max="8" placeholder="5" value="${f}"><i>ft</i></label><label><input class="input num${c}" id="${pre}-hin" type="number" inputmode="numeric" min="0" max="11" placeholder="9" value="${i}"><i>in</i></label></div>`; },
   fmtClock(ms) { const s = Math.max(0, Math.floor(ms / 1000)); return `${Math.floor(s / 3600)}:${U.pad(Math.floor(s / 60) % 60)}:${U.pad(s % 60)}`; },
   hhmm(ts) { return new Date(ts).toLocaleTimeString(U.locale(), { hour: '2-digit', minute: '2-digit' }); },
   fmtTime(ms) { if (ms <= 0) return '00:00'; const s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60; return h > 0 ? `${h}ч ${U.pad(m)}м` : `${U.pad(m)}:${U.pad(sec)}`; },
@@ -2545,7 +2580,7 @@ const Calc = {
   exerciseNames() { const set = new Set(Object.keys(CONFIG.EXERCISES)); (S.customExercises || []).forEach(c => set.add(c.name)); S.lifts.forEach(l => set.add(l.exerciseName)); return [...set]; },
   // план на день недели (0 = Пн)
   wclass(bw, sex) { const xs = CONFIG.WCLASS[sex === 'f' ? 'f' : 'm'], g = sex === 'f' ? 'f' : 'm'; bw = +bw || 0; if (!bw) return null; const lim = xs.find(x => bw <= x); return g + (lim || xs[xs.length - 1] + '+'); },
-  wclassLabel(id) { if (!id) return ''; const m = /^([mf])(\d+)(\+?)$/.exec(id); if (!m) return ''; const kg = +m[2]; return m[3] ? `${U.w(kg, 0)}+ ${U.wUnit()}` : `до ${U.w(kg, 0)} ${U.wUnit()}`; },
+  wclassLabel(id) { if (!id) return ''; const m = /^([mf])(\d+)(\+?)$/.exec(id); if (!m) return ''; const kg = +m[2]; return m[3] ? `${U.w(kg, 0)}+ ${U.wUnit()}` : T('wc_upto', { n: `${U.w(kg, 0)} ${U.wUnit()}` }); }, // v67: строка в data-no-mt, поэтому перевод свой
   wclassList(sex) { const g = sex === 'f' ? 'f' : 'm', xs = CONFIG.WCLASS[g]; return xs.map(x => g + x).concat(g + xs[xs.length - 1] + '+'); },
   weekday(day = U.today()) { return (U.parseDay(day).getDay() + 6) % 7; },
   planFor(day = U.today()) { const o = S.program.pick; if (o && o.date === day && S.program.days[o.wd]) return S.program.days[o.wd]; return S.program.days[Calc.weekday(day)] || null; }, // v25: можно выбрать другой день программы на сегодня
@@ -5796,8 +5831,10 @@ const UI = {
   streakCircle(size = 76) {
     const st = Calc.streak(), n = st.count, mode = st.today ? 'on' : n > 0 ? 'risk' : 'off', act = Calc.activeDays(), fr = new Set(S.game.frozenDays || []), today = U.today();
     const R = 45, C = 2 * Math.PI * R, gap = 0.045, segL = 1 / 7;
+    // v67: полоски показывают только текущую серию. Серия сгорела — старые активные дни больше не горят
+    const end = st.today ? today : U.addDays(today, -1), chain = new Set(); for (let i = 0; i < Math.min(n, 7); i++) chain.add(U.addDays(end, -i));
     const segs = [6, 5, 4, 3, 2, 1, 0].map((b, i) => {
-      const d = U.addDays(today, -b), on = act.has(d), ice = !on && fr.has(d), now = b === 0;
+      const d = U.addDays(today, -b), inRun = chain.has(d), on = inRun && act.has(d), ice = inRun && !on && fr.has(d), now = b === 0;
       const a = i * segL + gap / 2, len = (segL - gap) * C;
       const cls = on ? 'on' : ice ? 'ice' : now && mode === 'risk' ? 'wait' : '';
       return `<circle class="stk-s ${cls}" r="${R}" cx="50" cy="50" fill="none" stroke-width="5" stroke-linecap="round" transform="rotate(-90 50 50)" style="stroke-dasharray:${(len - 5).toFixed(2)} ${C.toFixed(2)};stroke-dashoffset:${(-(a * C + 2.5)).toFixed(2)}"/>`;
@@ -6694,13 +6731,20 @@ const UI = {
     const kv = S.profile.kView === 'eaten' ? 'eaten' : 'left';
     const macro = (name, v, goal, color) => { const rest = Math.round(goal - v), ok = Math.abs(rest) <= goal * 0.05, over = rest < -goal * 0.05;
       const val = kv === 'eaten' ? `<b class="num">${Math.round(v)}</b> <em>г съедено</em>` : over ? `<b class="num text-red-400">+${-rest}</b> <em>г сверх</em>` : ok ? `<b class="num text-em">✓</b> <em>норма</em>` : `<b class="num">${rest}</b> <em>г осталось</em>`;
-      return `<div class="mbar"><div class="mbar-h"><span>${name}</span><span class="mbar-v">${val}</span></div>${this.bar(v / goal * 100, color)}</div>`; };
+      return `<div class="mbar"><div class="mbar-h"><span>${name}</span><span class="mbar-v">${val}</span></div>${this.bar(v / goal * 100, color)}<div class="mbar-s num"><span>${Math.round(v)} из ${goal} г</span><span>${Math.round(v * kcal[color])} ккал</span></div></div>`; };
+    // v67: подробнее: откуда калории — факт против цели по долям Б/У/Ж
+    const kcal = { '#3B82F6': 4, '#F97316': 4, '#8B5CF6': 9 }, MP = [[T('protein'), 'protein', '#3B82F6', 4], [T('carbs'), 'carbs', '#F97316', 4], [T('fat'), 'fat', '#8B5CF6', 9]];
+    const eK = MP.reduce((s, [, k, , c]) => s + (total[k] || 0) * c, 0), gK = MP.reduce((s, [, k, , c]) => s + (g[k] || 0) * c, 0) || 1, pc = (v, t) => t > 0 ? Math.round(v / t * 100) : 0;
+    const split = `<div class="nut-split mt-3"><div class="nut-split-h"><span>Откуда калории</span><small>факт · цель</small></div>
+      <div class="nut-split-bar ${eK > 0 ? '' : 'empty'}">${MP.map(([, k, c, m]) => `<i style="width:${eK > 0 ? (total[k] || 0) * m / eK * 100 : (g[k] || 0) * m / gK * 100}%;background:${c}"></i>`).join('')}</div>
+      <div class="nut-split-l">${MP.map(([n, k, c, m]) => `<div style="--c:${c}"><small>${n}</small><b class="num">${eK > 0 ? pc((total[k] || 0) * m, eK) + '%' : '—'}<span> · ${pc((g[k] || 0) * m, gK)}%</span></b></div>`).join('')}</div></div>`;
     const html = `
       <div class="flex items-center justify-between gap-2 mb-3"><div class="font-bold text-lg min-w-0 truncate"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')} · <span>${day === U.today() ? T('today') : `<span data-no-mt>${U.fmtDate(day)}</span>`}</span></div><div class="flex items-center gap-1 flex-none"><button class="btn btn-ghost btn-sm" data-action="open-goals"><svg class="ic"><use href="#fa-bullseye"/></svg> ${T('goals')}</button><button data-action="close-modal" class="muted px-1"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div></div>
       <div class="flex items-center gap-4 mb-3"><div class="flex flex-col items-center flex-none"><button class="kr-btn" data-action="kring-flip" aria-label="Осталось или съедено">${this.macroDonut(132, day, kv)}</button>
         <button class="kv-sw ${kv}" data-action="kring-flip" role="switch" aria-checked="${kv === 'eaten'}"><i></i><span>Осталось</span><span>Съедено</span></button></div>
         <button class="kv-mac flex-1 min-w-0 text-left" data-action="kring-flip">${macro(T('protein'), total.protein, g.protein, '#3B82F6')}${macro(T('carbs'), total.carbs, g.carbs, '#F97316')}${macro(T('fat'), total.fat, g.fat, '#8B5CF6')}</button></div>
       <div class="nut-budget"><div><b class="num">${g.cals}</b><small>цель</small></div><i>+</i><div><b class="num ${burned ? 'text-yl' : 'muted'}">${burned}</b><small>активность</small></div><i>−</i><div><b class="num">${Math.round(total.cals)}</b><small>съедено</small></div><i>=</i><div><b class="num ${left < 0 ? 'text-red-400' : 'text-em'}">${left}</b><small>осталось</small></div></div>
+      ${split}
       ${Calc.nutritionGoalMet(day) ? '<div class="nut-met"><svg class="ic"><use href="#fa-check"/></svg> Цели по питанию выполнены · +3 кубка</div>' : ''}
       <div class="grid grid-cols-2 gap-2 mt-3 mb-2">
         <button class="btn nut-ai py-3" data-action="food-ai"><svg class="ic "><use href="#fa-wand-magic-sparkles"/></svg> Что съел?</button>
@@ -6775,7 +6819,7 @@ const UI = {
     const html = `
       <div class="flex items-center justify-between mb-3"><button class="dish-back" data-action="open-nutrition"><svg class="ic"><use href="#fa-chevron-left"/></svg> ${T('nutrition')}</button><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
       <input class="dish-t" id="dish-t" maxlength="40" value="${U.esc(d.name)}" data-action="dish-name" placeholder="Название блюда" ${auto ? '' : 'data-no-mt'}>
-      <div class="seg aif-meal my-3" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${d.meal === k ? 'on' : ''}" data-action="dish-meal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>
+      <div class="seg aif-meal my-3" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${d.meal === k ? 'on' : ''}" data-action="dish-meal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${T('meal_' + k)}</button>`).join('')}</div>
       <div class="dish-list">${rows}</div>
       <button class="dish-add" data-action="dish-add"><svg class="ic"><use href="#fa-plus"/></svg> Добавить продукт</button>
       <div class="dish-tot"><span class="text-xs muted num" data-dtm>Б ${d.t.protein} · У ${d.t.carbs} · Ж ${d.t.fat}</span><b class="num"><span data-dt>${d.t.cals}</span> <small class="muted">ккал</small></b></div>
@@ -7206,7 +7250,7 @@ const UI = {
     return `<div class="aif-card">
       ${m.saved ? `<div class="aif-done"><span class="meal-ic"><svg class="ic"><use href="#${(AIFood.MEALS.find(x => x[0] === m.meal) || [])[2] || 'fa-utensils'}"/></svg></span><span class="flex-1 min-w-0"><b class="block truncate"${auto ? '' : ' data-no-mt'}>${U.esc(title)}</b><small class="muted"><svg class="ic text-em"><use href="#fa-check"/></svg> Записано</small></span>${m.gid ? `<button class="btn btn-ghost btn-sm" data-action="dish-open" data-id="${U.esc(m.gid)}">Изменить</button>` : ''}</div>`
         : `<input class="aif-title" maxlength="40" value="${U.esc(title)}" placeholder="Название блюда" data-action="aif-title" data-i="${idx}" ${auto ? '' : 'data-no-mt'}>
-      <div class="seg aif-meal mb-2" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${m.meal === k ? 'on' : ''}" data-action="aif-meal" data-i="${idx}" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>`}
+      <div class="seg aif-meal mb-2" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${m.meal === k ? 'on' : ''}" data-action="aif-meal" data-i="${idx}" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${T('meal_' + k)}</button>`).join('')}</div>`}
       ${rows}
       <div class="flex items-center justify-between mt-2"><span class="text-xs muted">${m.saved ? '' : 'Проверь граммы, цифры пересчитаются'}</span><b class="num text-sm" data-tot="${idx}">${tot} ккал</b></div>
       ${m.saved ? '' : `<div class="grid grid-cols-3 gap-2 mt-2"><button class="btn btn-ghost btn-sm" data-action="aif-drop" data-i="${idx}">Отмена</button><button class="btn btn-primary btn-sm col-span-2" data-action="aif-save" data-i="${idx}"><svg class="ic"><use href="#fa-check"/></svg> Записать блюдо</button></div>`}
@@ -7261,13 +7305,13 @@ const UI = {
     const d = dish ? Calc.meals(this.hDay || U.today()).find(x => x.gid === dish) : null;
     this.modal(`
       <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg min-w-0 truncate"><svg class="ic text-em"><use href="#fa-pen"/></svg> ${d ? 'Добавить продукт' : 'Добавить еду'}</div>${d ? `<button class="dish-back" data-action="dish-open" data-id="${U.esc(dish)}"><svg class="ic"><use href="#fa-chevron-left"/></svg> Назад</button>` : ''}</div>
-      ${d ? `<div class="text-xs muted mb-2">в блюдо <b data-no-mt>${U.esc(d.name)}</b></div>` : `<div class="seg aif-meal mb-2" id="fm-meal" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${this._fmMeal === k ? 'on' : ''}" data-action="fm-meal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${t}</button>`).join('')}</div>`}
+      ${d ? `<div class="text-xs muted mb-2">в блюдо <b data-no-mt>${U.esc(d.name)}</b></div>` : `<div class="seg aif-meal mb-2" id="fm-meal" data-no-mt>${AIFood.MEALS.map(([k, t, ic]) => `<button class="${this._fmMeal === k ? 'on' : ''}" data-action="fm-meal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg> ${T('meal_' + k)}</button>`).join('')}</div>`}
       <input class="input mb-2" id="fm-name" data-draft placeholder="Название">
       <div class="grid grid-cols-4 gap-2 mb-4">
         <div><label class="text-[10px] muted">ккал</label><input class="input num" id="fm-cals" data-draft type="number" inputmode="numeric"></div>
-        <div><label class="text-[10px] muted">Б</label><input class="input num" id="fm-p" data-draft type="number" inputmode="numeric"></div>
-        <div><label class="text-[10px] muted">У</label><input class="input num" id="fm-c" data-draft type="number" inputmode="numeric"></div>
-        <div><label class="text-[10px] muted">Ж</label><input class="input num" id="fm-f" data-draft type="number" inputmode="numeric"></div>
+        <div><label class="text-[10px] muted truncate block">${T('protein')}</label><input class="input num" id="fm-p" data-draft type="number" inputmode="numeric"></div>
+        <div><label class="text-[10px] muted truncate block">${T('carbs')}</label><input class="input num" id="fm-c" data-draft type="number" inputmode="numeric"></div>
+        <div><label class="text-[10px] muted truncate block">${T('fat')}</label><input class="input num" id="fm-f" data-draft type="number" inputmode="numeric"></div>
       </div>
       <button class="btn btn-primary w-full" data-action="food-manual-save">Записать</button>`);
   },
@@ -7309,7 +7353,7 @@ const UI = {
       <div class="sub p-3 mb-3"><label class="text-xs muted">${T('body_weight')}, ${U.wUnit()}</label><div class="flex gap-2 items-center mt-1"><input class="input num text-2xl font-black" id="st-bw" type="number" inputmode="decimal" step="0.1" value="${U.w(p.bodyweight)}"><button class="btn btn-primary flex-none" data-action="settings-save"><svg class="ic"><use href="#fa-check"/></svg></button></div><div class="text-[10px] muted mt-1">Сохранится как взвешивание за сегодня</div></div>
       <div class="grid grid-cols-2 gap-2 mb-2">
         <div class="col-span-2"><label class="text-[10px] muted">${T('nickname')}</label><input class="input" id="st-nick" value="${U.esc(p.nickname)}" maxlength="16" data-no-mt></div>
-        <div><label class="text-[10px] muted">${T('height')}, <span>см</span></label><input class="input num" id="st-h" type="number" value="${p.height}"></div>
+        <div><label class="text-[10px] muted">${T('height')}, <span>${U.imperial() ? 'ft/in' : 'см'}</span></label>${U.imperial() ? U.hInputs('st', p.height) : `<input class="input num" id="st-h" type="number" value="${p.height}">`}</div>
         <div><label class="text-[10px] muted">Возраст</label><input class="input num" id="st-age" type="number" value="${p.age || ''}"></div>
       </div>
       <div class="seg mb-3" id="st-sex"><button class="${p.sex !== 'f' ? 'on' : ''}" data-action="seg" data-val="m">Мужчина</button><button class="${p.sex === 'f' ? 'on' : ''}" data-action="seg" data-val="f">Женщина</button></div>
@@ -7573,12 +7617,12 @@ const UI = {
     parts.forEach(([k, col, kc]) => { const sh = g[k] * kc / gk, a = at + gap / 2, b = at + sh - gap / 2, p = U.clamp(total[k] / (g[k] || 1), 0, 1); at += sh;
       inner += arc(r, w, a, b, col, { op: .2 }); if (p > 0) inner += arc(r, w, a, a + Math.max(0.0005, (b - a) * p), col, { fill: true }); });
     const over = left < 0, ate = view === 'eaten', flip = false, y0 = (burned ? 54 : 58) - (flip ? 2 : 0), big = ate ? eaten : Math.abs(left);
-    // v62: ненавязчиво — сколько съедено из нормы (в режиме «осталось» мелко под главным числом; в режиме «съедено» — из скольки)
-    const of = `${eaten} / ${budget}`, ofY = y0 + (burned ? 31 : 21);
+    // v67: «сколько из скольки»: 1450 / из 2200 ккал / осталось (или съедено). Перебор — «ккал сверх · цель 2200»
+    const l1 = over && !ate ? 'ккал сверх' : `из ${budget} ккал`, l2 = over && !ate ? `цель ${budget}` : ate ? 'съедено' : 'осталось';
     const mid = `<g class="kr-mid"><text x="60" y="${y0}" text-anchor="middle" font-size="${big >= 10000 ? 18 : 22}" class="kr-big num" fill="${!ate && over ? OC : 'currentColor'}">${big}</text>
-      <text x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="600" fill="var(--muted)">${ate ? 'ккал съедено' : over ? 'ккал сверх' : 'ккал осталось'}</text>
-      ${burned ? `<text x="60" y="${y0 + 21}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}
-      <text class="kr-of num" x="60" y="${ofY}" text-anchor="middle" font-size="6.6" font-weight="700" fill="var(--muted)" opacity=".75">${ate ? `из ${budget}` : of}</text></g>
+      <text class="num" x="60" y="${y0 + 11}" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--muted)">${l1}</text>
+      <text x="60" y="${y0 + 19.5}" text-anchor="middle" font-size="6.6" font-weight="600" fill="var(--muted)" opacity=".8">${l2}</text>
+      ${burned ? `<text x="60" y="${y0 + 29}" text-anchor="middle" font-size="7" font-weight="800" fill="${BC}">+${burned} активность</text>` : ''}</g>
       ${flip ? `<circle cx="${ate ? 63 : 57}" cy="${y0 + (burned ? 30 : 21)}" r="1.6" fill="currentColor" opacity=".25"/><rect x="${ate ? 53 : 59}" y="${y0 + (burned ? 28.4 : 19.4)}" width="8" height="3.2" rx="1.6" fill="currentColor" opacity=".7"/>` : ''}`;
     return `<svg class="kring" viewBox="0 0 120 120" width="${size}" height="${size}" role="img" aria-label="${eaten} ккал">${out}${inner}${mid}</svg>`;
   },
@@ -7589,7 +7633,7 @@ const UI = {
       <button class="w-full flex flex-col items-center text-left" data-action="open-nutrition">
       <div class="text-xs font-bold muted self-start mb-1"><svg class="ic text-em"><use href="#fa-utensils"/></svg> ${T('nutrition')}</div>
       ${this.macroDonut(150, k, 'none')}
-      <div class="mlg">${leg.map(([key, n, c]) => `<div style="--c:${c};--p:${Math.round(U.clamp(total[key] / (g[key] || 1), 0, 1) * 100)}%"><small>${n}</small><b class="num">${Math.round(total[key])}<span>г</span></b><i></i></div>`).join('')}</div>
+      <div class="mlg">${leg.map(([key, n, c]) => `<div style="--c:${c};--p:${Math.round(U.clamp(total[key] / (g[key] || 1), 0, 1) * 100)}%"><small>${n}</small><b class="num">${Math.round(total[key])}<span>г</span></b><em class="num">/${g[key] || 0} г</em><i></i></div>`).join('')}</div>
       </button>
     </div>`;
   },
@@ -7832,7 +7876,7 @@ Object.assign(UI, {
   /* v23: весовые категории в рейтингах */
   wcRow(act) {
     const my = Calc.wclass(S.profile.bodyweight, S.profile.sex), f = this.wcF || 'all', xs = Calc.wclassList(S.profile.sex);
-    return `<div class="wc-row mb-3" data-no-mt><span class="wc-h"><svg class="ic"><use href="#fa-weight-scale"/></svg></span><button class="${f === 'all' ? 'on' : ''}" data-action="${act}" data-val="all">Все</button>${xs.map(id => `<button class="${f === id ? 'on' : ''} ${id === my ? 'mine' : ''}" data-action="${act}" data-val="${id}">${Calc.wclassLabel(id)}${id === my ? ' ·<b> ты</b>' : ''}</button>`).join('')}</div>`;
+    return `<div class="wc-row mb-3" data-no-mt><span class="wc-h"><svg class="ic"><use href="#fa-weight-scale"/></svg></span><button class="${f === 'all' ? 'on' : ''}" data-action="${act}" data-val="all">${T('wc_all')}</button>${xs.map(id => `<button class="${f === id ? 'on' : ''} ${id === my ? 'mine' : ''}" data-action="${act}" data-val="${id}">${Calc.wclassLabel(id)}${id === my ? ` ·<b> ${T('wc_you')}</b>` : ''}</button>`).join('')}</div>`;
   },
   wcFilter(rows) { const f = this.wcF || 'all'; return f === 'all' ? rows : rows.filter(r => r.self || r.wclass === f); },
   /* v23: приглашения */
@@ -8660,7 +8704,9 @@ Object.assign(UI, {
   GOALS: [['cut', 'fa-fire', 'Похудеть', 'дефицит калорий'], ['keep', 'fa-heart-pulse', 'Форма', 'поддержание'], ['strength', 'fa-dumbbell', 'Сила', 'рост рекордов'], ['bulk', 'fa-arrow-up', 'Масса', 'профицит']],
   ACTS: [['low', 'Мало двигаюсь'], ['mid', 'Средне'], ['high', 'Много']],
   openProfileWizard(o) {
-    if (o) this._wz = { step: 0, nick: '', age: '', sex: '', bw: '', h: '', goal: 'keep', act: 'mid', week: 3, prog: 'auto', ref: Referral.pending(), ...o };
+    if (o) { this._wz = { step: 0, nick: '', age: '', sex: '', bw: '', h: '', goal: 'keep', act: 'mid', week: 3, prog: 'auto', ref: Referral.pending(), ...o };
+      // v67: в США, Либерии и Мьянме по умолчанию фунты и футы; выбор всё равно спрашиваем на шаге с весом и ростом
+      if (!S.profile.unitsSet) { try { const ls = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).map(x => String(x).toLowerCase()); S.profile.units = /^(en-us|en-lr|my)/.test(ls[0] || '') ? 'lbs' : 'kg'; } catch (_) {} } }
     const w = this._wz; if (!w) return; const st = w.step, steps = 5;
     const head = `<div class="wz-head"><div class="wz-bar">${Array.from({ length: steps }, (_, k) => `<i class="${k <= st ? 'on' : ''}"></i>`).join('')}</div><div class="text-[11px] muted mt-1">Шаг ${st + 1} из ${steps}</div></div>`;
     let body;
@@ -8672,9 +8718,11 @@ Object.assign(UI, {
         <div><label class="text-[10px] muted">Пол</label><div class="seg" id="wz-sex"><button class="${w.sex === 'm' ? 'on' : ''}" data-action="seg" data-val="m">Муж.</button><button class="${w.sex === 'f' ? 'on' : ''}" data-action="seg" data-val="f">Жен.</button></div></div>
       </div>`;
     else if (st === 1) body = `<div class="text-2xl font-black">Твои параметры</div><div class="text-xs muted mb-3">Нужны для боссов арен, калорий и силы относительно веса. Другим не видны.</div>
+      <div class="text-xs font-bold muted mb-1">Единицы измерения</div>
+      <div class="seg mb-3" id="wz-units" data-no-mt><button class="${U.imperial() ? '' : 'on'}" data-action="wz-units" data-val="kg">kg · cm</button><button class="${U.imperial() ? 'on' : ''}" data-action="wz-units" data-val="lbs">lb · ft</button></div>
       <div class="grid grid-cols-2 gap-2">
-        <div class="wz-big"><label>Вес, ${U.wUnit()}</label><input class="input num" id="wz-bw" type="number" inputmode="decimal" step="0.1" placeholder="70" value="${w.bw}"></div>
-        <div class="wz-big"><label>Рост, см</label><input class="input num" id="wz-h" type="number" inputmode="numeric" placeholder="175" value="${w.h}"></div>
+        <div class="wz-big"><label>Вес, ${U.wUnit()}</label><input class="input num" id="wz-bw" type="number" inputmode="decimal" step="0.1" placeholder="${U.imperial() ? 155 : 70}" value="${w.bw}"></div>
+        ${U.imperial() ? `<div class="wz-big"><label>Рост, ft/in</label>${U.hInputs('wz', w.h, true)}</div>` : `<div class="wz-big"><label>Рост, см</label><input class="input num" id="wz-h" type="number" inputmode="numeric" placeholder="175" value="${w.h}"></div>`}
       </div>
       <div class="text-xs font-bold muted mt-4 mb-1">Активность вне зала</div>
       <div class="seg" id="wz-act">${this.ACTS.map(([k, l]) => `<button class="${w.act === k ? 'on' : ''}" data-action="seg" data-val="${k}">${l}</button>`).join('')}</div>`;
@@ -8700,7 +8748,7 @@ Object.assign(UI, {
       <div class="grid grid-cols-3 gap-2 mt-4">${st ? '<button class="btn btn-ghost" data-action="wz-back"><svg class="ic"><use href="#fa-chevron-left"/></svg></button>' : '<div></div>'}<button class="btn btn-primary col-span-2 py-3" data-action="wz-next">${st === steps - 1 ? '<svg class="ic"><use href="#fa-check"/></svg> Готово' : 'Дальше <svg class="ic"><use href="#fa-arrow-right"/></svg>'}</button></div></div>`;
     const m = this.$('#modal .modal'); if (m && this._wzOpen) this.morph(m, html); else { this.modal(html, { center: true, closable: false }); this._wzOpen = true; }
   },
-  wzRead() { const w = this._wz, v = id => (document.getElementById(id) || {}).value; if (!w) return; if (w.step === 0) { w.nick = (v('wz-nick') || '').trim().slice(0, 16); if (document.getElementById('wz-ref')) w.ref = (v('wz-ref') || '').trim().toUpperCase(); w.age = v('wz-age') || ''; w.sex = App.segVal('wz-sex') || w.sex; } else if (w.step === 1) { w.bw = v('wz-bw') || ''; w.h = v('wz-h') || ''; w.act = App.segVal('wz-act') || w.act; } else if (w.step === 3 && document.getElementById('wz-style')) w.calm = App.segVal('wz-style') === 'calm'; else if (w.step === 4) { const L = w.lifts || (w.lifts = {}); ['bench', 'squat', 'deadlift'].forEach(k => { const x = L[k] || (L[k] = {}); if (document.getElementById(`wzl-${k}-w`)) { x.w = v(`wzl-${k}-w`) || ''; x.r = v(`wzl-${k}-r`) || ''; } }); } },
+  wzRead() { const w = this._wz, v = id => (document.getElementById(id) || {}).value; if (!w) return; if (w.step === 0) { w.nick = (v('wz-nick') || '').trim().slice(0, 16); if (document.getElementById('wz-ref')) w.ref = (v('wz-ref') || '').trim().toUpperCase(); w.age = v('wz-age') || ''; w.sex = App.segVal('wz-sex') || w.sex; } else if (w.step === 1) { w.bw = v('wz-bw') || ''; w.h = document.getElementById('wz-hft') ? String(U.cmFromFtIn(v('wz-hft'), v('wz-hin'))) : (v('wz-h') || ''); w.act = App.segVal('wz-act') || w.act; } else if (w.step === 3 && document.getElementById('wz-style')) w.calm = App.segVal('wz-style') === 'calm'; else if (w.step === 4) { const L = w.lifts || (w.lifts = {}); ['bench', 'squat', 'deadlift'].forEach(k => { const x = L[k] || (L[k] = {}); if (document.getElementById(`wzl-${k}-w`)) { x.w = v(`wzl-${k}-w`) || ''; x.r = v(`wzl-${k}-r`) || ''; } }); } },
   /* ---------- настройки: список разделов, каждый открывается отдельной страницей ---------- */
   SET_MENU() {
     const p = S.profile, acc = (Net.online() && Net.emailAddr) || (S.account && S.account.email) || '', g = S.nutrition.goals || Calc.defaultGoals(), bl = Social.blocked().length;
@@ -8728,7 +8776,7 @@ Object.assign(UI, {
       <div class="sub p-3 mb-3"><label class="text-xs muted">${T('body_weight')}, ${U.wUnit()}</label><div class="flex gap-2 items-center mt-1"><input class="input num text-2xl font-black" id="st-bw" type="number" inputmode="decimal" step="0.1" value="${U.w(p.bodyweight)}"><button class="btn btn-primary flex-none" data-action="settings-save"><svg class="ic"><use href="#fa-check"/></svg></button></div><div class="text-[10px] muted mt-1">Сохранится как взвешивание за сегодня</div></div>
       <div class="grid grid-cols-2 gap-2 mb-2">
         <div class="col-span-2"><label class="text-[10px] muted">${T('nickname')}</label><input class="input" id="st-nick" value="${U.esc(p.nickname)}" maxlength="16" data-no-mt></div>
-        <div><label class="text-[10px] muted">${T('height')}, <span>см</span></label><input class="input num" id="st-h" type="number" value="${p.height}"></div>
+        <div><label class="text-[10px] muted">${T('height')}, <span>${U.imperial() ? 'ft/in' : 'см'}</span></label>${U.imperial() ? U.hInputs('st', p.height) : `<input class="input num" id="st-h" type="number" value="${p.height}">`}</div>
         <div><label class="text-[10px] muted">Возраст</label><input class="input num" id="st-age" type="number" value="${p.age || ''}"></div>
       </div>
       <div class="seg mb-3" id="st-sex"><button class="${p.sex !== 'f' ? 'on' : ''}" data-action="seg" data-val="m">Мужчина</button><button class="${p.sex === 'f' ? 'on' : ''}" data-action="seg" data-val="f">Женщина</button></div>
@@ -9224,12 +9272,13 @@ const App = {
     /* settings */
     'open-settings'() { UI.openSettings(''); },
     'set-theme'(el) { S.profile.theme = el.dataset.val; App.applyTheme(); save(); UI.openSettings(); UI.renderHeader(); UI.renderTab(UI.tab); },
-    'set-units'(el) { S.profile.units = el.dataset.val; save(); UI.openSettings(); UI.renderTab(UI.tab); },
+    'set-units'(el) { S.profile.units = el.dataset.val; S.profile.unitsSet = true; save(); UI.openSettings(); UI.renderTab(UI.tab); },
     'settings-save'() {
       const el = id => document.getElementById(id), p = S.profile;
       if (el('st-nick')) { const nn = el('st-nick').value.trim().slice(0, 16); if (nn && Profanity.bad(nn)) { UI.toast('В нике есть мат или оскорбление', 'red'); return; } if (nn && nn !== p.nickname && Net.online()) { Net.nickAvailable(nn).then(ok => { if (!ok) { UI.toast('Ник «' + U.esc(nn) + '» уже занят', 'red'); return; } p.nickname = nn; save(); UI.renderHeader(); }).catch(() => {}); } else if (nn) p.nickname = nn; }
       if (el('st-sex')) p.sex = App.segVal('st-sex') || p.sex;
       if (el('st-h')) { const h = +el('st-h').value; if (h > 100 && h < 250) p.height = h; }
+      if (el('st-hft')) { const h = +U.cmFromFtIn(el('st-hft').value, el('st-hin').value); if (h > 100 && h < 250) p.height = h; }
       if (el('st-age')) { const a = parseInt(el('st-age').value); if (a >= CONFIG.MIN_AGE && a < 100) p.age = a; }
       if (el('st-bw')) { const bw = U.toKg(el('st-bw').value); if (bw > 20 && bw < 400 && Math.abs(bw - (p.bodyweight || 0)) > 0.04) Game.logWeight(bw, U.today()); }
       if (el('g-cals')) App.saveGoalsFromInputs();
@@ -9480,6 +9529,11 @@ const App = {
     'wz-goal'(el) { UI.wzRead(); UI._wz.goal = el.dataset.val; UI.openProfileWizard(); },
     'wz-week'(el) { UI.wzRead(); UI._wz.week = +el.dataset.val; UI.openProfileWizard(); },
     'wz-lskip'(el) { UI.wzRead(); const L = UI._wz.lifts || (UI._wz.lifts = {}), x = L[el.dataset.k] || (L[el.dataset.k] = {}); x.skip = !x.skip; UI.openProfileWizard(); },
+    'wz-units'(el) { // v67: переключатель kg·cm / lb·ft прямо на шаге с весом и ростом; введённое пересчитываем
+      UI.wzRead(); const w = UI._wz, to = el.dataset.val === 'lbs' ? 'lbs' : 'kg'; if (!w) return;
+      if (to !== S.profile.units) { const conv = x => { const kg = U.toKg(x); return kg > 0 ? kg : null; }, bw = conv(w.bw), L = w.lifts || {}, lw = {}; Object.keys(L).forEach(k => { lw[k] = conv(L[k].w); });
+        S.profile.units = to; if (bw) w.bw = U.w(bw, 1); Object.keys(L).forEach(k => { if (lw[k]) L[k].w = U.w(lw[k], 1); }); }
+      S.profile.unitsSet = true; save(); UI.openProfileWizard(); },
     'wz-back'() { UI.wzRead(); UI._wz.step = Math.max(0, UI._wz.step - 1); UI.openProfileWizard(); },
     async 'wz-next'(el) {
       UI.wzRead(); const w = UI._wz, err = document.getElementById('ob-err');
