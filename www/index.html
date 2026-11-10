@@ -167,7 +167,11 @@ body.plus-open .plus-item.c{transform:translate(-50%,-6rem) scale(1)}
 .h-day{flex:0 0 calc(100% / 7);scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:.45rem;padding:.5rem 0 .55rem;border-radius:1.1rem;transition:background .15s}
 .h-day .wd{font-size:.72rem;font-weight:700;color:var(--text)}
 .h-day .dot{width:2.3rem;height:2.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;background:transparent;border:2.5px dashed #94A3B899;color:var(--text);transition:transform .15s}
-.h-day.has .dot{border-style:solid}
+.h-day.has .dot{border-color:transparent}
+.h-day .dot{position:relative}.h-day .hd-n{position:relative}
+.pr-ring{display:block;overflow:visible}.pr-ring .pr-tr{stroke:color-mix(in srgb,var(--muted) 24%,transparent)}
+.hd-ring{position:absolute;inset:-2.5px;width:calc(100% + 5px);height:calc(100% + 5px)}
+.h-day.sel .hd-ring .pr-tr{stroke:#0B0E1422}
 .h-day:active .dot{transform:scale(.9)}
 .h-day.future{opacity:.4}.h-day.future .dot{border-style:solid;border-color:#94A3B855}
 .h-day.today .wd{color:#10B981}
@@ -490,6 +494,26 @@ video.post-img{background:#000;object-fit:contain}
 .nbx-pips{flex:none;display:flex;gap:.22rem}.nbx-pips i{width:1.3rem;height:1.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);background:var(--sub);border:1px dashed var(--line)}
 .nbx-pips i .ic{width:.6rem;height:.6rem}.nbx-pips i.on{color:var(--c);border:1px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 16%,transparent)}
 .nbx-ch{flex:none;width:.8rem;height:.8rem;color:var(--muted);opacity:.7}
+/* v69: цели */
+.gl-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:.2rem 0 .5rem}.gl-sum>div{background:var(--sub);border:1px solid var(--line);border-radius:.9rem;padding:.45rem .55rem}
+.gl-sum b{display:block;font-size:1.05rem;font-weight:900;line-height:1.1}.gl-sum small{display:block;font-size:.6rem;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl-it{padding:.7rem 0;border-top:1px solid var(--line)}.gl-it:first-of-type{border-top:0}
+.gl-main{flex:1;min-width:0;display:flex;align-items:center;gap:.7rem;text-align:left}
+.gl-ring{position:relative;flex:none;width:2.9rem;height:2.9rem}.gl-ring .pr-ring{width:100%;height:100%}
+.gl-ring>b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900}.gl-ring>b small{font-size:.5rem;font-weight:700;opacity:.7}
+.gl-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:.1rem}.gl-tx>b{font-size:.85rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl-tx>small{font-size:.7rem;color:var(--muted)}.gl-tx em{font-style:normal;font-weight:800}
+.gl-pace{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;font-size:.64rem;font-weight:800;color:var(--c)}.gl-pace .ic{width:.7rem;height:.7rem}.gl-need{color:var(--muted);font-weight:600}
+.gl-x{flex:none;color:var(--muted);padding:.25rem}
+.gl-bar{position:relative;height:6px;border-radius:99px;margin-top:.55rem;background:color-mix(in srgb,var(--muted) 18%,transparent)}
+.gl-bar>i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;transition:width .6s}
+.gl-bar>u{position:absolute;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--card);border:1.5px solid color-mix(in srgb,var(--muted) 50%,transparent)}.gl-bar>u.on{border-color:#fff;background:#fff}
+.gl-bar>b{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;border-radius:2px;background:var(--text);opacity:.55}
+.gl-sec{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:.8rem 0 .1rem}
+.gl-more{display:flex;align-items:center;justify-content:center;gap:.35rem;width:100%;margin-top:.4rem;padding:.55rem;border-radius:.9rem;background:var(--sub);font-size:.78rem;font-weight:700}.gl-more .ic{width:.7rem;height:.7rem;color:var(--muted)}
+.gl-done{display:flex;align-items:center;gap:.5rem}.gl-done .gl-tx>b{opacity:.85}.gl-ok{flex:none;width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#10B981;background:#10B9811f}
+.gl-home{padding:.15rem .9rem}.gl-mini{padding:.6rem 0}
+.hm-sec-go{display:flex;align-items:center;gap:.25rem;font-size:.72rem;font-weight:700;color:var(--muted);margin-left:auto}.hm-sec-go .ic{width:.65rem;height:.65rem}
 .nbs{display:grid;gap:.45rem}
 .nbs-it{display:flex;align-items:center;gap:.7rem;width:100%;text-align:left;padding:.6rem .7rem;border-radius:1rem;background:var(--sub);border:1px solid var(--line)}
 .nbs-ic{flex:none;width:2.3rem;height:2.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);border:1.5px dashed var(--line)}.nbs-ic .ic{width:1rem;height:1rem}
@@ -2372,13 +2396,13 @@ Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = 
 // v67: свои переводы для новых строк и исправления: «У» (углеводы) машинный перевод превращал в «At»/«Bei»/«Chez».
 // Эти ключи важнее кэша машинного перевода: при загрузке старые переводы этих строк из кэша удаляются (MT.load)
 MT.FORCE = {
-  en: { 'Дальше:': 'Next:', 'через {0} тренировку': 'in {0} workout', 'через {0} тренировки': 'in {0} workouts', 'через {0} тренировок': 'in {0} workouts', 'Продолжить с Apple': 'Continue with Apple', 'Вход через Apple и Google работает только с интернетом': 'Signing in with Apple or Google needs internet', 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · F {2}', 'Б': 'P', 'У': 'C', 'Ж': 'F', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'F, g', 'из {0} ккал': 'of {0} kcal', 'цель {0}': 'goal {0}', 'осталось': 'left', 'съедено': 'eaten', '{0} из {1} г': '{0} of {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories by macro', 'факт · цель': 'actual · goal', 'Единицы измерения': 'Units', 'Вес, lbs': 'Weight, lbs', 'Вес, kg': 'Weight, kg', 'Рост, ft/in': 'Height, ft/in', 'Рост, см': 'Height, cm', 'Проверь вес': 'Check your weight', 'Проверь рост': 'Check your height' },
-  uk: { 'Дальше:': 'Далі:', 'через {0} тренировку': 'через {0} тренування', 'через {0} тренировки': 'через {0} тренування', 'через {0} тренировок': 'через {0} тренувань', 'Продолжить с Apple': 'Продовжити з Apple', 'Вход через Apple и Google работает только с интернетом': 'Вхід через Apple і Google працює лише з інтернетом', 'Б {0}': 'Б {0}', 'У {0}': 'В {0}', 'Ж {0}': 'Ж {0}', 'Б {0} · У {1} · Ж {2}': 'Б {0} · В {1} · Ж {2}', 'Б': 'Б', 'У': 'В', 'Ж': 'Ж', 'Б, г': 'Б, г', 'У, г': 'В, г', 'Ж, г': 'Ж, г', 'из {0} ккал': 'з {0} ккал', 'цель {0}': 'ціль {0}', 'осталось': 'залишилось', 'съедено': "з'їдено", '{0} из {1} г': '{0} з {1} г', '/{0} г': '/{0} г', 'Откуда калории': 'Звідки калорії', 'факт · цель': 'факт · ціль', 'Единицы измерения': 'Одиниці виміру', 'Вес, lbs': 'Вага, lbs', 'Вес, kg': 'Вага, kg', 'Рост, ft/in': 'Зріст, ft/in', 'Рост, см': 'Зріст, см', 'Проверь вес': 'Перевір вагу', 'Проверь рост': 'Перевір зріст' },
-  kk: { 'Дальше:': 'Келесі:', 'через {0} тренировку': '{0} жаттығудан кейін', 'через {0} тренировки': '{0} жаттығудан кейін', 'через {0} тренировок': '{0} жаттығудан кейін', 'Продолжить с Apple': 'Apple арқылы жалғастыру', 'Вход через Apple и Google работает только с интернетом': 'Apple және Google арқылы кіру тек интернетпен жұмыс істейді', 'Б {0}': 'А {0}', 'У {0}': 'К {0}', 'Ж {0}': 'М {0}', 'Б {0} · У {1} · Ж {2}': 'А {0} · К {1} · М {2}', 'Б': 'А', 'У': 'К', 'Ж': 'М', 'Б, г': 'А, г', 'У, г': 'К, г', 'Ж, г': 'М, г', 'из {0} ккал': '{0} ккал ішінен', 'цель {0}': 'мақсат {0}', 'осталось': 'қалды', 'съедено': 'жеді', '{0} из {1} г': '{1} г ішінен {0}', '/{0} г': '/{0} г', 'Откуда калории': 'Калория неден', 'факт · цель': 'нақты · мақсат', 'Единицы измерения': 'Өлшем бірліктері', 'Вес, lbs': 'Салмақ, lbs', 'Вес, kg': 'Салмақ, kg', 'Рост, ft/in': 'Бой, ft/in', 'Рост, см': 'Бой, см', 'Проверь вес': 'Салмақты тексер', 'Проверь рост': 'Бойды тексер' },
-  de: { 'Дальше:': 'Als Nächstes:', 'через {0} тренировку': 'in {0} Training', 'через {0} тренировки': 'in {0} Trainings', 'через {0} тренировок': 'in {0} Trainings', 'Продолжить с Apple': 'Weiter mit Apple', 'Вход через Apple и Google работает только с интернетом': 'Anmeldung mit Apple und Google braucht Internet', 'Б {0}': 'E {0}', 'У {0}': 'K {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'E {0} · K {1} · F {2}', 'Б': 'E', 'У': 'K', 'Ж': 'F', 'Б, г': 'E, g', 'У, г': 'K, g', 'Ж, г': 'F, g', 'из {0} ккал': 'von {0} kcal', 'цель {0}': 'Ziel {0}', 'осталось': 'übrig', 'съедено': 'gegessen', '{0} из {1} г': '{0} von {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Kalorien nach Makros', 'факт · цель': 'Ist · Ziel', 'Единицы измерения': 'Maßeinheiten', 'Вес, lbs': 'Gewicht, lbs', 'Вес, kg': 'Gewicht, kg', 'Рост, ft/in': 'Größe, ft/in', 'Рост, см': 'Größe, cm', 'Проверь вес': 'Prüfe dein Gewicht', 'Проверь рост': 'Prüfe deine Größe' },
-  es: { 'Дальше:': 'Siguiente:', 'через {0} тренировку': 'en {0} entreno', 'через {0} тренировки': 'en {0} entrenos', 'через {0} тренировок': 'en {0} entrenos', 'Продолжить с Apple': 'Continuar con Apple', 'Вход через Apple и Google работает только с интернетом': 'El acceso con Apple y Google requiere internet', 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'G {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · G {2}', 'Б': 'P', 'У': 'C', 'Ж': 'G', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'G, g', 'из {0} ккал': 'de {0} kcal', 'цель {0}': 'meta {0}', 'осталось': 'restantes', 'съедено': 'consumidas', '{0} из {1} г': '{0} de {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calorías por macro', 'факт · цель': 'real · meta', 'Единицы измерения': 'Unidades', 'Вес, lbs': 'Peso, lbs', 'Вес, kg': 'Peso, kg', 'Рост, ft/in': 'Estatura, ft/in', 'Рост, см': 'Estatura, cm', 'Проверь вес': 'Revisa tu peso', 'Проверь рост': 'Revisa tu estatura' },
-  fr: { 'Дальше:': 'Ensuite :', 'через {0} тренировку': 'dans {0} séance', 'через {0} тренировки': 'dans {0} séances', 'через {0} тренировок': 'dans {0} séances', 'Продолжить с Apple': 'Continuer avec Apple', 'Вход через Apple и Google работает только с интернетом': 'La connexion Apple et Google nécessite Internet', 'Б {0}': 'P {0}', 'У {0}': 'G {0}', 'Ж {0}': 'L {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · G {1} · L {2}', 'Б': 'P', 'У': 'G', 'Ж': 'L', 'Б, г': 'P, g', 'У, г': 'G, g', 'Ж, г': 'L, g', 'из {0} ккал': 'sur {0} kcal', 'цель {0}': 'objectif {0}', 'осталось': 'restantes', 'съедено': 'consommées', '{0} из {1} г': '{0} sur {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories par macro', 'факт · цель': 'réel · objectif', 'Единицы измерения': 'Unités', 'Вес, lbs': 'Poids, lbs', 'Вес, kg': 'Poids, kg', 'Рост, ft/in': 'Taille, ft/in', 'Рост, см': 'Taille, cm', 'Проверь вес': 'Vérifie ton poids', 'Проверь рост': 'Vérifie ta taille' },
-  tr: { 'Дальше:': 'Sıradaki:', 'через {0} тренировку': '{0} antrenman sonra', 'через {0} тренировки': '{0} antrenman sonra', 'через {0} тренировок': '{0} antrenman sonra', 'Продолжить с Apple': 'Apple ile devam et', 'Вход через Apple и Google работает только с интернетом': 'Apple ve Google ile giriş internet gerektirir', 'Б {0}': 'P {0}', 'У {0}': 'K {0}', 'Ж {0}': 'Y {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · K {1} · Y {2}', 'Б': 'P', 'У': 'K', 'Ж': 'Y', 'Б, г': 'P, g', 'У, г': 'K, g', 'Ж, г': 'Y, g', 'из {0} ккал': '{0} kcal içinden', 'цель {0}': 'hedef {0}', 'осталось': 'kaldı', 'съедено': 'yenildi', '{0} из {1} г': '{1} g içinden {0}', '/{0} г': '/{0} g', 'Откуда калории': 'Makrolara göre kalori', 'факт · цель': 'gerçek · hedef', 'Единицы измерения': 'Ölçü birimleri', 'Вес, lbs': 'Ağırlık, lbs', 'Вес, kg': 'Ağırlık, kg', 'Рост, ft/in': 'Boy, ft/in', 'Рост, см': 'Boy, cm', 'Проверь вес': 'Kilonu kontrol et', 'Проверь рост': 'Boyunu kontrol et' }
+  en: { 'Опережаешь': 'Ahead', 'По графику': 'On track', 'Отстаёшь': 'Behind', 'ещё +{0} kg': '+{0} kg to go', 'ещё +{0} lbs': '+{0} lbs to go', 'В процессе': 'In progress', 'Выполнено': 'Completed', 'Средний прогресс': 'Avg progress', 'Все цели': 'All goals', 'Продлить на {0} недели': 'Extend by {0} weeks', 'Цель продлена на {0} недели': 'Goal extended by {0} weeks', '{0}% пути к цели': '{0}% of the way', 'почти у цели!': 'almost there!', 'Этап цели': 'Goal milestone', 'Дальше:': 'Next:', 'через {0} тренировку': 'in {0} workout', 'через {0} тренировки': 'in {0} workouts', 'через {0} тренировок': 'in {0} workouts', 'Продолжить с Apple': 'Continue with Apple', 'Вход через Apple и Google работает только с интернетом': 'Signing in with Apple or Google needs internet', 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · F {2}', 'Б': 'P', 'У': 'C', 'Ж': 'F', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'F, g', 'из {0} ккал': 'of {0} kcal', 'цель {0}': 'goal {0}', 'осталось': 'left', 'съедено': 'eaten', '{0} из {1} г': '{0} of {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories by macro', 'факт · цель': 'actual · goal', 'Единицы измерения': 'Units', 'Вес, lbs': 'Weight, lbs', 'Вес, kg': 'Weight, kg', 'Рост, ft/in': 'Height, ft/in', 'Рост, см': 'Height, cm', 'Проверь вес': 'Check your weight', 'Проверь рост': 'Check your height' },
+  uk: { 'Опережаешь': 'Випереджаєш', 'По графику': 'За графіком', 'Отстаёшь': 'Відстаєш', 'ещё +{0} kg': 'ще +{0} kg', 'ещё +{0} lbs': 'ще +{0} lbs', 'В процессе': 'У процесі', 'Выполнено': 'Виконано', 'Средний прогресс': 'Середній прогрес', 'Все цели': 'Усі цілі', 'Продлить на {0} недели': 'Продовжити на {0} тижні', 'Цель продлена на {0} недели': 'Ціль продовжено на {0} тижні', '{0}% пути к цели': '{0}% шляху до цілі', 'почти у цели!': 'майже у цілі!', 'Этап цели': 'Етап цілі', 'Дальше:': 'Далі:', 'через {0} тренировку': 'через {0} тренування', 'через {0} тренировки': 'через {0} тренування', 'через {0} тренировок': 'через {0} тренувань', 'Продолжить с Apple': 'Продовжити з Apple', 'Вход через Apple и Google работает только с интернетом': 'Вхід через Apple і Google працює лише з інтернетом', 'Б {0}': 'Б {0}', 'У {0}': 'В {0}', 'Ж {0}': 'Ж {0}', 'Б {0} · У {1} · Ж {2}': 'Б {0} · В {1} · Ж {2}', 'Б': 'Б', 'У': 'В', 'Ж': 'Ж', 'Б, г': 'Б, г', 'У, г': 'В, г', 'Ж, г': 'Ж, г', 'из {0} ккал': 'з {0} ккал', 'цель {0}': 'ціль {0}', 'осталось': 'залишилось', 'съедено': "з'їдено", '{0} из {1} г': '{0} з {1} г', '/{0} г': '/{0} г', 'Откуда калории': 'Звідки калорії', 'факт · цель': 'факт · ціль', 'Единицы измерения': 'Одиниці виміру', 'Вес, lbs': 'Вага, lbs', 'Вес, kg': 'Вага, kg', 'Рост, ft/in': 'Зріст, ft/in', 'Рост, см': 'Зріст, см', 'Проверь вес': 'Перевір вагу', 'Проверь рост': 'Перевір зріст' },
+  kk: { 'Опережаешь': 'Озып келесің', 'По графику': 'Кесте бойынша', 'Отстаёшь': 'Артта қалып барасың', 'ещё +{0} kg': 'тағы +{0} kg', 'ещё +{0} lbs': 'тағы +{0} lbs', 'В процессе': 'Орындалуда', 'Выполнено': 'Орындалды', 'Средний прогресс': 'Орташа прогресс', 'Все цели': 'Барлық мақсаттар', 'Продлить на {0} недели': '{0} аптаға ұзарту', 'Цель продлена на {0} недели': 'Мақсат {0} аптаға ұзартылды', '{0}% пути к цели': 'мақсатқа {0}% жол', 'почти у цели!': 'мақсатқа жақынсың!', 'Этап цели': 'Мақсат кезеңі', 'Дальше:': 'Келесі:', 'через {0} тренировку': '{0} жаттығудан кейін', 'через {0} тренировки': '{0} жаттығудан кейін', 'через {0} тренировок': '{0} жаттығудан кейін', 'Продолжить с Apple': 'Apple арқылы жалғастыру', 'Вход через Apple и Google работает только с интернетом': 'Apple және Google арқылы кіру тек интернетпен жұмыс істейді', 'Б {0}': 'А {0}', 'У {0}': 'К {0}', 'Ж {0}': 'М {0}', 'Б {0} · У {1} · Ж {2}': 'А {0} · К {1} · М {2}', 'Б': 'А', 'У': 'К', 'Ж': 'М', 'Б, г': 'А, г', 'У, г': 'К, г', 'Ж, г': 'М, г', 'из {0} ккал': '{0} ккал ішінен', 'цель {0}': 'мақсат {0}', 'осталось': 'қалды', 'съедено': 'жеді', '{0} из {1} г': '{1} г ішінен {0}', '/{0} г': '/{0} г', 'Откуда калории': 'Калория неден', 'факт · цель': 'нақты · мақсат', 'Единицы измерения': 'Өлшем бірліктері', 'Вес, lbs': 'Салмақ, lbs', 'Вес, kg': 'Салмақ, kg', 'Рост, ft/in': 'Бой, ft/in', 'Рост, см': 'Бой, см', 'Проверь вес': 'Салмақты тексер', 'Проверь рост': 'Бойды тексер' },
+  de: { 'Опережаешь': 'Voraus', 'По графику': 'Im Plan', 'Отстаёшь': 'Im Rückstand', 'ещё +{0} kg': 'noch +{0} kg', 'ещё +{0} lbs': 'noch +{0} lbs', 'В процессе': 'Läuft', 'Выполнено': 'Erreicht', 'Средний прогресс': 'Ø Fortschritt', 'Все цели': 'Alle Ziele', 'Продлить на {0} недели': 'Um {0} Wochen verlängern', 'Цель продлена на {0} недели': 'Ziel um {0} Wochen verlängert', '{0}% пути к цели': '{0}% des Weges', 'почти у цели!': 'fast geschafft!', 'Этап цели': 'Etappenziel', 'Дальше:': 'Als Nächstes:', 'через {0} тренировку': 'in {0} Training', 'через {0} тренировки': 'in {0} Trainings', 'через {0} тренировок': 'in {0} Trainings', 'Продолжить с Apple': 'Weiter mit Apple', 'Вход через Apple и Google работает только с интернетом': 'Anmeldung mit Apple und Google braucht Internet', 'Б {0}': 'E {0}', 'У {0}': 'K {0}', 'Ж {0}': 'F {0}', 'Б {0} · У {1} · Ж {2}': 'E {0} · K {1} · F {2}', 'Б': 'E', 'У': 'K', 'Ж': 'F', 'Б, г': 'E, g', 'У, г': 'K, g', 'Ж, г': 'F, g', 'из {0} ккал': 'von {0} kcal', 'цель {0}': 'Ziel {0}', 'осталось': 'übrig', 'съедено': 'gegessen', '{0} из {1} г': '{0} von {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Kalorien nach Makros', 'факт · цель': 'Ist · Ziel', 'Единицы измерения': 'Maßeinheiten', 'Вес, lbs': 'Gewicht, lbs', 'Вес, kg': 'Gewicht, kg', 'Рост, ft/in': 'Größe, ft/in', 'Рост, см': 'Größe, cm', 'Проверь вес': 'Prüfe dein Gewicht', 'Проверь рост': 'Prüfe deine Größe' },
+  es: { 'Опережаешь': 'Adelantado', 'По графику': 'En ritmo', 'Отстаёшь': 'Atrasado', 'ещё +{0} kg': 'faltan +{0} kg', 'ещё +{0} lbs': 'faltan +{0} lbs', 'В процессе': 'En curso', 'Выполнено': 'Logradas', 'Средний прогресс': 'Progreso medio', 'Все цели': 'Todas las metas', 'Продлить на {0} недели': 'Ampliar {0} semanas', 'Цель продлена на {0} недели': 'Meta ampliada {0} semanas', '{0}% пути к цели': '{0}% del camino', 'почти у цели!': '¡casi lo logras!', 'Этап цели': 'Etapa de la meta', 'Дальше:': 'Siguiente:', 'через {0} тренировку': 'en {0} entreno', 'через {0} тренировки': 'en {0} entrenos', 'через {0} тренировок': 'en {0} entrenos', 'Продолжить с Apple': 'Continuar con Apple', 'Вход через Apple и Google работает только с интернетом': 'El acceso con Apple y Google requiere internet', 'Б {0}': 'P {0}', 'У {0}': 'C {0}', 'Ж {0}': 'G {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · C {1} · G {2}', 'Б': 'P', 'У': 'C', 'Ж': 'G', 'Б, г': 'P, g', 'У, г': 'C, g', 'Ж, г': 'G, g', 'из {0} ккал': 'de {0} kcal', 'цель {0}': 'meta {0}', 'осталось': 'restantes', 'съедено': 'consumidas', '{0} из {1} г': '{0} de {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calorías por macro', 'факт · цель': 'real · meta', 'Единицы измерения': 'Unidades', 'Вес, lbs': 'Peso, lbs', 'Вес, kg': 'Peso, kg', 'Рост, ft/in': 'Estatura, ft/in', 'Рост, см': 'Estatura, cm', 'Проверь вес': 'Revisa tu peso', 'Проверь рост': 'Revisa tu estatura' },
+  fr: { 'Опережаешь': 'En avance', 'По графику': 'Dans les temps', 'Отстаёшь': 'En retard', 'ещё +{0} kg': 'encore +{0} kg', 'ещё +{0} lbs': 'encore +{0} lbs', 'В процессе': 'En cours', 'Выполнено': 'Atteints', 'Средний прогресс': 'Progrès moyen', 'Все цели': 'Tous les objectifs', 'Продлить на {0} недели': 'Prolonger de {0} semaines', 'Цель продлена на {0} недели': 'Objectif prolongé de {0} semaines', '{0}% пути к цели': '{0}% du chemin', 'почти у цели!': 'presque atteint !', 'Этап цели': "Étape d'objectif", 'Дальше:': 'Ensuite :', 'через {0} тренировку': 'dans {0} séance', 'через {0} тренировки': 'dans {0} séances', 'через {0} тренировок': 'dans {0} séances', 'Продолжить с Apple': 'Continuer avec Apple', 'Вход через Apple и Google работает только с интернетом': 'La connexion Apple et Google nécessite Internet', 'Б {0}': 'P {0}', 'У {0}': 'G {0}', 'Ж {0}': 'L {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · G {1} · L {2}', 'Б': 'P', 'У': 'G', 'Ж': 'L', 'Б, г': 'P, g', 'У, г': 'G, g', 'Ж, г': 'L, g', 'из {0} ккал': 'sur {0} kcal', 'цель {0}': 'objectif {0}', 'осталось': 'restantes', 'съедено': 'consommées', '{0} из {1} г': '{0} sur {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories par macro', 'факт · цель': 'réel · objectif', 'Единицы измерения': 'Unités', 'Вес, lbs': 'Poids, lbs', 'Вес, kg': 'Poids, kg', 'Рост, ft/in': 'Taille, ft/in', 'Рост, см': 'Taille, cm', 'Проверь вес': 'Vérifie ton poids', 'Проверь рост': 'Vérifie ta taille' },
+  tr: { 'Опережаешь': 'Öndesin', 'По графику': 'Planlandığı gibi', 'Отстаёшь': 'Geride', 'ещё +{0} kg': '+{0} kg kaldı', 'ещё +{0} lbs': '+{0} lbs kaldı', 'В процессе': 'Devam eden', 'Выполнено': 'Tamamlanan', 'Средний прогресс': 'Ort. ilerleme', 'Все цели': 'Tüm hedefler', 'Продлить на {0} недели': '{0} hafta uzat', 'Цель продлена на {0} недели': 'Hedef {0} hafta uzatıldı', '{0}% пути к цели': 'yolun %{0} kadarı', 'почти у цели!': 'neredeyse tamam!', 'Этап цели': 'Hedef aşaması', 'Дальше:': 'Sıradaki:', 'через {0} тренировку': '{0} antrenman sonra', 'через {0} тренировки': '{0} antrenman sonra', 'через {0} тренировок': '{0} antrenman sonra', 'Продолжить с Apple': 'Apple ile devam et', 'Вход через Apple и Google работает только с интернетом': 'Apple ve Google ile giriş internet gerektirir', 'Б {0}': 'P {0}', 'У {0}': 'K {0}', 'Ж {0}': 'Y {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · K {1} · Y {2}', 'Б': 'P', 'У': 'K', 'Ж': 'Y', 'Б, г': 'P, g', 'У, г': 'K, g', 'Ж, г': 'Y, g', 'из {0} ккал': '{0} kcal içinden', 'цель {0}': 'hedef {0}', 'осталось': 'kaldı', 'съедено': 'yenildi', '{0} из {1} г': '{1} g içinden {0}', '/{0} г': '/{0} g', 'Откуда калории': 'Makrolara göre kalori', 'факт · цель': 'gerçek · hedef', 'Единицы измерения': 'Ölçü birimleri', 'Вес, lbs': 'Ağırlık, lbs', 'Вес, kg': 'Ağırlık, kg', 'Рост, ft/in': 'Boy, ft/in', 'Рост, см': 'Boy, cm', 'Проверь вес': 'Kilonu kontrol et', 'Проверь рост': 'Boyunu kontrol et' }
 };
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
@@ -2509,6 +2533,11 @@ const U = {
   weekKey(d = new Date()) { d = new Date(d); const day = (d.getDay() + 6) % 7; d.setDate(d.getDate() - day); return U.dayKey(d); },
   monthKey(d = new Date()) { d = new Date(d); return `${d.getFullYear()}-${U.pad(d.getMonth() + 1)}`; },
   daysBetween(a, b) { return Math.round((U.parseDay(b) - U.parseDay(a)) / 864e5); },
+  // v69: цвет по проценту выполнения (дни в «Здоровье», цели): красный → оранжевый → жёлтый → салатовый → зелёный
+  pctColor(p) { return p >= 80 ? '#10B981' : p >= 60 ? '#84CC16' : p >= 40 ? '#EAB308' : p >= 20 ? '#F97316' : '#EF4444'; },
+  // кольцо прогресса как на референсе: серая дорожка + цветная дуга с круглыми концами (p — 0..100)
+  ring(p, col, { r = 17, w = 3.4, cls = 'pr-ring', zero = false } = {}) { const C = 2 * Math.PI * r, vb = (r + w) * 2, c = vb / 2, l = p > 0 ? Math.max(0.5, Math.min(100, p) / 100 * C) : 0;
+    return `<svg class="${cls}" viewBox="0 0 ${vb} ${vb}" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke-width="${w}" class="pr-tr"${p === 0 && zero ? ` style="stroke:${col};stroke-opacity:.35"` : ''}/>${l ? `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-dasharray="${l.toFixed(1)} ${(C + 5).toFixed(1)}" transform="rotate(-90 ${c} ${c})"/>` : ''}</svg>`; },
   addDays(key, n) { const d = U.parseDay(key); d.setDate(d.getDate() + n); return U.dayKey(d); },
   shrinkImage(src, size) { return new Promise((res, rej) => { const img = new Image(); img.onload = () => { const c = document.createElement('canvas'); c.width = c.height = size; const k = Math.max(size / img.width, size / img.height), w = img.width * k, h = img.height * k; c.getContext('2d').drawImage(img, (size - w) / 2, (size - h) / 2, w, h); res(c.toDataURL('image/jpeg', 0.75)); }; img.onerror = rej; img.src = src; }); },
   ago(ts) { const m = Math.max(1, Math.round((Date.now() - ts) / 6e4)); return m < 60 ? `${m} мин назад` : m < 1440 ? `${Math.round(m / 60)} ч назад` : `<span data-no-mt>${U.fmtDate(U.dayKey(new Date(ts)))}</span>`; },
@@ -3374,7 +3403,7 @@ Object.assign(Calc, {
     if (S.profile.createdAt) return U.dayKey(new Date(S.profile.createdAt));
     const xs = [S.lifts[0] && S.lifts[0].date, S.nutrition.log[0] && S.nutrition.log[0].date, S.health.sleep[0] && S.health.sleep[0].date].filter(Boolean).sort(); return xs[0] || U.today();
   },
-  dayColor(score) { return score == null ? null : score >= 75 ? '#10B981' : score >= 50 ? '#F59E0B' : '#EF4444'; },
+  dayColor(score) { return score == null ? null : U.pctColor(score); }, // v69: 5 ступеней цвета по проценту
   maxStreak() {
     const days = [...new Set([...this.activeDays(), ...(S.game.frozenDays || [])])].sort(); let best = 0, cur = 0;
     days.forEach((d, i) => { cur = i > 0 && U.daysBetween(days[i - 1], d) === 1 ? cur + 1 : 1; best = Math.max(best, cur); });
@@ -3384,6 +3413,25 @@ Object.assign(Calc, {
   goalBest(g) { return Math.max(0, ...S.lifts.filter(l => !l.flagged && l.exerciseName === g.ex && l.rmCategory === g.rm).map(l => +l.weight)); },
   // v19: выполненная цель остаётся выполненной (doneAt), даже если подход потом удалили
   goalState(g) { const best = Calc.goalBest(g), daysLeft = U.daysBetween(U.today(), g.deadline), done = !!g.doneAt || best >= g.target; return { best, pct: done ? 1 : U.clamp(best / g.target, 0, 1), daysLeft, done, doneAt: g.doneAt || null, expired: !done && daysLeft < 0 }; },
+  // v69: прогресс считаем от результата на момент постановки цели до цели (а не «лучший / цель»), плюс темп против календаря
+  goalInfo(g) {
+    const st = Calc.goalState(g), base = Math.min(+g.base || 0, g.target), span = g.target - base, start = g.created || U.today();
+    const prog = st.done ? 1 : span > 0 && base > 0 ? U.clamp((st.best - base) / span, 0, 1) : st.pct;
+    const total = Math.max(1, U.daysBetween(start, g.deadline)), exp = U.clamp(U.daysBetween(start, U.today()) / total, 0, 1);
+    const pace = st.done ? 'done' : st.expired ? 'expired' : prog >= exp + .08 ? 'ahead' : prog >= exp - .12 ? 'track' : 'behind';
+    return { ...st, prog, exp, pace, need: Math.max(0, g.target - st.best), total };
+  },
+  GOAL_PACE: { ahead: ['Опережаешь', '#10B981', 'fa-bolt'], track: ['По графику', '#0A84FF', 'fa-check'], behind: ['Отстаёшь', '#F59E0B', 'fa-clock'], done: ['Выполнена', '#10B981', 'fa-flag'], expired: ['Срок вышел', '#EF4444', 'fa-clock'] },
+  // активные: сначала те, кто отстаёт, потом по дедлайну; выполненные — свежие сверху
+  goalsSorted() {
+    const xs = (S.goals || []).map(g => ({ g, i: Calc.goalInfo(g) })), rank = { behind: 0, track: 1, ahead: 2 };
+    xs.forEach(({ g, i }) => { if (g.ms == null && !i.done) g.ms = Math.min(3, Math.floor(i.prog * 4)); }); // этапы до v69 не поздравляем задним числом
+    return {
+      active: xs.filter(x => !x.i.done && !x.i.expired).sort((a, b) => rank[a.i.pace] - rank[b.i.pace] || a.i.daysLeft - b.i.daysLeft),
+      expired: xs.filter(x => x.i.expired),
+      done: xs.filter(x => x.i.done).sort((a, b) => (b.g.doneTs || 0) - (a.g.doneTs || 0) || String(b.i.doneAt || '').localeCompare(String(a.i.doneAt || ''))),
+    };
+  },
 });
 Object.assign(Game, {
   logWater(ml, date = U.today()) { ml = Math.round(+ml); if (!(ml > 0 && ml <= 3000)) return false; if (!S.health.water) S.health.water = []; S.health.water.push({ id: U.uid(), date, ml, ts: Date.now() }); if (S.health.water.length > 4000) S.health.water.splice(0, S.health.water.length - 4000);
@@ -3399,9 +3447,14 @@ Object.assign(Game, {
     this.checkStreak(); save(); return true;
   },
   deleteWeight(id) { S.health.weights = (S.health.weights || []).filter(w => w.id !== id); const last = Calc.weightLog().slice(-1)[0]; if (last) S.profile.bodyweight = last.kg; save(); },
-  addGoal({ ex, rm, target, deadline }) { if (!S.goals) S.goals = []; const g = { id: U.uid(), ex, rm, target: +target, deadline, created: U.today(), doneAt: null }; g.base = Calc.goalBest(g); S.goals.push(g); this.checkGoals(true); save(); },
+  addGoal({ ex, rm, target, deadline }) { if (!S.goals) S.goals = []; const g = { id: U.uid(), ex, rm, target: +target, deadline, created: U.today(), doneAt: null, ms: 0 }; g.base = Calc.goalBest(g); S.goals.push(g); this.checkGoals(true); save(); },
+  extendGoal(id, days = 28) { const g = (S.goals || []).find(x => x.id === id); if (!g) return; g.deadline = U.addDays(g.deadline < U.today() ? U.today() : g.deadline, days); save(); },
   deleteGoal(id) { S.goals = (S.goals || []).filter(g => g.id !== id); save(); },
   checkGoals(silent = false) {
+    // v69: этапы пути 25/50/75%: тост и немного опыта (опыт — один раз на упражнение+повторы+вес, пересоздание цели не фармит)
+    (S.goals || []).forEach(g => { if (g.doneAt) return; const i = Calc.goalInfo(g); if (i.done || i.expired) return; const m = Math.floor(i.prog * 4); if (g.ms == null) { g.ms = m; return; } if (m <= g.ms || m >= 4) return; g.ms = m; if (silent) return;
+      const pct = m * 25, fair = g.base > 0 && g.target >= g.base * 1.05; if (fair) this.award(`goalms:${g.ex}:${g.rm}:${g.target}:${m}`, 0, 'Этап цели', { xp: 5 + m * 5 });
+      this.events.push({ type: 'toast', data: { msg: `<svg class="ic text-amber-400"><use href="#fa-flag"/></svg> <span>${pct}% пути к цели</span> · ${U.exRu(g.ex)} ${U.w(g.target)} ${U.wUnit()}${m === 3 ? ' · <span>почти у цели!</span>' : ''}`, cls: 'pu' } }); });
     (S.goals || []).forEach(g => { if (g.doneAt || Calc.goalBest(g) < g.target) return; g.doneAt = U.today(); g.doneTs = Date.now(); if (silent) return;
       // кубки за цель: один раз на упражнение+повторы+вес; цель должна быть выше результата на момент постановки хотя бы на 2.5%
       const real = Calc.goalFair(g), key = `goal:${g.ex}:${g.rm}:${g.target}`; // v52: цель ≥ +5% к прошлому результату, поставлена ≥ 3 дней назад, не чаще 1 раза в 2 недели на упражнение и 2 раз в неделю
@@ -5945,7 +5998,7 @@ const UI = {
       </div>`; };
     // v30: сверху профиль и кубки, ниже напоминания, кнопка тренировки и плитки разделов; игра (лига, босс, квесты) — дальше
     const capNote = capped ? `<div class="mb-4 text-xs rounded-lg px-3 py-2" style="background:#F9731622;border:1px solid #F9731655"><svg class="ic text-or"><use href="#fa-lock"/></svg> Кубки на паузе: победи Босса арены (ниже), чтобы пройти дальше</div>` : '';
-    this.morph(this.$('#tab-arena'), this.newbieCard() + this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeTiles() + this.clanBanner() + (capped || boss ? bossCard : '') + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
+    this.morph(this.$('#tab-arena'), this.newbieCard() + this.homeHero() + capNote + this.remindersHtml() + this.homeCta() + this.homeGoals() + this.homeTiles() + this.clanBanner() + (capped || boss ? bossCard : '') + qCard('weekly', T('weekly_quests'), 'fa-calendar-week'));
     this.bindRemDots();
     // v47: при первом открытии кубки «набегают» от нуля
     if (!this._cu) { this._cu = 1; const el = this.$('#tab-arena .hm-big'), tn = el && el.firstChild, to = S.game.trophies;
@@ -7486,18 +7539,47 @@ const UI = {
     else if (id === 'friend-ex') { this.friendEx = val; this.renderPage(); }
   },
   /* ---- цели по лифтам ---- */
+  // v69: цели — кольцо прогресса, темп против календаря, метка «где должен быть сейчас», этапы 25/50/75%, порядок и разделы
+  goalRow(x, mini) {
+    const { g, i } = x, P = Calc.GOAL_PACE[i.pace], pc = Math.round(i.prog * 100), col = i.done ? '#10B981' : U.pctColor(pc);
+    if (i.done) return `<div class="gl-it gl-done" data-key="g${g.id}"><button class="gl-main" data-action="goal-show" data-ex="${U.esc(g.ex)}" data-rm="${g.rm}"><span class="gl-ok"><svg class="ic"><use href="#fa-check"/></svg></span><span class="gl-tx"><b>${U.esc(U.exRu(g.ex))} · ${U.rmName(g.rm)}</b><small class="num"><span>${U.w(g.target)} ${U.wUnit()}</span>${i.doneAt ? ` · <span data-no-mt>${U.fmtDate(i.doneAt)}</span>` : ''}</small></span></button>${mini ? '' : `<button class="gl-x" data-action="goal-del" data-id="${g.id}" aria-label="Удалить"><svg class="ic"><use href="#fa-xmark"/></svg></button>`}</div>`;
+    const bar = mini ? '' : `<div class="gl-bar"><i style="width:${pc}%;background:${col}"></i>${[25, 50, 75].map(m => `<u class="${pc >= m ? 'on' : ''}" style="left:${m}%"></u>`).join('')}${i.expired ? '' : `<b style="left:${Math.round(i.exp * 100)}%"></b>`}</div>`;
+    return `<div class="gl-it ${mini ? 'gl-mini' : ''}" data-key="g${g.id}">
+      <div class="flex items-center gap-2.5"><button class="gl-main" data-action="${mini ? 'goals-open' : 'goal-show'}" data-ex="${U.esc(g.ex)}" data-rm="${g.rm}">
+        <span class="gl-ring">${U.ring(pc, col, { r: 16, w: 3.6 })}<b class="num">${pc}<small>%</small></b></span>
+        <span class="gl-tx"><b>${U.esc(U.exRu(g.ex))} · ${U.rmName(g.rm)}</b>
+          <small class="num">${i.best > 0 ? `<span data-no-mt>${U.w(i.best)} → </span>` : ''}<em style="color:${col}">${U.w(g.target)} ${U.wUnit()}</em>${i.expired ? '' : ` · <span>${i.daysLeft} дн.</span>`}</small>
+          <span class="gl-pace" style="--c:${P[1]}"><svg class="ic"><use href="#${P[2]}"/></svg><span>${P[0]}</span>${i.need > 0 && !i.expired ? `<span class="gl-need num">ещё +${U.w(i.need)} ${U.wUnit()}</span>` : ''}</span></span></button>
+        ${mini ? '' : `<button class="gl-x" data-action="goal-del" data-id="${g.id}" aria-label="Удалить"><svg class="ic"><use href="#fa-xmark"/></svg></button>`}</div>
+      ${bar}${i.expired && !mini ? `<button class="btn btn-ghost btn-sm w-full mt-2" data-action="goal-extend" data-id="${g.id}"><svg class="ic"><use href="#fa-rotate-left"/></svg> Продлить на 4 недели</button>` : ''}</div>`;
+  },
+  goalsSummary(G) {
+    const n = G.active.length, avg = n ? Math.round(G.active.reduce((a, x) => a + x.i.prog, 0) / n * 100) : 0;
+    return `<div class="gl-sum"><div><b class="num">${n}</b><small>В процессе</small></div><div><b class="num" style="color:#10B981">${G.done.length}</b><small>Выполнено</small></div><div><b class="num" style="color:${n ? U.pctColor(avg) : 'inherit'}">${n ? avg + '%' : '—'}</b><small>Средний прогресс</small></div></div>`;
+  },
   goalsCard() {
-    const gs = S.goals || [];
-    return `<div class="card p-4 mb-4">
-      <div class="flex items-center justify-between mb-1"><div class="font-bold"><svg class="ic text-amber-400"><use href="#fa-flag"/></svg> ${T('lift_goals')}</div><button class="btn btn-ghost btn-sm" data-action="goal-new"><svg class="ic"><use href="#fa-plus"/></svg> ${T('new_goal')}</button></div>
-      ${gs.length ? gs.map(g => { const st = Calc.goalState(g), col = st.done ? '#10B981' : st.expired ? '#EF4444' : '#F59E0B'; return `<div class="py-2.5 border-t line" data-key="g${g.id}">
-          <div class="flex items-center gap-2"><button class="flex-1 min-w-0 text-left" data-action="goal-show" data-ex="${U.esc(g.ex)}" data-rm="${g.rm}">
-            <div class="text-sm font-semibold truncate">${st.done ? '<svg class="ic text-em"><use href="#fa-check"/></svg> ' : ''}${U.esc(U.exRu(g.ex))} · ${U.rmName(g.rm)} <span class="num" style="color:${col}">${U.w(g.target)} ${U.wUnit()}</span></div>
-            <div class="text-[11px] num ${st.done ? 'text-em font-semibold' : 'muted'}">${st.done ? `Выполнена${st.doneAt ? ` · <span data-no-mt>${U.fmtDate(st.doneAt)}</span>` : ''}` : st.expired ? 'Срок вышел' : `Сейчас ${U.w(st.best)} · дедлайн <span data-no-mt>${U.fmtDate(g.deadline)}</span> · ${st.daysLeft} дн.`}</div></button>
-            <button class="muted px-1" data-action="goal-del" data-id="${g.id}" aria-label="Удалить"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
-          <div class="mt-1.5">${this.bar(st.pct * 100, col)}</div></div>`; }).join('')
+    const G = Calc.goalsSorted(), all = (S.goals || []).length, SHOW = 3;
+    return `<div class="card p-4 mb-4" id="goals-card">
+      <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-amber-400"><use href="#fa-flag"/></svg> ${T('lift_goals')}</div><button class="btn btn-ghost btn-sm" data-action="goal-new"><svg class="ic"><use href="#fa-plus"/></svg> ${T('new_goal')}</button></div>
+      ${all ? `${this.goalsSummary(G)}
+        ${G.active.slice(0, SHOW).map(x => this.goalRow(x)).join('')}
+        ${G.expired.length ? `<div class="gl-sec">Срок вышел</div>${G.expired.slice(0, 2).map(x => this.goalRow(x)).join('')}` : ''}
+        ${G.active.length > SHOW || G.expired.length > 2 || G.done.length ? `<button class="gl-more" data-action="goals-all"><span>Все цели</span> <span class="num">${all}</span><svg class="ic"><use href="#fa-chevron-right"/></svg></button>` : ''}`
         : `<button class="w-full text-left text-xs muted pt-1" data-action="goal-new">Поставь цель по лифту и дедлайн: цель появится полосой на графике.</button>`}
     </div>`;
+  },
+  openGoalsAll() {
+    const G = Calc.goalsSorted(), sec = (t, xs) => xs.length ? `<div class="gl-sec">${t} <span class="num">${xs.length}</span></div>${xs.map(x => this.goalRow(x)).join('')}` : '';
+    this.modal(`<div class="flex items-center justify-between mb-2"><div class="font-black text-lg"><svg class="ic text-amber-400"><use href="#fa-flag"/></svg> ${T('lift_goals')}</div><button class="icon-btn" data-action="close-modal" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
+      ${this.goalsSummary(G)}${sec('В процессе', G.active)}${sec('Срок вышел', G.expired)}${sec('Выполнено', G.done)}
+      <button class="btn btn-primary w-full mt-4 py-3" data-action="goal-new"><svg class="ic"><use href="#fa-plus"/></svg> ${T('new_goal')}</button>`);
+  },
+  // на главной: две самые близкие к финишу активные цели, чтобы этап было видно каждый день
+  homeGoals() {
+    const G = Calc.goalsSorted(); if (!G.active.length) return '';
+    const top = G.active.slice().sort((a, b) => b.i.prog - a.i.prog).slice(0, 2);
+    return `<div class="hm-sec"><span>Цели</span><button class="hm-sec-go" data-action="goals-open"><span>Все</span> <span class="num">${G.active.length}</span><svg class="ic"><use href="#fa-chevron-right"/></svg></button></div>
+      <div class="card gl-home mb-4">${top.map(x => this.goalRow(x, true)).join('')}</div>`;
   },
   openGoalEditor(ex) {
     const names = this.liftExercises(); ex = ex || this.liftEx || names[0];
@@ -7535,7 +7617,9 @@ const UI = {
       </div>
       <div class="h-strip" id="h-strip">${days.map(d => { const fut = d > today, c = fut ? null : Calc.dayColor(Calc.dayScore(d)), sel = d === k;
         // как на референсе: есть данные — сплошное кольцо цвета дня, нет данных — пунктир, выбранный день — светлая плашка
-        return `<button class="h-day ${fut ? 'future' : ''} ${d === today ? 'today' : ''} ${sel ? 'sel' : ''} ${c ? 'has' : ''}" data-action="h-day" data-date="${d}" ${fut ? 'disabled' : ''}><span class="wd">${CONFIG.WEEKDAYS[Calc.weekday(d)]}</span><span class="dot num" style="${c ? `border-color:${c}` : ''}">${String(+d.slice(-2)).padStart(2, '0')}</span></button>`; }).join('')}</div>
+        // v69: как на референсе — дуга растёт по проценту дня, цвет по проценту; нет данных — пунктир
+        const sc = fut ? null : Calc.dayScore(d);
+        return `<button class="h-day ${fut ? 'future' : ''} ${d === today ? 'today' : ''} ${sel ? 'sel' : ''} ${c ? 'has' : ''}" data-action="h-day" data-date="${d}" ${fut ? 'disabled' : ''}${sc != null ? ` aria-label="${sc}%"` : ''}><span class="wd">${CONFIG.WEEKDAYS[Calc.weekday(d)]}</span><span class="dot num">${c ? U.ring(sc, c, { cls: 'pr-ring hd-ring', zero: true }) : ''}<span class="hd-n">${String(+d.slice(-2)).padStart(2, '0')}</span></span></button>`; }).join('')}</div>
     </div>`;
   },
   initStrip() {
@@ -9118,8 +9202,11 @@ const App = {
       Game.addGoal({ ex, rm, target: +kg.toFixed(2), deadline: dl }); UI.liftEx = ex; if (UI.liftRMs) UI.liftRMs.add(rm);
       UI.closeModal(); UI.toast('Цель поставлена', 'pu'); App.afterChange();
     },
+    'goal-extend'(el) { Game.extendGoal(el.dataset.id); UI.toast('Цель продлена на 4 недели', 'pu'); App.afterChange(); if (UI.$('#modal .gl-it')) UI.openGoalsAll(); },
+    'goals-all'() { UI.openGoalsAll(); },
+    'goals-open'() { UI.closeModal(); UI.goTab('lifts'); setTimeout(() => { const c = document.getElementById('goals-card'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 120); },
     'goal-del'(el) { UI.confirm('Удалить цель?', () => { Game.deleteGoal(el.dataset.id); App.afterChange(); }, { danger: true, yes: 'Удалить' }); },
-    'goal-show'(el) { UI.liftEx = el.dataset.ex; if (!UI.liftRMs) UI.liftRMs = new Set(); UI.liftRMs.add(el.dataset.rm); UI.renderLifts(); const c = document.getElementById('lift-card'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' }); },
+    'goal-show'(el) { UI.closeModal(); UI.liftEx = el.dataset.ex; if (!UI.liftRMs) UI.liftRMs = new Set(); UI.liftRMs.add(el.dataset.rm); UI.renderLifts(); const c = document.getElementById('lift-card'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' }); },
     'point-del'(el) { Game.deleteLift(el.dataset.id); UI.closeModal(); UI.toast('Запись удалена'); App.afterChange(); },
     'h-day'(el) { UI.hDay = el.dataset.date; UI.renderNutrition(); },
     'h-today'() { UI.hDay = U.today(); UI._stripLeft = null; UI.renderNutrition(); },
