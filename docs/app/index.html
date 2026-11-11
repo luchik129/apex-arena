@@ -4753,7 +4753,7 @@ const Social = {
       if (this.userUid === uid) this.userPosts = (data || []).map(r => this.norm(r)); return true;
     } catch (e) { console.warn('Social.loadUser', e); return false; } finally { this.userLoading = false; }
   },
-  VIDEO_MAX_MB: 30, VIDEO_MAX_SEC: 90,
+  VIDEO_MAX_MB: 30, VIDEO_MAX_SEC: 15,
   async post(body, img, video) {
     body = String(body || '').trim().slice(0, 600); if (!body && !img && !video) return { error: 'Напиши текст или добавь фото/видео' };
     const bad = this.check(body); if (bad) return { error: bad };
