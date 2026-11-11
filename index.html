@@ -218,6 +218,17 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 #rest-pill.done{border-color:var(--em);box-shadow:0 0 0 3px rgba(16,185,129,.25),0 10px 30px rgba(0,0,0,.55);animation:restPulse .7s ease 3}
 #rest-pill.done .rp-ring .fg{stroke-dashoffset:0}
 @keyframes restPulse{50%{transform:translateX(-50%) scale(1.06)}}
+/* v74: свернуть в кружок и двигать */
+#rest-pill{touch-action:none;user-select:none;-webkit-user-select:none}
+#rest-pill.moved{transform:none}#rest-pill.moved.done{animation:restPulse2 .7s ease 3}@keyframes restPulse2{50%{transform:scale(1.06)}}
+#rest-pill.glide{transition:left .28s cubic-bezier(.3,1.3,.5,1),top .28s cubic-bezier(.3,1.3,.5,1)}
+#rest-pill.drag{transition:none;box-shadow:0 16px 40px rgba(0,0,0,.6);cursor:grabbing}
+#rest-pill .rp-min{background:transparent;min-width:2rem;padding:0;color:var(--muted)}
+#rest-pill.mini{width:64px;height:64px;padding:0;gap:0;justify-content:center;border-radius:50%;cursor:grab}
+#rest-pill.mini .rp-ring{position:absolute;inset:3px;width:56px;height:56px}
+#rest-pill.mini .rp-l{min-width:0;align-items:center}#rest-pill.mini .rp-l small{display:none}#rest-pill.mini .rp-l b{font-size:.95rem}
+#rest-pill.mini.done .rp-l b{font-size:.66rem}
+#rest-pill.mini button{display:none}
 .rest-row{display:flex;align-items:center;gap:.35rem;margin:-.25rem 0 .75rem;flex-wrap:wrap}
 .rest-row>svg{color:var(--em)}
 .rest-ch,.rest-auto,.rest-go{height:1.75rem;padding:0 .55rem;border-radius:999px;border:1px solid var(--line);font-size:.72rem;font-weight:700;opacity:.75}
@@ -2075,7 +2086,7 @@ html.light .trg-k{stroke:color-mix(in srgb,var(--rc) 55%,#1C1917)}
 .pf-phn{display:inline-flex;align-items:center;gap:.45rem;margin-top:.55rem;padding:.45rem .85rem;border-radius:999px;font-size:.78rem;font-weight:700;cursor:pointer;background:color-mix(in srgb,#8B5CF6 14%,transparent);color:#8B5CF6;transition:transform .15s}.pf-phn:active{transform:scale(.96)}.pf-phn .ic{width:.85rem;height:.85rem}
 /* ===== v72: бои — канат, рейд (куб), щит ===== */
 .fx-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.fx-seg{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:22px;background:var(--sub);border:1px solid var(--line)}
+.fx-seg{flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:22px;background:var(--sub);border:1px solid var(--line)}
 .fx-seg button{height:40px;border-radius:18px;font-weight:700;font-size:.82rem;color:var(--muted);transition:background .2s,color .2s}
 .fx-seg button.on.du{background:#F97316;color:#fff}.fx-seg button.on.rd{background:#7C3AED;color:#fff}
 .sh-chip{flex:none;display:flex;align-items:center;gap:5px;height:48px;padding:0 13px;border-radius:24px;background:#0F2624;border:1px solid #115E59;color:#5EEAD4;font-size:.82rem}
@@ -2122,6 +2133,19 @@ html.light .rd-need{background:#FEF9C3;color:#854D0E}html.light .rd-need.ok{back
 .rf-avs{display:flex}.rf-avs>*{margin-left:-10px;border-radius:50%;box-shadow:0 0 0 2px var(--card)}.rf-avs>*:first-child{margin-left:0}
 .hw{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}.hw-row{display:flex;gap:12px;padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line)}.hw-row>b{flex:none;width:28px;height:28px;border-radius:9px;background:color-mix(in srgb,#7C3AED 18%,transparent);color:#A78BFA;display:flex;align-items:center;justify-content:center;font-size:.8rem}
 .cp-ic{flex:none;width:48px;height:48px;border-radius:16px;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center}.cp-ic .ic{width:22px;height:22px}
+/* v74: снап подхода — одна кнопка камеры */
+.cp-card{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px}
+.cp-cam{flex:none;width:56px;height:56px;border-radius:50%;background:var(--text);color:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px #0005;transition:transform .15s}.cp-cam:active{transform:scale(.92)}.cp-cam .ic{width:24px;height:24px}
+.cp-media{display:flex;align-items:center;justify-content:center;gap:8px}
+/* v74: рекомендации людей — карточки в ряд, без колец сторис */
+.sg-row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:2px 16px 4px;scrollbar-width:none}.sg-row::-webkit-scrollbar{display:none}
+.sg-c{position:relative;flex:none;width:148px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;padding:16px 10px 10px;border-radius:18px;background:var(--card);border:1px solid var(--line);transition:opacity .2s,transform .2s}
+.sg-c.gone{opacity:0;transform:scale(.9)}
+.sg-x{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted)}.sg-x .ic{width:13px;height:13px}
+.sg-av{border-radius:50%;line-height:0}
+.sg-n{margin-top:9px;max-width:100%;font-weight:800;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sg-w{font-size:.68rem;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.sg-b{margin-top:10px;width:100%;height:34px;border-radius:10px;background:#3B82F6;color:#fff;font-weight:800;font-size:.8rem}.sg-b.sent{background:var(--sub);color:var(--muted)}
 .du-row{display:flex;align-items:center;gap:8px}
 .du-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:14px;text-align:center}.du-days i{display:block;height:28px;border-radius:9px;background:var(--sub)}.du-days i.me{background:#F97316}.du-days i.op{background:#3B82F6}.du-days i.fut{background:transparent;border:1px dashed var(--line)}.du-days i.now{outline:2px solid #FB923C;outline-offset:1px}.du-days small{font-size:.62rem;color:var(--muted);font-weight:700}
 .du-kinds>div{padding:10px;border-radius:16px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column}.du-kinds b{font-size:.74rem}.du-kinds small{font-size:.66rem;color:var(--muted)}
@@ -2146,6 +2170,94 @@ html.reduce-motion .rb-cube{animation:none}
 .rb.st5 .rb-f.l{transform:rotateY(-90deg) translateZ(calc(var(--h) * 1.35)) rotate(10deg)}.rb.st5 .rb-f.r{transform:rotateY(90deg) translateZ(calc(var(--h) * 1.35)) rotate(-9deg)}
 .rb.st5 .rb-f.t{transform:rotateX(90deg) translateZ(calc(var(--h) * 1.6)) rotate(14deg)}.rb.st5 .rb-f.d{transform:rotateX(-90deg) translateZ(calc(var(--h) * 1.2))}
 .fx-card.rd{overflow:hidden}
+/* ===== v74: дуэль — вызовы, свёрнутая карточка, новый канат, страница дуэли, клановая битва ===== */
+.fx-seg button.on.cl{background:#3B82F6;color:#fff}
+.fx-k.or{color:#FB923C}.fx-k.bl{color:#60A5FA}
+.fx-card.cl{background:radial-gradient(120% 90% at 0 0,#3B82F61F,transparent 60%),var(--card);border-color:color-mix(in srgb,#3B82F6 30%,var(--line))}
+.fx-card.du .fx-go,.du-pg .fx-go{background:linear-gradient(135deg,#F97316,#EA580C)!important;color:#fff!important;border-color:transparent!important}
+.fx-card.rd .fx-go,.rd-pg .fx-go{background:#7C3AED!important;color:#fff!important;border-color:transparent!important}
+.btn-bl{background:#3B82F6;color:#fff}.fx-card.cl .fx-go{background:#3B82F6!important;color:#fff!important;border-color:transparent!important}
+.fx-chip.r{background:#45090A99;color:#FCA5A5}.fx-chip.p{background:#50072899;color:#F9A8D4}
+html.light .fx-chip.r{background:#FEE2E2;color:#991B1B}html.light .fx-chip.p{background:#FCE7F3;color:#9D174D}
+/* канат */
+.rope2{--h:50px;--c:14px;margin-top:12px}.rope2.big{--h:70px;--c:18px;margin-top:14px}
+.r2-tr{position:relative;height:var(--h)}
+.r2-z{position:absolute;top:2px;bottom:2px;width:11%;border-radius:12px}
+.r2-z.me{left:0;background:linear-gradient(90deg,#F9731638,transparent)}.r2-z.op{right:0;background:linear-gradient(270deg,#3B82F638,transparent)}
+.rope2.won-me .r2-z.me{background:linear-gradient(90deg,#F97316AA,#F9731622)}.rope2.won-op .r2-z.op{background:linear-gradient(270deg,#3B82F6AA,#3B82F622)}
+.r2-mid{position:absolute;left:50%;top:0;bottom:0;margin-left:-1px;border-left:2px dashed color-mix(in srgb,var(--text) 28%,transparent)}
+.r2-cord{position:absolute;left:4px;right:4px;top:calc(50% - var(--c) / 2);height:var(--c);border-radius:var(--c);overflow:hidden;
+  background:linear-gradient(180deg,#ffffff66 0,#ffffff00 40%,#0000 60%,#00000066 100%),repeating-linear-gradient(-62deg,#F0C77F 0 4px,#D29A4B 4px 7px,#9A672B 7px 9px,#F0C77F 9px 13px);
+  box-shadow:0 4px 9px #0008,inset 0 0 0 1px #00000026}
+.r2-pull{position:absolute;top:0;bottom:0}.r2-pull.me{background:linear-gradient(90deg,#F97316C0,#F9731622)}.r2-pull.op{background:linear-gradient(90deg,#3B82F622,#3B82F6C0)}
+.r2-grip{position:absolute;top:calc(50% - var(--c) / 2 - 6px);height:calc(var(--c) + 12px);width:22px;border-radius:9px;box-shadow:0 3px 8px #0007;background-image:repeating-linear-gradient(90deg,#0000 0 3px,#0003 3px 5px)}
+.r2-grip.me{left:0;background-color:#F97316}.r2-grip.op{right:0;background-color:#3B82F6}
+.r2-knot{position:absolute;top:0;bottom:0;width:0;transition:left .9s cubic-bezier(.3,1.4,.5,1)}
+.r2-wrap{position:absolute;left:-8px;top:calc(50% - var(--c) / 2 - 5px);width:16px;height:calc(var(--c) + 10px);border-radius:6px;background:linear-gradient(90deg,#991B1B,#EF4444 45%,#B91C1C);box-shadow:0 0 0 2px #FFF7ED,0 3px 8px #0009}
+.r2-knot.me .r2-wrap{box-shadow:0 0 0 2px #FFF7ED,0 0 16px #F97316}.r2-knot.op .r2-wrap{box-shadow:0 0 0 2px #FFF7ED,0 0 16px #3B82F6}
+.r2-flag{position:absolute;left:-7px;top:calc(50% + var(--c) / 2 + 2px);width:14px;height:calc(var(--h) * .34);background:linear-gradient(180deg,#EF4444,#991B1B);clip-path:polygon(0 0,100% 0,100% 100%,50% 70%,0 100%);transform-origin:50% 0;animation:r2Sway 2.8s ease-in-out infinite}
+@keyframes r2Sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+html.reduce-motion .r2-flag{animation:none}
+.r2-ticks{display:flex;justify-content:space-between;padding:0 8px;margin-top:4px}.r2-ticks i{width:4px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--text) 22%,transparent)}
+.r2-ticks i.me{background:#F97316}.r2-ticks i.op{background:#3B82F6}.r2-ticks i.mid{background:color-mix(in srgb,var(--text) 50%,transparent)}.r2-ticks i.at{transform:scale(1.8);background:#EF4444}
+.r2-lab{display:flex;justify-content:space-between;margin-top:5px;font-size:.62rem;font-weight:800;color:var(--muted)}.r2-lab span:first-child{color:#FB923C}.r2-lab span:last-child{color:#60A5FA}
+/* шапка дуэли */
+.dh2{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dh2-p{display:flex;align-items:center;gap:9px;min-width:0;flex:1}.dh2-p.r{justify-content:flex-end;text-align:right}
+.dh2-p>span{display:flex;flex-direction:column;min-width:0}.dh2-p b{font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dh2-p small{font-size:.68rem;color:var(--muted)}
+.dh2-c{flex:none;display:flex;flex-direction:column;align-items:center;line-height:1}.dh2-c b{font-size:2.1rem;font-weight:900;letter-spacing:-.03em;color:var(--text)}.dh2-c b.pos{color:#FB923C}.dh2-c b.neg{color:#60A5FA}
+.dh2-c small{margin-top:4px;font-size:.6rem;font-weight:800;letter-spacing:.06em;color:var(--muted)}
+.dh2-f{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:.74rem;color:var(--muted)}
+/* вызовы */
+.dq-flat{padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:12px}
+.dq-in{border-color:color-mix(in srgb,#F97316 55%,var(--line))}
+.dq-wait{display:flex;align-items:center;gap:12px}
+.dq-dots{display:flex;gap:4px}.dq-dots i{width:7px;height:7px;border-radius:50%;background:#FB923C;animation:dqDot 1.2s ease-in-out infinite}.dq-dots i:nth-child(2){animation-delay:.2s}.dq-dots i:nth-child(3){animation-delay:.4s}
+@keyframes dqDot{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+/* свёрнутая дуэль */
+.fx-card.dc{padding:12px 14px}
+.dc-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left}
+.dc-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.dc-t{display:flex;align-items:baseline;gap:7px}.dc-t b{font-size:.92rem;font-weight:900}.dc-t small{font-size:.6rem;font-weight:800;letter-spacing:.06em;color:var(--muted)}.dc-t em{margin-left:auto;font-style:normal;font-weight:900;font-size:1.05rem}.dc-t em.me{color:#FB923C}.dc-t em.op{color:#60A5FA}
+.dc-bar{position:relative;height:12px}.dc-cord{position:absolute;left:0;right:0;top:3px;height:6px;border-radius:3px;background:repeating-linear-gradient(-62deg,#F0C77F 0 3px,#B07A35 3px 5px)}
+.dc-mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:color-mix(in srgb,var(--text) 40%,transparent)}
+.dc-k{position:absolute;top:0;width:10px;height:12px;margin-left:-5px;border-radius:3px;background:#EF4444;box-shadow:0 0 0 1.5px #FFF7ED}.dc-k.me{box-shadow:0 0 0 1.5px #FFF7ED,0 0 8px #F97316}.dc-k.op{box-shadow:0 0 0 1.5px #FFF7ED,0 0 8px #3B82F6}
+.dc-s{font-size:.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dc-ch{flex:none;color:var(--muted);width:14px;height:14px}
+.dc.open .dc-bar{display:none}.dc.open .dc-m{gap:2px}
+.dc-body{margin-top:10px;padding-top:4px;border-top:1px solid var(--line)}
+/* страница дуэли */
+.dd-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:14px}
+.dd{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0 7px;border-radius:12px;background:var(--sub)}
+.dd small{font-size:.6rem;font-weight:800;color:var(--muted)}.dd b{font-size:.76rem;font-weight:900;min-height:1em}
+.dd.me{background:#F9731626}.dd.me b{color:#FB923C}.dd.op{background:#3B82F626}.dd.op b{color:#60A5FA}
+.dd.fut{background:transparent;border:1px dashed var(--line)}.dd.now{outline:2px solid #FB923C;outline-offset:1px}
+.dk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.dk{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.dk>i{flex:none;width:9px;height:9px;border-radius:50%}.dk>span{display:flex;flex-direction:column;min-width:0}.dk b{font-size:.76rem}.dk small{font-size:.64rem;color:var(--muted);line-height:1.25}
+/* клановая битва */
+.cb-vs{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:12px}
+.cb-c{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}.cb-c b{font-size:.82rem;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cb-c small{font-size:.64rem;color:var(--muted)}
+.cb-sc{flex:none;display:flex;align-items:baseline;gap:6px}.cb-sc b{font-size:1.7rem;font-weight:900;color:var(--muted)}.cb-sc b.w{color:var(--text)}.cb-sc span{color:var(--muted);font-weight:900}
+.cb-bar{height:8px;border-radius:4px;background:#EF444466;margin-top:12px;overflow:hidden}.cb-bar i{display:block;height:100%;background:#3B82F6;border-radius:4px}
+/* v74: Титан — круг вместо куба (место под картинку босса), журнал рейда, свёрнутые правила */
+.rbo{position:relative;flex:none;width:var(--s);height:var(--s);border-radius:50%;overflow:hidden;background:radial-gradient(circle at 34% 28%,var(--a),var(--b) 72%);box-shadow:inset 0 -8px 22px #0006,inset 0 0 0 2px #ffffff22,0 0 0 3px color-mix(in srgb,var(--g) 45%,transparent),0 0 26px color-mix(in srgb,var(--g) 35%,transparent);transition:filter .5s,opacity .5s}
+.rbo img{width:100%;height:100%;object-fit:cover;display:block}
+.rbo.st4{box-shadow:inset 0 -8px 22px #0006,0 0 0 3px var(--g),0 0 32px var(--g)}
+.rbo.st5{filter:grayscale(.9) brightness(.7);opacity:.75}
+.rd-how{border-radius:18px;background:var(--card);border:1px solid var(--line);padding:0 14px}
+.rd-how>summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:46px;font-weight:800;font-size:.86rem;cursor:pointer}.rd-how>summary::-webkit-details-marker{display:none}
+.rd-how>summary span{flex:1}.rd-how-ch{color:var(--muted);transition:transform .2s}.rd-how[open] .rd-how-ch{transform:rotate(180deg)}
+.rd-how .hw{margin-bottom:12px}.rd-how .hw-row{background:var(--sub)}
+.rd-rules{font-size:12px;color:var(--muted);padding:0 4px 12px;line-height:1.45}
+.dq-in .btn-or{background:linear-gradient(135deg,#F97316,#EA580C)!important;color:#fff!important;border-color:transparent!important}.dq-in .btn-or:disabled{opacity:.45}
+.rd-hw{padding:10px 0;border-top:1px solid var(--line)}.rd-hw:last-child{padding-bottom:14px}
+.rl-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}.rl-row:first-child{border-top:0}
+.rl-t{display:flex;align-items:baseline;gap:6px;font-size:.82rem}.rl-t small{color:var(--muted);font-size:.66rem;font-weight:700}
+.rl-s{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--muted);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rl-crit{flex:none;padding:1px 6px;border-radius:6px;background:#42200699;color:#FDE047;font-weight:800;font-size:.64rem}html.light .rl-crit{background:#FEF9C3;color:#854D0E}
+.rl-v{font-size:.86rem;color:#F97316}
+.rl-last{margin-top:8px;font-size:.72rem;color:var(--muted)}.rl-last b{color:var(--text)}
 /* шторка щита */
 .sh-sheet{color:var(--text)}.sh-hd{display:flex;align-items:center;gap:12px}
 .sh-ring{position:relative;flex:none;width:84px;height:84px;color:#2DD4BF}.sh-ring svg{width:100%;height:100%}.sh-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--text)}
@@ -2155,6 +2267,7 @@ html.reduce-motion .rb-cube{animation:none}
 .sh-row b{display:block;font-size:.86rem}.sh-row small{font-size:.7rem;color:var(--muted)}.sh-row em{font-style:normal;font-weight:800;font-size:.76rem;color:#2DD4BF}
 .sh-ck{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #2DD4BF;color:#2DD4BF}.sh-row.ok .sh-ck{background:#2DD4BF;color:#042F2E;border:0}.sh-ck .ic{width:14px;height:14px}
 .sh-btn{background:#2DD4BF;color:#042F2E;flex:none}
+.sh-pb{display:block;height:4px;border-radius:2px;background:color-mix(in srgb,#2DD4BF 18%,transparent);margin-top:6px;overflow:hidden}.sh-pb i{display:block;height:100%;background:#2DD4BF;border-radius:2px}
 .sh-info{margin-top:6px;padding:12px 14px;border-radius:18px;background:color-mix(in srgb,#2DD4BF 14%,var(--card));font-size:.76rem;line-height:1.45}
 .hh-wrap{margin:0 0 .75rem}
 .hh-top{display:flex;align-items:center;justify-content:space-between;margin:.1rem .25rem .65rem}
@@ -3012,6 +3125,8 @@ MT.FORCE = {
   fr: { 'Добавь фото': 'Ajoute une photo', 'Отличное фото': 'Super photo', 'Нажми, чтобы поменять': 'Touche pour la changer', 'Так друзья и соперники узнают тебя в рейтингах и дуэлях': 'Tes amis et rivaux te reconnaîtront dans les classements et les duels', 'Добавь фото профиля': 'Ajoute une photo de profil', 'Фото профиля': 'Photo de profil', 'друзья': 'amis', 'добавь друзей': 'ajoute des amis', 'Добавить в друзья': 'Ajouter en ami', 'У тебя пока нет друзей': 'Tu n\'as pas encore d\'amis', 'Добавь игроков в друзья, и их посты соберутся здесь.': 'Ajoute des joueurs en amis et leurs posts apparaîtront ici.', 'Его видят друзья и все в «Сообществе»': 'Tes amis et toute la Communauté le voient', 'Здесь появятся лайки и комментарии к твоим постам, заявки в друзья и вызовы на дуэль.': 'Ici apparaîtront les likes et commentaires sur tes posts, les demandes d\'ami et les défis en duel.', 'Слабее всего': 'Le plus faible', 'Растёт с рекордами в базовых упражнениях': 'Progresse avec des records sur les mouvements de base', 'Растёт, когда записываешь еду каждый день': 'Progresse quand tu notes tes repas chaque jour', 'Сон 7–9 ч и не больше 5 тренировок в неделю': '7–9 h de sommeil et pas plus de 5 séances par semaine', 'Тренировки по плану и серия без пропусков': 'Séances selon le plan et une série sans trou', 'Активность': 'Activité', 'добавить': 'ajouter', 'ккал сожжено': 'kcal brûlées', 'активность': 'activité', 'нажми +{0} мл': 'touche +{0} ml', 'Быстро добавить': 'Ajout rapide', 'Прогулка': 'Marche', 'Бег': 'Course', 'Велосипед': 'Vélo', 'Плавание': 'Natation', '{0} мин · ~{1} ккал': '{0} min · ~{1} kcal', 'Настроить воду': 'Réglages de l’eau', 'Как идёт день': 'Comment se passe ta journée', '/ {0} г': '/ {0} g', 'Лечь спать': 'Aller dormir', 'Записать сон': 'Noter le sommeil', 'одно касание — таймер пошёл': 'un toucher lance le minuteur', 'сколько часов спал': 'combien d’heures tu as dormi', 'нажми, когда проснёшься': 'touche au réveil', 'нажми, чтобы лечь': 'touche pour aller dormir', 'Снимок еды': 'Photo du repas', 'ИИ посчитает ккал': 'L’IA compte les kcal', 'Настроить воду': 'Réglages de l’eau', 'Сон подробнее': 'Détails du sommeil', 'Быстрый доступ': 'Accès rapide', '{0} запроса в день': '{0} requêtes par jour', 'Осталось {0} из {1} на сегодня': 'Encore {0} sur {1} aujourd’hui', 'Запросы на сегодня закончились': 'Plus de requêtes aujourd’hui', 'Опиши еду одним сообщением': 'Décris ton repas en un message', 'Посчитаю калории и БЖУ. Перед записью проверишь граммы.': 'Je compte les calories et les macros. Tu vérifies les grammes avant d’enregistrer.', 'Например': 'Par exemple', 'Омлет из {0} яиц, тост и кофе с молоком': 'Omelette de {0} œufs, toast et café au lait', 'Гречка {0} г и куриная грудка': '{0} g de sarrasin et blanc de poulet', 'Борщ, {0} куска хлеба и компот': 'Bortsch, {0} tranches de pain et une boisson', 'Что ты съел?': 'Qu’as-tu mangé ?', 'Добавить вручную': 'Ajouter à la main', 'за тренировку': 'par séance', 'Тренировки приносят кубки. С ними ты переходишь на новые арены: всего {0} арен и {1} лиг.': 'Les séances rapportent des trophées. Ils te font monter dans de nouvelles arènes : {0} arènes et {1} ligues au total.', 'Кубки за тренировку, питание и сон': 'Des trophées pour le sport, les repas et le sommeil', 'Честный рейтинг: подозрительные рекорды проверяются': 'Classement équitable : les records suspects sont vérifiés', '{0} подхода': '{0} séries', 'Записывай подходы за секунды': 'Note tes séries en quelques secondes', 'Вес и повторы — пара касаний. Приложение само замечает рекорды и строит графики.': 'Poids et répétitions en deux touches. L’appli repère les records et trace les courbes.', 'Графики силы по каждому упражнению': 'Courbes de force pour chaque exercice', 'Расписание недели и разовые тренировки': 'Planning de la semaine et séances ponctuelles', 'рекорд': 'record', 'в одно касание': 'en un toucher', 'Одно кольцо показывает, как идёт день. Закрой цели и получи бонусные кубки после полуночи.': 'Un anneau montre comment se passe ta journée. Atteins tes objectifs et gagne des trophées bonus après minuit.', 'Калории и БЖУ, можно по фото': 'Calories et macros, même en photo', 'Сон: нажал перед сном, нажал утром': 'Sommeil : un toucher le soir, un le matin', '{0} подходов в неделю': '{0} séries par semaine', 'Видно, какие мышцы работали': 'Vois quels muscles ont travaillé', 'Карта мышц спереди и сзади: сколько подходов получила каждая и какие пора подтянуть.': 'Carte des muscles de face et de dos : combien de séries chacun a reçu et lesquels travailler.', 'Зона {0}–{1} подходов в неделю для роста': '{0}–{1} séries par semaine, c’est la zone de croissance', 'Режим «Сейчас»: кто ещё восстанавливается': 'Mode « Maintenant » : qui récupère encore', 'Вместе веселее': 'Mieux à plusieurs', 'Кланы бьются каждую неделю, друзья вызывают на дуэли, а лента показывает их рекорды.': 'Les clans s’affrontent chaque semaine, tes amis te défient en duel et le fil montre leurs records.', 'Битвы кланов каждую неделю': 'Batailles de clans chaque semaine', 'Лента с постами и рекордами': 'Un fil avec posts et records', 'добавь по нику': 'ajoute par pseudo', '1 на 1 с другом': '1 contre 1 avec un ami', 'Тёмная тема': 'Thème sombre', 'Светлая тема': 'Thème clair', '{0} игрок': '{0} joueur', '{0} игрока': '{0} joueurs', '{0} игроков': '{0} joueurs', 'Свернуть': 'Réduire', 'листай': 'fais glisser', 'Разделы': 'Rubriques', 'Сегодня тренировка засчитана': 'Séance du jour comptée', 'дальше:': 'ensuite :', 'отдыхай и восстанавливайся': 'repose-toi et récupère', 'Сегодня:': 'Aujourd’hui :', 'разовая': 'ponctuelle', 'Сегодня пропуск': 'Aujourd’hui sauté', 'Сегодня отдых': 'Repos aujourd’hui', 'в расписании пока пусто': 'rien de prévu pour l’instant', 'Добавить': 'Ajouter', 'по плану': 'prévu', 'сделано': 'fait', 'пропущено': 'manqué', 'выходной': 'repos', 'Нажми на любой день: добавить тренировку, перенести или сделать выходным': 'Touche un jour : ajouter une séance, la déplacer ou en faire un jour de repos', 'Есть подходы, не засчитано': 'Séries notées, pas encore comptées', 'Разовая тренировка': 'Séance ponctuelle', 'По плану': 'Prévu', 'Выходной вместо тренировки': 'Repos à la place de la séance', 'Без тренировки': 'Pas de séance', 'Изменить тренировку': 'Modifier la séance', 'только на этот день': 'ce jour seulement', 'Перенести на другой день': 'Déplacer à un autre jour', 'Убрать с этого дня': 'Retirer de ce jour', 'вернётся тренировка по плану': 'la séance prévue revient', 'только эту тренировку': 'cette séance seulement', 'Сделать выходным': 'En faire un jour de repos', 'пропустить только этот день, план не меняется': 'sauter juste ce jour, le plan reste', 'Изменить только этот день': 'Modifier ce jour seulement', 'другие упражнения разово': 'autres exercices, une fois', 'Вернуть тренировку': 'Rétablir la séance', 'Добавить тренировку на этот день': 'Ajouter une séance ce jour', 'разово, план недели не меняется': 'une fois, le plan de la semaine reste', 'добавить день в план недели': 'ajouter le jour au plan de la semaine', 'По плану было:': 'Prévu :', 'Прошедший день: здесь видно, что было. Менять план можно на сегодня и вперёд.': 'Jour passé : tu vois ce qui s’est passé. Tu peux changer le plan à partir d’aujourd’hui.', 'Тренировка на': 'Séance le', 'Разовая: появится только в этот день, план недели не меняется': 'Ponctuelle : uniquement ce jour, le plan de la semaine reste', 'Из твоего плана': 'Depuis ton plan', 'Или': 'Ou', 'Повторить последнюю': 'Refaire la dernière', 'Собрать свою': 'Composer la tienne', 'выбрать упражнения': 'choisir les exercices', 'Перенести тренировку': 'Déplacer la séance', 'Выбери новый день': 'Choisis un nouveau jour', 'в этот день уже есть тренировка: перенос её заменит': 'il y a déjà une séance ce jour : la déplacer la remplacera', 'разово': 'ponctuelle', 'Добавь хотя бы одно упражнение': 'Ajoute au moins un exercice', 'Тренировка добавлена на этот день': 'Séance ajoutée à ce jour', 'Убрано с этого дня': 'Retiré de ce jour', 'Этот день теперь выходной': 'Ce jour est maintenant un jour de repos', 'Тренировка вернулась': 'La séance est de retour', 'Перенесено:': 'Déplacé au :', 'Трапеции': 'Trapèzes', 'Поясница': 'Bas du dos', 'Предплечья': 'Avant-bras', 'Косые мышцы': 'Obliques', 'Приводящие': 'Adducteurs', 'Торс': 'Torse', 'Руки': 'Bras', 'Кор': 'Gainage', 'Ноги': 'Jambes', 'Нагрузка на мышцы': 'Charge musculaire', 'Сейчас': 'Maintenant', 'Как мышцы нагружены прямо сейчас. Свежие тренировки ярче, за {0}–{1} дня мышцы остывают.': 'À quel point tes muscles sont chargés en ce moment. Les séances récentes brillent plus et refroidissent en {0}–{1} jours.', 'Подходы в неделю на каждую мышцу. Для роста обычно нужно {0}–{1}.': 'Séries par semaine pour chaque muscle. Pour progresser, il en faut souvent {0}–{1}.', 'свежие': 'frais', 'нагружены': 'chargés', 'оптимум для роста': 'zone de croissance', 'подх. в неделю': 'séries par semaine', 'нагрузка сейчас': 'charge actuelle', 'восстановится примерно через {0} ч': 'récupéré dans environ {0} h', 'можно тренировать': 'prêt à travailler', 'последний раз:': 'dernière fois :', 'сегодня': "aujourd'hui", 'вчера': 'hier', '{0} дн. назад': 'il y a {0} j', 'не было': 'jamais', 'Добавь пару подходов в неделю, чтобы мышца росла': 'Ajoute quelques séries par semaine pour le faire progresser', 'Много: следи за восстановлением': 'Beaucoup : surveille la récupération', 'Мышца не работала за этот период': 'Pas travaillé sur cette période', 'Не работала': 'Pas travaillé', 'Мало': 'Peu', 'Поддержка': 'Entretien', 'Оптимум': 'Optimal', 'Много': 'Beaucoup', 'Свежая': 'Frais', 'Почти свежая': 'Presque frais', 'Нагружена': 'Chargé', 'Сильно нагружена': 'Très chargé', 'Нагружены': 'Chargés', 'ничего серьёзного': 'rien de sérieux', 'Готовы к тренировке': 'Prêts à travailler', 'В работе': 'Travaillés', 'Больше всего': 'Les plus sollicités', 'Не работали': 'Pas travaillés', 'Нажми на мышцу, чтобы увидеть подробности': 'Touche un muscle pour voir les détails', 'зона {0}–{1} подходов в неделю': 'zone de {0}–{1} séries par semaine', 'Опережаешь': 'En avance', 'По графику': 'Dans les temps', 'Отстаёшь': 'En retard', 'ещё +{0} kg': 'encore +{0} kg', 'ещё +{0} lbs': 'encore +{0} lbs', 'В процессе': 'En cours', 'Выполнено': 'Atteints', 'Средний прогресс': 'Progrès moyen', 'Все цели': 'Tous les objectifs', 'Продлить на {0} недели': 'Prolonger de {0} semaines', 'Цель продлена на {0} недели': 'Objectif prolongé de {0} semaines', '{0}% пути к цели': '{0}% du chemin', 'почти у цели!': 'presque atteint !', 'Этап цели': "Étape d'objectif", 'Дальше:': 'Ensuite :', 'через {0} тренировку': 'dans {0} séance', 'через {0} тренировки': 'dans {0} séances', 'через {0} тренировок': 'dans {0} séances', 'Продолжить с Apple': 'Continuer avec Apple', 'Вход через Apple и Google работает только с интернетом': 'La connexion Apple et Google nécessite Internet', 'Б {0}': 'P {0}', 'У {0}': 'G {0}', 'Ж {0}': 'L {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · G {1} · L {2}', 'Б': 'P', 'У': 'G', 'Ж': 'L', 'Б, г': 'P, g', 'У, г': 'G, g', 'Ж, г': 'L, g', 'из {0} ккал': 'sur {0} kcal', 'цель {0}': 'objectif {0}', 'осталось': 'restantes', 'съедено': 'consommées', '{0} из {1} г': '{0} sur {1} g', '/{0} г': '/{0} g', 'Откуда калории': 'Calories par macro', 'факт · цель': 'réel · objectif', 'Единицы измерения': 'Unités', 'Вес, lbs': 'Poids, lbs', 'Вес, kg': 'Poids, kg', 'Рост, ft/in': 'Taille, ft/in', 'Рост, см': 'Taille, cm', 'Проверь вес': 'Vérifie ton poids', 'Проверь рост': 'Vérifie ta taille' },
   tr: { 'Добавь фото': 'Fotoğraf ekle', 'Отличное фото': 'Harika fotoğraf', 'Нажми, чтобы поменять': 'Değiştirmek için dokun', 'Так друзья и соперники узнают тебя в рейтингах и дуэлях': 'Arkadaşların ve rakiplerin seni sıralamalarda ve düellolarda tanısın', 'Добавь фото профиля': 'Profil fotoğrafı ekle', 'Фото профиля': 'Profil fotoğrafı', 'друзья': 'arkadaş', 'добавь друзей': 'arkadaş ekle', 'Добавить в друзья': 'Arkadaş ekle', 'У тебя пока нет друзей': 'Henüz arkadaşın yok', 'Добавь игроков в друзья, и их посты соберутся здесь.': 'Oyuncuları arkadaş olarak ekle, gönderileri burada toplansın.', 'Его видят друзья и все в «Сообществе»': 'Arkadaşların ve Topluluktaki herkes görür', 'Здесь появятся лайки и комментарии к твоим постам, заявки в друзья и вызовы на дуэль.': 'Gönderilerine gelen beğeniler ve yorumlar, arkadaşlık istekleri ve düello davetleri burada görünecek.', 'Слабее всего': 'En zayıf', 'Растёт с рекордами в базовых упражнениях': 'Temel hareketlerdeki rekorlarla artar', 'Растёт, когда записываешь еду каждый день': 'Her gün yemek kaydettiğinde artar', 'Сон 7–9 ч и не больше 5 тренировок в неделю': '7–9 saat uyku ve haftada en fazla 5 antrenman', 'Тренировки по плану и серия без пропусков': 'Plana uygun antrenman ve aralıksız seri', 'Активность': 'Aktivite', 'добавить': 'ekle', 'ккал сожжено': 'kcal yakıldı', 'активность': 'aktivite', 'нажми +{0} мл': '+{0} ml için dokun', 'Быстро добавить': 'Hızlı ekle', 'Прогулка': 'Yürüyüş', 'Бег': 'Koşu', 'Велосипед': 'Bisiklet', 'Плавание': 'Yüzme', '{0} мин · ~{1} ккал': '{0} dk · ~{1} kcal', 'Настроить воду': 'Su ayarları', 'Как идёт день': 'Günün nasıl gidiyor', '/ {0} г': '/ {0} g', 'Лечь спать': 'Uyumaya git', 'Записать сон': 'Uykuyu kaydet', 'одно касание — таймер пошёл': 'bir dokunuş zamanlayıcıyı başlatır', 'сколько часов спал': 'kaç saat uyudun', 'нажми, когда проснёшься': 'uyanınca dokun', 'нажми, чтобы лечь': 'yatmak için dokun', 'Снимок еды': 'Yemeğin fotoğrafı', 'ИИ посчитает ккал': 'YZ kaloriyi sayar', 'Настроить воду': 'Su ayarları', 'Сон подробнее': 'Uyku ayrıntıları', 'Быстрый доступ': 'Hızlı erişim', '{0} запроса в день': 'Günde {0} istek', 'Осталось {0} из {1} на сегодня': 'Bugün {1} istekten {0} kaldı', 'Запросы на сегодня закончились': 'Bugünkü istekler bitti', 'Опиши еду одним сообщением': 'Yemeğini tek mesajla anlat', 'Посчитаю калории и БЖУ. Перед записью проверишь граммы.': 'Kalori ve makroları sayarım. Kaydetmeden önce gramları kontrol edersin.', 'Например': 'Örneğin', 'Омлет из {0} яиц, тост и кофе с молоком': '{0} yumurtalı omlet, tost ve sütlü kahve', 'Гречка {0} г и куриная грудка': '{0} g karabuğday ve tavuk göğsü', 'Борщ, {0} куска хлеба и компот': 'Borş, {0} dilim ekmek ve içecek', 'Что ты съел?': 'Ne yedin?', 'Добавить вручную': 'Elle ekle', 'за тренировку': 'antrenman başına', 'Тренировки приносят кубки. С ними ты переходишь на новые арены: всего {0} арен и {1} лиг.': 'Antrenmanlar kupa kazandırır. Onlarla yeni arenalara çıkarsın: toplam {0} arena ve {1} lig.', 'Кубки за тренировку, питание и сон': 'Antrenman, beslenme ve uyku için kupalar', 'Честный рейтинг: подозрительные рекорды проверяются': 'Adil sıralama: şüpheli rekorlar kontrol edilir', '{0} подхода': '{0} set', 'Записывай подходы за секунды': 'Setleri saniyeler içinde kaydet', 'Вес и повторы — пара касаний. Приложение само замечает рекорды и строит графики.': 'Ağırlık ve tekrar birkaç dokunuşla. Uygulama rekorları kendisi fark eder ve grafik çizer.', 'Графики силы по каждому упражнению': 'Her egzersiz için güç grafikleri', 'Расписание недели и разовые тренировки': 'Haftalık plan ve tek seferlik antrenmanlar', 'рекорд': 'rekor', 'в одно касание': 'tek dokunuşla', 'Одно кольцо показывает, как идёт день. Закрой цели и получи бонусные кубки после полуночи.': 'Tek halka günün nasıl gittiğini gösterir. Hedeflerini tamamla, gece yarısından sonra bonus kupa kazan.', 'Калории и БЖУ, можно по фото': 'Kalori ve makrolar, fotoğraftan da', 'Сон: нажал перед сном, нажал утром': 'Uyku: gece bir dokunuş, sabah bir dokunuş', '{0} подходов в неделю': 'haftada {0} set', 'Видно, какие мышцы работали': 'Hangi kasların çalıştığını gör', 'Карта мышц спереди и сзади: сколько подходов получила каждая и какие пора подтянуть.': 'Önden ve arkadan kas haritası: her kas kaç set aldı ve hangileri daha fazla çalışmalı.', 'Зона {0}–{1} подходов в неделю для роста': 'Gelişim için haftada {0}–{1} set bölgesi', 'Режим «Сейчас»: кто ещё восстанавливается': '“Şimdi” modu: kim hâlâ toparlanıyor', 'Вместе веселее': 'Birlikte daha eğlenceli', 'Кланы бьются каждую неделю, друзья вызывают на дуэли, а лента показывает их рекорды.': 'Klanlar her hafta savaşır, arkadaşların seni düelloya çağırır ve akış onların rekorlarını gösterir.', 'Битвы кланов каждую неделю': 'Her hafta klan savaşları', 'Лента с постами и рекордами': 'Gönderiler ve rekorlarla bir akış', 'добавь по нику': 'takma adla ekle', '1 на 1 с другом': 'arkadaşınla 1’e 1', 'Тёмная тема': 'Koyu tema', 'Светлая тема': 'Açık tema', '{0} игрок': '{0} oyuncu', '{0} игрока': '{0} oyuncu', '{0} игроков': '{0} oyuncu', 'Свернуть': 'Daralt', 'листай': 'kaydır', 'Разделы': 'Bölümler', 'Сегодня тренировка засчитана': 'Bugünkü antrenman sayıldı', 'дальше:': 'sıradaki:', 'отдыхай и восстанавливайся': 'dinlen ve toparlan', 'Сегодня:': 'Bugün:', 'разовая': 'tek seferlik', 'Сегодня пропуск': 'Bugün atlandı', 'Сегодня отдых': 'Bugün dinlenme', 'в расписании пока пусто': 'planda henüz bir şey yok', 'Добавить': 'Ekle', 'по плану': 'planlı', 'сделано': 'yapıldı', 'пропущено': 'kaçırıldı', 'выходной': 'izin', 'Нажми на любой день: добавить тренировку, перенести или сделать выходным': 'Herhangi bir güne dokun: antrenman ekle, taşı veya izin günü yap', 'Есть подходы, не засчитано': 'Setler var, henüz sayılmadı', 'Разовая тренировка': 'Tek seferlik antrenman', 'По плану': 'Planlı', 'Выходной вместо тренировки': 'Antrenman yerine izin', 'Без тренировки': 'Antrenman yok', 'Изменить тренировку': 'Antrenmanı düzenle', 'только на этот день': 'sadece bu gün', 'Перенести на другой день': 'Başka güne taşı', 'Убрать с этого дня': 'Bu günden kaldır', 'вернётся тренировка по плану': 'planlı antrenman geri gelir', 'только эту тренировку': 'sadece bu antrenman', 'Сделать выходным': 'İzin günü yap', 'пропустить только этот день, план не меняется': 'sadece bu günü atla, plan değişmez', 'Изменить только этот день': 'Sadece bu günü değiştir', 'другие упражнения разово': 'farklı egzersizler, bir kez', 'Вернуть тренировку': 'Antrenmanı geri getir', 'Добавить тренировку на этот день': 'Bu güne antrenman ekle', 'разово, план недели не меняется': 'bir kez, haftalık plan değişmez', 'добавить день в план недели': 'günü haftalık plana ekle', 'По плану было:': 'Planda olan:', 'Прошедший день: здесь видно, что было. Менять план можно на сегодня и вперёд.': 'Geçmiş gün: neler olduğunu burada görürsün. Planı bugünden itibaren değiştirebilirsin.', 'Тренировка на': 'Antrenman günü', 'Разовая: появится только в этот день, план недели не меняется': 'Tek seferlik: sadece bu gün görünür, haftalık plan değişmez', 'Из твоего плана': 'Planından', 'Или': 'Ya da', 'Повторить последнюю': 'Sonuncuyu tekrarla', 'Собрать свою': 'Kendin oluştur', 'выбрать упражнения': 'egzersiz seç', 'Перенести тренировку': 'Antrenmanı taşı', 'Выбери новый день': 'Yeni bir gün seç', 'в этот день уже есть тренировка: перенос её заменит': 'o gün zaten antrenman var: taşımak onu değiştirir', 'разово': 'tek seferlik', 'Добавь хотя бы одно упражнение': 'En az bir egzersiz ekle', 'Тренировка добавлена на этот день': 'Antrenman bu güne eklendi', 'Убрано с этого дня': 'Bu günden kaldırıldı', 'Этот день теперь выходной': 'Bu gün artık izin günü', 'Тренировка вернулась': 'Antrenman geri geldi', 'Перенесено:': 'Taşındı:', 'Трапеции': 'Trapez', 'Поясница': 'Bel', 'Предплечья': 'Ön kol', 'Косые мышцы': 'Oblikler', 'Приводящие': 'Adduktorlar', 'Торс': 'Gövde', 'Руки': 'Kollar', 'Кор': 'Core', 'Ноги': 'Bacaklar', 'Нагрузка на мышцы': 'Kas yükü', 'Сейчас': 'Şimdi', 'Как мышцы нагружены прямо сейчас. Свежие тренировки ярче, за {0}–{1} дня мышцы остывают.': 'Kasların şu anda ne kadar yüklü. Yeni antrenmanlar daha parlak görünür, {0}–{1} günde soğur.', 'Подходы в неделю на каждую мышцу. Для роста обычно нужно {0}–{1}.': 'Her kas için haftalık set. Gelişim için genelde {0}–{1} gerekir.', 'свежие': 'dinç', 'нагружены': 'yüklü', 'оптимум для роста': 'gelişim bölgesi', 'подх. в неделю': 'set / hafta', 'нагрузка сейчас': 'şu anki yük', 'восстановится примерно через {0} ч': 'yaklaşık {0} saatte toparlanır', 'можно тренировать': 'antrenmana hazır', 'последний раз:': 'son kez:', 'сегодня': 'bugün', 'вчера': 'dün', '{0} дн. назад': '{0} g önce', 'не было': 'hiç', 'Добавь пару подходов в неделю, чтобы мышца росла': 'Gelişmesi için haftaya birkaç set ekle', 'Много: следи за восстановлением': 'Çok: toparlanmaya dikkat et', 'Мышца не работала за этот период': 'Bu dönemde çalışmadı', 'Не работала': 'Çalışmadı', 'Мало': 'Az', 'Поддержка': 'Koruma', 'Оптимум': 'Optimal', 'Много': 'Çok', 'Свежая': 'Dinç', 'Почти свежая': 'Neredeyse dinç', 'Нагружена': 'Yüklü', 'Сильно нагружена': 'Çok yüklü', 'Нагружены': 'Yüklü', 'ничего серьёзного': 'ciddi bir şey yok', 'Готовы к тренировке': 'Antrenmana hazır', 'В работе': 'Çalışan', 'Больше всего': 'En çok', 'Не работали': 'Çalışmayan', 'Нажми на мышцу, чтобы увидеть подробности': 'Ayrıntılar için bir kasa dokun', 'зона {0}–{1} подходов в неделю': 'haftada {0}–{1} set bölgesi', 'Опережаешь': 'Öndesin', 'По графику': 'Planlandığı gibi', 'Отстаёшь': 'Geride', 'ещё +{0} kg': '+{0} kg kaldı', 'ещё +{0} lbs': '+{0} lbs kaldı', 'В процессе': 'Devam eden', 'Выполнено': 'Tamamlanan', 'Средний прогресс': 'Ort. ilerleme', 'Все цели': 'Tüm hedefler', 'Продлить на {0} недели': '{0} hafta uzat', 'Цель продлена на {0} недели': 'Hedef {0} hafta uzatıldı', '{0}% пути к цели': 'yolun %{0} kadarı', 'почти у цели!': 'neredeyse tamam!', 'Этап цели': 'Hedef aşaması', 'Дальше:': 'Sıradaki:', 'через {0} тренировку': '{0} antrenman sonra', 'через {0} тренировки': '{0} antrenman sonra', 'через {0} тренировок': '{0} antrenman sonra', 'Продолжить с Apple': 'Apple ile devam et', 'Вход через Apple и Google работает только с интернетом': 'Apple ve Google ile giriş internet gerektirir', 'Б {0}': 'P {0}', 'У {0}': 'K {0}', 'Ж {0}': 'Y {0}', 'Б {0} · У {1} · Ж {2}': 'P {0} · K {1} · Y {2}', 'Б': 'P', 'У': 'K', 'Ж': 'Y', 'Б, г': 'P, g', 'У, г': 'K, g', 'Ж, г': 'Y, g', 'из {0} ккал': '{0} kcal içinden', 'цель {0}': 'hedef {0}', 'осталось': 'kaldı', 'съедено': 'yenildi', '{0} из {1} г': '{1} g içinden {0}', '/{0} г': '/{0} g', 'Откуда калории': 'Makrolara göre kalori', 'факт · цель': 'gerçek · hedef', 'Единицы измерения': 'Ölçü birimleri', 'Вес, lbs': 'Ağırlık, lbs', 'Вес, kg': 'Ağırlık, kg', 'Рост, ft/in': 'Boy, ft/in', 'Рост, см': 'Boy, cm', 'Проверь вес': 'Kilonu kontrol et', 'Проверь рост': 'Boyunu kontrol et' }
 };
+// v74: переводы новых строк (вызовы на дуэль, канат, клановая битва, рейд, рекомендации)
+Object.assign(MT.FORCE.en, {"Рейд": "Raid", "Закрой день первым — контратака": "Finish the day first — counterattack", "Следующая тренировка — серия +{0}": "Next workout — streak +{0}", "Финал: сегодня всё ×{0}": "Final: everything ×{0} today", "Тянуть ещё": "Pull more", "Тянуть канат": "Pull the rope", "Фото или видео до {0} с · увидят друзья и соперник": "Photo or video up to {0} s · friends and your rival will see it", "Фото или видео до {0} с · увидят друзья": "Photo or video up to {0} s · friends will see it", "Фото или видео": "Photo or video", "Открыть дуэль": "Open duel", "ВЫЗОВ ОТПРАВЛЕН": "CHALLENGE SENT", "В ожидании ответа": "Waiting for a reply", "Дуэль начнётся, когда соперник примет вызов. На ответ — {0} часов.": "The duel starts when your rival accepts. They have {0} hours to reply.", "Отозвать вызов": "Withdraw challenge", "ВЫЗОВ НА ДУЭЛЬ": "DUEL CHALLENGE", "{0} дней, счёт с момента принятия": "{0} days, scored from acceptance", "Отклонить": "Decline", "Принять": "Accept", "Принять можно, когда закончится текущая дуэль": "You can accept once your current duel ends", "Тренировки тянут канат на себя. Дотяни до края или будь впереди в конце недели.": "Workouts pull the rope your way. Reach the edge or be ahead at the end of the week.", "Случайный": "Random", "против": "vs", "Железный Титан": "Iron Titan", "Каменный Титан": "Stone Titan", "Ледяной Титан": "Ice Titan", "Обсидиановый Титан": "Obsidian Titan", "Последний удар:": "Last hit:", "Журнал рейда": "Raid log", "удары и криты": "hits and crits", "тренировка": "workout", "крит ×{0}": "crit ×{0}", "крит": "crit", "Правила рейда": "Raid rules", "Награда — только если Титан добит до воскресенья {0}:{1}.": "Reward only if the Titan is beaten by Sunday {0}:{1}.", "Каждому нужно {0}+ тренировки.": "Everyone needs {0}+ workouts.", "Один человек снимает не больше {0}% здоровья.": "One person can take at most {0}% of the health.", "Новый рекорд — крит ×{0}.": "A new record is a ×{0} crit.", "Подходы с подозрением на ошибку не засчитываются.": "Sets flagged as possible mistakes don't count.", "Как бить Титана": "How to beat the Titan", "Пока никто не ударил. Первая тренировка — первый урон.": "No hits yet. First workout, first damage.", "Рекорд — крит ×{0}": "Record — ×{0} crit", "Новый личный рекорд бьёт втрое сильнее. Все удары и криты видны в журнале рейда.": "A new personal record hits three times harder. Every hit and crit shows up in the raid log.", "Один или с друзьями": "Solo or with friends", "Титан под вашу силу": "A Titan sized to your strength", "Награда только за победу": "Reward only for a win", "БИТВА КЛАНОВ": "CLAN BATTLE", "БИТВА КЛАНОВ · СЛУЧАЙНАЯ": "CLAN BATTLE · RANDOM", "БИТВА КЛАНОВ · ПО ВЫЗОВУ": "CLAN BATTLE · CHALLENGE", "в деле": "active", "Мы впереди": "We're ahead", "Соперник впереди": "Rival is ahead", "Пока поровну": "Tied so far", "Каждая твоя тренировка — очки клану.": "Every workout of yours scores for the clan.", "Соперник на эту неделю ещё не выбран": "No opponent chosen for this week yet", "Другой клан": "Another clan", "Вызов другому клану бросает лидер или заместитель.": "Only the leader or a deputy can challenge another clan.", "Тренировка": "Workout", "Открыть клан": "Open clan", "Рекомендации для тебя": "Suggested for you", "Все": "All", "Отправлено": "Requested", "{0} кубков": "{0} trophies", "{0} кубка": "{0} trophies", "{0} кубок": "{0} trophy", "в твоём клане": "in your clan", "на твоей арене": "in your arena", "Как тянуть канат": "How to pull the rope", "{0} шагов до края — досрочная победа": "{0} steps to the edge — early win", "Ход дуэли": "Duel log", "+{0} шаг": "+{0} step", "+{0} шага": "+{0} steps", "Рекорд = крит": "PR = crit", "Серия": "Streak", "каждая {0}-я трен. +{1}": "every {0}rd workout +{1}", "Мощная": "Power", "сила +{0}% → +½": "strength +{0}% → +½", "Контратака": "Counterattack", "первым — ему −{0}%": "first — his −{0}%", "Финал": "Final", "{0}-й день ×{1}": "day {0} ×{1}", "Щит": "Shield", "отдых — до −{0}%": "rest day — up to −{0}%", "серия: {0}-я тренировка, +{1} шаг": "streak: workout #{0}, +{1} step", "мощная тренировка, +½ шага": "power workout, +½ step", "Финальный рывок: шаги дня ×{0}": "Final push: day's steps ×{0}", "Ты закрыл день раньше: его рывок −{0}%": "You finished the day first: his pull −{0}%", "закрыл день раньше: твой рывок −{0}%": "finished the day first: your pull −{0}%", "{0} из {1} ч": "{0} of {1} h", "Изменить": "Edit", "Норма воды: щит +{0}%": "Water goal: shield +{0}%", "Разминка засчитана: щит +{0}%": "Warm-up counted: shield +{0}%", "Вызов отправлен. Ждём ответа:": "Challenge sent. Waiting for:", "Дуэль началась:": "Duel started:", "Вызов принят, дуэль началась:": "Challenge accepted, the duel is on:", "Вызов принят: дуэль началась": "Challenge accepted: the duel is on", "Отозвать вызов?": "Withdraw the challenge?", "Отозвать": "Withdraw", "Кого вызвать?": "Who do you challenge?", "Друг получит вызов и решит, принять ли его. Дуэль начнётся с момента принятия.": "Your friend gets the challenge and decides whether to accept. The duel starts once accepted.", "Вызвать": "Challenge", "Началась дуэль с": "Duel started with", "вызывает тебя на дуэль": "challenges you to a duel", "У тебя уже идёт дуэль": "You already have a duel going", "Ты уже ждёшь ответа на вызов": "You're already waiting for a reply to a challenge", "Сначала закончи текущую дуэль": "Finish your current duel first", "Вызов уже недоступен": "This challenge is no longer available", "Нет связи с сервером": "No connection to the server", "С этим игроком уже есть дуэль или вызов": "You already have a duel or challenge with this player", "Игрок сейчас не принимает вызовы": "This player isn't accepting challenges right now", "Не больше {0} вызовов в неделю": "No more than {0} challenges per week", "Вызов устарел": "This challenge has expired", "У одного из вас уже идёт дуэль": "One of you already has a duel going"});
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -3299,6 +3414,9 @@ const Calc = {
     const o = { w: S.game.countedWorkoutDays.includes(day) ? 1 : 0, p: S.lifts.filter(l => l.isPR && l.paid !== false && !l.flagged && l.date === day).length };
     // v72: для боёв — урон дня в очках силы (rp), заряд щита (sh) и время, когда тренировка засчитана (t, минуты от полуночи)
     const dp = Calc.dayPower(day); if (dp.pts) o.rp = dp.pts;
+    // v74: «мощная тренировка» — сила дня на 10%+ выше обычной (нужно 3+ тренировки за 6 недель, чтобы было с чем сравнить)
+    if (o.w && dp.pts) { const tp = Calc.typicalPowerN(day); if (tp.n >= 3 && dp.pts >= tp.v * 1.1) o.b = 1; }
+    if (o.p) o.pe = [...new Set(S.lifts.filter(l => l.isPR && l.paid !== false && !l.flagged && l.date === day).map(l => l.exerciseName))].slice(0, 3); // для журнала рейда у друзей
     const sh = Calc.shieldOn(day); if (sh) o.sh = sh;
     const t = (S.game.workoutAt || {})[day]; if (t != null) o.t = t;
     return o;
@@ -3322,6 +3440,7 @@ const Calc = {
     return (c[day] = { k: key, pts: Math.round(pts), crit, bw });
   },
   // обычная тренировка игрока в очках силы (медиана за 6 недель) — от неё считается здоровье Титана
+  typicalPowerN(day = U.today()) { const xs = S.game.countedWorkoutDays.filter(d => d < day && d >= U.addDays(day, -42)).map(d => Calc.dayPower(d).pts).filter(x => x > 0).sort((a, b) => a - b); return { n: xs.length, v: xs.length ? xs[Math.floor(xs.length / 2)] : 0 }; },
   typicalPower() { const xs = S.game.countedWorkoutDays.filter(d => d >= U.addDays(U.today(), -42)).map(d => Calc.dayPower(d).pts).filter(x => x > 0).sort((a, b) => a - b); return xs.length ? Math.max(150, xs[Math.floor(xs.length / 2)]) : 250; },
   // v72: энергетический щит — вода, сон, активность (шаги, прогулка) и разминка по 25%
   shieldParts(day = U.today()) {
@@ -4223,8 +4342,40 @@ const Rest = {
   },
   el() {
     let el = document.getElementById('rest-pill');
-    if (!el) { el = document.createElement('div'); el.id = 'rest-pill'; el.innerHTML = `<svg class="rp-ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" class="bg"/><circle cx="18" cy="18" r="15" class="fg"/></svg><span class="rp-l"><small>Отдых</small><b class="num" data-no-mt></b></span><button data-action="rest-add" data-v="-15" data-no-mt>−15</button><button data-action="rest-add" data-v="15" data-no-mt>+15</button><button data-action="rest-skip" aria-label="Пропустить отдых"><svg class="ic"><use href="#fa-xmark"/></svg></button>`; document.body.appendChild(el); }
+    if (!el) { el = document.createElement('div'); el.id = 'rest-pill'; el.innerHTML = `<svg class="rp-ring" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" class="bg"/><circle cx="18" cy="18" r="15" class="fg"/></svg><span class="rp-l"><small>Отдых</small><b class="num" data-no-mt></b></span><button data-action="rest-add" data-v="-15" data-no-mt>−15</button><button data-action="rest-add" data-v="15" data-no-mt>+15</button><button data-action="rest-skip" aria-label="Пропустить отдых"><svg class="ic"><use href="#fa-xmark"/></svg></button><button class="rp-min" data-action="rest-min" aria-label="Свернуть в кружок"><svg class="ic"><use href="#fa-compress"/></svg></button>`; document.body.appendChild(el);
+      el.classList.toggle('mini', !!S.profile.restMini); this.drag(el); this.applyPos(el); }
     return el;
+  },
+  // v74: таймер сворачивается в кружок и перетаскивается по экрану; кружок прилипает к ближнему краю, место запоминается
+  setMini(v) { S.profile.restMini = !!v; save(); const el = document.getElementById('rest-pill'); if (!el) return; el.classList.toggle('mini', !!v); this.applyPos(el, true); },
+  place(el, x, y, anim) {
+    const w = el.offsetWidth, h = el.offsetHeight, top = 6 + (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sat')) || 0);
+    x = U.clamp(x, 6, Math.max(6, innerWidth - w - 6)); y = U.clamp(y, top, Math.max(top, innerHeight - h - 84));
+    el.classList.toggle('glide', !!anim); el.classList.add('moved'); el.style.left = x + 'px'; el.style.top = y + 'px'; return { x, y };
+  },
+  applyPos(el, anim) {
+    const p = (S.profile.restPos || {})[S.profile.restMini ? 'm' : 'e'];
+    if (p) return this.place(el, p.x, p.y, anim);
+    if (S.profile.restMini) return this.place(el, innerWidth - 76, Math.round(innerHeight * 0.22), anim);
+    el.classList.remove('moved', 'glide'); el.style.left = ''; el.style.top = '';
+  },
+  drag(el) {
+    let id = null, sx = 0, sy = 0, ox = 0, oy = 0, moved = false;
+    el.addEventListener('pointerdown', e => { if (e.button > 0 || (!S.profile.restMini && e.target.closest('button'))) return; id = e.pointerId; const r = el.getBoundingClientRect(); sx = e.clientX; sy = e.clientY; ox = r.left; oy = r.top; moved = false; });
+    el.addEventListener('pointermove', e => {
+      if (id !== e.pointerId) return; const dx = e.clientX - sx, dy = e.clientY - sy;
+      if (!moved) { if (Math.hypot(dx, dy) < 6) return; moved = true; try { el.setPointerCapture(id); } catch (_) {} el.classList.add('drag'); }
+      e.preventDefault(); this.place(el, ox + dx, oy + dy);
+    });
+    const up = e => {
+      if (id !== e.pointerId) return; id = null; el.classList.remove('drag');
+      if (!moved) { if (S.profile.restMini && e.type === 'pointerup') { this._noClick = Date.now(); this.setMini(false); } return; }
+      this._noClick = Date.now(); const r = el.getBoundingClientRect(), mini = !!S.profile.restMini;
+      const x = mini ? (r.left + r.width / 2 < innerWidth / 2 ? 10 : innerWidth - r.width - 10) : r.left, p = this.place(el, x, r.top, mini);
+      const all = S.profile.restPos || (S.profile.restPos = {}); all[mini ? 'm' : 'e'] = p; save();
+    };
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('click', e => { if (Date.now() - (this._noClick || 0) < 450) { e.stopPropagation(); e.preventDefault(); } }, true);
   },
   render() {
     clearTimeout(this._hide); const el = this.el(), l = this.left(); el.classList.remove('done');
@@ -5084,7 +5235,10 @@ const ClanService = {
         if (r.status === 'pending' && r.to_id === Net.uid && Net.d.byId[r.from_id]) out.push({ kind: 'req', key: 'req:' + r.id, id: r.id, uid: r.from_id, ts: new Date(r.created_at).getTime() });
         if (r.status === 'accepted' && r.from_id === Net.uid && Net.d.byId[r.to_id]) out.push({ kind: 'acc', key: 'acc:' + r.to_id, uid: r.to_id, ts: new Date(r.updated_at || r.created_at).getTime() });
       });
-      (Net.d.duels || []).forEach(d => { if (d.b_id === Net.uid && d.status === 'active' && Net.d.byId[d.a_id]) out.push({ kind: 'duel', key: 'duel:' + (d.id || d.a_id), uid: d.a_id, ts: new Date(d.created_at).getTime() }); });
+      // v74: входящий вызов — с кнопками «Принять» и «Отклонить»; начавшаяся дуэль — отдельной строкой
+      (Net.d.duels || []).forEach(d => { const ts = new Date(d.created_at).getTime(), oid = d.a_id === Net.uid ? d.b_id : d.a_id;
+        if (d.status === 'pending' && d.b_id === Net.uid && Net.d.byId[d.a_id] && Date.now() - ts < this.REQ_TTL) out.push({ kind: 'duelreq', key: 'dreq:' + d.id, id: d.id, uid: d.a_id, ts });
+        else if (d.status === 'active' && Net.d.byId[oid] && Date.now() - ts < 7 * 864e5) out.push({ kind: 'duel', key: 'duel:' + d.id, uid: oid, ts }); });
     }
     // v61: в колокольчике только то, что касается самого пользователя; рекорды друзей и подписок остаются в ленте
     (S.modNotes || []).forEach(m => out.push({ kind: 'mod', key: 'mod:' + m.ts, text: m.text, ok: m.ok, ts: m.ts }));
@@ -5240,11 +5394,52 @@ const ClanService = {
   /* --- дуэли 1 на 1 --- */
   async startDuel(opponentId = null) {
     if (!opponentId && S.battleOpen === false) return { error: 'Сначала включи «Участвую в случайных боях»' };
-    if (this.online()) { try { await Net.startDuel(opponentId); await Net.refresh(true); return S.duel; } catch (e) { return { error: e.message }; } }
+    if (S.duel) return { error: 'У тебя уже идёт дуэль' };
+    if (this.duelReqs().out.length) return { error: 'Ты уже ждёшь ответа на вызов' };
+    if (this.online()) {
+      try { const row = await Net.startDuel(opponentId); await Net.refresh(true); if (S.duel) return S.duel; // сервер без v74 — дуэль начинается сразу
+        return { pending: true, nick: (Net.d.byId[row.b_id] || {}).nick || '?' }; } catch (e) { return { error: e.message }; }
+    }
     const pool = this.allPlayers().filter(p => Math.abs(p.arenaIdx - S.game.arenaIdx) <= 1);
     const opp = opponentId ? this.allPlayers().find(p => p.id === opponentId) : U.pick(pool.length ? pool : this.allPlayers());
     if (!opp) return null;
-    S.duel = { opponentId: opp.id, nick: opp.nick, weekKey: U.today(), startedAt: Date.now() }; save(); return S.duel;
+    // v74: вызов ждёт ответа соперника
+    const at = 10000 + Math.round(Math.random() * 20000);
+    S.duelReq = { opponentId: opp.id, nick: opp.nick, ts: Date.now(), at }; save();
+    setTimeout(() => { if (this.simReq()) { UI.flushEvents(); UI.renderClans(); if (UI._page) UI.renderPage(); } }, at + 300);
+    return { pending: true, nick: opp.nick };
+  },
+  // v74: вызовы на дуэль: исходящие ждут ответа, входящие можно принять или отклонить (48 ч на ответ)
+  REQ_TTL: 48 * 3600e3,
+  duelReqs() {
+    const fresh = ts => Date.now() - ts < this.REQ_TTL;
+    if (this.online()) {
+      const out = [], inc = [];
+      (Net.d.duels || []).forEach(x => { if (x.status !== 'pending') return; const ts = new Date(x.created_at).getTime(); if (!fresh(ts)) return;
+        if (x.a_id === Net.uid && Net.d.byId[x.b_id]) out.push({ id: x.id, uid: x.b_id, nick: Net.d.byId[x.b_id].nick, ts });
+        else if (x.b_id === Net.uid && Net.d.byId[x.a_id]) inc.push({ id: x.id, uid: x.a_id, nick: Net.d.byId[x.a_id].nick, ts }); });
+      return { out, inc };
+    }
+    this.simReq(); const r = S.duelReq;
+    return { out: r && fresh(r.ts) ? [{ id: 'local', uid: r.opponentId, nick: r.nick, ts: r.ts }] : [], inc: [] };
+  },
+  // без сервера соперник-бот отвечает сам через 10–30 секунд
+  simReq() {
+    const r = S.duelReq; if (!r || this.online()) return false;
+    if (S.duel) { S.duelReq = null; save(); return false; }
+    if (Date.now() - r.ts < r.at) return false;
+    S.duelReq = null; S.duel = { opponentId: r.opponentId, nick: r.nick, weekKey: U.today(), startedAt: Date.now() }; save();
+    Game.events.push({ type: 'toast', data: { msg: `Вызов принят, дуэль началась: <b data-no-mt>${U.esc(r.nick)}</b>`, cls: 'or' } }); return true;
+  },
+  async acceptDuel(id) {
+    if (S.duel) return { error: 'Сначала закончи текущую дуэль' };
+    if (!this.online()) return { error: 'Нет связи с сервером' };
+    try { await Net.acceptDuel(id); await Net.refresh(true); return S.duel || { error: 'Вызов уже недоступен' }; } catch (e) { return { error: e.message }; }
+  },
+  async declineDuel(id) { if (!this.online()) return; try { await Net.declineDuel(id); } catch (_) {} await Net.refresh(true); },
+  async cancelReq(id) {
+    if (!this.online() || id === 'local') { S.duelReq = null; save(); return; }
+    try { await Net.cancelDuel(id); } catch (_) {} await Net.refresh(true);
   },
   async cancelDuel() { const r = this.duel(); if (r) this.histPush(r, 'gave'); if (this.online() && S.duel && S.duel.id) { try { await Net.cancelDuel(S.duel.id); } catch (_) {} } S.duel = null; save(); if (this.online()) Net.refresh(true); },
   /* v41: поиск соперника — очередь, пока кто-то ещё не нажмёт «Найти» */
@@ -5706,36 +5901,53 @@ const Fight = {
   oppDay(opp, d, start) {
     if (ClanService.online()) { const p = Net.d.byId && Net.d.byId[opp.id]; return (p && p.raw && p.raw.days && p.raw.days[d]) || {}; }
     const r = ClanService._seed((opp.seed || 7) * 31 + U.daysBetween(start, d) * 7 + 3), w = r() < 0.45 + (opp.arenaIdx || 0) * 0.04 ? 1 : 0;
-    return { w, p: w && r() < 0.18 ? 1 : 0, t: 420 + Math.round(r() * 840), sh: r() < 0.5 ? 50 : 0 };
+    return { w, p: w && r() < 0.18 ? 1 : 0, b: w && r() < 0.3 ? 1 : 0, t: 420 + Math.round(r() * 840), sh: r() < 0.5 ? 50 : 0 };
   },
   pts(x) { return (x.w ? 10 : 0) + (x.p ? 20 : 0); }, // тренировка — шаг, рекорд — крит (+2 шага)
+  // v74: больше способов тянуть: серия (каждая 3-я тренировка +1 шаг), мощная тренировка (+½ шага),
+  // финальный рывок (в 7-й день всё ×1,5), контратака (закрыл день первым — соперник −30%), щит (день отдыха — до −50%)
+  KINDS: [
+    { k: 'set', c: '#FB923C', t: 'Тренировка', v: '+1 шаг' },
+    { k: 'crit', c: '#FACC15', t: 'Рекорд = крит', v: '+3 шага' },
+    { k: 'combo', c: '#F472B6', t: 'Серия', v: 'каждая 3-я трен. +1' },
+    { k: 'power', c: '#A3E635', t: 'Мощная', v: 'сила +10% → +½' },
+    { k: 'counter', c: '#22D3EE', t: 'Контратака', v: 'первым — ему −30%' },
+    { k: 'final', c: '#F87171', t: 'Финал', v: '7-й день ×1,5' },
+    { k: 'shield', c: '#2DD4BF', t: 'Щит', v: 'отдых — до −50%' },
+  ],
   rope(d) {
     if (!d || !d.opponent) return null;
     const start = d.weekKey, st = d.startedAt ? new Date(d.startedAt) : null, sMin = st ? st.getHours() * 60 + st.getMinutes() : 0;
-    let pos = 0, me = 0, them = 0, early = null; const days = [], log = [];
+    let pos = 0, me = 0, them = 0, early = null, na = 0, nb = 0; const days = [], log = [];
     for (let i = 0; i < 7; i++) {
       const day = U.addDays(start, i); if (day > U.today()) { days.push({ day, fut: true }); continue; }
       let a = Calc.dayStats(day), b = this.oppDay(d.opponent, day, start);
       if (i === 0) { if (!(a.t > sMin)) a = { sh: a.sh }; if (!(b.t > sMin)) b = { sh: b.sh }; } // счёт с нуля: в день вызова — только то, что после него
       let pa = this.pts(a), pb = this.pts(b); const ev = [];
+      if (a.w && ++na % 3 === 0) { pa += 10; ev.push({ who: 'me', k: 'combo', n: na }); }
+      if (b.w && ++nb % 3 === 0) { pb += 10; ev.push({ who: 'opp', k: 'combo', n: nb }); }
+      if (a.w && a.b) { pa += 5; ev.push({ who: 'me', k: 'power' }); }
+      if (b.w && b.b) { pb += 5; ev.push({ who: 'opp', k: 'power' }); }
+      if (i === 6 && (pa || pb)) { pa = Math.round(pa * 1.5); pb = Math.round(pb * 1.5); ev.push({ who: 'all', k: 'final' }); }
       if (pa && pb && a.t != null && b.t != null && a.t !== b.t) { if (a.t < b.t) { pb = Math.round(pb * 0.7); ev.push({ who: 'me', k: 'counter' }); } else { pa = Math.round(pa * 0.7); ev.push({ who: 'opp', k: 'counter' }); } }
-      if (!a.w && pb && a.sh) { const cut = Math.round(pb * a.sh / 200); pb -= cut; ev.push({ who: 'me', k: 'shield', v: cut }); }
-      if (!b.w && pa && b.sh) { const cut = Math.round(pa * b.sh / 200); pa -= cut; ev.push({ who: 'opp', k: 'shield', v: cut }); }
+      // щит гасит рывок соперника в твой день отдыха (заряд — то, что накопил за этот день)
+      if (!a.w && pb && a.sh) { const cut = Math.round(pb * Math.min(100, a.sh) / 200); if (cut > 0) { pb -= cut; ev.push({ who: 'me', k: 'shield', v: cut }); } }
+      if (!b.w && pa && b.sh) { const cut = Math.round(pa * Math.min(100, b.sh) / 200); if (cut > 0) { pa -= cut; ev.push({ who: 'opp', k: 'shield', v: cut }); } }
       if (!early) { me += pa; them += pb; pos = U.clamp(pos + pa - pb, -this.EDGE, this.EDGE); if (Math.abs(pos) >= this.EDGE) early = { day, me: pos > 0 }; }
       if (pa) log.push({ day, who: 'me', k: a.p ? 'crit' : 'set', v: pa });
       if (pb) log.push({ day, who: 'opp', k: b.p ? 'crit' : 'set', v: pb });
       ev.forEach(e => log.push({ day, ...e }));
       days.push({ day, a: pa, b: pb, win: pa > pb ? 'me' : pb > pa ? 'opp' : '' });
     }
-    const td = U.today(), ta = Calc.dayStats(td), tb = this.oppDay(d.opponent, td, start);
-    return { pos, steps: Math.round(pos / this.STEP), me, them, days, log: log.reverse(), early, counter: !!(ta.w && !tb.w), oppCounter: !!(tb.w && !ta.w) };
+    const td = U.today(), ta = Calc.dayStats(td), tb = this.oppDay(d.opponent, td, start), di = U.daysBetween(start, td);
+    return { pos, steps: Math.round(pos / this.STEP), me, them, days, log: log.reverse(), early, counter: !!(ta.w && !tb.w), oppCounter: !!(tb.w && !ta.w), na, nb, nextCombo: 3 - (na % 3), final: di === 6, dayIdx: U.clamp(di, 0, 6) };
   },
   // подсказка для крита: побей рекорд в своём главном упражнении
   critHint() { const ex = (Calc.top3 && Calc.top3()[0]) || null, b = ex ? Calc.bestLift(ex) : null; if (!b || !(+b.weight > 0)) return null; return { ex, name: (Calc.topLiftInfo(ex) || {}).name || U.exRu(ex), w: +b.weight + 2.5, reps: b.reps || 1 }; },
 };
 const Raid = {
   // Титан недели — простая 3D-фигура, которая трескается по мере урона
-  BOSSES: [{ n: 'Железный куб', a: '#C7CCD6', b: '#4B5563', g: '#F97316' }, { n: 'Каменный куб', a: '#D6D3D1', b: '#57534E', g: '#FACC15' }, { n: 'Ледяной куб', a: '#E0F2FE', b: '#0369A1', g: '#22D3EE' }, { n: 'Обсидиановый куб', a: '#A78BFA', b: '#1E1B4B', g: '#F472B6' }],
+  BOSSES: [{ n: 'Железный Титан', a: '#C7CCD6', b: '#4B5563', g: '#F97316' }, { n: 'Каменный Титан', a: '#D6D3D1', b: '#57534E', g: '#FACC15' }, { n: 'Ледяной Титан', a: '#E0F2FE', b: '#0369A1', g: '#22D3EE' }, { n: 'Обсидиановый Титан', a: '#A78BFA', b: '#1E1B4B', g: '#F472B6' }],
   REWARD: [0, 300, 270, 240, 225], TROPHIES: 30, NEED: 2, MAX: 4,
   list: [], at: 0, missing: false,
   week() { return U.weekKey(); },
@@ -5753,6 +5965,14 @@ const Raid = {
     const mem = r.members.map(m => { let raw = 0, w = 0, td = 0; for (let d = m.from || r.week; d <= today && d <= end; d = U.addDays(d, 1)) { const x = this.dayOf(m.id, d); raw += +x.rp || 0; w += x.w ? 1 : 0; if (d === today) td = +x.rp || 0; } return { ...m, raw, dmg: Math.min(raw, cap), capped: raw > cap, w, ok: w >= this.NEED, today: td, me: this.isMe(m.id) }; });
     const dealt = Math.min(hp, mem.reduce((a, m) => a + m.dmg, 0)), left = Math.max(0, hp - dealt);
     return { r, n, hp, dealt, left, dead: hp > 0 && left <= 0, pct: hp ? dealt / hp : 0, mem, me: mem.find(m => m.me), cap, reward: this.REWARD[Math.min(n, 4)] || 225, endsAt: U.parseDay(U.addDays(r.week, 7)).getTime(), over: today > end, next: Calc.typicalPower(), boss: this.boss(r.week) };
+  },
+  // v74: история рейда по дням: урон, криты (рекорды ×3) и упражнения с рекордом
+  history(st = this.state()) {
+    if (!st) return []; const out = [], today = U.today(), end = U.addDays(st.r.week, 6);
+    st.r.members.forEach(m => { for (let d = m.from || st.r.week; d <= today && d <= end; d = U.addDays(d, 1)) { const x = this.dayOf(m.id, d), dmg = +x.rp || 0; if (!dmg) continue;
+      const ex = this.isMe(m.id) ? [...new Set(S.lifts.filter(l => l.date === d && l.isPR && l.paid !== false && !l.flagged).map(l => l.exerciseName))] : (Array.isArray(x.pe) ? x.pe : []);
+      out.push({ day: d, id: m.id, dmg, crit: +x.p || 0, ex: ex.slice(0, 3) }); } });
+    return out.sort((a, b) => a.day < b.day ? 1 : a.day > b.day ? -1 : b.dmg - a.dmg);
   },
   stage(pct) { return pct >= 1 ? 5 : pct >= .75 ? 4 : pct >= .5 ? 3 : pct >= .25 ? 2 : pct > .03 ? 1 : 0; },
   badSchema(e) { return /raids|raid_join|raid_leave|does not exist|schema cache|PGRST20/i.test(((e && e.message) || '') + ' ' + ((e && e.code) || '')); },
@@ -6247,9 +6467,16 @@ const Net = {
   async setBattle(clanId, battle) { const { error } = await this.client.from('clans').update({ battle: battle ? { week_key: battle.weekKey, opponent_id: battle.opponentId, challenged: !!battle.challenged } : null }).eq('id', clanId); if (error) throw new Error(this.err(error)); },
   async startDuel(opponentId) {
     if (!opponentId) { const rows = await this.rpc('random_opponent', { p_arena: S.game.arenaIdx, p_week: U.today() }); const r = Array.isArray(rows) ? rows[0] : rows; if (!r || r.battle_open === false) throw new Error('Сейчас нет игроков, готовых к случайному бою. Вызови друга!'); opponentId = r.id; }
-    const { error } = await this.client.from('duels').insert({ week_key: U.today(), a_id: this.uid, b_id: opponentId }); if (error) throw new Error(this.err(error));
-    return opponentId;
+    // v74: прямой вызов приходит сопернику запросом (status = pending), дуэль начнётся, когда он примет
+    const { data, error } = await this.client.from('duels').insert({ week_key: U.today(), a_id: this.uid, b_id: opponentId }).select().single(); if (error) throw new Error(this.err(error));
+    return data || { b_id: opponentId, status: 'active' };
   },
+  async acceptDuel(id) {
+    try { return await this.rpc('duel_accept', { p_duel: id }); }
+    catch (e) { if (!/duel_accept|function|schema cache/i.test(e.message || '')) throw e; }
+    const { error } = await this.client.from('duels').update({ status: 'active' }).eq('id', id); if (error) throw new Error(this.err(error));
+  },
+  async declineDuel(id) { const { error } = await this.client.from('duels').update({ status: 'declined' }).eq('id', id); if (error) throw new Error(this.err(error)); },
   async setClanFields(clanId, fields) { const { error } = await this.client.from('clans').update(fields).eq('id', clanId); if (error) throw new Error(/battle_open|description/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v19.sql в Supabase' : /theme|photo|capacity/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v20.sql в Supabase' : /about|showcases/.test(error.message || '') ? 'Сервер не обновлён: запусти update_v21.sql в Supabase' : this.err(error)); },
   async cancelDuel(id) { await this.client.from('duels').update({ status: 'cancelled' }).eq('id', id); },
   postFeed(lift) { this.client.from('feed').insert({ user_id: this.uid, ex: lift.exerciseName, weight: lift.weight, reps: lift.reps || 1 }).then(() => {}, () => {}); }, // v52: постом рекорд становится только по согласию (окно рекорда)
@@ -6505,7 +6732,7 @@ const UI = {
   },
   closeModal() {
     this.closeDD(); this._authOpen = false; this._shopOpen = false; this._wzOpen = false; this._introOpen = false; this._obOpen = false; this._rulesGate = false;
-    this._composer = false; this._cmOpen = false; this._clanShop = false; this._clanSet = false; this._clanModal = null; this._nutModal = null; this._wModal = null; this._wtModal = null; this._slModal = null; this._setModal = null; this._hCal = null; this._aifOpen = false; this._actOpen = false; this._dishOpen = false;
+    this._composer = false; this._shOpen = false; this._cmOpen = false; this._clanShop = false; this._clanSet = false; this._clanModal = null; this._nutModal = null; this._wModal = null; this._wtModal = null; this._slModal = null; this._setModal = null; this._hCal = null; this._aifOpen = false; this._actOpen = false; this._dishOpen = false;
     const m = this.$('#modal'); if (m) m.remove(); document.body.classList.remove('modal-on');
     if (!this._suppressReopen && (this._inWorkout || this._summaryOpen)) { this._inWorkout = false; this._summaryOpen = false; setTimeout(() => this.releaseHeld(), 120); }
     // вернуть модалку тренировки после анимаций PR/арены
@@ -7348,16 +7575,13 @@ const UI = {
   /* ---- вызовы: дуэль со случайным игроком и вызов клану ---- */
   challengesCard() {
     const d = ClanService.duel(), clan = S.clan;
-    let duelHtml;
-    if (d) {
-      const pct = d.myScore + d.oppScore > 0 ? d.myScore / (d.myScore + d.oppScore) * 100 : 50, ar = Calc.arena(d.opponent.arenaIdx);
-      duelHtml = `
-        <div class="flex items-center justify-between text-sm font-bold"><span class="flex items-center gap-2">${this.av({ photo: S.profile.avatar.photo, sex: S.profile.sex }, 28)}${U.esc(S.profile.nickname)}</span><span class="muted text-xs">vs</span><span class="flex items-center gap-2">${this.nick(d.opponent.id, d.opponent.nick)} ${this.av(ClanService.player(d.opponent.id) || d.opponent, 28)}</span></div>
-        <div class="flex items-center justify-between num text-2xl font-black mt-1"><span class="text-em">${d.myScore}</span><span class="text-or">${d.oppScore}</span></div>
-        <div class="bar mt-2" style="background:#F9731644"><div style="width:${pct}%;background:linear-gradient(90deg,#10B981,#3B82F6)"></div></div>
-        <div class="flex justify-between text-[11px] muted mt-1"><span>${d.myScore >= d.oppScore ? 'ты ведёшь' : 'соперник впереди'} · с <span data-no-mt>${U.fmtDate(d.weekKey)}</span></span><span data-countdown="${d.endsAt}">${U.fmtTime(d.endsAt - Date.now())}</span></div>
-        <div class="flex gap-2 mt-3"><button class="btn btn-ghost btn-sm flex-1" data-action="duel-cancel">Сдаться</button></div>`;
-    } else duelHtml = this.mmHtml();
+    // v74: шапка дуэли совмещена с канатом; вызовы ждут ответа соперника
+    const q = ClanService.duelReqs();
+    let duelHtml = q.inc.map(x => this.duelReqHtml(x, true)).join('');
+    if (d) duelHtml += `${this.duelHead(d)}${this.ropeHtml(d.rope)}${this.duelFoot(d)}
+        <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-or" data-action="open-page" data-kind="duel">Открыть дуэль</button><button class="btn btn-ghost" data-action="duel-cancel">Сдаться</button></div>`;
+    else if (q.out.length) duelHtml += this.duelWaitHtml(q.out[0], true);
+    else duelHtml += this.mmHtml();
     const cb = clan && clan.battle ? ClanService.battle() : null;
     const clanHtml = clan ? `<div class="border-t line mt-3 pt-3"><div class="text-sm font-bold mb-1"><svg class="ic text-pu"><use href="#fa-shield-halved"/></svg> Клановая битва</div>
         ${cb ? `<div class="text-xs muted mb-2">Сейчас: <b>${U.esc(clan.name)}</b> vs <b>${U.esc(cb.opponent.name)}</b>${clan.battle.challenged ? ' (по вызову)' : ' (случайный)'} · <span class="num">${cb.myScore} : ${cb.oppScore}</span> · <span data-countdown="${cb.endsAt}">${U.fmtTime(cb.endsAt - Date.now())}</span></div>` : '<div class="text-xs muted mb-2">Соперник на эту неделю ещё не выбран.</div>'}
@@ -7528,47 +7752,97 @@ const UI = {
   pAv(id, n) { return Raid.isMe(id) ? this.meAv(n) : this.av(ClanService.player(id) || { sex: 'm' }, n); },
   shIc: '<svg class="ic"><use href="#fa-shield-halved"/></svg>',
   shieldChip(cls = '') { return `<button class="sh-chip ${cls}" data-action="shield-open" aria-label="Энергетический щит">${this.shIc}<b class="num">${Calc.shieldOn()}%</b></button>`; },
-  // канат: узел смещается к лидеру, отыгранный участок подсвечен цветом лидера, по краям — зоны победы
+  // v74: канат — витая верёвка с ручками команд, красный узел с флажком, зоны победы по краям
   ropeHtml(r, big = false) {
-    const pos = r ? U.clamp(r.pos, -Fight.EDGE, Fight.EDGE) : 0, k = 50 - pos / Fight.EDGE * 50, lo = Math.min(k, 50), w = Math.abs(50 - k);
-    return `<div class="rope ${big ? 'big' : ''}"><i class="rp-end me"></i><div class="rp-in"><div class="rp-cord"></div>${w ? `<div class="rp-gain ${pos > 0 ? 'me' : 'op'}" style="left:${lo}%;width:${w}%"></div>` : ''}<i class="rp-mid"></i><b class="rp-knot" style="left:${k}%"></b>
-      ${big ? `<div class="rp-ticks">${Array.from({ length: 11 }, (_, i) => `<i class="${i === 0 ? 'me' : i === 10 ? 'op' : i === 5 ? 'mid' : ''}"></i>`).join('')}</div>` : ''}</div><i class="rp-end op"></i></div>
-      <div class="rp-lab"><span>твоя победа</span><span>центр</span><span>его победа</span></div>`;
+    const pos = r ? U.clamp(r.pos, -Fight.EDGE, Fight.EDGE) : 0, k = 50 - pos / Fight.EDGE * 50, lo = Math.min(k, 50), w = Math.abs(50 - k), side = pos > 0 ? 'me' : 'op';
+    const at = Math.round(k / 10), ticks = Array.from({ length: 11 }, (_, i) => `<i class="${i === 0 ? 'me' : i === 10 ? 'op' : i === 5 ? 'mid' : ''}${i === at ? ' at' : ''}"></i>`).join('');
+    return `<div class="rope2 ${big ? 'big' : ''} ${r && r.early ? 'won-' + (r.early.me ? 'me' : 'op') : ''}" role="img" aria-label="Канат">
+      <div class="r2-tr"><i class="r2-z me"></i><i class="r2-z op"></i><i class="r2-mid"></i>
+        <div class="r2-cord">${w ? `<i class="r2-pull ${side}" style="left:${lo}%;width:${w}%"></i>` : ''}</div><i class="r2-grip me"></i><i class="r2-grip op"></i>
+        <span class="r2-knot ${pos ? side : ''}" style="left:${k}%"><i class="r2-flag"></i><i class="r2-wrap"></i></span></div>
+      ${big ? `<div class="r2-ticks">${ticks}</div>` : ''}<div class="r2-lab"><span>твоя победа</span><span>центр</span><span>его победа</span></div></div>`;
   },
   ropeLead(r) { const st = r ? r.steps : 0; return st > 0 ? `+${st}` : st < 0 ? `−${-st}` : '0'; },
   ropeSub(r) { if (!r) return ''; if (r.early) return r.early.me ? 'победа досрочно обеспечена' : 'соперник дотянул канат до края'; const st = r.steps, left = 5 - Math.abs(st); return st > 0 ? `в твою сторону · до победы ${left}` : st < 0 ? `в его сторону · отыграй ${-st}` : 'канат по центру'; },
   wd(day) { return ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'][U.parseDay(day).getDay()]; },
+  duelDay(d) { return U.clamp(U.daysBetween(d.weekKey, U.today()) + 1, 1, 7); },
+  // шапка дуэли: ты и соперник, между вами — счёт в шагах каната
+  duelHead(d, sz = 46) {
+    const r = d.rope || {}, mine = (r.days || []).filter(x => x.a).length, his = (r.days || []).filter(x => x.b).length;
+    return `<div class="dh2"><span class="dh2-p">${this.meAv(sz)}<span><b data-no-mt>${U.esc(S.profile.nickname || 'Ты')}</b><small><span class="num">${mine}</span> трен.</small></span></span>
+      <span class="dh2-c"><b class="num ${r.pos < 0 ? 'neg' : r.pos > 0 ? 'pos' : ''}">${this.ropeLead(r)}</b><small class="num">ДЕНЬ ${this.duelDay(d)} / 7</small></span>
+      <span class="dh2-p r"><span><b data-no-mt>${U.esc(d.opponent.nick)}</b><small><span class="num">${his}</span> трен.</small></span>${this.av(ClanService.player(d.opponent.id) || d.opponent, sz)}</span></div>`;
+  },
+  duelFoot(d) { return `<div class="dh2-f"><span>${this.ropeSub(d.rope)}</span><span class="num" data-countdown="${d.endsAt}">${U.fmtTime(d.endsAt - Date.now())}</span></div>`; },
   duelChips(d) {
     const r = d.rope || {}, c = Fight.critHint(), out = [];
     if (c) out.push(`<span class="fx-chip y"><span data-no-mt>${U.esc(U.exRu(c.ex))} ${U.w(c.w)}</span> ${U.wUnit()} = <b>крит</b></span>`);
-    if (r.counter) out.push('<span class="fx-chip c">Контратака готова</span>'); else if (r.oppCounter) out.push('<span class="fx-chip g">У соперника контратака</span>'); else out.push('<span class="fx-chip g">Закрой план первым — контратака</span>');
+    if (r.final) out.push('<span class="fx-chip r">Финал: сегодня всё ×1,5</span>');
+    if (r.counter) out.push('<span class="fx-chip c">Контратака готова</span>'); else if (r.oppCounter) out.push('<span class="fx-chip g">У соперника контратака</span>'); else out.push('<span class="fx-chip g">Закрой день первым — контратака</span>');
+    if (r.nextCombo === 1) out.push('<span class="fx-chip p">Следующая тренировка — серия +1</span>');
     out.push(`<button class="fx-chip t" data-action="shield-open">Щит ${Calc.shieldOn()}% ›</button>`);
     return `<div class="fx-chips">${out.join('')}</div>`;
   },
+  // входящий вызов: принять или отклонить
+  duelReqHtml(x, flat = false) {
+    const busy = !!S.duel;
+    return `<div class="${flat ? 'dq-flat' : 'fx-card du'} dq-in"><div class="flex items-center gap-3">${this.av(ClanService.player(x.uid) || { sex: 'm' }, 46)}<div class="flex-1 min-w-0"><div class="fx-k or">ВЫЗОВ НА ДУЭЛЬ</div><div class="font-bold truncate" data-no-mt>${U.esc(x.nick)}</div><div class="fx-s"><span>${U.ago(x.ts)}</span> · <span>7 дней, счёт с момента принятия</span></div></div></div>
+      <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-ghost" data-action="duel-decline" data-id="${U.esc(x.id)}">Отклонить</button><button class="btn btn-or" data-action="duel-accept" data-id="${U.esc(x.id)}" ${busy ? 'disabled' : ''}>Принять</button></div>
+      ${busy ? '<div class="fx-s mt-2">Принять можно, когда закончится текущая дуэль</div>' : ''}</div>`;
+  },
+  // исходящий вызов: ждём ответа
+  duelWaitHtml(x, flat = false) {
+    return `<div class="${flat ? 'dq-flat' : 'fx-card du'}"><div class="dq-wait">${this.av(ClanService.player(x.uid) || { sex: 'm' }, 48)}<div class="flex-1 min-w-0"><div class="fx-k or">ВЫЗОВ ОТПРАВЛЕН</div><div class="fx-t truncate" data-no-mt>${U.esc(x.nick)}</div><div class="fx-s"><span>В ожидании ответа</span> · <span>${U.ago(x.ts)}</span></div></div><span class="dq-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+      <div class="fx-s mt-2">Дуэль начнётся, когда соперник примет вызов. На ответ — 48 часов.</div>
+      <button class="btn btn-ghost w-full mt-3" data-action="duel-req-cancel" data-id="${U.esc(x.id)}">Отозвать вызов</button></div>`;
+  },
   duelTabCard() {
     if (!Unlock.on('duels')) return `<div class="fx-card du lock"><div class="fx-t">Дуэль 1 на 1</div><div class="fx-s">Откроется через ${Unlock.left('duels')} трен.: неделя против одного соперника, тянете канат тренировками</div></div>`;
-    const d = ClanService.duel();
-    if (!d) return `<div class="fx-card du">
+    const d = ClanService.duel(), q = ClanService.duelReqs(), inc = q.inc.slice(0, 2).map(x => this.duelReqHtml(x)).join('');
+    if (!d) {
+      if (q.out.length) return inc + this.duelWaitHtml(q.out[0]);
+      return inc + `<div class="fx-card du">
         <div class="flex items-center justify-between"><div class="fx-t">Дуэль 1 на 1</div><span class="fx-s">7 дней</span></div>
-        <div class="fx-s mt-1">Тренировка тянет канат на шаг, рекорд — крит на 3 шага. Кто дотянет до края или будет впереди в конце недели — победил.</div>
+        <div class="fx-s mt-1">Тренировки тянут канат на себя. Дотяни до края или будь впереди в конце недели.</div>
         ${this.ropeHtml(null)}
-        <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-or" data-action="open-page" data-kind="challenges"><svg class="ic"><use href="#fa-magnifying-glass"/></svg> Найти соперника</button><button class="btn btn-ghost" data-action="duel-friend" ${(S.friends || []).length ? '' : 'disabled'}><svg class="ic"><use href="#fa-users"/></svg> Вызвать друга</button></div></div>`;
-    const r = d.rope, day = U.clamp(U.daysBetween(d.weekKey, U.today()) + 1, 1, 7), sh = (r.log || []).find(e => e.k === 'shield' && e.who === 'me' && e.day >= U.addDays(U.today(), -1));
-    const done = Calc.dayStats(U.today()).w;
-    return `<div class="fx-card du">
-      <div class="fx-vs"><span class="fx-p">${this.meAv(44)}<span><b data-no-mt>${U.esc(S.profile.nickname || 'Ты')}</b><small class="num">${(r.days || []).filter(x => x.a).length} трен.</small></span></span>
-        <button class="fx-day" data-action="open-page" data-kind="duel"><b class="num">ДЕНЬ ${day} / 7</b><small>подробнее ›</small></button>
-        <span class="fx-p r"><span><b data-no-mt>${U.esc(d.opponent.nick)}</b><small class="num">${(r.days || []).filter(x => x.b).length} трен.</small></span>${this.av(ClanService.player(d.opponent.id) || d.opponent, 44)}</span></div>
-      <div class="fx-lead"><b class="num ${r.pos < 0 ? 'neg' : ''}">${this.ropeLead(r)}</b><small>${this.ropeSub(r)}</small></div>
-      ${this.ropeHtml(r)}
-      ${this.duelChips(d)}
+        <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-or" data-action="duel-random-go"><svg class="ic"><use href="#fa-shuffle"/></svg> Случайный</button><button class="btn btn-ghost" data-action="duel-friend" ${(S.friends || []).length ? '' : 'disabled'}><svg class="ic"><use href="#fa-users"/></svg> Вызвать друга</button></div></div>`;
+    }
+    // v74: дуэль во вкладке свёрнута в одну строку, по нажатию раскрывается
+    const r = d.rope, open = this._duelOpen != null ? this._duelOpen : !!S.profile.duelOpen, pos = U.clamp(r.pos, -Fight.EDGE, Fight.EDGE), k = 50 - pos / Fight.EDGE * 50, side = pos > 0 ? 'me' : pos < 0 ? 'op' : '';
+    const done = Calc.dayStats(U.today()).w, sh = (r.log || []).find(e => e.k === 'shield' && e.who === 'me' && e.day >= U.addDays(U.today(), -1));
+    const row = `<button class="dc-row" data-action="duel-fold" aria-expanded="${open}">${this.meAv(40)}<span class="dc-m"><span class="dc-t"><b>Дуэль</b><small class="num">ДЕНЬ ${this.duelDay(d)} / 7</small><em class="num ${side}">${this.ropeLead(r)}</em></span>
+        <span class="dc-bar"><i class="dc-cord"></i><i class="dc-mid"></i><i class="dc-k ${side}" style="left:${k}%"></i></span><span class="dc-s"><span>против</span> <span data-no-mt>${U.esc(d.opponent.nick)}</span> · <span data-countdown="${d.endsAt}">${U.fmtTime(d.endsAt - Date.now())}</span></span></span>
+        ${this.av(ClanService.player(d.opponent.id) || d.opponent, 40)}<svg class="ic dc-ch"><use href="#fa-chevron-${open ? 'up' : 'down'}"/></svg></button>`;
+    return inc + `<div class="fx-card du dc ${open ? 'open' : ''}">${row}${open ? `<div class="dc-body">
+      ${this.ropeHtml(r)}${this.duelFoot(d)}${this.duelChips(d)}
       ${sh ? `<div class="fx-note">${this.shIc}<span>Щит удержал рывок <span data-no-mt>${U.esc(d.opponent.nick)}</span>: погашено <b class="num">${sh.v}</b> очков</span></div>` : ''}
-      <button class="btn btn-or w-full mt-3 fx-go" data-action="start-workout">${done ? 'Тянуть ещё: новый подход' : 'Тянуть канат: тренировка'}</button></div>`;
+      <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-or fx-go" data-action="start-workout">${done ? 'Тянуть ещё' : 'Тянуть канат'}</button><button class="btn btn-ghost" data-action="open-page" data-kind="duel">Подробнее</button></div></div>` : ''}</div>`;
   },
-  // Титан: куб, который трескается по мере урона
+  // v74: клановая битва во вкладке «Сообщество»
+  clanTabCard() {
+    const clan = S.clan; if (!clan) return this.clanHero();
+    const b = ClanService.battle(), lead = clan.role !== 'member';
+    const btns = lead ? `<div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-bl" data-action="clan-challenge-random" ${clan.battleOpen === false ? 'disabled' : ''}><svg class="ic"><use href="#fa-shuffle"/></svg> ${b ? 'Другой клан' : 'Случайный клан'}</button><button class="btn btn-ghost" data-action="clan-challenge-pick"><svg class="ic"><use href="#fa-list"/></svg> Выбрать клан</button></div>` : '';
+    if (!b) return `<div class="fx-card cl"><div class="flex items-center gap-3">${this.emblem(clan, 'w-12 h-12 text-xl')}<div class="min-w-0 flex-1"><div class="fx-k bl">БИТВА КЛАНОВ</div><div class="fx-t truncate" data-no-mt>${U.esc(clan.name)}</div><div class="fx-s">Соперник на эту неделю ещё не выбран</div></div></div>
+      ${btns || '<div class="fx-s mt-3">Вызов другому клану бросает лидер или заместитель.</div>'}<button class="btn btn-ghost w-full mt-2" data-action="open-page" data-kind="clan">Открыть клан</button></div>`;
+    const tot = b.myScore + b.oppScore, pct = tot ? Math.round(b.myScore / tot * 100) : 50;
+    return `<div class="fx-card cl"><div class="flex items-center justify-between"><div class="fx-k bl">БИТВА КЛАНОВ · ${clan.battle && clan.battle.challenged ? 'ПО ВЫЗОВУ' : 'СЛУЧАЙНАЯ'}</div><span class="fx-s num" data-countdown="${b.endsAt}">${U.fmtTime(b.endsAt - Date.now())}</span></div>
+      <div class="cb-vs"><div class="cb-c">${this.emblem(clan, 'w-12 h-12 text-xl')}<b data-no-mt>${U.esc(clan.name)}</b><small><span class="num">${b.myActive}</span> в деле</small></div>
+        <div class="cb-sc"><b class="num ${b.myScore >= b.oppScore ? 'w' : ''}">${b.myScore}</b><span>:</span><b class="num ${b.oppScore > b.myScore ? 'w' : ''}">${b.oppScore}</b></div>
+        <div class="cb-c"><button data-action="clan-view" data-id="${U.esc(b.opponent.id)}">${this.emblem(b.opponent, 'w-12 h-12 text-xl')}</button><b data-no-mt>${U.esc(b.opponent.name)}</b><small><span class="num">${b.oppActive}</span> в деле</small></div></div>
+      <div class="cb-bar"><i style="width:${pct}%"></i></div>
+      <div class="fx-s mt-2"><span>${b.myScore > b.oppScore ? 'Мы впереди' : b.myScore < b.oppScore ? 'Соперник впереди' : 'Пока поровну'}</span>. <span>Каждая твоя тренировка — очки клану.</span></div>
+      <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-bl fx-go" data-action="start-workout">Тренировка</button><button class="btn btn-ghost" data-action="open-page" data-kind="clan">Открыть клан</button></div></div>`;
+  },
+  // v74: Титан пока — круг размером с прежний куб; когда у босса появится картинка (boss.img), она встанет в этот круг
   cubeHtml(boss, stage, px = 96) {
-    const crack = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="c1" d="M52 0 L46 20 L58 33 L50 52"/><path class="c2" d="M0 60 L20 56 L30 68 L46 64"/><path class="c3" d="M100 28 L82 36 L76 52 L88 64"/><path class="c4" d="M30 100 L36 82 L26 72 M66 100 L60 84 L70 74 L64 58"/></svg>';
-    return `<span class="rb st${stage}" style="--s:${px}px;--a:${boss.a};--b:${boss.b};--g:${boss.g}" aria-hidden="true"><span class="rb-cube">${['f', 'b', 'l', 'r', 't', 'd'].map((f, i) => `<i class="rb-f ${f}">${crack.replace('<svg ', `<svg style="transform:rotate(${i * 90}deg)" `)}</i>`).join('')}</span></span>`;
+    return `<span class="rbo st${stage}" style="--s:${px}px;--a:${boss.a};--b:${boss.b};--g:${boss.g}" aria-hidden="true">${boss.img ? `<img src="${U.esc(boss.img)}" alt="">` : ''}</span>`;
+  },
+  // журнал рейда: кто, когда и сколько снял, криты и на каком упражнении
+  raidLogHtml(st, n = 30) {
+    const xs = Raid.history(st); if (!xs.length) return '<div class="text-xs muted p-4 text-center">Пока никто не ударил. Первая тренировка — первый урон.</div>';
+    return xs.slice(0, n).map(e => `<div class="rl-row">${this.pAv(e.id, 30)}<div class="flex-1 min-w-0"><div class="rl-t"><b class="truncate" data-no-mt>${U.esc(this.pName(e.id))}</b><small>${this.wd(e.day)}</small></div>
+      <div class="rl-s">${e.crit ? `<span class="rl-crit">крит ×${e.crit}</span>` : ''}${e.ex.length ? `<span data-no-mt>${e.ex.map(x => U.esc(U.exRu(x))).join(', ')}</span>` : '<span>тренировка</span>'}</div></div><b class="num rl-v">−${e.dmg}</b></div>`).join('');
   },
   raidMemberRows(st, big = false) {
     const capPct = Math.round(st.cap / st.hp * 100);
@@ -7588,53 +7862,77 @@ const UI = {
     return `<div class="fx-card rd"><div class="rd-hero">${this.cubeHtml(boss, Raid.stage(st.pct), 96)}<div class="min-w-0 flex-1"><div class="fx-k">${st.n > 1 ? 'РЕЙД ' + ['', '', 'ВДВОЁМ', 'ВТРОЁМ', 'ВЧЕТВЕРОМ'][Math.min(st.n, 4)] : 'РЕЙД В ОДИНОЧКУ'} · ${st.dead ? 'ПОВЕРЖЕН' : 'ДО ВС'}</div><div class="fx-t">${boss.n}</div><button class="fx-s mt-1 link" data-action="open-page" data-kind="raid">подробнее ›</button></div></div>
       <div class="rd-hp"><b class="num">${st.left}</b><span class="num">из ${st.hp} HP</span><em class="num">${Math.round((1 - st.pct) * 100)}%</em></div><div class="rd-bar main"><i style="width:${Math.round((1 - st.pct) * 100)}%"></i></div>
       <div class="rd-ms">${this.raidMemberRows(st)}</div>
+      ${(() => { const h = Raid.history(st)[0]; return h ? `<div class="rl-last"><span>Последний удар:</span> <b data-no-mt>${U.esc(this.pName(h.id))}</b> <span class="num">−${h.dmg}</span>${h.crit ? ' <span class="rl-crit">крит</span>' : ''}</div>` : ''; })()}
       ${st.dead ? '' : `<div class="fx-note pu">Твой следующий удар ≈ <b class="num">${st.next}</b> HP. Награда каждому — <b class="num">${st.reward}</b> монет и рамка «Титаноборец», если добьёте.</div>`}
       ${this.raidCta(st)}</div>`;
   },
   raidHowHtml() {
     const step = (n, t, d) => `<div class="hw-row"><b class="num">${n}</b><div><div class="font-bold text-sm">${t}</div><div class="text-[12px] muted">${d}</div></div></div>`;
-    return `<div class="sec-h"><b><svg class="ic" style="color:#A78BFA"><use href="#fa-circle-info"/></svg> Как устроен рейд</b></div><div class="hw">
+    return `<details class="rd-how mb-4"><summary><svg class="ic" style="color:#A78BFA"><use href="#fa-circle-info"/></svg><span>Как бить Титана</span><svg class="ic rd-how-ch"><use href="#fa-chevron-down"/></svg></summary><div class="hw">
       ${step(1, 'Один или с друзьями', 'До 4 человек. Вместе быстрее, а награда каждому уменьшается совсем немного.')}
       ${step(2, 'Титан под вашу силу', 'Каждый добавляет ему здоровья на 3 своих обычных тренировки. Урон считается от веса тела и рекордов, поэтому лёгкому и тяжёлому одинаково реально.')}
-      ${step(3, 'Награда только за победу', `Получает каждый, кто сделал ${Raid.NEED}+ тренировки в рейде.`)}</div>`;
+      ${step(3, 'Рекорд — крит ×3', 'Новый личный рекорд бьёт втрое сильнее. Все удары и криты видны в журнале рейда.')}
+      ${step(4, 'Награда только за победу', `Получает каждый, кто сделал ${Raid.NEED}+ тренировки в рейде.`)}</div></details>`;
   },
   raidFriendsHtml() {
     const xs = Raid.friendsRaids(); if (!xs.length) return '';
     return `<div class="sec-h"><b><svg class="ic" style="color:#A78BFA"><use href="#fa-users"/></svg> Рейды друзей</b><span class="text-[10px] muted">можно вступить</span></div><div class="card p-0 mb-4">${xs.slice(0, 5).map(r => { const st = Raid.state(r); return `<div class="rf-row"><span class="rf-avs">${r.members.slice(0, 3).map(m => this.pAv(m.id, 32)).join('')}</span><div class="flex-1 min-w-0"><div class="text-sm font-bold truncate" data-no-mt>${r.members.map(m => U.esc(this.pName(m.id))).join(', ')}</div><div class="text-[11px] muted">Титан <span class="num">${Math.round((1 - st.pct) * 100)}%</span> · мест: <span class="num">${Raid.MAX - r.members.length}</span></div></div><button class="btn btn-primary btn-sm" data-action="raid-join" data-id="${U.esc(r.id)}" ${Raid.mine() ? 'disabled' : ''}>Вступить</button></div>`; }).join('')}</div>`;
   },
   composerCard() {
-    return `<div class="card p-4 mb-4 cp-card"><div class="flex items-center gap-3"><span class="cp-ic"><svg class="ic"><use href="#fa-camera"/></svg></span><div class="min-w-0"><div class="font-bold">Сфоткай сегодняшний подход</div><div class="text-[12px] muted">Увидят друзья${S.duel ? ' и твой соперник' : ''}</div></div></div>
-      <div class="grid grid-cols-3 gap-2 mt-3"><button class="btn btn-primary btn-sm" data-action="post-new">Фото</button><button class="btn btn-ghost btn-sm" data-action="post-new">Видео 15 с</button><button class="btn btn-ghost btn-sm" data-action="open-log-set">Рекорд</button></div></div>`;
+    // v74: одна кнопка камеры — открывает галерею сразу с фото и видео
+    return `<div class="card mb-4 cp-card"><div class="min-w-0 flex-1"><div class="font-bold">Сфоткай сегодняшний подход</div><div class="text-[12px] muted">Фото или видео до ${Social.VIDEO_MAX_SEC} с · увидят друзья${S.duel ? ' и соперник' : ''}</div></div>
+      <label class="cp-cam" aria-label="Фото или видео"><svg class="ic"><use href="#fa-camera"/></svg><input type="file" accept="image/*,video/*" class="hidden" data-action="snap-media"></label></div>`;
   },
   suggestHtml() {
     if (!Net.online()) return '';
     const mine = Calc.top3 ? Calc.top3()[0] : null, myB = mine ? Calc.bestE1rm(mine) : 0;
-    const xs = Follow.suggest(4); if (!xs.length) return '';
+    // v74: как «Рекомендации» в Instagram — карточки в ряд с прокруткой, крестик скрывает человека, после заявки карточка остаётся с «Отправлено»
+    const hide = new Set(S.profile.sgHide || []), sent = this._sgSent || (this._sgSent = new Set());
+    const xs = Follow.suggest(14).filter(p => !hide.has(p.id));
+    sent.forEach(id => { if (!xs.some(p => p.id === id) && ClanService.friendState(id) === 'out') { const p = ClanService.player(id); if (p) xs.unshift(p); } });
+    if (!xs.length) return '';
     const why = p => { const pl = ClanService.player(p.id) || p; if (S.clan && pl.clanId === S.clan.id) return 'в твоём клане'; if ((pl.arenaIdx || 0) === S.game.arenaIdx) return 'на твоей арене'; return `${pl.trophies || 0} кубков`; };
-    return `<div class="sec-h"><b><svg class="ic" style="color:#34D399"><use href="#fa-user-plus"/></svg> Кого добавить</b><button class="chip" data-action="open-page" data-kind="friends">Друзья <span class="num">${(S.friends || []).length}</span></button></div>
-      <div class="card p-0 mb-4">${xs.map(p => `<div class="rf-row">${this.av(ClanService.player(p.id) || p, 40)}<button class="flex-1 min-w-0 text-left" data-action="mini-profile" data-id="${U.esc(p.id)}"><div class="text-sm font-bold truncate" data-no-mt>${U.esc(p.nick)}</div><div class="text-[11px] muted">${why(p)}</div></button><button class="btn btn-primary btn-sm" data-action="friend-add-id" data-id="${U.esc(p.id)}">Добавить</button></div>`).join('')}</div>`;
+    const card = p => { const st = ClanService.friendState(p.id), out = st === 'out', pl = ClanService.player(p.id) || p;
+      return `<div class="sg-c" data-key="sg${U.esc(p.id)}"><button class="sg-x" data-action="sg-hide" data-id="${U.esc(p.id)}" aria-label="Скрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button>
+        <button class="sg-av" data-action="mini-profile" data-id="${U.esc(p.id)}">${this.av(pl, 72)}</button>
+        <button class="sg-n" data-action="mini-profile" data-id="${U.esc(p.id)}" data-no-mt>${U.esc(p.nick)}</button><div class="sg-w">${why(p)}</div>
+        ${out ? '<button class="sg-b sent" disabled>Отправлено</button>' : `<button class="sg-b" data-action="friend-add-id" data-sg="1" data-id="${U.esc(p.id)}">Добавить</button>`}</div>`; };
+    return `<div class="sec-h"><b>Рекомендации для тебя</b><button class="link text-[12px] font-bold" data-action="open-page" data-kind="friends">Все</button></div>
+      <div class="sg-row mb-4">${xs.slice(0, 14).map(card).join('')}</div>`;
   },
   fightTop() {
-    const seg = this.cmSeg();
-    return `<div class="fx-top"><div class="fx-seg"><button class="${seg === 'duel' ? 'on du' : ''}" data-action="cm-seg" data-val="duel">Дуэль 1 на 1</button><button class="${seg === 'raid' ? 'on rd' : ''}" data-action="cm-seg" data-val="raid">Рейд на Титана</button></div>${this.shieldChip()}</div>`;
+    const seg = this.cmSeg(), b = (k, cls, t) => `<button class="${seg === k ? 'on ' + cls : ''}" data-action="cm-seg" data-val="${k}">${t}</button>`;
+    return `<div class="fx-top"><div class="fx-seg">${b('duel', 'du', 'Дуэль')}${b('raid', 'rd', 'Рейд')}${b('clan', 'cl', 'Кланы')}</div>${this.shieldChip()}</div>`;
   },
-  // страница дуэли: большой канат, дни недели, виды ударов и журнал
+  // страница дуэли: шапка с канатом, дни недели, приёмы, ход боя и история прошлых дуэлей
   duelPageHtml() {
     const d = ClanService.duel(); if (!d) return this.challengesCard();
     const r = d.rope, nick = U.esc(d.opponent.nick), who = e => e.who === 'me' ? 'Ты' : `<span data-no-mt>${nick}</span>`;
-    const txt = e => e.k === 'crit' ? `${who(e)} · рекорд, <b class="text-amber-400">крит</b>` : e.k === 'set' ? `${who(e)} · тренировка` : e.k === 'counter' ? (e.who === 'me' ? 'Ты закрыл план раньше: его удар −30%' : `<span data-no-mt>${nick}</span> раньше закрыл план: твой удар −30%`) : (e.who === 'me' ? `Твой щит погасил <span class="num">${e.v}</span> очков` : `Щит <span data-no-mt>${nick}</span> погасил <span class="num">${e.v}</span> очков`);
+    const txt = e => ({
+      crit: () => `${who(e)} · рекорд, <b class="text-amber-400">крит</b>`,
+      set: () => `${who(e)} · тренировка`,
+      combo: () => `${who(e)} · серия: ${e.n}-я тренировка, +1 шаг`,
+      power: () => `${who(e)} · мощная тренировка, +½ шага`,
+      final: () => 'Финальный рывок: шаги дня ×1,5',
+      counter: () => e.who === 'me' ? 'Ты закрыл день раньше: его рывок −30%' : `<span data-no-mt>${nick}</span> закрыл день раньше: твой рывок −30%`,
+      shield: () => e.who === 'me' ? `Твой щит погасил <span class="num">${e.v}</span> очков` : `Щит <span data-no-mt>${nick}</span> погасил <span class="num">${e.v}</span> очков`,
+    }[e.k] || (() => ''))();
     const val = e => e.k === 'set' || e.k === 'crit' ? `<b class="num ${e.who === 'me' ? 'text-or' : 'muted'}">${e.who === 'me' ? '+' : '−'}${(e.v / Fight.STEP).toFixed(e.v % Fight.STEP ? 1 : 0).replace('.', ',')}</b>` : '';
-    const dot = e => ({ crit: '#FACC15', set: e.who === 'me' ? '#F97316' : '#3B82F6', counter: '#22D3EE', shield: '#2DD4BF' })[e.k];
+    const col = Object.fromEntries(Fight.KINDS.map(x => [x.k, x.c])), dot = e => e.k === 'set' ? (e.who === 'me' ? '#F97316' : '#3B82F6') : col[e.k] || '#94A3B8';
+    const net = x => { const v = ((x.a || 0) - (x.b || 0)) / Fight.STEP; return v ? (v > 0 ? '+' : '−') + Math.abs(v).toFixed(v % 1 ? 1 : 0).replace('.', ',') : '0'; };
+    const days = r.days.map(x => `<div class="dd ${x.fut ? 'fut' : x.win === 'me' ? 'me' : x.win === 'opp' ? 'op' : ''} ${x.day === U.today() ? 'now' : ''}"><small>${this.wd(x.day)}</small><b class="num">${x.fut ? '' : net(x)}</b></div>`).join('');
+    const kinds = Fight.KINDS.map(x => `<div class="dk"><i style="background:${x.c}"></i><span><b>${x.t}</b><small>${x.v}</small></span></div>`).join('');
     return `<div class="card p-4 mb-3 du-pg">
-        <div class="fx-lead big"><b class="num ${r.pos < 0 ? 'neg' : ''}">${this.ropeLead(r)}</b><small>${this.ropeSub(r)}</small></div>
-        <div class="du-row">${this.meAv(52)}<div class="flex-1 min-w-0">${this.ropeHtml(r, true)}</div>${this.av(ClanService.player(d.opponent.id) || d.opponent, 52)}</div>
-        <div class="du-days">${r.days.map(x => `<div><i class="${x.fut ? 'fut' : x.win === 'me' ? 'me' : x.win === 'opp' ? 'op' : ''} ${x.day === U.today() ? 'now' : ''}"></i><small>${this.wd(x.day)}</small></div>`).join('')}</div>
+        ${this.duelHead(d, 54)}${this.ropeHtml(r, true)}${this.duelFoot(d)}
+        <div class="dd-row">${days}</div>
         ${this.duelChips(d)}
-        <button class="btn btn-or w-full mt-3" data-action="start-workout">Тянуть канат: тренировка</button></div>
-      <div class="grid grid-cols-3 gap-2 mb-3 du-kinds"><div><b style="color:#FB923C">Тренировка</b><small>+1 шаг</small></div><div><b style="color:#FACC15">Рекорд = крит</b><small>+3 шага</small></div><div><b style="color:#22D3EE">Контратака</b><small>ему −30%</small></div></div>
-      <div class="card p-0 mb-3">${r.log.length ? r.log.slice(0, 14).map(e => `<div class="du-log"><i style="background:${dot(e)}"></i><small class="du-wd">${this.wd(e.day)}</small><span class="flex-1 min-w-0">${txt(e)}</span>${val(e)}</div>`).join('') : '<div class="text-xs muted p-4 text-center">Пока никто не тянул канат. Первая тренировка — первый шаг.</div>'}</div>
-      <div class="text-[11px] muted mb-3 px-1">Щит работает в твои дни отдыха: гасит до 50% рывка соперника. Кто первым закрыл тренировку дня, тот получает контратаку: удар соперника в этот день слабее на 30%.</div>
-      <div class="grid grid-cols-2 gap-2 mb-4"><button class="btn btn-ghost" data-action="open-page" data-kind="challenges"><svg class="ic"><use href="#fa-clock-rotate-left"/></svg> История</button><button class="btn btn-ghost" data-action="duel-cancel">Сдаться</button></div>`;
+        <button class="btn btn-or w-full mt-3 fx-go" data-action="start-workout">Тянуть канат: тренировка</button></div>
+      <div class="sec-h"><b>Как тянуть канат</b><span class="text-[10px] muted">5 шагов до края — досрочная победа</span></div>
+      <div class="dk-grid mb-4">${kinds}</div>
+      <div class="sec-h"><b>Ход дуэли</b></div>
+      <div class="card p-0 mb-4">${r.log.length ? r.log.slice(0, 24).map(e => `<div class="du-log"><i style="background:${dot(e)}"></i><small class="du-wd">${this.wd(e.day)}</small><span class="flex-1 min-w-0">${txt(e)}</span>${val(e)}</div>`).join('') : '<div class="text-xs muted p-4 text-center">Пока никто не тянул канат. Первая тренировка — первый шаг.</div>'}</div>
+      ${this.duelHistHtml()}
+      <button class="btn btn-ghost w-full mb-4" data-action="duel-cancel">Сдаться</button>`;
   },
   // страница рейда: подготовка (один / с друзьями) или ход боя
   raidPageHtml() {
@@ -7649,32 +7947,35 @@ const UI = {
         <div class="sec-h"><b>Вклад</b>${st.n > 1 ? '<span class="text-[10px] muted">черта — лимит доли одного</span>' : ''}</div>
         <div class="card p-0 mb-3">${this.raidMemberRows(st, true)}</div>
         ${!st.r.solo && st.n < Raid.MAX && !st.dead ? '<div class="fx-note pu mb-3">Друзья видят твой рейд у себя во вкладке «Сообщество» → «Рейд» и могут вступить, пока есть место.</div>' : ''}
-        <div class="text-[11px] muted mb-3 px-1">Награда — только если Титан добит до воскресенья 23:59. Каждому нужно ${Raid.NEED}+ тренировки. ${st.n > 1 ? `Один человек снимает не больше ${Math.round(Raid.capShare(st.n) * 100)}% здоровья.` : ''} Подходы с подозрением на ошибку не засчитываются.</div>
+        <div class="sec-h"><b>Журнал рейда</b><span class="text-[10px] muted">удары и криты</span></div>
+        <div class="card p-0 mb-3">${this.raidLogHtml(st)}</div>
+        <details class="rd-how mb-3"><summary><svg class="ic" style="color:#A78BFA"><use href="#fa-circle-info"/></svg><span>Правила рейда</span><svg class="ic rd-how-ch"><use href="#fa-chevron-down"/></svg></summary><div class="rd-rules"><span>Награда — только если Титан добит до воскресенья 23:59.</span> <span>Каждому нужно ${Raid.NEED}+ тренировки.</span> ${st.n > 1 ? `<span>Один человек снимает не больше ${Math.round(Raid.capShare(st.n) * 100)}% здоровья.</span>` : ''} <span>Новый рекорд — крит ×3.</span> <span>Подходы с подозрением на ошибку не засчитываются.</span></div></details>
         ${st.dead ? '' : '<button class="btn btn-ghost w-full mb-4" data-action="raid-leave">Выйти из рейда</button>'}`;
     }
     const boss = Raid.boss(), mode = this._raidMode || 'party', hp = Raid.hpFor(), tp = Calc.typicalPower();
     const card = (k, t, s2) => `<button class="rd-mode ${mode === k ? 'on' : ''}" data-action="raid-mode" data-val="${k}"><b>${t}</b><small>${s2}</small></button>`;
     return `<div class="card p-4 mb-3 text-center"><div class="flex justify-center">${this.cubeHtml(boss, 0, 150)}</div><div class="font-black text-xl mt-2">${boss.n}</div><div class="text-[12px] muted">7 дней, чтобы добить · до воскресенья 23:59</div></div>
       <div class="grid grid-cols-2 gap-2 mb-3">${card('solo', 'Один', 'вся награда твоя')}${card('party', 'С друзьями', 'до 4 человек, быстрее')}</div>
-      <div class="card p-4 mb-3"><div class="font-bold">Титан подстроится под тебя</div><div class="text-[12px] muted mt-1">Твоя обычная тренировка — <b class="num">${tp}</b> очков силы. Ты добавляешь Титану <b class="num">${hp}</b> HP — ровно на 3 такие тренировки. Очки считаются от веса тела и рекордов, поэтому лёгкому атлету не нужно поднимать как тяжёлому.</div></div>
+      <details class="rd-how mb-3"><summary><svg class="ic" style="color:#A78BFA"><use href="#fa-circle-info"/></svg><span>Как бить Титана</span><svg class="ic rd-how-ch"><use href="#fa-chevron-down"/></svg></summary><div class="rd-hw"><div class="font-bold text-sm">Титан подстроится под тебя</div><div class="text-[12px] muted mt-1">Твоя обычная тренировка — <b class="num">${tp}</b> очков силы. Ты добавляешь Титану <b class="num">${hp}</b> HP — ровно на 3 такие тренировки. Очки считаются от веса тела и рекордов, поэтому лёгкому атлету не нужно поднимать как тяжёлому.</div></div><div class="rd-hw"><div class="font-bold text-sm">Честная игра</div><div class="text-[12px] mt-1">· Награда только если Титан добит до конца недели.<br>· Каждому нужно минимум ${Raid.NEED} тренировки в рейде.<br>· Один человек не снимет больше своей доли: «тащить» за всех не выйдет.<br>· Подходы с подозрением на ошибку не засчитываются.</div></div></details>
       <div class="card p-4 mb-3"><div class="font-bold">Награда каждому за победу</div><div class="rd-rw">${[1, 2, 3, 4].map(n => `<div class="${(mode === 'solo' ? 1 : 3) === n ? 'on' : ''}"><small>${['', 'один', 'вдвоём', 'втроём', 'вчетвером'][n]}</small><b class="num">${Raid.REWARD[n]}</b></div>`).join('')}</div><div class="text-[11px] muted mt-2">Монет каждому, плюс рамка «Титаноборец» и +${Raid.TROPHIES} кубков всем одинаково.</div></div>
-      <div class="card p-4 mb-3 rd-fair"><div class="font-bold">Честная игра</div><div class="text-[12px] mt-1">· Награда только если Титан добит до конца недели.<br>· Каждому нужно минимум ${Raid.NEED} тренировки в рейде.<br>· Один человек не снимет больше своей доли: «тащить» за всех не выйдет.<br>· Подходы с подозрением на ошибку не засчитываются.</div></div>
       ${this.raidFriendsHtml()}
       <button class="btn btn-pu w-full mb-4" data-action="raid-start" data-val="${mode}">${mode === 'solo' ? 'Начать рейд одному' : 'Создать рейд для друзей'}</button>`;
   },
   // шторка щита — открывается по нажатию на всё, что связано со щитом
   openShield() {
-    const parts = Calc.shieldParts(), pct = Calc.shieldOn(), C = 2 * Math.PI * 41, ic = id => `<svg class="ic"><use href="#${id}"/></svg>`;
-    const sl = Calc.sleepFor(U.today()), L = v => (v / 1000).toFixed(1).replace('.', ',').replace(/,0$/, '');
-    const row = (x, icon, t, sub, act, btn) => `<div class="sh-row ${x.ok ? 'ok' : ''}"><span class="sh-ck">${x.ok ? ic('fa-check') : ic(icon)}</span><span class="flex-1 min-w-0"><b>${t}</b><small>${sub}</small></span>${x.ok ? '<em class="num">+25%</em>' : `<button class="btn btn-sm sh-btn" data-action="${act}">${btn}</button>`}</div>`;
+    const parts = Calc.shieldParts(), pct = Calc.shieldOn(), C = 2 * Math.PI * 41, ic = id => `<svg class="ic"><use href="#${id}"/></svg>`, td = U.today();
+    const sl = Calc.sleepFor(td), L = v => (v / 1000).toFixed(1).replace('.', ',').replace(/,0$/, ''), wOn = Calc.waterOn(td), wG = Calc.waterGoal(), nrm = Calc.sleepNorm()[0];
+    const bar = v => `<i class="sh-pb"><i style="width:${Math.round(U.clamp(v, 0, 1) * 100)}%"></i></i>`;
+    const row = (x, icon, t, sub, act, btn, prog) => `<div class="sh-row ${x.ok ? 'ok' : ''}"><span class="sh-ck">${x.ok ? ic('fa-check') : ic(icon)}</span><span class="flex-1 min-w-0"><b>${t}</b><small>${sub}</small>${!x.ok && prog != null ? bar(prog) : ''}</span>${x.ok ? '<em class="num">+25%</em>' : `<button class="btn btn-sm sh-btn" data-action="${act}">${btn}</button>`}</div>`;
     this.modal(`<div class="sh-sheet"><div class="sh-hd"><span class="sh-ring"><svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="41" fill="none" stroke="currentColor" stroke-opacity=".18" stroke-width="9"/><circle cx="48" cy="48" r="41" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(C * pct / 100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 48 48)"/></svg><b class="num">${pct}%</b></span>
         <div class="flex-1 min-w-0"><div class="font-black text-lg">Энергетический щит</div><div class="text-[12px] sh-sub">в день отдыха гасит <b class="num">${Math.round(pct / 2)}%</b> рывка соперника</div></div><button class="icon-btn" data-action="close-modal" aria-label="Закрыть">${ic('fa-xmark')}</button></div>
       <div class="sh-lbl">ЗАРЯЖАЕТСЯ ЗА СЕГОДНЯ</div>
-      ${row(parts[0], 'fa-droplet', 'Вода', `${L(Calc.waterOn(U.today()))} из ${L(Calc.waterGoal())} л`, 'water-plus', `+${S.profile.cupMl || 500} мл`)}
-      ${row(parts[1], 'fa-moon', 'Сон', sl ? `${sl.hours} ч` : `норма от ${Calc.sleepNorm()[0]} ч`, 'open-sleep', 'Записать')}
-      ${row(parts[2], 'fa-person-running', 'Шаги и активность', 'прогулка, бег, любая активность', 'activity-open', 'Добавить')}
+      ${row(parts[0], 'fa-droplet', 'Вода', `${L(wOn)} из ${L(wG)} л`, 'shield-water', `+${S.profile.cupMl || 500} мл`, wOn / wG)}
+      ${row(parts[1], 'fa-moon', 'Сон', sl ? `${sl.hours} из ${nrm} ч` : `норма от ${nrm} ч`, 'shield-sleep', sl ? 'Изменить' : 'Записать', sl ? sl.hours / nrm : null)}
+      ${row(parts[2], 'fa-person-running', 'Шаги и активность', 'прогулка, бег, любая активность', 'shield-act', 'Добавить')}
       ${row(parts[3], 'fa-fire', 'Разминка', '5 минут перед нагрузкой', 'shield-warm', 'Сделал')}
       <div class="sh-info">Щит копится в любой день, а срабатывает сам в твой день отдыха: если соперник сделает рывок, полный щит погасит до 50% удара. Так дни восстановления не ломают дуэль.</div></div>`);
+    this._shOpen = true;
   },
   renderClans() {
     if (Net.online() && Date.now() - Net.d.at > 15000) Net.refresh().then(ok => { if (ok && this.tab === 'clans') this.renderClans(); });
@@ -7693,8 +7994,8 @@ const UI = {
     // v51: сначала люди и лента (подписки → рекорды горизонтально → посты вертикально), потом дуэли, друзья, клан и рейтинги
     // v72: наверху — бои (дуэль или рейд, щит), потом фото, рекорды, кого добавить, посты; ниже — клан, друзья и рейтинг
     if (Raid.online() && Date.now() - Raid.at > 30000) Raid.load().then(ok => { if (ok && this.tab === 'clans') this.renderClans(); });
-    const seg = this.cmSeg(), fight = this.fightTop() + (seg === 'raid' ? this.raidTabCard() + this.raidFriendsHtml() + (Raid.mine() ? '' : this.raidHowHtml()) : this.duelTabCard());
-    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт</div>') + fight + this.composerCard() + this.recordsStrip() + this.suggestHtml() + this.postsList(true) + this.clanHero() + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
+    ClanService.simReq(); const seg = this.cmSeg(), fight = this.fightTop() + (seg === 'raid' ? this.raidTabCard() + this.raidFriendsHtml() + (Raid.mine() ? '' : this.raidHowHtml()) : seg === 'clan' ? this.clanTabCard() : this.duelTabCard());
+    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт</div>') + fight + this.composerCard() + this.recordsStrip() + this.suggestHtml() + this.postsList(true) + (seg === 'clan' ? '' : this.clanHero()) + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
     if (this._page) this.renderPage();
     this.renderHeader();
   },
@@ -7747,7 +8048,7 @@ const UI = {
   notifsInner() {
     const list = ClanService.notifications(), unit = U.wUnit(), seen = this._ntSeen || 0;
     const who = uid => this.nick(uid, (this.personOf(uid) || {}).nick || '?', 'font-bold');
-    const IC = { like: ['fa-heart-solid', '#FB7185'], comment: ['fa-comment', '#60A5FA'], follow: ['fa-user-plus', '#34D399'], req: ['fa-user-plus', '#3B82F6'], acc: ['fa-user-check', '#10B981'], duel: ['fa-khanda', '#F97316'], pr: ['fa-crown', '#F59E0B'] };
+    const IC = { like: ['fa-heart-solid', '#FB7185'], comment: ['fa-comment', '#60A5FA'], follow: ['fa-user-plus', '#34D399'], req: ['fa-user-plus', '#3B82F6'], acc: ['fa-user-check', '#10B981'], duel: ['fa-khanda', '#F97316'], duelreq: ['fa-khanda', '#F97316'], pr: ['fa-crown', '#F59E0B'] };
     const what = n => n.pkind === 'pr' ? 'твой рекорд' : n.prev ? `<span class="nt-q">«<span data-no-mt>${U.esc(this.cut(n.prev, 34))}</span>»</span>` : 'твой пост';
     const row = n => {
       let av, text, act = '', open = '';
@@ -7759,10 +8060,11 @@ const UI = {
         else if (n.kind === 'comment') { text = `${who(n.uid)} прокомментировал(а) ${what(n)}<div class="nt-cm" data-no-mt>${U.esc(this.cut(n.text, 110))}</div>`; open = `data-action="notif-post" data-id="${U.esc(n.post || '')}" data-cm="1"`; }
         else if (n.kind === 'req') { text = `${who(n.uid)} хочет добавить тебя в друзья`; act = `<button class="btn btn-primary btn-sm" data-action="friend-accept" data-id="${n.id}"><svg class="ic"><use href="#fa-check"/></svg></button><button class="btn btn-ghost btn-sm" data-action="friend-decline" data-id="${n.id}"><svg class="ic"><use href="#fa-xmark"/></svg></button>`; }
         else if (n.kind === 'acc') text = `${who(n.uid)} принял(а) твою заявку в друзья`;
-        else if (n.kind === 'duel') text = `${who(n.uid)} вызвал(а) тебя на дуэль`;
+        else if (n.kind === 'duel') text = `Началась дуэль с ${who(n.uid)}`;
+        else if (n.kind === 'duelreq') { text = `${who(n.uid)} вызывает тебя на дуэль`; act = `<button class="btn btn-or btn-sm" data-action="duel-accept" data-id="${n.id}" ${S.duel ? 'disabled' : ''}><svg class="ic"><use href="#fa-check"/></svg></button><button class="btn btn-ghost btn-sm" data-action="duel-decline" data-id="${n.id}"><svg class="ic"><use href="#fa-xmark"/></svg></button>`; }
         else text = `${who(n.uid)}: новый рекорд · ${U.esc(U.exRu(n.ex))} <b class="num">${U.wEx(n.ex, n.weight)} ${unit}</b> × ${U.reps(n.reps)}`;
       }
-      return `<div class="nt-row ${n.ts > seen ? 'new' : ''}" data-key="nt${U.esc(n.key)}">${av}<div class="nt-body" ${open}>${text}<div class="nt-t">${U.ago(n.ts)}</div></div>${act}${n.kind === 'req' ? '' : `<button class="nt-x" data-action="notif-del" data-key="${U.esc(n.key)}" aria-label="Убрать"><svg class="ic"><use href="#fa-xmark"/></svg></button>`}</div>`;
+      return `<div class="nt-row ${n.ts > seen ? 'new' : ''}" data-key="nt${U.esc(n.key)}">${av}<div class="nt-body" ${open}>${text}<div class="nt-t">${U.ago(n.ts)}</div></div>${act}${n.kind === 'req' || n.kind === 'duelreq' ? '' : `<button class="nt-x" data-action="notif-del" data-key="${U.esc(n.key)}" aria-label="Убрать"><svg class="ic"><use href="#fa-xmark"/></svg></button>`}</div>`;
     };
     const fresh = list.filter(n => n.ts > seen), old = list.filter(n => n.ts <= seen);
     return `<div class="flex items-center justify-between gap-2 mb-1"><div class="font-bold text-lg"><svg class="ic text-amber-400"><use href="#fa-bell"/></svg> Уведомления</div><div class="flex items-center gap-1">${list.length ? '<button class="nt-clr" data-action="notif-clear"><svg class="ic"><use href="#fa-check-double"/></svg> Очистить всё</button>' : ''}<button data-action="close-modal" class="muted px-1" aria-label="Закрыть"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div></div>
@@ -9309,7 +9611,7 @@ Object.assign(UI, {
       <textarea class="input mb-2" id="post-body" data-draft rows="4" maxlength="600" placeholder="Расскажи о тренировке, питании или прогрессе. #хэштеги помогут найти пост"></textarea>
       ${this._postImg ? `<div class="relative mb-2"><img src="${this._postImg}" class="post-img" alt=""><button class="icon-btn absolute" style="top:.5rem;right:.5rem" data-action="post-img-remove"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>` : ''}
       ${this._postVideo ? `<div class="relative mb-2"><video src="${this._postVideo.url}" class="post-img" controls playsinline preload="metadata"></video><button class="icon-btn absolute" style="top:.5rem;right:.5rem" data-action="post-video-remove"><svg class="ic"><use href="#fa-xmark"/></svg></button><div class="text-[10px] muted">${Math.round(this._postVideo.dur)} с · ${(this._postVideo.file.size / 1048576).toFixed(1)} МБ</div></div>` : ''}
-      <div class="grid grid-cols-3 gap-2"><label class="btn btn-ghost"><input type="file" accept="image/*" class="hidden" data-action="post-photo"><svg class="ic"><use href="#fa-image"/></svg> Фото</label><label class="btn btn-ghost"><input type="file" accept="video/*" class="hidden" data-action="post-video"><svg class="ic"><use href="#fa-video"/></svg> Видео</label><button class="btn btn-primary" data-action="post-publish"><svg class="ic"><use href="#fa-paper-plane"/></svg></button></div>
+      <div class="grid grid-cols-3 gap-2"><label class="btn btn-ghost col-span-2 cp-media"><input type="file" accept="image/*,video/*" class="hidden" data-action="post-media"><svg class="ic"><use href="#fa-camera"/></svg> Фото или видео</label><button class="btn btn-primary" data-action="post-publish"><svg class="ic"><use href="#fa-paper-plane"/></svg></button></div>
       <div class="text-[10px] muted mt-1">Видео до ${Social.VIDEO_MAX_SEC} с и ${Social.VIDEO_MAX_MB} МБ.</div>
       <div class="text-[10px] muted mt-2">Первый пост за день: +${CONFIG.TROPHY.POST_DAY} кубок.</div>`;
     this._renderComposer = () => { const m = this.$('#modal .modal'); if (m && this._composer) this.morph(m, html()); };
@@ -10318,7 +10620,7 @@ Object.assign(UI, {
 /* ------------------------------- APP -------------------------------- */
 const App = {
   segVal(id) { const on = document.querySelector(`#${id} button.on`); return on ? on.dataset.val : null; },
-  afterChange(rerender = true) { save(); UI.renderHeader(); if (rerender) UI.renderTab(UI.tab); UI.flushEvents(); if (S.profile.remindStreak) Notify.remindSoon(); },
+  afterChange(rerender = true) { save(); UI.renderHeader(); if (rerender) UI.renderTab(UI.tab); UI.flushEvents(); if (UI._shOpen && document.getElementById('modal') && !UI._shBusy) { UI._shBusy = true; try { UI.openShield(); } finally { UI._shBusy = false; } } if (S.profile.remindStreak) Notify.remindSoon(); },
   applyTheme() { document.documentElement.classList.toggle('reduce-motion', !!S.profile.reduceMotion); document.documentElement.classList.toggle('light', S.profile.theme === 'light'); document.documentElement.classList.toggle('dark', S.profile.theme !== 'light'); },
   // Загрузка фото: читаем через FileReader (работает в любых WebView), декодируем через createImageBitmap
   // (учитывает поворот EXIF) с запасным вариантом через <img>; если декодировать нельзя (например HEIC),
@@ -10430,6 +10732,7 @@ const App = {
     'rest-go'() { Rest.start(); },
     'rest-add'(el) { Rest.add(+el.dataset.v); },
     'rest-skip'() { Rest.stop(); },
+    'rest-min'() { Rest.setMini(true); },
     'wu-toggle'(el) { el.classList.toggle('on'); },
     'workout-resume'() { UI.openWorkout(); },
     'wk-guide'(el) { const ex = el.dataset.ex, g = UI.guideFor(ex); UI.wkKeep(); UI.modal(`<div class="flex items-center justify-between mb-2"><button class="btn btn-ghost btn-sm" data-action="workout-resume"><svg class="ic"><use href="#fa-chevron-left"/></svg> К тренировке</button><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div><div class="font-black text-xl mb-2">${U.esc(U.exRu(ex))}</div>${UI.guideDetail(ex, g)}<button class="btn btn-primary w-full mt-3" data-action="workout-resume">Понятно, к тренировке</button>`); UI._inWorkout = true; },
@@ -10490,7 +10793,11 @@ const App = {
     /* ---- v72: бои ---- */
     'cm-seg'(el) { UI._cmSeg = el.dataset.val; S.profile.cmSeg = el.dataset.val; save(); UI.renderClans(); if (el.dataset.val === 'raid') Raid.load(true).then(ok => ok && UI.tab === 'clans' && UI.renderClans()); },
     'shield-open'() { UI.openShield(); },
-    'shield-warm'() { Game.logBurn([AIFood.burn({ name: 'Разминка', met: 3.5 }, 5)], U.today(), 'manual'); App.afterChange(); UI.openShield(); UI.toast('Разминка засчитана: щит +25%', 'em'); },
+    // v74: щит всегда заряжается за сегодня (раньше вода и активность уходили в день, открытый во вкладке «Здоровье»), шторка обновляется сразу
+    'shield-warm'() { if (Calc.shieldParts()[3].ok) return UI.openShield(); Game.logBurn([AIFood.burn({ name: 'Разминка', met: 3.5 }, 5)], U.today(), 'manual'); App.afterChange(); UI.openShield(); UI.toast('Разминка засчитана: щит +25%', 'em'); },
+    'shield-water'() { const was = Calc.shieldParts()[0].ok; if (!Game.logWater(S.profile.cupMl || 500, U.today())) { UI.toast('Проверь объём', 'red'); return; } UI._wSplash = Date.now(); App.afterChange(); UI.openShield(); if (!was && Calc.shieldParts()[0].ok) UI.toast('Норма воды: щит +25%', 'em'); },
+    'shield-sleep'() { UI.hDay = U.today(); UI._reopen = () => UI.openShield(); UI.openSleep(); },
+    'shield-act'() { UI.hDay = U.today(); UI._actRes = null; UI._actErr = ''; UI._reopen = () => UI.openShield(); UI.openActivity(); },
     'raid-mode'(el) { UI._raidMode = el.dataset.val; UI.renderPage(); },
     async 'raid-start'(el) { el.disabled = true; const r = await Raid.start(el.dataset.val === 'party'); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Рейд начался: каждая тренировка бьёт по Титану', 'pu'); UI.renderPage(); if (UI.tab === 'clans') UI.renderClans(); },
     async 'raid-join'(el) { el.disabled = true; const r = await Raid.join(el.dataset.id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Ты в рейде!', 'pu'); if (UI._page) UI.renderPage(); if (UI.tab === 'clans') UI.renderClans(); },
@@ -10679,8 +10986,13 @@ const App = {
     'clan-challenge-pick'() { if (!S.clan || S.clan.role === 'member') { UI.toast('Вызов может бросить лидер или заместитель', 'red'); return; } UI.openClanPick(); },
     async 'clan-challenge-random'() { if (!S.clan) return; const r = await ClanService.newBattle(); if (r && r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Новый соперник: ' + r.opponent.name, 'or'); UI.renderClans(); },
     async 'duel-random'(el) { el.disabled = true; const d = await ClanService.startDuel(); el.disabled = false; if (!d) return; if (d.error) { UI.toast(d.error, 'red'); return; } UI.toast('Дуэль началась: ' + d.nick, 'or'); UI.renderClans(); },
-    'duel-friend'() { const f = S.friends || []; if (!f.length) { UI.toast('Сначала добавь друзей', 'red'); return; } UI.modal(`<div class="font-bold mb-3">Кого вызвать?</div><div class="grid gap-2">${f.map(x => `<button class="btn btn-ghost" data-action="duel-start" data-id="${x.id}">${U.esc(x.nick)}</button>`).join('')}<button class="btn btn-ghost muted" data-action="close-modal">Отмена</button></div>`, { center: true }); },
-    async 'duel-start'(el) { const d = await ClanService.startDuel(el.dataset.id); UI.closeModal(); if (d && d.error) { UI.toast(d.error, 'red'); return; } if (d) UI.toast('Дуэль началась: ' + d.nick, 'or'); UI.renderClans(); },
+    'duel-friend'() { const f = S.friends || []; if (!f.length) { UI.toast('Сначала добавь друзей', 'red'); return; } UI.modal(`<div class="font-black text-lg">Кого вызвать?</div><div class="text-[12px] muted mb-3">Друг получит вызов и решит, принять ли его. Дуэль начнётся с момента принятия.</div><div class="card p-0 mb-3">${f.map(x => `<div class="rf-row">${UI.av(ClanService.player(x.id) || { sex: 'm' }, 36)}<b class="flex-1 min-w-0 truncate text-sm" data-no-mt>${U.esc(x.nick)}</b><button class="btn btn-or btn-sm" data-action="duel-start" data-id="${x.id}">Вызвать</button></div>`).join('')}</div><button class="btn btn-ghost w-full" data-action="close-modal">Отмена</button>`, { center: true }); },
+    async 'duel-start'(el) { el.disabled = true; const d = await ClanService.startDuel(el.dataset.id); el.disabled = false; UI.closeModal(); if (d && d.error) { UI.toast(d.error, 'red'); return; } if (d && d.pending) UI.toast(`Вызов отправлен. Ждём ответа: <b data-no-mt>${U.esc(d.nick)}</b>`, 'or'); else if (d) UI.toast(`Дуэль началась: <b data-no-mt>${U.esc(d.nick)}</b>`, 'or'); UI.renderClans(); if (UI._page) UI.renderPage(); },
+    async 'duel-accept'(el) { el.disabled = true; const d = await ClanService.acceptDuel(el.dataset.id); el.disabled = false; if (d && d.error) { UI.toast(d.error, 'red'); return; } UI.toast('Вызов принят: дуэль началась', 'or'); if (UI.$('#modal') && UI.$('#nt-box')) UI.refreshNotifs(); UI.renderHeader(); UI.renderClans(); if (UI._page) UI.renderPage(); },
+    async 'duel-decline'(el) { el.disabled = true; await ClanService.declineDuel(el.dataset.id); if (UI.$('#nt-box')) UI.refreshNotifs(); UI.renderHeader(); UI.renderClans(); if (UI._page) UI.renderPage(); },
+    'duel-req-cancel'(el) { UI.confirm('Отозвать вызов?', async () => { await ClanService.cancelReq(el.dataset.id); UI.renderClans(); if (UI._page) UI.renderPage(); }, { yes: 'Отозвать' }); },
+    async 'duel-random-go'() { UI.openPage('challenges'); await App.mmStart(); },
+    'duel-fold'() { UI._duelOpen = !UI._duelOpen; S.profile.duelOpen = UI._duelOpen; save(); UI.renderClans(); },
     async 'mm-start'(el) { if (el) el.disabled = true; await App.mmStart(); if (el) el.disabled = false; },
     'mm-stop'() { App.mmStop(); },
     'duel-cancel'() { UI.confirm('Сдаться в дуэли? Награды не будет.', async () => { await ClanService.cancelDuel(); UI.renderClans(); }, { danger: true, yes: 'Сдаться' }); },
@@ -10708,7 +11020,8 @@ const App = {
     'sleep-del'(el) { Game.deleteSleep(el.dataset.date); App.afterChange(); UI.openSleep(); },
     'set-lang'(el) { if (el.dataset.val === (S.profile.lang || 'en')) { UI.openSettings(); return; } S.profile.lang = el.dataset.val; save(); appReload({ settings: true }); },
     async 'friend-add'() { const r = await ClanService.addFriend(document.getElementById('friend-nick').value); if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('friend-nick'); UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Добавлен: ' + U.esc(r.friend.nick), 'bl'); UI.renderClans(); },
-    async 'friend-add-id'(el) { el.disabled = true; const r = await ClanService.addFriendById(el.dataset.id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Теперь вы друзья: ' + U.esc(r.friend.nick), 'bl'); if (UI.$('#modal')) UI.openMiniProfile(el.dataset.id); if (UI._page) UI.renderPage(); UI.renderClans(); },
+    'sg-hide'(el) { const xs = S.profile.sgHide || (S.profile.sgHide = []); if (!xs.includes(el.dataset.id)) xs.push(el.dataset.id); if (xs.length > 200) xs.splice(0, xs.length - 200); save(); const c = el.closest('.sg-c'); if (c) { c.classList.add('gone'); setTimeout(() => UI.renderClans(), 220); } else UI.renderClans(); },
+    async 'friend-add-id'(el) { if (el.dataset.sg) (UI._sgSent || (UI._sgSent = new Set())).add(el.dataset.id); el.disabled = true; const r = await ClanService.addFriendById(el.dataset.id); el.disabled = false; if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast(r.sent ? 'Заявка отправлена: ' + U.esc(r.player.nick) : 'Теперь вы друзья: ' + U.esc(r.friend.nick), 'bl'); if (UI.$('#modal')) UI.openMiniProfile(el.dataset.id); if (UI._page) UI.renderPage(); UI.renderClans(); },
     async 'friend-accept'(el) { const r = await ClanService.respondRequest(el.dataset.id, true); if (r.error) { UI.toast(r.error, 'red'); return; } UI.toast('Заявка принята', 'bl'); if (UI.$('#modal')) UI.openNotifs(); UI.renderClans(); },
     async 'friend-decline'(el) { const r = await ClanService.respondRequest(el.dataset.id, false); if (r.error) { UI.toast(r.error, 'red'); return; } if (UI.$('#modal')) UI.openNotifs(); UI.renderClans(); },
     async 'friend-accept-user'(el) { const q = ClanService.incoming().find(x => x.from_id === el.dataset.id); if (!q) return; await this['friend-accept']({ dataset: { id: q.id } }); UI.openMiniProfile(el.dataset.id); },
@@ -10811,6 +11124,9 @@ const App = {
       if (dur < 0) { URL.revokeObjectURL(url); UI.toast('Этот формат видео не открывается. Попробуй MP4.', 'red'); return; }
       if (dur > Social.VIDEO_MAX_SEC) { URL.revokeObjectURL(url); UI.toast(`Видео длиннее ${Social.VIDEO_MAX_SEC} секунд. Обрежь его.`, 'red'); return; }
       if (UI._postVideo) URL.revokeObjectURL(UI._postVideo.url); UI._postVideo = { file: f, url, dur }; UI._renderComposer && UI._renderComposer(); },
+    // v74: один выбор из галереи — и фото, и видео; тип файла решает, куда он пойдёт
+    async 'post-media'(el) { const f = el.files && el.files[0]; if (!f) return; const vid = /^video\//.test(f.type || '') || /\.(mp4|mov|m4v|webm|3gp|mkv)$/i.test(f.name || ''); return vid ? this['post-video'](el) : this['post-photo'](el); },
+    async 'snap-media'(el) { const f = el.files && el.files[0]; if (!f) return; UI._postImg = null; if (UI._postVideo) { URL.revokeObjectURL(UI._postVideo.url); UI._postVideo = null; } await this['post-media'](el); if (UI._postImg || UI._postVideo) UI.needRules(() => UI.openComposer()); },
     'post-video-remove'() { if (UI._postVideo) URL.revokeObjectURL(UI._postVideo.url); UI._postVideo = null; UI._renderComposer && UI._renderComposer(); },
     'post-img-remove'() { UI._postImg = null; UI._renderComposer && UI._renderComposer(); },
     async 'post-publish'(el) { const t = document.getElementById('post-body'); el.disabled = true; const old = el.innerHTML; if (UI._postVideo) { el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg>'; UI._postVideo.onProgress = p => { el.innerHTML = `<svg class="ic spin"><use href="#fa-circle-notch"/></svg> <span class="num">${Math.round(p * 100)}%</span>`; }; } const r = await Social.post(t ? t.value : '', UI._postImg, UI._postVideo); el.disabled = false; el.innerHTML = old; if (r.error) { UI.toast(r.error, 'red'); return; } App.clearDraft('post-body'); UI._postImg = null; UI._postVideo = null; UI.closeModal(); UI.toast('Пост опубликован', 'pu'); UI.refreshSocial(); App.afterChange(false); },
