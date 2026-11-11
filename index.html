@@ -648,8 +648,8 @@ html:not(.light) .hh-more-w{color:#E0F2FE}
 .hm-rail .hm-tile:active{transform:scale(.96)}
 .hm-rail .hm-tile .hm-ti{position:absolute;right:-.9rem;bottom:-1rem;width:6.6rem;height:6.6rem;border:0;border-radius:0;background:none!important;box-shadow:none!important;color:#fff!important;transform:rotate(-14deg);opacity:.96}
 .hm-rail .hm-tile .hm-ti .ic{width:5.6rem;height:5.6rem;filter:drop-shadow(0 10px 12px rgba(0,0,0,.3))}
-.hm-rail .hm-tile .hm-ti.hm-3d{right:-1.1rem;bottom:-1.15rem;width:7.6rem;height:7.6rem;transform:none;opacity:1;pointer-events:none}
-.hm-rail .hm-tile .hm-ti.hm-3d img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 14px rgba(0,0,0,.28));transition:transform .25s}
+.hm-rail .hm-tile .hm-ti.hm-3d{right:.35rem;bottom:.3rem;width:6.3rem;height:6.3rem;transform:none;opacity:1;pointer-events:none}
+.hm-rail .hm-tile .hm-ti.hm-3d img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 12px rgba(0,0,0,.18));transition:transform .25s}
 .hm-rail .hm-tile:active .hm-ti.hm-3d img{transform:scale(1.06) rotate(-4deg)}
 .hm-rail .hm-tile .hm-ti .emb{width:4.6rem;height:4.6rem;border-radius:1.2rem;font-size:2.2rem;background:rgba(255,255,255,.2)!important;color:#fff!important;box-shadow:0 10px 18px rgba(0,0,0,.25)}
 .hm-rail .hm-tx{position:relative;z-index:1;display:flex;flex-direction:column;gap:.15rem;max-width:100%}
@@ -2068,8 +2068,8 @@ html.hh-shp.light .hh-cut{filter:drop-shadow(0 8px 16px rgba(15,23,42,.07))}html
 .hh-t:active{transform:scale(.97)}
 .hh-tl{--ox:0%;--oy:0%;left:24px;top:24px;width:calc(50% - 28px);height:108px}
 .hh-tr{--ox:100%;--oy:0%;right:24px;top:24px;width:calc(50% - 28px);height:108px;align-items:flex-end;text-align:right}
-.hh-ml{--ox:0%;--oy:50%;left:24px;top:140px;width:92px;height:128px;justify-content:center;padding:10px 12px;gap:.2rem}
-.hh-mr{--ox:100%;--oy:50%;right:24px;top:140px;width:92px;height:128px;justify-content:center;align-items:flex-end;text-align:right;padding:10px 12px;gap:.2rem}
+.hh-ml{--ox:0%;--oy:50%;left:24px;top:140px;width:116px;height:128px;justify-content:center;padding:10px 12px;gap:.2rem}
+.hh-mr{--ox:100%;--oy:50%;right:24px;top:140px;width:116px;height:128px;justify-content:center;align-items:flex-end;text-align:right;padding:10px 12px;gap:.2rem}
 .hh-bl{--ox:0%;--oy:100%;left:24px;top:276px;width:calc(50% - 28px);height:108px}
 .hh-br{--ox:100%;--oy:100%;right:24px;top:276px;width:calc(50% - 28px);height:108px;align-items:flex-end;text-align:right}
 .hh-h{display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;color:var(--muted);max-width:100%}
@@ -8421,10 +8421,11 @@ const UI = {
       </button>
     </div>`;
   },
-  // v71: плитки вокруг кольца «Оценки дня» получают точную форму: прямоугольник со скруглёнными углами минус круг
-  // с ровным зазором вокруг кольца, а стыки дуги с краями плитки скруглены. Контур считается по SDF лучами из
-  // центра плитки и уходит в clip-path; рамка плитки — ::before с кольцевым path(evenodd), поэтому обводка
-  // идёт и вдоль выреза. Пока форма не посчитана (или path() не поддерживается), работает старая маска.
+  // v71: плитки вокруг кольца «Оценки дня» получают точную форму: скруглённый прямоугольник минус круг с ровным
+  // зазором вокруг кольца. Затем к форме применяется морфологическое «открытие» радиусом F (сжать на F и
+  // расширить обратно): узкие выпады между дугой и краем плитки исчезают, а все стыки скругляются одним радиусом.
+  // Поле расстояний считается по сетке (точное EDT), контур — лучами из центра плитки, результат уходит в clip-path;
+  // рамка — ::before с кольцевым path(evenodd), поэтому обводка идёт и вдоль выреза. Без path() работает старая маска.
   hubShape(force) {
     const hh = this.$('.hh'), cut = hh && hh.querySelector('.hh-cut'), ring = hh && hh.querySelector('.hh-ring');
     if (!cut || !ring || !cut.offsetWidth) return;
@@ -8432,23 +8433,33 @@ const UI = {
     if (!this._hhRz) { this._hhRz = 1; addEventListener('resize', () => { clearTimeout(this._hhRt); this._hhRt = setTimeout(() => this.hubShape(), 120); }); }
     const key = cut.offsetWidth + 'x' + ring.offsetWidth;
     if (!force && this._hhKey === key && document.getElementById('hh-shape')) return;
-    const cx0 = ring.offsetLeft - cut.offsetLeft, cy0 = ring.offsetTop - cut.offsetTop, R = ring.offsetWidth / 2 * 90 / 96 + 12, K = 16;
-    const smax = (a, b) => { const h = Math.max(K - Math.abs(a - b), 0); return Math.max(a, b) + h * h * 0.25 / K; };
+    const cx0 = ring.offsetLeft - cut.offsetLeft, cy0 = ring.offsetTop - cut.offsetTop, R = ring.offsetWidth / 2 * 90 / 96 + 12, F = 15, SC = 2;
+    // одномерное точное преобразование расстояний (Felzenszwalb–Huttenlocher)
+    const edt1 = (f, n, d, v, z) => { let k = 0; v[0] = 0; z[0] = -1e20; z[1] = 1e20;
+      for (let q = 1; q < n; q++) { let s; do { const r = v[k]; s = ((f[q] + q * q) - (f[r] + r * r)) / (2 * q - 2 * r); } while (s <= z[k] && --k >= 0); k++; v[k] = q; z[k] = s; z[k + 1] = 1e20; }
+      k = 0; for (let q = 0; q < n; q++) { while (z[k + 1] < q) k++; const r = v[k]; d[q] = (q - r) * (q - r) + f[r]; } };
     const css = [];
     cut.querySelectorAll('.hh-t').forEach(t => {
       const pos = (t.className.match(/hh-(tl|tr|ml|mr|bl|br)\b/) || [])[1]; if (!pos) return;
       const w = t.offsetWidth, h = t.offsetHeight, rr = Math.min(parseFloat(getComputedStyle(t).borderTopLeftRadius) || 0, w / 2, h / 2);
       const cx = cx0 - t.offsetLeft, cy = cy0 - t.offsetTop;
-      const sdf = (x, y) => { const qx = Math.abs(x - w / 2) - (w / 2 - rr), qy = Math.abs(y - h / 2) - (h / 2 - rr);
-        const dr = Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - rr; return smax(dr, R - Math.hypot(x - cx, y - cy)); };
+      const sd = (x, y) => { const qx = Math.abs(x - w / 2) - (w / 2 - rr), qy = Math.abs(y - h / 2) - (h / 2 - rr);
+        return Math.max(Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - rr, R - Math.hypot(x - cx, y - cy)); };
+      // сетка с шагом 1/SC px и полями по краям
+      const P = 3, W = Math.ceil((w + 2 * P) * SC), H = Math.ceil((h + 2 * P) * SC), N = Math.max(W, H), BIG = 1e12;
+      const g = new Float64Array(W * H), f = new Float64Array(N), d = new Float64Array(N), v = new Int32Array(N), z = new Float64Array(N + 1);
+      for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) g[j * W + i] = sd(i / SC - P, j / SC - P) < -F ? 0 : BIG;
+      for (let i = 0; i < W; i++) { for (let j = 0; j < H; j++) f[j] = g[j * W + i]; edt1(f, H, d, v, z); for (let j = 0; j < H; j++) g[j * W + i] = d[j]; }
+      for (let j = 0; j < H; j++) { for (let i = 0; i < W; i++) f[i] = g[j * W + i]; edt1(f, W, d, v, z); for (let i = 0; i < W; i++) g[j * W + i] = Math.sqrt(d[i]) / SC - F; }
+      const field = (x, y) => { const gx = Math.min(Math.max((x + P) * SC, 0), W - 1.001), gy = Math.min(Math.max((y + P) * SC, 0), H - 1.001), i = gx | 0, j = gy | 0, fx = gx - i, fy = gy - j, o = j * W + i;
+        return (g[o] * (1 - fx) + g[o + 1] * fx) * (1 - fy) + (g[o + W] * (1 - fx) + g[o + W + 1] * fx) * fy; };
       let ox = w / 2, oy = h / 2; const dx = ox - cx, dy = oy - cy, dl = Math.hypot(dx, dy) || 1; ox += dx / dl * Math.min(w, h) * .22; oy += dy / dl * Math.min(w, h) * .22;
-      if (sdf(ox, oy) > -4) return;
-      const trace = iso => { const pts = [], N = 540, far = Math.hypot(w, h);
-        for (let i = 0; i < N; i++) { const a = i / N * 2 * Math.PI, ux = Math.cos(a), uy = Math.sin(a); let t0 = 0, t1 = 0;
-          while (t1 < far && sdf(ox + ux * t1, oy + uy * t1) < iso) { t0 = t1; t1 += 2; }
-          for (let j = 0; j < 14; j++) { const m = (t0 + t1) / 2; if (sdf(ox + ux * m, oy + uy * m) < iso) t0 = m; else t1 = m; }
+      if (field(ox, oy) > -4) return;
+      const trace = iso => { const pts = [], NR = 540, far = Math.hypot(w, h);
+        for (let i = 0; i < NR; i++) { const a = i / NR * 2 * Math.PI, ux = Math.cos(a), uy = Math.sin(a); let t0 = 0, t1 = 0;
+          while (t1 < far && field(ox + ux * t1, oy + uy * t1) < iso) { t0 = t1; t1 += 1.5; }
+          for (let j = 0; j < 14; j++) { const m = (t0 + t1) / 2; if (field(ox + ux * m, oy + uy * m) < iso) t0 = m; else t1 = m; }
           const m = (t0 + t1) / 2; pts.push([ox + ux * m, oy + uy * m]); }
-        // упрощаем прямые участки, чтобы path был короче
         const dev = (a, b, c) => Math.abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])) / (Math.hypot(c[0] - a[0], c[1] - a[1]) || 1);
         const keep = [pts[0]]; let ai = 0;
         for (let i = 1; i < pts.length - 1; i++) { for (let j = ai + 1; j <= i; j++) if (dev(pts[ai], pts[j], pts[i + 1]) > .15) { keep.push(pts[i]); ai = i; break; } }
