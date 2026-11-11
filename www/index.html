@@ -1807,6 +1807,280 @@ html.light .trg-f{stroke:color-mix(in srgb,var(--rc) 70%,#1C1917)}
 html.light .trg-f.cur{stroke:color-mix(in srgb,var(--rc) 50%,#0C0A09)}
 html.light .trg-g{opacity:.18}
 html.light .trg-k{stroke:color-mix(in srgb,var(--rc) 55%,#1C1917)}
+/* v67: Здоровье — «Оценка дня» в центре, плитки с вырезом по кругу */
+.hh-wrap{margin:0 0 .75rem}
+.hh-top{display:flex;align-items:center;justify-content:space-between;margin:.1rem .25rem .65rem}
+.hh-top b{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:.5rem}
+.hh-top b .ic{color:#10B981}
+.hh-top span{font-size:.72rem;color:var(--muted);font-weight:600}
+.hh{--rg:192px;--rc:102px;position:relative;height:360px}
+.hh-cut{position:absolute;inset:-24px;-webkit-mask:radial-gradient(circle at 50% 204px,transparent var(--rc),#000 calc(var(--rc) + 1px));mask:radial-gradient(circle at 50% 204px,transparent var(--rc),#000 calc(var(--rc) + 1px))}
+.hh-t{position:absolute;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:.35rem;padding:14px;border-radius:26px;overflow:hidden;color:var(--text);
+  background:radial-gradient(115% 95% at var(--ox) var(--oy),color-mix(in srgb,var(--c) 15%,transparent),transparent 68%),linear-gradient(180deg,rgba(255,255,255,.035),transparent 45%),var(--card);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 16%,var(--line));transition:transform .15s ease}
+.hh-t:active{transform:scale(.97)}
+.hh-tl{--ox:0%;--oy:0%;left:24px;top:24px;width:calc(50% - 28px);height:108px}
+.hh-tr{--ox:100%;--oy:0%;right:24px;top:24px;width:calc(50% - 28px);height:108px;align-items:flex-end;text-align:right}
+.hh-ml{--ox:0%;--oy:50%;left:24px;top:140px;width:92px;height:128px;justify-content:center;padding:10px 12px;gap:.2rem}
+.hh-mr{--ox:100%;--oy:50%;right:24px;top:140px;width:92px;height:128px;justify-content:center;align-items:flex-end;text-align:right;padding:10px 12px;gap:.2rem}
+.hh-bl{--ox:0%;--oy:100%;left:24px;top:276px;width:calc(50% - 28px);height:108px}
+.hh-br{--ox:100%;--oy:100%;right:24px;top:276px;width:calc(50% - 28px);height:108px;align-items:flex-end;text-align:right}
+.hh-h{display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;color:var(--muted);max-width:100%}
+.hh-h>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hh-tr .hh-h,.hh-br .hh-h{flex-direction:row-reverse}
+.hh-i{width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);flex:none;font-style:normal}
+.hh-i .ic{width:16px;height:16px}
+.hh-i.sm{width:30px;height:30px;border-radius:11px;margin-bottom:.2rem}
+.hh-i.sm .ic{width:14px;height:14px}
+.hh-t.hh-ml small,.hh-t.hh-mr small{white-space:normal;overflow:visible}
+.hh-v{font-size:1.55rem;font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-top:auto;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.hh-t.hh-tr small{font-size:.66rem;max-width:calc(100% - 20px)}
+.hh-tl .hh-v{font-size:1.4rem}
+.hh-v em{font-style:normal;font-size:.72rem;font-weight:700;color:var(--muted);margin-left:3px;letter-spacing:0}
+.hh-v.hh-over{color:#FF453A}
+.hh-t small{font-size:.7rem;color:var(--muted);font-weight:600;line-height:1.2;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.hh-t b{font-size:.88rem;font-weight:800;line-height:1.1}
+.hh-ok{color:#34C759!important}.hh-up{color:#F97316!important}.hh-hl{color:var(--c)!important}
+.hh-mb{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:70%;margin-top:.15rem}
+.hh-mb i{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--k) var(--p),color-mix(in srgb,var(--k) 20%,transparent) var(--p))}
+.hh-bar{display:block;width:62%;height:5px;border-radius:5px;margin-top:.15rem;background:linear-gradient(90deg,var(--c) var(--p),color-mix(in srgb,var(--c) 18%,transparent) var(--p))}
+.hh-ring{position:absolute;left:50%;top:180px;width:var(--rg);height:var(--rg);transform:translate(-50%,-50%);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.hh-ring:active{transform:translate(-50%,-50%) scale(.97)}
+.hh-ring::before{content:'';position:absolute;inset:16%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--dq) 9%,transparent) 0,transparent 70%);pointer-events:none}
+.hh-ring>svg{position:absolute;inset:0;width:100%;height:100%}
+.hh-mid{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;max-width:72%}
+.hh-mid b{font-size:2.5rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+.hh-mid small{font-size:.75rem;font-weight:700;color:var(--dq);margin-top:.3rem;line-height:1.15}
+.hh-cups{display:inline-flex;align-items:center;gap:.25rem;margin-top:.35rem;font-size:.8rem;font-weight:800;color:#FBBF24}
+.hh-cups .ic{width:.8rem;height:.8rem}
+.hh-cap{font-size:.66rem;color:var(--muted);font-weight:600;margin-top:.15rem;line-height:1.2}
+.hh-body .bp-card{width:100%}
+.wt-m .input{font-size:1.1rem;padding:.6rem .3rem}
+html.light .hh-t{background:radial-gradient(120% 100% at var(--ox) var(--oy),color-mix(in srgb,var(--c) 20%,transparent),transparent 66%),var(--card);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 10%,var(--line)),0 10px 26px rgba(15,23,42,.06)}
+html.light .hh-cups{color:#B7860B}
+html.light .hh-ring::before{inset:12%;background:radial-gradient(circle,color-mix(in srgb,var(--dq) 12%,transparent) 0,transparent 72%)}
+@media (max-width:380px){.hh{--rg:172px;--rc:92px}.hh-mid b{font-size:2.2rem}.hh-v{font-size:1.3rem}.hh-v em{font-size:.66rem}}
+@media (max-width:340px){.hh-ml,.hh-mr{width:84px}.hh-v{font-size:1.35rem}}
+/* v67: знакомство и мастер профиля — один вопрос на экран; светлая тема — «frost», тёмная — ночная */
+.modal-bg.qz-full .modal{padding:0;background:transparent;max-width:30rem;overflow:hidden}
+.qz{--t:#F1F5F9;--m:#94A3B8;--g:#121a28;--gb:rgba(255,255,255,.07);--pill:#F1F5F9;--pt:#0B0E14;--dot:#2A3445;--sh:none;
+  position:relative;display:flex;flex-direction:column;min-height:100%;height:100%;overflow-y:auto;overflow-x:hidden;color:var(--t);
+  padding:calc(18px + env(safe-area-inset-top)) 22px calc(20px + env(safe-area-inset-bottom));
+  background:radial-gradient(110% 55% at 80% 8%,#16233A 0,transparent 60%),radial-gradient(90% 50% at 0% 75%,#101B2A 0,transparent 70%),#07090D}
+html.light .qz{--t:#15191C;--m:#6B767F;--g:#F3F6F8;--gb:#fff;--pill:#15191C;--pt:#fff;--dot:#B7C3CB;--sh:0 14px 34px rgba(40,60,75,.10);
+  background:radial-gradient(120% 55% at 80% 10%,#F3F7F9 0,transparent 60%),radial-gradient(90% 50% at 0% 70%,#C6D3DB 0,transparent 70%),linear-gradient(180deg,#E3E9ED,#CCD7DE)}
+.qz h1{font-size:2rem;line-height:1.05;font-weight:800;letter-spacing:-.03em;margin:0 0 .6rem}
+.qz p{font-size:.97rem;line-height:1.45;color:var(--m);margin:0;font-weight:500}
+.qz-top{display:flex;align-items:center;gap:12px;min-height:42px}
+.qz-back{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--g);border:1px solid var(--gb);flex:none;color:var(--t)}
+.qz-back.off{visibility:hidden}
+.qz-prog{flex:1;display:grid;gap:5px}
+.qz-prog i{height:5px;border-radius:5px;background:var(--dot);transition:background .3s}
+.qz-prog i.on{background:var(--t)}
+.qz-skip{font-size:.85rem;font-weight:700;color:var(--m);min-width:34px;text-align:right}
+.qz-body{flex:1;display:flex;flex-direction:column;animation:wzin .3s ease both}
+.qz-step{font-size:.8rem;font-weight:700;color:var(--m);margin:1.6rem 0 .5rem}
+.qz-body>h1:first-child{margin-top:1.6rem}
+.qz-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:1rem 0}
+.qz-err{font-size:.8rem;color:#F87171;text-align:center;min-height:1rem;margin:.2rem 0}
+.qz-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:.4rem}
+.qz-ghost{font-size:1rem;font-weight:700;color:var(--m);padding:12px 4px}
+.qz-next{display:inline-flex;align-items:center;gap:10px;background:var(--pill);color:var(--pt);border-radius:999px;padding:17px 30px;font-weight:700;font-size:1rem;transition:transform .15s}
+.qz-next:active{transform:scale(.96)}.qz-next:disabled{opacity:.6}
+.qz-g{background:var(--g);border:1px solid var(--gb);border-radius:26px;box-shadow:var(--sh);color:var(--t)}
+.qz-input{display:flex;align-items:center;gap:12px;padding:12px 22px}
+.qz-input input{flex:1;min-width:0;background:transparent;border:0;outline:0;font-size:1.9rem;font-weight:800;letter-spacing:-.02em;color:var(--t);padding:10px 0;caret-color:#3B82F6}
+.qz-input input::placeholder{color:var(--m);opacity:.6}
+.qz-cnt{color:var(--m);font-weight:600;font-size:.95rem;flex:none}
+.qz-row{display:flex;align-items:center;gap:12px;padding:14px 16px;margin-top:12px;width:100%;text-align:left}
+.qz-bub{width:44px;height:44px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);flex:none}
+.qz-bub .ic{width:19px;height:19px}
+.qz-rt{flex:1;min-width:0}
+.qz-row b{display:block;font-size:.97rem;font-weight:800}
+.qz-row small{display:block;font-size:.78rem;color:var(--m);font-weight:600;margin-top:1px}
+.qz-row.on{background:var(--pill);color:var(--pt);border-color:transparent}
+.qz-row.on small{color:color-mix(in srgb,var(--pt) 65%,transparent)}
+.qz-chk{width:24px;height:24px;border-radius:50%;border:2px solid var(--dot);flex:none;display:flex;align-items:center;justify-content:center}
+.qz-row.on .qz-chk{border-color:#34D399;background:#34D399;color:#05301F}
+.qz-chk .ic{width:12px;height:12px}
+.qz-pl{font-size:.88rem;font-weight:700;color:var(--m);flex:none}
+.qz-ref input{width:100%;background:transparent;border:0;outline:0;font-size:1.05rem;font-weight:800;letter-spacing:.08em;color:var(--t);padding:2px 0;text-transform:uppercase}
+.qz-ref input::placeholder{color:var(--m);opacity:.6}
+.qz-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qz-card{padding:18px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-height:9rem;text-align:left}
+.qz-card .qz-bub{width:46px;height:46px;border-radius:16px}
+.qz-card b{font-size:1.05rem;font-weight:800;margin-top:auto;line-height:1.15}
+.qz-card small{font-size:.78rem;color:var(--m);font-weight:600;margin-top:-6px}
+.qz-grid.sm .qz-card{min-height:0;padding:14px;gap:6px}.qz-grid.sm .qz-card .qz-bub{width:38px;height:38px;border-radius:13px}.qz-grid.sm .qz-card b{margin-top:4px;font-size:.95rem}
+.qz-card.on{background:var(--pill);color:var(--pt);border-color:transparent}
+.qz-card.on small{color:color-mix(in srgb,var(--pt) 60%,transparent)}
+.qz-lbl{font-size:.8rem;font-weight:700;color:var(--m);margin:1.2rem 4px .6rem}
+.qz-lbl.mt-7{margin-top:1.8rem}
+.qz-note{font-size:.8rem;font-weight:600;color:var(--m);text-align:center;margin-top:.8rem}
+.qz-sex{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qz-sex button{padding:18px 14px;display:flex;align-items:center;gap:12px;font-size:1.02rem;font-weight:800}
+.qz-sex i{font-style:normal;font-size:1.5rem;width:44px;height:44px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);flex:none}
+.qz-sex button.on{background:var(--pill);color:var(--pt);border-color:transparent}
+.qz-pick{display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;height:84px;-webkit-mask:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent);mask:linear-gradient(90deg,transparent,#000 25%,#000 75%,transparent);margin:0 -22px}
+.qz-pick::-webkit-scrollbar,.qz-ruler::-webkit-scrollbar{display:none}
+.qz-pick .qz-sp{flex:none;display:block;height:1px}
+.qz-pick span{flex:none;width:64px;text-align:center;font-size:1.5rem;font-weight:700;color:var(--m);opacity:.6;transition:all .15s}
+.qz-pick span.on{opacity:1;color:var(--pt);font-size:2.2rem;font-weight:800;position:relative;z-index:1}
+.qz-pick span.on::before{content:'';position:absolute;z-index:-1;left:50%;top:50%;width:76px;height:66px;transform:translate(-50%,-50%);border-radius:22px;background:var(--pill)}
+.qz-units{display:inline-flex;align-self:center;padding:4px;border-radius:999px;gap:2px}
+.qz-units.start{align-self:flex-start}
+.qz-units.wide{display:grid;grid-template-columns:1fr 1fr;align-self:stretch}
+.qz-units button{padding:9px 18px;border-radius:999px;font-size:.9rem;font-weight:700;color:var(--m);display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.qz-units button.on{background:var(--pill);color:var(--pt)}
+.qz-big{display:flex;align-items:baseline;justify-content:center;margin:1.4rem 0 .2rem}
+.qz-big.left{justify-content:flex-start;margin-top:1rem}
+.qz-big input,.qz-big>span{background:transparent;border:0;outline:0;color:var(--t);font-size:5.2rem;font-weight:800;letter-spacing:-.05em;line-height:1;text-align:center;padding:0;-moz-appearance:textfield;min-width:0}
+.qz-big.left input,.qz-big.left>span{text-align:left;font-size:4.4rem}
+.qz-big input::-webkit-outer-spin-button,.qz-big input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.qz-big em{font-style:normal;font-size:1.35rem;font-weight:700;color:var(--m);margin-left:6px}
+.qz-delta{text-align:center;font-size:.82rem;font-weight:700;color:var(--m)}
+.qz-delta.left{text-align:left}
+.qz-rw{position:relative;margin:1.4rem -22px 0}
+.qz-ruler{position:relative;height:100px;overflow-x:auto;scrollbar-width:none;-webkit-mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}
+.qz-rl-in{display:flex;height:100%;width:max-content}
+.qz-ruler .qz-sp{flex:none;display:block}
+.qz-rl-t{position:relative;flex:none;height:100%;
+  background:linear-gradient(90deg,var(--m) 0 2.5px,transparent 2.5px) 0 8px/var(--mj) 58px repeat-x,linear-gradient(90deg,var(--dot) 0 2px,transparent 2px) 0 8px/var(--px) 40px repeat-x}
+.qz-rl-l{position:absolute;top:72px;font-size:.8rem;font-weight:700;color:var(--m);transform:translateX(-50%)}
+.qz-needle{position:absolute;left:50%;top:0;width:4px;height:74px;border-radius:4px;background:var(--t);transform:translateX(-50%);pointer-events:none}
+.qz-needle::after{content:'';position:absolute;left:50%;top:-6px;width:14px;height:14px;border-radius:50%;background:var(--t);transform:translateX(-50%)}
+.qz-hrow{display:flex;align-items:stretch;gap:16px;height:22rem}
+.qz-hl{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.qz-rw.v{width:110px;flex:none;margin:0;border-radius:26px;background:var(--g);border:1px solid var(--gb);box-shadow:var(--sh);overflow:hidden}
+.qz-ruler.v{width:100%;height:100%;overflow-x:hidden;overflow-y:auto;-webkit-mask:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent)}
+.qz-ruler.v .qz-rl-in{flex-direction:column;width:100%;height:max-content}
+.qz-ruler.v .qz-rl-t{width:100%;background:linear-gradient(180deg,var(--m) 0 2.5px,transparent 2.5px) right 0 top var(--mo)/62px var(--mj) repeat-y,linear-gradient(180deg,var(--dot) 0 2px,transparent 2px) right 0 top 0/40px var(--px) repeat-y}
+.qz-ruler.v .qz-rl-l{top:auto;left:10px;transform:translateY(-50%)}
+.qz-rw.v>.qz-needle{left:46px;right:0;top:50%;width:auto;height:4px;transform:translateY(-50%)}
+.qz-rw.v>.qz-needle::after{left:-6px;top:50%;transform:translateY(-50%)}
+.qz-nums{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.qz-nums button{height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:22px}
+.qz-nums b{font-size:1.75rem;font-weight:800;line-height:1}
+.qz-nums small{font-size:.66rem;font-weight:700;color:var(--m);margin-top:3px}
+.qz-nums button.on{background:var(--pill);color:var(--pt);border-color:transparent}
+.qz-nums button.on small{color:color-mix(in srgb,var(--pt) 60%,transparent)}
+.qz-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:16px 12px;margin-top:16px}
+.qz-week div{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.75rem;font-weight:700;color:var(--m)}
+.qz-week i{width:34px;height:34px;border-radius:12px;background:var(--dot);opacity:.5;display:flex;align-items:center;justify-content:center;color:var(--t)}
+.qz-week i.on{background:#10B981;opacity:1;color:#04130D}
+.qz-week i .ic{width:14px;height:14px}
+.qz-plan{padding:2px 14px;margin-top:10px;max-height:11.5rem;overflow:auto}
+.qz-plan>div{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gb)}
+.qz-plan>div:last-child{border:0}
+.qz-d{width:42px;height:42px;border-radius:14px;background:var(--pill);color:var(--pt);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;flex:none}
+.qz-plan b{display:block;font-size:.9rem;font-weight:800}
+.qz-plan small{display:block;font-size:.74rem;color:var(--m);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qz-st{margin-left:auto;font-size:.75rem;font-weight:800;color:var(--m);flex:none}
+.qz-lift{display:flex;align-items:center;gap:12px;padding:10px;margin-top:10px;transition:opacity .2s}
+.qz-lift.off{opacity:.55}
+.qz-art{width:64px;height:64px;border-radius:18px;overflow:hidden;background:#0d1626;flex:none;display:flex;align-items:center;justify-content:center;color:var(--c)}
+.qz-art img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.qz-lift b{display:block;font-size:.97rem;font-weight:800}
+.qz-vals{display:flex;align-items:center;gap:6px;margin-top:6px}
+.qz-vals input{width:4.6rem;min-width:0;padding:7px 10px;border-radius:12px;background:color-mix(in srgb,var(--t) 6%,transparent);border:1px solid var(--gb);font-size:.9rem;font-weight:800;color:var(--t);outline:0}
+.qz-vals input:last-child{width:3.8rem}
+.qz-vals input::placeholder{color:var(--m);font-weight:600}
+.qz-vals span{color:var(--m);font-weight:700}
+html.light .qz-vals input{background:rgba(255,255,255,.8)}
+.qz-dk{margin-left:auto;font-size:.75rem;font-weight:700;color:var(--m);padding:8px 10px;border-radius:12px;border:1px dashed var(--dot);white-space:nowrap;flex:none;display:inline-flex;align-items:center;gap:4px}
+.qz-lift.off .qz-dk{border-style:solid;color:var(--t);border-color:var(--t)}
+.qz-res{display:flex;align-items:center;gap:16px;padding:18px}
+.qz-rg{width:110px;height:110px;flex:none;color:var(--t)}
+.qz-res b{font-size:2.1rem;font-weight:800;letter-spacing:-.03em;display:block;line-height:1;margin:2px 0}
+.qz-res small{font-size:.8rem;color:var(--m);font-weight:600}
+.qz-mac{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.qz-mac>div{padding:14px 12px}
+.qz-mac small{font-size:.75rem;font-weight:700}
+.qz-mac b{display:block;font-size:1.25rem;font-weight:800;margin-top:2px}
+.qz-mac em{font-style:normal;font-size:.75rem;color:var(--m)}
+.qz-arena{display:flex;align-items:center;gap:14px;padding:10px;margin-top:12px}
+.qz-aart{width:92px;height:62px;border-radius:16px;overflow:hidden;flex:none}
+.qz-aart img{width:100%;height:100%;object-fit:cover}
+.qz-arena b{display:block;font-size:.97rem;font-weight:800}
+.qz-arena small{font-size:.78rem;color:var(--m);font-weight:600}
+/* знакомство */
+.qz.intro{padding-top:calc(22px + env(safe-area-inset-top))}
+.qz-logo{display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:800}
+.qz-logo svg{width:30px;height:30px}
+.qz-n{margin-left:auto;font-size:.82rem;font-weight:700;color:var(--m)}
+.qz-hero{position:relative;flex:1;min-height:300px;max-height:460px;display:flex;align-items:center;justify-content:center;margin:12px 0 8px;animation:wzin .35s ease both}
+.qz-orb{width:min(76vw,300px);aspect-ratio:1;border-radius:50%;overflow:hidden;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06)}
+html.light .qz-orb{box-shadow:0 30px 60px rgba(40,60,75,.25),inset 0 0 0 1px rgba(255,255,255,.6)}
+.qz-orb img,.qz-tall img{width:100%;height:100%;object-fit:cover}
+.qz-orb::after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.3),transparent 45%),radial-gradient(circle at 70% 85%,rgba(0,0,0,.35),transparent 55%)}
+.qz-tall{width:min(64vw,250px);aspect-ratio:250/330;border-radius:44px;overflow:hidden;background:#0d1626;box-shadow:0 30px 60px rgba(0,0,0,.4)}
+.qz-tall img{object-position:center 20%}
+.qz-ringwrap{position:relative;width:min(72vw,280px);aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--g);border:1px solid var(--gb);box-shadow:0 30px 60px rgba(0,0,0,.35)}
+html.light .qz-ringwrap{box-shadow:0 30px 60px rgba(40,60,75,.2)}
+.qz-ringwrap>svg{width:80%;height:80%}
+.qz-rmid{position:absolute;display:flex;flex-direction:column;align-items:center}
+.qz-rmid b{font-size:2.6rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+.qz-rmid small{font-size:.85rem;font-weight:700;color:#F59E0B;margin-top:4px}
+.qz-chip{position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:20px;background:var(--g);border:1px solid var(--gb);box-shadow:0 14px 30px rgba(0,0,0,.25);max-width:62%}
+html.light .qz-chip{box-shadow:0 14px 30px rgba(40,60,75,.16)}
+.qz-chip i{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);flex:none}
+.qz-chip i .ic{width:17px;height:17px}
+.qz-chip i img{width:30px;height:30px;object-fit:contain}
+.qz-chip b{display:block;font-size:.85rem;font-weight:800;line-height:1.15}
+.qz-chip small{display:block;font-size:.72rem;font-weight:600;color:var(--m)}
+.qz-dots{display:flex;gap:7px;align-items:center;margin:4px 0 20px}
+.qz-dots i{width:8px;height:8px;border-radius:9px;background:var(--dot);transition:width .3s}
+.qz-dots i.on{width:30px;background:var(--t)}
+.qz.intro .qz-bar{margin-top:2rem}
+@media (max-height:700px){.qz h1{font-size:1.6rem}.qz-big input,.qz-big>span{font-size:4rem}.qz-hrow{height:17rem}.qz-hero{min-height:220px}.qz-step{margin-top:1rem}}
+/* v67: профиль — аватар по центру, ранг строкой, кнопки-пилюли; «Моё» листается по одной карточке */
+.pf2-hero{display:flex;flex-direction:column;align-items:center;text-align:center}
+.pf2-hero .pf-nick{margin-top:.55rem;font-size:1.9rem;letter-spacing:-.03em}
+.pf2-hero .pf-title{margin-top:.1rem}
+.pf2-av{display:flex;justify-content:center}
+.pf2-av .pf-cam{right:4px;bottom:6px}
+.pf2-rank{display:inline-flex;align-items:center;gap:.45rem;margin-top:.55rem;max-width:100%;padding:.3rem .75rem .3rem .35rem;border-radius:999px;background:color-mix(in srgb,var(--c) 10%,var(--sub));border:1px solid color-mix(in srgb,var(--c) 22%,var(--line));font-size:.82rem;font-weight:800}
+.pf2-rank .medal{flex:none}
+.pf2-rank>i{width:3px;height:3px;border-radius:50%;background:var(--muted);flex:none;opacity:.7}
+.pf2-tr{color:#F5B82E;display:inline-flex;align-items:center;gap:.2rem;white-space:nowrap}
+.pf2-tr .ic{width:.75rem;height:.75rem}
+html.light .pf2-tr{color:#B7860B}
+.pf2-btns{display:flex;justify-content:center;gap:.55rem;margin-top:.9rem;flex-wrap:wrap}
+.pf2-pill{display:inline-flex;align-items:center;gap:.45rem;padding:.7rem 1.15rem;border-radius:999px;font-size:.88rem;font-weight:800;background:var(--sub);border:1px solid var(--line);color:var(--text);transition:transform .15s}
+.pf2-pill.on{background:var(--text);color:var(--bg);border-color:transparent}
+.pf2-pill:active{transform:scale(.96)}
+.pf2-pill .ic{width:.95rem;height:.95rem}
+.pf2-sec{display:flex;align-items:baseline;justify-content:space-between;margin:.3rem .3rem .65rem}
+.pf2-sec b{font-size:1.3rem;font-weight:800;letter-spacing:-.02em}
+.pf2-sec span{font-size:.78rem;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:.3rem}
+.pf2-sec span .ic{width:.75rem;height:.75rem;animation:pfNudge 1.6s ease-in-out infinite}
+@keyframes pfNudge{0%,100%{transform:none}50%{transform:translateX(3px)}}
+.pf2-car{position:relative;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -1rem;padding:4px calc(11% + .25rem) 14px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.pf2-car::-webkit-scrollbar{display:none}
+.pf2-card{flex:none;width:100%;scroll-snap-align:center;scroll-snap-stop:always;display:flex;flex-direction:column;gap:.85rem;padding:1rem;border-radius:1.8rem;text-align:left;background:var(--card);border:1px solid var(--line);
+  transform:scale(.93);opacity:.6;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s,box-shadow .35s}
+.pf2-card.on{transform:none;opacity:1;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+html.light .pf2-card.on{box-shadow:0 14px 34px rgba(40,60,75,.12)}
+.pf2-ct{display:flex;align-items:center;gap:.65rem;width:100%}
+.pf2-ct>i{width:3px;align-self:stretch;border-radius:3px;background:var(--text);flex:none}
+.pf2-ct>span{flex:1}
+.pf2-ct b{display:block;font-size:1.05rem;font-weight:800}
+.pf2-ct small{display:flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--muted);font-weight:600;margin-top:.1rem;white-space:nowrap;overflow:hidden}
+.pf2-ct small .ic{width:.75rem;height:.75rem;flex:none}
+.pf2-ct>.ic{color:var(--muted);width:.9rem;height:.9rem;flex:none}
+.pf2-ths{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;width:100%}
+.pf2-th{aspect-ratio:1;border-radius:1rem;overflow:hidden;background:#0d1626;display:flex;align-items:center;justify-content:center}
+.pf2-th img{width:100%;height:100%;object-fit:cover}
+.pf2-th img.lock{filter:grayscale(1) brightness(.55)}
+.pf2-th i{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 16%,var(--sub));color:var(--c)}
+.pf2-th i .ic{width:1.35rem;height:1.35rem}
+.pf2-th.more,html.light .pf2-th.more{background:var(--text);color:var(--bg);font-weight:800;font-size:1.05rem}
+.pf2-ini{font-size:1.4rem;font-weight:900;color:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#3B82F6,#8B5CF6)}
+html.light .pf2-th{background:#E7ECEF}
+.pf2-dots{display:flex;justify-content:center;gap:6px;margin:-.1rem 0 1rem}
+.pf2-dots button{width:7px;height:7px;border-radius:9px;background:var(--line);transition:width .3s,background .3s;padding:0}
+.pf2-dots button.on{width:24px;background:var(--text)}
+@media (prefers-reduced-motion:reduce){.pf2-card{transition:none}.pf2-sec span .ic{animation:none}}
 </style>
 </head>
 <body>
@@ -2010,7 +2284,7 @@ const CONFIG = {
   SUPABASE_KEY: 'sb_publishable_T6Sc7GqfrP_Ujk8c641dSw_iS_KikTQ', // публичный ключ; доступ ограничен правилами RLS на сервере
   GEMINI_MODELS: ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3-flash-preview'],
   MIN_AGE: 14,
-  APP_VERSION: '66',
+  APP_VERSION: '67',
   UGC_VER: 1, // версия правил сообщества: при изменении правил попросим согласие снова
   SUPPORT_EMAIL: 'testixsupport@gmail.com', // почта поддержки/модерации (показывается в правилах и «О приложении»)
   AUTH_REDIRECT_APP: 'com.apexarena.app://auth-callback', // deep link: вход через Google/Snapchat возвращает сюда
@@ -2329,6 +2603,9 @@ Object.keys(MT.SEED_V51).forEach(l => Object.keys(MT.SEED_V51[l]).forEach(k => {
 MT.SEED_V66 = {"en": {"Светлая или тёмная тема": "Light or dark theme", "Сегодня ещё ничего": "Nothing yet today", "сделай {0} дела до полуночи": "do {0} things before midnight", "Сегодня ещё ничего: сделай {0} дела до полуночи": "Nothing yet today: do {0} things before midnight", "Все игроки по кубкам": "All players by trophies", "Игроки ранга": "Rank players", "до": "to", "Запустить отдых": "Start rest", "Пропустить отдых": "Skip rest", "Добавить тренировку": "Add workout", "Вступить в клан можно, когда будет связь с сервером.": "You can join a clan once you're connected to the server.", "пока без награды": "no reward yet", "Без награды": "No reward", "от {0}%": "from {0}%", "от {0}% · +{1}": "from {0}% · +{1}", "пока нет записи": "no entry yet", "г": "g", "Жим лёжа": "Bench Press", "Жим на наклонной": "Incline Bench", "Жим стоя": "Overhead Press", "Присед": "Squat", "Становая тяга": "Deadlift", "Румынская тяга": "Romanian Deadlift", "Тяга штанги в наклоне": "Barbell Row", "Подтягивания": "Pull-ups", "Отжимания на брусьях": "Dips", "Жим ногами": "Leg Press", "Выпады": "Lunges", "Ягодичный мост": "Hip Thrust", "Сгибания на бицепс": "Bicep Curl", "Махи в стороны": "Lateral Raise", "Подъём на носки": "Calf Raise", "под угрозой": "at risk", "Позвать в клан": "Invite to clan", "Ссылка скопирована": "Link copied", "Вставь её в чат друзьям": "Paste it into a chat with friends", "Вступай в мой клан «{0}» в Flexo League: тренируемся и соревнуемся вместе 💪": "Join my clan «{0}» in Flexo League: we train and compete together 💪", "Залетай в Flexo League: тренировки, кубки и арены. Мой код {0}, по нему получишь +{1} монет 🎁": "Join me in Flexo League: workouts, trophies and arenas. My code is {0}, use it to get +{1} coins 🎁", "Восстановление": "Recovery", "Дисциплина": "Discipline", "Отдых окончен": "Rest is over", "Пора делать следующий подход": "Time for your next set", "/{0} трен.": "/{0} workouts", "{0}/{1} трен.": "{0}/{1} workouts", "+{0} кубков: {1} тренировки за неделю!": "+{0} trophies: {1} workouts this week!", "+{0} ккал": "+{0} kcal", "ржавый новичок": "rusty rookie", "новичок": "rookie", "любитель": "amateur", "энтузиаст": "enthusiast", "атлет": "athlete", "борец": "fighter", "Арена {0} из": "Arena {0} of", "Арена {0} из {1}": "Arena {0} of {1}", "ветеран": "veteran", "чемпион": "champion", "мастер": "master", "легенда": "legend", "претендент": "contender", "Лига {0} из": "League {0} of", "Лига {0} из {1}": "League {0} of {1}", "элита": "elite", "эксперт": "expert", "легенда лиги": "league legend", "абсолютный": "absolute", "первый среди лучших": "first among the best", "Идеальный день": "Perfect day", "Серебро": "Silver", "Бронза": "Bronze", "кубки": "trophies", "кубки {0}{1}": "trophies {0}{1}", "До {0}-го места": "To #{0}", "мест": "places", "{0} мест": "{0} places", "тренировки за неделю": "workouts per week", "{0} тренировки за неделю": "{0} workouts per week", "мин назад": "min ago", "{0} мин назад": "{0} min ago", "ч назад": "h ago", "{0} ч назад": "{0} h ago", "ч {0}м": "h {0}m", "{0}ч {1}м": "{0}h {1}m", "Больше мирового рекорда ({0} {1}). Такой вес не засчитывается.": "Above the world record ({0} {1}). This weight doesn't count.", "Больше {0}× твоего веса тела. Проверь вес тела в настройках или цифру подхода.": "More than {0}× your body weight. Check your body weight in settings or the set numbers.", "Спал {0} ч при норме {1}–{2}. Пересып тоже бьёт по энергии: вставай раньше, ложись в одно время, днём больше движения и света.": "Slept {0} h with a norm of {1}–{2}. Oversleeping also drains energy: get up earlier, go to bed at the same time, move more and get more daylight.", "Восстановление на максимуме. Можно работать тяжело.": "Fully recovered. You can train hard.", "Почти норма ({0}–{1} ч). Ложись на {2} минут раньше.": "Almost there ({0}–{1} h). Go to bed {2} minutes earlier.", "Недосып снижает силу и рост мышц. Сегодня без рекордов, лёгкая тренировка.": "Lack of sleep reduces strength and muscle growth. No PRs today, keep the workout light.", "Сон важнее тренировки: сегодня восстановись, в зал завтра.": "Sleep matters more than training: recover today, hit the gym tomorrow.", "Сон {0} ч:": "Sleep {0} h:", "Сон {0} ч: {1}": "Sleep {0} h: {1}", "Сон {0} ч": "Sleep {0} h", "Уровень": "Level", "Уровень {0}": "Level {0}", "Сегодня уже {0} кубков — это дневной максимум. Завтра снова можно": "You already have {0} trophies today. That's the daily max. You can earn more tomorrow", ": звезда": ": star", "{0}: звезда {1}": "{0}: star {1}", "Арена:": "Arena:", "Арена: {0}": "Arena: {0}", "Арена": "Arena", "Титул уже был:": "Title already unlocked:", "Титул уже был: {0}": "Title already unlocked: {0}", "Титул уже был": "Title already unlocked", "Рекорд записан. Кубки за рекорды сегодня уже получены ({0} в день)": "PR saved. You've already got today's PR trophies ({0} per day)", "Рекорд записан. Кубки дают за прирост от {0}%": "PR saved. Trophies are given for a gain of {0}% or more", "рекорд {0} сброшен{1}, удалено подходов:": "PR {0} reset{1}, sets removed:", "рекорд {0} сброшен{1}, удалено подходов: {2}{3}": "PR {0} reset{1}, sets removed: {2}{3}", "рекорд {0} сброшен{1}, удалено подходов": "PR {0} reset{1}, sets removed", "рекорд {0} {1} {2} подтверждён": "PR {0} {1} {2} confirmed", "рекорд {0} {1} {2} подтверждён{3}": "PR {0} {1} {2} confirmed{3}", "План дня выполнен": "Daily plan done", "План дня выполнен: +{0} кубков": "Daily plan done: +{0} trophies", "Буст ×{0}: тренировка дала": "×{0} boost: the workout gave", "Бонус: {0} тренировки за неделю": "Bonus: {0} workouts this week", "Пауза в тренировках": "Break in training", "Сезон": "Season", "Сезон {0}": "Season {0}", "Сброс сезона": "Season reset", "Сброс сезона {0}": "Season reset {0}", "Квест:": "Quest:", "Квест: {0}": "Quest: {0}", "Квест": "Quest", "Квест выполнен: {0} (+": "Quest done: {0} (+", "Квест выполнен: {0} (+{1}": "Quest done: {0} (+{1}", "Цели по питанию выполнены: +": "Nutrition goals met: +", "Цели по питанию выполнены: +{0}": "Nutrition goals met: +{0}", "из {0} ккал · белок {1} из {2} г": "of {0} kcal · protein {1} of {2} g", "{0} из {1} ккал · белок {2} из {3} г": "{0} of {1} kcal · protein {2} of {3} g", "из {0} л": "of {0} L", "{0} из {1} л": "{0} of {1} L", "+{0}% к PR до": "+{0}% to PRs until", "+{0}% к PR до {1}": "+{0}% to PRs until {1}", "Щит от потери кубков до": "Trophy loss shield until", "Щит от потери кубков до {0}": "Trophy loss shield until {0}", "Нет такого товара": "No such item", "Максимум {0} заряда": "Max {0} charges", "Буст уже активен": "Boost already active", "Максимум {0} заморозки": "Max {0} freezes", "Щит уже активен": "Shield already active", "Это не буст": "This isn't a boost", "Магазин:": "Shop:", "Магазин: {0}": "Shop: {0}", "Магазин": "Shop", "Заморозка серии сработала: серия сохранена": "Streak freeze used: your streak is saved", "Некорректный email": "Invalid email", "Пароль минимум {0} символов": "Password must be at least {0} characters", "На этом устройстве уже есть аккаунт: войди": "There's already an account on this device: log in", "Аккаунт не найден: зарегистрируйся": "Account not found: sign up", "Email не совпадает с аккаунтом на этом устройстве": "Email doesn't match the account on this device", "Неверный пароль": "Wrong password", "Серия {0} дн.": "Streak {0} d", "Серия {0} дней: +{1} кубков": "Streak {0} days: +{1} trophies", "Серия {0} {1} сгорит в полночь": "Your {0} {1} streak ends at midnight", "Брусья": "Dips", "Тяга в наклоне": "Bent-over row", "еда не записана": "no food logged", "Запиши еду и попади в цель по калориям и белку": "Log your food and hit your calorie and protein goals", "ккал · {0} мл": "kcal · {0} ml", "{0} ккал · {1} мл": "{0} kcal · {1} ml", "ч · норма {0}–{1} ч": "h · norm {0}–{1} h", "{0} ч · норма {1}–{2} ч": "{0} h · norm {1}–{2} h", "сон не записан": "no sleep logged", "Запиши сон: {0}–{1} ч дают {2}%": "Log your sleep: {0}–{1} h gives {2}%", "Допей воду: осталось {0} л": "Finish your water: {0} L left", "тренировка засчитана": "workout counted", "были подходы": "sets logged", "активность записана": "activity logged", "по плану тренировка": "planned workout", "Сделай тренировку по плану": "Do your planned workout", "Кубки дня ·": "Daily trophies ·", "Кубки дня · {0}": "Daily trophies · {0}", "Кубки дня": "Daily trophies", "Норма воды": "Water goal", "Норма воды выполнена: +{0} кубка": "Water goal met: +{0} trophies", "Взвешивание": "Weigh-in", "Цель:": "Goal:", "Цель": "Goal", "Цель достигнута: {0} {1} {2} ·": "Goal reached: {0} {1} {2} ·", "Цель достигнута: {0} {1} {2} · {3}{4}": "Goal reached: {0} {1} {2} · {3}{4}", "Напоминания": "Reminders", "Время тренировки": "Workout time", "Тренировка → кубки → арена. Каждая тренировка приносит кубки.": "Workout → trophies → arena. Every workout earns trophies.", "Сделай любую запись сегодня, чтобы не потерять серию.": "Log anything today to keep your streak.", ", г": ", g", "{0}, г": "{0}, g", "Шаг {0} из": "Step {0} of", "Шаг {0} из {1}": "Step {0} of {1}", "Русский": "Russian", "ИИ не ответил за {0} секунд, попробуй ещё раз": "The AI didn't answer within {0} seconds, try again", "Введи ник": "Enter a nickname", "Игрок с таким ником или кодом не найден": "No player found with this nickname or code", "Игрок не найден (пока доступны демо-ники)": "Player not found (only demo nicknames for now)", "Уже в друзьях": "Already friends", "Нет связи с сервером": "No connection to the server", "Сервер не обновлён: запусти update_v{0}.sql в Supabase (SQL Editor) и попробуй снова.": "Server not updated: run update_v{0}.sql in Supabase (SQL Editor) and try again.", "Клан с таким кодом не найден": "No clan found with this code", "Сервер не обновлён: запусти update_v{0}.sql в Supabase": "Server not updated: run update_v{0}.sql in Supabase", "Клан не найден": "Clan not found", "Сейчас": "Now", "Нужно {0} монет, у тебя": "You need {0} coins, you have", "Нужно {0} монет, у тебя {1}": "You need {0} coins, you have {1}", "Нет такой темы": "No such theme", "Тема клана:": "Clan theme:", "Тема клана": "Clan theme", "В тексте есть мат или оскорбление": "The text contains profanity or insults", "Сокровищница": "Treasury", "Нельзя вызвать свой клан": "You can't challenge your own clan", "Дуэль с {0}: соперник не тренировался, награды нет": "Duel with {0}: your opponent didn't train, no reward", "Дуэль с {0} выиграна! Награды за дуэли на этой неделе уже получены": "Duel with {0} won! You've already got this week's duel rewards", "Дуэль с {0} выиграна! +{1} монет, +{2} кубков": "Duel with {0} won! +{1} coins, +{2} trophies", "Дуэль с {0} проиграна. В следующий раз!": "Duel with {0} lost. Next time!", "Победа в дуэли": "Duel victory", "Победа в кланбитве": "Clan battle victory", "Клан выиграл битву недели! +{0} монет.": "Your clan won the week's battle! +{0} coins.", "Код не найден, проверь его": "Code not found, check it", "Это твой собственный код": "This is your own code", "Код приглашения уже введён": "Invite code already entered", "Вы уже пригласили друг друга": "You've already invited each other", "Код можно ввести только в первые {0} дней после регистрации": "The code can only be entered within {0} days of signing up", "Этот друг сегодня пригласил уже много людей, попробуй завтра": "This friend has invited a lot of people today, try tomorrow", "Введи код": "Enter a code", "Нужен интернет": "Internet needed", "Не получилось": "Didn't work", "Бонус за приглашение": "Invite bonus", "Друг по приглашению": "Invited friend", "Утренняя тренировка ног закрыта 🔥 #ноги #утро": "Morning leg day done 🔥 #legs #morning", "Кто ещё сушится к лету? Делюсь: {0} ккал, {1} г белка #сушка #питание": "Who else is cutting for summer? Sharing: {0} kcal, {1} g protein #cutting #nutrition", "Первый раз {0} тренировки за неделю! #прогресс #мотивация": "{0} workouts in a week for the first time! #progress #motivation", "Совет дня: спите {0} часов, рост силы заметнее #сон #восстановление": "Tip of the day: sleep {0} hours, strength gains are more noticeable #sleep #recovery", "Новый рекорд в тяге скоро, чувствую 💪 #становая #мотивация": "New deadlift PR coming soon, I can feel it 💪 #deadlift #motivation", "Видео пока нельзя загрузить: запусти update_v{0}.sql в Supabase": "Videos can't be uploaded yet: run update_v{0}.sql in Supabase", "Видео пока нельзя опубликовать: запусти update_v{0}.sql в Supabase": "Videos can't be published yet: run update_v{0}.sql in Supabase", "Пост в сообществе": "Community post", "Рекорд не найден": "PR not found", "Мощно! 🔥": "Beast mode! 🔥", "Красава, так держать": "Nice, keep it up", "Сколько весишь сам?": "How much do you weigh?", "Вот это прогресс 💪": "That's real progress 💪", "Скоро догоню 😅": "Coming for you soon 😅", "Сервер не обновлён: запусти update_v{0}.sql": "Server not updated: run update_v{0}.sql", "В тексте есть оскорбления или мат. Это против правил сообщества.": "The text contains insults or profanity. This is against the community rules.", "Ссылки, реклама и продажа запрещены правилами сообщества.": "Links, ads and sales are not allowed by the community rules.", "Это ты": "That's you", "Подписки пока не работают: запусти update_v{0}.sql в Supabase": "Following isn't available yet: run update_v{0}.sql in Supabase", "Ошибка сервера видео": "Video server error", "Фото прогресса": "Progress photo", "Формат фото не поддерживается, выбери JPG или PNG": "Photo format not supported, choose JPG or PNG", "Ошибка сети": "Network error", "В тексте есть мат или оскорбление. Это против правил сообщества.": "The text contains profanity or insults. This is against the community rules.", "Аккаунт заблокирован модератором.": "Account banned by a moderator.", "Аккаунт заблокирован": "Account banned", "Этот никнейм уже занят": "This nickname is already taken", "Этот email уже зарегистрирован: войди": "This email is already registered: log in", "Слишком простой пароль": "Password is too weak", "Вход через {0} ещё не включён на сервере. Пока зарегистрируйся по email.": "Sign-in with {0} isn't enabled on the server yet. Sign up with email for now.", "Не удалось открыть вход": "Couldn't open sign-in", "Ссылка устарела или уже использована. Войди или запроси новое письмо.": "The link has expired or was already used. Log in or request a new email.", "Не удалось войти": "Couldn't log in", "Подожди минуту и попробуй снова": "Wait a minute and try again", "Неверный email или пароль": "Wrong email or password", "Сначала подтверди email по ссылке из письма": "Confirm your email with the link in the message first", "Сервер: больше {0} кубков в день не засчитывается": "Server: more than {0} trophies per day don't count", "Кубки сверены с сервером: {0}. Больше {1} в день не засчитывается": "Trophies synced with the server: {0}. More than {1} per day don't count", "PR одобрен:": "PR approved:", "PR одобрен: {0}": "PR approved: {0}", "PR одобрен": "PR approved", "Модератор": "Moderator", "подходов:": "sets:", "подходов: {0}": "sets: {0}", "подходов": "sets", "Решение модератора": "Moderator decision", "Пока действует блокировка, ты не появляешься в рейтингах и не можешь публиковать, комментировать и вызывать на дуэли.": "While the ban is active, you don't appear in leaderboards and can't post, comment or challenge to duels.", "Пока действует блокировка, ты не появляешься в рейтингах и не можешь публиковать, комментировать и вызывать на дуэли.{0}": "While the ban is active, you don't appear in leaderboards and can't post, comment or challenge to duels.{0}", "ошибка": "error", "Проверить снова": "Check again", "ИИ-помощник": "AI assistant", "Чтобы посчитать калории и активность, текст твоего сообщения и данные профиля (пол, возраст, рост, вес) отправляются в Google Gemini. Имя, email и фото не отправляются. Подробнее в": "To count calories and activity, the text of your message and your profile data (sex, age, height, weight) are sent to Google Gemini. Your name, email and photos are not sent. More in the", "Политике конфиденциальности": "Privacy Policy", "Разрешить": "Allow", "Не сейчас": "Not now", "Не хватает монет: нужно {0}, у тебя": "Not enough coins: you need {0}, you have", "Не хватает монет: нужно {0}, у тебя {1}": "Not enough coins: you need {0}, you have {1}", "до «{0}» {1}%": "to «{0}» {1}%", "свой вес": "bodyweight", "Выбрать": "Select", "Лифты в профиле": "Lifts on profile", "Выбери {0} — их увидят другие игроки в твоём профиле. Выбрано:": "Pick {0} — other players will see them on your profile. Selected:", "Выбери {0} — их увидят другие игроки в твоём профиле. Выбрано": "Pick {0} — other players will see them on your profile. Selected", "из {0}": "of {0}", "Пока ты один в рейтинге — позови друзей": "You're the only one in the ranking — invite friends", "Ты первый в мире — держи место": "You're #1 in the world — hold your spot", "Рейтинг кубков": "Trophy ranking", "Глобальный": "Global", "Твой ранг": "Your rank", "{0} Твой ранг": "{0} Your rank", "Все": "All", "Ур.": "Lv.", "Ур. {0}": "Lv. {0}", "До цели недели ещё": "Weekly goal: still", "До цели недели ещё {0} {1}": "Weekly goal: still {0} {1}", "· ещё": "· still", "· ещё {0} {1}": "· still {0} {1}", "Битва кланов: {0} :": "Clan battle: {0} :", "Битва кланов: {0} : {1}": "Clan battle: {0} : {1}", "Битва кланов: {0}": "Clan battle: {0}", "Взвешивание было {0} {1} назад": "Last weigh-in {0} {1} ago", "Заявки в друзья:": "Friend requests:", "Заявки в друзья: {0}": "Friend requests: {0}", "Заявки в друзья": "Friend requests", "очк.": "pts", "{0} очк.": "{0} pts", "Доброй ночи": "Good night", "Доброе утро": "Good morning", "Добрый день": "Good afternoon", "Добрый вечер": "Good evening", "Босс — чтобы пройти дальше": "Boss — beat it to move on", "+ кубков": "+ trophies", "{0}+ кубков": "{0}+ trophies", "{0} – {1} кубков": "{0} – {1} trophies", "Путь рангов": "Rank road", "старт": "start", "Тренируйся. Развивайся. Достигай большего.": "Train. Grow. Achieve more.", "{0} дней, счёт с нуля · победа +": "{0} days, score starts at zero · win +", "{0} дней, счёт с нуля · победа +{1}": "{0} days, score starts at zero · win +{1}", "светятся мышцы, которые работают": "working muscles light up", "Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт": "No connection to the server: feed, leaderboards and clans will appear once you're online and logged in", "Модерация": "Moderation", "Б {0} · У {1} · Ж": "P {0} · C {1} · F", "Б {0} · У {1} · Ж {2}": "P {0} · C {1} · F {2}", "Б {0} · У {1} · Ж {2} ·": "P {0} · C {1} · F {2} ·", "Б {0} · У {1} · Ж {2} · {3}": "P {0} · C {1} · F {2} · {3}", "не работала": "didn't work", "Заместитель": "Co-leader", "подряд": "in a row", "{0} подряд": "{0} in a row", "подх.": "sets", "{0} подх.": "{0} sets", "Вес,": "Weight,", "Вес, {0}": "Weight, {0}", "Запускать сам после каждого подхода": "Start automatically after each set", "Ещё {0} {1}, и придут +{2} {3} и сундук. Записанные подходы сохранятся, вернуться можно в любой момент сегодня.": "{0} more {1}, and you'll get +{2} {3} and a chest. Logged sets are saved, you can come back any time today.", "Пропущено": "Skipped", "Базовое": "Compound", "Среднее": "Medium", "Тяжёлое": "Heavy", "Изоляция": "Isolation", "Удалить {0} из друзей?": "Remove {0} from friends?", "🏆 Новый PR: {0} {1} {2} ({3}) · {4} · {5} кубков · Flexo League": "🏆 New PR: {0} {1} {2} ({3}) · {4} · {5} trophies · Flexo League", "вне приложения": "outside the app", "{0} вне приложения": "{0} outside the app", "Лучший результат, пересчитанный на {0} повтор ·": "Best result converted to {0} rep ·", "Лучший результат, пересчитанный на {0} повтор · {1}": "Best result converted to {0} rep · {1}", "Кубки дня считаются по твоей цели, если она от": "Daily trophies count toward your goal if it's from", "ккал и белок от": "kcal and protein from", "г. Новая цель идёт в зачёт со следующего дня, если сегодня уже записана еда. Вода — от": "g. A new goal counts from the next day if you've already logged food today. Water: from", "л (не больше {0} л в час).": "L (no more than {0} L per hour).", "л (не больше {0} л в час).{1}": "L (no more than {0} L per hour).{1}", "Новая": "New", "· от {0} кубков": "· from {0} trophies", "{0} · от {1} кубков": "{0} · from {1} trophies", "Записать все блюда ({0}) ·": "Log all dishes ({0}) ·", "Опиши, что делал. ИИ оценит калории по твоему весу ({0} {1}).": "Describe what you did. The AI will estimate calories based on your weight ({0} {1}).", "Опиши, что делал. ИИ оценит калории по твоему весу ({0} {1}). {2}": "Describe what you did. The AI will estimate calories based on your weight ({0} {1}). {2}", "· у тебя": "· you have", "· у тебя {0}": "· you have {0}", "облако": "cloud", "Приложение для {0}+.": "App for ages {0}+.", "Приложение для {0}+. {1}": "App for ages {0}+. {1}", "зарядов: {0}/{1}": "charges: {0}/{1}", "активен до": "active until", "активен до {0}": "active until {0}", "Результат,": "Result,", "Результат, {0}": "Result, {0}", "Новый рекорд:": "New PR:", "Новый рекорд: {0} {1} {2}": "New PR: {0} {1} {2}", "Новый рекорд": "New PR", "Добавь друзей по нику или коду, и здесь появится ваш общий рейтинг по кубкам.": "Add friends by nickname or code, and your shared trophy ranking will appear here.", "очк. — это": "pts — that's", "очк. — это {0} {1}": "pts — that's {0} {1}", "Ты лидер недели среди друзей": "You lead the week among friends", "Тебе +{0} монет, другу +": "You get +{0} coins, your friend +", "Тебе +{0} монет, другу +{1}{2}": "You get +{0} coins, your friend +{1}{2}", "Кланов пока нет — создай первый": "No clans yet — create the first one", "Рейтинг кланов": "Clan ranking", "Только после твоего согласия: текст для разбора еды и активности и данные профиля (пол, возраст, рост, вес) отправляются в Google Gemini. Имя, email и фото не отправляются.": "Only with your consent: the text for parsing food and activity and your profile data (sex, age, height, weight) are sent to Google Gemini. Your name, email and photos are not sent.", "Email и пароль, Google или Apple (на iPhone). Мы получаем только email и имя, которые даёт сервис входа.": "Email and password, Google or Apple (on iPhone). We only receive the email and name provided by the sign-in service.", "версия": "version", "версия {0}{1}": "version {0}{1}", "Откроется через": "Unlocks in", "Откроется через {0} {1}": "Unlocks in {0} {1}", "Лента, друзья, дуэли и кланы ждут. Осталось {0} {1}.": "Feed, friends, duels and clans are waiting. {0} {1} to go.", "Откроется Google Play. Нажми «Обновить» — прогресс и данные останутся. Если кнопки ещё нет, загляни чуть позже: новая сборка появляется в Play через некоторое время.": "Google Play will open. Tap «Update»: your progress and data will stay. If the button isn't there yet, check back a bit later: new builds take some time to appear in Play.", "Последняя версия": "Latest version", "У тебя уже установлена самая свежая сборка{0}.": "You already have the latest build{0}.", "Открыть Play": "Open Play", "после полуночи": "after midnight", "начислено": "awarded", "не оценивался": "not rated", "начислятся после полуночи": "will be awarded after midnight", "этот день не оценивался": "this day wasn't rated", "Оценка дня — среднее по питанию, сну, воде и тренировке (если она была или стояла в плане). Кубки начисляются один раз после полуночи. Считаются записи, сделанные в тот же день или на следующий.": "Day score is the average of nutrition, sleep, water and workout (if there was one or it was planned). Trophies are awarded once after midnight. Entries made the same day or the next day count.", "День засчитан, если сделал": "The day counts if you did", "разных дела": "different things", "{0} разных дела": "{0} different things", ": записал еду, воду, сон, вес или подходы. Тренировка закрывает день сразу. Пара касаний в день — и серия растёт.": ": logged food, water, sleep, weight or sets. A workout closes the day right away. A couple of taps a day and your streak grows.", ". Приложение для": ". App for", "Проверь «{0}»: вес и повторы": "Check «{0}»: weight and reps", "Новый пароль": "New password", "Ты вошёл по ссылке из письма. Придумай новый пароль.": "You signed in with the email link. Create a new password.", "Сохранить пароль": "Save password", "в неделю. Составить программу за тебя? Её всегда можно поменять во вкладке «Силовые».": "per week. Want us to build a program for you? You can always change it in the Strength tab.", "{0} {1} в неделю. Составить программу за тебя? Её всегда можно поменять во вкладке «Силовые».": "{0} {1} per week. Want us to build a program for you? You can always change it in the Strength tab.", "Твои силовые": "Your strength lifts", "Сколько поднимаешь сейчас? Это точка отсчёта: следующие рекорды будут считаться от неё. За эти цифры кубков нет.": "How much do you lift now? This is your starting point: future PRs will count from it. These numbers don't give trophies.", "Никогда не делал или не помнишь — нажми «Не знаю» или оставь пустым.": "Never done it or don't remember? Tap «Don't know» or leave it empty.", "на этом телефоне": "on this phone", "тема ·": "theme ·", "{0} тема · {1}": "{0} theme · {1}", "заблокировано:": "blocked:", "заблокировано: {0}": "blocked: {0}", "заблокировано": "blocked", "приняты": "accepted", "Таймер сна показывается в шторке, пока идёт сон.": "The sleep timer is shown in the notification shade while you sleep.", "{0} Таймер сна показывается в шторке, пока идёт сон.": "{0} The sleep timer is shown in the notification shade while you sleep.", "Цель сохранена. Для кубков она начнёт считаться завтра: сегодня еда уже записана": "Goal saved. It will count for trophies from tomorrow: food is already logged today", ": такой вес проверит модератор. Если всё честно, кубки за рекорд придут автоматически.": ": a moderator will check this weight. If everything is fair, the PR trophies will arrive automatically.", "{0} {1} {2}: такой вес проверит модератор. Если всё честно, кубки за рекорд придут автоматически.": "{0} {1} {2}: a moderator will check this weight. If everything is fair, the PR trophies will arrive automatically.", "Записано:": "Logged:", "Записано: {0}": "Logged: {0}", "Записано": "Logged", "Блокировка снята": "Ban lifted", "Вес слишком большой для самоподтверждения: подход отправлен модератору": "Weight too high for self-confirmation: the set was sent to a moderator", "Думаю…": "Thinking…", "Публикую…": "Posting…", "еды:": "food:", "еды: {0}": "food: {0}", "еды": "food", "Убрать тренировку из расписания ({0})?": "Remove the workout from the schedule ({0})?", "Gemini думает…": "Gemini is thinking…", "Записано подходов:": "Sets logged:", "Записано подходов: {0}": "Sets logged: {0}", "Записано подходов": "Sets logged", "В названии клана есть мат или оскорбление": "The clan name contains profanity or insults", "Не удалось создать клан": "Couldn't create the clan", "Создание клана": "Clan creation", "Выйти из клана? Кланбитва этой недели для тебя закончится.": "Leave the clan? This week's clan battle will end for you.", "Вызов брошен: {0}! Битва {1} дней, счёт с нуля.": "Challenge sent: {0}! The battle lasts {1} days, score starts at zero.", "Кого вызвать?": "Who do you want to challenge?", "Сдаться в дуэли? Награды не будет.": "Give up the duel? There will be no reward.", "Проверяю…": "Checking…", "Не получилось проверить обновления. Проверь интернет": "Couldn't check for updates. Check your internet", "Оцениваю…": "Rating…", "Оценить": "Rate", "В нике есть мат или оскорбление": "The nickname contains profanity or insults", "Ник «": "Nickname «", "» уже занят": "» is already taken", "Удалить все данные приложения на этом устройстве? Это нельзя отменить.": "Delete all app data on this device? This can't be undone.", "Выйти из аккаунта? Прогресс сохранён в облаке, для входа нужен пароль.": "Log out? Your progress is saved in the cloud, you'll need your password to log in.", "Выйти из аккаунта? Данные останутся на устройстве, для входа нужен пароль.": "Log out? Your data will stay on the device, you'll need your password to log in.", "В титуле есть мат или оскорбление": "The title contains profanity or insults", "Впиши калории: от {0} до {1}": "Enter calories: from {0} to {1}", "Вступай в мой клан «{0}» в Flexo League: тренируемся и соревнуемся вместе 💪\\n": "Join my clan «{0}» in Flexo League: we train and compete together 💪\\n", "Вступай в мой клан «{0}» в Flexo League: тренируемся и соревнуемся вместе 💪\\n{1}": "Join my clan «{0}» in Flexo League: we train and compete together 💪\\n{1}", "Залетай в Flexo League: тренировки, кубки и арены. Мой код {0}, по нему получишь +{1} монет 🎁\\n": "Join me in Flexo League: workouts, trophies and arenas. My code is {0}, use it to get +{1} coins 🎁\\n", "Залетай в Flexo League: тренировки, кубки и арены. Мой код {0}, по нему получишь +{1} монет 🎁\\n{2}": "Join me in Flexo League: workouts, trophies and arenas. My code is {0}, use it to get +{1} coins 🎁\\n{2}", "Пригласить друга": "Invite a friend", "Вставь её в чат другу": "Paste it into a chat with your friend", "Код принят!": "Code accepted!", "Перевод сейчас недоступен: проверь интернет и попробуй ещё раз": "Translation is unavailable right now: check your internet and try again", "Жалоба отправлена": "Report sent", "Спасибо! Модерация проверит её в течение {0} часов.": "Thanks! Moderators will review it within {0} hours.", "Спасибо! Модерация проверит её в течение {0} часов.{1}{2}": "Thanks! Moderators will review it within {0} hours.{1}{2}", "Проверь email": "Check your email", "Отметь согласие с условиями": "Accept the terms", "Создаём…": "Creating…", "Письмо отправлено ещё раз": "Email sent again", "Ещё раз через {0} с": "Again in {0} s", "Впиши email, и мы пришлём ссылку для нового пароля": "Enter your email and we'll send a link to set a new password", "Письмо для смены пароля отправлено": "Password reset email sent", "Удалить аккаунт навсегда?": "Delete your account forever?", "Сотрём профиль, кубки, тренировки, посты, комментарии, фото и место в клане{0}. Вернуть будет нельзя.": "We'll erase your profile, trophies, workouts, posts, comments, photos and clan spot{0}. This can't be undone.", "Удалить навсегда": "Delete forever", "Пароль изменён": "Password changed", "Ник от {0} символов": "Nickname must be at least {0} characters", "В нике есть мат или оскорбление, придумай другой": "The nickname contains profanity or insults, choose another one", "Укажи реальный возраст": "Enter your real age", "? Его посты и комментарии пропадут у тебя. Разблокировать можно в Настройки → Приватность.": "? Their posts and comments will disappear for you. You can unblock in Settings → Privacy.", "Код друга принят: +{0} монет": "Friend code accepted: +{0} coins", "Видео недоступно": "Video unavailable", "Битва уже идёт. Новую можно начать, когда она закончится": "A battle is already on. You can start a new one when it ends", "В этом клане никого нет": "There's no one in this clan", "Вызов может бросить лидер или заместитель": "Only the leader or co-leader can send a challenge", "Заявка не найдена": "Request not found", "Значение не может быть меньше {0}": "Value can't be less than {0}", "Игрок не в клане": "Player isn't in the clan", "Клан заполнен ({0}/{1})": "Clan is full ({0}/{1})", "Клан с таким названием уже есть": "A clan with this name already exists", "Название от {0} символов": "Name must be at least {0} characters", "Не больше {0} вызовов в неделю": "No more than {0} challenges per week", "Не больше {0} дуэлей за {1} дней": "No more than {0} duels in {1} days", "Неверный формат правил": "Invalid rules format", "Нельзя забанить владельца": "You can't ban the owner", "Нельзя забанить себя": "You can't ban yourself", "Нет прав": "No permission", "Ник от {0} до {1} символов": "Nickname must be {0} to {1} characters", "Нужно войти": "You need to log in", "Передать лидерство может только лидер": "Only the leader can transfer leadership", "Проверка не найдена": "Review not found", "С этим игроком уже идёт дуэль": "A duel with this player is already on", "С этим кланом уже была битва. Снова можно через {0} недели": "You already battled this clan. You can again in {0} weeks", "Себя убрать нельзя": "You can't remove yourself", "Сейчас нет кланов, готовых к битве": "No clans are ready to battle right now", "Слишком большое число": "Number is too large", "Сначала включи «Клан участвует в битвах»": "First turn on «Clan takes part in battles»", "Сначала выйди из текущего клана": "Leave your current clan first", "Только владелец может менять команду": "Only the owner can change the team", "Только лидер меняет роли": "Only the leader can change roles", "Ты уже в клане": "You're already in a clan", "У тебя уже идёт дуэль": "You already have a duel going", "У этого игрока уже идёт дуэль": "This player already has a duel going", "У этого клана уже идёт битва": "This clan already has a battle going", "Этот клан не участвует в битвах": "This clan doesn't take part in battles", "flx_bad_words: текст нарушает правила сообщества": "flx_bad_words: the text breaks the community rules", "flx_banned: аккаунт заблокирован модератором": "flx_banned: account banned by a moderator", "forbidden: нет прав администратора": "forbidden: no admin rights", "Войди в аккаунт": "Log in to your account", "Слишком длинный запрос": "Request is too long", "Слишком много текста": "Too much text", "Этот формат не поддерживается. Попробуй MP{0} или JPEG.": "This format isn't supported. Try MP{0} or JPEG.", "Файл больше {0} МБ": "File is larger than {0} MB", "ИИ сейчас не ответил, попробуй ещё раз": "The AI didn't answer, try again", "Лимит ИИ на сегодня исчерпан": "Today's AI limit is used up", "Лимит на сегодня исчерпан": "Today's limit is used up", "Напиши, что съел или что делал": "Write what you ate or what you did", "Пустой запрос": "Empty request"}};
 Object.keys(MT.SEED_V66.en).forEach(k => { if (!(MT.SEED_ADD.en || {})[k] && !(MT.SEED.en || {})[k]) (MT.SEED_ADD.en || (MT.SEED_ADD.en = {}))[k] = MT.SEED_V66.en[k]; });
 Object.assign(MT.SEED_ADD.en, {"Щит от потери кубков": "Trophy loss shield", "{0} {1} кубков на всех": "{0} {1} total trophies", "Кубки, монеты и опыт": "Trophies, coins, and XP", "Охотники за кубками": "Trophy hunters", "Вноси реальные результаты. Накрутка кубков и фейковые рекорды ведут к обнулению прогресса или блокировке.": "Log real results. Trophy boosting and fake PRs lead to progress reset or account ban.", "Другим игрокам видны только никнейм, аватар, ранг, кубки, рекорды, клан и твои публикации. Вес тела, рост, питание, сон и фото Body Progress видишь только ты.": "Other players can only see your nickname, avatar, rank, trophies, PRs, clan, and posts. Body weight, height, nutrition, sleep, and Body Progress photos are visible only to you.", "Кубки двигают тебя по рангу: в каждом ранге {0} звёзд, за каждую звезду монеты.": "Trophies advance your rank: each rank has {0} stars, and every star gives coins."});
+// v67: здоровье «Оценка дня», мастер по одному вопросу, знакомство, профиль
+MT.SEED_V67 = {"en": {"Оценка дня": "Day score", "нажми на плитку": "tap any tile", "ккал сверх": "kcal over", "ч": "h", "Нажми, когда ложишься": "Tap when you go to bed", "сплю с": "asleep since", "Снимок": "Snap", "ИИ посчитает": "AI counts it", "мл воды": "ml water", "за {0} дн.": "in {0} days", "Объём стакана в мл. Плитка «+{0}» добавляет столько же.": "Cup size in ml. The “+{0}” tile adds the same amount.", "Шаг {0} из {1}": "Step {0} of {1}", "Как тебя зовут?": "What should we call you?", "Этот ник увидят в лигах, кланах и дуэлях.": "Your nickname in leagues, clans and duels.", "Имя взяли из Google. Можешь стереть и написать своё.": "We took the name from Google. Feel free to change it.", "Имя взяли из Snapchat. Можешь стереть и написать своё.": "We took the name from Snapchat. Feel free to change it.", "Никнейм": "Nickname", "Код друга": "Friend's code", "Есть код друга?": "Have a friend's code?", "+{0} монет вам обоим": "+{0} coins for you both", "Добавить": "Add", "Немного о тебе": "A bit about you", "Нужно для калорий и силы относительно веса тела.": "Used for calories and strength relative to your body weight.", "Пол": "Sex", "Мужской": "Male", "Женский": "Female", "Возраст": "Age", "Листай, чтобы выбрать": "Swipe to choose", "Твой вес": "Your weight", "Видишь только ты. Поменять можно в любой момент на весах.": "Only you can see it. Change it any time with the scale.", "кг": "kg", "см": "cm", "≈ {0} кг": "≈ {0} kg", "{0} см": "{0} cm", "Твой рост": "Your height", "Поможет точнее посчитать калории.": "Helps us size your calorie goal.", "Насколько ты активен вне зала?": "How active are you outside the gym?", "Ходьба, работа и всё, кроме тренировок.": "Walking, work and everything except training.", "В основном сижу": "Mostly sitting", "офис, учёба, меньше {0} тыс. шагов": "office, study, under {0}k steps", "Средне": "Somewhat active", "бываю на ногах, {0}–{1} тыс. шагов": "on my feet sometimes, {0}–{1}k steps", "Много двигаюсь": "Very active", "физическая работа, {0} тыс.+ шагов": "physical job, {0}k+ steps", "Какая у тебя цель?": "What's your goal?", "Под неё посчитаем калории и белок.": "We set calories and protein for it.", "Как часто тренируешься?": "How often do you train?", "Тренировок в неделю. Под это подстроятся боссы арен и задания.": "Workouts per week. Arena bosses and quests adapt to it.", "в неделю": "per week", "Сб": "Sat", "Вс": "Sun", "~ {0} ч в неделю": "~ {0} h a week", "дни отдыха свободны": "rest days stay free", "Составить программу за тебя?": "Build a program for you?", "Её всегда можно поменять во вкладке «Силовые».": "You can change it any time in Lifts.", "Тренируйся как удобно, а план можно собрать в любой момент: Силовые → Расписание.": "Train however you like. You can build a plan any time: Lifts → Schedule.", "Арены, кубки, лиги и кланы. Поменять можно в настройках.": "Arenas, trophies, leagues and clans. You can change it in settings.", "Только твой прогресс, без рейтингов. Поменять можно в настройках.": "Only your progress, no rankings. You can change it in settings.", "Сколько поднимаешь сейчас?": "What do you lift now?", "Это точка отсчёта: новые рекорды считаются от неё. Кубков за эти цифры нет.": "Your starting point. New records count from here. These numbers earn no trophies.", "Никогда не делал или не помнишь — нажми «Не знаю».": "Never done it or don't remember? Tap “Don't know”.", "Твой план готов": "Your plan is ready", "{0} тренировка в неделю": "{0} workout a week", "{0} тренировки в неделю": "{0} workouts a week", "{0} тренировок в неделю": "{0} workouts a week", "Калорий в день": "Daily calories", "ккал · с учётом активности": "kcal · adjusts with activity", "г": "g", "Старт": "Start", "первые кубки за первую тренировку": "first trophies for your first workout", "Изменить": "Edit", "Назад": "Back", "Дальше": "Next", "Начать": "Start", "Пропустить": "Skip", "Кубки": "Trophies", "за каждую тренировку": "for every workout", "арена {0} из {1}": "arena {0} of {1}", "Поднимайся по аренам": "Climb the arenas", "Каждая тренировка приносит кубки: {0} арен и {1} лиг впереди.": "Every workout earns trophies: {0} arenas and {1} leagues ahead.", "Новый рекорд": "New record", "Дуэль": "Duel", "{0} на {1} с другом": "{0} on {1} with a friend", "Записывай и бей рекорды": "Log it, beat your records", "Подходы записываются за секунды. Рекорды попадают в рейтинг, а друзья могут вызвать на дуэль.": "Log sets in seconds. Records go to the leaderboard, and friends can call you to a duel.", "Фото тарелки": "Snap your plate", "ИИ посчитает калории": "AI counts the calories", "Вода и сон": "Water and sleep", "в одном кольце": "in one ring", "Еда, вода и сон": "Food, water and sleep", "Одно кольцо на весь день. Выполни цели и получи бонусные кубки после полуночи.": "One ring for the whole day. Hit your goals and get bonus trophies after midnight.", "Моё": "My list", "листай": "swipe", "Путь кубков": "Trophy road", "Рекорды": "Records", "рекорд": "record", "рекорда": "records", "рекордов": "records", "друг": "friend", "друга": "friends", "друзей": "friends", "монет": "coins", "твоя лента": "your feed"}};
+Object.keys(MT.SEED_V67.en).forEach(k => { if (!(MT.SEED_ADD.en || {})[k] && !(MT.SEED.en || {})[k]) (MT.SEED_ADD.en || (MT.SEED_ADD.en = {}))[k] = MT.SEED_V67.en[k]; });
 Object.keys(MT.SEED_ADD).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.SEED_ADD[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -5631,8 +5908,8 @@ const UI = {
     </div>`, { center: true });
   },
   closeModal() {
-    this.closeDD(); this._authOpen = false; this._shopOpen = false; this._wzOpen = false; this._obOpen = false; this._rulesGate = false;
-    this._composer = false; this._cmOpen = false; this._clanShop = false; this._clanSet = false; this._clanModal = null; this._nutModal = null; this._wModal = null; this._slModal = null; this._setModal = null; this._hCal = null; this._aifOpen = false; this._actOpen = false; this._dishOpen = false;
+    this.closeDD(); this._authOpen = false; this._shopOpen = false; this._wzOpen = false; this._introOpen = false; this._obOpen = false; this._rulesGate = false;
+    this._composer = false; this._cmOpen = false; this._clanShop = false; this._clanSet = false; this._clanModal = null; this._nutModal = null; this._wModal = null; this._wtModal = null; this._slModal = null; this._setModal = null; this._hCal = null; this._aifOpen = false; this._actOpen = false; this._dishOpen = false;
     const m = this.$('#modal'); if (m) m.remove(); document.body.classList.remove('modal-on');
     if (!this._suppressReopen && (this._inWorkout || this._summaryOpen)) { this._inWorkout = false; this._summaryOpen = false; setTimeout(() => this.releaseHeld(), 120); }
     // вернуть модалку тренировки после анимаций PR/арены
@@ -6681,12 +6958,12 @@ const UI = {
     const k = this.hDay;
     this.morph(this.$('#tab-nutrition'), `
       ${this.dayStrip()}
-      ${this.dqCard(k)}
-      <div class="grid gap-3 mb-3" style="grid-template-columns:2fr 3fr">${this.sleepCard(k)}${this.macroCard(k)}</div>
-      <div class="grid grid-cols-2 gap-3 mb-4"><div class="grid gap-3" style="grid-template-rows:auto 1fr">${this.scaleCard(k)}${this.bodyCard()}</div>${this.waterCard(k)}</div>
+      ${this.healthHub(k)}
+      <div class="hh-body mb-3">${this.bodyCard()}</div>
       ${this.dayHistory(k)}`);
-    this.initStrip(); this.animateWater(k);
+    this.initStrip();
     if (this._nutModal && this.$('#modal .modal')) this.openNutrition();
+    if (this._wtModal && this.$('#modal .modal')) this.openWater();
   },
   openNutrition() {
     const day = this.hDay || U.today(), g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(day), burned = Calc.burnedOn(day), left = Math.round(g.cals + burned - total.cals), meals = Calc.meals(day);
@@ -6801,11 +7078,12 @@ const UI = {
         <div class="pf-cover" style="${this.coverStyle(p.avatar.ptheme, a.color)}">${th ? this.pfx(th.fx, 14, 3) : ''}
           ${th ? `<span class="pf-cname">${th.name}</span>` : ''}<button class="pf-cb" data-action="open-shop" data-tab="look"><svg class="ic"><use href="#fa-palette"/></svg> ${th ? 'Сменить' : 'Оформить'}</button></div>
         <div class="pf-body">
-          <div class="pf-avrow">
-            <button class="pf-av" data-action="open-shop" data-tab="look">${this.avFrame(this.avatarSVG(p.avatar, 92), p.avatar.pframe, acc, S.game.arenaIdx, 92)}<span class="pf-cam"><svg class="ic"><use href="#fa-camera"/></svg></span></button>
-            <button class="rank-chip" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 56, anim: false })}<span class="min-w-0"><span class="block text-sm font-black truncate" style="color:${this.ink(a.color, .35)}">${TN(a.name)}</span><span class="flex items-center gap-1.5">${this.starsHtml(Calc.rank().stars)}<span class="num text-amber-400 text-[11px] font-bold">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span></span></span></button>
+          <div class="pf2-hero">
+            <button class="pf-av pf2-av" data-action="open-shop" data-tab="look">${this.avFrame(this.avatarSVG(p.avatar, 108), p.avatar.pframe, acc, S.game.arenaIdx, 108)}<span class="pf-cam"><svg class="ic"><use href="#fa-camera"/></svg></span></button>
+            <div class="pf-nick" data-no-mt>${U.esc(p.nickname)}</div>${tt}
+            <button class="pf2-rank" data-action="open-road" style="--c:${a.color}">${this.medal(g.arenaIdx, { size: 30, anim: false })}<span class="truncate" style="color:${this.ink(a.color, .35)}">${TN(a.name)}</span><i></i><span class="num pf2-tr">${g.trophies} <svg class="ic"><use href="#fa-trophy"/></svg></span><i></i>${this.starsHtml(Calc.rank().stars)}</button>
+            <div class="pf2-btns"><button class="pf2-pill on" data-action="open-shop" data-tab="look"><svg class="ic"><use href="#fa-palette"/></svg> Оформление</button><button class="pf2-pill" data-action="ref-share"><svg class="ic"><use href="#fa-share-nodes"/></svg> Поделиться</button></div>
           </div>
-          <div class="pf-nick" data-no-mt>${U.esc(p.nickname)}</div>${tt}
           <div class="pf-lvl"><b class="num">${lvl}</b><div class="flex-1">${this.bar(xpCur / xpNeed * 100, 'var(--text)')}</div><span class="muted num">${xpCur}/${xpNeed} XP</span></div>
           ${S.clan ? `<button class="clan-row mt-3" data-action="open-page" data-kind="clan">${this.emblem(S.clan, 'w-9 h-9 text-base')}<div class="flex-1 min-w-0 text-left"><div class="text-[10px] muted uppercase tracking-wider">Клан</div><div class="font-bold text-sm truncate" data-no-mt>${U.esc(S.clan.name)}</div></div><span class="chip text-[10px]">${({ leader: 'Лидер', deputy: 'Заместитель', member: 'Участник' })[S.clan.role] || ''}</span><svg class="ic muted"><use href="#fa-chevron-right"/></svg></button>` : ''}
           <div class="pf-stats">
@@ -6816,9 +7094,9 @@ const UI = {
           </div>
           ${this.bigThree()}
           ${Game.activeBoosts().length ? `<div class="flex flex-wrap gap-1.5 mt-3">${Game.activeBoosts().map(b => `<span class="chip text-or"><svg class="ic"><use href="#${b.icon}"/></svg> ${b.label}</span>`).join('')}</div>` : ''}
-          <div class="pf-acts">${act('data-action="open-shop" data-tab="look"', '#8B5CF6', 'fa-palette', 'Оформление')}${act('data-action="open-shop" data-tab="boost"', '#EAB308', 'fa-store', T('shop'))}${act('data-action="user-posts" data-id="me"', '#3B82F6', 'fa-image', 'Мои посты')}</div>
         </div>
       </div>
+      ${this.pfList()}
       <div class="card p-4 mb-4">
         <div class="font-bold mb-2"><svg class="ic text-em"><use href="#fa-chart-simple"/></svg> ${T('skills')}</div>
         <div class="h-56"><canvas id="radar-chart"></canvas></div>
@@ -6834,7 +7112,37 @@ const UI = {
       </div>
       `;
     this.morph(this.$('#tab-profile'), html); this.watchFx(this.$('#tab-profile'));
-    this.drawRadar(radar);
+    this.drawRadar(radar); this.initPfList();
+  },
+  // v67: «Моё» — карточки листаются по одной и примагничиваются к центру; точки снизу показывают, где ты
+  pfList() {
+    const g = S.game, ai = g.arenaIdx || 0, nA = CONFIG.ARENAS.length, ic = id => `<svg class="ic"><use href="#${id}"/></svg>`;
+    const th = inner => `<span class="pf2-th">${inner}</span>`, more = n => n > 0 ? `<span class="pf2-th more num">+${n}</span>` : '';
+    const img = src => th(`<img src="${src}" alt="" loading="lazy">`), icn = (c, id) => th(`<i style="--c:${c}">${ic(id)}</i>`);
+    const tops = Calc.topLifts(99), prs = S.lifts.filter(l => l.isPR && !l.flagged).length, fr = S.friends || [];
+    const liftTh = t => { const gm = GUIDE_MEDIA[t.ex], ti = Calc.TOP_LIFTS.find(x => x.ex === t.ex); return gm ? img(`guide/${gm[0]}_t.webp`) : icn(ti ? ti.c : '#10B981', ti ? ti.ic : 'fa-dumbbell'); };
+    const arenaTh = [ai, ai + 1].filter(i => i < nA).map(i => th(`<img src="${this.medalSrc(i)}" alt="" class="${i > ai ? 'lock' : ''}">`)).join('');
+    const cards = [
+      { act: 'data-action="open-road"', t: 'Путь кубков', s: `${ic('fa-trophy')} <span class="num">${g.trophies}</span> · ${TN(CONFIG.ARENAS[ai].name)}`, th: arenaTh + more(nA - ai - 2) },
+      { act: 'data-action="top3-open"', t: 'Рекорды', s: `${ic('fa-crown')} <span class="num">${prs}</span> ${U.plural(prs, 'рекорд', 'рекорда', 'рекордов')}`, th: tops.length ? tops.slice(0, 2).map(liftTh).join('') + more(tops.length - 2) : icn('#F59E0B', 'fa-crown') + icn('#10B981', 'fa-dumbbell') },
+      { act: 'data-action="open-page" data-kind="friends"', t: 'Друзья', s: `${ic('fa-users')} <span class="num">${fr.length}</span> ${U.plural(fr.length, 'друг', 'друга', 'друзей')}`, th: fr.length ? fr.slice(0, 2).map(f => th(`<b class="pf2-ini" data-no-mt>${U.esc((f.nick || '?').slice(0, 1).toUpperCase())}</b>`)).join('') + more(fr.length - 2) : icn('#0A84FF', 'fa-user-plus') + icn('#8B5CF6', 'fa-khanda') },
+      { act: 'data-action="user-posts" data-id="me"', t: 'Мои посты', s: `${ic('fa-image')} твоя лента`, th: icn('#3B82F6', 'fa-image') + icn('#EC4899', 'fa-heart') + icn('#10B981', 'fa-comment') },
+      { act: 'data-action="open-shop" data-tab="boost"', t: T('shop'), s: `${ic('fa-coins')} <span class="num">${g.coins}</span> монет`, th: icn('#EAB308', 'fa-store') + icn('#F97316', 'fa-bolt') + icn('#8B5CF6', 'fa-palette') },
+    ];
+    const cur = U.clamp(this._pfCar || 0, 0, cards.length - 1);
+    return `<div class="pf2-sec"><b>Моё</b><span>листай ${ic('fa-arrow-right')}</span></div>
+      <div class="pf2-car" id="pf-car">${cards.map((c, i) => `<button class="pf2-card${i === cur ? ' on' : ''}" ${c.act}><span class="pf2-ct"><i></i><span class="min-w-0"><b>${c.t}</b><small>${c.s}</small></span>${ic('fa-chevron-right')}</span><span class="pf2-ths">${c.th}</span></button>`).join('')}</div>
+      <div class="pf2-dots" id="pf-dots">${cards.map((_, i) => `<button class="${i === cur ? 'on' : ''}" data-action="pf-car" data-val="${i}" aria-label="${i + 1}"></button>`).join('')}</div>`;
+  },
+  initPfList() {
+    const el = this.$('#pf-car'); if (!el) return;
+    const cards = () => [...el.children], at = i => { const c = cards()[i]; return c ? c.offsetLeft - (el.clientWidth - c.offsetWidth) / 2 : 0; };
+    if (!el._pf) { el._pf = 1; el.scrollLeft = at(this._pfCar || 0);
+      el.addEventListener('scroll', () => { const cs = cards(), mid = el.scrollLeft + el.clientWidth / 2; let best = 0, d = 1e9;
+        cs.forEach((c, i) => { const x = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (x < d) { d = x; best = i; } });
+        if (best !== this._pfCar) { this._pfCar = best; cs.forEach((c, i) => c.classList.toggle('on', i === best)); document.querySelectorAll('#pf-dots button').forEach((b, i) => b.classList.toggle('on', i === best)); }
+      }, { passive: true }); }
+    el._go = i => el.scrollTo({ left: at(i), behavior: 'smooth' });
   },
   drawRadar(r) {
     const c = this.$('#radar-chart'); if (!c) return;
@@ -7592,6 +7900,76 @@ const UI = {
       <div class="mlg">${leg.map(([key, n, c]) => `<div style="--c:${c};--p:${Math.round(U.clamp(total[key] / (g[key] || 1), 0, 1) * 100)}%"><small>${n}</small><b class="num">${Math.round(total[key])}<span>г</span></b><i></i></div>`).join('')}</div>
       </button>
     </div>`;
+  },
+  // v67: «Оценка дня» — кольцо в центре, вокруг плитки с вырезом по кругу: еда, сон, снимок еды, +вода, вес, вода.
+  // Вырез делает одна маска на обёртке плиток (.hh-cut), поэтому раскладка целиком на CSS и не зависит от ширины экрана.
+  dayRingSVG(r, size = 192) {
+    const parts = r.parts.map(p => [p.color, U.clamp((p.pct || 0) / 100, 0, 1)]), c = size / 2, R = size / 2 - 12, W = 12, C = 2 * Math.PI * R, seg = 1 / Math.max(1, parts.length), gp = 0.025;
+    let s = '';
+    parts.forEach(([col, p], i) => { const a = i * seg + gp / 2, L = (seg - gp) * C, off = -(a * C + W / 2);
+      s += `<circle r="${R}" cx="${c}" cy="${c}" fill="none" stroke="${col}" stroke-opacity=".16" stroke-width="${W}" stroke-linecap="round" transform="rotate(-90 ${c} ${c})" style="stroke-dasharray:${Math.max(0.5, L - W).toFixed(2)} ${C.toFixed(2)};stroke-dashoffset:${off.toFixed(2)}"/>`;
+      if (p > 0) s += `<circle class="hh-arc" r="${R}" cx="${c}" cy="${c}" fill="none" stroke="${col}" stroke-width="${W}" stroke-linecap="round" transform="rotate(-90 ${c} ${c})" style="stroke-dasharray:${Math.max(0.5, L * p - W).toFixed(2)} ${C.toFixed(2)};stroke-dashoffset:${off.toFixed(2)}"/>`; });
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" aria-hidden="true">${s}</svg>`;
+  },
+  healthHub(k) {
+    const today = U.today(), g = S.nutrition.goals || Calc.defaultGoals(), { total } = Calc.nutritionToday(k), burned = Calc.burnedOn(k);
+    const ic = id => `<svg class="ic"><use href="#${id}"/></svg>`, L = v => (v / 1000).toFixed(1).replace(/\.0$/, '');
+    // кольцо
+    const r = Calc.dayQuality(k), col = r.tier ? r.tier.color : 'var(--muted)';
+    let cups, cap;
+    if (k === today) { cups = `+${r.cups}`; cap = r.cups ? 'после полуночи' : r.next ? `до «${r.next.name}» ${r.next.min - r.score}%` : ''; }
+    else if (Game.paid('dayq:' + k)) { const st = (S.game.dayQ || {})[k]; cups = `+${st ? st.c : r.cups}`; cap = 'начислено'; }
+    else { cups = ''; cap = 'не оценивался'; }
+    // еда
+    const budget = Math.max(1, g.cals + burned), left = Math.round(budget - total.cals), over = left < 0;
+    const mbar = [['protein', '#3B82F6'], ['carbs', '#F97316'], ['fat', '#8B5CF6']].map(([m, c]) => `<i style="--k:${c};--p:${Math.round(U.clamp(total[m] / (g[m] || 1), 0, 1) * 100)}%"></i>`).join('');
+    // сон
+    const run = S.health.sleepStart, rec = Calc.sleepFor(k), sg = rec ? Calc.sleepGrade(Calc.sleepScore(rec.hours), rec.hours) : null;
+    const sleep = run
+      ? `<div class="hh-v num" data-elapsed="${run}">${this.elapsedHtml(Date.now() - run, true)}</div><small class="hh-hl">сплю с <span data-no-mt class="num">${U.hhmm(run)}</span></small>`
+      : rec ? `<div class="hh-v num">${rec.hours}<em>ч</em></div><small><span style="color:${sg.color}">${sg.label}</span>${rec.start && rec.end ? ` · <span data-no-mt class="num">${U.hhmm(rec.start)}–${U.hhmm(rec.end)}</span>` : ''}</small>`
+      : `<div class="hh-v num">–<em>ч</em></div><small>Нажми, когда ложишься</small>`;
+    // вес
+    const own = Calc.weightOn(k), kg = own != null ? own : Calc.weightAt(k), wl = Calc.weightLog(), wk = U.addDays(k, -7), dw = wl.length && wl[0].date <= wk ? kg - Calc.weightAt(wk) : null;
+    const wsub = dw != null ? `<small class="${dw <= 0 ? 'hh-ok' : 'hh-up'}">${dw <= 0 ? '↓' : '↑'} <span class="num">${U.w(Math.abs(dw))}</span> за 7 дн.</small>` : `<small>${own != null ? '' : 'Нажми, чтобы взвеситься'}</small>`;
+    // вода
+    const wg = Calc.waterGoal(), wd = Calc.waterOn(k), cup = S.profile.cupMl || 500;
+    const tile = (pos, c, action, inner, extra = '') => `<button class="hh-t hh-${pos}" style="--c:${c}" data-action="${action}" ${extra}>${inner}</button>`;
+    const head = (icon, label) => `<span class="hh-h"><i class="hh-i">${ic(icon)}</i><span>${label}</span></span>`;
+    return `<div class="hh-wrap">
+      <div class="hh-top"><b>${ic('fa-trophy')} Оценка дня</b><span>нажми на плитку</span></div>
+      <div class="hh">
+        <div class="hh-cut">
+          ${tile('tl', '#F97316', 'open-nutrition', `${head('fa-utensils', T('nutrition'))}<div class="hh-v num${over ? ' hh-over' : ''}">${Math.abs(left)}<em>${over ? 'ккал сверх' : 'ккал осталось'}</em></div><span class="hh-mb">${mbar}</span>`)}
+          ${tile('tr', '#8B5CF6', 'open-sleep', `${head('fa-moon', T('sleep'))}${sleep}`, run ? 'data-sleeping="1"' : '')}
+          ${tile('ml', '#A78BFA', 'food-ai', `<i class="hh-i sm">${ic('fa-camera')}</i><b>Снимок</b><small>ИИ посчитает</small>`)}
+          ${tile('mr', '#38BDF8', 'water-plus', `<i class="hh-i sm">${ic('fa-droplet')}</i><b class="num">+${cup}</b><small>мл воды</small>`)}
+          ${tile('bl', '#10B981', 'open-weight', `${head('fa-scale', T('scale'))}<div class="hh-v num">${U.w(kg)}<em>${U.wUnit()}</em></div>${wsub}`)}
+          ${tile('br', '#38BDF8', 'open-water', `${head('fa-droplet', T('water'))}<div class="hh-v num">${L(wd)}<em>/ ${L(wg)} л</em></div><span class="hh-bar" style="--p:${Math.round(U.clamp(wd / wg, 0, 1) * 100)}%"></span>`)}
+        </div>
+        <button class="hh-ring" data-action="dq-open" style="--dq:${col}" aria-label="Оценка дня">${this.dayRingSVG(r)}
+          <span class="hh-mid"><b class="num">${r.score}%</b><small>${r.tier ? r.tier.name : 'пока без награды'}</small>${cups ? `<span class="hh-cups num">${cups} ${ic('fa-trophy')}</span>` : ''}<span class="hh-cap">${cap}</span></span>
+        </button>
+      </div>
+    </div>`;
+  },
+  openWater() {
+    const k = this.hDay || U.today(), goal = Calc.waterGoal(), drunk = Calc.waterOn(k), left = Math.max(0, goal - drunk), L = v => (v / 1000).toFixed(1).replace(/\.0$/, '');
+    const html = `
+      <div class="flex items-center justify-between mb-1"><div class="font-bold text-lg"><svg class="ic text-sky-400"><use href="#fa-droplet"/></svg> ${T('water')}${k !== U.today() ? ` · <span data-no-mt>${U.fmtDate(k)}</span>` : ''}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
+      <div class="flex flex-col items-center text-center wt-m">
+        ${this.bottleSVG()}
+        <div class="text-2xl font-black num">${L(drunk)} <span class="text-sm muted font-semibold">/ ${L(goal)} л</span></div>
+        <div class="text-xs muted">${left > 0 ? `осталось ${L(left)} л` : 'норма выполнена'}</div>
+        <div class="flex items-center gap-2 mt-4 w-full">
+          <button class="icon-btn" data-action="water-minus" aria-label="−"><svg class="ic"><use href="#fa-minus"/></svg></button>
+          <input class="input num text-center min-w-0" id="water-ml" type="number" inputmode="numeric" min="50" max="3000" step="50" value="${S.profile.cupMl || 500}" data-action="water-cup" aria-label="мл">
+          <button class="icon-btn" style="background:#0EA5E9;border-color:#0EA5E9;color:#fff" data-action="water-plus" aria-label="+"><svg class="ic"><use href="#fa-plus"/></svg></button>
+        </div>
+        <div class="text-[11px] muted mt-2">Объём стакана в мл. Плитка «+${S.profile.cupMl || 500}» добавляет столько же.</div>
+      </div>`;
+    const md = this.$('#modal .modal'); if (md && this._wtModal) this.morph(md, html); else this.modal(html);
+    this._wtModal = true; this.animateWater(k);
   },
   scaleSVG(val) {
     return `<svg viewBox="0 0 120 96" width="96" height="77" class="my-0.5">
@@ -8589,6 +8967,7 @@ Object.assign(UI, {
   },
   openAuth(mode) {
     if (!mode) mode = (S.account && S.account.email) || S.profile.nickname ? 'login' : 'welcome';
+    if (mode === 'welcome' && !this.introSeen()) return this.openIntro(0); // v67: сначала три экрана знакомства
     if (mode !== this._authMode) this._auLang = false;
     this._authMode = mode; const err = this._authErr || ''; this._authErr = '';
     const legal = '<div class="text-[10px] muted text-center mt-3">Продолжая, ты принимаешь <button class="link" data-action="legal" data-val="terms">Условия</button> и <button class="link" data-action="legal" data-val="privacy">Политику конфиденциальности</button>. Приложение для ' + CONFIG.MIN_AGE + '+.</div>';
@@ -8659,48 +9038,159 @@ Object.assign(UI, {
   /* ---------- мастер профиля после регистрации ---------- */
   GOALS: [['cut', 'fa-fire', 'Похудеть', 'дефицит калорий'], ['keep', 'fa-heart-pulse', 'Форма', 'поддержание'], ['strength', 'fa-dumbbell', 'Сила', 'рост рекордов'], ['bulk', 'fa-arrow-up', 'Масса', 'профицит']],
   ACTS: [['low', 'Мало двигаюсь'], ['mid', 'Средне'], ['high', 'Много']],
-  openProfileWizard(o) {
-    if (o) this._wz = { step: 0, nick: '', age: '', sex: '', bw: '', h: '', goal: 'keep', act: 'mid', week: 3, prog: 'auto', ref: Referral.pending(), ...o };
-    const w = this._wz; if (!w) return; const st = w.step, steps = 5;
-    const head = `<div class="wz-head"><div class="wz-bar">${Array.from({ length: steps }, (_, k) => `<i class="${k <= st ? 'on' : ''}"></i>`).join('')}</div><div class="text-[11px] muted mt-1">Шаг ${st + 1} из ${steps}</div></div>`;
-    let body;
-    if (st === 0) body = `<div class="text-2xl font-black">Как тебя зовут?</div><div class="text-xs muted mb-3">${w.from ? `Имя взяли из ${w.from}. Можешь стереть и написать своё.` : 'Этот ник увидят в рейтингах и ленте.'}</div>
-      <div class="relative"><input class="input text-lg font-bold" id="wz-nick" maxlength="16" placeholder="Никнейм" value="${U.esc(w.nick)}" data-no-mt autocomplete="nickname">${w.nick ? '<button type="button" class="pass-eye" data-action="wz-clear" aria-label="Стереть"><svg class="ic"><use href="#fa-xmark"/></svg></button>' : ''}</div>
-      ${Net.online() ? `<div class="mt-3"><label class="text-[10px] muted"><svg class="ic text-or"><use href="#fa-gift"/></svg> Код приглашения от друга (если есть) · +${Referral.JOIN_COINS} монет</label><input class="input uppercase num" id="wz-ref" maxlength="12" placeholder="FR123ABC" value="${U.esc(w.ref || '')}" autocapitalize="characters" data-no-mt></div>` : ''}
-      <div class="grid grid-cols-2 gap-2 mt-3">
-        <div><label class="text-[10px] muted">Возраст</label><input class="input num" id="wz-age" type="number" inputmode="numeric" placeholder="25" value="${w.age}"></div>
-        <div><label class="text-[10px] muted">Пол</label><div class="seg" id="wz-sex"><button class="${w.sex === 'm' ? 'on' : ''}" data-action="seg" data-val="m">Муж.</button><button class="${w.sex === 'f' ? 'on' : ''}" data-action="seg" data-val="f">Жен.</button></div></div>
-      </div>`;
-    else if (st === 1) body = `<div class="text-2xl font-black">Твои параметры</div><div class="text-xs muted mb-3">Нужны для боссов арен, калорий и силы относительно веса. Другим не видны.</div>
-      <div class="grid grid-cols-2 gap-2">
-        <div class="wz-big"><label>Вес, ${U.wUnit()}</label><input class="input num" id="wz-bw" type="number" inputmode="decimal" step="0.1" placeholder="70" value="${w.bw}"></div>
-        <div class="wz-big"><label>Рост, см</label><input class="input num" id="wz-h" type="number" inputmode="numeric" placeholder="175" value="${w.h}"></div>
-      </div>
-      <div class="text-xs font-bold muted mt-4 mb-1">Активность вне зала</div>
-      <div class="seg" id="wz-act">${this.ACTS.map(([k, l]) => `<button class="${w.act === k ? 'on' : ''}" data-action="seg" data-val="${k}">${l}</button>`).join('')}</div>`;
-    else if (st === 3) { const days = Game.autoProgram(w.week, w.goal), WD = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-      body = `<div class="text-2xl font-black">Программа тренировок</div><div class="text-xs muted mb-3">${w.week} ${U.plural(w.week, 'тренировка', 'тренировки', 'тренировок')} в неделю. Составить программу за тебя? Её всегда можно поменять во вкладке «Силовые».</div>
-      <div class="grid grid-cols-2 gap-2"><button class="wz-goal ${w.prog === 'auto' ? 'on' : ''}" data-action="wz-prog" data-val="auto"><svg class="ic"><use href="#fa-wand-magic-sparkles"/></svg><b>Составь за меня</b><small>готовый план по дням</small></button><button class="wz-goal ${w.prog === 'self' ? 'on' : ''}" data-action="wz-prog" data-val="self"><svg class="ic"><use href="#fa-pen"/></svg><b>Сделаю сам</b><small>потом, если понадобится</small></button></div>
-      ${w.prog === 'auto' ? `<div class="wz-prog mt-3">${Object.entries(days).map(([wd, d]) => `<div><span class="wz-day">${WD[wd]}</span><div class="min-w-0"><b>${d.name}</b><small>${d.exercises.map(e => U.esc(U.exRu(e))).join(' · ')}</small></div><span class="chip">${d.sets}×</span></div>`).join('')}</div>` : '<div class="text-xs muted mt-3 text-center">Ок! Тренируйся как удобно, а план можно собрать в любой момент: Силовые → Расписание.</div>'}
-      <div class="text-xs font-bold muted mt-4 mb-1">Стиль приложения</div>
-      <div class="seg" id="wz-style"><button class="${!w.calm ? 'on' : ''}" data-action="seg" data-val="game">Игровой</button><button class="${w.calm ? 'on' : ''}" data-action="seg" data-val="calm">Спокойный</button></div>
-      <div class="text-[10px] muted mt-1">Игровой: арены, кубки, лиги и кланы. Спокойный: только твой прогресс, без рейтингов. Поменять можно в настройках.</div>`; }
-    else if (st === 4) { const L = w.lifts || (w.lifts = {});
-      body = `<div class="text-2xl font-black">Твои силовые</div><div class="text-xs muted mb-3">Сколько поднимаешь сейчас? Это точка отсчёта: следующие рекорды будут считаться от неё. За эти цифры кубков нет.</div>
-      ${Calc.TOP_LIFTS.slice(0, 3).map(t => { const k = t.k, x = L[k] || {}; return `<div class="wz-lift ${x.skip ? 'off' : ''}" data-key="wzl${k}"><span class="wz-lic" style="color:${t.c};background:${t.c}1F"><svg class="ic"><use href="#${t.ic}"/></svg></span><div class="flex-1 min-w-0"><b>${t.name}</b><div class="wz-lin"><input class="input num" id="wzl-${k}-w" type="number" inputmode="decimal" step="0.5" placeholder="${U.wUnit()}" value="${U.esc(x.w || '')}" ${x.skip ? 'disabled' : ''}><span>×</span><input class="input num" id="wzl-${k}-r" type="number" inputmode="numeric" placeholder="1" value="${U.esc(x.r || '')}" ${x.skip ? 'disabled' : ''}><small>повт.</small></div></div><button class="wz-skip ${x.skip ? 'on' : ''}" data-action="wz-lskip" data-k="${k}">${x.skip ? '<svg class="ic"><use href="#fa-check"/></svg> ' : ''}Не знаю</button></div>`; }).join('')}
-      <div class="text-[11px] muted mt-2">Никогда не делал или не помнишь — нажми «Не знаю» или оставь пустым.</div>`; }
-    else { const g = Calc.defaultGoals({ fitGoal: w.goal, activity: w.act, bodyweight: U.toKg(w.bw) || 70, height: +w.h || 175, age: +w.age || 25, sex: w.sex });
-      body = `<div class="text-2xl font-black">Твоя цель</div><div class="text-xs muted mb-3">Под неё посчитаем калории и белок. Поменять можно в настройках.</div>
-      <div class="grid grid-cols-2 gap-2">${this.GOALS.map(([k, ic, t, d]) => `<button class="wz-goal ${w.goal === k ? 'on' : ''}" data-action="wz-goal" data-val="${k}"><svg class="ic"><use href="#${ic}"/></svg><b>${t}</b><small>${d}</small></button>`).join('')}</div>
-      <div class="text-xs font-bold muted mt-4 mb-1">Тренировок в неделю</div>
-      <div class="seg" id="wz-week">${[2, 3, 4, 5, 6].map(n => `<button class="${w.week === n ? 'on' : ''}" data-action="wz-week" data-val="${n}">${n}</button>`).join('')}</div>
-      <div class="wz-nut mt-4"><div><b class="num">${g.cals}</b><small>ккал</small></div><div><b class="num">${g.protein}</b><small>белок, г</small></div><div><b class="num">${g.carbs}</b><small>углев., г</small></div><div><b class="num">${g.fat}</b><small>жиры, г</small></div></div>`; }
-    const html = `<div class="wz">${head}<div class="wz-body" data-key="wz${st}">${body}</div>
-      <div id="ob-err" class="text-xs text-red-400 mt-2"></div>
-      <div class="grid grid-cols-3 gap-2 mt-4">${st ? '<button class="btn btn-ghost" data-action="wz-back"><svg class="ic"><use href="#fa-chevron-left"/></svg></button>' : '<div></div>'}<button class="btn btn-primary col-span-2 py-3" data-action="wz-next">${st === steps - 1 ? '<svg class="ic"><use href="#fa-check"/></svg> Готово' : 'Дальше <svg class="ic"><use href="#fa-arrow-right"/></svg>'}</button></div></div>`;
-    const m = this.$('#modal .modal'); if (m && this._wzOpen) this.morph(m, html); else { this.modal(html, { center: true, closable: false }); this._wzOpen = true; }
+  // v67: мастер профиля — один вопрос на экран (имя → о себе → вес → рост → активность → цель → частота → программа → силовые → итог)
+  WZ_N: 9,
+  qzBar(back, prog, skip) {
+    return `<div class="qz-top">${back ? `<button class="qz-back" data-action="${back}" aria-label="Назад"><svg class="ic"><use href="#fa-chevron-left"/></svg></button>` : '<span class="qz-back off"></span>'}${prog}${skip || '<span class="qz-skip"></span>'}</div>`;
   },
-  wzRead() { const w = this._wz, v = id => (document.getElementById(id) || {}).value; if (!w) return; if (w.step === 0) { w.nick = (v('wz-nick') || '').trim().slice(0, 16); if (document.getElementById('wz-ref')) w.ref = (v('wz-ref') || '').trim().toUpperCase(); w.age = v('wz-age') || ''; w.sex = App.segVal('wz-sex') || w.sex; } else if (w.step === 1) { w.bw = v('wz-bw') || ''; w.h = v('wz-h') || ''; w.act = App.segVal('wz-act') || w.act; } else if (w.step === 3 && document.getElementById('wz-style')) w.calm = App.segVal('wz-style') === 'calm'; else if (w.step === 4) { const L = w.lifts || (w.lifts = {}); ['bench', 'squat', 'deadlift'].forEach(k => { const x = L[k] || (L[k] = {}); if (document.getElementById(`wzl-${k}-w`)) { x.w = v(`wzl-${k}-w`) || ''; x.r = v(`wzl-${k}-r`) || ''; } }); } },
+  qzRuler(id, { min, max, step, val, px, major, fmt, vertical }) {
+    const n = Math.round((max - min) / step), labs = [];
+    for (let i = 0; i <= n; i += major) labs.push(`<span class="qz-rl-l" style="${vertical ? 'top' : 'left'}:${(vertical ? n - i : i) * px}px">${fmt(Math.round((min + i * step) * 10) / 10)}</span>`);
+    return `<div class="qz-rw ${vertical ? 'v' : ''}"><div class="qz-ruler ${vertical ? 'v' : ''}" id="${id}" data-min="${min}" data-max="${max}" data-step="${step}" data-px="${px}" data-val="${val}" data-v="${vertical ? 1 : 0}">
+      <div class="qz-rl-in"><i class="qz-sp" data-morph-keep="style"></i><div class="qz-rl-t" style="${vertical ? 'height' : 'width'}:${n * px}px;--px:${px}px;--mj:${px * major}px;--mo:${vertical ? (n % major) * px : 0}px">${labs.join('')}</div><i class="qz-sp" data-morph-keep="style"></i></div></div>
+      <b class="qz-needle"></b></div>`;
+  },
+  openProfileWizard(o) {
+    if (o) this._wz = { step: 0, nick: '', age: '', sex: '', bw: '', h: '', goal: 'keep', act: 'mid', week: 3, prog: 'auto', hU: 'cm', ref: Referral.pending(), ...o };
+    const w = this._wz; if (!w) return; const st = w.step, N = this.WZ_N, lbs = U.wUnit() === 'lbs';
+    const ic = id => `<svg class="ic"><use href="#${id}"/></svg>`;
+    if (!(+w.age > 0)) w.age = 25;
+    if (st >= 2 && !(+w.bw > 0)) w.bw = lbs ? (w.sex === 'f' ? 135 : 170) : (w.sex === 'f' ? 60 : 75); // стартовое значение линейки — по полу
+    if (st >= 3 && !(+w.h > 0)) w.h = w.sex === 'f' ? 165 : 178;
+    const prog = `<div class="qz-prog" style="grid-template-columns:repeat(${N},1fr)">${Array.from({ length: N }, (_, i) => `<i class="${i <= st ? 'on' : ''}"></i>`).join('')}</div>`;
+    const row = (act, val, c, icon, t, s, on) => `<button class="qz-g qz-row${on ? ' on' : ''}" style="--c:${c}" data-action="${act}" data-val="${val}"><span class="qz-bub">${ic(icon)}</span><span class="qz-rt"><b>${t}</b><small>${s}</small></span><span class="qz-chk">${on ? ic('fa-check') : ''}</span></button>`;
+    const card = (act, val, c, icon, t, s, on) => `<button class="qz-g qz-card${on ? ' on' : ''}" style="--c:${c}" data-action="${act}" data-val="${val}"><span class="qz-bub">${ic(icon)}</span><b>${t}</b><small>${s}</small></button>`;
+    const WD = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    let t, p, body, skip = '', next = 'Дальше';
+    if (st === 0) { t = 'Как тебя зовут?'; p = w.from ? `Имя взяли из ${w.from}. Можешь стереть и написать своё.` : 'Этот ник увидят в лигах, кланах и дуэлях.';
+      body = `<label class="qz-g qz-input"><input id="wz-nick" maxlength="16" placeholder="Никнейм" value="${U.esc(w.nick)}" data-no-mt autocomplete="nickname" oninput="var c=this.parentNode.querySelector('.qz-cnt');if(c)c.textContent=this.value.length+' / 16'"><span class="qz-cnt num">${(w.nick || '').length} / 16</span></label>
+        ${Net.online() ? (w.refOpen || w.ref
+          ? `<div class="qz-g qz-row qz-ref" style="--c:#F97316"><span class="qz-bub">${ic('fa-gift')}</span><span class="qz-rt"><b>Код друга</b><input id="wz-ref" maxlength="12" placeholder="FR123ABC" value="${U.esc(w.ref || '')}" autocapitalize="characters" data-no-mt></span><span class="qz-pl num">+${Referral.JOIN_COINS}</span></div>`
+          : `<button class="qz-g qz-row" style="--c:#F97316" data-action="wz-ref-open"><span class="qz-bub">${ic('fa-gift')}</span><span class="qz-rt"><b>Есть код друга?</b><small>+${Referral.JOIN_COINS} монет вам обоим</small></span><span class="qz-pl">Добавить</span></button>`) : ''}`; }
+    else if (st === 1) { t = 'Немного о тебе'; p = 'Нужно для калорий и силы относительно веса тела.';
+      const ages = []; for (let a = 10; a <= 90; a++) ages.push(`<span class="${a === +w.age ? 'on' : ''}">${a}</span>`);
+      body = `<div class="qz-lbl">Пол</div><div class="qz-sex">
+          <button class="qz-g${w.sex === 'm' ? ' on' : ''}" style="--c:#3B82F6" data-action="wz-sex" data-val="m"><i>♂</i>Мужской</button>
+          <button class="qz-g${w.sex === 'f' ? ' on' : ''}" style="--c:#EC4899" data-action="wz-sex" data-val="f"><i>♀</i>Женский</button></div>
+        <div class="qz-lbl mt-7">Возраст</div><div class="qz-pick" id="wz-age" data-min="10" data-step="1" data-val="${w.age}"><i class="qz-sp" data-morph-keep="style"></i>${ages.join('')}<i class="qz-sp" data-morph-keep="style"></i></div>
+        <div class="qz-note">Листай, чтобы выбрать</div>`; }
+    else if (st === 2) { t = 'Твой вес'; p = 'Видишь только ты. Поменять можно в любой момент на весах.';
+      const v = +w.bw, other = lbs ? `≈ ${Math.round(v / 2.20462)} кг` : `≈ ${Math.round(v * 2.20462)} lbs`;
+      body = `<div class="qz-g qz-units"><button class="${lbs ? 'on' : ''}" data-action="wz-unit" data-val="lbs">lbs</button><button class="${lbs ? '' : 'on'}" data-action="wz-unit" data-val="kg">кг</button></div>
+        <div class="qz-big"><input class="num" id="wz-bw" type="number" inputmode="decimal" step="0.1" value="${v}" data-ruler="wz-bw-r" style="width:${this.qzW(v)}"><em>${lbs ? 'lbs' : 'кг'}</em></div><div class="qz-delta num" id="wz-bw-o">${other}</div>
+        ${this.qzRuler('wz-bw-r', lbs ? { min: 60, max: 450, step: 1, val: Math.round(v), px: 12, major: 10, fmt: x => x } : { min: 25, max: 200, step: 0.5, val: Math.round(v * 2) / 2, px: 12, major: 10, fmt: x => x })}`; }
+    else if (st === 3) { t = 'Твой рост'; p = 'Поможет точнее посчитать калории.';
+      const ft = w.hU === 'ft', cm = +w.h, inch = Math.round(cm / 2.54), fi = i => `${Math.floor(i / 12)}′${i % 12}″`;
+      body = `<div class="qz-hrow"><div class="qz-hl"><div class="qz-g qz-units start"><button class="${ft ? '' : 'on'}" data-action="wz-hunit" data-val="cm">см</button><button class="${ft ? 'on' : ''}" data-action="wz-hunit" data-val="ft">ft</button></div>
+          <div class="qz-big left">${ft ? `<span class="num" id="wz-h-ft">${fi(inch)}</span><input type="hidden" id="wz-h" value="${cm}">` : `<input class="num" id="wz-h" type="number" inputmode="numeric" value="${Math.round(cm)}" data-ruler="wz-h-r" style="width:${this.qzW(Math.round(cm))}"><em>см</em>`}</div>
+          <div class="qz-delta left num" id="wz-h-o">${ft ? `${Math.round(cm)} см` : fi(inch)}</div></div>
+        ${this.qzRuler('wz-h-r', ft ? { min: 48, max: 96, step: 1, val: inch, px: 10, major: 6, fmt: fi, vertical: true } : { min: 120, max: 230, step: 1, val: Math.round(cm), px: 10, major: 10, fmt: x => x, vertical: true })}</div>`; }
+    else if (st === 4) { t = 'Насколько ты активен вне зала?'; p = 'Ходьба, работа и всё, кроме тренировок.';
+      body = row('wz-act', 'low', '#94A3B8', 'fa-mug-hot', 'В основном сижу', 'офис, учёба, меньше 5 тыс. шагов', w.act === 'low') + row('wz-act', 'mid', '#10B981', 'fa-person-running', 'Средне', 'бываю на ногах, 5–10 тыс. шагов', w.act === 'mid') + row('wz-act', 'high', '#F97316', 'fa-bolt', 'Много двигаюсь', 'физическая работа, 10 тыс.+ шагов', w.act === 'high'); }
+    else if (st === 5) { t = 'Какая у тебя цель?'; p = 'Под неё посчитаем калории и белок.';
+      const C = { cut: '#EF4444', keep: '#10B981', strength: '#3B82F6', bulk: '#F97316' };
+      body = `<div class="qz-grid">${this.GOALS.map(([k, icn, tt, d]) => card('wz-goal', k, C[k], icn, tt, d, w.goal === k)).join('')}</div>`; }
+    else if (st === 6) { t = 'Как часто тренируешься?'; p = 'Тренировок в неделю. Под это подстроятся боссы арен и задания.';
+      const days = Game.autoProgram(w.week, w.goal), on = Object.keys(days).map(Number);
+      body = `<div class="qz-nums">${[2, 3, 4, 5, 6].map(v => `<button class="qz-g${v === w.week ? ' on' : ''}" data-action="wz-week" data-val="${v}"><b class="num">${v}</b><small>${v === w.week ? 'в неделю' : '&nbsp;'}</small></button>`).join('')}</div>
+        <div class="qz-g qz-week">${WD.map((d, i) => `<div>${d}<i class="${on.includes(i) ? 'on' : ''}">${on.includes(i) ? ic('fa-dumbbell') : ''}</i></div>`).join('')}</div>
+        <div class="qz-note">~ ${w.week} ч в неделю · дни отдыха свободны</div>`; }
+    else if (st === 7) { t = 'Составить программу за тебя?'; p = 'Её всегда можно поменять во вкладке «Силовые».';
+      const days = Game.autoProgram(w.week, w.goal);
+      body = `<div class="qz-grid sm">${card('wz-prog', 'auto', '#8B5CF6', 'fa-wand-magic-sparkles', 'Составь за меня', 'готовый план по дням', w.prog === 'auto')}${card('wz-prog', 'self', '#64748B', 'fa-pen', 'Сделаю сам', 'потом, если понадобится', w.prog === 'self')}</div>
+        ${w.prog === 'auto' ? `<div class="qz-g qz-plan">${Object.entries(days).map(([wd, d]) => `<div><span class="qz-d">${WD[wd]}</span><span class="min-w-0"><b>${d.name}</b><small>${d.exercises.slice(0, 3).map(e => U.esc(U.exRu(e))).join(' · ')}</small></span><span class="qz-st num">${d.sets}×</span></div>`).join('')}</div>` : '<div class="qz-note">Тренируйся как удобно, а план можно собрать в любой момент: Силовые → Расписание.</div>'}
+        <div class="qz-lbl">Стиль приложения</div>
+        <div class="qz-g qz-units wide"><button class="${!w.calm ? 'on' : ''}" data-action="wz-calm" data-val="0">${ic('fa-trophy')} Игровой</button><button class="${w.calm ? 'on' : ''}" data-action="wz-calm" data-val="1">${ic('fa-leaf')} Спокойный</button></div>
+        <div class="qz-note">${w.calm ? 'Только твой прогресс, без рейтингов.' : 'Арены, кубки, лиги и кланы.'} Поменять можно в настройках.</div>`; }
+    else if (st === 8) { t = 'Сколько поднимаешь сейчас?'; p = 'Это точка отсчёта: новые рекорды считаются от неё. Кубков за эти цифры нет.';
+      skip = `<button class="qz-skip" data-action="wz-lskip-all">Пропустить</button>`;
+      const L = w.lifts || (w.lifts = {});
+      body = Calc.TOP_LIFTS.slice(0, 3).map(tl => { const k = tl.k, x = L[k] || {}, gm = GUIDE_MEDIA[tl.ex];
+        return `<div class="qz-g qz-lift ${x.skip ? 'off' : ''}" data-key="wzl${k}"><span class="qz-art" style="--c:${tl.c}">${gm ? `<img src="guide/${gm[0]}_t.webp" alt="">` : ic(tl.ic)}</span>
+          <div class="flex-1 min-w-0"><b>${tl.name}</b><div class="qz-vals"><input class="num" id="wzl-${k}-w" type="number" inputmode="decimal" step="0.5" placeholder="${U.wUnit() === 'lbs' ? 'lbs' : 'кг'}" value="${U.esc(x.w || '')}" ${x.skip ? 'disabled' : ''}><span>×</span><input class="num" id="wzl-${k}-r" type="number" inputmode="numeric" placeholder="повт." value="${U.esc(x.r || '')}" ${x.skip ? 'disabled' : ''}></div></div>
+          <button class="qz-dk" data-action="wz-lskip" data-k="${k}">${x.skip ? ic('fa-check') + ' ' : ''}Не знаю</button></div>`; }).join('') + '<div class="qz-note">Никогда не делал или не помнишь — нажми «Не знаю».</div>'; }
+    else { const g = Calc.defaultGoals({ fitGoal: w.goal, activity: w.act, bodyweight: U.toKg(w.bw) || 70, height: +w.h || 175, age: +w.age || 25, sex: w.sex });
+      const gl = (this.GOALS.find(x => x[0] === w.goal) || [])[2] || '', R = 52, Cc = 2 * Math.PI * R, kc = g.protein * 4 + g.carbs * 4 + g.fat * 9 || 1;
+      let a = 0; const arcs = [['#3B82F6', g.protein * 4], ['#F97316', g.carbs * 4], ['#8B5CF6', g.fat * 9]].map(([c, v]) => { const s0 = a, s1 = a + v / kc; a = s1; return `<circle cx="60" cy="60" r="${R}" fill="none" stroke="${c}" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)" style="stroke-dasharray:${Math.max(1, (s1 - s0) * Cc - 12).toFixed(1)} ${Cc.toFixed(1)};stroke-dashoffset:${(-(s0 * Cc + 6)).toFixed(1)}"/>`; }).join('');
+      t = 'Твой план готов'; p = `${gl} · ${w.week} ${U.plural(w.week, 'тренировка', 'тренировки', 'тренировок')} в неделю`; next = 'Начать';
+      body = `<div class="qz-g qz-res"><svg class="qz-rg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="${R}" fill="none" stroke="currentColor" stroke-opacity=".1" stroke-width="10"/>${arcs}</svg><div><small>Калорий в день</small><b class="num">${g.cals}</b><small>ккал · с учётом активности</small></div></div>
+        <div class="qz-mac">${[[T('protein'), 'protein', '#3B82F6'], [T('carbs'), 'carbs', '#F97316'], [T('fat'), 'fat', '#8B5CF6']].map(([nm, k, c]) => `<div class="qz-g"><small style="color:${c}">${nm}</small><b class="num">${g[k]}<em> г</em></b></div>`).join('')}</div>
+        ${w.calm ? '' : `<div class="qz-g qz-arena"><span class="qz-aart"><img src="arenas/a01.webp" alt=""></span><span><b>Старт: ${TN(CONFIG.ARENAS[0].name)}</b><small>первые кубки за первую тренировку</small></span></div>`}`; }
+    const last = st === N;
+    const html = `<div class="qz q">${this.qzBar(st ? 'wz-back' : '', prog, skip)}
+      <div class="qz-body" data-key="wz${st}">${last ? '' : `<div class="qz-step">Шаг ${st + 1} из ${N}</div>`}<h1>${t}</h1><p>${p}</p>
+        <div class="qz-main">${body}</div></div>
+      <div id="ob-err" class="qz-err"></div>
+      <div class="qz-bar">${st ? `<button class="qz-ghost" data-action="wz-back">${last ? 'Изменить' : 'Назад'}</button>` : '<span></span>'}<button class="qz-next" data-action="wz-next">${next} ${ic(last ? 'fa-check' : 'fa-chevron-right')}</button></div></div>`;
+    const m = this.$('#modal .modal'); if (m && this._wzOpen) this.morph(m, html); else { const bg = this.modal(html, { center: true, closable: false }); bg.classList.add('auth-full', 'qz-full'); this._wzOpen = true; }
+    this.qzInit();
+  },
+  qzW(v) { const n = Math.max(2, String(v).length); return `calc(${n}ch - ${(n * 0.05).toFixed(2)}em + 6px)`; },
+  qzFit(inp) { // ширина поля = ширина числа, чтобы единица стояла вплотную (меряем скрытым span с тем же шрифтом)
+    try { const cs = getComputedStyle(inp); let z = this._qzSz; if (!z || !z.isConnected) { z = this._qzSz = document.createElement('span'); z.setAttribute('aria-hidden', 'true'); z.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;left:-999px;top:0'; document.body.appendChild(z); }
+      ['fontFamily', 'fontSize', 'fontWeight', 'letterSpacing', 'fontVariantNumeric', 'fontFeatureSettings'].forEach(k => { z.style[k] = cs[k]; }); z.textContent = String(inp.value || '0');
+      inp.style.width = Math.ceil(z.getBoundingClientRect().width + 4) + 'px'; } catch (_) {}
+  },
+  // прокрутка линеек и колёс: значение — то, что под иглой по центру
+  qzInit() {
+    const root = this.$('#modal'); if (!root) return;
+    root.querySelectorAll('.qz-ruler,.qz-pick').forEach(el => {
+      const pick = el.classList.contains('qz-pick'), vert = el.dataset.v === '1', D = () => ({ min: +el.dataset.min, step: +el.dataset.step, px: pick ? 64 : +el.dataset.px });
+      const half = (vert ? el.clientHeight : el.clientWidth) / 2;
+      el.querySelectorAll('.qz-sp').forEach(s => { if (vert) s.style.height = half + 'px'; else s.style.width = (half - (pick ? 32 : 0)) + 'px'; });
+      const go = v => { const { min, step, px } = D(), pos = Math.round((v - min) / step) * px; if (vert) el.scrollTop = el.scrollHeight - el.clientHeight - pos; else el.scrollLeft = pos; };
+      if (el._qzv !== el.dataset.val) { el._qzv = el.dataset.val; go(+el.dataset.val); }
+      if (el._qz) return; el._qz = { go };
+      let tm;
+      el.addEventListener('scroll', () => {
+        const { min, step, px } = D(), pos = vert ? el.scrollHeight - el.clientHeight - el.scrollTop : el.scrollLeft, i = Math.max(0, Math.round(pos / px)), v = Math.round((min + i * step) * 10) / 10;
+        if (pick) { el.querySelectorAll('span').forEach((s, k) => s.classList.toggle('on', k === i)); if (el.id === 'wz-age' && this._wz) this._wz.age = v; }
+        else this.qzRulerSet(el.id, v);
+        clearTimeout(tm); tm = setTimeout(() => { const want = i * px; if (Math.abs(pos - want) > 1) { if (vert) el.scrollTo({ top: el.scrollHeight - el.clientHeight - want, behavior: 'smooth' }); else el.scrollTo({ left: want, behavior: 'smooth' }); } }, 140);
+      }, { passive: true });
+    });
+    root.querySelectorAll('input[data-ruler]').forEach(inp => { this.qzFit(inp); if (inp._qz) return; inp._qz = 1;
+      inp.addEventListener('input', () => { this.qzFit(inp); const r = document.getElementById(inp.dataset.ruler), v = parseFloat(inp.value); if (!r || !(v > 0)) return; this._qzTyping = true; r._qz && r._qz.go(U.clamp(v, +r.dataset.min, +r.dataset.max)); setTimeout(() => { this._qzTyping = false; }, 200); }); });
+  },
+  qzRulerSet(id, v) {
+    const w = this._wz; if (!w) return;
+    if (id === 'wz-bw-r') { const inp = document.getElementById('wz-bw'); if (!this._qzTyping && inp) { inp.value = v; this.qzFit(inp); } const val = this._qzTyping && inp ? parseFloat(inp.value) || v : v; w.bw = val;
+      const o = document.getElementById('wz-bw-o'); if (o) o.textContent = U.wUnit() === 'lbs' ? `≈ ${Math.round(val / 2.20462)} ${this.tt('кг')}` : `≈ ${Math.round(val * 2.20462)} lbs`; }
+    else if (id === 'wz-h-r') { const ft = w.hU === 'ft', cm = ft ? Math.round(v * 2.54) : v, inch = ft ? v : Math.round(v / 2.54), fi = `${Math.floor(inch / 12)}′${inch % 12}″`;
+      const inp = document.getElementById('wz-h'); if (inp && (ft || !this._qzTyping)) { inp.value = cm; if (!ft) this.qzFit(inp); } w.h = ft || !this._qzTyping ? cm : parseFloat(inp.value) || cm;
+      const f = document.getElementById('wz-h-ft'); if (f) f.textContent = fi; const o = document.getElementById('wz-h-o'); if (o) o.textContent = ft ? `${cm} ${this.tt('см')}` : fi; }
+  },
+  wzRead() { const w = this._wz, v = id => (document.getElementById(id) || {}).value; if (!w) return;
+    if (w.step === 0) { w.nick = (v('wz-nick') || '').trim().slice(0, 16); if (document.getElementById('wz-ref')) w.ref = (v('wz-ref') || '').trim().toUpperCase(); }
+    else if (w.step === 2) { const x = parseFloat(v('wz-bw')); if (x > 0) w.bw = x; }
+    else if (w.step === 3) { const x = parseFloat(v('wz-h')); if (x > 0) w.h = x; }
+    else if (w.step === 8) { const L = w.lifts || (w.lifts = {}); ['bench', 'squat', 'deadlift'].forEach(k => { const x = L[k] || (L[k] = {}); if (document.getElementById(`wzl-${k}-w`)) { x.w = v(`wzl-${k}-w`) || ''; x.r = v(`wzl-${k}-r`) || ''; } }); } },
+  // v67: три экрана знакомства перед входом (один раз на телефоне)
+  introSeen() { try { return localStorage.getItem('FLEXO_INTRO_V1') === '1'; } catch (_) { return true; } },
+  openIntro(i = 0) {
+    this._intro = i = U.clamp(i, 0, 2);
+    const ic = id => `<svg class="ic"><use href="#${id}"/></svg>`, nAr = CONFIG.ARENAS.filter(x => !x.league).length, nLg = CONFIG.ARENAS.length - nAr;
+    const chip = (pos, c, icon, t, s) => `<div class="qz-chip" style="${pos};--c:${c}"><i>${icon}</i><span><b>${t}</b><small>${s}</small></span></div>`;
+    const demo = { parts: [{ color: '#F97316', pct: 85 }, { color: '#8B5CF6', pct: 95 }, { color: '#38BDF8', pct: 60 }, { color: '#10B981', pct: 100 }] };
+    const S3 = [
+      { hero: `<div class="qz-orb"><img src="arenas/a08.webp" alt=""></div>${chip('top:6%;right:0', '#F59E0B', ic('fa-trophy'), 'Кубки', 'за каждую тренировку')}${chip('bottom:8%;left:0', '#3B82F6', `<img src="${this.medalSrc(6)}" alt="">`, TN(CONFIG.ARENAS[6].name), `арена 7 из ${nAr}`)}`,
+        t: 'Поднимайся по аренам', p: `Каждая тренировка приносит кубки: ${nAr} арен и ${nLg} лиг впереди.` },
+      { hero: `<div class="qz-tall"><img src="guide/00_b.webp" alt=""></div>${chip('top:10%;left:0', '#10B981', ic('fa-crown'), 'Новый рекорд', TN('Присед'))}${chip('bottom:12%;right:0', '#F97316', ic('fa-khanda'), 'Дуэль', '1 на 1 с другом')}`,
+        t: 'Записывай и бей рекорды', p: 'Подходы записываются за секунды. Рекорды попадают в рейтинг, а друзья могут вызвать на дуэль.' },
+      { hero: `<div class="qz-ringwrap">${this.dayRingSVG(demo, 220)}<span class="qz-rmid"><b class="num">85%</b><small>${TN('Золото')}</small></span></div>${chip('top:4%;left:0', '#8B5CF6', ic('fa-camera'), 'Фото тарелки', 'ИИ посчитает калории')}${chip('bottom:6%;right:0', '#0EA5E9', ic('fa-droplet'), 'Вода и сон', 'в одном кольце')}`,
+        t: 'Еда, вода и сон', p: 'Одно кольцо на весь день. Выполни цели и получи бонусные кубки после полуночи.' },
+    ][i];
+    const html = `<div class="qz intro">
+      <div class="qz-top"><span class="qz-logo">${LOGO_SVG()}<b data-no-mt>Flexo League</b></span><span class="qz-n num">${i + 1} / 3</span></div>
+      <div class="qz-hero" data-key="in${i}">${S3.hero}</div>
+      <div class="qz-dots">${[0, 1, 2].map(k => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
+      <h1>${S3.t}</h1><p>${S3.p}</p>
+      <div class="qz-bar"><button class="qz-ghost" data-action="intro-done">Пропустить</button><button class="qz-next" data-action="${i === 2 ? 'intro-done' : 'intro-step'}" data-val="${i + 1}">${i === 2 ? 'Начать' : 'Дальше'} ${ic('fa-chevron-right')}</button></div></div>`;
+    const m = this.$('#modal .modal'); if (m && this._introOpen) this.morph(m, html);
+    else { const bg = this.modal(html, { center: true, closable: false }); bg.classList.add('auth-full', 'qz-full'); this._introOpen = true;
+      let x0 = null; bg.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+      bg.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50 && this._introOpen) { if (dx < 0 && this._intro < 2) this.openIntro(this._intro + 1); else if (dx > 0 && this._intro > 0) this.openIntro(this._intro - 1); } }, { passive: true }); }
+  },
   /* ---------- настройки: список разделов, каждый открывается отдельной страницей ---------- */
   SET_MENU() {
     const p = S.profile, acc = (Net.online() && Net.emailAddr) || (S.account && S.account.email) || '', g = S.nutrition.goals || Calc.defaultGoals(), bl = Social.blocked().length;
@@ -8977,6 +9467,7 @@ const App = {
       if (!UI.rulesOk()) { (UI._prCap || (UI._prCap = {}))[lift.id] = cap; UI.needRules(go); return; }
       el.disabled = true; el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg> Публикую…'; await go();
     },
+    'pf-car'(el) { const c = document.getElementById('pf-car'); if (c && c._go) c._go(+el.dataset.val); },
     'top3-open'() { UI._t3 = null; UI._t3Open = false; UI.openTop3(); },
     'top3-toggle'(el) { const ex = el.dataset.ex, s = UI._t3 || (UI._t3 = Calc.top3()), i = s.indexOf(ex); if (i >= 0) s.splice(i, 1); else if (s.length < 3) s.push(ex); else { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); UI.toast('Можно выбрать только 3 лифта: сначала убери один', 'red'); return; } UI.openTop3(); },
     'top3-save'() { const s = (UI._t3 || []).slice(0, 3); if (!s.length) return; S.profile.top3 = s; save(); UI._t3 = null; UI._t3Open = false; UI.closeModal(); UI.renderTab(UI.tab); },
@@ -9042,6 +9533,7 @@ const App = {
     'h-cal-nav'(el) { const [y, m] = (UI.hCalMonth || UI.hDay.slice(0, 7)).split('-').map(Number); UI.hCalMonth = U.monthKey(new Date(y, m - 1 + (+el.dataset.dir), 1)); UI.openHealthCalendar(); },
     'h-cal-pick'(el) { UI.hDay = el.dataset.date; UI._stripFocus = el.dataset.date; UI.closeModal(); UI.renderNutrition(); },
     'open-weight'() { UI.openWeight(); },
+    'open-water'() { UI.openWater(); },
     'weight-save'() { const kg = U.toKg(document.getElementById('wt-kg').value); if (!Game.logWeight(kg, UI.hDay || U.today())) { UI.toast('Проверь вес', 'red'); return; } UI.toast(`${T('scale')}: ${U.w(kg)} ${U.wUnit()}`, 'bl'); App.afterChange(); UI.openWeight(); },
     'weight-del'(el) { const id = el.dataset.id, w = (S.health.weights || []).find(x => x.id === id); UI.askDel('Удалить взвешивание?', { sub: w ? `${U.fmtDate(w.date)} · ${U.w(w.kg)} ${U.wUnit()}` : '', yes: () => Game.deleteWeight(id), back: () => UI.openWeight() }); },
     'water-plus'() { const v = parseInt(document.getElementById('water-ml')?.value) || S.profile.cupMl || 500; S.profile.cupMl = U.clamp(v, 50, 3000); if (!Game.logWater(S.profile.cupMl, UI.hDay || U.today())) { UI.toast('Проверь объём', 'red'); return; } App.afterChange(); },
@@ -9481,20 +9973,33 @@ const App = {
     'wz-week'(el) { UI.wzRead(); UI._wz.week = +el.dataset.val; UI.openProfileWizard(); },
     'wz-lskip'(el) { UI.wzRead(); const L = UI._wz.lifts || (UI._wz.lifts = {}), x = L[el.dataset.k] || (L[el.dataset.k] = {}); x.skip = !x.skip; UI.openProfileWizard(); },
     'wz-back'() { UI.wzRead(); UI._wz.step = Math.max(0, UI._wz.step - 1); UI.openProfileWizard(); },
+    'wz-ref-open'() { UI.wzRead(); UI._wz.refOpen = true; UI.openProfileWizard(); const i = document.getElementById('wz-ref'); if (i) i.focus(); },
+    'wz-sex'(el) { UI.wzRead(); const w = UI._wz; w.sex = el.dataset.val; UI.openProfileWizard(); },
+    'wz-act'(el) { UI.wzRead(); UI._wz.act = el.dataset.val; UI.openProfileWizard(); },
+    'wz-calm'(el) { UI.wzRead(); UI._wz.calm = el.dataset.val === '1'; UI.openProfileWizard(); },
+    'wz-unit'(el) { UI.wzRead(); const w = UI._wz, u = el.dataset.val; if (u === S.profile.units) return; const kg = U.toKg(w.bw); S.profile.units = u; save(); w.bw = u === 'lbs' ? Math.round(kg * 2.20462) : Math.round(kg * 2) / 2; UI.openProfileWizard(); },
+    'wz-hunit'(el) { UI.wzRead(); UI._wz.hU = el.dataset.val; UI.openProfileWizard(); },
+    'wz-lskip-all'() { UI.wzRead(); const L = UI._wz.lifts || (UI._wz.lifts = {}); Calc.TOP_LIFTS.slice(0, 3).forEach(t => { L[t.k] = { skip: true }; }); UI._wz.step++; UI.openProfileWizard(); },
+    'intro-step'(el) { UI.openIntro(+el.dataset.val); },
+    'intro-done'() { try { localStorage.setItem('FLEXO_INTRO_V1', '1'); } catch (_) {} UI._introOpen = false; UI.openAuth('welcome'); },
     async 'wz-next'(el) {
       UI.wzRead(); const w = UI._wz, err = document.getElementById('ob-err');
       if (w.step === 0) {
         if (w.nick.length < 2) { err.textContent = 'Ник от 2 символов'; return; }
         if (Profanity.bad(w.nick)) { err.textContent = 'В нике есть мат или оскорбление, придумай другой'; return; }
-        const age = parseInt(w.age); if (!age || age < 5 || age > 100) { err.textContent = 'Укажи реальный возраст'; return; }
-        if (!w.sex) { err.textContent = 'Выбери пол: от него зависят калории и боссы арен'; return; }
-        if (age < CONFIG.MIN_AGE) { S.profile.age = age; S.profile.blocked = true; save(); UI.openBlocked(); return; }
         if (Net.online()) { el.disabled = true; try { if (!(await Net.nickAvailable(w.nick))) { el.disabled = false; err.textContent = 'Этот ник уже занят, придумай другой'; return; } } catch (_) {} el.disabled = false; }
-      } else if (w.step === 1) {
-        const bw = U.toKg(w.bw), h = +w.h; if (!(bw > 25 && bw < 300)) { err.textContent = 'Проверь вес'; return; } if (!(h > 100 && h < 250)) { err.textContent = 'Проверь рост'; return; }
-      } else if (w.step === 4) {
-        const L = w.lifts || {}; for (const t of Calc.TOP_LIFTS.slice(0, 3)) { const x = L[t.k] || {}; if (x.skip || !x.w) continue; const kg = U.toKg(x.w), reps = parseInt(x.r) || 1; if (!(kg > 0) || reps < 1 || reps > 30) { err.textContent = `Проверь «${t.name}»: вес и повторы`; return; } const e = Calc.e1rm(kg, Calc.rmByReps(reps), reps), bad = Calc.liftCapError(t.ex, kg, e); if (bad) { err.textContent = `${t.name}: ${bad}`; return; } }
+      } else if (w.step === 1) { // v67: шаги по одному вопросу
+        if (!w.sex) { err.textContent = 'Выбери пол: от него зависят калории и боссы арен'; return; }
+        const age = parseInt(w.age); if (!age || age < 5 || age > 100) { err.textContent = 'Укажи реальный возраст'; return; }
+        if (age < CONFIG.MIN_AGE) { S.profile.age = age; S.profile.blocked = true; save(); UI.openBlocked(); return; }
+      } else if (w.step === 2) {
+        const bw = U.toKg(w.bw); if (!(bw > 25 && bw < 300)) { err.textContent = 'Проверь вес'; return; }
+      } else if (w.step === 3) {
+        const h = +w.h; if (!(h > 100 && h < 250)) { err.textContent = 'Проверь рост'; return; }
+      } else if (w.step === UI.WZ_N) {
         el.disabled = true; el.innerHTML = '<svg class="ic spin"><use href="#fa-circle-notch"/></svg>'; return App.finishWizard();
+      } else if (w.step === 8) {
+        const L = w.lifts || {}; for (const t of Calc.TOP_LIFTS.slice(0, 3)) { const x = L[t.k] || {}; if (x.skip || !x.w) continue; const kg = U.toKg(x.w), reps = parseInt(x.r) || 1; if (!(kg > 0) || reps < 1 || reps > 30) { err.textContent = `Проверь «${t.name}»: вес и повторы`; return; } const e = Calc.e1rm(kg, Calc.rmByReps(reps), reps), bad = Calc.liftCapError(t.ex, kg, e); if (bad) { err.textContent = `${t.name}: ${bad}`; return; } }
       }
       w.step++; UI.openProfileWizard();
     },
