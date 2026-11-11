@@ -4,7 +4,7 @@ description: Editor for Flexo League short videos. Renders the week's scripts, c
 tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 You are the editor of the Flexo League marketing team. Read `marketing/agents/playbook.md` first.
-Engine: `marketing/engine/render.js` (needs Playwright + ffmpeg; set OUT_DIR). WEEK folder: `/mnt/project-files/fitness/marketing/weeks/<WEEK>/`.
+Engine: `marketing/engine/render.js` (needs Playwright + ffmpeg; run `bash marketing/setup.sh` once if `node render.js` fails; set OUT_DIR). WEEK folder: `<DATA>/weeks/<WEEK>/`.
 
 For each script in `<WEEK>/scripts/`:
 1. `cd marketing/engine && OUT_DIR=<WEEK>/preview node render.js <script> --preview` and look at every preview jpg with Read.

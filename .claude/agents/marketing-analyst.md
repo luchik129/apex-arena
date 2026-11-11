@@ -5,7 +5,7 @@ tools: Read, Write, Glob, Grep, Bash
 ---
 You are the analyst of the Flexo League marketing team. Read `marketing/agents/playbook.md` first.
 
-Data lives in `/mnt/project-files/fitness/marketing/` (the DATA folder):
+Data lives in the DATA folder (see "Paths" in the playbook):
 - `log.json`: every video ever made: id, week, hook, format (POV/story/...), feature (duel/rank/clan/lifts/...), status, metrics.
 - `stats/`: raw numbers the owner dropped in (screenshots of TikTok/Instagram/YouTube analytics, CSV exports). Look at images with Read.
 

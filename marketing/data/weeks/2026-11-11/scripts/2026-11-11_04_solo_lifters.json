@@ -1,0 +1,69 @@
+{
+ "id": "2026-11-11_04_solo_lifters",
+ "seed": 7,
+ "format": "callout",
+ "feature": "clan",
+ "post": {
+  "title": "If you always lift alone, watch this",
+  "caption": "Join a clan, fight a clan battle every week. Your sets count for the team.",
+  "hashtags": [
+   "gymtok",
+   "gymbuddy",
+   "gym",
+   "fitness",
+   "gymcommunity"
+  ]
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "dur": 2.0,
+   "lines": [
+    "If you",
+    "always lift",
+    "alone"
+   ],
+   "accent": 2,
+   "size": 140,
+   "sub": "watch this",
+   "sizes": [
+    140,
+    114,
+    140
+   ]
+  },
+  {
+   "type": "phone",
+   "dur": 2.8,
+   "img": "04_clan.jpg",
+   "caption": "Join",
+   "accent": "a clan",
+   "pan": [
+    0,
+    0.3
+   ],
+   "badge": "Clan battle",
+   "badgePos": "left:110px;top:440px"
+  },
+  {
+   "type": "phone",
+   "dur": 2.2,
+   "img": "04_clan.jpg",
+   "caption": "Weekly battle",
+   "accent": "728 vs 367",
+   "pan": [
+    0.35,
+    0.55
+   ],
+   "badge": "Top 3",
+   "capSize": 90,
+   "badgePos": "left:110px;top:440px"
+  },
+  {
+   "type": "cta",
+   "dur": 2.4,
+   "sub": "Your sets count for the team",
+   "button": "Free on iOS & Android"
+  }
+ ]
+}

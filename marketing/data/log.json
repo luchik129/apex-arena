@@ -1,0 +1,102 @@
+[
+ {
+  "id": "v01_ranked_gym",
+  "week": "2026-11-11",
+  "hook": "POV: / your gym / is ranked now",
+  "format": "POV",
+  "feature": "rank",
+  "status": "ready",
+  "video": "cloud only: /mnt/project-files/fitness/marketing/out/v01_ranked_gym.mp4",
+  "metrics": {}
+ },
+ {
+  "id": "v02_duel",
+  "week": "2026-11-11",
+  "hook": "He said / I skip / workouts",
+  "format": "story",
+  "feature": "duel",
+  "status": "ready",
+  "video": "cloud only: /mnt/project-files/fitness/marketing/out/v02_duel.mp4",
+  "metrics": {}
+ },
+ {
+  "id": "v03_pr",
+  "week": "2026-11-11",
+  "hook": "Stop lifting / for nobody",
+  "format": "contrarian",
+  "feature": "lifts",
+  "status": "ready",
+  "video": "cloud only: /mnt/project-files/fitness/marketing/out/v03_pr.mp4",
+  "metrics": {}
+ },
+ {
+  "id": "2026-11-11_01_which_rank",
+  "week": "2026-11-11",
+  "hook": "Which rank / are you?",
+  "format": "question",
+  "feature": "rank",
+  "status": "ready",
+  "metrics": {},
+  "video": "marketing/data/weeks/2026-11-11/videos/2026-11-11_01_which_rank.mp4  (cloud copy: /mnt/project-files/fitness/marketing/weeks/2026-11-11/videos/2026-11-11_01_which_rank.mp4)"
+ },
+ {
+  "id": "2026-11-11_02_rate_my_rank",
+  "week": "2026-11-11",
+  "hook": "Rate / my rank",
+  "format": "rank_flex",
+  "feature": "trophies",
+  "status": "ready",
+  "metrics": {},
+  "video": "marketing/data/weeks/2026-11-11/videos/2026-11-11_02_rate_my_rank.mp4  (cloud copy: /mnt/project-files/fitness/marketing/weeks/2026-11-11/videos/2026-11-11_02_rate_my_rank.mp4)"
+ },
+ {
+  "id": "2026-11-11_03_duel_7_days",
+  "week": "2026-11-11",
+  "hook": "Beat your / gym buddy / in 7 days?",
+  "format": "challenge",
+  "feature": "duel",
+  "status": "ready",
+  "metrics": {},
+  "video": "marketing/data/weeks/2026-11-11/videos/2026-11-11_03_duel_7_days.mp4  (cloud copy: /mnt/project-files/fitness/marketing/weeks/2026-11-11/videos/2026-11-11_03_duel_7_days.mp4)"
+ },
+ {
+  "id": "2026-11-11_04_solo_lifters",
+  "week": "2026-11-11",
+  "hook": "If you / always lift / alone",
+  "format": "callout",
+  "feature": "clan",
+  "status": "ready",
+  "metrics": {},
+  "video": "marketing/data/weeks/2026-11-11/videos/2026-11-11_04_solo_lifters.mp4  (cloud copy: /mnt/project-files/fitness/marketing/weeks/2026-11-11/videos/2026-11-11_04_solo_lifters.mp4)"
+ },
+ {
+  "id": "2026-11-11_05_no_progress",
+  "week": "2026-11-11",
+  "hook": "Me after / 3 weeks of / guessing weights",
+  "format": "pain",
+  "feature": "lifts",
+  "status": "ready",
+  "metrics": {},
+  "video": "marketing/data/weeks/2026-11-11/videos/2026-11-11_05_no_progress.mp4  (cloud copy: /mnt/project-files/fitness/marketing/weeks/2026-11-11/videos/2026-11-11_05_no_progress.mp4)"
+ },
+ {
+  "id": "2026-11-11_06_sleep_trophies",
+  "week": "2026-11-11",
+  "hook": "POV: / your sleep / earns trophies",
+  "format": "POV",
+  "feature": "health",
+  "status": "ready",
+  "metrics": {},
+  "video": "marketing/data/weeks/2026-11-11/videos/2026-11-11_06_sleep_trophies.mp4  (cloud copy: /mnt/project-files/fitness/marketing/weeks/2026-11-11/videos/2026-11-11_06_sleep_trophies.mp4)"
+ },
+ {
+  "id": "2026-11-11_07_bench_form",
+  "week": "2026-11-11",
+  "hook": "He said / my bench / looked weird",
+  "format": "story",
+  "feature": "guide",
+  "status": "ready",
+  "metrics": {},
+  "video": "marketing/data/weeks/2026-11-11/videos/2026-11-11_07_bench_form.mp4  (cloud copy: /mnt/project-files/fitness/marketing/weeks/2026-11-11/videos/2026-11-11_07_bench_form.mp4)"
+ }
+]

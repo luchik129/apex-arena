@@ -1,0 +1,64 @@
+{
+ "id": "2026-11-11_05_no_progress",
+ "seed": 8,
+ "format": "pain",
+ "feature": "lifts",
+ "post": {
+  "title": "Me after 3 weeks of guessing my weights",
+  "caption": "Log every lift and see your PR chart. No more guessing.",
+  "hashtags": [
+   "gymtok",
+   "pr",
+   "gymprogress",
+   "gym",
+   "workout"
+  ]
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "dur": 2.0,
+   "lines": [
+    "Me after",
+    "3 weeks of",
+    "guessing weights"
+   ],
+   "accent": 2,
+   "size": 124,
+   "sizes": [
+    124,
+    124,
+    74
+   ]
+  },
+  {
+   "type": "hook",
+   "dur": 1.4,
+   "lines": [
+    "What did",
+    "I bench?"
+   ],
+   "accent": 1,
+   "size": 145
+  },
+  {
+   "type": "phone",
+   "dur": 2.8,
+   "img": "05_lifts.jpg",
+   "caption": "Every lift",
+   "accent": "on a chart",
+   "pan": [
+    0,
+    0.35
+   ],
+   "badge": "NEW PR",
+   "badgePos": "left:110px;top:440px"
+  },
+  {
+   "type": "cta",
+   "dur": 2.4,
+   "sub": "Track lifts. Chase PRs.",
+   "button": "Free on iOS & Android"
+  }
+ ]
+}

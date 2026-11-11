@@ -1,7 +1,7 @@
 # Weekly marketing run
 
 Runs every Monday as a scheduled Claude task in the project thread "Настроить автопостинг видео в соцсети".
-WEEK = date of that Monday (YYYY-MM-DD). DATA = /mnt/project-files/fitness/marketing/.
+WEEK = date of that Monday (YYYY-MM-DD). DATA = see "Paths" in playbook.md.
 
 1. Update the repo (main) so the engine and these prompts are current.
 2. Analyst agent (`.claude/agents/marketing-analyst.md`) → DATA/reports/WEEK.md

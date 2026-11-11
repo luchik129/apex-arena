@@ -10,9 +10,16 @@
 
 Общие правила бренда (что можно и что нельзя обещать, аудитория, хуки) лежат в `agents/playbook.md`.
 
+## Работа через Claude Code на компьютере
+1. Один раз: `bash marketing/setup.sh` (нужны Node.js и ffmpeg: `brew install node ffmpeg`).
+2. Открой репозиторий в Claude Code (`cd apex-arena && claude`).
+3. Команда `/marketing-week` запускает всю команду. Например: `/marketing-week 5 больше смешных роликов про дуэли`.
+4. Или зови агента напрямую: «попроси marketing-writer написать 3 сценария про кланы», «marketing-editor, сделай крупнее текст в ролике 05». Список агентов показывает `/agents`.
+5. Видео будут в `marketing/data/weeks/<дата>/videos/`, подписи в `captions.md` там же.
+
 ## Где что лежит
 - Код и промпты: в этом репозитории, папка `marketing/`.
-- Данные: `/mnt/project-files/fitness/marketing/` в проекте. Там `log.json` (все ролики и их статистика), `stats/` (скриншоты аналитики), `reports/`, `weeks/<дата>/` (видео + `captions.md`).
+- Данные: на компьютере `marketing/data/` (видео в git не попадают), в облачном проекте `/mnt/project-files/fitness/marketing/`. Там `log.json` (все ролики и их статистика), `stats/` (скриншоты аналитики), `reports/`, `weeks/<дата>/` (видео + `captions.md`).
 
 ## Движок
 ```

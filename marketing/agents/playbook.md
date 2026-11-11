@@ -1,5 +1,13 @@
 # Flexo League content playbook (shared by all marketing agents)
 
+## Paths
+- DATA folder: `/mnt/project-files/fitness/marketing/` if it exists (Claude project in the cloud),
+  otherwise `marketing/data/` inside this repo (Claude Code on the owner's computer).
+  It holds `log.json`, `stats/`, `reports/`, `weeks/<WEEK>/{scripts,videos}/`, `captions.md`.
+- WEEK = the date the batch is made (YYYY-MM-DD) unless the owner says otherwise.
+- Engine and screenshots: `marketing/engine/`, `marketing/assets/`. Always use absolute paths for OUT_DIR and script files.
+- The owner speaks Russian: talk to them in Russian. Video text and captions stay in English.
+
 ## Product facts (only claim these)
 Flexo League is a free gamified gym app (iOS + Android). Every workout earns trophies; 17 ranks from Basement to Legend;
 7-day duels with friends; clans and weekly clan battles; lift tracking with PR charts; calories, sleep, water;

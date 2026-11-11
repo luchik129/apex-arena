@@ -1,0 +1,3 @@
+{ "name": "flexo-marketing-engine", "private": true, "version": "1.0.0",
+  "description": "Renders Flexo League short videos",
+  "dependencies": { "playwright": "1.49.1" } }

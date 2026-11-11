@@ -1,0 +1,63 @@
+{
+ "id": "2026-11-11_02_rate_my_rank",
+ "seed": 5,
+ "format": "rank_flex",
+ "feature": "trophies",
+ "post": {
+  "title": "Rate my rank (be nice)",
+  "caption": "Every workout earns trophies. 153 more to pass #41.",
+  "hashtags": [
+   "gymtok",
+   "gymprogress",
+   "fitness",
+   "gym",
+   "fitnessapp"
+  ]
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "dur": 1.6,
+   "lines": [
+    "Rate",
+    "my rank"
+   ],
+   "accent": 1,
+   "size": 145,
+   "sub": "be nice"
+  },
+  {
+   "type": "phone",
+   "dur": 2.8,
+   "img": "01_home.jpg",
+   "caption": "#42",
+   "accent": "worldwide",
+   "pan": [
+    0,
+    0.15
+   ],
+   "badge": "153 to #41",
+   "badgePos": "left:110px;top:440px"
+  },
+  {
+   "type": "phone",
+   "dur": 2.4,
+   "img": "01_home.jpg",
+   "caption": "Every workout",
+   "accent": "= trophies",
+   "pan": [
+    0.2,
+    0.35
+   ],
+   "badge": "+82 this week",
+   "capSize": 84,
+   "badgePos": "left:110px;top:440px"
+  },
+  {
+   "type": "cta",
+   "dur": 2.4,
+   "sub": "Earn trophies every workout",
+   "button": "Free on iOS & Android"
+  }
+ ]
+}

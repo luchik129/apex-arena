@@ -6,3 +6,10 @@ android/.idea/
 android/local.properties
 android/capacitor-cordova-android-plugins/build/
 *.log
+# marketing: keep scripts/log/reports in git, not heavy media
+marketing/data/**/*.mp4
+marketing/data/**/*.jpg
+marketing/data/**/*.png
+marketing/data/**/*.wav
+marketing/data/**/preview/
+marketing/engine/node_modules/
