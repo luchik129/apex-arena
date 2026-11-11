@@ -2258,6 +2258,33 @@ html.reduce-motion .r2-flag{animation:none}
 .rl-crit{flex:none;padding:1px 6px;border-radius:6px;background:#42200699;color:#FDE047;font-weight:800;font-size:.64rem}html.light .rl-crit{background:#FEF9C3;color:#854D0E}
 .rl-v{font-size:.86rem;color:#F97316}
 .rl-last{margin-top:8px;font-size:.72rem;color:var(--muted)}.rl-last b{color:var(--text)}
+/* v74: бенто «Сообщества» */
+.bn-h{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 8px}
+.sh-chip.sm{height:34px;padding:0 11px;font-size:.78rem}
+.bn-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bn-t{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;padding:14px;border-radius:22px;border:1px solid var(--line);background:var(--card);text-align:left;color:inherit;min-height:138px;transition:transform .15s}.bn-t:active{transform:scale(.97)}
+.bn-t.cl{background:radial-gradient(120% 120% at 0 0,#3B82F626,transparent 60%),var(--card);border-color:color-mix(in srgb,#3B82F6 32%,var(--line))}
+.bn-t.rd{background:radial-gradient(120% 120% at 0 0,#7C3AED26,transparent 60%),var(--card);border-color:color-mix(in srgb,#7C3AED 32%,var(--line))}
+.bn-t.lock{opacity:.65}
+.bn-n{font-size:.86rem;font-weight:800;max-width:100%}.bn-s{font-size:.68rem;color:var(--muted);max-width:100%}
+.bn-sc{font-size:1.65rem;font-weight:900;line-height:1}.bn-sc span{color:var(--muted)}
+.bn-bar{display:block;width:100%;height:6px;border-radius:3px;background:#EF444455;overflow:hidden}.bn-bar i{display:block;height:100%;background:#3B82F6;border-radius:3px}
+.bn-rd{display:flex;align-items:center;gap:10px}.bn-rd>span{display:flex;flex-direction:column}.bn-pc{font-size:1.4rem;font-weight:900;line-height:1}
+.bn-ic{flex:none;width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center}.bn-ic .ic{width:20px;height:20px}
+.bn-ic.du{background:#F9731622;color:#FB923C}.bn-ic.cl{background:#3B82F622;color:#60A5FA;width:40px;height:40px}
+.bn-du0{padding:14px}
+.qa-row{display:flex;justify-content:space-between;padding:0 6px;margin:4px 0 20px}
+.qa{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}.qa small{font-size:.7rem;font-weight:600;color:var(--muted)}
+.qa-i{position:relative;width:58px;height:58px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--text);transition:transform .15s}.qa:active .qa-i{transform:scale(.92)}.qa-i .ic{width:21px;height:21px}
+.qa.main .qa-i{background:var(--text);color:var(--bg);border:0}
+.qa-b{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#F97316;color:#fff;font-size:.62rem;display:flex;align-items:center;justify-content:center}
+.pc-row{display:flex;gap:14px;overflow-x:auto;margin:0 -16px 20px;padding:2px 16px 4px;scrollbar-width:none}.pc-row::-webkit-scrollbar{display:none}
+.pc{position:relative;flex:none;width:66px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pc-av{border-radius:50%;line-height:0}
+.pc-p{position:absolute;top:44px;right:0;width:22px;height:22px;border-radius:50%;background:#3B82F6;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px var(--bg)}.pc-p .ic{width:11px;height:11px}.pc-p.ok{background:var(--sub);color:var(--muted)}
+.pc-n{max-width:100%;font-size:.68rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bn-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:20px;background:var(--sub);border:1px solid var(--line)}
+.bn-seg button{height:36px;border-radius:16px;font-weight:700;font-size:.8rem;color:var(--muted)}.bn-seg button.on{background:var(--text);color:var(--bg)}
 /* шторка щита */
 .sh-sheet{color:var(--text)}.sh-hd{display:flex;align-items:center;gap:12px}
 .sh-ring{position:relative;flex:none;width:84px;height:84px;color:#2DD4BF}.sh-ring svg{width:100%;height:100%}.sh-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--text)}
@@ -3127,6 +3154,7 @@ MT.FORCE = {
 };
 // v74: переводы новых строк (вызовы на дуэль, канат, клановая битва, рейд, рекомендации)
 Object.assign(MT.FORCE.en, {"Рейд": "Raid", "Закрой день первым — контратака": "Finish the day first — counterattack", "Следующая тренировка — серия +{0}": "Next workout — streak +{0}", "Финал: сегодня всё ×{0}": "Final: everything ×{0} today", "Тянуть ещё": "Pull more", "Тянуть канат": "Pull the rope", "Фото или видео до {0} с · увидят друзья и соперник": "Photo or video up to {0} s · friends and your rival will see it", "Фото или видео до {0} с · увидят друзья": "Photo or video up to {0} s · friends will see it", "Фото или видео": "Photo or video", "Открыть дуэль": "Open duel", "ВЫЗОВ ОТПРАВЛЕН": "CHALLENGE SENT", "В ожидании ответа": "Waiting for a reply", "Дуэль начнётся, когда соперник примет вызов. На ответ — {0} часов.": "The duel starts when your rival accepts. They have {0} hours to reply.", "Отозвать вызов": "Withdraw challenge", "ВЫЗОВ НА ДУЭЛЬ": "DUEL CHALLENGE", "{0} дней, счёт с момента принятия": "{0} days, scored from acceptance", "Отклонить": "Decline", "Принять": "Accept", "Принять можно, когда закончится текущая дуэль": "You can accept once your current duel ends", "Тренировки тянут канат на себя. Дотяни до края или будь впереди в конце недели.": "Workouts pull the rope your way. Reach the edge or be ahead at the end of the week.", "Случайный": "Random", "против": "vs", "Железный Титан": "Iron Titan", "Каменный Титан": "Stone Titan", "Ледяной Титан": "Ice Titan", "Обсидиановый Титан": "Obsidian Titan", "Последний удар:": "Last hit:", "Журнал рейда": "Raid log", "удары и криты": "hits and crits", "тренировка": "workout", "крит ×{0}": "crit ×{0}", "крит": "crit", "Правила рейда": "Raid rules", "Награда — только если Титан добит до воскресенья {0}:{1}.": "Reward only if the Titan is beaten by Sunday {0}:{1}.", "Каждому нужно {0}+ тренировки.": "Everyone needs {0}+ workouts.", "Один человек снимает не больше {0}% здоровья.": "One person can take at most {0}% of the health.", "Новый рекорд — крит ×{0}.": "A new record is a ×{0} crit.", "Подходы с подозрением на ошибку не засчитываются.": "Sets flagged as possible mistakes don't count.", "Как бить Титана": "How to beat the Titan", "Пока никто не ударил. Первая тренировка — первый урон.": "No hits yet. First workout, first damage.", "Рекорд — крит ×{0}": "Record — ×{0} crit", "Новый личный рекорд бьёт втрое сильнее. Все удары и криты видны в журнале рейда.": "A new personal record hits three times harder. Every hit and crit shows up in the raid log.", "Один или с друзьями": "Solo or with friends", "Титан под вашу силу": "A Titan sized to your strength", "Награда только за победу": "Reward only for a win", "БИТВА КЛАНОВ": "CLAN BATTLE", "БИТВА КЛАНОВ · СЛУЧАЙНАЯ": "CLAN BATTLE · RANDOM", "БИТВА КЛАНОВ · ПО ВЫЗОВУ": "CLAN BATTLE · CHALLENGE", "в деле": "active", "Мы впереди": "We're ahead", "Соперник впереди": "Rival is ahead", "Пока поровну": "Tied so far", "Каждая твоя тренировка — очки клану.": "Every workout of yours scores for the clan.", "Соперник на эту неделю ещё не выбран": "No opponent chosen for this week yet", "Другой клан": "Another clan", "Вызов другому клану бросает лидер или заместитель.": "Only the leader or a deputy can challenge another clan.", "Тренировка": "Workout", "Открыть клан": "Open clan", "Рекомендации для тебя": "Suggested for you", "Все": "All", "Отправлено": "Requested", "{0} кубков": "{0} trophies", "{0} кубка": "{0} trophies", "{0} кубок": "{0} trophy", "в твоём клане": "in your clan", "на твоей арене": "in your arena", "Как тянуть канат": "How to pull the rope", "{0} шагов до края — досрочная победа": "{0} steps to the edge — early win", "Ход дуэли": "Duel log", "+{0} шаг": "+{0} step", "+{0} шага": "+{0} steps", "Рекорд = крит": "PR = crit", "Серия": "Streak", "каждая {0}-я трен. +{1}": "every {0}rd workout +{1}", "Мощная": "Power", "сила +{0}% → +½": "strength +{0}% → +½", "Контратака": "Counterattack", "первым — ему −{0}%": "first — his −{0}%", "Финал": "Final", "{0}-й день ×{1}": "day {0} ×{1}", "Щит": "Shield", "отдых — до −{0}%": "rest day — up to −{0}%", "серия: {0}-я тренировка, +{1} шаг": "streak: workout #{0}, +{1} step", "мощная тренировка, +½ шага": "power workout, +½ step", "Финальный рывок: шаги дня ×{0}": "Final push: day's steps ×{0}", "Ты закрыл день раньше: его рывок −{0}%": "You finished the day first: his pull −{0}%", "закрыл день раньше: твой рывок −{0}%": "finished the day first: your pull −{0}%", "{0} из {1} ч": "{0} of {1} h", "Изменить": "Edit", "Норма воды: щит +{0}%": "Water goal: shield +{0}%", "Разминка засчитана: щит +{0}%": "Warm-up counted: shield +{0}%", "Вызов отправлен. Ждём ответа:": "Challenge sent. Waiting for:", "Дуэль началась:": "Duel started:", "Вызов принят, дуэль началась:": "Challenge accepted, the duel is on:", "Вызов принят: дуэль началась": "Challenge accepted: the duel is on", "Отозвать вызов?": "Withdraw the challenge?", "Отозвать": "Withdraw", "Кого вызвать?": "Who do you challenge?", "Друг получит вызов и решит, принять ли его. Дуэль начнётся с момента принятия.": "Your friend gets the challenge and decides whether to accept. The duel starts once accepted.", "Вызвать": "Challenge", "Началась дуэль с": "Duel started with", "вызывает тебя на дуэль": "challenges you to a duel", "У тебя уже идёт дуэль": "You already have a duel going", "Ты уже ждёшь ответа на вызов": "You're already waiting for a reply to a challenge", "Сначала закончи текущую дуэль": "Finish your current duel first", "Вызов уже недоступен": "This challenge is no longer available", "Нет связи с сервером": "No connection to the server", "С этим игроком уже есть дуэль или вызов": "You already have a duel or challenge with this player", "Игрок сейчас не принимает вызовы": "This player isn't accepting challenges right now", "Не больше {0} вызовов в неделю": "No more than {0} challenges per week", "Вызов устарел": "This challenge has expired", "У одного из вас уже идёт дуэль": "One of you already has a duel going"});
+Object.assign(MT.FORCE.en, {"БОИ НЕДЕЛИ": "BATTLES THIS WEEK", "КЛАН": "CLAN", "РЕЙД": "RAID", "Найди клан": "Find a clan", "битвы клан на клан": "clan vs clan battles", "выбери соперника": "pick an opponent", "соперник не выбран": "no opponent yet", "Титан недели": "Titan of the week", "откроется через {0} трен.": "unlocks in {0} workouts", "один или с друзьями": "solo or with friends", "HP Титана": "Titan HP", "Титан повержен": "Titan defeated", "твой удар ≈": "your hit ≈", "ДУЭЛЬ 1 НА 1": "DUEL 1 ON 1", "ДУЭЛЬ {0} НА {1}": "DUEL {0} ON {1}", "Неделя против одного соперника: тренировки тянут канат": "A week against one rival: workouts pull the rope", "Снап сета": "Snap a set", "Друзья": "Friends", "Рейтинг": "Ranking", "Позвать": "Invite", "Рекомендации": "Suggested", "Лента": "Feed", "Рекорды": "Records", "Мои": "Mine", "Рекордов друзей пока нет": "No friends' records yet", "У тебя пока нет постов. Нажми «Снап сета», чтобы выложить подход.": "No posts yet. Tap “Snap a set” to post a set."});
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -7801,6 +7829,8 @@ const UI = {
     const d = ClanService.duel(), q = ClanService.duelReqs(), inc = q.inc.slice(0, 2).map(x => this.duelReqHtml(x)).join('');
     if (!d) {
       if (q.out.length) return inc + this.duelWaitHtml(q.out[0]);
+      if (this._bento) return inc + `<div class="fx-card du bn-du0"><div class="flex items-center gap-3"><span class="bn-ic du"><svg class="ic"><use href="#fa-khanda"/></svg></span><div class="flex-1 min-w-0"><div class="fx-k or">ДУЭЛЬ 1 НА 1</div><div class="fx-s">Неделя против одного соперника: тренировки тянут канат</div></div></div>
+        <div class="grid grid-cols-2 gap-2 mt-3"><button class="btn btn-or fx-go" data-action="duel-random-go"><svg class="ic"><use href="#fa-shuffle"/></svg> Случайный</button><button class="btn btn-ghost" data-action="duel-friend" ${(S.friends || []).length ? '' : 'disabled'}><svg class="ic"><use href="#fa-users"/></svg> Вызвать друга</button></div></div>`;
       return inc + `<div class="fx-card du">
         <div class="flex items-center justify-between"><div class="fx-t">Дуэль 1 на 1</div><span class="fx-s">7 дней</span></div>
         <div class="fx-s mt-1">Тренировки тянут канат на себя. Дотяни до края или будь впереди в конце недели.</div>
@@ -7900,6 +7930,52 @@ const UI = {
     return `<div class="sec-h"><b>Рекомендации для тебя</b><button class="link text-[12px] font-bold" data-action="open-page" data-kind="friends">Все</button></div>
       <div class="sg-row mb-4">${xs.slice(0, 14).map(card).join('')}</div>`;
   },
+  // v74: «Сообщество» — вариант 1 (бенто): бои недели сверху, быстрые кнопки, люди кружками, лента с переключателем
+  bnClanTile() {
+    const clan = S.clan, k = '<div class="fx-k bl">КЛАН</div>';
+    if (!clan) return `<button class="bn-t cl" data-action="cm-panel" data-val="clan">${k}<span class="bn-ic cl"><svg class="ic"><use href="#fa-shield-halved"/></svg></span><b class="bn-n">Найди клан</b><small class="bn-s">битвы клан на клан</small></button>`;
+    const b = ClanService.battle();
+    if (!b) return `<button class="bn-t cl" data-action="open-page" data-kind="${clan.role !== 'member' ? 'challenges' : 'clan'}">${k}<b class="bn-n truncate" data-no-mt>${U.esc(clan.name)}</b><small class="bn-s">${clan.role !== 'member' ? 'выбери соперника' : 'соперник не выбран'}</small><span class="bn-sc muted">— : —</span></button>`;
+    const tot = b.myScore + b.oppScore, pct = tot ? Math.round(b.myScore / tot * 100) : 50;
+    return `<button class="bn-t cl" data-action="open-page" data-kind="clan">${k}<b class="bn-n truncate" data-no-mt>${U.esc(clan.name)}</b><span class="bn-sc num">${b.myScore}<span> : ${b.oppScore}</span></span><i class="bn-bar"><i style="width:${pct}%"></i></i><small class="bn-s truncate"><span>против</span> <span data-no-mt>${U.esc(b.opponent.name)}</span></small></button>`;
+  },
+  bnRaidTile() {
+    const k = '<div class="fx-k" style="color:#A78BFA">РЕЙД</div>';
+    if (!Unlock.on('duels')) return `<div class="bn-t rd lock">${k}<b class="bn-n">Титан недели</b><small class="bn-s">откроется через ${Unlock.left('duels')} трен.</small></div>`;
+    const st = Raid.state(), boss = st ? st.boss : Raid.boss();
+    if (!st) return `<button class="bn-t rd" data-action="open-page" data-kind="raid">${k}<span class="bn-rd">${this.cubeHtml(boss, 0, 48)}<span><b class="bn-n">${boss.n}</b><small class="bn-s">один или с друзьями</small></span></span></button>`;
+    return `<button class="bn-t rd" data-action="open-page" data-kind="raid">${k}<span class="bn-rd">${this.cubeHtml(boss, Raid.stage(st.pct), 48)}<span><b class="bn-pc num">${st.dead ? '0' : Math.round((1 - st.pct) * 100)}%</b><small class="bn-s">HP Титана</small></span></span><small class="bn-s">${st.dead ? 'Титан повержен' : `твой удар ≈ <span class="num">${st.next}</span>`}</small></button>`;
+  },
+  bentoHtml() {
+    const dl = Math.max(0, U.daysBetween(U.today(), U.addDays(U.weekKey(), 7)));
+    this._bento = true; const duel = this.duelTabCard(); this._bento = false;
+    const panel = this._cmPanel === 'clan' && !S.clan ? this.clanHero() : '';
+    return `<div class="bn-h"><span class="fx-k muted">БОИ НЕДЕЛИ</span>${this.shieldChip('sm')}</div>
+      ${duel}<div class="bn-grid mb-3">${this.bnClanTile()}${this.bnRaidTile()}</div>${panel}${Raid.mine() ? '' : this.raidFriendsHtml()}`;
+  },
+  quickRow() {
+    const inc = ClanService.incoming().length, q = (act, icon, t, extra = '', cls = '') => `<button class="qa ${cls}" ${act}><span class="qa-i"><svg class="ic"><use href="#${icon}"/></svg>${extra}</span><small>${t}</small></button>`;
+    return `<div class="qa-row"><label class="qa main"><span class="qa-i"><svg class="ic"><use href="#fa-camera"/></svg><input type="file" accept="image/*,video/*" class="hidden" data-action="snap-media"></span><small>Снап сета</small></label>
+      ${q('data-action="open-page" data-kind="friends"', 'fa-users', 'Друзья', inc ? `<b class="qa-b num">${inc}</b>` : '')}${q('data-action="home-league"', 'fa-ranking-star', 'Рейтинг')}${q('data-action="set-open" data-val="invite"', 'fa-user-plus', 'Позвать')}</div>`;
+  },
+  // люди — просто кружочки: аватар, ник, маленький «+» для заявки
+  suggestCircles() {
+    if (!Net.online()) return '';
+    const sent = this._sgSent || (this._sgSent = new Set()), xs = Follow.suggest(14);
+    sent.forEach(id => { if (!xs.some(p => p.id === id) && ClanService.friendState(id) === 'out') { const p = ClanService.player(id); if (p) xs.unshift(p); } });
+    if (!xs.length) return '';
+    return `<div class="sec-h"><b>Рекомендации</b><button class="link text-[12px] font-bold" data-action="open-page" data-kind="friends">Все</button></div>
+      <div class="pc-row">${xs.slice(0, 14).map(p => { const out = ClanService.friendState(p.id) === 'out', pl = ClanService.player(p.id) || p;
+        return `<div class="pc"><button class="pc-av" data-action="mini-profile" data-id="${U.esc(p.id)}">${this.av(pl, 62)}</button>${out ? '<span class="pc-p ok" aria-label="Заявка отправлена"><svg class="ic"><use href="#fa-check"/></svg></span>' : `<button class="pc-p" data-action="friend-add-id" data-sg="1" data-id="${U.esc(p.id)}" aria-label="Добавить в друзья"><svg class="ic"><use href="#fa-plus"/></svg></button>`}<small class="pc-n" data-no-mt>${U.esc(p.nick)}</small></div>`; }).join('')}</div>`;
+  },
+  feedSeg() {
+    const k = this._cmFeed || 'feed', b = (v, t) => `<button class="${k === v ? 'on' : ''}" data-action="cm-feed" data-val="${v}">${t}</button>`;
+    let body;
+    if (k === 'rec') body = this.recordsStrip() || '<div class="card p-4 mb-4 text-xs muted text-center">Рекордов друзей пока нет</div>';
+    else if (k === 'mine') { const xs = Social.recent(40).filter(p => p.self || (Net.online() && p.uid === Net.uid)).slice(0, 5); body = xs.length ? xs.map(p => this.postCard(p)).join('') : '<div class="card p-4 mb-4 text-xs muted text-center">У тебя пока нет постов. Нажми «Снап сета», чтобы выложить подход.</div>'; }
+    else body = this.postsList(true).replace(/^<div class="sec-h">[\s\S]*?<\/div>/, '');
+    return `<div class="bn-seg mb-3">${b('feed', 'Лента')}${b('rec', 'Рекорды')}${b('mine', 'Мои')}</div>${body}`;
+  },
   fightTop() {
     const seg = this.cmSeg(), b = (k, cls, t) => `<button class="${seg === k ? 'on ' + cls : ''}" data-action="cm-seg" data-val="${k}">${t}</button>`;
     return `<div class="fx-top"><div class="fx-seg">${b('duel', 'du', 'Дуэль')}${b('raid', 'rd', 'Рейд')}${b('clan', 'cl', 'Кланы')}</div>${this.shieldChip()}</div>`;
@@ -7994,8 +8070,8 @@ const UI = {
     // v51: сначала люди и лента (подписки → рекорды горизонтально → посты вертикально), потом дуэли, друзья, клан и рейтинги
     // v72: наверху — бои (дуэль или рейд, щит), потом фото, рекорды, кого добавить, посты; ниже — клан, друзья и рейтинг
     if (Raid.online() && Date.now() - Raid.at > 30000) Raid.load().then(ok => { if (ok && this.tab === 'clans') this.renderClans(); });
-    ClanService.simReq(); const seg = this.cmSeg(), fight = this.fightTop() + (seg === 'raid' ? this.raidTabCard() + this.raidFriendsHtml() + (Raid.mine() ? '' : this.raidHowHtml()) : seg === 'clan' ? this.clanTabCard() : this.duelTabCard());
-    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт</div>') + fight + this.composerCard() + this.recordsStrip() + this.suggestHtml() + this.postsList(true) + (seg === 'clan' ? '' : this.clanHero()) + this.friendsWeekCard() + this.inviteCard() + lb); this.hydrateVideos(this.$('#tab-clans'));
+    ClanService.simReq();
+    this.morph(this.$('#tab-clans'), (Net.online() ? '' : '<div class="demo-note mb-3"><svg class="ic"><use href="#fa-circle-info"/></svg> Нет связи с сервером: лента, рейтинги и кланы появятся, когда будет интернет и ты войдёшь в аккаунт</div>') + this.bentoHtml() + this.quickRow() + this.suggestCircles() + this.feedSeg() + this.friendsWeekCard() + (S.clan || this._cmPanel === 'clan' ? '' : this.clanHero()) + lb); this.hydrateVideos(this.$('#tab-clans'));
     if (this._page) this.renderPage();
     this.renderHeader();
   },
@@ -10793,6 +10869,8 @@ const App = {
     /* ---- v72: бои ---- */
     'cm-seg'(el) { UI._cmSeg = el.dataset.val; S.profile.cmSeg = el.dataset.val; save(); UI.renderClans(); if (el.dataset.val === 'raid') Raid.load(true).then(ok => ok && UI.tab === 'clans' && UI.renderClans()); },
     'shield-open'() { UI.openShield(); },
+    'cm-panel'(el) { UI._cmPanel = UI._cmPanel === el.dataset.val ? null : el.dataset.val; UI.renderClans(); },
+    'cm-feed'(el) { UI._cmFeed = el.dataset.val; UI.renderClans(); },
     // v74: щит всегда заряжается за сегодня (раньше вода и активность уходили в день, открытый во вкладке «Здоровье»), шторка обновляется сразу
     'shield-warm'() { if (Calc.shieldParts()[3].ok) return UI.openShield(); Game.logBurn([AIFood.burn({ name: 'Разминка', met: 3.5 }, 5)], U.today(), 'manual'); App.afterChange(); UI.openShield(); UI.toast('Разминка засчитана: щит +25%', 'em'); },
     'shield-water'() { const was = Calc.shieldParts()[0].ok; if (!Game.logWater(S.profile.cupMl || 500, U.today())) { UI.toast('Проверь объём', 'red'); return; } UI._wSplash = Date.now(); App.afterChange(); UI.openShield(); if (!was && Calc.shieldParts()[0].ok) UI.toast('Норма воды: щит +25%', 'em'); },
