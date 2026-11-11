@@ -1,0 +1,90 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#07090D;font-family:Inter,"Helvetica Neue",Arial,sans-serif;color:#F8FAFC}
+.abs{position:absolute}
+.scene{position:absolute;inset:0;display:none}
+.h{white-space:nowrap;overflow:hidden;font-weight:900;font-style:italic;letter-spacing:-2px;line-height:.98;text-transform:uppercase;text-align:center}
+.or{background:linear-gradient(180deg,#FDBA74,#F97316 55%,#C2410C);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 .08em}
+.word{display:inline-block;will-change:transform}
+.phone{position:absolute;left:50%;width:800px;margin-left:-400px;border-radius:70px;overflow:hidden;box-shadow:0 40px 140px #000c,0 0 0 2px #ffffff10}
+.phone img{width:100%;display:block}
+.cap{position:absolute;left:40px;right:40px;top:190px}
+.badge{position:absolute;padding:22px 40px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#EA580C);font-weight:900;font-size:58px;box-shadow:0 18px 60px #F9731688;white-space:nowrap}
+.sub{font-weight:700;font-size:54px;color:#94A3B8;text-align:center}
+.btn{display:inline-block;padding:40px 80px;border-radius:999px;font-weight:900;font-size:60px;color:#fff;background:linear-gradient(180deg,#FB923C,#EA580C);box-shadow:0 18px 60px #F9731688}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#glow{position:absolute;left:50%;top:50%;width:2200px;height:2200px;margin:-1100px 0 0 -1100px;border-radius:50%;
+  background:radial-gradient(circle,#F9731633 0%,#F9731611 30%,transparent 60%)}
+</style></head>
+<body>
+<div id="glow"></div>
+<div id="root"></div>
+<div id="flash"></div>
+<script>
+// SPEC is injected by render.js: {scenes:[...]}
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eo=x=>1-Math.pow(1-clamp(x),3);              // ease-out cubic
+const back=x=>{x=clamp(x);const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)}; // overshoot
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function words(line,cls){return line.split(' ').map(w=>`<span class="word ${cls||''}">${esc(w)}</span>`).join(' ')}
+let S=[],T=0;
+function build(spec){
+  const root=document.getElementById('root'); let t0=0;
+  spec.scenes.forEach((s,i)=>{
+    const el=document.createElement('div'); el.className='scene'; el.id='s'+i;
+    if(s.type==='hook'){
+      const fs=s.size||150; let top=s.top||Math.max(300,820-(s.lines.length*fs)/2);
+      el.innerHTML=s.lines.map((l,k)=>`<div class="abs h line" style="left:30px;right:30px;top:${top+k*fs*1.08}px;font-size:${(s.sizes&&s.sizes[k])||fs}px">${words(l,(s.accent===k||(Array.isArray(s.accent)&&s.accent.includes(k)))?'or':'')}</div>`).join('')
+        +(s.sub?`<div class="abs sub" style="left:40px;right:40px;top:${top+s.lines.length*fs*1.08+60}px">${esc(s.sub)}</div>`:'');
+    } else if(s.type==='phone'){
+      el.innerHTML=`<div class="cap"><div class="h" style="font-size:${s.capSize||104}px">${words(s.caption||'')}</div>
+        ${s.accent?`<div class="h" style="font-size:${s.capSize||104}px;margin-top:6px">${words(s.accent,'or')}</div>`:''}</div>
+        <div class="phone"><img src="../assets/${s.img}"></div>
+        ${s.badge?`<div class="badge" style="${s.badgePos||'right:60px;top:1180px'}">${esc(s.badge)}</div>`:''}`;
+    } else if(s.type==='cta'){
+      el.innerHTML=`<img class="abs icon" src="../assets/icon.png" style="left:50%;top:430px;width:420px;margin-left:-210px;border-radius:96px;box-shadow:0 0 0 3px #ffffff18,0 30px 120px #F9731655">
+        <div class="abs h" style="left:20px;right:20px;top:930px;font-size:150px">FLEXO</div>
+        <div class="abs h or" style="left:20px;right:20px;top:1080px;font-size:150px">LEAGUE</div>
+        <div class="abs sub" style="left:40px;right:40px;top:1290px">${esc(s.sub||'Your workouts are ranked now')}</div>
+        <div class="abs" style="left:0;right:0;top:1440px;text-align:center"><span class="btn">${esc(s.button||'Free on iOS & Android')}</span></div>`;
+    }
+    root.appendChild(el); S.push({...s,el,t0,t1:t0+s.dur}); t0+=s.dur;
+  });
+  // auto-fit: shrink any headline that is wider than the frame
+  document.querySelectorAll('.h').forEach(h=>{const sc=h.style.display;let fs=parseFloat(getComputedStyle(h).fontSize),n=0;
+    const prev=root.querySelectorAll('.scene');prev.forEach(e=>e.style.display='block');
+    while(h.scrollWidth>h.clientWidth+2&&n++<40){fs*=.95;h.style.fontSize=fs+'px';}
+    prev.forEach(e=>e.style.display='none');});
+  T=t0; return T;
+}
+function render(t){
+  document.getElementById('glow').style.transform=`scale(${1+.08*Math.sin(t*2.2)}) rotate(${t*8}deg)`;
+  let fl=0;
+  S.forEach((s,i)=>{
+    const on=t>=s.t0&&t<s.t1||(i===S.length-1&&t>=s.t0); s.el.style.display=on?'block':'none'; if(!on)return;
+    const lt=t-s.t0, out=clamp((s.t1-t)/0.18); if(i>0&&lt<.12) fl=Math.max(fl,.35*(1-lt/.12));
+    if(s.type==='hook'){
+      let k=0; s.el.querySelectorAll('.word').forEach(w=>{const p=back((lt-k*.11)/.32); w.style.transform=`scale(${.3+.7*p}) translateY(${(1-p)*80}px)`; w.style.opacity=clamp((lt-k*.11)/.12); k++;});
+      const sub=s.el.querySelector('.sub'); if(sub) sub.style.opacity=clamp((lt-k*.11-.1)/.3);
+    } else if(s.type==='phone'){
+      const p=eo(lt/.45), ph=s.el.querySelector('.phone');
+      // slow scroll inside the phone: pan from pan[0] to pan[1] (fraction of hidden height)
+      const pan=s.pan||[0,0], f=pan[0]+(pan[1]-pan[0])*clamp(lt/s.dur);
+      ph.style.top=(530+(1-p)*900)+'px'; ph.style.transform=`scale(${1.0+.04*clamp(lt/s.dur)}) rotate(${(1-p)*6}deg)`;
+      ph.style.height='1450px'; ph.querySelector('img').style.transform=`translateY(${-f*Math.max(0,ph.querySelector('img').offsetHeight-1450)}px)`;
+      let k=0; s.el.querySelectorAll('.cap .word').forEach(w=>{const q=back((lt-.05-k*.07)/.3); w.style.transform=`scale(${.5+.5*q})`; w.style.opacity=clamp((lt-.05-k*.07)/.1); k++;});
+      const b=s.el.querySelector('.badge'); if(b){const q=back((lt-.7)/.35); b.style.transform=`scale(${q}) rotate(${-6+3*Math.sin(lt*6)}deg)`; b.style.opacity=clamp((lt-.7)/.1);}
+    } else if(s.type==='cta'){
+      const ic=s.el.querySelector('.icon'); const q=back(lt/.45); ic.style.transform=`scale(${q})`;
+      s.el.querySelectorAll('.h').forEach((h,k)=>{const r=back((lt-.25-k*.12)/.35); h.style.transform=`scale(${r})`; h.style.opacity=clamp((lt-.25-k*.12)/.1);});
+      const sub=s.el.querySelector('.sub'); sub.style.opacity=clamp((lt-.6)/.3);
+      const btn=s.el.querySelector('.btn'); btn.style.display='inline-block'; btn.style.transform=`scale(${back((lt-.8)/.35)*(1+.04*Math.sin(lt*7))})`;
+    }
+    if(i<S.length-1) s.el.style.opacity=out;
+  });
+  document.getElementById('flash').style.opacity=fl;
+}
+</script>
+</body></html>

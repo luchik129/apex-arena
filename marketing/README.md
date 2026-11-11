@@ -1,0 +1,31 @@
+# Flexo League: маркетинговые агенты
+
+Каждый понедельник по расписанию запускается команда из трёх агентов. Порядок работы описан в `agents/PIPELINE.md`.
+
+| Агент | Файл | Что делает |
+|---|---|---|
+| Аналитик | `.claude/agents/marketing-analyst.md` | собирает статистику прошлых роликов, пишет отчёт: что снимать больше, а что меньше |
+| Сценарист | `.claude/agents/marketing-writer.md` | по отчёту пишет 7 сценариев на неделю (JSON) |
+| Монтажёр | `.claude/agents/marketing-editor.md` | рендерит, проверяет каждый кадр, исправляет, готовит видео и подписи |
+
+Общие правила бренда (что можно и что нельзя обещать, аудитория, хуки) лежат в `agents/playbook.md`.
+
+## Где что лежит
+- Код и промпты: в этом репозитории, папка `marketing/`.
+- Данные: `/mnt/project-files/fitness/marketing/` в проекте. Там `log.json` (все ролики и их статистика), `stats/` (скриншоты аналитики), `reports/`, `weeks/<дата>/` (видео + `captions.md`).
+
+## Движок
+```
+cd marketing/engine
+OUT_DIR=/path node render.js ../examples/v01_ranked_gym.json            # mp4 + обложка
+OUT_DIR=/path node render.js ../examples/v01_ranked_gym.json --preview  # кадры для проверки
+python3 post.py <script.json> --when 2026-11-14T17:00:00                # Upload-Post, пробный прогон
+python3 post.py <script.json> --when 2026-11-14T17:00:00 --confirm      # реальная отправка (только после ОК владельца)
+```
+Нужны Node + Playwright, ffmpeg, Python с numpy. Музыка синтезируется (`beat.py`), авторских прав нет.
+
+## Публикация
+Пока владелец выкладывает вручную: скачивает видео из треда и копирует подпись из `captions.md`.
+Автопостинг: Upload-Post (Basic, $24/мес) подключает TikTok, Instagram и YouTube через одно API.
+Напрямую через API соцсетей сложнее: TikTok без аудита публикует только приватно, Instagram требует Meta-приложение и бизнес-аккаунт, YouTube без проверки загружает только приватно.
+Ключи передаются только через переменные окружения `UPLOAD_POST_API_KEY` и `UPLOAD_POST_USER`.

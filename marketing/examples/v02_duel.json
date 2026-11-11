@@ -1,0 +1,8 @@
+{"id":"v02_duel","seed":2,
+ "post":{"title":"Your gym buddy said you skip workouts","caption":"Challenge a friend to a 7-day duel. Loser buys the protein.","hashtags":["gymtok","gymbuddy","fitnesschallenge","gym","workout","fitness"]},
+ "scenes":[
+  {"type":"hook","dur":2.2,"lines":["He said","I skip","workouts"],"accent":2,"size":170},
+  {"type":"hook","dur":1.4,"lines":["so I","challenged him"],"accent":1,"size":140},
+  {"type":"phone","dur":2.6,"img":"03_duel.jpg","caption":"7 day duel","accent":"100 vs 50","badge":"Loser buys protein","badgePos":"left:110px;top:1300px"},
+  {"type":"cta","dur":2.4,"sub":"Duel your friends. Free."}
+ ]}

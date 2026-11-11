@@ -1,0 +1,8 @@
+{"id":"v03_pr","seed":3,
+ "post":{"title":"Stop lifting for nobody","caption":"Track every lift, hit PRs, climb the leaderboard with your clan.","hashtags":["gymtok","pr","powerlifting","gymprogress","fitness","gym"]},
+ "scenes":[
+  {"type":"hook","dur":1.9,"lines":["Stop lifting","for nobody"],"accent":1,"size":150},
+  {"type":"phone","dur":2.4,"img":"05_lifts.jpg","caption":"Every PR","accent":"counts","pan":[0,0.3],"badge":"NEW PR","badgePos":"right:80px;top:1000px"},
+  {"type":"phone","dur":2.4,"img":"04_clan.jpg","caption":"Carry","accent":"your clan","pan":[0,0.25],"badge":"#1 clan"},
+  {"type":"cta","dur":2.4,"sub":"Lift. Rank up. Win."}
+ ]}
