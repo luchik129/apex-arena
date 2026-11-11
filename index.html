@@ -610,6 +610,10 @@ html.light{--ml-skin:#E4E4E8;--ml-idle:#CFCFD6;--ml-gap:#FFFFFF}
 .hh-mx i{display:block;height:4px;border-radius:4px;background:color-mix(in srgb,var(--k) 20%,transparent);overflow:hidden}.hh-mx u{display:block;height:100%;border-radius:4px;background:var(--k);transition:width .6s}
 .hh-more{position:absolute;z-index:3;left:calc(50% + 10px);top:32px;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted)}.hh-more .ic{width:14px;height:14px}
 .hh-t.hh-wt>*:not(.hh-liq){position:relative;z-index:1}
+.hh-wt .hh-v em,.hh-wt .hh-wp{color:inherit!important;opacity:.8}.hh-wp{font-weight:800!important}
+.hh-wt .hh-i{background:color-mix(in srgb,#fff 22%,transparent);color:#E0F2FE}
+html.light .hh-wt .hh-i{background:#ffffff99;color:#0284C7}
+html:not(.light) .hh-wt .hh-h{color:#E0F2FE}
 .hh-liq{position:absolute;left:0;right:0;bottom:0;height:var(--lv);min-height:8px;z-index:0;background:linear-gradient(180deg,#0EA5E9,#0369A1);transition:height .9s cubic-bezier(.2,.8,.2,1)}
 html.light .hh-liq{background:linear-gradient(180deg,#7DD3FC,#38BDF8)}
 .hh-wave{position:absolute;left:0;bottom:calc(100% - 1px);width:200%;height:10px;fill:#0EA5E9;animation:hxwave 3.2s linear infinite}.hh-wave.b{opacity:.45;animation-duration:5s;animation-direction:reverse;bottom:calc(100% - 3px)}
@@ -7042,7 +7046,7 @@ const UI = {
       <div class="card p-4 mb-4 lb-card">
         <div class="flex items-center justify-between mb-2"><div class="font-bold"><svg class="ic text-amber-400"><use href="#fa-ranking-star"/></svg> ${T('records_board')}</div><div class="text-[11px] muted">1RM · ${U.wUnit()}</div></div>
         <div class="seg mb-2" data-no-mt>${tabs.map(([k, l]) => `<button class="${key === k ? 'on' : ''}" data-action="board-key" data-val="${k}">${l}</button>`).join('')}</div>${this.wcRow('wc-key')}
-        ${this.lbBoard(rows.map(r => this.lbPlayer(r, r[key], r[key] ? `${U.w(r[key], 0)} <span class="text-[10px] muted">${U.wUnit()}</span>` : '–', ['bench', 'squat', 'deadlift', 'total'].filter(x => x !== key).map(x => `<span class="${x === 'total' ? 'strong' : ''}">${({ bench: T('lb_bench'), squat: T('lb_squat'), deadlift: T('lb_deadlift'), total: T('lb_total') })[x]} ${r[x] ? U.w(r[x], 0) : '–'}</span>`).join(' · '))), { limit: 10 })}
+        ${this.lbBoard(rows.map(r => this.lbPlayer(r, r[key], r[key] ? `${U.w(r[key], 0)} <span class="text-[10px] muted">${U.wUnit()}</span>` : '–', ['bench', 'squat', 'deadlift', 'total'].filter(x => x !== key).map(x => `<span class="${x === 'total' ? 'strong' : ''}">${({ bench: T('lb_bench'), squat: T('lb_squat'), deadlift: T('lb_deadlift'), total: T('lb_total') })[x]} ${r[x] ? U.w(r[x], 0) : '–'}</span>`).join(' · '))), { limit: 10, compact: true, top: 5 })}
         <div class="text-[10px] muted mt-2">Лучший результат, пересчитанный на 1 повтор.</div>
       </div>`;
   },
@@ -7868,7 +7872,7 @@ const UI = {
     const rows = ClanService.liftBoardRows(ex), info = Calc.topLiftInfo(ex), kind = U.exInfo(ex).boss, name = kind ? { bench: 'Жим лёжа', squat: 'Присед', deadlift: 'Становая тяга' }[kind] : U.exRu(ex);
     this.modal(`<div class="flex items-center justify-between mb-3"><div class="font-bold text-lg flex items-center gap-2"><span class="wz-lic sm" style="color:${info.c};background:${info.c}1F"><svg class="ic"><use href="#${info.ic}"/></svg></span> ${U.esc(name)}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
       <div class="text-[11px] muted mb-3">Лучший результат, пересчитанный на 1 повтор · ${U.wUnit()}</div>
-      ${this.lbBoard(rows.map(r => this.lbPlayer(r, r.v, r.v ? `${U.w(r.v, 0)} <span class="text-[10px] muted">${U.wUnit()}</span>` : '–', r.arenaIdx != null ? TN(Calc.arena(r.arenaIdx).name) : '')), { limit: 50 })}`);
+      ${this.lbBoard(rows.map(r => this.lbPlayer(r, r.v, r.v ? `${U.w(r.v, 0)} <span class="text-[10px] muted">${U.wUnit()}</span>` : '–', r.arenaIdx != null ? TN(Calc.arena(r.arenaIdx).name) : '')), { limit: 50, compact: true, top: 5 })}`);
   },
   // как будет выглядеть пост с рекордом (та же карточка, что в ленте)
   fairNote() { const r = Calc.goalRange(), f = Calc.fairGoals(), g = S.nutrition.goals, cut = g && (+g.cals < r.lo || +g.cals > r.hi), L = v => (v / 1000).toFixed(1).replace(/\.0$/, ''); return `<div class="fair-note mb-3"><svg class="ic"><use href="#fa-trophy"/></svg><span>Кубки дня считаются по твоей цели, если она от <b class="num">${r.lo}</b> до <b class="num">${r.hi}</b> ккал и белок от <b class="num">${r.protein}</b> г. Новая цель идёт в зачёт со следующего дня, если сегодня уже записана еда. Вода — от <b class="num">${L(f.water)}</b> л (не больше 1 л в час).${cut ? ` <b class="text-or">Сейчас для кубков считается ${f.cals} ккал.</b>` : ''}</span></div>`; },
@@ -8438,9 +8442,9 @@ const UI = {
           ${tile('tr', '#8B5CF6', isToday ? 'sleep-toggle' : 'open-sleep', `${run ? stars : ''}${head('fa-moon', T('sleep'))}${sleep}`, run ? 'data-sleeping="1"' : '', run ? 'night' : '')}
           ${isToday ? `<button class="hh-more" data-action="open-sleep" aria-label="Сон подробнее">${ic('fa-ellipsis-vertical')}</button>` : ''}
           ${tile('ml', '#A78BFA', 'food-ai', `<i class="hh-i sm">${ic('fa-camera')}</i><b>Снимок</b><small>ИИ посчитает</small>`)}
-          ${tile('mr', '#38BDF8', 'water-plus', `${liq}<i class="hh-i sm">${ic('fa-droplet')}</i><b class="num">+${cup}</b><small>мл воды</small>`, '', `hh-wt${wp >= 100 ? ' full' : ''}${splash ? ' splash' : ''}`, `--lv:${wp}%`)}
+          ${tile('mr', '#38BDF8', 'water-plus', `<i class="hh-i sm">${ic('fa-droplet')}</i><b class="num">+${cup}</b><small>мл воды</small>`)}
           ${tile('bl', '#10B981', 'open-weight', `${head('fa-scale', T('scale'))}<div class="hh-v num">${U.w(kg)}<em>${U.wUnit()}</em></div>${wsub}`)}
-          ${tile('br', '#38BDF8', 'open-water', `${head('fa-droplet', T('water'))}<div class="hh-v num">${L(wd)}<em>/ ${L(wg)} л</em></div><span class="hh-bar" style="--p:${wp}%"></span>`)}
+          ${tile('br', '#38BDF8', 'open-water', `${liq}${head('fa-droplet', T('water'))}<div class="hh-v num">${L(wd)}<em>/ ${L(wg)} л</em></div><small class="hh-wp num">${wp}%</small>`, '', `hh-wt${wp >= 100 ? ' full' : ''}${splash ? ' splash' : ''}`, `--lv:${wp}%`)}
         </div>
         <button class="hh-ring" data-action="dq-open" style="--dq:${col}" aria-label="Оценка дня">${this.dayRingSVG(r)}
           <span class="hh-mid"><b class="num">${r.score}%</b><small>${r.tier ? r.tier.name : 'пока без награды'}</small>${cups ? `<span class="hh-cups num">${cups} ${ic('fa-trophy')}</span>` : ''}<span class="hh-cap">${cap}</span></span>
@@ -9158,7 +9162,7 @@ Object.assign(UI, {
   lbRank(i) { return `<span class="lb-rk ${i < 3 ? 'lb-rk' + (i + 1) : ''}">${i + 1}</span>`; },
   lbBoard(items, o = {}) {
     if (!items.length) return `<div class="text-xs muted text-center py-4">${o.empty || 'Пока пусто'}</div>`;
-    const max = Math.max(1, ...items.map(x => +x.value || 0)), full = !!this._lbAll, lim = full ? 100 : (o.limit || 10);
+    const fixed = !!o.compact, max = Math.max(1, ...items.map(x => +x.value || 0)), full = !fixed && !!this._lbAll, lim = full ? 100 : (o.limit || 10); // compact: список никогда не раскрывается целиком
     const btn = (x, inner, cls) => x.action ? `<button class="${cls}" data-action="${x.action}" data-id="${U.esc(x.aid != null ? x.aid : x.id)}">${inner}</button>` : `<div class="${cls}">${inner}</div>`;
     const pod = items.length >= 3 && o.podium !== false ? [items[1], items[0], items[2]] : null;
     const podHtml = pod ? `<div class="lbp">${pod.map((x, k) => { const place = k === 1 ? 1 : k === 0 ? 2 : 3; return btn(x, `
@@ -9167,7 +9171,7 @@ Object.assign(UI, {
         <div class="lbp-val num">${x.label}</div>
         <div class="lbp-step"><span>${place}</span></div>`, `lbp-col lbp-${place} ${x.self ? 'self' : ''}`); }).join('')}</div>` : '';
     // v68: везде одинаково — топ, пропуск, ты и по паре соседей сверху и снизу, ещё пропуск; «Показать всех» раскрывает список
-    const me = items.findIndex(x => x.self), topN = Math.min(o.limit || 10, 10), cap = Math.min(items.length, 100), idx = [];
+    const me = items.findIndex(x => x.self), topN = fixed ? (o.top || 5) : Math.min(o.limit || 10, 10), cap = Math.min(items.length, 100), idx = [];
     if (full) for (let i = 0; i < cap; i++) idx.push(i);
     else if (me < 0 || me <= topN + 2) for (let i = 0; i < Math.min(cap, Math.max(topN, me + 3)); i++) idx.push(i);
     else { for (let i = 0; i < topN; i++) idx.push(i); for (let i = Math.max(topN, me - 2); i <= Math.min(items.length - 1, me + 2); i++) idx.push(i); }
@@ -9178,7 +9182,7 @@ Object.assign(UI, {
         ${this.lbRank(i)}<span class="lb-av">${x.av}</span>
         <span class="lb-main"><span class="lb-nick" data-no-mt>${U.esc(x.nick)}${x.self ? ' <span class="chip text-em lb-you">ты</span>' : ''}</span>${x.sub ? `<span class="lb-sub">${x.sub}</span>` : ''}<span class="lb-bar"><i style="width:${Math.max(4, (+x.value || 0) / max * 100)}%"></i></span></span>
         <span class="lb-val num">${x.label}</span>`, `lb-row ${x.self ? 'self' : ''}`)}`).join('');
-    const shown = idx.length, more = !full && cap > shown ? `<button class="lb-more" data-action="lb-more">Показать всех (${cap})</button>` : full && items.length > (o.limit || 10) && (o.limit || 10) < 100 ? '<button class="lb-more" data-action="lb-less">Свернуть</button>' : '';
+    const shown = idx.length, more = fixed ? '' : !full && cap > shown ? `<button class="lb-more" data-action="lb-more">Показать всех (${cap})</button>` : full && items.length > (o.limit || 10) && (o.limit || 10) < 100 ? '<button class="lb-more" data-action="lb-less">Свернуть</button>' : '';
     return podHtml + (rows || more ? `<div class="lb-list">${rows}${tail ? gapRow(tail) : ''}${more}</div>` : '');
   },
   // друг/игрок → элемент рейтинга
