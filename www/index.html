@@ -2371,6 +2371,67 @@ html.light .p2-pl{background:#0B0E14CC}
 .dl-h{display:flex;align-items:baseline;gap:6px;font-size:.82rem;margin-bottom:7px}.dl-h b{width:28px}.dl-h .or{color:#FB923C;font-weight:900}.dl-h .bl{font-weight:900;color:var(--muted)}
 .dl-c{display:flex;flex-wrap:wrap;gap:5px}
 .pk{width:100%;text-align:left;padding:13px 14px;border-radius:16px;background:var(--sub);border:1px solid var(--line);font-weight:700;font-size:.86rem}.pk:active{background:#F973161F;border-color:#F97316}
+/* ===== v76: неделя «очки по дням», мягкие плитки, страница клана ===== */
+.wk{border-radius:24px;padding:16px;margin-bottom:12px;background:var(--card);border:1px solid var(--line)}
+.wk-h{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;color:inherit}.wk-h>span:first-child{flex:1}
+.wk-t{display:block;font-size:1.22rem;font-weight:900;letter-spacing:-.02em;line-height:1.15}.wk.pg .wk-t{font-size:1.45rem}
+.wk-s{display:block;margin-top:3px;font-size:.72rem;color:var(--muted)}
+.wk-pill{flex:none;padding:5px 10px;border-radius:999px;background:var(--sub);font-size:.66rem;font-weight:800;color:var(--muted);white-space:nowrap}
+.wk-go-i{flex:none;margin-top:4px;color:var(--muted);width:14px;height:14px}
+.wk-sc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.wk-c{padding:12px 14px;border-radius:18px;background:var(--sub);border:1.5px solid transparent;min-width:0}
+.wk-c.me.lead{border-color:#F97316;background:color-mix(in srgb,#F97316 9%,var(--card))}.wk-c.op.lead{border-color:#3B82F6;background:color-mix(in srgb,#3B82F6 9%,var(--card))}
+.wk-n{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;min-width:0}.wk-n>i{flex:none;width:8px;height:8px;border-radius:50%}.wk-c.me .wk-n>i{background:#F97316}.wk-c.op .wk-n>i{background:#3B82F6}
+.wk-n em{margin-left:auto;font-style:normal;font-size:.58rem;font-weight:900;letter-spacing:.06em}.wk-c.me em{color:#FB923C}.wk-c.op em{color:#60A5FA}
+.wk-c b{display:block;margin-top:4px;font-size:2rem;font-weight:900;letter-spacing:-.03em;line-height:1}.wk.pg .wk-c b{font-size:2.3rem}
+.wk-bar{position:relative;display:flex;height:10px;margin-top:12px;border-radius:5px;overflow:visible;background:color-mix(in srgb,#3B82F6 55%,var(--sub))}
+.wk-bar i.me{display:block;height:100%;border-radius:5px 0 0 5px;background:linear-gradient(90deg,#FDBA74,#F97316);transition:width .9s cubic-bezier(.3,1.2,.5,1)}.wk-bar i.op{flex:1}
+.wk-bar span{position:absolute;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--text);box-shadow:0 0 0 3px var(--card),0 2px 8px #0006;transition:left .9s cubic-bezier(.3,1.2,.5,1)}
+.wk-ch{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:12px;padding:10px 8px 8px;border-radius:18px;background:var(--sub)}
+.wk-d{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 0;border-radius:12px}
+.wk-bb{display:flex;align-items:flex-end;justify-content:center;gap:3px;height:70px;width:100%}.wk-ch.big .wk-bb{height:150px}
+.wk-bb i{display:block;width:8px;border-radius:4px;transition:height .8s}.wk-ch.big .wk-bb i{width:11px;border-radius:6px}
+.wk-bb i.me{background:#F97316}.wk-bb i.op{background:#3B82F6}.wk-bb i.dot{width:8px;height:8px;border-radius:50%;background:color-mix(in srgb,var(--text) 18%,transparent)}
+.wk-d small{font-size:.62rem;font-weight:800;color:var(--muted)}
+.wk-d.now{background:color-mix(in srgb,#F97316 12%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,#F97316 40%,transparent)}.wk-d.now small{color:#FB923C}
+.wk-call{margin-top:10px;padding:12px 14px;border-radius:16px;background:var(--sub)}
+.wk-call b{display:block;font-size:.86rem;font-weight:900}.wk-call p{margin-top:3px;font-size:.76rem;line-height:1.4;color:var(--muted)}.wk-call p b{display:inline;color:var(--text);font-size:inherit}
+.wk-call.warn{background:color-mix(in srgb,#F97316 10%,var(--card));box-shadow:inset 0 0 0 1px color-mix(in srgb,#F97316 30%,transparent)}.wk-call.warn>b{color:#FB923C}
+.wk-call.ok{background:color-mix(in srgb,#10B981 10%,var(--card));box-shadow:inset 0 0 0 1px color-mix(in srgb,#10B981 28%,transparent)}.wk-call.ok>b{color:#34D399}
+.wk-rw{display:flex;align-items:center;gap:12px;margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid var(--line)}
+.wk-rw-i{flex:none;width:38px;height:38px;border-radius:12px;background:#FACC1522;color:#FACC15;display:flex;align-items:center;justify-content:center}.wk-rw p{font-size:.76rem;line-height:1.4;color:var(--muted)}.wk-rw p b{color:var(--text)}
+.wk-cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;margin-top:12px;border-radius:25px;background:var(--text);color:var(--bg);font-weight:800;font-size:.9rem;transition:transform .15s}.wk-cta:active{transform:scale(.98)}
+.wk-cta.m0{margin-top:0;height:46px;font-size:.8rem}.wk-cta.alt{background:var(--sub);color:var(--text);border:1px solid var(--line)}.wk-cta:disabled{opacity:.5}
+/* мягкие плитки */
+.ct{min-height:0;color:var(--text);background:color-mix(in srgb,#3B82F6 8%,var(--card));border:1px solid color-mix(in srgb,#3B82F6 22%,var(--line))}
+.ct-k{color:#60A5FA}.ct-s{color:var(--muted)}.ct-n{color:var(--text)}
+.ct-ic{margin:2px 0 10px;width:44px;height:44px;border-radius:14px;background:color-mix(in srgb,#3B82F6 16%,transparent);color:#60A5FA;display:flex;align-items:center;justify-content:center;line-height:0}.ct-ic .ic{width:20px;height:20px}
+.ct-f{margin-top:auto;padding-top:12px;display:flex;align-items:center;gap:4px;font-size:.72rem;font-weight:800;color:#60A5FA}.ct-f .ic{width:11px;height:11px}
+.ct-sc{display:flex;align-items:baseline;gap:5px;margin-top:10px}.ct-sc b{font-size:1.25rem;font-weight:900;color:var(--muted)}.ct-sc b.w{color:var(--text)}.ct-sc>span{color:var(--muted);font-weight:800}
+.ct-bar{display:block;width:100%;height:6px;margin-top:8px;border-radius:3px;background:color-mix(in srgb,#3B82F6 50%,var(--sub));overflow:hidden}.ct-bar i{display:block;height:100%;background:#F97316}
+.ct-mini{flex:1;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;width:100%;min-height:54px;margin-top:10px;align-items:end}
+.ct-mini>span{display:flex;align-items:flex-end;justify-content:center;gap:1.5px;height:100%}.ct-mini i{display:block;width:4px;border-radius:2px}.ct-mini i.me{background:#F97316}.ct-mini i.op{background:#3B82F6}
+.ct-mini>span.fut{border-bottom:2px dotted color-mix(in srgb,var(--text) 15%,transparent)}
+.ct-f2{margin-top:10px;font-size:.66rem;color:var(--muted);line-height:1.35}.ct-f2 b{color:var(--text)}
+.st-t{color:var(--text);background:color-mix(in srgb,#EC4899 8%,var(--card));border:1px solid color-mix(in srgb,#EC4899 22%,var(--line))}
+.st-c{background:color-mix(in srgb,#EC4899 16%,transparent);color:#F472B6}.st-t small{color:var(--muted)}
+.ft{background:color-mix(in srgb,#10B981 7%,var(--card));border-color:color-mix(in srgb,#10B981 20%,var(--line))}
+.ft-plus{background:color-mix(in srgb,#10B981 16%,transparent);color:#34D399}
+/* переход в ленту */
+.sec-more{display:inline-flex;align-items:center;gap:4px;height:30px;padding:0 10px 0 12px;border-radius:15px;background:var(--sub);border:1px solid var(--line);font-size:.72rem;font-weight:800;color:var(--text)}.sec-more .ic{width:10px;height:10px;color:var(--muted)}
+.feed-go{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;margin-bottom:16px;border-radius:20px;background:var(--card);border:1px solid var(--line);transition:transform .15s}.feed-go:active{transform:scale(.98)}
+.feed-go b{display:block;font-size:.88rem}.feed-go small{display:block;font-size:.7rem;color:var(--muted)}
+.feed-go-i{flex:none;width:40px;height:40px;border-radius:13px;background:color-mix(in srgb,#F97316 14%,transparent);color:#FB923C;display:flex;align-items:center;justify-content:center}.feed-go-ch{color:var(--muted);width:13px;height:13px}
+/* страница клана */
+.cm-h{display:flex;align-items:center;gap:12px}.cm-n{font-size:1.2rem;font-weight:900}.cm-s{font-size:.74rem;color:var(--muted)}
+.cm-ib{flex:none;width:40px;height:40px;border-radius:50%;background:var(--sub);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.cm-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}
+.cm-code{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:var(--sub);text-align:left}.cm-code small{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:800}.cm-code b{flex:1;font-size:.95rem;letter-spacing:.08em}.cm-code .ic{color:var(--muted);width:14px;height:14px}
+.cm-inv{display:flex;align-items:center;gap:6px;padding:0 16px;border-radius:14px;background:var(--text);color:var(--bg);font-weight:800;font-size:.8rem}
+.cm-m{display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid var(--line)}.cm-m:first-child{border-top:0}.cm-m.me{background:color-mix(in srgb,#F97316 7%,transparent)}
+.cm-r{width:18px;text-align:center;font-size:.78rem;color:var(--muted)}.cm-p{font-size:.9rem}
+.cm-role{font-size:.6rem;font-weight:800;color:#60A5FA;text-transform:uppercase;letter-spacing:.05em}
+.cm-pb{display:block;height:4px;margin-top:6px;border-radius:2px;background:var(--sub);overflow:hidden}.cm-pb i{display:block;height:100%;border-radius:2px;background:#F97316}
 /* шторка щита */
 .sh-sheet{color:var(--text)}.sh-hd{display:flex;align-items:center;gap:12px}
 .sh-ring{position:relative;flex:none;width:84px;height:84px;color:#2DD4BF}.sh-ring svg{width:100%;height:100%}.sh-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--text)}
@@ -3242,6 +3303,7 @@ MT.FORCE = {
 Object.assign(MT.FORCE.en, {"Рейд": "Raid", "Закрой день первым — контратака": "Finish the day first — counterattack", "Следующая тренировка — серия +{0}": "Next workout — streak +{0}", "Финал: сегодня всё ×{0}": "Final: everything ×{0} today", "Тянуть ещё": "Pull more", "Тянуть канат": "Pull the rope", "Фото или видео до {0} с · увидят друзья и соперник": "Photo or video up to {0} s · friends and your rival will see it", "Фото или видео до {0} с · увидят друзья": "Photo or video up to {0} s · friends will see it", "Фото или видео": "Photo or video", "Открыть дуэль": "Open duel", "ВЫЗОВ ОТПРАВЛЕН": "CHALLENGE SENT", "В ожидании ответа": "Waiting for a reply", "Дуэль начнётся, когда соперник примет вызов. На ответ — {0} часов.": "The duel starts when your rival accepts. They have {0} hours to reply.", "Отозвать вызов": "Withdraw challenge", "ВЫЗОВ НА ДУЭЛЬ": "DUEL CHALLENGE", "{0} дней, счёт с момента принятия": "{0} days, scored from acceptance", "Отклонить": "Decline", "Принять": "Accept", "Принять можно, когда закончится текущая дуэль": "You can accept once your current duel ends", "Тренировки тянут канат на себя. Дотяни до края или будь впереди в конце недели.": "Workouts pull the rope your way. Reach the edge or be ahead at the end of the week.", "Случайный": "Random", "против": "vs", "Железный Титан": "Iron Titan", "Каменный Титан": "Stone Titan", "Ледяной Титан": "Ice Titan", "Обсидиановый Титан": "Obsidian Titan", "Последний удар:": "Last hit:", "Журнал рейда": "Raid log", "удары и криты": "hits and crits", "тренировка": "workout", "крит ×{0}": "crit ×{0}", "крит": "crit", "Правила рейда": "Raid rules", "Награда — только если Титан добит до воскресенья {0}:{1}.": "Reward only if the Titan is beaten by Sunday {0}:{1}.", "Каждому нужно {0}+ тренировки.": "Everyone needs {0}+ workouts.", "Один человек снимает не больше {0}% здоровья.": "One person can take at most {0}% of the health.", "Новый рекорд — крит ×{0}.": "A new record is a ×{0} crit.", "Подходы с подозрением на ошибку не засчитываются.": "Sets flagged as possible mistakes don't count.", "Как бить Титана": "How to beat the Titan", "Пока никто не ударил. Первая тренировка — первый урон.": "No hits yet. First workout, first damage.", "Рекорд — крит ×{0}": "Record — ×{0} crit", "Новый личный рекорд бьёт втрое сильнее. Все удары и криты видны в журнале рейда.": "A new personal record hits three times harder. Every hit and crit shows up in the raid log.", "Один или с друзьями": "Solo or with friends", "Титан под вашу силу": "A Titan sized to your strength", "Награда только за победу": "Reward only for a win", "БИТВА КЛАНОВ": "CLAN BATTLE", "БИТВА КЛАНОВ · СЛУЧАЙНАЯ": "CLAN BATTLE · RANDOM", "БИТВА КЛАНОВ · ПО ВЫЗОВУ": "CLAN BATTLE · CHALLENGE", "в деле": "active", "Мы впереди": "We're ahead", "Соперник впереди": "Rival is ahead", "Пока поровну": "Tied so far", "Каждая твоя тренировка — очки клану.": "Every workout of yours scores for the clan.", "Соперник на эту неделю ещё не выбран": "No opponent chosen for this week yet", "Другой клан": "Another clan", "Вызов другому клану бросает лидер или заместитель.": "Only the leader or a deputy can challenge another clan.", "Тренировка": "Workout", "Открыть клан": "Open clan", "Рекомендации для тебя": "Suggested for you", "Все": "All", "Отправлено": "Requested", "{0} кубков": "{0} trophies", "{0} кубка": "{0} trophies", "{0} кубок": "{0} trophy", "в твоём клане": "in your clan", "на твоей арене": "in your arena", "Как тянуть канат": "How to pull the rope", "{0} шагов до края — досрочная победа": "{0} steps to the edge — early win", "Ход дуэли": "Duel log", "+{0} шаг": "+{0} step", "+{0} шага": "+{0} steps", "Рекорд = крит": "PR = crit", "Серия": "Streak", "каждая {0}-я трен. +{1}": "every {0}rd workout +{1}", "Мощная": "Power", "сила +{0}% → +½": "strength +{0}% → +½", "Контратака": "Counterattack", "первым — ему −{0}%": "first — his −{0}%", "Финал": "Final", "{0}-й день ×{1}": "day {0} ×{1}", "Щит": "Shield", "отдых — до −{0}%": "rest day — up to −{0}%", "серия: {0}-я тренировка, +{1} шаг": "streak: workout #{0}, +{1} step", "мощная тренировка, +½ шага": "power workout, +½ step", "Финальный рывок: шаги дня ×{0}": "Final push: day's steps ×{0}", "Ты закрыл день раньше: его рывок −{0}%": "You finished the day first: his pull −{0}%", "закрыл день раньше: твой рывок −{0}%": "finished the day first: your pull −{0}%", "{0} из {1} ч": "{0} of {1} h", "Изменить": "Edit", "Норма воды: щит +{0}%": "Water goal: shield +{0}%", "Разминка засчитана: щит +{0}%": "Warm-up counted: shield +{0}%", "Вызов отправлен. Ждём ответа:": "Challenge sent. Waiting for:", "Дуэль началась:": "Duel started:", "Вызов принят, дуэль началась:": "Challenge accepted, the duel is on:", "Вызов принят: дуэль началась": "Challenge accepted: the duel is on", "Отозвать вызов?": "Withdraw the challenge?", "Отозвать": "Withdraw", "Кого вызвать?": "Who do you challenge?", "Друг получит вызов и решит, принять ли его. Дуэль начнётся с момента принятия.": "Your friend gets the challenge and decides whether to accept. The duel starts once accepted.", "Вызвать": "Challenge", "Началась дуэль с": "Duel started with", "вызывает тебя на дуэль": "challenges you to a duel", "У тебя уже идёт дуэль": "You already have a duel going", "Ты уже ждёшь ответа на вызов": "You're already waiting for a reply to a challenge", "Сначала закончи текущую дуэль": "Finish your current duel first", "Вызов уже недоступен": "This challenge is no longer available", "Нет связи с сервером": "No connection to the server", "С этим игроком уже есть дуэль или вызов": "You already have a duel or challenge with this player", "Игрок сейчас не принимает вызовы": "This player isn't accepting challenges right now", "Не больше {0} вызовов в неделю": "No more than {0} challenges per week", "Вызов устарел": "This challenge has expired", "У одного из вас уже идёт дуэль": "One of you already has a duel going"});
 Object.assign(MT.FORCE.en, {"БОИ НЕДЕЛИ": "BATTLES THIS WEEK", "КЛАН": "CLAN", "РЕЙД": "RAID", "Найди клан": "Find a clan", "битвы клан на клан": "clan vs clan battles", "выбери соперника": "pick an opponent", "соперник не выбран": "no opponent yet", "Титан недели": "Titan of the week", "откроется через {0} трен.": "unlocks in {0} workouts", "один или с друзьями": "solo or with friends", "HP Титана": "Titan HP", "Титан повержен": "Titan defeated", "твой удар ≈": "your hit ≈", "ДУЭЛЬ 1 НА 1": "DUEL 1 ON 1", "ДУЭЛЬ {0} НА {1}": "DUEL {0} ON {1}", "Неделя против одного соперника: тренировки тянут канат": "A week against one rival: workouts pull the rope", "Снап сета": "Snap a set", "Друзья": "Friends", "Рейтинг": "Ranking", "Позвать": "Invite", "Рекомендации": "Suggested", "Лента": "Feed", "Рекорды": "Records", "Мои": "Mine", "Рекордов друзей пока нет": "No friends' records yet", "У тебя пока нет постов. Нажми «Снап сета», чтобы выложить подход.": "No posts yet. Tap “Snap a set” to post a set."});
 Object.assign(MT.FORCE.en, {"ДУЭЛЬ НЕДЕЛИ": "DUEL OF THE WEEK", "последний день": "last day", "ещё {0} день": "{0} day left", "ещё {0} дня": "{0} days left", "ещё {0} дней": "{0} days left", "Ты": "You", "vs": "vs", "Тренироваться": "Train", "Подколоть": "Poke", "Финальный день: очки ×{0}.": "Final day: points ×{0}.", "Ты впереди на": "You're ahead by", "Соперник впереди на": "Rival is ahead by", "Закрой день на {0}% — это ещё до +{1}.": "Finish the day at {0}% — that's up to +{1} more.", "Ещё одна тренировка закрепит отрыв.": "One more workout will lock in the lead.", "Тренировка с рекордом — и ты снова впереди.": "A workout with a PR and you're back in front.", "Держи серию и закрывай дни — отыграешься.": "Keep the streak and close your days — you'll catch up.", "Пока поровну. Кто первым закроет тренировку — получит +{0}.": "Tied for now. Whoever finishes a workout first gets +{0}.", "вызывает на дуэль": "challenges you to a duel", "вызов отправлен": "challenge sent", "{0} дней": "{0} days", "Ищем соперника…": "Looking for a rival…", "Отменить поиск": "Cancel search", "Неделя против одного соперника. Очки за тренировки, рекорды, итог дня и серию.": "A week against one rival. Points for workouts, PRs, how you finish the day and your streak.", "Случайный бой": "Random battle", "в поиске": "searching", "друг": "friend", "друга": "friends", "друзей": "friends", "Откроется через {0} трен.: неделя против одного соперника на очки.": "Unlocks in {0} workouts: a week against one rival on points.", "КЛАН": "CLAN", "битвы клан на клан каждую неделю": "clan vs clan battles every week", "рейтинг кланов внутри": "clan ranking inside", "выбери соперника на неделю": "pick an opponent for the week", "соперник ещё не выбран": "no opponent yet", "КЛАН ·": "CLAN ·", "Твой вклад": "Your share", "{0}-й в клане": "#{0} in the clan", "Каждая тренировка — очки клану": "Every workout scores for the clan", "Фото подхода": "Set photo", "фото или видео в ленту": "photo or video to the feed", "Добавь друзей": "Add friends", "соревнуйтесь вместе": "compete together", "тренировались сегодня": "trained today", "сегодня пока тихо": "quiet today", "Друзья · {0}": "Friends · {0}", "{0} друг": "{0} friend", "{0} друга": "{0} friends", "{0} друзей": "{0} friends", "Посты": "Posts", "Вся лента": "Full feed", "Все посты": "All posts", "Загружаю посты…": "Loading posts…", "Пока тихо. Покажи свой подход первым.": "Quiet for now. Be the first to show a set.", "пост дня": "post of the day", "рекорд": "record", "новый рекорд": "new record", "· +{0} {1} к прошлому": "· +{0} {1} over last time", "Вызвать на дуэль": "Challenge to a duel", "Сегодня": "Today", "ты": "you", "пока 0": "0 so far", "Тренировка": "Workout", "серия": "streak", "Рекорд:": "PR:", "Итог дня сейчас": "Day score now", "— вода, сон, еда добавят очков": "— water, sleep and food add points", "Как набирать очки": "How to score points", "Ход дуэли": "Duel log", "Очков пока нет. Первая тренировка — первые {0}.": "No points yet. First workout — first {0}.", "Итог дня": "Day score", "% дня × {0} — до +{1}": "day % × {0} — up to +{1}", "Рекорд": "Record", "от прироста к твоему уровню": "by gain relative to your level", "Серия дней": "Day streak", "+{0} за день, до +{1}": "+{0} per day, up to +{1}", "Мощная тренировка": "Power workout", "сила выше обычной — +{0}": "stronger than usual — +{0}", "Первым": "First", "закрыл тренировку раньше — +{0}": "finished the workout first — +{0}", "Финал": "Final", "{0}-й день — очки ×{1}": "day {0} — points ×{1}", "тренировка": "workout", "итог дня": "day score", "мощная": "power", "первым": "first", "финал ×{0}": "final ×{0}", "Я уже потренировался. Твой ход": "I've trained already. Your move", "Отрыв растёт — догоняй": "The gap is growing — catch up", "Неделя ещё не кончилась, не расслабляйся": "The week isn't over, don't relax", "Посмотрим, что ты сегодня выжмешь": "Let's see what you lift today", "Выбери фразу — она придёт сопернику уведомлением": "Pick a line — your rival gets it as a notification", "Подкалывать можно раз в {0} часа": "You can poke once every {0} hours", "Отправлено:": "Sent:", "подкалывает:": "pokes you:", "Обнови базу: запусти update_v{0}.sql": "Update the database: run update_v{0}.sql", "Дуэль не найдена": "Duel not found", "Рейтинг кланов": "Clan ranking", "пока {0}": "{0} so far", "Рекомендации": "Suggested", "Все": "All", "Друзья": "Friends"});
+Object.assign(MT.FORCE.en, {"Неделя с": "Week with", "Очки за дневную цель, тренировки и рекорды": "Points for the daily goal, workouts and PRs", "до {0} в день": "up to {0} a day", "ВЕДЁШЬ": "LEADING", "ВЕДЁТ": "LEADING", "ВЕДЁМ": "LEADING", "ВЕДУТ": "LEADING", "Мы": "Us", "Финальный день: очки ×{0}": "Final day: points ×{0}", "Сегодня решается неделя. У тебя": "Today decides the week. You have", "у соперника": "your rival has", "сегодня отыгрывается": "is catching up today", "У тебя": "You have", "очков, у него": "points, he has", "Закрой дневную цель — это ещё до": "Hit your daily goal — that's up to", "очков.": "more points.", "Сегодня ты впереди": "You're ahead today", "очков, у соперника": "points, your rival has", "Добей дневную цель — сон, вода и еда тоже дают очки.": "Finish your daily goal — sleep, water and food score too.", "Тренировка — ещё +{0}.": "A workout is +{0} more.", "Сегодня ещё никто не набрал очков": "No one has scored today yet", "Первым закроешь тренировку — получишь +{0} сверху.": "Finish a workout first for +{0} on top.", "Победителю —": "Winner gets", "кубков и": "trophies and", "монет. Итоги через": "coins. Results in", "день": "day", "дня": "days", "дней": "days", "Добрать очки сегодня": "Score more today", "Тренировка: +{0} очков": "Workout: +{0} points", "против": "vs", "Очки клана: тренировка": "Clan points: workout", "рекорд": "PR", "от каждого": "from each member", "сегодня впереди": "is ahead today", "У нас": "We have", "у них": "they have", "Позови тех, кто ещё не тренировался.": "Nudge those who haven't trained yet.", "Твоя тренировка — ещё": "Your workout adds", "рекорд —": "a PR —", "Сегодня мы впереди": "We're ahead today", "Ты уже внёс свои очки.": "You've already added your points.", "Сегодня пока поровну": "Tied today so far", "Каждая тренировка —": "Every workout —", "клану, рекорд —": "for the clan, a PR —", "За победу —": "For a win —", "монет каждому, кто тренировался. Итоги через": "coins to everyone who trained. Results in", "Позвать в клан": "Invite to clan", "Тренировка для клана": "Workout for the clan", "из": "of", "лидер": "leader", "заместитель": "deputy", "участник": "member", "код клана": "clan code", "Позвать": "Invite", "Битва недели": "Battle of the week", "Выбери соперника — неделя клан против клана": "Pick an opponent — a week of clan vs clan", "Соперника выбирает лидер или заместитель": "The leader or a deputy picks the opponent", "Случайный клан": "Random clan", "Выбрать клан": "Pick a clan", "Вклад за неделю": "This week's contribution", "очки в битву": "battle points", "Пока никого": "Nobody yet", "О клане": "About the clan", "Покинуть клан": "Leave clan", "Найди клан": "Find a clan", "открыть": "open", "Вся лента": "Full feed", "Открыть всю ленту": "Open the full feed", "посты друзей, клана и всех игроков": "posts from friends, your clan and everyone", "лимит дня": "daily cap", "Лимит дня": "Daily cap", "не больше {0} очков за день": "no more than {0} points a day"});
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -5667,7 +5729,14 @@ const ClanService = {
     const mine = this.membersWithSelf(S.clan).map(m => score(m)), theirs = opp.members.filter(m => m.id !== (this.online() ? Net.uid : 'me')).map(m => score(m));
     const sum = xs => xs.reduce((a, x) => a + x, 0), sc = this._fromZero(`battle:${S.clan.id}:${b.weekKey}:${opp.id}`, sum(mine), sum(theirs), b.weekKey);
     const ms = this.membersWithSelf(S.clan), myI = ms.findIndex(m => m.self), myPts = myI >= 0 ? mine[myI] : 0, myRank = myPts > 0 ? 1 + mine.filter(x => x > myPts).length : 0; // v75: твой вклад в битву
-    return { ...b, opponent: opp, myScore: sc.me, oppScore: sc.opp, myActive: mine.filter(x => x > 0).length, oppActive: theirs.filter(x => x > 0).length, myPts, myRank, endsAt: U.parseDay(U.addDays(b.weekKey, 7)).getTime() };
+    return { ...b, opponent: opp, myScore: sc.me, oppScore: sc.opp, myActive: mine.filter(x => x > 0).length, oppActive: theirs.filter(x => x > 0).length, myPts, myRank, rows: ms.map((m, i) => ({ m, pts: mine[i] })), endsAt: U.parseDay(U.addDays(b.weekKey, 7)).getTime() };
+  },
+  // v76: очки битвы по дням для столбиков (тренировка +20, рекорд +25 от каждого участника); без сервера — оценка по активности
+  battleDays(b) {
+    const W = CONFIG.TROPHY.WORKOUT, P = CONFIG.TROPHY.PR, td = U.today(), pts = x => x ? (x.w || 0) * W + (x.p || 0) * P : 0;
+    const sideDay = (members, d, isMine) => members.reduce((a, m) => a + (m.self ? pts(Calc.dayStats(d)) : this.online() && m.raw ? pts((m.raw.days || {})[d]) : Math.round(Calc.memberActivity(m) / 7 * (0.6 + ((U.hash ? U.hash(m.id + d) : (m.id + d).length) % 9) / 10))), 0);
+    const mine = this.membersWithSelf(S.clan), theirs = (b.opponent.members || []).filter(m => m.id !== (this.online() ? Net.uid : 'me'));
+    return Array.from({ length: 7 }, (_, i) => { const day = U.addDays(b.weekKey, i); if (day > td) return { day, fut: true, a: 0, b: 0 }; return { day, a: sideDay(mine, day), b: sideDay(theirs, day) }; });
   },
   resolveBattle() { // при старте: если неделя закончилась, раздаём награду
     if (!S.clan || !S.clan.battle) return;
@@ -6040,7 +6109,7 @@ const Fight = {
   },
   // v75: дуэль на очки. За день: тренировка, итог дня в %, рекорды (по приросту к твоему коэффициенту силы),
   // серия дней, мощная тренировка, кто первым закрыл тренировку; в последний день очки ×1,5
-  P: { W: 100, DAY: 1.5, SK: 10, SK_CAP: 70, POWER: 50, FIRST: 30, FINAL: 1.5 },
+  P: { W: 100, DAY: 1.5, SK: 10, SK_CAP: 70, POWER: 50, FIRST: 30, FINAL: 1.5, CAP: 600 },
   KINDS: [
     { k: 'w', c: '#FB923C', t: 'Тренировка', v: '+100' },
     { k: 'day', c: '#34D399', t: 'Итог дня', v: '% дня × 1,5 — до +150' },
@@ -6049,8 +6118,9 @@ const Fight = {
     { k: 'power', c: '#A3E635', t: 'Мощная тренировка', v: 'сила выше обычной — +50' },
     { k: 'first', c: '#22D3EE', t: 'Первым', v: 'закрыл тренировку раньше — +30' },
     { k: 'final', c: '#F87171', t: 'Финал', v: '7-й день — очки ×1,5' },
+    { k: 'cap', c: '#94A3B8', t: 'Лимит дня', v: 'не больше 600 очков за день' },
   ],
-  NAMES: { w: 'тренировка', day: 'итог дня', pr: 'рекорд', sk: 'серия', power: 'мощная', first: 'первым', final: 'финал ×1,5' },
+  NAMES: { w: 'тренировка', day: 'итог дня', pr: 'рекорд', sk: 'серия', power: 'мощная', first: 'первым', final: 'финал ×1,5', cap: 'лимит дня' },
   // очки одного дня одной стороны; старые версии приложения не присылают ds/pp/sk — тогда считаем по тому, что есть
   dayParts(x, first, final) {
     const P = this.P, out = [];
@@ -6062,6 +6132,7 @@ const Fight = {
     if (first) out.push(['first', P.FIRST]);
     let sum = out.reduce((a, e) => a + e[1], 0);
     if (final && sum) { const add = Math.round(sum * (P.FINAL - 1)); out.push(['final', add]); sum += add; }
+    if (sum > P.CAP) { out.push(['cap', P.CAP - sum]); sum = P.CAP; } // v76: не больше 600 за день
     return { sum, parts: out };
   },
   rope(d) {
@@ -7650,7 +7721,7 @@ const UI = {
     // v75: дуэль на очки; вызовы ждут ответа соперника
     const q = ClanService.duelReqs();
     let duelHtml = q.inc.map(x => this.duelReqHtml(x, true)).join('');
-    if (d) duelHtml += this.duelHero(d, true) + `<button class="btn btn-ghost w-full mt-2" data-action="duel-cancel">Сдаться</button>`;
+    if (d) duelHtml += this.duelBoard(d, 'tab');
     else if (q.out.length) duelHtml += this.duelWaitHtml(q.out[0], true);
     else duelHtml += this.mmHtml();
     const cb = clan && clan.battle ? ClanService.battle() : null;
@@ -7762,7 +7833,7 @@ const UI = {
     const pg = this.$('#page'); if (!pg || !this._page) return;
     const k = this._page, cv = k === 'clanview' ? ClanService.list().find(c => c.id === this._clanView) : null;
     const title = { duel: 'Дуэль', friends: T('friends'), clan: S.clan ? S.clan.name : 'Клан', challenges: T('challenges'), guide: 'Упражнения', feed: 'Лента', body: 'Прогресс тела', clanview: cv ? cv.name : 'Клан', user: this._userPage === 'me' ? 'Мои посты' : 'Посты' }[k] || '';
-    const body = k === 'duel' ? this.duelPageHtml() : k === 'friends' ? this.friendsWeekCard() + this.suggestCircles() + this.friendsCard() : k === 'clan' ? this.clanPageHtml() + this.communityBoard() : k === 'guide' ? this.guideHtml() : k === 'feed' ? this.feedHtml() : k === 'body' ? this.bodyPageHtml() : k === 'clanview' ? (cv ? this.clanHtml(cv, false) : '<div class="muted text-sm text-center py-8">Клан не найден</div>') : k === 'user' ? this.userPageHtml() : this.challengesCard();
+    const body = k === 'duel' ? this.duelPageHtml() : k === 'friends' ? this.friendsWeekCard() + this.suggestCircles() + this.friendsCard() : k === 'clan' ? this.clanPageHtml() + this.communityBoard() + (S.clan ? '<button class="btn btn-ghost w-full mb-4 cm-leave" data-action="clan-leave">Покинуть клан</button>' : '') : k === 'guide' ? this.guideHtml() : k === 'feed' ? this.feedHtml() : k === 'body' ? this.bodyPageHtml() : k === 'clanview' ? (cv ? this.clanHtml(cv, false) : '<div class="muted text-sm text-center py-8">Клан не найден</div>') : k === 'user' ? this.userPageHtml() : this.challengesCard();
     const top = pg.scrollTop;
     this.morph(pg, `<div class="pg-hd"><button class="back-btn" data-action="page-back" aria-label="Назад"><svg class="ic"><use href="#fa-arrow-left"/></svg></button><div class="font-black text-lg truncate">${U.esc(title)}</div></div><div class="pg-body">${body}</div>`);
     App.restoreDrafts(pg); if (typeof MT !== 'undefined' && MT.active && MT.active()) MT.apply(pg); if (typeof FIG !== 'undefined') FIG.scan();
@@ -7813,11 +7884,33 @@ const UI = {
         <div class="mx-auto mb-2 w-14 h-14 rounded-2xl flex items-center justify-center" style="background:#8B5CF622;color:#8B5CF6"><svg class="ic text-2xl"><use href="#fa-shield-halved"/></svg></div><div class="font-bold text-lg">${T('no_clan')}</div><div class="text-sm muted mt-1 mb-4">${T('clan_pitch')}</div>
         <div class="grid grid-cols-2 gap-3"><button class="btn btn-primary" data-action="open-clan-create"><svg class="ic "><use href="#fa-plus"/></svg> ${T('create')}</button><button class="btn btn-ghost" data-action="open-clan-join"><svg class="ic "><use href="#fa-key"/></svg> ${T('by_code')}</button></div>
       </div>`;
-    const me = ClanService.list().find(c => c.id === clan.id) || { ...clan, members: ClanService.membersWithSelf(clan), score: 0, trophies: 0 };
-    return this.clanHtml({ ...me, role: clan.role, battleOpen: clan.battleOpen, description: clan.description, about: clan.about, showcases: clan.showcases, theme: clan.theme, photo: clan.photo, capacity: clan.capacity, code: clan.code }, true);
+    return this.clanMineHtml();
   },
+  // v76: страница своего клана — только нужное: шапка с кодом и приглашением, битва недели в формате «очки по дням»,
+  // вклад участников за неделю, о клане, рейтинг кланов, выход
+  clanMineHtml() {
+    const clan = S.clan, me = ClanService.list().find(c => c.id === clan.id) || { ...clan, members: ClanService.membersWithSelf(clan) };
+    const ms = me.members || [], cap = clan.capacity || CONFIG.CLAN_MAX, lead = clan.role !== 'member', b = ClanService.battle(), roleRu = { leader: 'лидер', deputy: 'заместитель', member: '' };
+    const head = `<div class="cm-h">${this.emblem(clan, 'w-14 h-14 text-2xl')}<div class="flex-1 min-w-0"><div class="cm-n truncate" data-no-mt>${U.esc(clan.name)}</div><div class="cm-s"><span class="num">${ms.length}</span> <span>из</span> <span class="num">${cap}</span> · <span>${roleRu[clan.role] ? roleRu[clan.role] : 'участник'}</span></div></div>${lead ? '<button class="cm-ib" data-action="clan-settings" aria-label="Настройки клана"><svg class="ic"><use href="#fa-gear"/></svg></button>' : ''}</div>
+      <div class="cm-row"><button class="cm-code" data-action="copy" data-text="${U.esc(clan.code || '')}"><small>код клана</small><b class="num" data-no-mt>${U.esc(clan.code || '—')}</b><svg class="ic"><use href="#fa-copy"/></svg></button><button class="cm-inv" data-action="clan-invite" data-code="${U.esc(clan.code || '')}"><svg class="ic"><use href="#fa-user-plus"/></svg> Позвать</button></div>`;
+    let battle;
+    if (b) battle = this.clanBoard(b, 'page');
+    else battle = `<div class="wk pg"><div class="wk-h"><span class="min-w-0"><b class="wk-t">Битва недели</b><small class="wk-s">${lead ? 'Выбери соперника — неделя клан против клана' : 'Соперника выбирает лидер или заместитель'}</small></span><span class="wk-pill">7 дней</span></div>
+      ${lead ? `<div class="grid grid-cols-2 gap-2 mt-3"><button class="wk-cta m0" data-action="clan-challenge-random" ${clan.battleOpen === false ? 'disabled' : ''}><svg class="ic"><use href="#fa-shuffle"/></svg> Случайный клан</button><button class="wk-cta alt m0" data-action="clan-challenge-pick"><svg class="ic"><use href="#fa-list"/></svg> Выбрать клан</button></div>` : ''}</div>`;
+    const rows = b && b.rows ? b.rows : ms.map(m => ({ m, pts: m.self ? Calc.myWindow(U.weekKey()) : (m.week ? (m.week.workouts || 0) * CONFIG.TROPHY.WORKOUT : 0) }));
+    const sorted = [...rows].sort((x, y) => y.pts - x.pts), mx = Math.max(1, ...sorted.map(x => x.pts));
+    const pp = m => m.self ? { photo: S.profile.avatar.photo, sex: S.profile.sex } : (ClanService.player(m.id) || m);
+    const mem = sorted.map((x, i) => { const m = x.m;
+      return `<div class="cm-m ${m.self ? 'me' : ''}"><b class="cm-r num">${i + 1}</b><button data-action="mini-profile" data-id="${U.esc(m.self ? 'me' : m.id)}">${this.av(pp(m), 38)}</button>
+        <div class="flex-1 min-w-0"><div class="text-sm font-bold truncate"><span data-no-mt>${U.esc(m.self ? (S.profile.nickname || 'Ты') : m.nick)}</span>${m.role && m.role !== 'member' ? ` <span class="cm-role">${roleRu[m.role]}</span>` : ''}</div><i class="cm-pb"><i style="width:${Math.round(x.pts / mx * 100)}%"></i></i></div>
+        <b class="num cm-p">${this.fmtK(x.pts)}</b>${lead && !m.self ? `<button class="muted px-1" data-action="clan-member-menu" data-id="${U.esc(m.id)}" aria-label="Действия"><svg class="ic"><use href="#fa-ellipsis-vertical"/></svg></button>` : ''}</div>`; }).join('');
+    return `<div class="card p-4 mb-3">${head}</div>${battle}
+      <div class="sec-h mt-4"><b>Вклад за неделю</b><span class="text-[11px] muted">очки в битву</span></div>
+      <div class="card p-0 mb-4">${mem || '<div class="text-xs muted p-4 text-center">Пока никого</div>'}</div>
+      ${clan.about || clan.description ? `<div class="sec-h"><b>О клане</b></div><div class="card p-4 mb-4 text-sm leading-relaxed" data-no-mt>${U.esc(clan.about || clan.description)}</div>` : ''}`;
+  },
+
   /* ===== v72: вкладка «Сообщество» — дуэль (канат), рейд на Титана, щит, фото, рекорды, кого добавить ===== */
-  POKES: ['Я уже потренировался. Твой ход', 'Отрыв растёт — догоняй', 'Неделя ещё не кончилась, не расслабляйся', 'Посмотрим, что ты сегодня выжмешь'],
   cmSeg() { return 'duel'; },
   meAv(n) { return this.av({ photo: S.profile.avatar.photo, sex: S.profile.sex }, n); },
   pName(id) { return id === 'me' || (Net.online() && id === Net.uid) ? (S.profile.nickname || 'Ты') : ((ClanService.player(id) || {}).nick || '?'); },
@@ -7828,33 +7921,50 @@ const UI = {
   duelDay(d) { return U.clamp(U.daysBetween(d.weekKey, U.today()) + 1, 1, 7); },
   fmtK(n) { n = Math.round(+n || 0); const ru = !MT.active(); return Math.abs(n) >= 10000 ? (n / 1000).toFixed(1).replace('.', ru ? ',' : '.').replace(/[.,]0$/, '') + (ru ? 'к' : 'k') : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ru ? ' ' : ','); },
   daysLeft(endsAt) { const n = Math.max(0, Math.ceil((endsAt - Date.now()) / 864e5)); return n <= 0 ? 'последний день' : `ещё ${n} ${U.plural(n, 'день', 'дня', 'дней')}`; },
-  // v75: полоса дуэли — твоя доля очков слева, его справа; каждый день — свой отрезок, точка столкновения светится
-  duelBar(r, big = false) {
-    const me = r ? r.me : 0, op = r ? r.them : 0, tot = me + op, p = tot ? U.clamp(me / tot * 100, 4, 96) : 50, td = U.today();
-    const seg = (side) => { const xs = (r ? r.days : []).filter(x => !x.fut && x[side] > 0), sum = xs.reduce((a, x) => a + x[side], 0) || 1;
-      return xs.map(x => `<i class="${x.day === td ? 'now' : ''}" style="flex:${x[side] / sum}"></i>`).join(''); };
-    return `<div class="db ${big ? 'big' : ''}" role="img" aria-label="Счёт дуэли"><div class="db-tr">
-      <div class="db-s me" style="width:${p}%">${tot ? seg('a') : ''}</div><div class="db-s op" style="width:${100 - p}%">${tot ? seg('b') : ''}</div>
-      <i class="db-mid"></i><span class="db-x ${me > op ? 'me' : op > me ? 'op' : ''}" style="left:${p}%"></span></div></div>`;
+  // v76: неделя в формате «очки по дням»: две карточки счёта, общий бар, столбики по дням, подсказка на сегодня, награда и кнопка.
+  // Один компонент для дуэли и для битвы кланов. mode: 'tab' — компактно во вкладке, 'page' — на странице
+  weekBoard(o, mode = 'tab') {
+    const tot = o.L.v + o.R.v, p = tot ? U.clamp(o.L.v / tot * 100, 3, 97) : 50, td = U.today();
+    const mx = Math.max(1, ...o.days.filter(x => !x.fut).map(x => Math.max(x.a, x.b)));
+    const lead = o.L.v > o.R.v ? 'L' : o.R.v > o.L.v ? 'R' : '';
+    const card = (side, x) => `<div class="wk-c ${side === 'L' ? 'me' : 'op'} ${lead === side ? 'lead' : ''}"><span class="wk-n"><i></i><span class="truncate" ${x.raw ? 'data-no-mt' : ''}>${x.raw ? U.esc(x.name) : x.name}</span>${lead === side ? `<em>${side === 'L' ? o.leadL : o.leadR}</em>` : ''}</span><b class="num">${this.fmtK(x.v)}</b></div>`;
+    const cols = o.days.map(x => { const h = v => Math.max(4, Math.round(v / mx * 100));
+      return `<div class="wk-d ${x.day === td ? 'now' : ''} ${x.fut ? 'fut' : ''}"><span class="wk-bb">${x.fut ? '<i class="dot"></i><i class="dot"></i>' : `<i class="me" style="height:${x.a ? h(x.a) : 0}%"></i><i class="op" style="height:${x.b ? h(x.b) : 0}%"></i>`}</span><small>${this.wd(x.day)}</small></div>`; }).join('');
+    const page = mode === 'page';
+    return `<div class="wk ${page ? 'pg' : ''}">
+      <${o.open ? `button data-action="open-page" data-kind="${o.open}"` : 'div'} class="wk-h"><span class="min-w-0"><b class="wk-t">${o.title}</b><small class="wk-s">${o.sub}</small></span><span class="wk-pill">${o.pill}</span>${o.open ? '<svg class="ic wk-go-i"><use href="#fa-chevron-right"/></svg>' : ''}</${o.open ? 'button' : 'div'}>
+      <div class="wk-sc">${card('L', o.L)}${card('R', o.R)}</div>
+      <div class="wk-bar" role="img" aria-label="Общий счёт"><i class="me" style="width:${p}%"></i><i class="op"></i><span style="left:${p}%"></span></div>
+      <div class="wk-ch ${page ? 'big' : ''}">${cols}</div>
+      ${o.call ? `<div class="wk-call ${o.call.tone || ''}"><b>${o.call.t}</b><p>${o.call.d}</p></div>` : ''}
+      ${page && o.reward ? `<div class="wk-rw"><span class="wk-rw-i"><svg class="ic"><use href="#fa-trophy"/></svg></span><p>${o.reward}</p></div>` : ''}
+      ${o.cta ? `<button class="wk-cta" data-action="${o.cta[1]}">${o.cta[0]}</button>` : ''}</div>`;
   },
-  duelMsg(d) {
-    const r = d.rope, g = Math.abs(r.lead), fin = r.final ? 'Финальный день: очки ×1,5. ' : '';
-    const sp = t => `<span>${t}</span>`, F = fin ? sp(fin.trim()) + ' ' : '';
-    if (r.lead > 0) return F + `${sp('Ты впереди на')} <b class="num">${this.fmtK(g)}</b>. ` + sp(r.trainedToday ? 'Закрой день на 100% — это ещё до +150.' : 'Ещё одна тренировка закрепит отрыв.');
-    if (r.lead < 0) return F + `${sp('Соперник впереди на')} <b class="num">${this.fmtK(g)}</b>. ` + sp(g <= 250 ? 'Тренировка с рекордом — и ты снова впереди.' : 'Держи серию и закрывай дни — отыграешься.');
-    return F + sp('Пока поровну. Кто первым закроет тренировку — получит +30.');
+  duelBoard(d, mode = 'tab') {
+    const r = d.rope, nick = U.esc(d.opponent.nick), t = r.today || {}, a = t.a || 0, b = t.b || 0, left = Math.max(0, Fight.P.CAP - a);
+    let call;
+    if (r.final && !r.trainedToday) call = { t: 'Финальный день: очки ×1,5', d: `<span>Сегодня решается неделя. У тебя</span> <b class="num">${a}</b>, <span>у соперника</span> <b class="num">${b}</b>.` };
+    else if (b > a) call = { tone: 'warn', t: `<span data-no-mt>${nick}</span> <span>сегодня отыгрывается</span>`, d: `<span>У тебя</span> <b class="num">${a}</b> <span>очков, у него</span> <b class="num">${b}</b>. <span>Закрой дневную цель — это ещё до</span> <b class="num">${left}</b> <span>очков.</span>` };
+    else if (a > b) call = { tone: 'ok', t: 'Сегодня ты впереди', d: `<span>У тебя</span> <b class="num">${a}</b> <span>очков, у соперника</span> <b class="num">${b}</b>. ${r.trainedToday ? '<span>Добей дневную цель — сон, вода и еда тоже дают очки.</span>' : '<span>Тренировка — ещё +100.</span>'}` };
+    else call = { t: 'Сегодня ещё никто не набрал очков', d: '<span>Первым закроешь тренировку — получишь +30 сверху.</span>' };
+    return this.weekBoard({ title: `<span>Неделя с</span> <span data-no-mt>${nick}</span>`, sub: `<span>Очки за дневную цель, тренировки и рекорды</span> · <span>до ${Fight.P.CAP} в день</span>`, pill: this.daysLeft(d.endsAt),
+      L: { name: 'Ты', v: r.me }, R: { name: d.opponent.nick, raw: true, v: r.them }, leadL: 'ВЕДЁШЬ', leadR: 'ВЕДЁТ',
+      days: r.days.map(x => ({ day: x.day, a: x.a || 0, b: x.b || 0, fut: x.fut })), call,
+      reward: `<span>Победителю —</span> <b class="num">${CONFIG.TROPHY.DUEL_WIN}</b> <span>кубков и</span> <b class="num">${CONFIG.TROPHY.DUEL_WIN_COINS}</b> <span>монет. Итоги через</span> ${this.daysLeftShort(d.endsAt)}.`,
+      cta: [r.trainedToday ? 'Добрать очки сегодня' : 'Тренировка: +100 очков', 'start-workout'], open: mode === 'tab' ? 'duel' : null }, mode);
   },
-  // карточка дуэли: аватары, очки, полоса, подсказка и две кнопки
-  duelHero(d, flat = false) {
-    const r = d.rope, opp = d.opponent;
-    return `<div class="dh3 ${flat ? 'flat' : ''}">
-      <button class="dh3-top" data-action="open-page" data-kind="duel"><span class="dh3-k">ДУЭЛЬ НЕДЕЛИ</span><span class="dh3-pill">${this.daysLeft(d.endsAt)}</span></button>
-      <div class="dh3-vs"><button class="dh3-p me" data-action="open-page" data-kind="duel"><span class="dh3-av">${this.meAv(64)}</span><small>Ты</small><b class="num">${this.fmtK(r.me)}</b></button>
-        <span class="dh3-x">vs</span>
-        <button class="dh3-p op" data-action="mini-profile" data-id="${U.esc(opp.id)}"><span class="dh3-av">${this.av(ClanService.player(opp.id) || opp, 64)}</span><small data-no-mt>${U.esc(opp.nick)}</small><b class="num">${this.fmtK(r.them)}</b></button></div>
-      ${this.duelBar(r)}
-      <p class="dh3-m">${this.duelMsg(d)}</p>
-      <div class="dh3-b"><button class="dh3-go" data-action="start-workout">Тренироваться</button><button class="dh3-alt" data-action="duel-poke">Подколоть</button></div></div>`;
+  daysLeftShort(endsAt) { const n = Math.max(0, Math.ceil((endsAt - Date.now()) / 864e5)); return `<b class="num">${n}</b> <span>${U.plural(n, 'день', 'дня', 'дней')}</span>`; },
+  clanBoard(b, mode = 'tab') {
+    const clan = S.clan, days = ClanService.battleDays(b), td = days.find(x => x.day === U.today()) || { a: 0, b: 0 };
+    const W = CONFIG.TROPHY.WORKOUT, P = CONFIG.TROPHY.PR, trained = Calc.dayStats(U.today()).w;
+    let call;
+    if (td.b > td.a) call = { tone: 'warn', t: `<span data-no-mt>${U.esc(b.opponent.name)}</span> <span>сегодня впереди</span>`, d: `<span>У нас</span> <b class="num">${td.a}</b>, <span>у них</span> <b class="num">${td.b}</b>. ${trained ? '<span>Позови тех, кто ещё не тренировался.</span>' : `<span>Твоя тренировка — ещё</span> <b class="num">+${W}</b>, <span>рекорд —</span> <b class="num">+${P}</b>.`}` };
+    else if (td.a > td.b) call = { tone: 'ok', t: 'Сегодня мы впереди', d: `<span>У нас</span> <b class="num">${td.a}</b>, <span>у них</span> <b class="num">${td.b}</b>. ${trained ? '<span>Ты уже внёс свои очки.</span>' : `<span>Твоя тренировка — ещё</span> <b class="num">+${W}</b>.`}` };
+    else call = { t: 'Сегодня пока поровну', d: `<span>Каждая тренировка —</span> <b class="num">+${W}</b> <span>клану, рекорд —</span> <b class="num">+${P}</b>.` };
+    return this.weekBoard({ title: `<span data-no-mt>${U.esc(clan.name)}</span> <span>против</span> <span data-no-mt>${U.esc(b.opponent.name)}</span>`, sub: `<span>Очки клана: тренировка</span> +${W}, <span>рекорд</span> +${P} <span>от каждого</span>`, pill: this.daysLeft(b.endsAt),
+      L: { name: 'Мы', v: b.myScore }, R: { name: b.opponent.name, raw: true, v: b.oppScore }, leadL: 'ВЕДЁМ', leadR: 'ВЕДУТ', days, call,
+      reward: `<span>За победу —</span> <b class="num">${CONFIG.TROPHY.CLAN_WIN_COINS}</b> <span>монет каждому, кто тренировался. Итоги через</span> ${this.daysLeftShort(b.endsAt)}.`,
+      cta: [trained ? 'Позвать в клан' : 'Тренировка для клана', trained ? 'clan-invite-mine' : 'start-workout'], open: mode === 'tab' ? 'clan' : null }, mode);
   },
   // входящий вызов: принять или отклонить
   duelReqHtml(x, flat = false) {
@@ -7879,18 +7989,20 @@ const UI = {
   duelBlock() {
     if (!Unlock.on('duels')) return `<div class="dh3 lock"><div class="dh3-top"><span class="dh3-k">ДУЭЛЬ НЕДЕЛИ</span><span class="dh3-pill"><svg class="ic"><use href="#fa-lock"/></svg></span></div><p class="dh3-m mt-2">Откроется через ${Unlock.left('duels')} трен.: неделя против одного соперника на очки.</p></div>`;
     const d = ClanService.duel(), q = ClanService.duelReqs(), inc = q.inc.slice(0, 2).map(x => this.duelReqHtml(x)).join('');
-    return inc + (d ? this.duelHero(d) : q.out.length ? this.duelWaitHtml(q.out[0]) : this.duelEmptyHtml());
+    return inc + (d ? this.duelBoard(d) : q.out.length ? this.duelWaitHtml(q.out[0]) : this.duelEmptyHtml());
   },
-  // плитка клана: два столбика очков недели и твой вклад
+  // плитка клана (мягкие цвета приложения): счёт недели, общий бар, твой вклад
   clanTile() {
     const clan = S.clan;
-    if (!clan) return `<button class="ct" data-action="open-page" data-kind="clan"><span class="ct-k">КЛАН</span><b class="ct-n">Найди клан</b><small class="ct-s">битвы клан на клан каждую неделю</small><span class="ct-emp"><svg class="ic"><use href="#fa-shield-halved"/></svg></span><small class="ct-f">рейтинг кланов внутри</small></button>`;
+    if (!clan) return `<button class="ct" data-action="open-page" data-kind="clan"><span class="ct-ic"><svg class="ic"><use href="#fa-shield-halved"/></svg></span><span class="ct-k">КЛАН</span><b class="ct-n">Найди клан</b><small class="ct-s">битвы клан на клан каждую неделю</small><span class="ct-f">открыть<svg class="ic"><use href="#fa-chevron-right"/></svg></span></button>`;
     const b = ClanService.battle();
-    if (!b) return `<button class="ct" data-action="open-page" data-kind="${clan.role !== 'member' ? 'challenges' : 'clan'}"><span class="ct-k">КЛАН</span><b class="ct-n truncate" data-no-mt>${U.esc(clan.name)}</b><small class="ct-s">${clan.role !== 'member' ? 'выбери соперника на неделю' : 'соперник ещё не выбран'}</small><span class="ct-emp">${this.emblem(clan, 'w-14 h-14 text-2xl')}</span><small class="ct-f">рейтинг кланов внутри</small></button>`;
-    const mx = Math.max(b.myScore, b.oppScore, 1), h = v => Math.max(12, Math.round(v / mx * 100));
+    if (!b) return `<button class="ct" data-action="open-page" data-kind="clan"><span class="ct-ic">${this.emblem(clan, 'w-10 h-10 text-lg')}</span><span class="ct-k">КЛАН</span><b class="ct-n truncate" data-no-mt>${U.esc(clan.name)}</b><small class="ct-s">${clan.role !== 'member' ? 'выбери соперника на неделю' : 'соперник ещё не выбран'}</small><span class="ct-f">открыть<svg class="ic"><use href="#fa-chevron-right"/></svg></span></button>`;
+    const tot = b.myScore + b.oppScore, p = tot ? U.clamp(b.myScore / tot * 100, 4, 96) : 50, days = ClanService.battleDays(b), mx = Math.max(1, ...days.map(x => Math.max(x.a, x.b)));
     return `<button class="ct" data-action="open-page" data-kind="clan"><span class="ct-k">КЛАН · <span>${this.daysLeft(b.endsAt)}</span></span><b class="ct-n truncate" data-no-mt>${U.esc(clan.name)}</b><small class="ct-s truncate"><span>против</span> <span data-no-mt>${U.esc(b.opponent.name)}</span></small>
-      <span class="ct-bars"><span class="ct-c"><i class="me ${b.myScore >= b.oppScore ? 'lead' : ''}" style="height:${h(b.myScore)}%"></i><b class="num">${this.fmtK(b.myScore)}</b></span><span class="ct-c"><i class="op ${b.oppScore > b.myScore ? 'lead' : ''}" style="height:${h(b.oppScore)}%"></i><b class="num">${this.fmtK(b.oppScore)}</b></span></span>
-      <small class="ct-f">${b.myRank ? `<span>Твой вклад</span> <b class="num">${this.fmtK(b.myPts)}</b> · <span>${b.myRank}-й в клане</span>` : 'Каждая тренировка — очки клану'}</small></button>`;
+      <span class="ct-sc"><b class="num ${b.myScore >= b.oppScore ? 'w' : ''}">${this.fmtK(b.myScore)}</b><span>:</span><b class="num ${b.oppScore > b.myScore ? 'w' : ''}">${this.fmtK(b.oppScore)}</b></span>
+      <span class="ct-bar"><i style="width:${p}%"></i></span>
+      <span class="ct-mini">${days.map(x => `<span class="${x.fut ? 'fut' : ''}"><i class="me" style="height:${x.fut ? 0 : Math.max(6, Math.round(x.a / mx * 100))}%"></i><i class="op" style="height:${x.fut ? 0 : Math.max(6, Math.round(x.b / mx * 100))}%"></i></span>`).join('')}</span>
+      <small class="ct-f2">${b.myRank ? `<span>Твой вклад</span> <b class="num">${this.fmtK(b.myPts)}</b> · <span>${b.myRank}-й в клане</span>` : 'Каждая тренировка — очки клану'}</small></button>`;
   },
   snapTile() { return `<label class="st-t"><span class="st-c"><svg class="ic"><use href="#fa-camera"/></svg></span><b>Фото подхода</b><small>фото или видео в ленту</small><input type="file" accept="image/*,video/*" class="hidden" data-action="snap-media"></label>`; },
   friendsTile() {
@@ -7914,18 +8026,18 @@ const UI = {
   // v75: «Сообщество» — дуэль, плитки (клан, фото подхода, друзья), посты
   postsBlock() {
     const hide = Social.hiddenUsers(), xs = Social.recent(16).filter(p => p.kind !== 'pr' && !hide.has(p.uid)).slice(0, 4);
-    if (!xs.length) return `<div class="sec-h"><b>Посты</b><button class="link text-[12px] font-bold" data-action="open-page" data-kind="feed">Вся лента</button></div><div class="card p-4 mb-4 text-xs muted text-center">${Social.loading || (Net.online() && !Social.at) ? 'Загружаю посты…' : 'Пока тихо. Покажи свой подход первым.'}</div>`;
+    if (!xs.length) return `<div class="sec-h"><b>Посты</b><button class="sec-more" data-action="open-page" data-kind="feed">Вся лента<svg class="ic"><use href="#fa-chevron-right"/></svg></button></div><div class="card p-4 mb-4 text-xs muted text-center">${Social.loading || (Net.online() && !Social.at) ? 'Загружаю посты…' : 'Пока тихо. Покажи свой подход первым.'}</div>`;
     const top = xs.filter(p => p.img || p.video || p.vkey).sort((a, b) => (b.likes || 0) - (a.likes || 0))[0];
     const list = top ? [top, ...xs.filter(p => p !== top)] : xs;
-    return `<div class="sec-h"><b>Посты</b><button class="link text-[12px] font-bold" data-action="open-page" data-kind="feed">Вся лента</button></div>
+    return `<div class="sec-h"><b>Посты</b><button class="sec-more" data-action="open-page" data-kind="feed">Вся лента<svg class="ic"><use href="#fa-chevron-right"/></svg></button></div>
       ${list.map(p => this.postCard(p, p === top && (p.likes || 0) > 0)).join('')}
-      <button class="btn btn-ghost w-full mb-4" data-action="open-page" data-kind="feed">Все посты</button>`;
+      <button class="feed-go" data-action="open-page" data-kind="feed"><span class="feed-go-i"><svg class="ic"><use href="#fa-image"/></svg></span><span class="flex-1 min-w-0 text-left"><b>Открыть всю ленту</b><small>посты друзей, клана и всех игроков</small></span><svg class="ic feed-go-ch"><use href="#fa-chevron-right"/></svg></button>`;
   },
   // страница дуэли: карточка, сегодня, дни недели, как набирать очки, ход по дням, история
   duelPageHtml() {
     const d = ClanService.duel(); if (!d) return this.challengesCard();
     const r = d.rope, nick = U.esc(d.opponent.nick), col = Object.fromEntries(Fight.KINDS.map(x => [x.k, x.c]));
-    const chips = (parts) => parts.length ? parts.map(([k, v]) => `<span class="dp-c" style="--c:${col[k] || '#94A3B8'}"><i></i><span>${Fight.NAMES[k] || k}</span> <b class="num">+${this.fmtK(v)}</b></span>`).join('') : '<span class="text-[11px] muted">пока 0</span>';
+    const chips = (parts) => parts.length ? parts.map(([k, v]) => `<span class="dp-c" style="--c:${col[k] || '#94A3B8'}"><i></i><span>${Fight.NAMES[k] || k}</span> <b class="num">${v < 0 ? '−' + this.fmtK(-v) : '+' + this.fmtK(v)}</b></span>`).join('') : '<span class="text-[11px] muted">пока 0</span>';
     const t = r.today, pr = Calc.prPoints(U.today()), c = Fight.critHint();
     const tips = [];
     if (!r.trainedToday) tips.push(`<span>Тренировка</span> <b class="num">+100</b>${r.sk > 0 ? ` · <span>серия</span> <b class="num">+${Math.min(70, (r.sk + 1) * 10)}</b>` : ''}`);
@@ -7933,11 +8045,10 @@ const UI = {
     tips.push(`<span>Итог дня сейчас</span> <b class="num">${Calc.dayScore(U.today()) == null ? 0 : Math.round(Calc.dayScore(U.today()))}%</b> <span>— вода, сон, еда добавят очков</span>`);
     const days = r.days.map(x => `<div class="dd2 ${x.fut ? 'fut' : x.win === 'me' ? 'me' : x.win === 'opp' ? 'op' : ''} ${x.day === U.today() ? 'now' : ''}"><small>${this.wd(x.day)}</small>${x.fut ? '' : `<b class="num me">${this.fmtK(x.a)}</b><b class="num op">${this.fmtK(x.b)}</b>`}</div>`).join('');
     const log = r.days.filter(x => !x.fut && (x.a || x.b)).reverse().map(x => `<div class="dl"><div class="dl-h"><b>${this.wd(x.day)}</b><span class="num or">${this.fmtK(x.a)}</span><span class="muted">:</span><span class="num bl">${this.fmtK(x.b)}</span></div><div class="dl-c">${chips(x.pa)}</div></div>`).join('');
-    return `<div class="mb-4">${this.duelHero(d)}</div>
+    return `<div class="mb-4">${this.duelBoard(d, 'page')}</div>
       <div class="card p-4 mb-3"><div class="flex items-center justify-between mb-2"><b>Сегодня</b><span class="text-[11px] muted"><span>ты</span> <b class="num text-or">+${this.fmtK(t.a || 0)}</b> · <span data-no-mt>${nick}</span> <b class="num text-bl">+${this.fmtK(t.b || 0)}</b></span></div>
         <div class="dp-row">${chips(t.pa || [])}</div>
         <div class="dp-tips">${tips.map(x => `<div>${x}</div>`).join('')}</div>${pr.list.length ? `<div class="text-[11px] muted mt-2">${pr.list.map(x => `<span data-no-mt>${U.esc(U.exRu(x.ex))}</span> +${U.w(x.gain)} ${U.wUnit()} → <b class="num">+${x.pts}</b>`).join(' · ')}</div>` : ''}</div>
-      <div class="dd2-row mb-4">${days}</div>
       <div class="sec-h"><b>Как набирать очки</b></div>
       <div class="dk-grid mb-4">${Fight.KINDS.map(x => `<div class="dk"><i style="background:${x.c}"></i><span><b>${x.t}</b><small>${x.v}</small></span></div>`).join('')}</div>
       <div class="sec-h"><b>Ход дуэли</b></div>
@@ -10966,17 +11077,7 @@ const App = {
     async 'duel-decline'(el) { el.disabled = true; await ClanService.declineDuel(el.dataset.id); if (UI.$('#nt-box')) UI.refreshNotifs(); UI.renderHeader(); UI.renderClans(); if (UI._page) UI.renderPage(); },
     'duel-req-cancel'(el) { UI.confirm('Отозвать вызов?', async () => { await ClanService.cancelReq(el.dataset.id); UI.renderClans(); if (UI._page) UI.renderPage(); }, { yes: 'Отозвать' }); },
     async 'duel-random-go'() { UI.openPage('challenges'); await App.mmStart(); },
-    'duel-poke'() {
-      const d = ClanService.duel(); if (!d) return;
-      const last = ((S.game.pokeAt || {})[d.id || d.startedAt]) || 0; if (Date.now() - last < 3 * 36e5) { UI.toast('Подкалывать можно раз в 3 часа', 'red'); return; }
-      const xs = UI.POKES.map((t, i) => `<button class="pk" data-action="duel-poke-send" data-i="${i}">${t}</button>`).join('');
-      UI.modal(`<div class="font-black text-lg">Подколоть <span data-no-mt>${U.esc(d.opponent.nick)}</span></div><div class="text-[12px] muted mb-3">Выбери фразу — она придёт сопернику уведомлением</div><div class="grid gap-2">${xs}</div><button class="btn btn-ghost w-full mt-3" data-action="close-modal">Отмена</button>`, { center: true });
-    },
-    async 'duel-poke-send'(el) {
-      const d = ClanService.duel(); if (!d) return; const t = UI.POKES[+el.dataset.i] || UI.POKES[0]; el.disabled = true;
-      if (ClanService.online() && d.id) { try { await Net.pokeDuel(d.id, t); } catch (e) { el.disabled = false; UI.toast(e.message, 'red'); return; } }
-      (S.game.pokeAt || (S.game.pokeAt = {}))[d.id || d.startedAt] = Date.now(); save(); UI.closeModal(); UI.toast(`Отправлено: <b data-no-mt>${U.esc(d.opponent.nick)}</b>`, 'or');
-    },
+    'clan-invite-mine'(el) { if (!S.clan) return; el.dataset.code = S.clan.code || ''; return this['clan-invite'](el); },
     'duel-fold'() { UI._duelOpen = !UI._duelOpen; S.profile.duelOpen = UI._duelOpen; save(); UI.renderClans(); },
     async 'mm-start'(el) { if (el) el.disabled = true; await App.mmStart(); if (el) el.disabled = false; },
     'mm-stop'() { App.mmStop(); },
