@@ -3,8 +3,8 @@
 ## Paths
 - DATA folder: `/mnt/project-files/fitness/marketing/` if it exists (Claude project in the cloud),
   otherwise `marketing/data/` inside this repo (Claude Code on the owner's computer).
-  It holds `log.json`, `stats/`, `reports/`, `weeks/<WEEK>/{scripts,videos}/`, `captions.md`.
-- WEEK = the date the batch is made (YYYY-MM-DD) unless the owner says otherwise.
+  It holds `log.json`, `stats/`, `reports/`, `days/<DAY>/{scripts,videos}/`, `captions.md`.
+- DAY = the date the batch is made (YYYY-MM-DD, US Pacific) unless the owner says otherwise.
 - Engine and screenshots: `marketing/engine/`, `marketing/assets/`. Always use absolute paths for OUT_DIR and script files.
 - The owner speaks Russian: talk to them in Russian. Video text and captions stay in English.
 
@@ -31,5 +31,5 @@ rank flex ("Rate my rank"), relatable pain ("Me after 3 weeks of no progress"), 
 contrarian ("Stop lifting for nobody"), question ("Which rank are you?").
 
 ## Posting
-1 video a day, 6-9 pm US Eastern. Same video goes to TikTok, Instagram Reels, YouTube Shorts.
+3 videos a day: 12 pm, 5 pm, 8 pm US Eastern. The owner posts them manually for now. Same video goes to TikTok, Instagram Reels, YouTube Shorts.
 Captions: 1-2 short sentences + 4-6 hashtags (always #gymtok, plus topic tags). YouTube title ends with #shorts.
