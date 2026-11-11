@@ -14,6 +14,16 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#07090D;font-fam
 .badge{position:absolute;padding:22px 40px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#EA580C);font-weight:900;font-size:58px;box-shadow:0 18px 60px #F9731688;white-space:nowrap}
 .sub{font-weight:700;font-size:54px;color:#94A3B8;text-align:center}
 .btn{display:inline-block;padding:40px 80px;border-radius:999px;font-weight:900;font-size:60px;color:#fff;background:linear-gradient(180deg,#FB923C,#EA580C);box-shadow:0 18px 60px #F9731688}
+.st{position:absolute;left:60px;right:160px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:34px}
+.st .ln{font-weight:800;line-height:1.12;letter-spacing:-1px;color:#F8FAFC;text-shadow:0 4px 30px #000}
+.st .ln b{color:#FB923C;font-weight:900}
+.stbg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(26px) brightness(.32) saturate(1.2)}
+.chat{position:absolute;left:50px;right:160px;top:300px;bottom:330px;display:flex;flex-direction:column;justify-content:flex-end;gap:22px;overflow:hidden}
+.chathd{position:absolute;left:0;right:0;top:210px;text-align:center;font-weight:800;font-size:54px;color:#E2E8F0}
+.chathd small{display:block;font-size:34px;color:#64748B;font-weight:600;margin-top:6px}
+.bub{max-width:78%;padding:26px 36px;border-radius:44px;font-size:52px;font-weight:600;line-height:1.2}
+.bub.them{align-self:flex-start;background:#1F2937;color:#F1F5F9;border-bottom-left-radius:12px}
+.bub.me{align-self:flex-end;background:linear-gradient(180deg,#FB923C,#EA580C);color:#fff;border-bottom-right-radius:12px}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
 #glow{position:absolute;left:50%;top:50%;width:2200px;height:2200px;margin:-1100px 0 0 -1100px;border-radius:50%;
   background:radial-gradient(circle,#F9731633 0%,#F9731611 30%,transparent 60%)}
@@ -43,6 +53,13 @@ function build(spec){
         ${s.accent?`<div class="h" style="font-size:${s.capSize||104}px;margin-top:6px">${words(s.accent,'or')}</div>`:''}</div>
         <div class="phone"><img src="../assets/${s.img}"></div>
         ${s.badge?`<div class="badge" style="${s.badgePos||'right:60px;top:1180px'}">${esc(s.badge)}</div>`:''}`;
+    } else if(s.type==='story'){
+      const n=s.lines.length, fs=s.size||(n<=3?92:n<=5?78:66);
+      el.innerHTML=(s.bg?`<div class="stbg" style="background-image:url(../assets/${s.bg})"></div>`:'')
+        +`<div class="st">${s.lines.map(l=>`<div class="ln" style="font-size:${fs}px">${esc(l).replace(/\*(.+?)\*/g,'<b>$1</b>')}</div>`).join('')}</div>`;
+    } else if(s.type==='chat'){
+      el.innerHTML=`<div class="chathd">${esc(s.title||'Mike')}<small>${esc(s.subtitle||'iMessage')}</small></div>
+        <div class="chat">${s.messages.map(m=>`<div class="bub ${m.from==='me'?'me':'them'}">${esc(m.text)}</div>`).join('')}</div>`;
     } else if(s.type==='cta'){
       el.innerHTML=`<img class="abs icon" src="../assets/icon.png" style="left:50%;top:430px;width:420px;margin-left:-210px;border-radius:96px;box-shadow:0 0 0 3px #ffffff18,0 30px 120px #F9731655">
         <div class="abs h" style="left:20px;right:20px;top:930px;font-size:150px">FLEXO</div>
@@ -76,6 +93,12 @@ function render(t){
       ph.style.height='1450px'; ph.querySelector('img').style.transform=`translateY(${-f*Math.max(0,ph.querySelector('img').offsetHeight-1450)}px)`;
       let k=0; s.el.querySelectorAll('.cap .word').forEach(w=>{const q=back((lt-.05-k*.07)/.3); w.style.transform=`scale(${.5+.5*q})`; w.style.opacity=clamp((lt-.05-k*.07)/.1); k++;});
       const b=s.el.querySelector('.badge'); if(b){const q=back((lt-.7)/.35); b.style.transform=`scale(${q}) rotate(${-6+3*Math.sin(lt*6)}deg)`; b.style.opacity=clamp((lt-.7)/.1);}
+    } else if(s.type==='story'){
+      const ls=[...s.el.querySelectorAll('.ln')], per=(s.dur-.4)/ls.length;
+      ls.forEach((l,k)=>{const a=lt-k*per, p=back(a/.3); l.style.opacity=a<0?0:(lt>=(k+1)*per?.42:clamp(a/.12)); l.style.transform=`translateY(${(1-clamp(p))*40}px) scale(${a<0?.9:.9+.1*p})`; l.style.transformOrigin='left center';});
+    } else if(s.type==='chat'){
+      const bs=[...s.el.querySelectorAll('.bub')], per=(s.dur-.6)/bs.length;
+      bs.forEach((b,k)=>{const a=lt-.2-k*per; b.style.display=a<0?'none':'block'; const p=back(a/.25); b.style.transform=`scale(${.6+.4*p})`; b.style.opacity=clamp(a/.08); b.style.transformOrigin=b.classList.contains('me')?'right bottom':'left bottom';});
     } else if(s.type==='cta'){
       const ic=s.el.querySelector('.icon'); const q=back(lt/.45); ic.style.transform=`scale(${q})`;
       s.el.querySelectorAll('.h').forEach((h,k)=>{const r=back((lt-.25-k*.12)/.35); h.style.transform=`scale(${r})`; h.style.opacity=clamp((lt-.25-k*.12)/.1);});

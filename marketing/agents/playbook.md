@@ -22,7 +22,8 @@ Language: casual US English, gym slang ok (PR, leg day, gains, gym bro), no Russ
 - No health or weight-loss promises, no medical claims, no body shaming, no competitor names or logos.
 - No copyrighted music, characters, memes images or brand logos. Music comes from `engine/beat.py`.
 - Text must be readable with sound off. Max ~5 words per line, max 3 lines per scene.
-- Hook must land in the first second. Total length 7-12 s. Last scene is always `cta`.
+- Hook must land in the first second. Short formats 7-12 s, stories 15-30 s. Last scene is always `cta`.
+- Stories are first-person skits, not testimonials: no invented reviews, users or body/weight results.
 - Nothing is published without the owner's explicit OK.
 
 ## Hook formulas that usually work on gym TikTok

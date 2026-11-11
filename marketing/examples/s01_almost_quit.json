@@ -1,0 +1,14 @@
+{"id":"s01_almost_quit","seed":4,"format":"story","feature":"clan",
+ "post":{"title":"I almost quit the gym","caption":"Turns out I just needed a squad. Who's joining my clan?","hashtags":["gymtok","gymstory","gymmotivation","fitness","gym"]},
+ "scenes":[
+  {"type":"hook","dur":2.2,"lines":["I almost quit","the gym","last month"],"accent":1,"size":150},
+  {"type":"story","dur":4.2,"bg":"05_lifts.jpg","lines":["2 months in.","Zero progress.","Nobody cared if I *showed up.*"]},
+  {"type":"chat","dur":5.2,"title":"Jake","subtitle":"gym buddy","messages":[
+    {"from":"them","text":"bro you still lifting?"},
+    {"from":"me","text":"nah. kinda gave up"},
+    {"from":"them","text":"join my clan. we need 1 more for the battle"},
+    {"from":"me","text":"a what"}]},
+  {"type":"story","dur":3.4,"bg":"04_clan.jpg","lines":["Turns out it's *way* harder to skip","when your whole clan is *counting on you.*"]},
+  {"type":"phone","dur":2.6,"img":"04_clan.jpg","caption":"We won","accent":"728 vs 367","pan":[0,0.25],"badge":"Clan battle","badgePos":"left:110px;top:440px"},
+  {"type":"cta","dur":2.6,"sub":"Find your squad. Free.","button":"Free on iOS & Android"}
+ ]}

@@ -8,5 +8,6 @@ Arguments from the owner: $ARGUMENTS
 1. Use the `marketing-analyst` agent to update metrics and write today's report.
 2. Use the `marketing-writer` agent to write today's scripts (count from the arguments, default 3; pass along any wishes).
 3. Use the `marketing-editor` agent to render, check, fix and package the videos.
-Between steps, give the owner a 1-2 line update in Russian. At the end, list the video files and the path to captions.md.
+4. Use the `marketing-publisher` agent to write posting.md (per-platform texts and time slots).
+Between steps, give the owner a 1-2 line update in Russian. At the end, list the video files and the path to posting.md.
 Never publish anything: posting is done by the owner, or with `marketing/engine/post.py --confirm` only after the owner explicitly says so.
