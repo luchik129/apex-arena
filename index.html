@@ -8632,7 +8632,7 @@ const UI = {
     // строка «сегодня»: что запланировано и одна главная кнопка
     const tp = Calc.planFor(today), tst = this.dayStatus(today), tk = kind(today);
     const nextK = (() => { for (let i = 1; i <= 14; i++) { const k = U.addDays(today, i); if (Calc.planOn(k)) return k; } return null; })(), np = nextK ? Calc.planOn(nextK) : null;
-    const todayRow = tst === 'done' ? `<div class="sc-now done"><span class="sc-ni"><svg class="ic"><use href="#fa-check"/></svg></span><span class="sc-nt"><b>Сегодня тренировка засчитана</b><small>${np ? `<span>дальше:</span> <span>${CONFIG.WEEKDAYS[Calc.weekday(nextK)]}, ${U.fmtDate(nextK)}</span> · <span data-no-mt>${U.esc(np.name)}</span>` : 'отдыхай и восстанавливайся'}</small></span></div>`
+    const todayRow = tst === 'done' ? '' // v83: строку «тренировка засчитана» убрали — сделанный день и так зелёный
       : tp ? `<div class="sc-now plan"><span class="sc-ni"><svg class="ic"><use href="#fa-dumbbell"/></svg></span><span class="sc-nt"><b><span>Сегодня:</span> <span data-no-mt>${U.esc(tp.name)}</span></b><small><span class="num">${tp.exercises.length} упр.</span> · ${tk === 'extra' ? '<span>разовая</span>' : `<span data-no-mt>${T('sc_every', { d: CONFIG.WEEKDAYS[Calc.weekday(today)] })}</span>`}</small></span><button class="btn btn-primary btn-sm" data-action="start-workout"><svg class="ic"><use href="#fa-play"/></svg> Начать</button></div>`
       : `<div class="sc-now rest"><span class="sc-ni"><svg class="ic"><use href="#fa-moon"/></svg></span><span class="sc-nt"><b>${tk === 'off' ? 'Сегодня пропуск' : 'Сегодня отдых'}</b><small>${np ? `<span>дальше:</span> <span>${CONFIG.WEEKDAYS[Calc.weekday(nextK)]}, ${U.fmtDate(nextK)}</span> · <span data-no-mt>${U.esc(np.name)}</span>` : 'в расписании пока пусто'}</small></span><button class="btn btn-ghost btn-sm" data-action="day-add" data-date="${today}"><svg class="ic"><use href="#fa-plus"/></svg> Добавить</button></div>`;
     // v81: дни недели сверху — постоянный план: нажал — ставишь или меняешь тренировку на каждую неделю, если есть — горит
@@ -8644,7 +8644,7 @@ const UI = {
       const cells = []; for (let i = 0; i < offset; i++) cells.push(''); for (let d = 1; d <= daysIn; d++) cells.push(U.dayKey(new Date(y, m - 1, d)));
       month = `<div class="sc-month">
         <div class="flex items-center justify-between mb-2"><button class="sc-nav" data-action="cal-nav" data-dir="-1" aria-label="Назад"><svg class="ic"><use href="#fa-chevron-left"/></svg></button><div class="text-sm font-bold">${U.fmtMonth(first)}</div><button class="sc-nav" data-action="cal-nav" data-dir="1" aria-label="Вперёд"><svg class="ic"><use href="#fa-chevron-right"/></svg></button></div>
-        <div class="sc-grid sc-hd">${CONFIG.WEEKDAYS.map((n, i) => wdBtn(n, i, 'sc-hw')).join('')}</div><div class="sc-hdn">Нажми на день недели — тренировка на каждую неделю</div>
+        <div class="sc-grid sc-hd">${CONFIG.WEEKDAYS.map((n, i) => wdBtn(n, i, 'sc-hw')).join('')}</div>
         <div class="sc-grid">${cells.map(k => { if (!k) return '<span></span>'; const st = this.dayStatus(k); return `<button class="sc-cell st-${st} ${kind(k) === 'extra' ? 'x' : ''} ${k === today ? 'today' : ''} ${k < today ? 'past' : ''}" data-action="day-menu" data-date="${k}"><span class="num">${+k.slice(-2)}</span><i></i></button>`; }).join('')}</div>
         <div class="sc-leg">${[['planned', 'по плану'], ['x', 'разовая'], ['done', 'сделано'], ['missed', 'пропущено'], ['off', 'выходной']].map(([c, l]) => `<span><i class="lg-${c}"></i>${l}</span>`).join('')}</div></div>`;
     }
@@ -8652,7 +8652,6 @@ const UI = {
       <div class="flex items-center justify-between gap-2 mb-3"><div class="font-bold"><svg class="ic text-or"><use href="#fa-calendar-week"/></svg> ${T('my_schedule')}</div><button class="sc-tg ${this.calOpen ? 'on' : ''}" data-action="cal-toggle"><span>${T('calendar')}</span><svg class="ic"><use href="#fa-chevron-down"/></svg></button></div>
       <div class="sc-week">${week.map(tile).join('')}</div>
       ${todayRow}
-      <div class="sc-hint"><svg class="ic"><use href="#fa-circle-info"/></svg><span>Нажми на любой день: добавить тренировку, перенести или сделать выходным</span></div>
       ${month}
     </div>`;
   },
