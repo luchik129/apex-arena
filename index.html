@@ -2480,6 +2480,36 @@ html.reduce-motion .mm2-r>i{animation:none;opacity:.3}
 .cm-m.me{background:color-mix(in srgb,#F97316 12%,transparent);box-shadow:inset 3px 0 0 #F97316}.cm-m.me .cm-p{color:#FB923C}
 .lb-gap,.fl-gap{display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 0;color:var(--muted);font-size:.72rem;border-top:1px solid var(--line)}.lb-gap span,.fl-gap span{letter-spacing:2px}
 .fl-gap{border:0;padding:2px 0}
+/* v80: день в календаре и редактор плана */
+.dm-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}.dm-h .sd-st{margin-top:6px}
+.dm-pl{border-radius:18px;background:var(--sub);border:1px solid var(--line);overflow:hidden}
+.dm-ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px 8px}.dm-ph b{font-size:.95rem}.dm-ph>span{font-size:.76rem;color:var(--muted)}
+.dm-empty{padding:14px;font-size:.86rem;color:var(--muted)}.dm-empty b{color:var(--text)}
+.dm-e{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}
+.dm-n{flex:none;width:28px;height:28px;border-radius:9px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--muted)}.dm-n .ic{width:13px;height:13px}
+.dm-e.ok .dm-n{background:#10B981;color:#fff}
+.dm-t{font-size:.92rem;font-weight:700}
+.dm-ss{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}.dm-s{padding:2px 7px;border-radius:7px;background:var(--card);font-size:.74rem;font-weight:700}.dm-s small{color:var(--muted);margin:0 1px}
+.dm-p{flex:none;padding:5px 10px;border-radius:10px;background:var(--card);font-size:.84rem;font-weight:900}.dm-p.on{color:#10B981}
+.dm-go{height:50px;font-size:.95rem}
+.dm-acts{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:6px;margin-top:12px}
+.dm-a{display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 4px;border-radius:14px;background:var(--sub);border:1px solid var(--line);transition:transform .12s}.dm-a:active{transform:scale(.95)}
+.dm-a>span{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--c);background:color-mix(in srgb,var(--c) 15%,transparent)}.dm-a .ic{width:15px;height:15px}
+.dm-a b{font-size:.74rem;font-weight:700;line-height:1.15;text-align:center}
+.dm-hint{margin-top:8px;font-size:.74rem;color:var(--muted);text-align:center;line-height:1.35}
+.pe-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}.pe-hd b{font-size:.92rem}.pe-hd>span{font-size:.76rem;color:var(--muted)}
+.pe-list{display:grid;gap:6px}
+.pe-r{padding:10px 12px;border-radius:16px;background:var(--sub);border:1px solid var(--line)}
+.pe-top{display:flex;align-items:center;gap:8px}.pe-i{flex:none;width:22px;height:22px;border-radius:7px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:var(--muted)}
+.pe-n{flex:1;min-width:0;font-size:.9rem;font-weight:700}
+.pe-ib{flex:none;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted)}.pe-ib:disabled{opacity:.3}.pe-ib.del{color:#F87171}.pe-ib .ic{width:13px;height:13px}
+.pe-ctl{display:flex;align-items:center;gap:8px;margin-top:8px;padding-left:30px}
+.pe-l{font-size:.74rem;color:var(--muted)}
+.pe-st{display:inline-flex;align-items:center;border-radius:11px;background:var(--card);border:1px solid var(--line);overflow:hidden}
+.pe-st button{width:32px;height:32px;font-size:1.1rem;font-weight:800}.pe-st button:disabled{opacity:.3}.pe-st b{min-width:24px;text-align:center;font-size:.95rem}
+.pe-rp{width:64px;height:34px;border-radius:11px;background:var(--card);border:1px solid var(--line);text-align:center;font-weight:800;font-size:.9rem;color:var(--text)}
+.pe-ctl .pe-l:nth-of-type(2){margin-left:auto}
+.pe-add{margin-top:10px;padding:12px;border-radius:16px;border:1px dashed var(--line)}
 /* шторка щита */
 .sh-sheet{color:var(--text)}.sh-hd{display:flex;align-items:center;gap:12px}
 .sh-ring{position:relative;flex:none;width:84px;height:84px;color:#2DD4BF}.sh-ring svg{width:100%;height:100%}.sh-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--text)}
@@ -3356,6 +3386,7 @@ Object.assign(MT.FORCE.en, {"Неделя с": "Week with", "Очки за дн�
 Object.assign(MT.FORCE.en, {"Как считаются очки": "How points work", "Как набрать очки": "How to score", "Как идёт битва кланов": "How the clan battle works", "Неделя против одного соперника. Счёт с нуля, у кого больше за {0} дней — победил.": "A week against one rival. Score starts at zero — whoever has more after 7 days wins.", "Неделя клан против клана. Очки приносят тренировки и рекорды каждого участника.": "A week of clan vs clan. Every member's workouts and PRs score points.", "Тренировка участника": "Member workout", "Рекорд участника": "Member PR", "Победа за неделю": "Weekly win", "{0} монет": "{0} coins", "Понятно": "Got it", "до {0} очков в день": "up to {0} points a day", "Можно добрать ещё": "You can still add", "Сон, вода и еда тоже дают очки.": "Sleep, water and food score too.", "Сегодня пока {0} : {1}": "Today so far {0} : {1}", "Кто первым закроет тренировку — +{0}.": "First to finish a workout gets +{0}.", "Ищем соперника": "Looking for a rival", "Найдём, как только ещё кто-то начнёт поиск.": "We'll match you as soon as someone else starts searching.", "Сейчас ищут:": "Searching now:", "Отменить": "Cancel", "Поиск соперника работает с интернетом и после входа в аккаунт": "Rival search needs internet and a signed-in account", "Новый пост": "New post", "Что съел?": "What did you eat?", "фото или текст": "photo or text", "Еда": "Food", "в ленту": "to the feed", "клан против клана": "clan vs clan", "Открыть всю ленту": "Open the full feed", "Итог дня": "Day score"});
 Object.assign(MT.FORCE.en, {"Подбираем ближайшего по рангу. Чем дольше ждёшь, тем шире круг.": "We match you with the closest rank. The longer you wait, the wider the range.", "ещё в поиске": "also searching"});
 Object.assign(MT.FORCE.en, {"место": "place", "места": "places", "мест": "places", "{0} место": "{0} place", "{0} места": "{0} places", "{0} мест": "{0} places", "ты": "you"});
+Object.assign(MT.FORCE.en, {"Есть подходы": "Some sets done", "Выходной": "Rest day", "Изменить": "Edit", "Перенести": "Move", "Убрать": "Remove", "План недели": "Weekly plan", "Вернуть": "Restore", "На этот день": "This day", "В план недели": "Add to plan", "Сделано сверх плана": "Done beyond the plan", "На этот день ничего не запланировано": "Nothing planned for this day", "В этот день тренировки не было": "No workout on this day", "По плану было:": "Planned was:", "«Изменить» и «Перенести» — только эта дата, «План недели» — каждый": "“Edit” and “Move” change only this date, “Weekly plan” changes every", "· разово": "· one-off", "· каждую неделю": "· every week", "Название, например «Грудь + трицепс»": "Name, e.g. “Chest + triceps”", "Упражнения": "Exercises", "Подходы": "Sets", "Повторы": "Reps", "Добавь упражнения ниже": "Add exercises below", "Убрать с дня": "Remove from day", "Засчитывается за {0} разных упражнения.": "Counts after {0} different exercises.", "Впиши вес и повторы и жми «Выполнил» после каждого подхода.": "Enter weight and reps and tap “Done” after each set.", "{0} повт.": "{0} reps"});
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -3590,9 +3621,12 @@ const Calc = {
   weekday(day = U.today()) { return (U.parseDay(day).getDay() + 6) % 7; },
   planFor(day = U.today()) { const o = S.program.pick; if (o && o.date === day && S.program.days[o.wd]) return S.program.days[o.wd]; return Calc.planOn(day); },
   // v71: план на конкретную дату: разовая тренировка (extra) важнее плана недели; день-пропуск (off) — выходной
+  // v80: у каждого упражнения свои подходы и повторы (setsBy/repsBy); если не задано — общее число дня
+  setsFor(p, ex) { return U.clamp(parseInt(p && p.setsBy && p.setsBy[ex]) || (p && p.sets) || 3, 1, 10); },
+  repsFor(p, ex) { return (p && p.repsBy && p.repsBy[ex]) || ''; },
   planKind(k) { const P = S.program, w = P.days[Calc.weekday(k)]; if (P.extra && P.extra[k]) return 'extra'; if (w && (P.off || []).includes(k)) return 'off'; return w ? 'week' : null; },
   planOn(k) { const P = S.program, kd = Calc.planKind(k); return kd === 'extra' ? P.extra[k] : kd === 'week' ? P.days[Calc.weekday(k)] : null; }, // v25: можно выбрать другой день программы на сегодня
-  plannedExercisesDone(day = U.today()) { const p = Calc.planFor(day); if (!p) return []; const target = p.sets || 3, lifts = Calc.liftsOn(day); return p.exercises.map(e => { const sets = lifts.filter(l => l.exerciseName === e && !l.warmup).length; return { name: e, sets, target, done: sets >= target }; }); },
+  plannedExercisesDone(day = U.today()) { const p = Calc.planFor(day); if (!p) return []; const lifts = Calc.liftsOn(day); return p.exercises.map(e => { const target = Calc.setsFor(p, e), sets = lifts.filter(l => l.exerciseName === e && !l.warmup).length; return { name: e, sets, target, reps: Calc.repsFor(p, e), done: sets >= target }; }); },
   rmByReps(reps) { reps = parseInt(reps) || 1; return reps <= 1 ? '1RM' : reps <= 3 ? '2RM' : reps <= 7 ? '4RM' : '8RM'; },
   lastLift(exName) { return S.lifts.filter(l => l.exerciseName === exName).sort((a, b) => b.ts - a.ts)[0] || null; },
   bossReq(arenaIdx = S.game.arenaIdx) {
@@ -4099,24 +4133,25 @@ const Game = {
     this.events.push({ type: 'toast', data: { msg: `Цели по питанию выполнены: +${CONFIG.TROPHY.NUTRITION_DAY} <svg class="ic text-amber-400"><use href="#fa-trophy"/></svg>`, cls: '' } });
   },
   /* --- расписание --- */
-  savePlan(weekday, name, exercises, sets = 3) {
+  planBy(exercises, setsBy, repsBy) { const sb = {}, rb = {}; exercises.forEach(e => { const n = parseInt(setsBy && setsBy[e]); if (n) sb[e] = U.clamp(n, 1, 10); const r = String((repsBy && repsBy[e]) || '').replace(/[^\d\-–]/g, '').slice(0, 5); if (r) rb[e] = r; }); return { setsBy: sb, repsBy: rb }; },
+  savePlan(weekday, name, exercises, sets = 3, setsBy = null, repsBy = null) {
     exercises = [...new Set(exercises.map(e => String(e).trim()).filter(Boolean))];
     if (!exercises.length) delete S.program.days[weekday];
-    else S.program.days[weekday] = { name: (name || '').trim().slice(0, 30) || 'Тренировка', exercises, sets: U.clamp(parseInt(sets) || 3, 1, 10) };
+    else S.program.days[weekday] = { name: (name || '').trim().slice(0, 30) || 'Тренировка', exercises, sets: U.clamp(parseInt(sets) || 3, 1, 10), ...this.planBy(exercises, setsBy, repsBy) };
     save();
   },
   // v71: разовые тренировки, выходные вместо тренировки и перенос — только на конкретную дату, план недели не трогаем
   prunePlan() { const P = S.program, old = U.addDays(U.today(), -45); if (P.extra) Object.keys(P.extra).forEach(k => { if (k < old) delete P.extra[k]; }); if (P.off) P.off = P.off.filter(k => k >= old); },
-  setExtra(date, name, exercises, sets = 3) {
+  setExtra(date, name, exercises, sets = 3, setsBy = null, repsBy = null) {
     const P = S.program; P.extra = P.extra || {}; exercises = [...new Set((exercises || []).map(e => String(e).trim()).filter(Boolean))];
-    if (!exercises.length) delete P.extra[date]; else { P.extra[date] = { name: (name || '').trim().slice(0, 30) || 'Тренировка', exercises, sets: U.clamp(parseInt(sets) || 3, 1, 10) }; P.off = (P.off || []).filter(k => k !== date); }
+    if (!exercises.length) delete P.extra[date]; else { P.extra[date] = { name: (name || '').trim().slice(0, 30) || 'Тренировка', exercises, sets: U.clamp(parseInt(sets) || 3, 1, 10), ...this.planBy(exercises, setsBy, repsBy) }; P.off = (P.off || []).filter(k => k !== date); }
     this.prunePlan(); save();
   },
   skipDay(date, on = true) { const P = S.program; P.off = (P.off || []).filter(k => k !== date); if (on) { P.off.push(date); if (P.extra) delete P.extra[date]; } this.prunePlan(); save(); },
   moveDay(from, to) {
-    const p = Calc.planOn(from); if (!p || from === to) return false; const copy = { name: p.name, exercises: p.exercises.slice(), sets: p.sets || 3 };
+    const p = Calc.planOn(from); if (!p || from === to) return false; const copy = { name: p.name, exercises: p.exercises.slice(), sets: p.sets || 3, setsBy: { ...(p.setsBy || {}) }, repsBy: { ...(p.repsBy || {}) } };
     if (Calc.planKind(from) === 'extra') { delete S.program.extra[from]; if (S.program.days[Calc.weekday(from)]) this.skipDay(from, true); } else this.skipDay(from, true);
-    this.setExtra(to, copy.name, copy.exercises, copy.sets); return true;
+    this.setExtra(to, copy.name, copy.exercises, copy.sets, copy.setsBy, copy.repsBy); return true;
   },
   // v23: готовая программа под число тренировок в неделю и цель
   PROGRAM_DAYS: { 2: [0, 3], 3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 3, 4], 6: [0, 1, 2, 3, 4, 5] },
@@ -8489,12 +8524,12 @@ const UI = {
       const allDone = items.every(i => i.done);
       this.modal(`${head}${progress}
         ${this.restRow()}
-        <div class="text-[11px] muted mb-2">Тренировка засчитывается за ${need} разных упражнения, любые из списка. По плану ${plan.sets || 3} подхода на упражнение: впиши вес и повторы и жми «Выполнил» после каждого подхода.</div>
+        <div class="text-[11px] muted mb-2"><span>Засчитывается за ${need} разных упражнения.</span> <span>Впиши вес и повторы и жми «Выполнил» после каждого подхода.</span></div>
         ${items.map((it, i, arr) => { const last = Calc.lastLift(it.name), dr = this.wkDraft(it.name), hintAt = arr.findIndex(x => !x.sets && !Calc.lastLift(x.name) && !this.wkDraft(x.name)), w = dr && dr.w != null ? dr.w : last ? U.w(last.weight) : '', reps = dr && dr.r != null ? dr.r : last ? (last.reps || 8) : 8, wu = !!(dr && dr.wu), g = this.guideFor(it.name); return `
           <div class="py-2.5 border-t line ${it.done ? 'opacity-70' : ''}" data-ex-row="${U.esc(it.name)}">
             <div class="flex items-center gap-2">
               <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-none ${it.done ? 'bg-em text-white' : 'sub'}">${it.done ? '<svg class="ic"><use href="#fa-check"/></svg>' : i + 1}</div>
-              <div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 min-w-0"><span class="text-sm font-semibold truncate">${U.esc(U.exRu(it.name))}</span>${g ? `<button class="wk-how" data-action="wk-guide" data-ex="${U.esc(it.name)}" aria-label="Как делать">?</button>` : ''}</div><div class="flex items-center gap-1 mt-1">${Array.from({ length: it.target }, (_, k) => `<span class="set-dot ${k < it.sets ? 'on' : ''}"></span>`).join('')}<span class="text-[10px] muted ml-1 num">${Math.min(it.sets, it.target)}/${it.target}${it.sets > it.target ? ` +${it.sets - it.target}` : ''}</span></div></div>
+              <div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 min-w-0"><span class="text-sm font-semibold truncate">${U.esc(U.exRu(it.name))}</span>${g ? `<button class="wk-how" data-action="wk-guide" data-ex="${U.esc(it.name)}" aria-label="Как делать">?</button>` : ''}</div><div class="flex items-center gap-1 mt-1">${Array.from({ length: it.target }, (_, k) => `<span class="set-dot ${k < it.sets ? 'on' : ''}"></span>`).join('')}<span class="text-[10px] muted ml-1 num">${it.reps ? `<span>${U.esc(it.reps)} повт.</span> · ` : ''}${Math.min(it.sets, it.target)}/${it.target}${it.sets > it.target ? ` +${it.sets - it.target}` : ''}</span></div></div>
               <button class="btn ${it.done ? 'btn-ghost' : 'btn-primary'} btn-sm flex-none" data-action="set-done" data-ex="${U.esc(it.name)}">${it.done ? '+1' : '<svg class="ic"><use href="#fa-check"/></svg> ' + T('done_btn')}</button>
             </div>
             <div class="flex gap-2 mt-2 pl-9"><input class="input num py-1.5 text-sm" type="number" inputmode="decimal" step="0.5" placeholder="${U.exInfo(it.name).bodyweight ? 'Довесок, ' : 'Вес, '}${U.wUnit()}" value="${w}" data-w><input class="input num py-1.5 text-sm" type="number" inputmode="numeric" min="1" max="50" placeholder="Повт." value="${reps}" data-r style="max-width:5rem"><button type="button" class="wk-wu ${wu ? 'on' : ''}" data-action="wu-toggle" data-wu aria-label="Разминочный подход">разм.</button></div>
@@ -8612,26 +8647,30 @@ const UI = {
     </div>`;
   },
   // окно дня: что запланировано и понятные действия списком
+  // v80: день в календаре — понятное расписание (упражнение, подходы × повторы, что уже сделано) и компактные действия
   openDayMenu(k) {
-    const st = this.dayStatus(k), wd = Calc.weekday(k), kind = Calc.planKind(k), weekly = S.program.days[wd], plan = Calc.planOn(k), lifts = Calc.liftsOn(k), today = U.today(), isToday = k === today, future = k >= today;
-    const label = { done: ['Сделано', '#10B981'], partial: ['Есть подходы, не засчитано', '#10B981'], missed: ['Пропущено', '#EF4444'], planned: [kind === 'extra' ? 'Разовая тренировка' : 'По плану', '#FF9F0A'], off: ['Выходной вместо тренировки', 'var(--muted)'], rest: [k < today ? 'Без тренировки' : 'Отдых', 'var(--muted)'] }[st];
-    const row = (act, icon, c, t, sub, extra = '') => `<button class="sd-act" style="--c:${c}" data-action="${act}" data-date="${k}" data-day="${wd}" ${extra}><span class="sd-ai"><svg class="ic"><use href="#${icon}"/></svg></span><span class="sd-at"><b>${t}</b>${sub ? `<small>${sub}</small>` : ''}</span><svg class="ic sd-ch"><use href="#fa-chevron-right"/></svg></button>`;
-    const W = CONFIG.WEEKDAYS[wd], acts = [];
-    if (isToday && plan && st !== 'done') acts.push(row('start-workout', 'fa-play', '#30D158', T('start_workout'), U.esc(plan.name)));
+    const st = this.dayStatus(k), wd = Calc.weekday(k), kind = Calc.planKind(k), weekly = S.program.days[wd], plan = Calc.planOn(k), lifts = Calc.liftsOn(k).filter(l => !l.warmup), today = U.today(), isToday = k === today, future = k >= today;
+    const label = { done: ['Сделано', '#10B981'], partial: ['Есть подходы', '#10B981'], missed: ['Пропущено', '#EF4444'], planned: [kind === 'extra' ? 'Разовая тренировка' : 'По плану', '#FF9F0A'], off: ['Выходной', 'var(--muted)'], rest: [k < today ? 'Без тренировки' : 'Отдых', 'var(--muted)'] }[st];
+    const W = CONFIG.WEEKDAYS[wd], acts = [], chip = (act, icon, c, t) => `<button class="dm-a" style="--c:${c}" data-action="${act}" data-date="${k}" data-day="${wd}"><span><svg class="ic"><use href="#${icon}"/></svg></span><b>${t}</b></button>`;
     if (future) {
-      if (kind === 'extra') { acts.push(row('day-extra-edit', 'fa-pen', '#FF9F0A', 'Изменить тренировку', 'только на этот день'), row('day-move-open', 'fa-arrow-right', '#0A84FF', 'Перенести на другой день', ''), row('day-extra-del', 'fa-trash', '#FF453A', 'Убрать с этого дня', weekly ? 'вернётся тренировка по плану' : '')); }
-      else if (kind === 'week') { acts.push(row('day-move-open', 'fa-arrow-right', '#0A84FF', 'Перенести на другой день', 'только эту тренировку'), row('day-skip', 'fa-moon', '#8E8E93', 'Сделать выходным', 'пропустить только этот день, план не меняется'), row('day-extra-edit', 'fa-pen', '#FF9F0A', 'Изменить только этот день', 'другие упражнения разово'), row('edit-plan', 'fa-calendar-week', '#BF5AF2', `<span data-no-mt>${T('sc_edit_every', { d: W })}</span>`, '')); }
-      else if (kind === 'off') acts.push(row('day-unskip', 'fa-rotate-left', '#30D158', 'Вернуть тренировку', weekly ? U.esc(weekly.name) : ''));
-      else acts.push(row('day-add', 'fa-plus', '#FF9F0A', 'Добавить тренировку на этот день', 'разово, план недели не меняется'), row('edit-plan', 'fa-calendar-week', '#BF5AF2', `<span data-no-mt>${T('sc_train_every', { d: W })}</span>`, 'добавить день в план недели'));
+      if (kind === 'extra') acts.push(chip('day-extra-edit', 'fa-pen', '#FF9F0A', 'Изменить'), chip('day-move-open', 'fa-arrow-right', '#0A84FF', 'Перенести'), chip('day-extra-del', 'fa-trash', '#FF453A', 'Убрать'));
+      else if (kind === 'week') acts.push(chip('day-extra-edit', 'fa-pen', '#FF9F0A', 'Изменить'), chip('day-move-open', 'fa-arrow-right', '#0A84FF', 'Перенести'), chip('day-skip', 'fa-moon', '#8E8E93', 'Выходной'), chip('edit-plan', 'fa-calendar-week', '#BF5AF2', 'План недели'));
+      else if (kind === 'off') acts.push(chip('day-unskip', 'fa-rotate-left', '#30D158', 'Вернуть'));
+      else acts.push(chip('day-add', 'fa-plus', '#FF9F0A', 'На этот день'), chip('edit-plan', 'fa-calendar-week', '#BF5AF2', 'В план недели'));
     }
-    const planCard = plan ? `<div class="sd-plan"><div class="flex items-center justify-between gap-2 mb-1.5"><b data-no-mt>${U.esc(plan.name || 'Тренировка')}</b><span class="text-[11px] muted num"><span>${plan.exercises.length} упр.</span> · <span>${plan.sets || 3} подх.</span></span></div><div class="flex flex-wrap gap-1.5">${plan.exercises.map(e => `<span class="chip">${U.esc(U.exRu(e))}</span>`).join('')}</div></div>`
-      : kind === 'off' && weekly ? `<div class="sd-plan muted text-xs"><span>По плану было:</span> <span data-no-mt>${U.esc(weekly.name)}</span></div>` : '';
+    const by = {}; lifts.forEach(l => (by[l.exerciseName] = by[l.exerciseName] || []).push(l));
+    const setChip = l => `<span class="dm-s num">${U.w(l.weight)}<small>×</small>${U.rmLabel(l)}</span>`;
+    const exRows = plan ? plan.exercises.map((e, i) => { const n = Calc.setsFor(plan, e), r = Calc.repsFor(plan, e), done = (by[e] || []).length, ok = done >= n;
+      return `<div class="dm-e ${ok ? 'ok' : ''}"><span class="dm-n num">${ok ? '<svg class="ic"><use href="#fa-check"/></svg>' : i + 1}</span><div class="flex-1 min-w-0"><div class="dm-t truncate">${U.esc(U.exRu(e))}</div>${done ? `<div class="dm-ss">${by[e].map(setChip).join('')}</div>` : ''}</div><span class="dm-p num ${done ? 'on' : ''}">${done ? `${done}/${n}` : `${n}${r ? ` × ${U.esc(r)}` : ''}`}</span></div>`; }).join('') : '';
+    const extra = Object.keys(by).filter(e => !plan || !plan.exercises.includes(e)).map(e => `<div class="dm-e"><span class="dm-n"><svg class="ic"><use href="#fa-dumbbell"/></svg></span><div class="flex-1 min-w-0"><div class="dm-t truncate">${U.esc(U.exRu(e))}</div><div class="dm-ss">${by[e].map(setChip).join('')}</div></div><span class="dm-p num on">${by[e].length}</span></div>`).join('');
+    const totalSets = plan ? plan.exercises.reduce((a, e) => a + Calc.setsFor(plan, e), 0) : 0;
     this.modal(`
-      <div class="flex items-center justify-between mb-1"><div class="font-black text-lg">${W}, ${U.fmtDate(k)}${isToday ? ` <span class="text-xs font-bold text-em">· ${T('today')}</span>` : ''}</div><button data-action="close-modal" class="icon-btn" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
-      <div class="sd-st mb-3" style="--c:${label[1]}">${label[0]}</div>
-      ${planCard}
-      ${lifts.length ? `<div class="text-xs muted mb-1 mt-3">Подходы</div><div class="max-h-36 overflow-y-auto mb-1">${lifts.map(l => `<div class="flex justify-between text-xs py-1 border-t line"><span>${U.esc(U.exRu(l.exerciseName))}</span><span class="num">${U.w(l.weight)} ${U.wUnit()} × ${U.rmLabel(l)}</span></div>`).join('')}</div>` : ''}
-      ${acts.length ? `<div class="sd-acts">${acts.join('')}</div>` : k < today ? '<div class="text-xs muted mt-3">Прошедший день: здесь видно, что было. Менять план можно на сегодня и вперёд.</div>' : ''}`);
+      <div class="dm-h"><div class="min-w-0"><div class="font-black text-lg">${W}, ${U.fmtDate(k)}${isToday ? ` <span class="text-em">· ${T('today')}</span>` : ''}</div><span class="sd-st" style="--c:${label[1]}">${label[0]}</span></div><button data-action="close-modal" class="icon-btn" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
+      ${plan ? `<div class="dm-pl"><div class="dm-ph"><b data-no-mt>${U.esc(plan.name || 'Тренировка')}</b><span class="num"><span>${plan.exercises.length} упр.</span> · <span>${totalSets} подх.</span></span></div>${exRows}</div>`
+        : kind === 'off' && weekly ? `<div class="dm-pl dm-empty"><span>По плану было:</span> <b data-no-mt>${U.esc(weekly.name)}</b></div>` : !lifts.length ? `<div class="dm-pl dm-empty">${future ? 'На этот день ничего не запланировано' : 'В этот день тренировки не было'}</div>` : ''}
+      ${extra ? `<div class="dm-pl mt-2"><div class="dm-ph"><b>Сделано сверх плана</b></div>${extra}</div>` : ''}
+      ${isToday && plan && st !== 'done' ? `<button class="btn btn-primary w-full mt-3 dm-go" data-action="start-workout"><svg class="ic"><use href="#fa-play"/></svg> ${T('start_workout')}</button>` : ''}
+      ${acts.length ? `<div class="dm-acts" style="--n:${acts.length}">${acts.join('')}</div>${kind === 'week' ? `<div class="dm-hint"><span>«Изменить» и «Перенести» — только эта дата, «План недели» — каждый</span> <span data-no-mt>${W.toLowerCase()}</span></div>` : ''}` : ''}`);
   },
   // что тренируем в этот день: шаблон из плана недели, повтор последней тренировки или своя
   openDayAdd(k) {
@@ -8654,28 +8693,32 @@ const UI = {
   },
   openPlanEditor(weekday) {
     const p = S.program.days[weekday] || { name: '', exercises: [] };
-    this._planDraft = { weekday, name: p.name, exercises: [...p.exercises], sets: p.sets || 3 };
+    this._planDraft = { weekday, name: p.name, exercises: [...p.exercises], sets: p.sets || 3, setsBy: { ...(p.setsBy || {}) }, repsBy: { ...(p.repsBy || {}) } };
     this.renderPlanEditor();
   },
   openDayEditor(date, src) { // v71: разовая тренировка на дату
     const p = src || Calc.planOn(date) || { name: '', exercises: [] };
-    this._planDraft = { date, weekday: Calc.weekday(date), name: p.name, exercises: [...p.exercises], sets: p.sets || 3 };
+    this._planDraft = { date, weekday: Calc.weekday(date), name: p.name, exercises: [...p.exercises], sets: p.sets || 3, setsBy: { ...(p.setsBy || {}) }, repsBy: { ...(p.repsBy || {}) } };
     this.renderPlanEditor();
   },
+  // v80: подходы и повторы задаются у каждого упражнения отдельно
+  planGrab() { const d = this._planDraft; if (!d) return d; const nm = document.getElementById('plan-name'); if (nm) d.name = nm.value; document.querySelectorAll('#modal [data-pe-reps]').forEach(i => { d.repsBy[i.dataset.peReps] = i.value; }); return d; },
   renderPlanEditor() {
-    const d = this._planDraft, names = Calc.exerciseNames();
+    const d = this._planDraft, names = Calc.exerciseNames(); d.setsBy = d.setsBy || {}; d.repsBy = d.repsBy || {};
+    const n = e => U.clamp(parseInt(d.setsBy[e]) || d.sets || 3, 1, 10), tot = d.exercises.reduce((a, e) => a + n(e), 0);
+    const row = (e, i) => `<div class="pe-r">
+        <div class="pe-top"><span class="pe-i num">${i + 1}</span><span class="pe-n truncate">${U.esc(U.exRu(e))}${U.exInfo(e).custom ? ` <button class="text-pu text-[10px] ml-1" data-action="ex-edit" data-val="${U.esc(e)}"><svg class="ic"><use href="#fa-pen"/></svg></button>` : ''}</span>
+          <button class="pe-ib" data-action="plan-move" data-i="${i}" data-dir="-1" aria-label="Выше" ${i ? '' : 'disabled'}><svg class="ic"><use href="#fa-chevron-up"/></svg></button><button class="pe-ib" data-action="plan-move" data-i="${i}" data-dir="1" aria-label="Ниже" ${i < d.exercises.length - 1 ? '' : 'disabled'}><svg class="ic"><use href="#fa-chevron-down"/></svg></button><button class="pe-ib del" data-action="plan-remove" data-i="${i}" aria-label="Убрать"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
+        <div class="pe-ctl"><span class="pe-l">Подходы</span><span class="pe-st"><button data-action="pe-sets" data-i="${i}" data-d="-1" aria-label="Меньше подходов" ${n(e) <= 1 ? 'disabled' : ''}>−</button><b class="num">${n(e)}</b><button data-action="pe-sets" data-i="${i}" data-d="1" aria-label="Больше подходов" ${n(e) >= 10 ? 'disabled' : ''}>+</button></span>
+          <span class="pe-l">Повторы</span><input class="pe-rp num" inputmode="numeric" maxlength="5" placeholder="8–12" value="${U.esc(d.repsBy[e] || '')}" data-pe-reps="${U.esc(e)}"></div></div>`;
     const html = `
-      <div class="flex items-center justify-between mb-3"><div class="font-bold text-lg"><svg class="ic text-pu"><use href="#fa-calendar-day"/></svg> ${d.date ? `${CONFIG.WEEKDAYS[d.weekday]}, ${U.fmtDate(d.date)}: <span>разово</span>` : `${CONFIG.WEEKDAYS[d.weekday]}: программа`}</div><button data-action="close-modal" class="muted"><svg class="ic text-xl"><use href="#fa-xmark"/></svg></button></div>
-      <div class="flex gap-2 mb-1"><input class="input" id="plan-name" placeholder="Название (например: Грудь + трицепс)" value="${U.esc(d.name)}" maxlength="30"><input class="input num flex-none" id="plan-sets" type="number" min="1" max="10" value="${d.sets}" style="width:5rem"></div>
-      <div class="text-[10px] muted mb-3 text-right">← подходов на упражнение</div>
-      <div class="text-xs muted mb-1">Упражнения (${d.exercises.length})</div>
-      ${d.exercises.length ? d.exercises.map((e, i) => `<div class="flex items-center gap-2 py-1.5 border-t line text-sm"><span class="w-5 text-center muted text-xs">${i + 1}</span><span class="flex-1">${U.esc(U.exRu(e))}${U.exInfo(e).custom ? ` <button class="text-pu text-[10px] ml-1" data-action="ex-edit" data-val="${U.esc(e)}"><svg class="ic"><use href="#fa-pen"/></svg> своё</button>` : ''}</span><button class="muted px-1" data-action="plan-move" data-i="${i}" data-dir="-1"><svg class="ic "><use href="#fa-chevron-up"/></svg></button><button class="muted px-1" data-action="plan-move" data-i="${i}" data-dir="1"><svg class="ic "><use href="#fa-chevron-down"/></svg></button><button class="text-red-400 px-1" data-action="plan-remove" data-i="${i}"><svg class="ic "><use href="#fa-xmark"/></svg></button></div>`).join('') : '<div class="muted text-xs py-3 text-center">Пока пусто</div>'}
-      <div class="sub p-3 mt-3">
-        <div class="flex gap-2 mb-2"><div class="flex-1 min-w-0">${(() => { const opts = names.filter(n => !d.exercises.includes(n)).map(n => [n, U.exRu(n)]); return this.dd('plan-select', opts[0] ? opts[0][0] : '', opts); })()}</div><button class="btn btn-ghost flex-none" data-action="plan-add-select"><svg class="ic "><use href="#fa-plus"/></svg></button></div>
-        <div class="flex gap-2"><input class="input" id="plan-custom" placeholder="Своё упражнение" maxlength="40"><button class="btn btn-pu flex-none" data-action="plan-add-custom"><svg class="ic "><use href="#fa-plus"/></svg></button></div>
-        <div class="text-[10px] muted mt-1">Своё упражнение: укажешь мышцы и тип, и оно будет учитываться в силуэте, индексе силы и боссах.</div>
-      </div>
-      <div class="grid grid-cols-2 gap-2 mt-4"><button class="btn btn-ghost text-red-400" data-action="plan-clear">${d.date ? 'Убрать с этого дня' : 'Очистить день'}</button><button class="btn btn-primary" data-action="plan-save">Сохранить</button></div>`;
+      <div class="flex items-center justify-between mb-3"><div class="font-black text-lg">${d.date ? `<span data-no-mt>${CONFIG.WEEKDAYS[d.weekday]}, ${U.fmtDate(d.date)}</span> <span class="text-sm muted">· разово</span>` : `<span data-no-mt>${CONFIG.WEEKDAYS[d.weekday]}</span> <span class="text-sm muted">· каждую неделю</span>`}</div><button data-action="close-modal" class="icon-btn" aria-label="Закрыть"><svg class="ic"><use href="#fa-xmark"/></svg></button></div>
+      <input class="input mb-3" id="plan-name" placeholder="Название, например «Грудь + трицепс»" value="${U.esc(d.name)}" maxlength="30">
+      <div class="pe-hd"><b>Упражнения</b><span class="num"><span>${d.exercises.length} упр.</span> · <span>${tot} подх.</span></span></div>
+      <div class="pe-list">${d.exercises.length ? d.exercises.map(row).join('') : '<div class="text-sm muted text-center py-4">Добавь упражнения ниже</div>'}</div>
+      <div class="pe-add"><div class="flex gap-2"><div class="flex-1 min-w-0">${(() => { const opts = names.filter(x => !d.exercises.includes(x)).map(x => [x, U.exRu(x)]); return this.dd('plan-select', opts[0] ? opts[0][0] : '', opts); })()}</div><button class="btn btn-ghost flex-none" data-action="plan-add-select" aria-label="Добавить"><svg class="ic"><use href="#fa-plus"/></svg></button></div>
+        <div class="flex gap-2 mt-2"><input class="input" id="plan-custom" placeholder="Своё упражнение" maxlength="40"><button class="btn btn-pu flex-none" data-action="plan-add-custom" aria-label="Добавить своё"><svg class="ic"><use href="#fa-plus"/></svg></button></div></div>
+      <div class="grid grid-cols-2 gap-2 mt-4"><button class="btn btn-ghost text-red-400" data-action="plan-clear">${d.date ? 'Убрать с дня' : 'Очистить день'}</button><button class="btn btn-primary" data-action="plan-save">Сохранить</button></div>`;
     const m = this.$('#modal .modal'); if (m) { this.morph(m, html); } else this.modal(html);
   },
   /* ---- редактор своего упражнения: мышцы, тип, сложность, босс ---- */
@@ -10914,15 +10957,16 @@ const App = {
     /* расписание */
     'edit-plan'(el) { UI.openPlanEditor(+el.dataset.day); },
     'cal-nav'(el) { const [y, m] = (UI.calMonth || U.monthKey()).split('-').map(Number); UI.calMonth = U.monthKey(new Date(y, m - 1 + (+el.dataset.dir), 1)); UI.renderLifts(); },
-    'plan-add-select'() { const v = document.getElementById('plan-select').value; if (!v) return; UI._planDraft.name = document.getElementById('plan-name').value; UI._planDraft.sets = document.getElementById('plan-sets').value; UI._planDraft.exercises.push(v); UI.renderPlanEditor(); },
+    'plan-add-select'() { const v = document.getElementById('plan-select').value; if (!v) return; UI.planGrab().exercises.push(v); UI.renderPlanEditor(); },
+    'pe-sets'(el) { const d = UI.planGrab(), e = d.exercises[+el.dataset.i]; if (!e) return; d.setsBy[e] = U.clamp((parseInt(d.setsBy[e]) || d.sets || 3) + (+el.dataset.d), 1, 10); UI.renderPlanEditor(); },
     'plan-add-custom'() {
       const name = document.getElementById('plan-custom').value.trim(); if (!name) { UI.toast('Введи название', 'red'); return; }
-      UI._planDraft.name = document.getElementById('plan-name').value; UI._planDraft.sets = document.getElementById('plan-sets').value;
+      UI.planGrab();
       const norm = U.normalizeExercise(name, true);
       if (CONFIG.EXERCISES[norm]) { if (!UI._planDraft.exercises.includes(norm)) UI._planDraft.exercises.push(norm); UI.renderPlanEditor(); return; }
       UI.openExerciseEditor(name);
     },
-    'ex-edit'(el) { UI._planDraft.name = document.getElementById('plan-name').value; UI._planDraft.sets = document.getElementById('plan-sets').value; UI.openExerciseEditor('', U.customEx(el.dataset.val)); },
+    'ex-edit'(el) { UI.planGrab(); UI.openExerciseEditor('', U.customEx(el.dataset.val)); },
     'plan-editor-back'() { if (UI._planDraft) UI.renderPlanEditor(); else { const back = UI._exReturn; UI._exReturn = null; if (back && back !== UI._exToChart) back(null); else UI.closeModal(); } },
     'ex-name-input'(el) { UI._exDraft.name = el.value; },
     'ex-muscle'(el) { const d = UI._exDraft, m = el.dataset.val; d.name = document.getElementById('ex-name').value; d.muscles = d.muscles.includes(m) ? d.muscles.filter(x => x !== m) : [...d.muscles, m]; UI.renderExerciseEditor(); },
@@ -10946,11 +10990,11 @@ const App = {
       if (!ex.includes(n)) ex.push(n);
       UI.renderPlanEditor(); UI.toast('Упражнение сохранено');
     },
-    'plan-remove'(el) { UI._planDraft.name = document.getElementById('plan-name').value; UI._planDraft.sets = document.getElementById('plan-sets').value; UI._planDraft.exercises.splice(+el.dataset.i, 1); UI.renderPlanEditor(); },
-    'plan-move'(el) { const a = UI._planDraft.exercises, i = +el.dataset.i, j = i + (+el.dataset.dir); if (j < 0 || j >= a.length) return; UI._planDraft.name = document.getElementById('plan-name').value; UI._planDraft.sets = document.getElementById('plan-sets').value; [a[i], a[j]] = [a[j], a[i]]; UI.renderPlanEditor(); },
+    'plan-remove'(el) { UI.planGrab().exercises.splice(+el.dataset.i, 1); UI.renderPlanEditor(); },
+    'plan-move'(el) { const a = UI._planDraft.exercises, i = +el.dataset.i, j = i + (+el.dataset.dir); if (j < 0 || j >= a.length) return; UI.planGrab(); [a[i], a[j]] = [a[j], a[i]]; UI.renderPlanEditor(); },
     'plan-clear'() { const d = UI._planDraft; if (d.date) Game.setExtra(d.date, '', []); else Game.savePlan(d.weekday, '', []); UI.closeModal(); App.afterChange(); },
-    'plan-save'() { const d = UI._planDraft, nm = document.getElementById('plan-name').value, ss = document.getElementById('plan-sets').value;
-      if (d.date) { if (!d.exercises.length) { UI.toast('Добавь хотя бы одно упражнение', 'red'); return; } Game.setExtra(d.date, nm, d.exercises, ss); } else Game.savePlan(d.weekday, nm, d.exercises, ss);
+    'plan-save'() { const d = UI.planGrab(), nm = d.name, ss = d.sets || 3;
+      if (d.date) { if (!d.exercises.length) { UI.toast('Добавь хотя бы одно упражнение', 'red'); return; } Game.setExtra(d.date, nm, d.exercises, ss, d.setsBy, d.repsBy); } else Game.savePlan(d.weekday, nm, d.exercises, ss, d.setsBy, d.repsBy);
       UI.closeModal(); UI.toast(d.date ? 'Тренировка добавлена на этот день' : 'Расписание сохранено'); App.afterChange(); },
     /* lifts */
     /* v13 */
@@ -11080,7 +11124,7 @@ const App = {
     'cal-toggle'() { UI.calOpen = !UI.calOpen; UI.renderLifts(); },
     'day-menu'(el) { UI.openDayMenu(el.dataset.date); },
     'day-add'(el) { UI.openDayAdd(el.dataset.date); },
-    'day-add-copy'(el) { const d = S.program.days[+el.dataset.wd]; if (!d) return; Game.setExtra(el.dataset.date, d.name, d.exercises, d.sets); UI.closeModal(); UI.toast('Тренировка добавлена на этот день'); App.afterChange(); },
+    'day-add-copy'(el) { const d = S.program.days[+el.dataset.wd]; if (!d) return; Game.setExtra(el.dataset.date, d.name, d.exercises, d.sets, d.setsBy, d.repsBy); UI.closeModal(); UI.toast('Тренировка добавлена на этот день'); App.afterChange(); },
     'day-add-last'(el) { const k = el.dataset.date, last = [...new Set(S.lifts.filter(l => !l.flagged && l.date < U.today()).map(l => l.date))].sort().pop(); if (!last) return; UI.openDayEditor(k, { name: 'Повтор', exercises: [...new Set(Calc.liftsOn(last).map(l => l.exerciseName))], sets: 3 }); },
     'day-add-new'(el) { UI.openDayEditor(el.dataset.date, { name: '', exercises: [], sets: 3 }); },
     'day-extra-edit'(el) { UI.openDayEditor(el.dataset.date); },
