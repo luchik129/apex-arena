@@ -2511,14 +2511,10 @@ html.reduce-motion .mm2-r>i{animation:none;opacity:.3}
 .pe-ctl .pe-l:nth-of-type(2){margin-left:auto}
 .pe-add{margin-top:10px;padding:12px;border-radius:16px;border:1px dashed var(--line)}
 /* v81: план недели над календарём */
-.sc-wkp{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.sc-wkl{flex:none;font-size:.72rem;font-weight:800;color:var(--muted);width:58px;line-height:1.15}
-.sc-wkr{flex:1;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
-.sc-wk,.sc-hw{position:relative;height:30px;border-radius:10px;font-size:.74rem;font-weight:800;color:var(--muted);background:var(--sub);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .12s,background .2s}
-.sc-wk:active,.sc-hw:active{transform:scale(.92)}
-.sc-wk.on,.sc-hw.on{color:#fff;background:linear-gradient(135deg,#F97316,#EA580C);border-color:transparent;box-shadow:0 0 12px #F9731666}
-.sc-wk i,.sc-hw i{position:absolute;bottom:3px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#fff}
-.sc-hd .sc-hw{height:26px}.sc-hd .sc-hw i{display:none}
+.sc-hw{height:26px;border-radius:9px;font-size:.72rem;font-weight:700;color:var(--muted);background:none;border:1px solid transparent;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
+.sc-hw:active{opacity:.6}
+.sc-hw.on{color:var(--text);border-color:color-mix(in srgb,#F97316 70%,transparent)}
+.sc-hdn{margin:-2px 0 8px;text-align:center;font-size:.72rem;color:var(--muted)}
 /* шторка щита */
 .sh-sheet{color:var(--text)}.sh-hd{display:flex;align-items:center;gap:12px}
 .sh-ring{position:relative;flex:none;width:84px;height:84px;color:#2DD4BF}.sh-ring svg{width:100%;height:100%}.sh-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--text)}
@@ -3397,6 +3393,7 @@ Object.assign(MT.FORCE.en, {"Подбираем ближайшего по ран
 Object.assign(MT.FORCE.en, {"место": "place", "места": "places", "мест": "places", "{0} место": "{0} place", "{0} места": "{0} places", "{0} мест": "{0} places", "ты": "you"});
 Object.assign(MT.FORCE.en, {"Есть подходы": "Some sets done", "Выходной": "Rest day", "Изменить": "Edit", "Перенести": "Move", "Убрать": "Remove", "План недели": "Weekly plan", "Вернуть": "Restore", "На этот день": "This day", "В план недели": "Add to plan", "Сделано сверх плана": "Done beyond the plan", "На этот день ничего не запланировано": "Nothing planned for this day", "В этот день тренировки не было": "No workout on this day", "По плану было:": "Planned was:", "«Изменить» и «Перенести» — только эта дата, «План недели» — каждый": "“Edit” and “Move” change only this date, “Weekly plan” changes every", "· разово": "· one-off", "· каждую неделю": "· every week", "Название, например «Грудь + трицепс»": "Name, e.g. “Chest + triceps”", "Упражнения": "Exercises", "Подходы": "Sets", "Повторы": "Reps", "Добавь упражнения ниже": "Add exercises below", "Убрать с дня": "Remove from day", "Засчитывается за {0} разных упражнения.": "Counts after {0} different exercises.", "Впиши вес и повторы и жми «Выполнил» после каждого подхода.": "Enter weight and reps and tap “Done” after each set.", "{0} повт.": "{0} reps"});
 Object.assign(MT.FORCE.en, {"План недели": "Weekly plan", "День недели — тренировка каждую неделю, дата — только этот день": "Weekday — a workout every week, a date — that day only"});
+Object.assign(MT.FORCE.en, {"Нажми на день недели — тренировка на каждую неделю": "Tap a weekday to set a workout for every week"});
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -8640,24 +8637,22 @@ const UI = {
       : `<div class="sc-now rest"><span class="sc-ni"><svg class="ic"><use href="#fa-moon"/></svg></span><span class="sc-nt"><b>${tk === 'off' ? 'Сегодня пропуск' : 'Сегодня отдых'}</b><small>${np ? `<span>дальше:</span> <span>${CONFIG.WEEKDAYS[Calc.weekday(nextK)]}, ${U.fmtDate(nextK)}</span> · <span data-no-mt>${U.esc(np.name)}</span>` : 'в расписании пока пусто'}</small></span><button class="btn btn-ghost btn-sm" data-action="day-add" data-date="${today}"><svg class="ic"><use href="#fa-plus"/></svg> Добавить</button></div>`;
     // v81: дни недели сверху — постоянный план: нажал — ставишь или меняешь тренировку на каждую неделю, если есть — горит
     const wdId = i => Calc.weekday(U.addDays(monday, i)), wdPlan = i => { const d = S.program.days[wdId(i)]; return d && (d.exercises || []).length ? d : null; };
-    const wdBtn = (n, i, cls) => { const d = wdPlan(i); return `<button class="${cls} ${d ? 'on' : ''}" data-action="edit-plan" data-day="${wdId(i)}" aria-label="${d ? `${n}: ${U.esc(d.name)}` : `${n}: добавить в план недели`}"><span>${n}</span>${d ? '<i></i>' : ''}</button>`; };
-    const wdRow = `<div class="sc-wkp"><span class="sc-wkl">План недели</span><div class="sc-wkr">${CONFIG.WEEKDAYS.map((n, i) => wdBtn(n, i, 'sc-wk')).join('')}</div></div>`;
+    const wdBtn = (n, i, cls) => { const d = wdPlan(i); return `<button class="${cls} ${d ? 'on' : ''}" data-action="edit-plan" data-day="${wdId(i)}" aria-label="${d ? `${n}: ${U.esc(d.name)}` : `${n}: добавить в план недели`}"><span>${n}</span></button>`; };
     let month = '';
     if (this.calOpen) {
       const mk = this.calMonth || U.monthKey(), [y, m] = mk.split('-').map(Number), first = new Date(y, m - 1, 1), daysIn = new Date(y, m, 0).getDate(), offset = (first.getDay() + 6) % 7;
       const cells = []; for (let i = 0; i < offset; i++) cells.push(''); for (let d = 1; d <= daysIn; d++) cells.push(U.dayKey(new Date(y, m - 1, d)));
       month = `<div class="sc-month">
         <div class="flex items-center justify-between mb-2"><button class="sc-nav" data-action="cal-nav" data-dir="-1" aria-label="Назад"><svg class="ic"><use href="#fa-chevron-left"/></svg></button><div class="text-sm font-bold">${U.fmtMonth(first)}</div><button class="sc-nav" data-action="cal-nav" data-dir="1" aria-label="Вперёд"><svg class="ic"><use href="#fa-chevron-right"/></svg></button></div>
-        <div class="sc-grid sc-hd">${CONFIG.WEEKDAYS.map((n, i) => wdBtn(n, i, 'sc-hw')).join('')}</div>
+        <div class="sc-grid sc-hd">${CONFIG.WEEKDAYS.map((n, i) => wdBtn(n, i, 'sc-hw')).join('')}</div><div class="sc-hdn">Нажми на день недели — тренировка на каждую неделю</div>
         <div class="sc-grid">${cells.map(k => { if (!k) return '<span></span>'; const st = this.dayStatus(k); return `<button class="sc-cell st-${st} ${kind(k) === 'extra' ? 'x' : ''} ${k === today ? 'today' : ''} ${k < today ? 'past' : ''}" data-action="day-menu" data-date="${k}"><span class="num">${+k.slice(-2)}</span><i></i></button>`; }).join('')}</div>
         <div class="sc-leg">${[['planned', 'по плану'], ['x', 'разовая'], ['done', 'сделано'], ['missed', 'пропущено'], ['off', 'выходной']].map(([c, l]) => `<span><i class="lg-${c}"></i>${l}</span>`).join('')}</div></div>`;
     }
     return `<div class="card p-4 mb-4 sc-card">
       <div class="flex items-center justify-between gap-2 mb-3"><div class="font-bold"><svg class="ic text-or"><use href="#fa-calendar-week"/></svg> ${T('my_schedule')}</div><button class="sc-tg ${this.calOpen ? 'on' : ''}" data-action="cal-toggle"><span>${T('calendar')}</span><svg class="ic"><use href="#fa-chevron-down"/></svg></button></div>
-      ${wdRow}
       <div class="sc-week">${week.map(tile).join('')}</div>
       ${todayRow}
-      <div class="sc-hint"><svg class="ic"><use href="#fa-circle-info"/></svg><span>День недели — тренировка каждую неделю, дата — только этот день</span></div>
+      <div class="sc-hint"><svg class="ic"><use href="#fa-circle-info"/></svg><span>Нажми на любой день: добавить тренировку, перенести или сделать выходным</span></div>
       ${month}
     </div>`;
   },
