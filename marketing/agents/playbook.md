@@ -9,7 +9,7 @@
 - The owner speaks Russian: talk to them in Russian. Video text and captions stay in English.
 
 ## Product facts (only claim these)
-Flexo League is a free gamified gym app (iOS + Android). Every workout earns trophies; 17 ranks from Basement to Legend;
+Flexo League is a free gamified gym app (iOS + Android). Every workout earns trophies, and hitting daily goals (calories, sleep, water) adds daily trophies; 17 ranks from Basement to Legend;
 7-day duels with friends; clans and weekly clan battles; lift tracking with PR charts; calories, sleep, water;
 exercise technique guides; honest rating with anti-cheat (suspicious lifts are reviewed). No ads in the app.
 

@@ -13,7 +13,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#07090D;font-fam
 .cap{position:absolute;left:40px;right:40px;top:190px}
 .badge{position:absolute;padding:22px 40px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#EA580C);font-weight:900;font-size:58px;box-shadow:0 18px 60px #F9731688;white-space:nowrap}
 .sub{font-weight:700;font-size:54px;color:#94A3B8;text-align:center}
-.btn{display:inline-block;padding:40px 80px;border-radius:999px;font-weight:900;font-size:60px;color:#fff;background:linear-gradient(180deg,#FB923C,#EA580C);box-shadow:0 18px 60px #F9731688}
+.btn{display:inline-block;padding:36px 60px;border-radius:999px;font-weight:900;font-size:54px;color:#fff;background:linear-gradient(180deg,#FB923C,#EA580C);box-shadow:0 18px 60px #F9731688}
 .st{position:absolute;left:60px;right:160px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;gap:34px}
 .st .ln{font-weight:800;line-height:1.12;letter-spacing:-1px;color:#F8FAFC;text-shadow:0 4px 30px #000}
 .st .ln b{color:#FB923C;font-weight:900}
@@ -46,7 +46,7 @@ function build(spec){
     const el=document.createElement('div'); el.className='scene'; el.id='s'+i;
     if(s.type==='hook'){
       const fs=s.size||150; let top=s.top||Math.max(300,820-(s.lines.length*fs)/2);
-      el.innerHTML=s.lines.map((l,k)=>`<div class="abs h line" style="left:30px;right:30px;top:${top+k*fs*1.08}px;font-size:${(s.sizes&&s.sizes[k])||fs}px">${words(l,(s.accent===k||(Array.isArray(s.accent)&&s.accent.includes(k)))?'or':'')}</div>`).join('')
+      el.innerHTML=s.lines.map((l,k)=>`<div class="abs h line" style="left:60px;right:160px;top:${top+k*fs*1.08}px;font-size:${(s.sizes&&s.sizes[k])||fs}px">${words(l,(s.accent===k||(Array.isArray(s.accent)&&s.accent.includes(k)))?'or':'')}</div>`).join('')
         +(s.sub?`<div class="abs sub" style="left:40px;right:40px;top:${top+s.lines.length*fs*1.08+60}px">${esc(s.sub)}</div>`:'');
     } else if(s.type==='phone'){
       el.innerHTML=`<div class="cap"><div class="h" style="font-size:${s.capSize||104}px">${words(s.caption||'')}</div>
