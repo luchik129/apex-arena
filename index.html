@@ -2515,6 +2515,31 @@ html.reduce-motion .mm2-r>i{animation:none;opacity:.3}
 .sc-hw:active{opacity:.6}
 .sc-hw.on{color:var(--text);border-color:color-mix(in srgb,#F97316 70%,transparent)}
 .sc-hdn{margin:-2px 0 8px;text-align:center;font-size:.72rem;color:var(--muted)}
+/* v84: интерактивный «Прогресс тела» */
+.bp2{padding:14px}
+.bp-h{display:flex;align-items:center;gap:8px}
+.bp-ht{flex:1;display:flex;align-items:center;gap:7px;min-width:0;text-align:left;color:inherit}.bp-ht>.ic:first-child{width:13px;height:13px;color:#A78BFA}.bp-ht b{font-size:.95rem}.bp-ht .num{padding:1px 7px;border-radius:8px;background:var(--sub);font-size:.72rem;font-weight:800;color:var(--muted)}.bp-chv{width:12px;height:12px;color:var(--muted)}
+.bp-cam{flex:none;width:40px;height:40px;border-radius:50%;background:var(--sub);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text)}.bp-cam .ic{width:17px;height:17px}
+.bp-cam.due{background:#8B5CF6;border-color:transparent;color:#fff;box-shadow:0 0 0 0 #8B5CF688;animation:bpPing 2.2s ease-out infinite}
+@keyframes bpPing{0%{box-shadow:0 0 0 0 #8B5CF688}70%,100%{box-shadow:0 0 0 10px #8B5CF600}}
+html.reduce-motion .bp-cam.due{animation:none}
+.bp-e{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px;border-radius:16px;border:1px dashed var(--line)}
+.bp-ei{flex:none;width:48px;height:60px;border-radius:12px;background:color-mix(in srgb,#8B5CF6 14%,transparent);color:#A78BFA;display:flex;align-items:center;justify-content:center}.bp-e b{display:block;font-size:.88rem}.bp-e small{display:block;margin-top:3px;font-size:.76rem;color:var(--muted);line-height:1.4}
+.bp-one{display:flex;gap:12px;margin-top:12px}
+.bp-ph{flex:none;width:96px;aspect-ratio:3/4;border-radius:14px;background:var(--sub) center/cover no-repeat;border:1px solid var(--line)}
+.bp-oi{min-width:0;display:flex;flex-direction:column}.bp-oi small{font-size:.74rem;color:var(--muted)}.bp-oi>b{font-size:1.3rem;font-weight:900}.bp-oi>b span{font-size:.8rem;color:var(--muted)}.bp-oi p{margin-top:4px;font-size:.78rem;color:var(--muted);line-height:1.4}.bp-oi .bp-wk{margin-top:auto}
+.bp-cmp{position:relative;margin-top:12px;aspect-ratio:4/3;border-radius:18px;overflow:hidden;background:var(--sub);touch-action:pan-y}
+.bp-a,.bp-b{position:absolute;inset:0;background:center/cover no-repeat}.bp-b{clip-path:inset(0 0 0 var(--p))}
+.bp-ln{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 8px #0008;pointer-events:none}
+.bp-ln span{position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px #0007}.bp-ln .ic{width:9px;height:9px}
+.bp-tg{position:absolute;bottom:10px;display:flex;flex-direction:column;padding:6px 10px;border-radius:12px;background:#0B0E14C7;color:#fff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}.bp-tg.l{left:10px}.bp-tg.r{right:10px;text-align:right}
+.bp-tg small{font-size:.64rem;text-transform:uppercase;letter-spacing:.08em;color:#CBD5E1;font-weight:800}.bp-tg b{font-size:.78rem}
+.bp-rng{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none}
+.bp-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin-top:10px;font-size:.78rem;color:var(--muted)}
+.bp-ch{padding:3px 9px;border-radius:9px;font-weight:800}.bp-ch b{font-size:.9rem}.bp-ch.dn{background:#10B9811F;color:#34D399}.bp-ch.up{background:#F973161F;color:#FB923C}
+.bp-nx{margin-left:auto}.bp-nx.due{color:#A78BFA;font-weight:800}.bp-nx b,.bp-sp b{color:var(--text)}
+.bp-ft{display:flex;align-items:center;gap:8px;margin-top:10px}.bp-wl{font-size:.7rem;color:var(--muted)}
+.bp-wk{flex:1;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}.bp-wk i{height:6px;border-radius:3px;background:var(--sub)}.bp-wk i.on{background:#8B5CF6}.bp-wk i.now{box-shadow:0 0 0 1.5px color-mix(in srgb,#8B5CF6 60%,transparent)}
 /* шторка щита */
 .sh-sheet{color:var(--text)}.sh-hd{display:flex;align-items:center;gap:12px}
 .sh-ring{position:relative;flex:none;width:84px;height:84px;color:#2DD4BF}.sh-ring svg{width:100%;height:100%}.sh-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:var(--text)}
@@ -3394,6 +3419,7 @@ Object.assign(MT.FORCE.en, {"место": "place", "места": "places", "ме
 Object.assign(MT.FORCE.en, {"Есть подходы": "Some sets done", "Выходной": "Rest day", "Изменить": "Edit", "Перенести": "Move", "Убрать": "Remove", "План недели": "Weekly plan", "Вернуть": "Restore", "На этот день": "This day", "В план недели": "Add to plan", "Сделано сверх плана": "Done beyond the plan", "На этот день ничего не запланировано": "Nothing planned for this day", "В этот день тренировки не было": "No workout on this day", "По плану было:": "Planned was:", "«Изменить» и «Перенести» — только эта дата, «План недели» — каждый": "“Edit” and “Move” change only this date, “Weekly plan” changes every", "· разово": "· one-off", "· каждую неделю": "· every week", "Название, например «Грудь + трицепс»": "Name, e.g. “Chest + triceps”", "Упражнения": "Exercises", "Подходы": "Sets", "Повторы": "Reps", "Добавь упражнения ниже": "Add exercises below", "Убрать с дня": "Remove from day", "Засчитывается за {0} разных упражнения.": "Counts after {0} different exercises.", "Впиши вес и повторы и жми «Выполнил» после каждого подхода.": "Enter weight and reps and tap “Done” after each set.", "{0} повт.": "{0} reps"});
 Object.assign(MT.FORCE.en, {"План недели": "Weekly plan", "День недели — тренировка каждую неделю, дата — только этот день": "Weekday — a workout every week, a date — that day only"});
 Object.assign(MT.FORCE.en, {"Нажми на день недели — тренировка на каждую неделю": "Tap a weekday to set a workout for every week"});
+Object.assign(MT.FORCE.en, {"Прогресс тела": "Body progress", "Первое фото — точка отсчёта": "Your first photo is the starting point", "Раз в неделю при одном свете — и через месяц сравнишь «было / стало». Видишь только ты.": "Once a week in the same light — in a month you'll compare before and after. Only you can see them.", "за": "in", "неделю": "week", "недели": "weeks", "недель": "weeks", "пора новое фото": "time for a new photo", "следующее через": "next one in", "Сделай второе фото через неделю — здесь появится сравнение «было / стало».": "Take a second photo in a week — a before/after comparison will appear here.", "было": "before", "стало": "after", "{0} недель": "{0} weeks", "Сравнить было и стало": "Compare before and after", "Сделать фото": "Take a photo", "Фото по неделям": "Photos by week"});
 Object.keys(MT.FORCE).forEach(l => Object.assign(MT.SEED[l] || (MT.SEED[l] = {}), MT.FORCE[l]));
 
 /* ------------------------------ STORE ------------------------------- */
@@ -9996,14 +10022,27 @@ Object.assign(UI, {
     this._clanView = id; this.closeModal(); this.openPage('clanview');
   },
   /* ---- Body Progress ---- */
+  // v84: «Прогресс тела» — сравнение «было / стало» со шторкой, изменение веса, ритм фото по неделям и быстрая камера
   bodyCard() {
-    const ps = Photos.list(), th = ps.slice(0, 3);
-    if (th.some(p => Photos.thumbs[p.id] === undefined) && !this._thumbLoading) { this._thumbLoading = true; Photos.loadThumbs().then(n => { this._thumbLoading = false; if (n && this.tab === 'nutrition') this.renderNutrition(); if (n && this._page === 'body') this.renderPage(); }).catch(() => { this._thumbLoading = false; }); }
-    return `<button class="card p-3 text-left flex flex-col gap-2 bp-card" data-action="open-page" data-kind="body">
-      <div class="flex items-center justify-between text-xs font-bold muted"><span><svg class="ic text-pu"><use href="#fa-image"/></svg> Body Progress</span><svg class="ic"><use href="#fa-lock"/></svg></div>
-      <div class="bp-mini">${th.length ? th.map(p => Photos.missing(p.id) ? `<span class="bp-lost"><svg class="ic"><use href="#fa-image"/></svg></span>` : `<span style="${Photos.thumbs[p.id] ? `background-image:url('${Photos.thumbs[p.id]}')` : ''}"></span>`).join('') : '<span class="bp-empty"><svg class="ic"><use href="#fa-camera"/></svg></span>'}</div>
-      <div class="text-[10px] muted">${ps.length ? `${ps.length} фото · <span data-no-mt>${U.fmtDate(ps[0].date)}</span>` : 'Личная галерея: только ты'}</div>
-    </button>`;
+    const ps = Photos.list(), ok = ps.filter(p => !Photos.missing(p.id)), unit = U.wUnit();
+    if (ps.slice(0, 6).some(p => Photos.thumbs[p.id] === undefined) && !this._thumbLoading) { this._thumbLoading = true; Photos.loadThumbs().then(n => { this._thumbLoading = false; if (n && this.tab === 'nutrition') this.renderNutrition(); if (n && this._page === 'body') this.renderPage(); }).catch(() => { this._thumbLoading = false; }); }
+    if (!this._bpBound) { this._bpBound = true; document.addEventListener('input', e => { const r = e.target && e.target.closest && e.target.closest('.bp-rng'); if (r) r.parentNode.style.setProperty('--p', r.value + '%'); }); }
+    const bg = p => Photos.thumbs[p.id] ? `background-image:url('${Photos.thumbs[p.id]}')` : '';
+    const last = ps[0], since = last ? U.daysBetween(last.date, U.today()) : null, due = since == null || since >= 7;
+    const wk0 = U.weekKey(), weeks = Array.from({ length: 8 }, (_, i) => U.addDays(wk0, -7 * (7 - i))), has = new Set(ps.map(p => U.weekKey(U.parseDay(p.date))));
+    const rhythm = `<div class="bp-wk" aria-label="Фото по неделям">${weeks.map(w => `<i class="${has.has(w) ? 'on' : ''} ${w === wk0 ? 'now' : ''}"></i>`).join('')}</div>`;
+    const cam = `<label class="bp-cam ${due ? 'due' : ''}" aria-label="Сделать фото"><svg class="ic"><use href="#fa-camera"/></svg><input type="file" accept="image/*" class="hidden" data-action="bp-file"></label>`;
+    const head = `<div class="bp-h"><button class="bp-ht" data-action="open-page" data-kind="body"><svg class="ic"><use href="#fa-lock"/></svg><b>Прогресс тела</b>${ps.length ? `<span class="num">${ps.length}</span>` : ''}<svg class="ic bp-chv"><use href="#fa-chevron-right"/></svg></button>${cam}</div>`;
+    if (!ok.length) return `<div class="card bp2">${head}<div class="bp-e"><span class="bp-ei"><svg class="ic"><use href="#fa-image"/></svg></span><div><b>Первое фото — точка отсчёта</b><small>Раз в неделю при одном свете — и через месяц сравнишь «было / стало». Видишь только ты.</small></div></div></div>`;
+    const withKg = ps.filter(p => p.kg != null), dKg = withKg.length > 1 ? withKg[0].kg - withKg[withKg.length - 1].kg : null, span = ok.length > 1 ? U.daysBetween(ok[ok.length - 1].date, ok[0].date) : 0;
+    const meta = `<div class="bp-meta">${dKg != null ? `<span class="bp-ch ${dKg <= 0 ? 'dn' : 'up'}"><b class="num">${dKg > 0 ? '+' : dKg < 0 ? '−' : ''}${U.w(Math.abs(dKg))}</b> <span>${unit}</span></span>` : ''}${span ? `<span class="bp-sp"><span>за</span> <b class="num">${span >= 14 ? Math.round(span / 7) : span}</b> <span>${span >= 14 ? U.plural(Math.round(span / 7), 'неделю', 'недели', 'недель') : U.plural(span, 'день', 'дня', 'дней')}</span></span>` : ''}<span class="bp-nx ${due ? 'due' : ''}">${due ? 'пора новое фото' : `<span>следующее через</span> <b class="num">${7 - since}</b> <span>${U.plural(7 - since, 'день', 'дня', 'дней')}</span>`}</span></div>`;
+    if (ok.length === 1) { const p = ok[0]; return `<div class="card bp2">${head}<div class="bp-one"><button class="bp-ph" style="${bg(p)}" data-action="bp-view" data-id="${p.id}" aria-label="Открыть фото"></button><div class="bp-oi"><small data-no-mt>${U.fmtDate(p.date)}</small>${p.kg != null ? `<b class="num">${U.w(p.kg)} <span>${unit}</span></b>` : ''}<p>Сделай второе фото через неделю — здесь появится сравнение «было / стало».</p>${rhythm}</div></div>${meta}</div>`; }
+    const A = ok[ok.length - 1], B = ok[0];
+    return `<div class="card bp2">${head}
+      <div class="bp-cmp" style="--p:50%"><span class="bp-a" style="${bg(A)}"></span><span class="bp-b" style="${bg(B)}"></span><i class="bp-ln"><span><svg class="ic"><use href="#fa-chevron-left"/></svg><svg class="ic"><use href="#fa-chevron-right"/></svg></span></i>
+        <span class="bp-tg l"><small>было</small><b data-no-mt>${U.fmtDate(A.date)}</b>${A.kg != null ? `<b class="num">${U.w(A.kg)} ${unit}</b>` : ''}</span><span class="bp-tg r"><small>стало</small><b data-no-mt>${U.fmtDate(B.date)}</b>${B.kg != null ? `<b class="num">${U.w(B.kg)} ${unit}</b>` : ''}</span>
+        <input class="bp-rng" type="range" min="0" max="100" value="50" aria-label="Сравнить было и стало"></div>
+      ${meta}<div class="bp-ft">${rhythm}<span class="bp-wl">8 недель</span></div></div>`;
   },
   bodyPageHtml() {
     const ps = Photos.list(), unit = U.wUnit(), withKg = ps.filter(p => p.kg != null), first = withKg[withKg.length - 1], last = withKg[0];
