@@ -1,0 +1,8 @@
+{"id":"v01_ranked_gym","seed":1,
+ "post":{"title":"POV: your gym is a ranked game","caption":"Every workout earns trophies. Basement to Legend. Who's climbing with me?","hashtags":["gymtok","fitness","gym","workout","gymmotivation","fitnessapp"]},
+ "scenes":[
+  {"type":"hook","dur":2.0,"lines":["POV:","your gym","is ranked now"],"accent":2,"size":160},
+  {"type":"phone","dur":2.6,"img":"02_road.jpg","caption":"Basement","accent":"to Legend","pan":[0.6,0],"badge":"YOU ARE HERE","badgePos":"left:70px;top:1150px"},
+  {"type":"phone","dur":2.4,"img":"01_home.jpg","caption":"Every set =","accent":"trophies","pan":[0,0.2],"badge":"+82 this week"},
+  {"type":"cta","dur":2.4,"sub":"Your workouts are ranked now"}
+ ]}

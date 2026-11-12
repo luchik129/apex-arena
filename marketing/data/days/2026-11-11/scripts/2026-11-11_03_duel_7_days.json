@@ -1,0 +1,56 @@
+{
+ "id": "2026-11-11_03_duel_7_days",
+ "seed": 6,
+ "format": "challenge",
+ "feature": "duel",
+ "post": {
+  "title": "Can you beat your gym buddy in 7 days?",
+  "caption": "7-day duel with a friend. Tag the one you'd beat.",
+  "hashtags": [
+   "gymtok",
+   "gymbuddy",
+   "fitnesschallenge",
+   "gym",
+   "workout"
+  ]
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "dur": 2.0,
+   "lines": [
+    "Beat your",
+    "gym buddy",
+    "in 7 days?"
+   ],
+   "accent": 2,
+   "size": 124
+  },
+  {
+   "type": "phone",
+   "dur": 2.8,
+   "img": "03_duel.jpg",
+   "caption": "7 day duel",
+   "accent": "100 vs 50",
+   "badge": "Tag your rival",
+   "badgePos": "left:110px;top:1300px"
+  },
+  {
+   "type": "hook",
+   "dur": 1.5,
+   "lines": [
+    "Loser",
+    "buys",
+    "protein"
+   ],
+   "accent": 2,
+   "size": 145
+  },
+  {
+   "type": "cta",
+   "dur": 2.4,
+   "sub": "Duel a friend. Free.",
+   "button": "Free on iOS & Android"
+  }
+ ]
+}

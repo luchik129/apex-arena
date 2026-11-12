@@ -1,0 +1,64 @@
+{
+ "id": "2026-11-11_07_bench_form",
+ "seed": 3,
+ "format": "story",
+ "feature": "guide",
+ "post": {
+  "title": "He said my bench looked weird",
+  "caption": "Every exercise has a technique guide with the working muscles. Check your form.",
+  "hashtags": [
+   "gymtok",
+   "benchpress",
+   "gymtips",
+   "gym",
+   "fitness"
+  ]
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "dur": 2.0,
+   "lines": [
+    "He said",
+    "my bench",
+    "looked weird"
+   ],
+   "accent": 2,
+   "size": 140,
+   "sizes": [
+    140,
+    140,
+    96
+   ]
+  },
+  {
+   "type": "hook",
+   "dur": 1.4,
+   "lines": [
+    "so I checked",
+    "the guide"
+   ],
+   "accent": 1,
+   "size": 108
+  },
+  {
+   "type": "phone",
+   "dur": 2.8,
+   "img": "07_guide.jpg",
+   "caption": "Step by step",
+   "accent": "technique",
+   "pan": [
+    0.1,
+    0.45
+   ],
+   "badge": "Muscles glow",
+   "badgePos": "left:110px;top:440px"
+  },
+  {
+   "type": "cta",
+   "dur": 2.4,
+   "sub": "Lift with clean form",
+   "button": "Free on iOS & Android"
+  }
+ ]
+}

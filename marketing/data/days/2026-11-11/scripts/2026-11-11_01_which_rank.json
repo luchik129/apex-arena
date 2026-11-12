@@ -1,0 +1,58 @@
+{
+ "id": "2026-11-11_01_which_rank",
+ "seed": 4,
+ "format": "question",
+ "feature": "rank",
+ "post": {
+  "title": "Which rank are you? Basement to Legend",
+  "caption": "17 ranks from Basement to Legend. Drop your rank in the comments.",
+  "hashtags": [
+   "gymtok",
+   "gym",
+   "fitness",
+   "gymmotivation",
+   "workout"
+  ]
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "dur": 1.8,
+   "lines": [
+    "Which",
+    "rank",
+    "are you?"
+   ],
+   "accent": 2,
+   "size": 140
+  },
+  {
+   "type": "phone",
+   "dur": 2.8,
+   "img": "02_road.jpg",
+   "caption": "Basement",
+   "accent": "to Legend",
+   "pan": [
+    0.7,
+    0
+   ]
+  },
+  {
+   "type": "hook",
+   "dur": 1.6,
+   "lines": [
+    "17 ranks.",
+    "Be honest."
+   ],
+   "accent": 1,
+   "size": 120,
+   "sub": "comment yours"
+  },
+  {
+   "type": "cta",
+   "dur": 2.4,
+   "sub": "Find your rank",
+   "button": "Free on iOS & Android"
+  }
+ ]
+}

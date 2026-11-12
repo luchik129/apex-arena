@@ -1,0 +1,65 @@
+{
+ "id": "2026-11-11_06_sleep_trophies",
+ "seed": 9,
+ "format": "POV",
+ "feature": "health",
+ "post": {
+  "title": "POV: your sleep earns trophies",
+  "caption": "Sleep, water and food add to your daily trophies. Even rest days count.",
+  "hashtags": [
+   "gymtok",
+   "restday",
+   "fitness",
+   "gym",
+   "fitnessapp"
+  ]
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "dur": 1.9,
+   "lines": [
+    "POV:",
+    "your sleep",
+    "earns trophies"
+   ],
+   "accent": 2,
+   "size": 124,
+   "sizes": [
+    124,
+    124,
+    85
+   ]
+  },
+  {
+   "type": "phone",
+   "dur": 2.8,
+   "img": "06_health.jpg",
+   "caption": "Sleep, water,",
+   "accent": "food = trophies",
+   "pan": [
+    0.1,
+    0.3
+   ],
+   "badge": "+4 daily trophies",
+   "capSize": 80,
+   "badgePos": "left:110px;top:440px"
+  },
+  {
+   "type": "hook",
+   "dur": 1.5,
+   "lines": [
+    "Even rest",
+    "days count"
+   ],
+   "accent": 1,
+   "size": 110
+  },
+  {
+   "type": "cta",
+   "dur": 2.4,
+   "sub": "Rest days count too",
+   "button": "Free on iOS & Android"
+  }
+ ]
+}
