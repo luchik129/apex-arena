@@ -86,13 +86,22 @@ jobs:
           else:
               call("POST", "/v1/devices", {"data": {"type": "devices", "attributes": {"name": "CI build device", "platform": "IOS", "udid": "00008110-001A2B3C4D5E6F70"}}})
               print("devices: зарегистрировано служебное устройство")
+          # Каждый запуск на чистом Mac Xcode создаёт новый Development-сертификат «Created via API»,
+          # и через ~10 сборок Apple упирается в лимит. Отзываем старые CI-сертификаты — Xcode сделает себе свежий.
+          certs = call("GET", "/v1/certificates?limit=200")["data"]
+          for c in certs:
+              a = c["attributes"]
+              if a.get("certificateType") in ("DEVELOPMENT", "IOS_DEVELOPMENT") and "Created via API" in ((a.get("name") or "") + (a.get("displayName") or "")):
+                  urllib.request.urlopen(urllib.request.Request("https://api.appstoreconnect.apple.com/v1/certificates/" + c["id"], method="DELETE", headers=H))
+                  print("cert: отозван старый CI-сертификат", c["id"])
+          print("certs: всего было", len(certs))
           PY
           AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $KEY_ID -authenticationKeyIssuerID $ISSUER"
           set -o pipefail
           xcodebuild -project App.xcodeproj -scheme App -configuration Release \
             -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
             DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic \
-            MARKETING_VERSION=1.0 CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            MARKETING_VERSION=1.0.1 CURRENT_PROJECT_VERSION=${{ github.run_number }} \
             $AUTH archive 2>&1 | tee ../../ios-archive.log | grep -E "error:|ARCHIVE (SUCCEEDED|FAILED)" || true
           grep -q "ARCHIVE SUCCEEDED" ../../ios-archive.log || { echo "::error::$(grep -n 'error:' ../../ios-archive.log | head -20 | tr '\n' ' ')"; exit 1; }
           cat > "$RUNNER_TEMP/export.plist" <<EOF

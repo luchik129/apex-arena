@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0B0E14">
-<title>Flexo League · Удаление аккаунта</title>
+<title>Flexo League · Delete account</title>
 <style>
 :root{--bg:#0B0E14;--card:#121824;--line:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--em:#10B981}
 *{box-sizing:border-box}
@@ -19,34 +19,34 @@ a{color:#60A5FA}code{background:#1E293B;padding:1px 6px;border-radius:6px}
 </head>
 <body>
 <main>
-<h1>Удаление аккаунта</h1>
-<p class="muted">Flexo League (com.flexoleague.app) · English below.</p>
+<h1>Delete your account</h1>
+<p class="muted">Flexo League (com.flexoleague.app) · Кратко на русском ниже.</p>
 
 <div class="card">
-<h2 style="margin-top:0">В приложении (сразу)</h2>
+<h2 style="margin-top:0">In the app (immediately)</h2>
 <ol>
-<li>Откройте <b>Настройки</b> (шестерёнка вверху).</li>
-<li><b>Аккаунт и вход → Удалить аккаунт</b>.</li>
-<li>Подтвердите. Аккаунт удаляется сразу.</li>
+<li>Open <b>Settings</b> (the gear at the top).</li>
+<li><b>Account &amp; Login → Delete account</b>.</li>
+<li>Confirm. Your account is deleted right away.</li>
 </ol>
 </div>
 
-<p class="contact" data-t="Нет доступа к приложению? Напишите на {e} с почты аккаунта, и мы удалим его в течение 7 дней."></p>
+<p class="contact" data-t="No access to the app? Email {e} from your account email and we will delete it within 7 days."></p>
 
-<h2>Что удаляется</h2>
-<p>Аккаунт, профиль, прогресс (тренировки, питание, сон, вес), фото Body Progress, посты, фото и видео, комментарии, лайки, жалобы, друзья и дуэли. Если вы лидер клана, лидерство переходит другому участнику; клан без участников удаляется.</p>
-<h2>Что остаётся</h2>
-<p>Ничего не храним после удаления, кроме резервных копий базы, которые автоматически стираются в течение 7 дней.</p>
+<h2>What is deleted</h2>
+<p>Your account, profile, progress (workouts, nutrition, sleep, weight), Body Progress photos, posts, photos and videos, comments, likes, reports, friends and duels. If you lead a clan, leadership passes to another member; a clan with no members is deleted.</p>
+<h2>What is kept</h2>
+<p>Nothing is kept after deletion, except database backups, which are erased automatically within 7 days.</p>
 
 <div class="card">
-<h2 style="margin-top:0">English</h2>
-<p>Delete your account in the app: <b>Settings → Account → Delete account</b>, then confirm. It is deleted immediately with all data: profile, progress, progress photos, posts, media, comments, likes, reports, friends and duels. Database backups are erased within 7 days.</p>
-<p class="contact" data-t="No access to the app? Email {e} from your account email and we will delete it within 7 days."></p>
+<h2 style="margin-top:0">Кратко на русском</h2>
+<p>Удалить аккаунт можно в приложении: <b>Настройки → Аккаунт и вход → Удалить аккаунт</b>, затем подтвердить. Аккаунт удаляется сразу вместе со всеми данными: профиль, прогресс, фото Body Progress, посты, медиа, комментарии, лайки, жалобы, друзья и дуэли. Резервные копии базы стираются в течение 7 дней.</p>
+<p class="contact" data-t="Нет доступа к приложению? Напишите на {e} с почты аккаунта, и мы удалим его в течение 7 дней."></p>
 </div>
-<p class="muted"><small>Flexo League · обновлено 1 ноября 2026</small></p>
+<p class="muted"><small>Flexo League · last updated November 9, 2026</small></p>
 </main>
 <script>
-// Почта поддержки. Впиши адрес, и он появится на странице.
+// Support email shown on the page.
 const SUPPORT_EMAIL = 'testixsupport@gmail.com';
 document.querySelectorAll('.contact').forEach(el => { if (SUPPORT_EMAIL) el.innerHTML = el.dataset.t.replace('{e}', `<a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`); });
 </script>

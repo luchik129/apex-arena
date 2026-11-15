@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0B0E14">
-<title>Приглашение в Flexo League</title>
-<meta property="og:title" content="Тебя зовут в Flexo League">
-<meta property="og:description" content="Тренировки, кубки и арены. По приглашению +150 монет.">
+<title>Invitation to Flexo League</title>
+<meta property="og:title" content="You're invited to Flexo League">
+<meta property="og:description" content="Workouts, trophies and arenas. +150 coins with an invite.">
 <meta property="og:image" content="https://luchik129.github.io/apex-arena/icon.png">
 <style>
 :root{--bg:#0B0E14;--card:#121824;--line:#1E293B;--text:#F1F5F9;--muted:#94A3B8;--or:#F97316;--gold:#FBBF24}
@@ -30,23 +30,39 @@ p{color:var(--muted);font-size:15px;line-height:1.45;margin-top:8px}
 <body>
 <div class="card">
   <img class="logo" src="icon.png" alt="Flexo League">
-  <h1 id="ttl">Тебя зовут в <span>Flexo League</span></h1>
-  <p id="sub">Тренируйся, получай кубки и поднимайся по аренам вместе с другом.</p>
-  <div class="code" id="clanbox" style="display:none;border-color:#8B5CF688"><small>Клан</small><b id="clan">—</b></div>
-  <div class="code"><small>Код приглашения</small><b id="code">—</b></div>
-  <div class="gift">🎁 +150 монет при регистрации</div>
-  <a class="btn" id="open" href="#">Открыть приложение</a>
-  <a class="btn ghost" href="https://github.com/luchik129/apex-arena/releases/latest">Скачать приложение</a>
-  <div class="note">Если приложение уже установлено, код подставится сам. Если нет, установи его и введи код при регистрации.</div>
+  <h1 id="ttl">You're invited to <span>Flexo League</span></h1>
+  <p id="sub">Train, earn trophies and climb the arenas together with your friend.</p>
+  <div class="code" id="clanbox" style="display:none;border-color:#8B5CF688"><small id="t_clan">Clan</small><b id="clan">—</b></div>
+  <div class="code"><small id="t_code">Invite code</small><b id="code">—</b></div>
+  <div class="gift" id="t_gift">🎁 +150 coins when you sign up</div>
+  <a class="btn" id="open" href="#">Open the app</a>
+  <a class="btn ghost" href="https://github.com/luchik129/apex-arena/releases/latest" id="t_dl">Download the app</a>
+  <div class="note" id="t_note">If the app is already installed, the code is filled in automatically. If not, install it and enter the code when you sign up.</div>
 </div>
 <script>
   var q = new URLSearchParams(location.search);
   var c = (q.get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
-  var k = (q.get('k') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12); // v29: приглашение сразу в клан
+  var k = (q.get('k') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12); // v29: invite straight into a clan
   document.getElementById('code').textContent = c || '—';
+  // English by default; the phone language if we have a translation (same languages as the app)
+  var L = {
+    ru: ['Тебя зовут в', 'Тренируйся, получай кубки и поднимайся по аренам вместе с другом.', 'Клан', 'Код приглашения', '🎁 +150 монет при регистрации', 'Открыть приложение', 'Скачать приложение', 'Если приложение уже установлено, код подставится сам. Если нет, установи его и введи код при регистрации.', 'клан', 'Открой приложение: после входа ты сразу окажешься в клане друга.'],
+    uk: ['Тебе кличуть у', 'Тренуйся, отримуй кубки й піднімайся аренами разом із другом.', 'Клан', 'Код запрошення', '🎁 +150 монет під час реєстрації', 'Відкрити застосунок', 'Завантажити застосунок', 'Якщо застосунок уже встановлено, код підставиться сам. Якщо ні, встанови його й введи код під час реєстрації.', 'клан', 'Відкрий застосунок: після входу ти одразу опинишся в клані друга.'],
+    kk: ['Сені шақырады:', 'Досыңмен бірге жаттығып, кубок жинап, ареналармен көтеріл.', 'Клан', 'Шақыру коды', '🎁 Тіркелгенде +150 монета', 'Қосымшаны ашу', 'Қосымшаны жүктеу', 'Қосымша орнатылған болса, код өзі қойылады. Әйтпесе орнатып, тіркелу кезінде кодты енгіз.', 'кланға', 'Қосымшаны аш: кіргеннен кейін бірден досыңның кланында боласың.'],
+    de: ['Du bist eingeladen zu', 'Trainiere, sammle Trophäen und steig gemeinsam mit deinem Freund durch die Arenen auf.', 'Clan', 'Einladungscode', '🎁 +150 Münzen bei der Registrierung', 'App öffnen', 'App herunterladen', 'Wenn die App schon installiert ist, wird der Code automatisch eingetragen. Wenn nicht, installiere sie und gib den Code bei der Registrierung ein.', 'den Clan', 'Öffne die App: Nach der Anmeldung bist du direkt im Clan deines Freundes.'],
+    es: ['Te invitan a', 'Entrena, gana trofeos y sube por las arenas junto a tu amigo.', 'Clan', 'Código de invitación', '🎁 +150 monedas al registrarte', 'Abrir la app', 'Descargar la app', 'Si la app ya está instalada, el código se rellena solo. Si no, instálala e introduce el código al registrarte.', 'un clan', 'Abre la app: al entrar estarás directamente en el clan de tu amigo.'],
+    fr: ['Tu es invité sur', 'Entraîne-toi, gagne des trophées et grimpe dans les arènes avec ton ami.', 'Clan', "Code d'invitation", '🎁 +150 pièces à l\'inscription', "Ouvrir l'appli", "Télécharger l'appli", "Si l'appli est déjà installée, le code s'ajoute tout seul. Sinon, installe-la et saisis le code à l'inscription.", 'un clan', "Ouvre l'appli : après connexion, tu seras directement dans le clan de ton ami."],
+    tr: ['Seni davet ediyorlar:', 'Arkadaşınla birlikte antrenman yap, kupa kazan ve arenalarda yüksel.', 'Klan', 'Davet kodu', '🎁 Kayıtta +150 jeton', 'Uygulamayı aç', 'Uygulamayı indir', 'Uygulama yüklüyse kod kendiliğinden girilir. Değilse yükle ve kayıt olurken kodu gir.', 'klana', 'Uygulamayı aç: giriş yapınca doğrudan arkadaşının klanında olacaksın.']
+  }[((navigator.languages && navigator.languages[0]) || navigator.language || 'en').slice(0, 2).toLowerCase()];
+  var $ = function (id) { return document.getElementById(id); };
+  if (L) {
+    document.documentElement.lang = ((navigator.languages && navigator.languages[0]) || navigator.language).slice(0, 2);
+    $('ttl').innerHTML = L[0] + ' <span>Flexo League</span>'; $('sub').textContent = L[1]; $('t_clan').textContent = L[2]; $('t_code').textContent = L[3];
+    $('t_gift').textContent = L[4]; $('open').textContent = L[5]; $('t_dl').textContent = L[6]; $('t_note').textContent = L[7];
+  }
   if (k) {
-    document.getElementById('ttl').innerHTML = 'Тебя зовут в <span>клан</span>';
-    document.getElementById('sub').textContent = 'Открой приложение: после входа ты сразу окажешься в клане друга.';
+    $('ttl').innerHTML = L ? L[0] + ' <span>' + L[8] + '</span>' : 'You\'re invited to a <span>clan</span>';
+    $('sub').textContent = L ? L[9] : 'Open the app: after you sign in, you\'ll be right in your friend\'s clan.';
     document.getElementById('clanbox').style.display = '';
     document.getElementById('clan').textContent = k;
   }
