@@ -688,10 +688,10 @@ function renderIdeas(){
       return '<div class="gl"><span>'+lbl+' <b>'+(v==null?'нет данных':fmt(v))+'</b> из '+short(goal)+'</span><span class="bar"><i style="width:'+p.toFixed(2)+'%"></i></span></div>'};
     var us=AG.usage;
     if(us&&us.today){
-      var bud=us.budget||0,used=us.today.tokens||0,p=bud?Math.min(100,used/bud*100):0;
+      var w=us.window||{},wl=w.limit||0,wu=w.used||0,bud=wl||us.budget||0,used=wl?wu:(us.today.tokens||0),p=bud?Math.min(100,used/bud*100):0;
       $('tokens').className='tk'+(bud&&used/bud>0.85?' low':'');
-      $('tokens').innerHTML='<span>Токены сегодня: <b>'+short(used)+'</b>'+(bud?' из '+short(bud)+' · осталось <b>'+short(Math.max(0,bud-used))+'</b>':'')+
-        ' · смен: <b>'+(us.today.shifts||0)+'</b>'+(us.today.cost_usd?' · ≈ $'+us.today.cost_usd.toFixed(2):'')+'</span>'+(bud?'<span class="bar"><i style="width:'+p.toFixed(1)+'%"></i></span>':'');
+      $('tokens').innerHTML='<span>'+(wl?'Токены за '+w.hours+' ч':'Токены сегодня')+': <b>'+short(used)+'</b>'+(bud?' из '+short(bud)+' · осталось <b>'+short(Math.max(0,bud-used))+'</b>':'')+
+        '</span><span class="bar"><i style="width:'+p.toFixed(1)+'%"></i></span><span>Сегодня: <b>'+short(us.today.tokens||0)+'</b> · смен: <b>'+(us.today.shifts||0)+'</b>'+(us.today.cost_usd?' · ≈ $'+us.today.cost_usd.toFixed(2):'')+'</span>';
       $('tokens').hidden=false;
     }else $('tokens').hidden=true;
     $('goals').innerHTML=row('Просмотры',REAL.views,g.views)+row('Установки',REAL.installs,g.installs);$('goals').hidden=false;

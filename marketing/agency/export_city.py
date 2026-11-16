@@ -55,7 +55,9 @@ def usage_summary():
     os.environ.setdefault("MARKETING_DATA", DATA)
     import usage
     cfg = load(os.path.join(A, "config.json"), {})
-    return usage.summary(int(cfg.get("daily_tokens", 3000000)))
+    out = usage.summary(int(cfg.get("daily_tokens", 0)))
+    out["window"] = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
+    return out
 
 def activity(n=80):
     p = os.path.join(A, "activity.jsonl")

@@ -67,3 +67,32 @@ def summary(budget):
     total = sum(v["tokens"] for v in u["days"].values())
     return {"today": d, "total_tokens": total, "budget": budget, "left": max(0, budget - d["tokens"]) if budget else None,
             "last": (u.get("shifts") or [None])[0]}
+
+def window(hours, limit):
+    """Tokens spent in the last `hours` hours and pacing for the next shift, so a limit is spread over the whole window."""
+    now = datetime.datetime.now().astimezone()
+    sh = load().get("shifts", [])
+    recent = []
+    for s in sh:
+        try:
+            t = datetime.datetime.fromisoformat(s["t"])
+        except Exception:
+            continue
+        if (now - t).total_seconds() < hours * 3600:
+            recent.append((t, s["tokens"]))
+    used = sum(x[1] for x in recent)
+    last5 = [s["tokens"] for s in sh[:5] if s.get("tokens")]
+    avg = int(sum(last5) / len(last5)) if last5 else 300000
+    per_window = max(1, limit // max(1, avg)) if limit else 0
+    pause = int(hours * 3600 / per_window) if limit else 0  # even spacing across the window
+    wait = 0
+    if limit and used + avg > limit and recent:
+        # wait until enough old shifts leave the window
+        need = used + avg - limit
+        for t, tok in sorted(recent):
+            need -= tok
+            wait = int(hours * 3600 - (now - t).total_seconds()) + 60
+            if need <= 0:
+                break
+    return {"hours": hours, "limit": limit, "used": used, "left": max(0, limit - used) if limit else None,
+            "avg_shift": avg, "pause": pause, "wait": max(0, wait)}

@@ -73,10 +73,15 @@ def shift_loop(publish):
         # Chrome is always on: agents read stats there; posting itself is gated by config.json "publish" in the shift rules
         tools.append("mcp__claude-in-chrome__*")
         cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
-        budget = int(cfg.get("daily_tokens", 1500000))
+        budget = int(cfg.get("daily_tokens", 0))
         why = None
+        idle_for = int(os.environ.get("IDLE_SECONDS", "1800"))
+        win = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
         if budget and usage.summary(budget)["left"] == 0:
             why = "Дневной лимит токенов (%s) исчерпан, агентство ждёт завтра" % f"{budget:,}".replace(",", " ")
+        elif win["limit"] and win["wait"] > 0:
+            why = "Лимит на %g ч почти выбран, следующая смена примерно через %d мин" % (win["hours"], win["wait"] // 60 + 1)
+            idle_for = min(idle_for, win["wait"]) if not os.environ.get("IDLE_SECONDS") else idle_for
         else:
             why = idle_reason(cfg)  # free pre-check: 0 tokens when there is nothing new to do
         if why:
@@ -84,7 +89,7 @@ def shift_loop(publish):
                 act("system", why)
                 write_state(state="working", step="ждёт: " + why)
             last_idle = why
-            for _ in range(int(os.environ.get("IDLE_SECONDS", "1800"))):
+            for _ in range(idle_for):
                 if not state["running"] or os.path.exists(stop_flag):
                     break
                 time.sleep(1)
@@ -110,7 +115,12 @@ def shift_loop(publish):
             act("system", "Смена %d закончилась с ошибкой, подробности в last_shift.log" % n)
         export()
         # short pause between shifts so the Mac and the accounts are not hammered; leaves quickly on Stop
-        for _ in range(int(os.environ.get("PAUSE_SECONDS", "1800"))):
+        win = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
+        pause = int(os.environ.get("PAUSE_SECONDS") or max(600, win["pause"] or 1800))
+        if state["running"]:
+            act("system", "Следующая смена через %d мин (лимит растянут на %g ч)" % (pause // 60, win["hours"]))
+            write_state(state="working", step="перерыв %d мин" % (pause // 60))
+        for _ in range(pause):
             if not state["running"] or os.path.exists(stop_flag):
                 break
             time.sleep(1)
