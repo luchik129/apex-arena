@@ -17,3 +17,5 @@ marketing/data/agency/agency.json
 marketing/data/agency/STOP
 marketing/data/agency/last_shift.log
 marketing/data/agency/council/
+__pycache__/
+*.pyc

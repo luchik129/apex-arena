@@ -3,4 +3,5 @@
 cd "$(dirname "$0")/../.." || exit 1
 command -v claude >/dev/null || { echo "Claude Code (claude) is not installed"; read -r; exit 1; }
 (sleep 1; open "http://localhost:8787") &
+export PYTHONDONTWRITEBYTECODE=1
 exec python3 marketing/agency/server.py
