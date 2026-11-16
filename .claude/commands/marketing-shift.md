@@ -12,7 +12,12 @@ Goals (goals.json): video views (default 2 000 000) and app installs (default 10
 The agency works shift after shift while Start is on. Chrome (the owner's, already signed in) may be used to read stats and research trends;
 posting through it only when "publish" is true.
 
-Owner's verdicts first: `python3 marketing/agency/idea.py list approved` → carry out each approved item (hire, fire, idea, experiment) in this shift
+Owner's chat first: `python3 marketing/agency/chat.py unread`. Each message is a task or a remark from the owner and has priority over the plan
+(it may add a task on the fly, point out something the agents missed, or ask a question). Do it through the right agent, or answer it yourself if it is a question,
+then `python3 marketing/agency/chat.py reply "<short Russian answer: what you did or will do, or what you need from the owner>"`.
+If a message asks for something against the playbook Hard rules or for publishing while "publish" is false, do not do it and say why in the reply.
+Check the chat again right before you end the shift.
+Owner's verdicts: `python3 marketing/agency/idea.py list approved` → carry out each approved item (hire, fire, idea, experiment) in this shift
 via the right agent, then `python3 marketing/agency/idea.py applied <id>`. Rejected items are never re-proposed in the same form.
 
 Choose the shift type:

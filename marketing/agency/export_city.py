@@ -46,9 +46,23 @@ def build():
         "agents": load(os.path.join(A, "agents.json"), {}),
         "activity": activity(),
         "usage": usage_summary(),
+        "chat": chat_tail(),
         "goals": load(os.path.join(A, "goals.json"), {"views": 2000000, "installs": 10000}),
         "ideas": load(os.path.join(A, "ideas.json"), [])[:60],
     }
+
+def chat_tail(n=40):
+    try:
+        lines = open(os.path.join(A, "chat.jsonl"), encoding="utf-8").read().splitlines()[-n:]
+    except Exception:
+        return []
+    out = []
+    for l in lines:
+        try:
+            out.append(json.loads(l))
+        except Exception:
+            pass
+    return out
 
 def usage_summary():
     sys.path.insert(0, HERE)

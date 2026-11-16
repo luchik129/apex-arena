@@ -7,6 +7,7 @@ os.environ.setdefault("MARKETING_DATA", os.path.join(os.path.dirname(os.path.abs
 from act import log as act, clear as act_clear
 import idea as ideas
 import usage
+import chat as chatmod
 HAS_CHROME = "--chrome" in subprocess.run(["claude", "--help"], capture_output=True, text=True).stdout if __import__("shutil").which("claude") else False
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +17,15 @@ A = os.path.join(DATA, "agency")
 CITY = os.path.join(HERE, "city.html")
 PORT = int(os.environ.get("PORT", "8787"))
 state = {"proc": None, "caff": None, "running": False}
+wake = threading.Event()  # set when the owner writes in the chat: ends any waiting at once
+
+def nap(seconds, stop_flag):
+    """Waits up to `seconds`, returns early on Stop or when the owner wrote something."""
+    end = time.time() + seconds
+    while time.time() < end and state["running"] and not os.path.exists(stop_flag):
+        if wake.wait(1):
+            wake.clear()
+            return
 lock = threading.Lock()
 
 def write_state(**kw):
@@ -35,6 +45,8 @@ def day_today():
 
 def idle_reason(cfg):
     """Decides without calling Claude whether a shift is worth running."""
+    if chatmod.unread():
+        return None
     u = usage.load()["days"].get(day_today(), {})
     if u.get("shifts", 0) >= int(cfg.get("max_shifts_per_day", 3)):
         return "Лимит смен на сегодня (%s) выполнен, агентство отдыхает до завтра" % cfg.get("max_shifts_per_day", 3)
@@ -74,10 +86,13 @@ def shift_loop(publish):
         tools.append("mcp__claude-in-chrome__*")
         cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
         budget = int(cfg.get("daily_tokens", 0))
+        owner_wants = bool(chatmod.unread())
         why = None
         idle_for = int(os.environ.get("IDLE_SECONDS", "1800"))
         win = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
-        if budget and usage.summary(budget)["left"] == 0:
+        if owner_wants:
+            why = None
+        elif budget and usage.summary(budget)["left"] == 0:
             why = "Дневной лимит токенов (%s) исчерпан, агентство ждёт завтра" % f"{budget:,}".replace(",", " ")
         elif win["limit"] and win["wait"] > 0:
             why = "Лимит на %g ч почти выбран, следующая смена примерно через %d мин" % (win["hours"], win["wait"] // 60 + 1)
@@ -89,10 +104,7 @@ def shift_loop(publish):
                 act("system", why)
                 write_state(state="working", step="ждёт: " + why)
             last_idle = why
-            for _ in range(idle_for):
-                if not state["running"] or os.path.exists(stop_flag):
-                    break
-                time.sleep(1)
+            nap(idle_for, stop_flag)
             continue
         last_idle = None
         n += 1
@@ -124,10 +136,7 @@ def shift_loop(publish):
         if state["running"]:
             act("system", "Следующая смена через %d мин" % (pause // 60))
             write_state(state="working", step="перерыв %d мин" % (pause // 60))
-        for _ in range(pause):
-            if not state["running"] or os.path.exists(stop_flag):
-                break
-            time.sleep(1)
+        nap(pause, stop_flag)
     state["running"] = False
     write_state(state="sleeping", step="")
     act_clear()
@@ -175,6 +184,13 @@ class H(BaseHTTPRequestHandler):
                     state["caff"] = None
                 act("system", "Нажат Старт" + (" (публикация разрешена)" if cfg["publish"] else " (только подготовка, без публикации)"))
                 threading.Thread(target=shift_loop, args=(cfg["publish"],), daemon=True).start()
+            elif self.path == "/chat":
+                n = int(self.headers.get("Content-Length") or 0)
+                body = json.loads(self.rfile.read(n) or b"{}") if n else {}
+                if str(body.get("text", "")).strip():
+                    chatmod.add_owner(str(body["text"]))
+                    wake.set()
+                    export()
             elif self.path == "/idea":
                 n = int(self.headers.get("Content-Length") or 0)
                 body = json.loads(self.rfile.read(n) or b"{}") if n else {}

@@ -88,6 +88,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .tk .bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
 .tk .bar i{display:block;height:100%;background:var(--accent)}
 .tk.low .bar i{background:var(--warn)}
+.msg{max-width:88%;padding:8px 10px;border-radius:12px;font-size:13px;line-height:1.4;white-space:pre-wrap;word-break:break-word}
+.msg.me{align-self:flex-end;background:var(--gold);color:#1a1200}
+.msg.mgr{align-self:flex-start;background:var(--panel);border:1px solid var(--line)}
+.msg time{display:block;font-size:10px;opacity:.65;margin-top:3px}
+#chatList{display:flex;flex-direction:column;gap:8px;min-height:80px}
+#chatForm{display:flex;gap:8px;margin-top:10px}
+#chatText{flex:1;min-width:0;font:400 14px var(--body);color:var(--ink);background:var(--night);border:1px solid var(--line);border-radius:10px;padding:10px 12px;-webkit-user-select:text;user-select:text}
+#chatForm button{flex:0 0 auto}
 .badge{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--warn);color:#2a0606;font-size:11px;line-height:18px;margin-left:4px}
 .idea{border-top:1px solid var(--line);padding-block:10px;display:flex;flex-direction:column;gap:6px;line-height:1.4}
 .idea .meta{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
@@ -147,6 +155,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     <button class="primary" id="needBtn">Что нужно от меня</button>
     <button id="councilBtn">Совет</button>
     <button id="ideasBtn" hidden>Идеи</button>
+    <button id="chatBtn" hidden>Чат</button>
     <button id="demoBtn">Демо роста</button>
   </div>
 </div>
@@ -178,6 +187,15 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     <h2 style="font-family:var(--display);font-size:16px;margin:0 0 4px">Совет агентства</h2>
     <div id="councilBody"></div>
     <div class="row" style="margin-top:12px"><button id="councilClose" class="primary">Закрыть</button></div>
+  </div>
+</div>
+<div id="chatSheet" hidden style="position:absolute;inset:0;z-index:6;background:rgba(3,5,16,.6);display:flex;align-items:flex-end">
+  <div style="background:var(--night2);border-top:1px solid var(--line);border-radius:16px 16px 0 0;width:100%;max-height:88%;display:flex;flex-direction:column;padding-block:16px calc(16px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))">
+    <h2 style="font-family:var(--display);font-size:16px;margin:0 0 4px">Чат с управляющим</h2>
+    <p style="color:var(--dim);margin:0 0 8px;line-height:1.4;font-size:12px">Напиши задачу или замечание. Управляющий подхватит сразу, не дожидаясь следующей смены, и ответит здесь.</p>
+    <div id="chatScroll" style="overflow:auto;flex:1;min-height:0;-webkit-user-select:text;user-select:text"><div id="chatList"></div></div>
+    <form id="chatForm"><input id="chatText" type="text" autocomplete="off" placeholder="Например: сделай ролик про кланы и проверь TikTok"><button class="primary" id="chatSend" type="submit">Отправить</button></form>
+    <div class="row" style="margin-top:8px"><button id="chatClose">Закрыть</button></div>
   </div>
 </div>
 <div id="ideasSheet" hidden style="position:absolute;inset:0;z-index:6;background:rgba(3,5,16,.6);display:flex;align-items:flex-end">
@@ -660,7 +678,7 @@ function renderAgency(){
   });
   $('agentList').innerHTML=rows;
   $('feedList').innerHTML=act.length?act.map(feRow).join(''):'<p style="color:var(--dim);margin:0">Пока пусто. Лента заполнится, когда нажмёшь Старт.</p>';
-  renderIdeas();
+  renderIdeas();renderChat();
   if(AG.control){var b=$('runBtn'),w=working();
     b.textContent=w?'■ Стоп':'▶ Старт';b.className=w?'stop':'primary';$('pubRow').hidden=w;}
 }
@@ -706,6 +724,27 @@ $('ideasSheet').addEventListener('click',function(e){
   (AG.ideas||[]).forEach(function(i){if(i.id===id)i.status=v});renderIdeas();
   fetch('/idea',{method:'POST',body:JSON.stringify({id:id,verdict:v})}).catch(function(){});
 });
+function renderChat(){
+  var b=$('chatBtn');b.hidden=!(AG&&AG.control)||demo;
+  var ms=(AG&&AG.chat)||[],pend=ms.filter(function(m){return m.from==='owner'&&!m.handled}).length;
+  b.innerHTML='Чат'+(pend?'<span class="badge">'+pend+'</span>':'');
+  var h='';
+  ms.forEach(function(m){
+    h+='<div class="msg '+(m.from==='owner'?'me':'mgr')+'">'+esc(m.text)+'<time>'+(m.from==='owner'?(m.handled?'прочитано':'ждёт управляющего'):'Управляющий')+' · '+hhmm(m.t)+'</time></div>';
+  });
+  if(!ms.length)h='<p style="color:var(--dim);margin:0">Пока пусто. Если агенты работают, управляющий ответит в течение минуты-двух, иначе при следующей смене (нажми Старт).</p>';
+  var box=$('chatList'),sc=$('chatScroll'),atEnd=sc.scrollHeight-sc.scrollTop-sc.clientHeight<60;
+  if(box.getAttribute('data-h')!==h){box.innerHTML=h;box.setAttribute('data-h',h);if(atEnd||!sc.scrollTop)sc.scrollTop=sc.scrollHeight;}
+}
+$('chatBtn').addEventListener('click',function(){renderChat();$('chatSheet').hidden=false;var sc=$('chatScroll');sc.scrollTop=sc.scrollHeight});
+$('chatClose').addEventListener('click',function(){$('chatSheet').hidden=true});
+$('chatSheet').addEventListener('click',function(e){if(e.target===$('chatSheet'))$('chatSheet').hidden=true});
+$('chatForm').addEventListener('submit',function(e){
+  e.preventDefault();var t=$('chatText').value.trim();if(!t||!AG||!AG.control)return;
+  $('chatText').value='';
+  (AG.chat=AG.chat||[]).push({id:'x'+Date.now(),t:new Date().toISOString(),from:'owner',text:t,handled:false});renderChat();
+  fetch('/chat',{method:'POST',body:JSON.stringify({text:t})}).then(function(){if(typeof poll==='function')poll()}).catch(function(){});
+});
 function openFeed(){renderAgency();$('feedSheet').hidden=false}
 $('feed').addEventListener('click',openFeed);
 $('feed').addEventListener('keydown',function(e){if(e.key==='Enter')openFeed()});
@@ -722,7 +761,7 @@ if(AG){
     });
     var last='';
     var poll=function(){fetch('/agency.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
-      var key=JSON.stringify([d.usage,d.metrics,d.status,d.agents,(d.activity||[])[0],d.decisions&&d.decisions.length,d.roster,d.ideas]);
+      var key=JSON.stringify([d.usage,d.metrics,d.status,d.agents,(d.activity||[])[0],d.decisions&&d.decisions.length,d.roster,d.ideas,d.chat]);
       if(key===last)return;last=key;
       var mchanged=JSON.stringify(d.metrics)!==JSON.stringify(AG.metrics)||JSON.stringify(d.roster)!==JSON.stringify(AG.roster);
       d.control=true;AG=d;
@@ -735,7 +774,7 @@ if(AG){
 }
 function setDemo(on){
   demo=on;DATA=on?simData($('demoRange').value/100):REAL;
-  $('demoBanner').hidden=!on;$('demoCtl').hidden=!on;$('needBtn').hidden=on;$('councilBtn').hidden=on;$('ideasBtn').hidden=on||!AG;$('goals').hidden=on||!(AG&&AG.goals);$('tokens').hidden=on||!(AG&&AG.usage);
+  $('demoBanner').hidden=!on;$('demoCtl').hidden=!on;$('needBtn').hidden=on;$('councilBtn').hidden=on;$('ideasBtn').hidden=on||!AG;$('chatBtn').hidden=on||!(AG&&AG.control);$('goals').hidden=on||!(AG&&AG.goals);$('tokens').hidden=on||!(AG&&AG.usage);
   $('demoBtn').textContent=on?'Вернуть настоящие цифры':'Демо роста';
   applyData();
 }
