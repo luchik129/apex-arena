@@ -30,6 +30,35 @@ def write_state(**kw):
 def export():
     subprocess.run([sys.executable, os.path.join(HERE, "export_city.py")], env=dict(os.environ, MARKETING_DATA=DATA), cwd=REPO)
 
+def day_today():
+    return __import__("datetime").date.today().isoformat()
+
+def idle_reason(cfg):
+    """Decides without calling Claude whether a shift is worth running."""
+    u = usage.load()["days"].get(day_today(), {})
+    if u.get("shifts", 0) >= int(cfg.get("max_shifts_per_day", 3)):
+        return "Лимит смен на сегодня (%s) выполнен, агентство отдыхает до завтра" % cfg.get("max_shifts_per_day", 3)
+    vids = os.path.join(DATA, "days", day_today(), "videos")
+    batch_done = os.path.isdir(vids) and len([f for f in os.listdir(vids) if f.endswith(".mp4")]) >= 3
+    if not batch_done:
+        return None
+    sig = []
+    for d in ("stats",):
+        p = os.path.join(DATA, d)
+        if os.path.isdir(p):
+            sig += sorted(os.listdir(p))
+    approved = [i for i in ideas.load() if i.get("status") == "approved"]
+    try:
+        sig.append(os.path.getmtime(os.path.join(DATA, "log.json")))
+    except OSError:
+        pass
+    key = json.dumps([sig, [i["id"] for i in approved]])
+    last = state.get("last_sig")
+    state["last_sig"] = key
+    if last == key and not approved:
+        return "Ролики на сегодня готовы, новых данных нет, жду (токены не тратятся)"
+    return None
+
 def shift_loop(publish):
     stop_flag = os.path.join(A, "STOP")
     try:
@@ -37,21 +66,36 @@ def shift_loop(publish):
     except OSError:
         pass
     n = 0
+    last_idle = None
     while state["running"] and not os.path.exists(stop_flag):
+        # headless run: allow file edits and only the commands the pipeline needs
+        tools = ["Bash(git pull:*)", "Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
+        # Chrome is always on: agents read stats there; posting itself is gated by config.json "publish" in the shift rules
+        tools.append("mcp__claude-in-chrome__*")
+        cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
+        budget = int(cfg.get("daily_tokens", 1500000))
+        why = None
+        if budget and usage.summary(budget)["left"] == 0:
+            why = "Дневной лимит токенов (%s) исчерпан, агентство ждёт завтра" % f"{budget:,}".replace(",", " ")
+        else:
+            why = idle_reason(cfg)  # free pre-check: 0 tokens when there is nothing new to do
+        if why:
+            if why != last_idle:
+                act("system", why)
+                write_state(state="working", step="ждёт: " + why)
+            last_idle = why
+            for _ in range(int(os.environ.get("IDLE_SECONDS", "1800"))):
+                if not state["running"] or os.path.exists(stop_flag):
+                    break
+                time.sleep(1)
+            continue
+        last_idle = None
         n += 1
         write_state(state="working", step="смена %d: старт" % n, shift=n)
         act("system", "Смена %d началась" % n)
         export()
-        # headless run: allow file edits and only the commands the pipeline needs; Chrome tools only when publishing was switched on
-        tools = ["Bash(git pull:*)", "Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
-        # Chrome is always on: agents read stats and research there; posting itself is gated by config.json "publish" in the shift rules
-        tools.append("mcp__claude-in-chrome__*")
-        cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
-        budget = int(cfg.get("daily_tokens", 3000000))
-        if budget and usage.summary(budget)["left"] == 0:
-            act("system", "Дневной лимит токенов исчерпан (%s), агентство ждёт завтра" % f"{budget:,}".replace(",", " "))
-            break
-        cmd = ["claude", "-p", "/marketing-shift", "--output-format", "json", "--permission-mode", "acceptEdits"] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools
+        cmd = ["claude", "-p", "/marketing-shift", "--output-format", "json", "--permission-mode", "acceptEdits",
+               "--model", cfg.get("model", "sonnet"), "--max-turns", str(cfg.get("max_turns", 60))] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools
         env = dict(os.environ, MARKETING_DATA=DATA)
         out_path = os.path.join(A, "last_shift.out")
         state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,
@@ -66,7 +110,7 @@ def shift_loop(publish):
             act("system", "Смена %d закончилась с ошибкой, подробности в last_shift.log" % n)
         export()
         # short pause between shifts so the Mac and the accounts are not hammered; leaves quickly on Stop
-        for _ in range(int(os.environ.get("PAUSE_SECONDS", "300"))):
+        for _ in range(int(os.environ.get("PAUSE_SECONDS", "1800"))):
             if not state["running"] or os.path.exists(stop_flag):
                 break
             time.sleep(1)

@@ -1,1 +1,7 @@
-{"publish": false, "daily_tokens": 3000000}
+{
+ "publish": false,
+ "daily_tokens": 1500000,
+ "max_shifts_per_day": 3,
+ "model": "sonnet",
+ "max_turns": 60
+}
