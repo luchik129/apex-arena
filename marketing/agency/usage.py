@@ -96,3 +96,32 @@ def window(hours, limit):
                 break
     return {"hours": hours, "limit": limit, "used": used, "left": max(0, limit - used) if limit else None,
             "avg_shift": avg, "pause": pause, "wait": max(0, wait)}
+
+
+def result_info(text):
+    """The final result of a headless run: {"ok": bool, "tokens": int, "message": str}. A run that ended at once with an error (for example
+    the subscription limit) is NOT a finished shift."""
+    res = None
+    for line in reversed(text.strip().splitlines()):
+        try:
+            d = json.loads(line)
+        except Exception:
+            continue
+        if isinstance(d, dict) and d.get("type") == "result":
+            res = d
+            break
+    if res is None:
+        try:
+            d = json.loads(text)
+            res = d if isinstance(d, dict) else None
+        except Exception:
+            res = None
+    r = parse(text)
+    tokens = r[0] if r else 0
+    msg = ""
+    if res:
+        msg = str(res.get("result") or res.get("error") or res.get("subtype") or "")
+    else:
+        msg = " ".join(text.split())[:200] or "нет ответа от claude"
+    ok = bool(res) and not res.get("is_error") and tokens > 0
+    return {"ok": ok, "tokens": tokens, "message": " ".join(msg.split())[:200]}

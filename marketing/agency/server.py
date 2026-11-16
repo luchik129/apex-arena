@@ -78,6 +78,7 @@ def shift_loop(publish):
     except OSError:
         pass
     n = 0
+    fails = 0
     last_idle = None
     while state["running"] and not os.path.exists(stop_flag):
         # headless run: allow file edits and only the commands the pipeline needs
@@ -116,23 +117,29 @@ def shift_loop(publish):
         env = dict(os.environ, MARKETING_DATA=DATA)
         out_path = os.path.join(A, "last_shift.out")
         state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,
-                                         stdout=open(out_path, "w"), stderr=open(os.path.join(A, "last_shift.log"), "a"))
+                                         stdout=open(out_path, "w"), stderr=open(os.path.join(A, "last_shift.err"), "w"))
         state["proc"].wait()
         text = open(out_path, encoding="utf-8", errors="replace").read()
+        err = open(os.path.join(A, "last_shift.err"), encoding="utf-8", errors="replace").read()[-400:] if os.path.exists(os.path.join(A, "last_shift.err")) else ""
         open(os.path.join(A, "last_shift.log"), "a").write(text + "\n")
-        tok = usage.add(text, n)
-        if tok is not None:
-            act("system", "Смена %d закончилась, потрачено %s токенов" % (n, f"{tok:,}".replace(",", " ")))
+        info = usage.result_info(text)
+        tok = None
+        if info["ok"]:
+            tok = usage.add(text, n)
+            act("system", "Смена %d закончилась, потрачено %s токенов" % (n, f"{info['tokens']:,}".replace(",", " ")))
+            fails = 0
         elif state["running"]:
-            act("system", "Смена %d закончилась с ошибкой, подробности в last_shift.log" % n)
+            fails += 1
+            why_failed = info["message"] or " ".join(err.split())[-200:] or "неизвестная ошибка"
+            act("system", "Смена %d оборвалась сразу, это не конец работы. Причина: %s" % (n, why_failed))
         export()
         # short pause between shifts so the Mac and the accounts are not hammered; leaves quickly on Stop
         win = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
         pause = int(os.environ.get("PAUSE_SECONDS") or (win["pause"] if win["limit"] else 300))
         if tok is None and state["running"]:
-            # most likely the real subscription limit was hit (or the CLI failed): wait and try again, do not spin
-            pause = int(os.environ.get("PAUSE_SECONDS") or 1800)
-            act("system", "Смена не завершилась, вероятно упёрлись в лимит подписки. Жду %d мин и пробую снова" % (pause // 60))
+            # failed at once: most likely the subscription limit; back off further each time instead of spinning
+            pause = int(os.environ.get("PAUSE_SECONDS") or min(7200, 1800 * fails))
+            act("system", "Жду %d мин и пробую снова (подряд неудач: %d)" % (pause // 60, fails))
         if state["running"]:
             act("system", "Следующая смена через %d мин" % (pause // 60))
             write_state(state="working", step="перерыв %d мин" % (pause // 60))
