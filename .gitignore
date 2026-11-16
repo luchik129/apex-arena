@@ -13,3 +13,7 @@ marketing/data/**/*.png
 marketing/data/**/*.wav
 marketing/data/**/preview/
 marketing/engine/node_modules/
+marketing/data/agency/agency.json
+marketing/data/agency/STOP
+marketing/data/agency/last_shift.log
+marketing/data/agency/council/

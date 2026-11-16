@@ -1,0 +1,51 @@
+[
+ {
+  "id": "strategy-1",
+  "name": "Стратег 1",
+  "dept": "strategy",
+  "lane": "основной",
+  "status": "active"
+ },
+ {
+  "id": "creative-1",
+  "name": "Креатор 1",
+  "dept": "creative",
+  "lane": "основной",
+  "status": "active"
+ },
+ {
+  "id": "media-1",
+  "name": "Публикатор 1",
+  "dept": "media",
+  "lane": "основной",
+  "status": "active"
+ },
+ {
+  "id": "smm-1",
+  "name": "SMM 1",
+  "dept": "smm",
+  "lane": "основной",
+  "status": "active"
+ },
+ {
+  "id": "gyms-1",
+  "name": "Клановик 1",
+  "dept": "gyms",
+  "lane": "основной",
+  "status": "active"
+ },
+ {
+  "id": "analytics-1",
+  "name": "Аналитик 1",
+  "dept": "analytics",
+  "lane": "основной",
+  "status": "active"
+ },
+ {
+  "id": "aso-1",
+  "name": "ASO 1",
+  "dept": "aso",
+  "lane": "основной",
+  "status": "active"
+ }
+]
