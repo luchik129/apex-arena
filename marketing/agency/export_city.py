@@ -45,9 +45,17 @@ def build():
         "publish": load(os.path.join(A, "config.json"), {}).get("publish", False),
         "agents": load(os.path.join(A, "agents.json"), {}),
         "activity": activity(),
+        "usage": usage_summary(),
         "goals": load(os.path.join(A, "goals.json"), {"views": 2000000, "installs": 10000}),
         "ideas": load(os.path.join(A, "ideas.json"), [])[:60],
     }
+
+def usage_summary():
+    sys.path.insert(0, HERE)
+    os.environ.setdefault("MARKETING_DATA", DATA)
+    import usage
+    cfg = load(os.path.join(A, "config.json"), {})
+    return usage.summary(int(cfg.get("daily_tokens", 3000000)))
 
 def activity(n=80):
     p = os.path.join(A, "activity.jsonl")

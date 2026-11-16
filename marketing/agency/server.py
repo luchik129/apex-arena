@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("MARKETING_DATA", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data"))
 from act import log as act, clear as act_clear
 import idea as ideas
+import usage
 HAS_CHROME = "--chrome" in subprocess.run(["claude", "--help"], capture_output=True, text=True).stdout if __import__("shutil").which("claude") else False
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -45,11 +46,24 @@ def shift_loop(publish):
         tools = ["Bash(git pull:*)", "Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
         # Chrome is always on: agents read stats and research there; posting itself is gated by config.json "publish" in the shift rules
         tools.append("mcp__claude-in-chrome__*")
-        cmd = ["claude", "-p", "/marketing-shift", "--permission-mode", "acceptEdits"] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools
+        cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
+        budget = int(cfg.get("daily_tokens", 3000000))
+        if budget and usage.summary(budget)["left"] == 0:
+            act("system", "Дневной лимит токенов исчерпан (%s), агентство ждёт завтра" % f"{budget:,}".replace(",", " "))
+            break
+        cmd = ["claude", "-p", "/marketing-shift", "--output-format", "json", "--permission-mode", "acceptEdits"] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools
         env = dict(os.environ, MARKETING_DATA=DATA)
+        out_path = os.path.join(A, "last_shift.out")
         state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,
-                                         stdout=open(os.path.join(A, "last_shift.log"), "a"), stderr=subprocess.STDOUT)
+                                         stdout=open(out_path, "w"), stderr=open(os.path.join(A, "last_shift.log"), "a"))
         state["proc"].wait()
+        text = open(out_path, encoding="utf-8", errors="replace").read()
+        open(os.path.join(A, "last_shift.log"), "a").write(text + "\n")
+        tok = usage.add(text, n)
+        if tok is not None:
+            act("system", "Смена %d закончилась, потрачено %s токенов" % (n, f"{tok:,}".replace(",", " ")))
+        elif state["running"]:
+            act("system", "Смена %d закончилась с ошибкой, подробности в last_shift.log" % n)
         export()
         # short pause between shifts so the Mac and the accounts are not hammered; leaves quickly on Stop
         for _ in range(int(os.environ.get("PAUSE_SECONDS", "300"))):

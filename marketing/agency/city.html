@@ -83,6 +83,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .gl b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
 .gl .bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
 .gl .bar i{display:block;height:100%;background:var(--gold);min-width:2px}
+.tk{font-size:11px;color:var(--dim);display:flex;flex-direction:column;gap:3px}
+.tk b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.tk .bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.tk .bar i{display:block;height:100%;background:var(--accent)}
+.tk.low .bar i{background:var(--warn)}
 .badge{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--warn);color:#2a0606;font-size:11px;line-height:18px;margin-left:4px}
 .idea{border-top:1px solid var(--line);padding-block:10px;display:flex;flex-direction:column;gap:6px;line-height:1.4}
 .idea .meta{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
@@ -122,6 +127,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
   </div>
   <div class="stats" id="stats"></div>
   <div id="goals" hidden></div>
+  <div id="tokens" hidden></div>
   <div id="demoBanner" hidden>ДЕМО. Это пример роста, не твои цифры.</div>
 </div>
 
@@ -677,11 +683,19 @@ function renderIdeas(){
   $('ideasList').innerHTML=h;
   var g=AG&&AG.goals;
   if(g&&!demo){
-    var short=function(n){return n>=1e6?(n/1e6).toLocaleString('ru-RU')+' млн':n>=1e3?(n/1e3).toLocaleString('ru-RU')+' тыс':fmt(n)};
+    var short=function(n){return n>=1e6?(+(n/1e6).toFixed(2)).toLocaleString('ru-RU')+' млн':n>=1e3?Math.round(n/1e3).toLocaleString('ru-RU')+' тыс':fmt(n)};
     var row=function(lbl,v,goal){var p=v==null?0:Math.min(100,v/goal*100);
       return '<div class="gl"><span>'+lbl+' <b>'+(v==null?'нет данных':fmt(v))+'</b> из '+short(goal)+'</span><span class="bar"><i style="width:'+p.toFixed(2)+'%"></i></span></div>'};
+    var us=AG.usage;
+    if(us&&us.today){
+      var bud=us.budget||0,used=us.today.tokens||0,p=bud?Math.min(100,used/bud*100):0;
+      $('tokens').className='tk'+(bud&&used/bud>0.85?' low':'');
+      $('tokens').innerHTML='<span>Токены сегодня: <b>'+short(used)+'</b>'+(bud?' из '+short(bud)+' · осталось <b>'+short(Math.max(0,bud-used))+'</b>':'')+
+        ' · смен: <b>'+(us.today.shifts||0)+'</b>'+(us.today.cost_usd?' · ≈ $'+us.today.cost_usd.toFixed(2):'')+'</span>'+(bud?'<span class="bar"><i style="width:'+p.toFixed(1)+'%"></i></span>':'');
+      $('tokens').hidden=false;
+    }else $('tokens').hidden=true;
     $('goals').innerHTML=row('Просмотры',REAL.views,g.views)+row('Установки',REAL.installs,g.installs);$('goals').hidden=false;
-  }else $('goals').hidden=true;
+  }else{$('goals').hidden=true;$('tokens').hidden=true;}
 }
 $('ideasBtn').addEventListener('click',function(){renderIdeas();$('ideasSheet').hidden=false});
 $('ideasClose').addEventListener('click',function(){$('ideasSheet').hidden=true});
@@ -708,7 +722,7 @@ if(AG){
     });
     var last='';
     var poll=function(){fetch('/agency.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
-      var key=JSON.stringify([d.metrics,d.status,d.agents,(d.activity||[])[0],d.decisions&&d.decisions.length,d.roster,d.ideas]);
+      var key=JSON.stringify([d.usage,d.metrics,d.status,d.agents,(d.activity||[])[0],d.decisions&&d.decisions.length,d.roster,d.ideas]);
       if(key===last)return;last=key;
       var mchanged=JSON.stringify(d.metrics)!==JSON.stringify(AG.metrics)||JSON.stringify(d.roster)!==JSON.stringify(AG.roster);
       d.control=true;AG=d;
@@ -721,7 +735,7 @@ if(AG){
 }
 function setDemo(on){
   demo=on;DATA=on?simData($('demoRange').value/100):REAL;
-  $('demoBanner').hidden=!on;$('demoCtl').hidden=!on;$('needBtn').hidden=on;$('councilBtn').hidden=on;$('ideasBtn').hidden=on||!AG;$('goals').hidden=on||!(AG&&AG.goals);
+  $('demoBanner').hidden=!on;$('demoCtl').hidden=!on;$('needBtn').hidden=on;$('councilBtn').hidden=on;$('ideasBtn').hidden=on||!AG;$('goals').hidden=on||!(AG&&AG.goals);$('tokens').hidden=on||!(AG&&AG.usage);
   $('demoBtn').textContent=on?'Вернуть настоящие цифры':'Демо роста';
   applyData();
 }
