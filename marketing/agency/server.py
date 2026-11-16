@@ -16,10 +16,9 @@ DATA = os.environ.get("MARKETING_DATA") or os.path.join(REPO, "marketing", "data
 A = os.path.join(DATA, "agency")
 CITY = os.path.join(HERE, "city.html")
 PORT = int(os.environ.get("PORT", "8787"))
-DENY = ["Bash(sudo:*)", "Bash(rm -rf:*)", "Bash(rm -fr:*)", "Bash(git push:*)", "Bash(git reset:*)", "Bash(git checkout:*)", "Bash(git stash:*)",
-        "Bash(curl:*)", "Bash(wget:*)", "Bash(ssh:*)", "Bash(scp:*)", "Bash(chmod:*)", "Bash(chown:*)", "Bash(pmset:*)", "Bash(killall:*)",
-        "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(launchctl:*)", "Bash(osascript:*)", "Bash(defaults:*)", "Bash(brew:*)", "Bash(pip:*)", "Bash(npm install:*)",
-        "Bash(mv ~:*)", "Bash(rm ~:*)", "Bash(rm /:*)"]
+# Everything is allowed for the agents except commands that can wreck the machine and that no marketing task needs.
+DENY = ["Bash(sudo:*)", "Bash(rm -rf /:*)", "Bash(rm -rf ~:*)", "Bash(rm -fr /:*)", "Bash(rm -fr ~:*)", "Bash(mkfs:*)", "Bash(diskutil:*)",
+        "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(pmset:*)", "Bash(launchctl:*)", "Bash(chown:*)", "Bash(git push --force:*)"]
 state = {"proc": None, "caff": None, "running": False}
 wake = threading.Event()  # set when the owner writes in the chat: ends any waiting at once
 
