@@ -43,7 +43,23 @@ def build():
         "experiment": load(os.path.join(A, "state.json"), {}).get("experiment"),
         "status": load(os.path.join(A, "state.json"), {"state": "sleeping"}),
         "publish": load(os.path.join(A, "config.json"), {}).get("publish", False),
+        "agents": load(os.path.join(A, "agents.json"), {}),
+        "activity": activity(),
     }
+
+def activity(n=80):
+    p = os.path.join(A, "activity.jsonl")
+    try:
+        lines = open(p, encoding="utf-8").read().splitlines()[-n:]
+    except Exception:
+        return []
+    out = []
+    for l in reversed(lines):
+        try:
+            out.append(json.loads(l))
+        except Exception:
+            pass
+    return out
 
 if __name__ == "__main__":
     out = build()

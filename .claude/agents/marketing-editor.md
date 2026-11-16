@@ -14,3 +14,7 @@ For each script in `<DAY>/scripts/`:
 3. Append to `<DAY>/captions.md` a block per video: id, title, caption + hashtags (the publisher turns this into per-platform posts).
 4. Delete `<DAY>/preview/` when done. Update `log.json` status to "ready".
 Return the list of finished video paths and anything you had to change.
+
+## Activity feed (the owner watches it live in the city)
+Run `python3 marketing/agency/act.py editor "<what you are doing>"` when you start, at each main step (one short Russian line, concrete: which video, which file, what number), and `python3 marketing/agency/act.py editor "<result>" done` when you finish.
+Never write anything into the feed that did not happen.

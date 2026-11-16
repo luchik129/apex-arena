@@ -78,6 +78,22 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .dec .kind{font-weight:600;color:var(--gold)}
 .dec .why{color:var(--dim)}
 #ctl{display:flex;flex-direction:column;gap:6px}
+#runBtn.stop{background:var(--warn);color:#2a0606}
+#feed{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;cursor:pointer}
+#feed .fh{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.fe{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:6px;font-size:12px;line-height:1.35;align-items:baseline}
+.fe time{color:var(--dim);font-variant-numeric:tabular-nums;font-size:11px}
+.fe b{font-weight:600;white-space:nowrap}
+.fe span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#feedList .fe span{white-space:normal}
+#feedList .fe{padding-block:6px;border-top:1px solid var(--line)}
+.fe.done span{color:var(--ok)}
+.agrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 8px;font-size:12px;line-height:1.35;padding-block:6px;border-top:1px solid var(--line)}
+.agrow b{font-weight:600}
+.agrow .now{grid-column:1/-1;color:var(--ink)}
+.agrow .idle{grid-column:1/-1;color:var(--dim)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--dim)}
+.dot.on{background:var(--ok);box-shadow:0 0 6px var(--ok)}
 #pubRow{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--dim);line-height:1.35}
 #pubRow input{margin-top:2px;accent-color:var(--gold)}
 #hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--dim);font-size:13px;text-align:center;pointer-events:none}
@@ -96,6 +112,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 </div>
 
 <div class="hud" id="bottom">
+  <div id="feed" hidden tabindex="0" aria-label="Лента действий"></div>
   <div id="status"></div>
   <div id="demoCtl" hidden>
     <label for="demoRange">Рост</label>
@@ -103,10 +120,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     <span id="demoPct">45%</span>
   </div>
   <div id="ctl" hidden>
-    <div class="row">
-      <button class="primary" id="startBtn">▶ Старт</button>
-      <button id="stopBtn">■ Стоп</button>
-    </div>
+    <div class="row"><button class="primary" id="runBtn">▶ Старт</button></div>
     <label id="pubRow"><input type="checkbox" id="pubChk"> Разрешить агентам публиковать ролики (выключено: они только готовят)</label>
   </div>
   <div class="row">
@@ -143,6 +157,15 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     <h2 style="font-family:var(--display);font-size:16px;margin:0 0 4px">Совет агентства</h2>
     <div id="councilBody"></div>
     <div class="row" style="margin-top:12px"><button id="councilClose" class="primary">Закрыть</button></div>
+  </div>
+</div>
+<div id="feedSheet" hidden style="position:absolute;inset:0;z-index:6;background:rgba(3,5,16,.6);display:flex;align-items:flex-end">
+  <div style="background:var(--night2);border-top:1px solid var(--line);border-radius:16px 16px 0 0;width:100%;max-height:86%;overflow:auto;padding-block:16px calc(16px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-user-select:text;user-select:text">
+    <h2 style="font-family:var(--display);font-size:16px;margin:0 0 8px">Кто что делает</h2>
+    <div id="agentList"></div>
+    <h2 style="font-family:var(--display);font-size:14px;margin:16px 0 4px">Лента действий</h2>
+    <div id="feedList"></div>
+    <div class="row" style="margin-top:12px"><button id="feedClose" class="primary">Закрыть</button></div>
   </div>
 </div>
 <div id="hint">Загружаю город…</div>
@@ -523,7 +546,9 @@ function buildOffice(dep){
   $('officeTitle').innerHTML=dep.name+'<small>Уровень '+L+' из 7</small>';
   var html='<div class="team">Команда: '+n+' из 8'+(n<cap?' · свободных мест: '+(cap-n):'')+'</div>';
   (members(dep)||[]).forEach(function(m){
-    html+='<div class="member"><span>'+esc(m.name)+(m.status==='probation'?' <span class="prob">испытательный срок</span>':'')+'</span><span>'+esc(m.lane)+'</span></div>';
+    var a=m.role&&AG.agents?AG.agents[m.role]:null;
+    html+='<div class="member"><span><i class="dot'+(a&&a.doing?' on':'')+'"></i>'+esc(m.name)+(m.status==='probation'?' <span class="prob">испытательный срок</span>':'')+'</span><span>'+esc(m.lane)+'</span></div>';
+    if(m.role)html+='<div class="next" style="padding-left:14px">'+(a&&a.doing?'Сейчас: '+esc(a.doing):(a&&a.last?'Последнее: '+esc(a.last):'Ждёт задачу'))+'</div>';
   });
   dep.goals(DATA).forEach(function(g){
     var p=g[1]==null||!g[2]?0:Math.min(100,Math.round(g[1]/g[2]*100));
@@ -583,16 +608,58 @@ function fillCouncil(){
 $('councilBtn').addEventListener('click',function(){fillCouncil();$('council').hidden=false});
 $('councilClose').addEventListener('click',function(){$('council').hidden=true});
 $('council').addEventListener('click',function(e){if(e.target===$('council'))$('council').hidden=true});
-if(AG&&AG.status){var sh=$('shift');sh.hidden=false;
-  if(AG.status.state==='working'){sh.className='on';sh.textContent='● смена идёт'+(AG.status.step?': '+AG.status.step:'');}
-  else sh.textContent='агентство спит';}
-if(AG&&AG.control){
-  $('ctl').hidden=false;
-  var post=function(u,b){return fetch(u,{method:'POST',body:JSON.stringify(b||{})}).then(function(){setTimeout(function(){location.reload()},900)})};
-  $('startBtn').addEventListener('click',function(){post('/start',{publish:$('pubChk').checked})});
-  $('stopBtn').addEventListener('click',function(){post('/stop')});
-  $('pubChk').checked=!!AG.publish;
-  setInterval(function(){if(AG.status&&AG.status.state==='working')location.reload()},60000);
+var ROLES={manager:['Управляющий','#FFC83D'],director:['Директор','#A78BFA'],analyst:['Аналитик','#5B8CFF'],writer:['Сценарист','#FF5D8F'],
+  editor:['Монтажёр','#2EC4FF'],publisher:['Публикатор','#FF9F1C'],system:['Агентство','#8D95C2']};
+function hhmm(t){var d=new Date(t);return isNaN(d)?'':('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
+function feRow(e){var r=ROLES[e.role]||ROLES.system;
+  return '<div class="fe'+(e.done?' done':'')+'"><time>'+hhmm(e.t)+'</time><b style="color:'+r[1]+'">'+r[0]+'</b><span>'+esc(e.text)+'</span></div>'}
+function working(){return !!(AG&&AG.status&&AG.status.state==='working')}
+function renderAgency(){
+  if(!AG)return;
+  var sh=$('shift');sh.hidden=false;
+  var m=AG.agents&&AG.agents.manager;
+  if(working()){sh.className='on';sh.textContent='● смена идёт'+(m&&m.doing?': '+m.doing:(AG.status.step?': '+AG.status.step:''));}
+  else{sh.className='';sh.textContent='агентство спит';}
+  var act=AG.activity||[];
+  var f=$('feed');f.hidden=!act.length;
+  if(act.length)f.innerHTML='<div class="fh"><span>Лента действий</span><span>все →</span></div>'+act.slice(0,3).map(feRow).join('');
+  var rows='';
+  ['manager','director','analyst','writer','editor','publisher'].forEach(function(k){
+    var a=(AG.agents||{})[k],r=ROLES[k];
+    rows+='<div class="agrow"><b style="color:'+r[1]+'"><i class="dot'+(a&&a.doing?' on':'')+'"></i>'+r[0]+'</b><span></span>'+
+      (a&&a.doing?'<span class="now">'+esc(a.doing)+'</span>':'<span class="idle">'+(a&&a.last?'Последнее: '+esc(a.last):'Ждёт задачу')+'</span>')+'</div>';
+  });
+  $('agentList').innerHTML=rows;
+  $('feedList').innerHTML=act.length?act.map(feRow).join(''):'<p style="color:var(--dim);margin:0">Пока пусто. Лента заполнится, когда нажмёшь Старт.</p>';
+  if(AG.control){var b=$('runBtn'),w=working();
+    b.textContent=w?'■ Стоп':'▶ Старт';b.className=w?'stop':'primary';$('pubRow').hidden=w;}
+}
+function openFeed(){renderAgency();$('feedSheet').hidden=false}
+$('feed').addEventListener('click',openFeed);
+$('feed').addEventListener('keydown',function(e){if(e.key==='Enter')openFeed()});
+$('feedClose').addEventListener('click',function(){$('feedSheet').hidden=true});
+$('feedSheet').addEventListener('click',function(e){if(e.target===$('feedSheet'))$('feedSheet').hidden=true});
+if(AG){
+  if(!AG.agents)AG.agents={};
+  if(AG.control){
+    $('ctl').hidden=false;$('pubChk').checked=!!AG.publish;
+    $('runBtn').addEventListener('click',function(){
+      var w=working();
+      AG.status={state:w?'sleeping':'working',step:''};renderAgency(); // flip at once, the server confirms on the next poll
+      fetch(w?'/stop':'/start',{method:'POST',body:JSON.stringify({publish:$('pubChk').checked})}).then(poll,poll);
+    });
+    var last='';
+    var poll=function(){fetch('/agency.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
+      var key=JSON.stringify([d.metrics,d.status,d.agents,(d.activity||[])[0],d.decisions&&d.decisions.length,d.roster]);
+      if(key===last)return;last=key;
+      var mchanged=JSON.stringify(d.metrics)!==JSON.stringify(AG.metrics)||JSON.stringify(d.roster)!==JSON.stringify(AG.roster);
+      d.control=true;AG=d;
+      if(mchanged&&!demo){Object.keys(d.metrics||{}).forEach(function(k){REAL[k]=d.metrics[k]});DATA=REAL;applyData();}
+      renderAgency();if(mode==='office'&&curDep&&!busy)buildOffice(curDep);
+    }).catch(function(){})};
+    setInterval(poll,4000);
+  }
+  renderAgency();
 }
 function setDemo(on){
   demo=on;DATA=on?simData($('demoRange').value/100):REAL;

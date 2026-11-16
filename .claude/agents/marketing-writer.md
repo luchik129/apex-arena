@@ -36,3 +36,7 @@ no real-sounding user names with invented results, no weight-loss or body number
 See `marketing/examples/s01_almost_quit.json`.
 Keep every text line short (it auto-shrinks, but long lines become tiny). English only.
 Also add one entry per script to `log.json` with status "draft" and "day": DAY. Return the list of ids with their hooks.
+
+## Activity feed (the owner watches it live in the city)
+Run `python3 marketing/agency/act.py writer "<what you are doing>"` when you start, at each main step (one short Russian line, concrete: which video, which file, what number), and `python3 marketing/agency/act.py writer "<result>" done` when you finish.
+Never write anything into the feed that did not happen.

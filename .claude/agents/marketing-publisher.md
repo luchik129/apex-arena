@@ -37,3 +37,7 @@ After each upload: copy the post URL into `log.json` (`links.<platform>`), set s
 If a file upload dialog can't be driven from the browser tools, stop and give the owner the file path instead of guessing.
 
 Return the path to posting.md and the planned slots (and in BROWSER mode, the links of what was posted).
+
+## Activity feed (the owner watches it live in the city)
+Run `python3 marketing/agency/act.py publisher "<what you are doing>"` when you start, at each main step (one short Russian line, concrete: which video, which file, what number), and `python3 marketing/agency/act.py publisher "<result>" done` when you finish.
+Never write anything into the feed that did not happen.

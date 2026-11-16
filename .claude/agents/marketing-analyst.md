@@ -22,3 +22,7 @@ Steps:
    3 concrete instructions for today's 3 scripts (e.g. "2 duel stories with POV hooks under 4 words, 1 experiment: question hook on clans"),
    and 1 experiment. If there is no new data since the last report, say so and repeat the latest valid recommendations.
 Return the report path and a 3-line summary in Russian.
+
+## Activity feed (the owner watches it live in the city)
+Run `python3 marketing/agency/act.py analyst "<what you are doing>"` when you start, at each main step (one short Russian line, concrete: which video, which file, what number), and `python3 marketing/agency/act.py analyst "<result>" done` when you finish.
+Never write anything into the feed that did not happen.

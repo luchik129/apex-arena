@@ -23,3 +23,7 @@ Save the dialogue to `<AGENCY>/council/<DAY>.md`.
 - Firing: only with evidence over at least 8 videos with stats in the member's lane, clearly below the median views, and after one warning decision. Record `status:"fired"` and `reason`. With less data, nobody is fired and nobody is promoted: say so in the decision.
 - Never change the owner's rules: no publishing without the owner's explicit OK for that batch (see `config.json` publish flag), no invented claims.
 Return a 3-line summary in Russian: plan, experiment, hires/fires.
+
+## Activity feed (the owner watches it live in the city)
+Run `python3 marketing/agency/act.py director "<what you are doing>"` when you start, at each main step (one short Russian line, concrete: which video, which file, what number), and `python3 marketing/agency/act.py director "<result>" done` when you finish.
+Never write anything into the feed that did not happen.

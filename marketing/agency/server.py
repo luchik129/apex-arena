@@ -2,6 +2,9 @@
 """Local control panel: serves the city on http://localhost:8787 with Start / Stop buttons.
 Start runs shifts of the agency in a loop (via `claude -p /marketing-shift`) until Stop. Nothing else runs in the background."""
 import json, os, signal, subprocess, sys, threading, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+os.environ.setdefault("MARKETING_DATA", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data"))
+from act import log as act, clear as act_clear
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -34,6 +37,7 @@ def shift_loop(publish):
     while state["running"] and not os.path.exists(stop_flag):
         n += 1
         write_state(state="working", step="смена %d: старт" % n, shift=n)
+        act("system", "Смена %d началась" % n)
         export()
         # headless run: allow file edits and only the commands the pipeline needs; Chrome tools only when publishing was switched on
         tools = ["Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
@@ -52,6 +56,8 @@ def shift_loop(publish):
             time.sleep(1)
     state["running"] = False
     write_state(state="sleeping", step="")
+    act_clear()
+    act("system", "Агентство остановлено, все ушли домой")
     export()
     if state.get("caff"):
         try:
@@ -93,6 +99,7 @@ class H(BaseHTTPRequestHandler):
                     state["caff"] = subprocess.Popen(["caffeinate", "-i"])  # keeps the Mac awake while the agency works
                 except Exception:
                     state["caff"] = None
+                act("system", "Нажат Старт" + (" (публикация разрешена)" if cfg["publish"] else " (только подготовка, без публикации)"))
                 threading.Thread(target=shift_loop, args=(cfg["publish"],), daemon=True).start()
             elif self.path == "/stop":
                 state["running"] = False
@@ -104,6 +111,8 @@ class H(BaseHTTPRequestHandler):
                     except Exception:
                         pass
                 write_state(state="sleeping", step="")
+                act_clear()
+                act("system", "Нажат Стоп")
         self.send(200, json.dumps({"running": state["running"]}))
 
 if __name__ == "__main__":
