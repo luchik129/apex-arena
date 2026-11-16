@@ -35,7 +35,11 @@ def shift_loop(publish):
         n += 1
         write_state(state="working", step="смена %d: старт" % n, shift=n)
         export()
-        cmd = ["claude", "-p", "/marketing-shift", "--permission-mode", "acceptEdits"]
+        # headless run: allow file edits and only the commands the pipeline needs; Chrome tools only when publishing was switched on
+        tools = ["Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
+        if publish:
+            tools.append("mcp__claude-in-chrome__*")
+        cmd = ["claude", "-p", "/marketing-shift", "--permission-mode", "acceptEdits", "--allowedTools"] + tools
         env = dict(os.environ, MARKETING_DATA=DATA)
         state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,
                                          stdout=open(os.path.join(A, "last_shift.log"), "a"), stderr=subprocess.STDOUT)
