@@ -45,6 +45,8 @@ def build():
         "publish": load(os.path.join(A, "config.json"), {}).get("publish", False),
         "agents": load(os.path.join(A, "agents.json"), {}),
         "activity": activity(),
+        "goals": load(os.path.join(A, "goals.json"), {"views": 2000000, "installs": 10000}),
+        "ideas": load(os.path.join(A, "ideas.json"), [])[:60],
     }
 
 def activity(n=80):

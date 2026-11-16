@@ -18,6 +18,10 @@ Save the dialogue to `<AGENCY>/council/<DAY>.md`.
 
 ## Decisions, hiring and firing (evidence only)
 - Append each real decision to `decisions.json` (newest first): {"day","title","decision","dissent","evidence"}. Keep `evidence` factual (ids, counts from log.json).
+- HR goes through the owner: you never hire or fire directly. Propose with
+  `python3 marketing/agency/idea.py add director hire "<name, department, lane>" "<why, evidence>"` (or `fire`), and apply it in roster.json
+  only after the owner approved it (`idea.py list approved`), then `idea.py applied <id>`.
+- Ideas department: you may also propose bigger ideas or experiments to the owner the same way (kind `idea` or `experiment`), max 2 per council.
 - Hiring: a department may have at most 1 + its level members (level comes from the city thresholds in `marketing/agency/levels.json` and the real metrics); fill an open seat with a named specialist with one lane (e.g. "hook writer", "story editor", "comment replier"). Status starts as "probation". Names are fictional agent names, not people.
 - Probation ends (status "active") after 8 videos with stats in the lane that did not underperform the agency median.
 - Firing: only with evidence over at least 8 videos with stats in the member's lane, clearly below the median views, and after one warning decision. Record `status:"fired"` and `reason`. With less data, nobody is fired and nobody is promoted: say so in the decision.

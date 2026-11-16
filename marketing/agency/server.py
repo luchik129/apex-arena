@@ -5,6 +5,8 @@ import json, os, signal, subprocess, sys, threading, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("MARKETING_DATA", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data"))
 from act import log as act, clear as act_clear
+import idea as ideas
+HAS_CHROME = "--chrome" in subprocess.run(["claude", "--help"], capture_output=True, text=True).stdout if __import__("shutil").which("claude") else False
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -40,17 +42,17 @@ def shift_loop(publish):
         act("system", "Смена %d началась" % n)
         export()
         # headless run: allow file edits and only the commands the pipeline needs; Chrome tools only when publishing was switched on
-        tools = ["Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
-        if publish:
-            tools.append("mcp__claude-in-chrome__*")
-        cmd = ["claude", "-p", "/marketing-shift", "--permission-mode", "acceptEdits", "--allowedTools"] + tools
+        tools = ["Bash(git pull:*)", "Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
+        # Chrome is always on: agents read stats and research there; posting itself is gated by config.json "publish" in the shift rules
+        tools.append("mcp__claude-in-chrome__*")
+        cmd = ["claude", "-p", "/marketing-shift", "--permission-mode", "acceptEdits"] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools
         env = dict(os.environ, MARKETING_DATA=DATA)
         state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,
                                          stdout=open(os.path.join(A, "last_shift.log"), "a"), stderr=subprocess.STDOUT)
         state["proc"].wait()
         export()
         # short pause between shifts so the Mac and the accounts are not hammered; leaves quickly on Stop
-        for _ in range(900):
+        for _ in range(int(os.environ.get("PAUSE_SECONDS", "300"))):
             if not state["running"] or os.path.exists(stop_flag):
                 break
             time.sleep(1)
@@ -101,6 +103,12 @@ class H(BaseHTTPRequestHandler):
                     state["caff"] = None
                 act("system", "Нажат Старт" + (" (публикация разрешена)" if cfg["publish"] else " (только подготовка, без публикации)"))
                 threading.Thread(target=shift_loop, args=(cfg["publish"],), daemon=True).start()
+            elif self.path == "/idea":
+                n = int(self.headers.get("Content-Length") or 0)
+                body = json.loads(self.rfile.read(n) or b"{}") if n else {}
+                if body.get("verdict") in ("approved", "rejected"):
+                    ideas.verdict(body.get("id"), body["verdict"], body.get("note", ""))
+                    export()
             elif self.path == "/stop":
                 state["running"] = False
                 open(os.path.join(A, "STOP"), "w").close()
