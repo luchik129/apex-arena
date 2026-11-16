@@ -24,8 +24,23 @@ def build():
         pl = v.get("platforms") or list((v.get("links") or {}).keys())
         posts += len(pl) or 1
         plats.update(pl)
-    views = sum(int((v.get("metrics") or {}).get("views", 0) or 0) for v in log)
-    hits = sum(1 for v in log if int((v.get("metrics") or {}).get("views", 0) or 0) >= 10000)
+    def vviews(v):
+        """Views from log.json metrics; accepts 12345, "12,345", "1.2K", "3.4M"."""
+        x = (v.get("metrics") or {}).get("views", 0)
+        if isinstance(x, (int, float)):
+            return int(x)
+        t = str(x or "0").strip().lower().replace(",", "").replace(" ", "")
+        mult = 1
+        if t.endswith("k"):
+            mult, t = 1000, t[:-1]
+        elif t.endswith("m"):
+            mult, t = 1000000, t[:-1]
+        try:
+            return int(float(t) * mult)
+        except ValueError:
+            return 0
+    views = sum(vviews(v) for v in log)
+    hits = sum(1 for v in log if vviews(v) >= 10000)
     inst = load(os.path.join(A, "installs.json"), {})  # {"installs": N, "asOf": "..."} written from App Store Connect numbers
     m = {
         "videosMade": len(made), "videosPosted": len(posted), "videosWithStats": len(stats),
