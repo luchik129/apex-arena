@@ -116,9 +116,13 @@ def shift_loop(publish):
         export()
         # short pause between shifts so the Mac and the accounts are not hammered; leaves quickly on Stop
         win = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
-        pause = int(os.environ.get("PAUSE_SECONDS") or max(600, win["pause"] or 1800))
+        pause = int(os.environ.get("PAUSE_SECONDS") or (win["pause"] if win["limit"] else 300))
+        if tok is None and state["running"]:
+            # most likely the real subscription limit was hit (or the CLI failed): wait and try again, do not spin
+            pause = int(os.environ.get("PAUSE_SECONDS") or 1800)
+            act("system", "Смена не завершилась, вероятно упёрлись в лимит подписки. Жду %d мин и пробую снова" % (pause // 60))
         if state["running"]:
-            act("system", "Следующая смена через %d мин (лимит растянут на %g ч)" % (pause // 60, win["hours"]))
+            act("system", "Следующая смена через %d мин" % (pause // 60))
             write_state(state="working", step="перерыв %d мин" % (pause // 60))
         for _ in range(pause):
             if not state["running"] or os.path.exists(stop_flag):
