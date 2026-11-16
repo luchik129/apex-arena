@@ -16,6 +16,10 @@ DATA = os.environ.get("MARKETING_DATA") or os.path.join(REPO, "marketing", "data
 A = os.path.join(DATA, "agency")
 CITY = os.path.join(HERE, "city.html")
 PORT = int(os.environ.get("PORT", "8787"))
+DENY = ["Bash(sudo:*)", "Bash(rm -rf:*)", "Bash(rm -fr:*)", "Bash(git push:*)", "Bash(git reset:*)", "Bash(git checkout:*)", "Bash(git stash:*)",
+        "Bash(curl:*)", "Bash(wget:*)", "Bash(ssh:*)", "Bash(scp:*)", "Bash(chmod:*)", "Bash(chown:*)", "Bash(pmset:*)", "Bash(killall:*)",
+        "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(launchctl:*)", "Bash(osascript:*)", "Bash(defaults:*)", "Bash(brew:*)", "Bash(pip:*)", "Bash(npm install:*)",
+        "Bash(mv ~:*)", "Bash(rm ~:*)", "Bash(rm /:*)"]
 state = {"proc": None, "caff": None, "running": False}
 wake = threading.Event()  # set when the owner writes in the chat: ends any waiting at once
 
@@ -82,8 +86,9 @@ def shift_loop(publish):
     last_idle = None
     while state["running"] and not os.path.exists(stop_flag):
         # headless run: allow file edits and only the commands the pipeline needs
-        tools = ["Bash(git pull:*)", "Bash(node:*)", "Bash(npm:*)", "Bash(python3:*)", "Bash(ffmpeg:*)", "Bash(ffprobe:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(mkdir:*)", "Bash(date:*)"]
-        # Chrome is always on: agents read stats there; posting itself is gated by config.json "publish" in the shift rules
+        # The editor runs compound commands (cd ... && OUT_DIR=... node render.js, ffprobe, python3), which prefix rules like Bash(node:*) never match.
+        # So Bash is allowed as a whole and the dangerous things are denied explicitly below.
+        tools = ["Bash"]
         tools.append("mcp__claude-in-chrome__*")
         cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
         budget = int(cfg.get("daily_tokens", 0))
@@ -113,7 +118,7 @@ def shift_loop(publish):
         act("system", "Смена %d началась" % n)
         export()
         cmd = ["claude", "-p", "/marketing-shift", "--output-format", "json", "--permission-mode", "acceptEdits",
-               "--model", cfg.get("model", "sonnet"), "--max-turns", str(cfg.get("max_turns", 60))] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools
+               "--model", cfg.get("model", "sonnet"), "--max-turns", str(cfg.get("max_turns", 60))] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools + ["--disallowedTools"] + DENY
         env = dict(os.environ, MARKETING_DATA=DATA)
         out_path = os.path.join(A, "last_shift.out")
         state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,
