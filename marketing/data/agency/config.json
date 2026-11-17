@@ -1,0 +1,9 @@
+{
+ "publish": false,
+ "daily_tokens": 0,
+ "max_shifts_per_day": 999,
+ "model": "sonnet",
+ "max_turns": 60,
+ "window_hours": 5,
+ "window_tokens": 0
+}

@@ -13,3 +13,15 @@ marketing/data/**/*.png
 marketing/data/**/*.wav
 marketing/data/**/preview/
 marketing/engine/node_modules/
+marketing/data/agency/agency.json
+marketing/data/agency/STOP
+marketing/data/agency/last_shift.log
+marketing/data/agency/council/
+__pycache__/
+*.pyc
+# cartoon project (Remotion): installs and renders are not committed
+marketing/cartoon/node_modules/
+marketing/cartoon/out/
+marketing/cartoon/build/
+marketing/cartoon/vo/*.wav
+marketing/cartoon/ref/

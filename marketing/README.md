@@ -1,15 +1,9 @@
-# Flexo League: маркетинговые агенты
+# Flexo League marketing: the cartoon series
 
-Каждый день по расписанию запускается команда из трёх агентов (3 ролика в день). Порядок работы описан в `agents/PIPELINE.md`.
-
-| Агент | Файл | Что делает |
-|---|---|---|
-| Аналитик | `.claude/agents/marketing-analyst.md` | собирает статистику прошлых роликов, пишет отчёт: что снимать больше, а что меньше |
-| Сценарист | `.claude/agents/marketing-writer.md` | по отчёту каждый день пишет 3 сценария (JSON) |
-| Монтажёр | `.claude/agents/marketing-editor.md` | рендерит, проверяет каждый кадр, исправляет, готовит видео и подписи |
-| Публикатор | `.claude/agents/marketing-publisher.md` | готовит тексты под TikTok, Reels и Shorts, расписание на день, ведёт учёт опубликованного; позже — автопостинг через Upload-Post после твоего «ок» |
-
-Общие правила бренда (что можно и что нельзя обещать, аудитория, хуки) лежат в `agents/playbook.md`.
+Since 2026-11-17 the agency works only with the skill `.claude/skills/inkbeat-shorts` (3D toon cartoons in Remotion): one recurring character with the Flexo League logo on his hoodie,
+a running storyline, ~60 s storytelling episodes with voice-over, and the app CTA at the end. Rules: `marketing/series/playbook.md`, series files: `marketing/series/`, project: `marketing/cartoon/`.
+The old pipeline (app-screen motion graphics, engine/, daily scripts) was removed. Agents: director (bible, briefs), writer (script, voice, timings), animator (`marketing-editor`), analyst, publisher.
+First run needs on the Mac: Node.js, ffmpeg, Python with numpy (the animator installs missing things with Homebrew), about 1-2 h for the first episode.
 
 ## Работа через Claude Code на компьютере
 1. Один раз: `bash marketing/setup.sh` (нужны Node.js и ffmpeg: `brew install node ffmpeg`).
@@ -19,21 +13,28 @@
 5. Видео будут в `marketing/data/days/<дата>/videos/`, готовые тексты и время публикации в `posting.md` там же.
 
 ## Где что лежит
-- Код и промпты: в этом репозитории, папка `marketing/`.
-- Данные: на компьютере `marketing/data/` (видео в git не попадают), в облачном проекте `/mnt/project-files/fitness/marketing/`. Там `log.json` (все ролики и их статистика), `stats/` (скриншоты аналитики), `reports/`, `days/<дата>/` (видео + `captions.md`).
-
-## Движок
-```
-cd marketing/engine
-OUT_DIR=/path node render.js ../examples/v01_ranked_gym.json            # mp4 + обложка
-OUT_DIR=/path node render.js ../examples/v01_ranked_gym.json --preview  # кадры для проверки
-python3 post.py <script.json> --when 2026-11-14T17:00:00                # Upload-Post, пробный прогон
-python3 post.py <script.json> --when 2026-11-14T17:00:00 --confirm      # реальная отправка (только после ОК владельца)
-```
-Нужны Node + Playwright, ffmpeg, Python с numpy. Музыка синтезируется (`beat.py`), авторских прав нет.
+- Код, промпты и скилл: в этом репозитории (`marketing/`, `.claude/`).
+- Данные: `marketing/data/` (`log.json`, `stats/`, `reports/`), серии в `marketing/series/episodes/`, мультик-проект и рендеры в `marketing/cartoon/` (рендеры и node_modules в git не попадают).
 
 ## Публикация
 Пока владелец выкладывает вручную: скачивает видео из треда и копирует подпись из `captions.md`.
 Автопостинг: Upload-Post (Basic, $24/мес) подключает TikTok, Instagram и YouTube через одно API.
 Напрямую через API соцсетей сложнее: TikTok без аудита публикует только приватно, Instagram требует Meta-приложение и бизнес-аккаунт, YouTube без проверки загружает только приватно.
 Ключи передаются только через переменные окружения `UPLOAD_POST_API_KEY` и `UPLOAD_POST_USER`.
+
+## Агентство: панель со Стартом и Стопом (Mac)
+Двойной клик по `marketing/agency/Flexo-Agency.command`: открывается панель (город агентства) на http://localhost:8787.
+- Одна кнопка: **Старт** превращается в **Стоп** и обратно.
+- **Лента действий** на главном экране: кто из агентов что делает, по минутам. Тап по ленте открывает всех агентов и всю историю.
+- **Управляющий** ведёт работу: раздаёт задачи, проверяет работу каждого агента по правилам, один раз возвращает на доработку, пишет итог смены.
+- **Цели** вверху экрана: 2 млн просмотров и 10 тыс установок (меняются в `marketing/data/agency/goals.json`).
+- **Идеи**: отдел кадров и идей. Агенты предлагают наём, увольнение, эксперименты и идеи, ты нажимаешь «Одобрить» или «Отклонить». Без твоего одобрения никого не нанимают и не увольняют.
+- **Смен больше нет.** Агенты работают без фиксированных пауз: цикл за циклом (20 секунд передышки), по очереди задач. Если ролики на сегодня готовы и задач нет, они ждут (токены не тратятся) и просыпаются, когда появилась задача, новые данные или одобренная идея.
+- **Токены**: сколько потрачено сегодня, сколько осталось до дневного лимита (по умолчанию 3 млн, `daily_tokens` в `marketing/data/agency/config.json`) и примерная цена. Когда лимит кончился, смены сами ждут следующего дня.
+- **Экономия токенов**: работа идёт на модели Sonnet, аналитик и публикатор на Haiku, монтажёр смотрит 3 кадра на ролик, а не все. Собственных лимитов по умолчанию нет: агенты работают, пока не упрутся в лимит подписки, потом ждут 30 минут и пробуют снова. Если захочется ограничить: `window_tokens` (токенов за `window_hours` часов, паузы растягиваются ровно), `daily_tokens`, `max_shifts_per_day` в `marketing/data/agency/config.json` (0 или большое число = выключено). Если ролики на сегодня готовы и новых данных нет, смена не запускается вообще и токены не тратятся.
+- **Чат** с управляющим: отвечает отдельный быстрый управляющий (`/marketing-reply`), обычно за несколько секунд, даже когда рабочие заняты. Если ты просишь сделать работу, он ставит её в очередь (`data/agency/tasks.json`), рабочие берут её следующим же циклом и пишут в чат, когда готово. Сообщения против правил (например, публикация при выключенной галочке) он не выполняет и объясняет почему. Если агентство остановлено, сообщение дождётся Старта.
+- **Права агентов**: смена запускается с разрешением на любые команды Bash, Chrome и файлы. Закрыты только команды, которые могут снести систему и не нужны для маркетинга: sudo, rm -rf по корню или домашней папке, diskutil, shutdown, pmset, launchctl, chown, force-push. Список `DENY` в `marketing/agency/server.py`. Публикация в соцсети включается галочкой в панели.
+- **Старт** запускает непрерывную работу: аналитик, совет директора (дебаты, решения, наём и увольнение по цифрам), сценарист, монтажёр, публикатор. Пока идёт смена, Mac не засыпает.
+- **Стоп** останавливает текущий шаг и больше ничего не запускает. Ничего не работает в фоне, пока панель выключена.
+- Галочка «разрешить публиковать» по умолчанию выключена: тогда агенты только готовят ролики и тексты. Публикация идёт через Chrome владельца.
+- Нужно, чтобы Mac был включён и Chrome открыт. Установки (из App Store Connect) пишутся в `marketing/data/agency/installs.json` как `{"installs": N}`.

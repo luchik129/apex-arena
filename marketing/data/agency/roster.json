@@ -1,0 +1,64 @@
+[
+ {
+  "id": "manager",
+  "name": "Управляющий",
+  "dept": "strategy",
+  "lane": "следит за всеми",
+  "status": "active",
+  "role": "manager"
+ },
+ {
+  "id": "strategy-1",
+  "name": "Директор",
+  "dept": "strategy",
+  "lane": "основной",
+  "status": "active",
+  "role": "director"
+ },
+ {
+  "id": "creative-1",
+  "name": "Сценарист",
+  "dept": "creative",
+  "lane": "основной",
+  "status": "active",
+  "role": "writer"
+ },
+ {
+  "id": "media-1",
+  "name": "Публикатор",
+  "dept": "media",
+  "lane": "основной",
+  "status": "active",
+  "role": "publisher"
+ },
+ {
+  "id": "smm-1",
+  "name": "Монтажёр",
+  "dept": "smm",
+  "lane": "основной",
+  "status": "active",
+  "role": "editor"
+ },
+ {
+  "id": "gyms-1",
+  "name": "Клановик 1",
+  "dept": "gyms",
+  "lane": "основной",
+  "status": "active"
+ },
+ {
+  "id": "analytics-1",
+  "name": "Аналитик",
+  "dept": "analytics",
+  "lane": "основной",
+  "status": "active",
+  "role": "analyst"
+ },
+ {
+  "id": "aso-1",
+  "name": "ASO 1",
+  "dept": "aso",
+  "lane": "основной",
+  "status": "active"
+ }
+]
