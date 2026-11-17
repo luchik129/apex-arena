@@ -1,15 +1,9 @@
-# Flexo League: маркетинговые агенты
+# Flexo League marketing: the cartoon series
 
-Каждый день по расписанию запускается команда из трёх агентов (3 ролика в день). Порядок работы описан в `agents/PIPELINE.md`.
-
-| Агент | Файл | Что делает |
-|---|---|---|
-| Аналитик | `.claude/agents/marketing-analyst.md` | собирает статистику прошлых роликов, пишет отчёт: что снимать больше, а что меньше |
-| Сценарист | `.claude/agents/marketing-writer.md` | по отчёту каждый день пишет 3 сценария (JSON) |
-| Монтажёр | `.claude/agents/marketing-editor.md` | рендерит, проверяет каждый кадр, исправляет, готовит видео и подписи |
-| Публикатор | `.claude/agents/marketing-publisher.md` | готовит тексты под TikTok, Reels и Shorts, расписание на день, ведёт учёт опубликованного; позже — автопостинг через Upload-Post после твоего «ок» |
-
-Общие правила бренда (что можно и что нельзя обещать, аудитория, хуки) лежат в `agents/playbook.md`.
+Since 2026-11-17 the agency works only with the skill `.claude/skills/inkbeat-shorts` (3D toon cartoons in Remotion): one recurring character with the Flexo League logo on his hoodie,
+a running storyline, ~60 s storytelling episodes with voice-over, and the app CTA at the end. Rules: `marketing/series/playbook.md`, series files: `marketing/series/`, project: `marketing/cartoon/`.
+The old pipeline (app-screen motion graphics, engine/, daily scripts) was removed. Agents: director (bible, briefs), writer (script, voice, timings), animator (`marketing-editor`), analyst, publisher.
+First run needs on the Mac: Node.js, ffmpeg, Python with numpy (the animator installs missing things with Homebrew), about 1-2 h for the first episode.
 
 ## Работа через Claude Code на компьютере
 1. Один раз: `bash marketing/setup.sh` (нужны Node.js и ffmpeg: `brew install node ffmpeg`).
@@ -19,18 +13,8 @@
 5. Видео будут в `marketing/data/days/<дата>/videos/`, готовые тексты и время публикации в `posting.md` там же.
 
 ## Где что лежит
-- Код и промпты: в этом репозитории, папка `marketing/`.
-- Данные: на компьютере `marketing/data/` (видео в git не попадают), в облачном проекте `/mnt/project-files/fitness/marketing/`. Там `log.json` (все ролики и их статистика), `stats/` (скриншоты аналитики), `reports/`, `days/<дата>/` (видео + `captions.md`).
-
-## Движок
-```
-cd marketing/engine
-OUT_DIR=/path node render.js ../examples/v01_ranked_gym.json            # mp4 + обложка
-OUT_DIR=/path node render.js ../examples/v01_ranked_gym.json --preview  # кадры для проверки
-python3 post.py <script.json> --when 2026-11-14T17:00:00                # Upload-Post, пробный прогон
-python3 post.py <script.json> --when 2026-11-14T17:00:00 --confirm      # реальная отправка (только после ОК владельца)
-```
-Нужны Node + Playwright, ffmpeg, Python с numpy. Музыка синтезируется (`beat.py`), авторских прав нет.
+- Код, промпты и скилл: в этом репозитории (`marketing/`, `.claude/`).
+- Данные: `marketing/data/` (`log.json`, `stats/`, `reports/`), серии в `marketing/series/episodes/`, мультик-проект и рендеры в `marketing/cartoon/` (рендеры и node_modules в git не попадают).
 
 ## Публикация
 Пока владелец выкладывает вручную: скачивает видео из треда и копирует подпись из `captions.md`.

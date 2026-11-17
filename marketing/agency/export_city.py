@@ -13,9 +13,13 @@ def load(p, d):
     except Exception:
         return d
 
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+
 def build():
     log = load(os.path.join(DATA, "log.json"), [])
     made = [v for v in log if v.get("video") or v.get("status") in ("ready", "posted")]
+    outs = glob.glob(os.path.join(REPO_ROOT, "marketing", "cartoon", "out", "*.mp4"))  # finished cartoon episodes
+    made = made + [{"video": o} for o in outs if not any(os.path.basename(o).startswith(str(v.get("episode", "\0"))) for v in made)]
     posted = [v for v in log if v.get("status") == "posted"]
     stats = [v for v in log if v.get("metrics")]
     plats = set()
@@ -46,7 +50,7 @@ def build():
         "videosMade": len(made), "videosPosted": len(posted), "videosWithStats": len(stats),
         "views": views, "posts": posts, "hits": hits, "platforms": len(plats),
         "reports": len(glob.glob(os.path.join(DATA, "reports", "*.md"))),
-        "days": len(glob.glob(os.path.join(DATA, "days", "*"))),
+        "days": len(glob.glob(os.path.join(REPO_ROOT, "marketing", "series", "episodes", "*"))),
         "installs": inst.get("installs"),
     }
     return {

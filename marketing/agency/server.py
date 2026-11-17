@@ -102,10 +102,11 @@ def work_loop(publish):
         cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
         sig = json.dumps([[t["id"] for t in tasks.open_tasks()], [i["id"] for i in ideas.load() if i.get("status") == "approved"]])
         # nothing new since the last good cycle and today's batch is ready: wait for the owner / new data instead of burning tokens
-        vids = os.path.join(DATA, "days", day_today(), "videos")
-        batch_done = os.path.isdir(vids) and len([f for f in os.listdir(vids) if f.endswith(".mp4")]) >= 3
+        outd = os.path.join(REPO, "marketing", "cartoon", "out")
+        today = day_today()
+        batch_done = os.path.isdir(outd) and any(f.endswith(".mp4") and __import__("datetime").date.fromtimestamp(os.path.getmtime(os.path.join(outd, f))).isoformat() == today for f in os.listdir(outd))
         if n and batch_done and sig == last_sig and fails == 0:
-            msg = "Ролики готовы, задач нет, жду новую задачу или данные"
+            msg = "Серия на сегодня готова, задач нет, жду новую задачу или данные"
             act("system", msg)
             write_state(state="working", step="ждёт: " + msg)
             nap(int(os.environ.get("IDLE_SECONDS", "60")), stop_flag)
