@@ -192,7 +192,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <div id="chatSheet" hidden style="position:absolute;inset:0;z-index:6;background:rgba(3,5,16,.6);display:flex;align-items:flex-end">
   <div style="background:var(--night2);border-top:1px solid var(--line);border-radius:16px 16px 0 0;width:100%;max-height:88%;display:flex;flex-direction:column;padding-block:16px calc(16px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))">
     <h2 style="font-family:var(--display);font-size:16px;margin:0 0 4px">Чат с управляющим</h2>
-    <p style="color:var(--dim);margin:0 0 8px;line-height:1.4;font-size:12px">Напиши задачу или замечание. Управляющий подхватит сразу, не дожидаясь следующей смены, и ответит здесь.</p>
+    <p style="color:var(--dim);margin:0 0 8px;line-height:1.4;font-size:12px">Напиши задачу или замечание. Управляющий отвечает сразу, а задачу сразу берут в работу.</p>
     <div id="chatScroll" style="overflow:auto;flex:1;min-height:0;-webkit-user-select:text;user-select:text"><div id="chatList"></div></div>
     <form id="chatForm"><input id="chatText" type="text" autocomplete="off" placeholder="Например: сделай ролик про кланы и проверь TikTok"><button class="primary" id="chatSend" type="submit">Отправить</button></form>
     <div class="row" style="margin-top:8px"><button id="chatClose">Закрыть</button></div>
@@ -201,7 +201,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <div id="ideasSheet" hidden style="position:absolute;inset:0;z-index:6;background:rgba(3,5,16,.6);display:flex;align-items:flex-end">
   <div style="background:var(--night2);border-top:1px solid var(--line);border-radius:16px 16px 0 0;width:100%;max-height:86%;overflow:auto;padding-block:16px calc(16px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-user-select:text;user-select:text">
     <h2 style="font-family:var(--display);font-size:16px;margin:0 0 4px">Идеи и кадры на одобрение</h2>
-    <p style="color:var(--dim);margin:0 0 8px;line-height:1.45">Агенты предлагают, ты решаешь. Наём и увольнение тоже идут только через тебя. Одобренное выполнят в следующей смене.</p>
+    <p style="color:var(--dim);margin:0 0 8px;line-height:1.45">Агенты предлагают, ты решаешь. Наём и увольнение тоже идут только через тебя. Одобренное выполнят в ближайшем цикле работы.</p>
     <div id="ideasList"></div>
     <div class="row" style="margin-top:12px"><button id="ideasClose" class="primary">Закрыть</button></div>
   </div>
@@ -640,7 +640,7 @@ $('sheet').addEventListener('click',function(e){if(e.target===$('sheet'))$('shee
 function fillCouncil(){
   var h='';
   if(!AG||!AG.decisions||!AG.decisions.length){
-    h='<p style="color:var(--dim);line-height:1.45;max-width:65ch;margin:0">Совет ещё не собирался. Он проходит в начале каждой смены: аналитик приносит цифры, отделы спорят, скептик ищет слабые места, директор решает. Нанимать и увольнять совет начнёт, когда выйдет 8 роликов со статистикой.</p>';
+    h='<p style="color:var(--dim);line-height:1.45;max-width:65ch;margin:0">Совет ещё не собирался. Он проходит в начале каждого цикла работы: аналитик приносит цифры, отделы спорят, скептик ищет слабые места, директор решает. Нанимать и увольнять совет начнёт, когда выйдет 8 роликов со статистикой.</p>';
   }else{
     if(AG.experiment)h+='<div class="dec"><span class="kind">Эксперимент дня.</span> '+esc(AG.experiment)+'</div>';
     AG.decisions.slice(0,12).forEach(function(d){
@@ -665,7 +665,7 @@ function renderAgency(){
   if(!AG)return;
   var sh=$('shift');sh.hidden=false;
   var m=AG.agents&&AG.agents.manager;
-  if(working()){sh.className='on';sh.textContent='● смена идёт'+(m&&m.doing?': '+m.doing:(AG.status.step?': '+AG.status.step:''));}
+  if(working()){sh.className='on';sh.textContent='● работают'+(m&&m.doing?': '+m.doing:(AG.status.step?': '+AG.status.step:''));}
   else{sh.className='';sh.textContent='агентство спит';}
   var act=AG.activity||[];
   var f=$('feed');f.hidden=!act.length;
@@ -688,7 +688,7 @@ function renderIdeas(){
   var it=(AG&&AG.ideas)||[],pend=it.filter(function(i){return i.status==='pending'});
   var b=$('ideasBtn');b.hidden=!AG;b.innerHTML='Идеи'+(pend.length?'<span class="badge">'+pend.length+'</span>':'');
   var h='';
-  if(!it.length)h='<p style="color:var(--dim);margin:0">Пока предложений нет. Они появятся после смен, когда у агентов будут данные и идеи.</p>';
+  if(!it.length)h='<p style="color:var(--dim);margin:0">Пока предложений нет. Они появятся в работе, когда у агентов будут данные и идеи.</p>';
   it.forEach(function(i){
     var r=ROLES[i.from]||ROLES.system;
     h+='<div class="idea"><div class="meta">'+(KIND[i.kind]||'Идея')+' · <span style="color:'+r[1]+'">'+r[0]+'</span> · '+hhmm(i.t)+'</div><div><b>'+esc(i.title)+'</b></div>'+
@@ -709,7 +709,7 @@ function renderIdeas(){
       var w=us.window||{},wl=w.limit||0,wu=w.used||0,bud=wl||us.budget||0,used=wl?wu:(us.today.tokens||0),p=bud?Math.min(100,used/bud*100):0;
       $('tokens').className='tk'+(bud&&used/bud>0.85?' low':'');
       $('tokens').innerHTML='<span>'+(wl?'Токены за '+w.hours+' ч':'Токены сегодня')+': <b>'+short(used)+'</b>'+(bud?' из '+short(bud)+' · осталось <b>'+short(Math.max(0,bud-used))+'</b>':'')+
-        '</span><span class="bar"><i style="width:'+p.toFixed(1)+'%"></i></span><span>Сегодня: <b>'+short(us.today.tokens||0)+'</b> · смен: <b>'+(us.today.shifts||0)+'</b>'+(us.today.cost_usd?' · ≈ $'+us.today.cost_usd.toFixed(2):'')+'</span>';
+        '</span><span class="bar"><i style="width:'+p.toFixed(1)+'%"></i></span><span>Сегодня: <b>'+short(us.today.tokens||0)+'</b>'+(us.today.cost_usd?' · ≈ $'+us.today.cost_usd.toFixed(2):'')+'</span>';
       $('tokens').hidden=false;
     }else $('tokens').hidden=true;
     $('goals').innerHTML=row('Просмотры',REAL.views,g.views)+row('Установки',REAL.installs,g.installs);$('goals').hidden=false;
@@ -732,7 +732,7 @@ function renderChat(){
   ms.forEach(function(m){
     h+='<div class="msg '+(m.from==='owner'?'me':'mgr')+'">'+esc(m.text)+'<time>'+(m.from==='owner'?(m.handled?'прочитано':'ждёт управляющего'):'Управляющий')+' · '+hhmm(m.t)+'</time></div>';
   });
-  if(!ms.length)h='<p style="color:var(--dim);margin:0">Пока пусто. Если агенты работают, управляющий ответит в течение минуты-двух, иначе при следующей смене (нажми Старт).</p>';
+  if(!ms.length)h='<p style="color:var(--dim);margin:0">Пока пусто. Если агенты работают, управляющий отвечает за несколько секунд, пока нажат Старт.</p>';
   var box=$('chatList'),sc=$('chatScroll'),atEnd=sc.scrollHeight-sc.scrollTop-sc.clientHeight<60;
   if(box.getAttribute('data-h')!==h){box.innerHTML=h;box.setAttribute('data-h',h);if(atEnd||!sc.scrollTop)sc.scrollTop=sc.scrollHeight;}
 }

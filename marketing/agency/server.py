@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Local control panel: serves the city on http://localhost:8787 with Start / Stop buttons.
-Start runs shifts of the agency in a loop (via `claude -p /marketing-shift`) until Stop. Nothing else runs in the background."""
+Start runs the agency continuously (`claude -p /marketing-work`, no fixed shifts) plus a fast chat responder (`/marketing-reply`) until Stop. Nothing else runs in the background."""
 import json, os, signal, subprocess, sys, threading, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("MARKETING_DATA", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data"))
@@ -8,6 +8,7 @@ from act import log as act, clear as act_clear
 import idea as ideas
 import usage
 import chat as chatmod
+import tasks
 HAS_CHROME = "--chrome" in subprocess.run(["claude", "--help"], capture_output=True, text=True).stdout if __import__("shutil").which("claude") else False
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -46,35 +47,49 @@ def export():
 def day_today():
     return __import__("datetime").date.today().isoformat()
 
-def idle_reason(cfg):
-    """Decides without calling Claude whether a shift is worth running."""
-    if chatmod.unread():
-        return None
-    u = usage.load()["days"].get(day_today(), {})
-    if u.get("shifts", 0) >= int(cfg.get("max_shifts_per_day", 3)):
-        return "Лимит смен на сегодня (%s) выполнен, агентство отдыхает до завтра" % cfg.get("max_shifts_per_day", 3)
-    vids = os.path.join(DATA, "days", day_today(), "videos")
-    batch_done = os.path.isdir(vids) and len([f for f in os.listdir(vids) if f.endswith(".mp4")]) >= 3
-    if not batch_done:
-        return None
-    sig = []
-    for d in ("stats",):
-        p = os.path.join(DATA, d)
-        if os.path.isdir(p):
-            sig += sorted(os.listdir(p))
-    approved = [i for i in ideas.load() if i.get("status") == "approved"]
-    try:
-        sig.append(os.path.getmtime(os.path.join(DATA, "log.json")))
-    except OSError:
-        pass
-    key = json.dumps([sig, [i["id"] for i in approved]])
-    last = state.get("last_sig")
-    state["last_sig"] = key
-    if last == key and not approved:
-        return "Ролики на сегодня готовы, новых данных нет, жду (токены не тратятся)"
-    return None
+def claude_cmd(prompt, cfg, tools, max_turns, model):
+    return ["claude", "-p", prompt, "--output-format", "json", "--permission-mode", "acceptEdits",
+            "--model", model, "--max-turns", str(max_turns)] + (["--chrome"] if HAS_CHROME else []) + ["--add-dir", DATA, "--allowedTools"] + tools + ["--disallowedTools"] + DENY
 
-def shift_loop(publish):
+TOOLS = ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebFetch", "WebSearch", "mcp__claude-in-chrome__*"]
+reply_lock = threading.Lock()
+
+def responder():
+    """Answers the owner's chat on its own, in parallel with the workers, so he never waits for them."""
+    while state["running"] or chatmod.unread():
+        if not chatmod.unread():
+            rwake.wait(5)
+            rwake.clear()
+            continue
+        with reply_lock:
+            if not chatmod.unread():
+                continue
+            cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
+            out_path = os.path.join(A, "last_reply.out")
+            try:
+                p = subprocess.Popen(claude_cmd("/marketing-reply", cfg, TOOLS, int(cfg.get("reply_turns", 12)), cfg.get("reply_model", "sonnet")),
+                                     cwd=REPO, env=dict(os.environ, MARKETING_DATA=DATA), start_new_session=True,
+                                     stdout=open(out_path, "w"), stderr=subprocess.PIPE)
+                try:
+                    _, err = p.communicate(timeout=240)
+                except subprocess.TimeoutExpired:
+                    os.killpg(p.pid, signal.SIGTERM)
+                    err = b"timeout"
+                text = open(out_path, encoding="utf-8", errors="replace").read()
+                info = usage.result_info(text)
+                if info["ok"]:
+                    usage.add(text, 0)
+                if chatmod.unread():  # model did not answer: say so instead of staying silent
+                    why = info.get("message") or " ".join((err or b"").decode("utf-8", "replace").split())[-200:] or "нет ответа"
+                    chatmod.reply("Не смог ответить как надо (%s). Сообщение получил, передам рабочим, попробуй написать ещё раз через минуту." % why)
+            except Exception as e:
+                chatmod.reply("Не смог ответить (%s). Сообщение получил." % e)
+            export()
+
+rwake = threading.Event()
+
+def work_loop(publish):
+    """Continuous work: no fixed shifts. Runs a cycle, takes a short breather, runs the next. Waits only when there is nothing to do."""
     stop_flag = os.path.join(A, "STOP")
     try:
         os.remove(stop_flag)
@@ -82,71 +97,48 @@ def shift_loop(publish):
         pass
     n = 0
     fails = 0
-    last_idle = None
+    last_sig = None
     while state["running"] and not os.path.exists(stop_flag):
-        # headless run: allow file edits and only the commands the pipeline needs
-        # The editor runs compound commands (cd ... && OUT_DIR=... node render.js, ffprobe, python3), which prefix rules like Bash(node:*) never match.
-        # So Bash is allowed as a whole and the dangerous things are denied explicitly below.
-        tools = ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebFetch", "WebSearch"]  # Read covers images (frame checks of videos)
-        tools.append("mcp__claude-in-chrome__*")
         cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
-        budget = int(cfg.get("daily_tokens", 0))
-        owner_wants = bool(chatmod.unread())
-        why = None
-        idle_for = int(os.environ.get("IDLE_SECONDS", "1800"))
-        win = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
-        if owner_wants:
-            why = None
-        elif budget and usage.summary(budget)["left"] == 0:
-            why = "Дневной лимит токенов (%s) исчерпан, агентство ждёт завтра" % f"{budget:,}".replace(",", " ")
-        elif win["limit"] and win["wait"] > 0:
-            why = "Лимит на %g ч почти выбран, следующая смена примерно через %d мин" % (win["hours"], win["wait"] // 60 + 1)
-            idle_for = min(idle_for, win["wait"]) if not os.environ.get("IDLE_SECONDS") else idle_for
-        else:
-            why = idle_reason(cfg)  # free pre-check: 0 tokens when there is nothing new to do
-        if why:
-            if why != last_idle:
-                act("system", why)
-                write_state(state="working", step="ждёт: " + why)
-            last_idle = why
-            nap(idle_for, stop_flag)
+        sig = json.dumps([[t["id"] for t in tasks.open_tasks()], [i["id"] for i in ideas.load() if i.get("status") == "approved"]])
+        # nothing new since the last good cycle and today's batch is ready: wait for the owner / new data instead of burning tokens
+        vids = os.path.join(DATA, "days", day_today(), "videos")
+        batch_done = os.path.isdir(vids) and len([f for f in os.listdir(vids) if f.endswith(".mp4")]) >= 3
+        if n and batch_done and sig == last_sig and fails == 0:
+            msg = "Ролики готовы, задач нет, жду новую задачу или данные"
+            act("system", msg)
+            write_state(state="working", step="ждёт: " + msg)
+            nap(int(os.environ.get("IDLE_SECONDS", "60")), stop_flag)
             continue
-        last_idle = None
         n += 1
-        write_state(state="working", step="смена %d: старт" % n, shift=n)
-        act("system", "Смена %d началась" % n)
+        write_state(state="working", step="работает")
         export()
-        cmd = ["claude", "-p", "/marketing-shift", "--output-format", "json", "--permission-mode", "acceptEdits",
-               "--model", cfg.get("model", "sonnet"), "--max-turns", str(cfg.get("max_turns", 60))] + (["--chrome"] if HAS_CHROME else []) + ["--add-dir", DATA, "--allowedTools"] + tools + ["--disallowedTools"] + DENY
         env = dict(os.environ, MARKETING_DATA=DATA)
-        out_path = os.path.join(A, "last_shift.out")
-        state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,
-                                         stdout=open(out_path, "w"), stderr=open(os.path.join(A, "last_shift.err"), "w"))
+        out_path = os.path.join(A, "last_work.out")
+        state["proc"] = subprocess.Popen(claude_cmd("/marketing-work", cfg, TOOLS, int(cfg.get("max_turns", 60)), cfg.get("model", "sonnet")),
+                                         cwd=REPO, env=env, start_new_session=True,
+                                         stdout=open(out_path, "w"), stderr=open(os.path.join(A, "last_work.err"), "w"))
         state["proc"].wait()
         text = open(out_path, encoding="utf-8", errors="replace").read()
-        err = open(os.path.join(A, "last_shift.err"), encoding="utf-8", errors="replace").read()[-400:] if os.path.exists(os.path.join(A, "last_shift.err")) else ""
-        open(os.path.join(A, "last_shift.log"), "a").write(text + "\n")
+        err = open(os.path.join(A, "last_work.err"), encoding="utf-8", errors="replace").read()[-400:]
+        open(os.path.join(A, "last_work.log"), "a").write(text + "\n")
         info = usage.result_info(text)
-        tok = None
         if info["ok"]:
-            tok = usage.add(text, n)
-            act("system", "Смена %d закончилась, потрачено %s токенов" % (n, f"{info['tokens']:,}".replace(",", " ")))
+            usage.add(text, n)
+            act("system", "Цикл работы закончен, потрачено %s токенов" % f"{info['tokens']:,}".replace(",", " "))
             fails = 0
+            last_sig = sig
         elif state["running"]:
             fails += 1
             why_failed = info["message"] or " ".join(err.split())[-200:] or "неизвестная ошибка"
-            act("system", "Смена %d оборвалась сразу, это не конец работы. Причина: %s" % (n, why_failed))
+            act("system", "Работа оборвалась сразу. Причина: %s" % why_failed)
         export()
-        # short pause between shifts so the Mac and the accounts are not hammered; leaves quickly on Stop
-        win = usage.window(float(cfg.get("window_hours", 5)), int(cfg.get("window_tokens", 0)))
-        pause = int(os.environ.get("PAUSE_SECONDS") or (win["pause"] if win["limit"] else 300))
-        if tok is None and state["running"]:
+        pause = int(os.environ.get("PAUSE_SECONDS") or 20)
+        if not info["ok"] and state["running"]:
             # failed at once: most likely the subscription limit; back off further each time instead of spinning
             pause = int(os.environ.get("PAUSE_SECONDS") or min(7200, 1800 * fails))
             act("system", "Жду %d мин и пробую снова (подряд неудач: %d)" % (pause // 60, fails))
-        if state["running"]:
-            act("system", "Следующая смена через %d мин" % (pause // 60))
-            write_state(state="working", step="перерыв %d мин" % (pause // 60))
+            write_state(state="working", step="ждёт лимит %d мин" % (pause // 60))
         nap(pause, stop_flag)
     state["running"] = False
     write_state(state="sleeping", step="")
@@ -194,13 +186,17 @@ class H(BaseHTTPRequestHandler):
                 except Exception:
                     state["caff"] = None
                 act("system", "Нажат Старт" + (" (публикация разрешена)" if cfg["publish"] else " (только подготовка, без публикации)"))
-                threading.Thread(target=shift_loop, args=(cfg["publish"],), daemon=True).start()
+                threading.Thread(target=work_loop, args=(cfg["publish"],), daemon=True).start()
+                threading.Thread(target=responder, daemon=True).start()
             elif self.path == "/chat":
                 n = int(self.headers.get("Content-Length") or 0)
                 body = json.loads(self.rfile.read(n) or b"{}") if n else {}
                 if str(body.get("text", "")).strip():
                     chatmod.add_owner(str(body["text"]))
                     wake.set()
+                    rwake.set()
+                    if not state["running"]:
+                        threading.Thread(target=responder, daemon=True).start()
                     export()
             elif self.path == "/idea":
                 n = int(self.headers.get("Content-Length") or 0)
