@@ -87,7 +87,7 @@ def shift_loop(publish):
         # headless run: allow file edits and only the commands the pipeline needs
         # The editor runs compound commands (cd ... && OUT_DIR=... node render.js, ffprobe, python3), which prefix rules like Bash(node:*) never match.
         # So Bash is allowed as a whole and the dangerous things are denied explicitly below.
-        tools = ["Bash"]
+        tools = ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebFetch", "WebSearch"]  # Read covers images (frame checks of videos)
         tools.append("mcp__claude-in-chrome__*")
         cfg = json.load(open(os.path.join(A, "config.json"))) if os.path.exists(os.path.join(A, "config.json")) else {}
         budget = int(cfg.get("daily_tokens", 0))
@@ -117,7 +117,7 @@ def shift_loop(publish):
         act("system", "Смена %d началась" % n)
         export()
         cmd = ["claude", "-p", "/marketing-shift", "--output-format", "json", "--permission-mode", "acceptEdits",
-               "--model", cfg.get("model", "sonnet"), "--max-turns", str(cfg.get("max_turns", 60))] + (["--chrome"] if HAS_CHROME else []) + ["--allowedTools"] + tools + ["--disallowedTools"] + DENY
+               "--model", cfg.get("model", "sonnet"), "--max-turns", str(cfg.get("max_turns", 60))] + (["--chrome"] if HAS_CHROME else []) + ["--add-dir", DATA, "--allowedTools"] + tools + ["--disallowedTools"] + DENY
         env = dict(os.environ, MARKETING_DATA=DATA)
         out_path = os.path.join(A, "last_shift.out")
         state["proc"] = subprocess.Popen(cmd, cwd=REPO, env=env, start_new_session=True,

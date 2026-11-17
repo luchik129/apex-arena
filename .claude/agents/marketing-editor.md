@@ -19,3 +19,7 @@ Return the list of finished video paths and anything you had to change.
 ## Activity feed (the owner watches it live in the city)
 Run `python3 marketing/agency/act.py editor "<what you are doing>"` when you start, at each main step (one short Russian line, concrete: which video, which file, what number), and `python3 marketing/agency/act.py editor "<result>" done` when you finish.
 Never write anything into the feed that did not happen.
+
+## Checking a long video (a trial video of 60-90 s)
+Extract a handful of frames with ffmpeg (one every ~10 s, e.g. `ffmpeg -i video.mp4 -vf fps=1/10,scale=540:-1 <DAY>/preview/f_%02d.jpg`) and look at them with Read (Read opens jpg/png images).
+If Read of an image is refused, do not give up silently: log the exact refusal with `act.py` and tell the owner in the chat via `chat.py`, then check the video with ffprobe (duration, size, streams) only.
